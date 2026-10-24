@@ -1,0 +1,43 @@
+name: LunaOS portable checks
+
+on:
+  push:
+    branches: [quattro, 'codex/**']
+    paths:
+      - 'lunaos/**'
+      - '.github/workflows/lunaos-check.yml'
+  pull_request:
+    paths:
+      - 'lunaos/**'
+      - '.github/workflows/lunaos-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  portable:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: lunaos
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.20.x'
+          cache: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: false
+      - name: Unit and integration checks
+        run: make test check
+      - name: Policy broker race check
+        run: go test -buildvcs=false -race -count=1 ./services/policy

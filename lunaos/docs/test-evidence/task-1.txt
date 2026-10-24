@@ -1,0 +1,46 @@
+Task 1 local verification; Linux baseline NOT EXECUTED
+Recorded UTC: 2026-10-24T09:24:57+00:00
+Host runtimes: Python 3.11.7
+$ make test check
+go test -buildvcs=false -count=1 ./services/policy
+ok  	lunaos.local/bootstrap/services/policy	0.099s
+python3 -m unittest discover -s tests -v
+test_absent_budget_payment_refused (test_slice.SliceTests.test_absent_budget_payment_refused) ... ok
+test_api_owner_auth_and_real_round_trip (test_slice.SliceTests.test_api_owner_auth_and_real_round_trip) ... ok
+test_broker_outage_cannot_execute_queued_work (test_slice.SliceTests.test_broker_outage_cannot_execute_queued_work) ... ok
+test_denied_sensitive_payload_not_persisted (test_slice.SliceTests.test_denied_sensitive_payload_not_persisted) ... ok
+test_duplicate_job_idempotency (test_slice.SliceTests.test_duplicate_job_idempotency) ... ok
+test_forged_grant_and_sensitive_domain_denied (test_slice.SliceTests.test_forged_grant_and_sensitive_domain_denied) ... ok
+test_inactive_idle_success (test_slice.SliceTests.test_inactive_idle_success) ... ok
+test_input_validation (test_slice.SliceTests.test_input_validation) ... ok
+test_kill_during_execution_rolls_back_then_resumes (test_slice.SliceTests.test_kill_during_execution_rolls_back_then_resumes) ... ok
+test_owner_only_privileges (test_slice.SliceTests.test_owner_only_privileges) ... ok
+test_policy_deny_before_score (test_slice.SliceTests.test_policy_deny_before_score) ... ok
+test_private_database_and_append_only_events (test_slice.SliceTests.test_private_database_and_append_only_events) ... ok
+test_queued_goal_resumes_in_new_process (test_slice.SliceTests.test_queued_goal_resumes_in_new_process) ... ok
+test_repeated_broker_outage_does_not_flood_events (test_slice.SliceTests.test_repeated_broker_outage_does_not_flood_events) ... ok
+test_score_reproducibility_and_ranking (test_slice.SliceTests.test_score_reproducibility_and_ranking) ... ok
+test_unknown_source_is_hypothesis (test_slice.SliceTests.test_unknown_source_is_hypothesis) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 2.626s
+
+OK
+go vet -buildvcs=false ./services/policy
+python3 -m compileall -q luna scripts tests
+bash -n scripts/linux-baseline.sh
+exit_code=0
+$ go test -buildvcs=false -race -count=1 ./services/policy
+ok  	lunaos.local/bootstrap/services/policy	0.179s
+exit_code=0
+$ .venv/bin/python scripts/smoke.py
+{"launcher_restart": "PASS", "persisted_goal": "4541aeef-6f40-4877-ae5e-4ea3b20ac5c6", "status": "completed", "evidence_count": 1, "sha256": "07be6a1cc7b1b323fd3baca70abf34bfea13e09f9d28cf417d11aca77d4220ce", "hardware": "NOT_TESTED"}
+exit_code=0
+$ /Library/Developer/CommandLineTools/usr/bin/git diff --check
+
+exit_code=0
+OpenAPI JSON parse: PASS (not a full OpenAPI conformance validator)
+Independent review identified two privacy/documentation issues. Both are fixed: public docs generalize persona-conflict wording, and assertion claim/source text is discarded before hashing or persistence. Follow-up reviewer confirmed both resolved and found no new actionable issues.
+Post-fix verification: `make test check` PASS (3 Go tests, 16 Python tests, vet, compileall, baseline syntax); Go race check PASS; process-restart smoke PASS; OpenAPI JSON parse PASS; `git diff --cached --check` PASS.
+No remote host connection. No Linux baseline or cleanup script execution.
+CI definition authored; hosted macOS/Linux CI has NOT been run.

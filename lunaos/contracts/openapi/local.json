@@ -1,0 +1,575 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LunaOS Task 1 local REST contracts",
+    "version": "0.1.0",
+    "description": "HTTP/JSON over private Unix sockets only. No TCP server URL. Core and broker routes are separate services; no remote access. Unlisted spec routes are unimplemented."
+  },
+  "security": [
+    {
+      "OwnerBearer": []
+    }
+  ],
+  "paths": {
+    "/v1/goals": {
+      "post": {
+        "summary": "Create scoped local goal; duplicate same key/payload returns existing goal",
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Goal"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGoal"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_.:-]{1,128}$"
+            }
+          }
+        ]
+      },
+      "get": {
+        "summary": "List at most 100 goals",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "goals": {
+                      "type": "array",
+                      "maxItems": 100,
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
+    "/v1/goals/{id}": {
+      "get": {
+        "summary": "Goal and evidence",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Goal"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/v1/goals/{id}/decisions": {
+      "get": {
+        "summary": "At most 100 ordered safe events",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/v1/system/capabilities": {
+      "get": {
+        "summary": "Truthful readiness; hardware unavailable",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
+    "/v1/scheduler/tick": {
+      "post": {
+        "summary": "Run at most one useful authorized pure job; idle_success is success",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/grants": {
+      "post": {
+        "summary": "Broker socket only: issue scoped grant",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrokerDecision"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "405": {
+            "description": "Unsupported method"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrokerRequest"
+              }
+            }
+          }
+        },
+        "description": "Served only by separate policy socket, not Core API. Denials return allowed=false and code; no score can override. Payment default budget zero."
+      }
+    },
+    "/v1/policy/evaluate": {
+      "post": {
+        "summary": "Broker socket only: recheck signed scope",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrokerDecision"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "405": {
+            "description": "Unsupported method"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrokerRequest"
+              }
+            }
+          }
+        },
+        "description": "Served only by separate policy socket, not Core API. Denials return allowed=false and code; no score can override. Payment default budget zero."
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "OwnerBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Owner key read from protected file, not caller role or voice claim"
+      }
+    },
+    "schemas": {
+      "Metrics": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "impact": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
+          },
+          "urgency": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
+          },
+          "user_value": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
+          },
+          "efficiency": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
+          }
+        }
+      },
+      "AssertionInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Claim/source text is transient input and is discarded before hashing or persistence.",
+        "required": [
+          "claim"
+        ],
+        "properties": {
+          "claim": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "source": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 256
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 0
+          }
+        }
+      },
+      "CreateGoal": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_.]{0,79}$"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/Metrics"
+          },
+          "privacy_class": {
+            "enum": [
+              "general",
+              "intimate",
+              "biometric"
+            ],
+            "default": "general"
+          },
+          "assertion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AssertionInput"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "code"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          }
+        }
+      },
+      "BrokerRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "goal_id",
+          "action",
+          "privacy_class"
+        ],
+        "properties": {
+          "goal_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "action": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "privacy_class": {
+            "type": "string"
+          },
+          "grant": {
+            "type": "string"
+          }
+        }
+      },
+      "BrokerDecision": {
+        "type": "object",
+        "required": [
+          "allowed",
+          "code"
+        ],
+        "properties": {
+          "allowed": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "grant": {
+            "type": "string",
+            "description": "Signed one-hour capability, only on authorized issuance"
+          }
+        }
+      },
+      "Goal": {
+        "type": "object",
+        "required": [
+          "id",
+          "owner_id",
+          "action",
+          "status",
+          "computed_priority",
+          "decision_code",
+          "evidence",
+          "execution"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "owner_id": {
+            "const": "owner"
+          },
+          "action": {
+            "type": "string"
+          },
+          "privacy_class": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "approved",
+              "blocked",
+              "completed",
+              "failed"
+            ]
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/Metrics"
+          },
+          "computed_priority": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 100
+          },
+          "priority_explanation": {
+            "type": "object"
+          },
+          "decision_code": {
+            "type": "string"
+          },
+          "assertion": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Contains confidence and unknown/hypothesis status only; claim/source text is never returned or persisted."
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "execution": {
+            "type": "object"
+          },
+          "version": {
+            "type": "integer"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}
