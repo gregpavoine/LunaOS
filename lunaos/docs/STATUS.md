@@ -34,7 +34,7 @@ Evidence: [task-1.txt](test-evidence/task-1.txt).
 | Git diff whitespace check | PASS |
 | OpenAPI JSON parse | PASS; full OpenAPI schema-validator conformance not executed |
 | Independent read-only review | Follow-up findings on terminal dependencies, SQL update bounds, expired grants and API contract fixed; reviewer confirmed resolution and no further actionable issues |
-| GitHub Actions on macOS and Ubuntu | PASS; workflow run [40083034152](https://github.com/gregpavoine/LunaOS/actions/runs/40083034152) for commit `a1de19a` |
+| GitHub Actions on macOS and Ubuntu | PASS; workflow run [40083114663](https://github.com/gregpavoine/LunaOS/actions/runs/40083114663) for commit `7eb43f1` |
 
 The six Task 1 acceptance cases all pass: owner-only privileges, absent-budget
 payment refusal, policy denial before scoring, duplicate-job idempotency,
@@ -72,7 +72,8 @@ This is a real checksum execution, not evidence of a model or hardware action.
   SQLite's edge cap could be bypassed with UPDATE, and the OpenAPI route omitted
   503. Follow-up found expired grants could leave queued goals indefinitely pending.
   Regression tests reproduced these cases; the implementation and contract are now
-  corrected. Final independent review is pending.
+  corrected. Final independent review confirmed there are no remaining actionable
+  findings.
 
 ## Blocked / not verified / limits
 

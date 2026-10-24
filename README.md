@@ -78,4 +78,4 @@ Omarchy is released under the [MIT License](https://opensource.org/licenses/MIT)
 
 ## LunaOS V0 development
 
-This fork also hosts the additive LunaOS goal-engine work. The portable local bootstrap, its architecture and current blockers live in [`lunaos/`](lunaos/README.md). Omarchy remains the host system; LunaOS hardware integration requires a separately authorized Linux baseline.
+This fork also hosts the additive LunaOS goal-engine work. The LunaOS product and engineering specification, current implementation, architecture, release scope and blockers are documented in [`lunaos/README.md`](lunaos/README.md). Omarchy remains the host system; LunaOS hardware integration requires a separately authorized Linux baseline.

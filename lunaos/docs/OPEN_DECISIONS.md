@@ -60,7 +60,8 @@
    Payments/messages require durable intents, reservation and provider reconciliation.
 4. Power-loss hardware durability, sensors/BLIND cutoff, GPU contention, iPhone,
    NAS, recovery and all Linux claims require real authorized target tests.
-5. Signed grants expire after one hour; expired/invalid/unavailable policy defers
-   work. No automatic renewal on behalf of an absent owner.
+5. Signed grants expire after one hour; invalid or expired grants block the goal
+   with `GRANT_RENEWAL_REQUIRED`, while a temporary broker outage leaves queued
+   work intact. No automatic renewal on behalf of an absent owner.
 6. Existing duplicate start-pack specs are preserved; root docs are canonical.
    Bundled cleanup script is reference material and must not be auto-executed.

@@ -59,4 +59,4 @@ PASS
 $ /Library/Developer/CommandLineTools/usr/bin/git diff --check
 PASS
 TDD red runs: schema-upgrade test failed at migration version 1 instead of 2; plan tests failed while Engine.set_plan was absent; API plan test returned 404. Review regressions also reproduced acceptance of a blocked prerequisite, UPDATE bypass of the edge cap, and an expired grant remaining queued; all pass after correction.
-Hosted CI run 40083034152 passed on both Ubuntu and macOS for commit a1de19a; unit/integration checks and the policy broker race check passed. Independent final review found no remaining actionable issues. No Linux host or baseline script was accessed.
+Hosted CI run 40083114663 passed on both Ubuntu and macOS for commit 7eb43f1; unit/integration checks and the policy broker race check passed. Independent final review found no remaining actionable issues. No Linux host or baseline script was accessed.
