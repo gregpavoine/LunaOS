@@ -40,6 +40,9 @@ completed OS capabilities.
 - Goal events are append-only, privacy-safe decision codes. Event creation inserts
   a durable outbox record transactionally; Core dispatches idempotently into a local
   inbox, and owners can read the last 100 events per goal. No external bus is wired.
+- Owners can retrieve verified artifact evidence over a dedicated authenticated
+  route; unknown goals or goals without evidence return 404. Only checksum fixture
+  evidence exists in this slice.
 - Native Agent Runner interface is a separate Rust crate. Its only implementation
   computes verifiable evidence for a fixed public fixture; it has no shell, arbitrary
   filesystem, process or network operation. It remains linked in-process and is not
@@ -68,7 +71,7 @@ Detailed command record: [native-migration-2026-10-24.txt](test-evidence/native-
 
 | Command | Result |
 |---|---|
-| `make test` | PASS: 28 Rust unit tests plus 4 integration tests (Agent Runner, Identity and child-process Broker); 0 failures |
+| `make test` | PASS: 29 Rust unit tests plus 4 integration tests (Agent Runner, Identity and child-process Broker); 0 failures |
 | `make check` | PASS: `cargo fmt --check`, Clippy across workspace/all targets with warnings denied, and `cargo check` |
 | `make native-smoke` | PASS: release Core and broker binaries; live loopback REST, unauthorized 401, owner create, duplicate idempotency, checksum evidence, then Core process restart with completed state retained |
 | `make test-reference check-reference` | PASS: existing Go policy tests/vet, 16 Python reference integration tests/compileall, Linux baseline script syntax only |

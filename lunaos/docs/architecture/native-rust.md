@@ -62,6 +62,7 @@ REST routes implemented in this slice:
 | `POST` | `/v1/goals` | Owner bearer token; requires idempotency key |
 | `GET` | `/v1/goals/{id}` | Owner bearer token |
 | `GET` | `/v1/goals/{id}/events` | Owner bearer token; append-only local event history, up to 100 |
+| `GET` | `/v1/goals/{id}/evidence` | Owner bearer token; verified evidence or 404 until complete |
 | `POST` | `/v1/goals/{id}/dependencies` | Owner bearer token; cycle-checked dependency edge |
 | `GET` | `/v1/goals/{id}/plan` | Owner bearer token; parent and ordered dependencies |
 | `PUT` | `/v1/goals/{id}/plan` | Owner bearer token; bounded atomic plan replacement |

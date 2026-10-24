@@ -416,6 +416,40 @@
           }
         }
       }
+    },
+    "/v1/goals/{id}/evidence": {
+      "get": {
+        "operationId": "getGoalEvidence",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owner-visible verified artifact evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Evidence"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Goal or evidence not found"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -687,6 +721,36 @@
             }
           }
         ]
+      },
+      "Evidence": {
+        "type": "object",
+        "required": [
+          "goal_id",
+          "sha256",
+          "byte_count",
+          "provenance",
+          "verified"
+        ],
+        "properties": {
+          "goal_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "byte_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "provenance": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean"
+          }
+        }
       }
     }
   }

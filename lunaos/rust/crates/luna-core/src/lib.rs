@@ -5,8 +5,8 @@ use axum::{
     routing::{get, post},
 };
 use luna_contracts::{
-    AddDependency, CreateGoal, GoalEventView, GoalLifecycleCommand, GoalPlan, GoalPlanView,
-    GoalView, TickResult,
+    AddDependency, CreateGoal, Evidence, GoalEventView, GoalLifecycleCommand, GoalPlan,
+    GoalPlanView, GoalView, TickResult,
 };
 use luna_goal_engine::{EngineError, GoalEngine};
 use luna_policy_broker::UnixPolicyClient;
@@ -23,6 +23,7 @@ pub fn router(engine: GoalEngine, owner_token: String) -> Router {
         .route("/v1/goals", get(list_goals).post(create_goal))
         .route("/v1/goals/{id}", get(get_goal))
         .route("/v1/goals/{id}/events", get(get_goal_events))
+        .route("/v1/goals/{id}/evidence", get(get_goal_evidence))
         .route("/v1/goals/{id}/dependencies", post(add_dependency))
         .route(
             "/v1/goals/{id}/plan",
@@ -105,6 +106,21 @@ async fn get_goal_events(
         return Err((StatusCode::UNAUTHORIZED, "OWNER_AUTH_REQUIRED".into()));
     }
     state.engine.events(&id, 100).map(Json).map_err(error)
+}
+async fn get_goal_evidence(
+    State(state): State<AppState>,
+    headers: HeaderMap,
+    Path(id): Path<String>,
+) -> Result<Json<Evidence>, (StatusCode, String)> {
+    if !authenticated(&headers, &state) {
+        return Err((StatusCode::UNAUTHORIZED, "OWNER_AUTH_REQUIRED".into()));
+    }
+    state
+        .engine
+        .evidence(&id)
+        .map_err(error)?
+        .map(Json)
+        .ok_or((StatusCode::NOT_FOUND, "EVIDENCE_NOT_FOUND".into()))
 }
 
 async fn add_dependency(
@@ -448,6 +464,52 @@ mod tests {
             app.clone().oneshot(get).await.unwrap().status(),
             StatusCode::OK
         );
+        let _ = std::fs::remove_file(database);
+    }
+
+    #[tokio::test]
+    async fn evidence_route_requires_owner_and_returns_verified_artifact() {
+        let database =
+            std::env::temp_dir().join(format!("luna-core-evidence-{}.sqlite", Uuid::new_v4()));
+        let owner_token = "owner-evidence-token";
+        let engine = GoalEngine::open(&database, PolicyBroker::new(owner_token, None)).unwrap();
+        let goal = engine
+            .create(
+                &CreateGoal {
+                    action: "local.checksum".into(),
+                    metrics: Metrics::default(),
+                    privacy_class: PrivacyClass::General,
+                    expected_cost_minor: None,
+                    provenance: ProvenanceInput::default(),
+                },
+                owner_token,
+                "evidence-route",
+            )
+            .unwrap();
+        engine.tick().unwrap();
+        let app = router(engine, owner_token.into());
+        let uri = format!("/v1/goals/{}/evidence", goal.id);
+        let unauthorized = Request::builder().uri(&uri).body(Body::empty()).unwrap();
+        assert_eq!(
+            app.clone().oneshot(unauthorized).await.unwrap().status(),
+            StatusCode::UNAUTHORIZED
+        );
+        let owner = Request::builder()
+            .uri(&uri)
+            .header("authorization", format!("Bearer {owner_token}"))
+            .body(Body::empty())
+            .unwrap();
+        let response = app.oneshot(owner).await.unwrap();
+        assert_eq!(response.status(), StatusCode::OK);
+        let evidence: luna_contracts::Evidence = serde_json::from_slice(
+            &axum::body::to_bytes(response.into_body(), usize::MAX)
+                .await
+                .unwrap(),
+        )
+        .unwrap();
+        assert!(evidence.verified);
+        assert_eq!(evidence.goal_id, goal.id);
+        assert_eq!(evidence.byte_count, 28);
         let _ = std::fs::remove_file(database);
     }
 }

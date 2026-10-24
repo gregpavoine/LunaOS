@@ -5,10 +5,9 @@ GPU or target hardware was accessed.
 Commands run on the final native-code tree:
 
 1. `make test`
-   PASS. Rust workspace: luna-core 3/3, luna-goal-engine 20/20,
-   luna-agent-runner integration 2/2, luna-identity integration 1/1,
+   PASS. Rust workspace: luna-core 4/4, luna-goal-engine 20/20,
    luna-llm-adapter 1/1, luna-policy-broker 4/4, Agent Runner integration 2/2,
-   and policy child-process integration 1/1. Contracts and binary/doc-test targets
+   Identity integration 1/1, and policy child-process integration 1/1. Contracts and binary/doc-test targets
    have no unit tests.
 2. `make check`
    PASS. `cargo fmt --check`, workspace Clippy with `-D warnings`, and
@@ -43,7 +42,8 @@ completed/cancelled terminal-state enforcement, and owner-readable append-only
 event history with transactional, idempotent local outbox/inbox delivery. Planner
 tests verify atomic replacement, a combined hierarchy/dependency DAG, cycle
 rejection, prerequisite validation and size limits. Core route tests verify owner
-authorization for dependency mutation and hierarchy plan roundtrip.
+authorization for dependency mutation, hierarchy plan roundtrip and verified-evidence
+retrieval.
 
 The Rust Agent Runner integration tests verify public-fixture digest/length and
 whitelist rejection. The GTK shell was not compiled: the host `pkg-config` executable fails with
