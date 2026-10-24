@@ -24,9 +24,10 @@ as optional. Current milestone labels are updated in `STATUS.md`.
    tests cover every prior behavior plus DAG and transition invariants; migrations
    preserve stored records.
 4. **Durable scheduler and agent runner.** Atomic SQLite leases, expiry recovery,
-   local transactional outbox/inbox, a data-preserving schema migration and the
-   first in-process allowlisted Agent Runner crate are implemented. Add a separate
-   sandboxed worker service, lease renewal, heartbeats, bounded retries, quotas,
+   owner/action grant revalidation on lease renewal, persisted heartbeat timestamps,
+   a three-expiry retry limit, local transactional outbox/inbox, schema migrations
+   and the first in-process allowlisted Agent Runner crate are implemented. Add a
+   separate sandboxed worker service, configurable retry policy, quotas,
    interruption handling and tool isolation. Exit: process-kill, duplicate-delivery and concurrent-worker tests
    prove no duplicated effect for every enabled adapter.
 5. **Evidence and memory.** Implement source/confidence/freshness assertions,

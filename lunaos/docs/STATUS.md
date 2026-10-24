@@ -21,9 +21,11 @@ completed OS capabilities.
   the engine rejects cycles, waits for prerequisites and distinguishes queued
   dependency waits from idle success.
 - Durable SQLite job leases: atomic worker claims, unique lease tokens, expiry
-  recovery after engine restart, stale-token rejection and a v1-to-v2 data-preserving
-  migration. This is verified for one local pure action; heartbeats, bounded retries,
-  multiple service processes and power-loss recovery remain unverified.
+  recovery after engine restart, stale-token rejection, authenticated lease renewal
+  with a persisted heartbeat timestamp, and a default limit of three expired leases.
+  Schema migrations now preserve records through v6. This covers the local pure
+  action only; independent heartbeat processes, configurable retry policy, concurrent
+  service processes and power-loss recovery remain unverified.
 - Goal lifecycle subset in Rust: owner-authenticated pause, resume and cancel routes;
   pause revokes an active lease, resume requeues work, cancellation survives restart,
   and completed/cancelled states reject further transitions. SQLite v3 migration
@@ -61,7 +63,7 @@ Detailed command record: [native-migration-2026-10-24.txt](test-evidence/native-
 
 | Command | Result |
 |---|---|
-| `make test` | PASS: 26 Rust unit tests plus 3 integration tests (Agent Runner and child-process Broker); 0 failures |
+| `make test` | PASS: 28 Rust unit tests plus 3 integration tests (Agent Runner and child-process Broker); 0 failures |
 | `make check` | PASS: `cargo fmt --check`, Clippy across workspace/all targets with warnings denied, and `cargo check` |
 | `make native-smoke` | PASS: release Core and broker binaries; live loopback REST, unauthorized 401, owner create, duplicate idempotency, checksum evidence, then Core process restart with completed state retained |
 | `make test-reference check-reference` | PASS: existing Go policy tests/vet, 16 Python reference integration tests/compileall, Linux baseline script syntax only |
@@ -84,7 +86,7 @@ is being counted.
 - No GPU/NVIDIA/CUDA, ComfyUI, systemd, D-Bus, sensor/BLIND, iPhone, NAS, privacy
   vault, consent/erasure or remote-administration capability has been exercised.
 - Full goal lifecycle beyond list/pause/resume/cancel and CRUD, natural-language plan generation and strategy scoring,
-lease renewal/heartbeats/retry policy, external event delivery and resource quotas, standalone Agent Runner,
+independent heartbeat workers/configurable retry policy, external event delivery and resource quotas, sandboxed Agent Runner service,
   strategy optimizer, production identity/session
   management, encrypted memory/evidence vault, and broad Mont Blanc modules remain
   incomplete. Several contracts are types only.
@@ -98,8 +100,8 @@ lease renewal/heartbeats/retry policy, external event delivery and resource quot
 ## Next milestone
 
 Complete owner credential lifecycle and full goal CRUD/state semantics.
-Then add lease renewal/heartbeats, bounded retry policy and strategy evaluation
-before connecting any Linux action adapter. The next target-side milestone
+Then add configurable retry policy and strategy evaluation before connecting any
+Linux action adapter. The next target-side milestone
 requires an owner-provided SSH alias and explicit connection/baseline authorization;
 no current Linux installation may be modified without a verified recovery plan and
 explicit authorization for each mutation.

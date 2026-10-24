@@ -44,8 +44,9 @@ fixed public fixture, verifies the independent
 SHA-256 and size, then commits the goal outcome and evidence. SQLite uses WAL and
 full synchronous durability. Atomic leases use worker IDs, random tokens and
 expiry timestamps; expired work is requeued after restart, and stale tokens cannot
-complete it. This is tested against the local pure checksum action only. The
-versioned migration preserves v1 queued jobs.
+complete it. The live lease can renew after broker revalidation; heartbeat timestamps
+are persisted, and three expiry attempts end in a recorded failure. This is tested
+against the local pure checksum action only. Versioned migrations preserve v1 jobs.
 The initial dependency graph rejects cycles and holds dependent goals until every
 prerequisite completes. Owner plan replacement atomically stores up to 32
 dependencies plus one parent, bounds parent depth at 16, and detects cycles across
@@ -70,8 +71,9 @@ REST routes implemented in this slice:
 | `GET` | `/v1/system/capabilities` | Public static status; reports unavailable target capabilities |
 
 Natural-language Goal DAG planning, lifecycle mutations beyond list/pause/resume/cancel, full CRUD,
-external event subscriptions, lease renewal/heartbeats, resource quotas, external side effects, evidence vault, memory and identity
-services are not implemented. Contract structs do not mean those services exist.
+external event subscriptions, independent heartbeat workers, configurable retries,
+resource quotas, external side effects, evidence vault, memory and identity services
+are not implemented. Contract structs do not mean those services exist.
 Core's transactional outbox is consumed into its local inbox only; no network/event
 bus delivery is configured or claimed.
 

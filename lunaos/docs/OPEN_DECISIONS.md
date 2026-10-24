@@ -71,9 +71,10 @@ ecosystem. The shell and target integration still require Linux build/run eviden
    supported; private vault and encrypted backup are blocked, not simulated.
 3. Transactional serialization is safe for this bounded pure action only. It is
    not a distributed scheduler or general exactly-once external execution.
-   Lease renewal, heartbeat, bounded retries and external event delivery are not
-   implemented. Payments/messages require durable intents, reservation and provider
-   reconciliation.
+   Lease renewal and a default three-expiry retry ceiling are local only; an
+   independent heartbeat worker, configurable retries and external event delivery
+   are not implemented. Payments/messages require durable intents, reservation and
+   provider reconciliation.
 4. Power-loss hardware durability, sensors/BLIND cutoff, GPU contention, iPhone,
    NAS, recovery and all Linux claims require real authorized target tests.
 5. Signed grants expire after one hour; expired/invalid/unavailable policy defers

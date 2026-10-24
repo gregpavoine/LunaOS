@@ -111,6 +111,16 @@ impl GoalEngine {
                 "../../../../migrations/native/005_goal_plans.sql"
             ))?;
         }
+        let retry_migration_applied: bool = db.query_row(
+            "SELECT EXISTS(SELECT 1 FROM schema_migration WHERE version=6)",
+            [],
+            |row| row.get(0),
+        )?;
+        if !retry_migration_applied {
+            db.execute_batch(include_str!(
+                "../../../../migrations/native/006_lease_retries.sql"
+            ))?;
+        }
         Ok(Self {
             db: Arc::new(Mutex::new(db)),
             broker: Arc::new(broker),
@@ -197,19 +207,33 @@ impl GoalEngine {
         let tx = db.transaction_with_behavior(TransactionBehavior::Immediate)?;
         tx.execute(
             "INSERT INTO goal_event(goal_id,kind,code,created_at_utc)
-             SELECT goal_id,'job.lease.expired','LEASE_REQUEUED',strftime('%Y-%m-%dT%H:%M:%fZ','now')
+             SELECT goal_id,'job.lease.expired','LEASE_EXPIRED',strftime('%Y-%m-%dT%H:%M:%fZ','now')
              FROM job WHERE state='running' AND lease_expires_at_unix<=?1",
             [now_unix],
         )?;
         tx.execute(
-            "UPDATE job SET state='queued',lease_owner=NULL,lease_token=NULL,lease_expires_at_unix=NULL
+            "UPDATE job SET state=CASE WHEN attempt_count>=max_attempts THEN 'failed' ELSE 'queued' END,
+             lease_owner=NULL,lease_token=NULL,lease_expires_at_unix=NULL,heartbeat_at_unix=NULL
              WHERE state='running' AND lease_expires_at_unix<=?1",
             [now_unix],
+        )?;
+        tx.execute(
+            "UPDATE goal SET status='failed' WHERE id IN
+             (SELECT goal_id FROM job WHERE state='failed') AND status NOT IN ('failed','completed','cancelled')",
+            [],
+        )?;
+        tx.execute(
+            "INSERT INTO goal_event(goal_id,kind,code,created_at_utc)
+             SELECT goal_id,'job.retry.exhausted','MAX_ATTEMPTS_REACHED',strftime('%Y-%m-%dT%H:%M:%fZ','now')
+             FROM job WHERE state='failed' AND attempt_count>=max_attempts
+               AND goal_id IN (SELECT id FROM goal WHERE status='failed')
+               AND NOT EXISTS (SELECT 1 FROM goal_event WHERE goal_id=job.goal_id AND kind='job.retry.exhausted')",
+            [],
         )?;
         let next: Option<(String, String)> = tx
             .query_row(
                 "SELECT g.id,g.action FROM goal g JOIN job j ON j.goal_id=g.id
-             WHERE j.state='queued' AND g.score>0
+             WHERE j.state='queued' AND j.attempt_count<j.max_attempts AND g.score>0
                AND NOT EXISTS (SELECT 1 FROM goal_dependency gd JOIN goal prerequisite
                  ON prerequisite.id=gd.depends_on_goal_id WHERE gd.goal_id=g.id
                    AND prerequisite.status!='completed')
@@ -249,8 +273,8 @@ impl GoalEngine {
         let expires_at_unix = now_unix + lease_seconds;
         tx.execute(
             "UPDATE job SET state='running',lease_owner=?2,lease_token=?3,
-             lease_expires_at_unix=?4,attempt_count=attempt_count+1 WHERE goal_id=?1 AND state='queued'",
-            params![goal_id, worker, token, expires_at_unix],
+             lease_expires_at_unix=?4,attempt_count=attempt_count+1,heartbeat_at_unix=?5 WHERE goal_id=?1 AND state='queued'",
+            params![goal_id, worker, token, expires_at_unix, now_unix],
         )?;
         tx.execute("INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?1,'job.lease.claimed','AUTHORIZED_WORKER',strftime('%Y-%m-%dT%H:%M:%fZ','now'))", [&goal_id])?;
         tx.commit()?;
@@ -262,6 +286,76 @@ impl GoalEngine {
             token,
             expires_at_unix,
         }))
+    }
+
+    pub fn renew_claim(
+        &self,
+        lease: &ExecutionLease,
+        now_unix: i64,
+        lease_seconds: i64,
+    ) -> Result<ExecutionLease, EngineError> {
+        if !(1..=300).contains(&lease_seconds) {
+            return Err(EngineError::Invalid("INVALID_LEASE_REQUEST".into()));
+        }
+        let mut db = self.db.lock().expect("sqlite mutex poisoned");
+        let tx = db.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        let active: Option<(String, String, String, i64)> = tx
+            .query_row(
+                "SELECT j.lease_owner,j.lease_token,gg.grant,j.lease_expires_at_unix
+                 FROM job j JOIN goal_grant gg ON gg.goal_id=j.goal_id
+                 WHERE j.goal_id=?1 AND j.state='running'",
+                [&lease.goal_id],
+                |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?, row.get(3)?)),
+            )
+            .optional()?;
+        let Some((owner, token, grant, expires_at)) = active else {
+            return Err(EngineError::Invalid("LEASE_LOST".into()));
+        };
+        if owner != lease.owner
+            || token != lease.token
+            || grant != lease.grant
+            || now_unix >= expires_at
+        {
+            return Err(EngineError::Invalid("LEASE_LOST".into()));
+        }
+        if self
+            .broker
+            .verify(&lease.goal_id, &lease.action, &lease.grant)
+            .is_err()
+        {
+            tx.execute(
+                "UPDATE job SET state='blocked',lease_owner=NULL,lease_token=NULL,
+                 lease_expires_at_unix=NULL,heartbeat_at_unix=NULL WHERE goal_id=?1",
+                [&lease.goal_id],
+            )?;
+            tx.execute(
+                "UPDATE goal SET status='blocked' WHERE id=?1",
+                [&lease.goal_id],
+            )?;
+            tx.execute(
+                "INSERT INTO goal_event(goal_id,kind,code,created_at_utc)
+                 VALUES(?1,'goal.authorization.revoked','LEASE_RENEWAL_DENIED',strftime('%Y-%m-%dT%H:%M:%fZ','now'))",
+                [&lease.goal_id],
+            )?;
+            tx.commit()?;
+            return Err(EngineError::Policy("EXECUTION_REAUTH_REQUIRED".into()));
+        }
+        let next_expiry = now_unix + lease_seconds;
+        tx.execute(
+            "UPDATE job SET lease_expires_at_unix=?2,heartbeat_at_unix=?3
+             WHERE goal_id=?1 AND state='running' AND lease_owner=?4 AND lease_token=?5",
+            params![
+                lease.goal_id,
+                next_expiry,
+                now_unix,
+                lease.owner,
+                lease.token
+            ],
+        )?;
+        tx.commit()?;
+        let mut renewed = lease.clone();
+        renewed.expires_at_unix = next_expiry;
+        Ok(renewed)
     }
 
     pub fn complete_claim(
@@ -931,6 +1025,55 @@ mod tests {
         assert!(
             matches!(engine.complete_claim(&recovered, 1_800_000_033), Err(EngineError::Invalid(code)) if code == "LEASE_LOST")
         );
+    }
+
+    #[test]
+    fn lease_renewal_requires_the_live_owner_token_and_extends_expiry() {
+        let (engine, key) = engine();
+        let goal = engine
+            .create(&body("local.checksum"), &key, "lease-renewal")
+            .unwrap();
+        let now = 1_800_000_000;
+        let lease = engine.claim_next("worker-a", now, 30).unwrap().unwrap();
+        let renewed = engine.renew_claim(&lease, now + 10, 60).unwrap();
+        assert_eq!(renewed.expires_at_unix, now + 70);
+
+        let mut stale = renewed.clone();
+        stale.token = "forged-stale-token".into();
+        assert!(
+            matches!(engine.renew_claim(&stale, now + 11, 60), Err(EngineError::Invalid(code)) if code == "LEASE_LOST")
+        );
+        assert_eq!(engine.get(&goal.id).unwrap().status, "approved");
+    }
+
+    #[test]
+    fn expired_lease_stops_after_the_bounded_retry_limit() {
+        let (engine, key) = engine();
+        let goal = engine
+            .create(&body("local.checksum"), &key, "lease-retry-limit")
+            .unwrap();
+        let first = engine
+            .claim_next("worker-a", 1_800_000_000, 10)
+            .unwrap()
+            .unwrap();
+        let second = engine
+            .claim_next("worker-b", 1_800_000_010, 10)
+            .unwrap()
+            .unwrap();
+        let third = engine
+            .claim_next("worker-c", 1_800_000_020, 10)
+            .unwrap()
+            .unwrap();
+        assert_ne!(first.token, second.token);
+        assert_ne!(second.token, third.token);
+        assert!(
+            engine
+                .claim_next("worker-d", 1_800_000_030, 10)
+                .unwrap()
+                .is_none()
+        );
+        assert_eq!(engine.lease_attempts(&goal.id).unwrap(), 3);
+        assert_eq!(engine.get(&goal.id).unwrap().status, "failed");
     }
 
     #[test]

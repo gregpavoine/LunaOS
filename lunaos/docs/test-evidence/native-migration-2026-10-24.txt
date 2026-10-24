@@ -5,10 +5,11 @@ GPU or target hardware was accessed.
 Commands run on the final native-code tree:
 
 1. `make test`
-   PASS. Rust workspace: luna-core 3/3, luna-goal-engine 18/18,
+   PASS. Rust workspace: luna-core 3/3, luna-goal-engine 20/20,
    luna-agent-runner integration 2/2,
-   luna-llm-adapter 1/1, luna-policy-broker 4/4, and policy child-process
-   integration 1/1. Contracts and binary/doc-test targets have no unit tests.
+   luna-llm-adapter 1/1, luna-policy-broker 4/4, Agent Runner integration 2/2,
+   and policy child-process integration 1/1. Contracts and binary/doc-test targets
+   have no unit tests.
 2. `make check`
    PASS. `cargo fmt --check`, workspace Clippy with `-D warnings`, and
    `cargo check` completed with exit code 0.
@@ -32,7 +33,8 @@ The native Goal Engine tests additionally verify policy denial before score,
 owner-only policy grants, absent-budget payment refusal, duplicate idempotency,
 unknown provenance status, idle success, evidence verification, dependency cycle
 rejection, dependency ordering/wait state, lease exclusivity, stale-token rejection,
-expiry recovery after restart, data-preserving v1 schema migration, owner-only goal
+expiry recovery after restart, owner-token lease renewal, forged-token rejection,
+three-expiry retry exhaustion, data-preserving v1-to-v6 schema migrations, owner-only goal
 lifecycle/list REST routes, score-ordered listing, pause/resume/cancel transitions,
 completed/cancelled terminal-state enforcement, and owner-readable append-only
 event history with transactional, idempotent local outbox/inbox delivery. Planner
