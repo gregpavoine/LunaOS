@@ -13,10 +13,11 @@ as optional. Current milestone labels are updated in `STATUS.md`.
    prior implementation unchanged as reference. Exit: Rust tests, process-level
    broker test and real local API smoke pass. Basic dependency edges, cycle
    rejection and scheduler waiting are also verified.
-2. **Owner identity and grants.** Replace development bearer setup with OS-backed
-   credential provisioning, session expiry/rotation/revocation and policy grant
-   registry. Exit: unauthorized, guest, revoked, expired and owner flows pass on
-   Linux with peer-credential checks and filesystem ACL evidence.
+2. **Owner identity and grants.** A Rust tool now provisions one random owner
+   credential with private file permissions and no-overwrite behavior. Add Linux
+   first-boot integration, secure session expiry/rotation/revocation and a policy
+   grant registry. Exit: unauthorized, guest, revoked, expired and owner flows pass
+   on Linux with peer-credential checks and filesystem ACL evidence.
 3. **Goal model and planner.** List/create/read/tick, dependency edges and the
    pause/resume/cancel subset and bounded owner-managed parent/dependency DAG
    are implemented. Port remaining CRUD/state machine, natural-language planning,

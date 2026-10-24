@@ -23,13 +23,16 @@ trap 'rm -rf -- "$staging"' EXIT
 
 cargo build --locked --release --manifest-path "$lunaos_dir/rust/Cargo.toml" -p luna-core
 cargo build --locked --release --manifest-path "$lunaos_dir/rust/Cargo.toml" -p luna-policy-broker
+cargo build --locked --release --manifest-path "$lunaos_dir/rust/Cargo.toml" -p luna-identity
 cargo build --locked --release --manifest-path "$lunaos_dir/rust/Cargo.toml" -p luna-shell --features gtk-ui
 cp -a "$profile_source/." "$staging/"
 install -Dm755 "$lunaos_dir/rust/target/release/luna-core" "$staging/airootfs/usr/bin/luna-core"
 install -Dm755 "$lunaos_dir/rust/target/release/luna-policy-broker" "$staging/airootfs/usr/bin/luna-policy-broker"
+install -Dm755 "$lunaos_dir/rust/target/release/luna-owner-setup" "$staging/airootfs/usr/bin/luna-owner-setup"
 install -Dm755 "$lunaos_dir/rust/target/release/luna-shell" "$staging/airootfs/usr/bin/luna-shell"
 install -Dm644 "$lunaos_dir/systemd/luna-core.service" "$staging/airootfs/usr/lib/systemd/system/luna-core.service"
 install -Dm644 "$lunaos_dir/systemd/luna-policy-broker.service" "$staging/airootfs/usr/lib/systemd/system/luna-policy-broker.service"
+install -Dm644 "$lunaos_dir/systemd-sysusers/lunaos.conf" "$staging/airootfs/usr/lib/sysusers.d/lunaos.conf"
 install -Dm644 "$lunaos_dir/packaging/arch/lunaos.desktop" "$staging/airootfs/usr/share/applications/lunaos.desktop"
 install -Dm644 "$lunaos_dir/README.md" "$staging/airootfs/usr/share/doc/lunaos/README.md"
 

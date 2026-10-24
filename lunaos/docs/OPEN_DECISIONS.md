@@ -81,7 +81,8 @@ ecosystem. The shell and target integration still require Linux build/run eviden
    work. No automatic renewal on behalf of an absent owner.
 6. Existing duplicate start-pack specs are preserved; root docs are canonical.
    Bundled cleanup script is reference material and must not be auto-executed.
-7. The systemd units and Arch packaging include separate Core and Broker binaries,
-   but first-boot user creation, owner-token provisioning/rotation and an install or
-   recovery workflow are not implemented. The units must not be enabled by an image
-   until that credential bootstrap is designed and exercised in an isolated Arch VM.
+7. A local owner-token setup command now creates a private credential file and the
+   systemd-sysusers configuration declares the service account. Linux first-boot
+   orchestration, token rotation/revocation and an install/recovery workflow are not
+   implemented. The units must not be enabled by an image until this flow is tested
+   in an isolated Arch VM.

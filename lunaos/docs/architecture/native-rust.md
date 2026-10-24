@@ -14,6 +14,7 @@ document distinguishes target boundaries from the subset already running locally
 | Policy Broker | `luna-policy-broker` | Separate process; bounded newline JSON over private Unix socket | Rust child-process test passes; one public checksum action only |
 | Agent Runner | `luna-agent-runner` | In-process allowlisted action trait and evidence result | Local public-fixture runner only; no standalone service, sandbox or system actions |
 | Shared contracts | `luna-contracts` | Versioned serde request/result types | Compiles; several Mont Blanc types are schema-only |
+| Identity bootstrap | `luna-identity` / `luna-owner-setup` | Local credential provisioning command | Creates a private no-overwrite token file; no session service or rotation |
 | Local model adapter | `luna-llm-adapter` | OpenAI-compatible local llama.cpp endpoint | Adapter source and loopback test; no model/server or real inference |
 | Native shell | `luna-shell` | GTK4 + Wayland; Core status API | Source exists behind feature; GTK build/runtime unverified |
 
@@ -100,5 +101,6 @@ parity while migration proceeds. A LunaOS boot must not require Python or Go. Th
 has not yet been proven because no standalone image exists.
 
 `systemd/luna-policy-broker.service` and `systemd/luna-core.service` are deployment
-templates only. The account, credential provisioning, package, image, install,
+templates only. The account template and credential provisioning command exist;
+Linux first-run wiring, package, image, install,
 update, rollback and recovery paths remain unfinished and untested on systemd.

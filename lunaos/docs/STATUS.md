@@ -9,8 +9,8 @@ completed OS capabilities.
 ## Implemented and verified locally
 
 - Rust workspace in `rust/`: `luna-contracts`, `luna-policy-broker`,
-  `luna-agent-runner`, `luna-goal-engine`, `luna-core`, `luna-llm-adapter`,
-  `luna-shell`.
+  `luna-agent-runner`, `luna-identity`, `luna-goal-engine`, `luna-core`,
+  `luna-llm-adapter`, `luna-shell`.
 - Separate Rust Policy Broker binary over an owner-only Unix socket. It checks the
   owner credential, socket peer UID, deny-by-default action list, payment budget,
   and goal/action-bound expiring HMAC grants. Only `local.checksum` is allowed.
@@ -44,13 +44,18 @@ completed OS capabilities.
   computes verifiable evidence for a fixed public fixture; it has no shell, arbitrary
   filesystem, process or network operation. It remains linked in-process and is not
   a sandboxed worker service.
+- Native owner credential provisioning CLI creates a random private token file
+  without overwriting an existing credential; a `--reveal-token` flag is required
+  to print the secret. Temporary-path creation, file mode and duplicate refusal
+  are tested. No Linux first-boot flow or credential rotation/revocation UX exists.
 - Rust loopback-only llama.cpp adapter source. One test rejects external endpoint
   configuration; no inference is claimed.
 - systemd service unit sources for Core and Policy Broker. These files are
   deployment templates and have not run under systemd. The PKGBUILD and archiso
-  staging script now include both native services and the GTK shell, but have not
-  been built or executed. Owner-token first-boot provisioning and installer/recovery
-  flow are absent, so services are not enabled by the image.
+  staging script now include Core, Broker, owner setup, sysusers configuration and
+  the GTK shell, but have not been built or executed. The owner setup command is
+  manual only; installer/recovery flow is absent, so services are not enabled by
+  the image.
 - The prior Go/Python Task 1 implementation remains frozen for behavioral reference.
   The native Make targets no longer require Go or Python.
 
@@ -63,7 +68,7 @@ Detailed command record: [native-migration-2026-10-24.txt](test-evidence/native-
 
 | Command | Result |
 |---|---|
-| `make test` | PASS: 28 Rust unit tests plus 3 integration tests (Agent Runner and child-process Broker); 0 failures |
+| `make test` | PASS: 28 Rust unit tests plus 4 integration tests (Agent Runner, Identity and child-process Broker); 0 failures |
 | `make check` | PASS: `cargo fmt --check`, Clippy across workspace/all targets with warnings denied, and `cargo check` |
 | `make native-smoke` | PASS: release Core and broker binaries; live loopback REST, unauthorized 401, owner create, duplicate idempotency, checksum evidence, then Core process restart with completed state retained |
 | `make test-reference check-reference` | PASS: existing Go policy tests/vet, 16 Python reference integration tests/compileall, Linux baseline script syntax only |
@@ -94,8 +99,8 @@ independent heartbeat workers/configurable retry policy, external event delivery
   broker. The broker is a separate process, but both local service units use the
   same unprivileged account. Production provisioning, independent service identity,
   owner login, revocation UX and Linux security review remain release blockers.
-- No owner-token bootstrap or interactive installer exists; the current service
-  units require an administrator to provision `/etc/lunaos/owner-token` manually.
+- Owner-token setup exists as a local Rust command, but target provisioning and
+  credential rotation/revocation workflows remain untested and incomplete.
 
 ## Next milestone
 

@@ -11,7 +11,7 @@ check:
 	cargo check --workspace --locked --manifest-path rust/Cargo.toml
 
 build:
-	cargo build --release --locked --manifest-path rust/Cargo.toml -p luna-core -p luna-policy-broker
+	cargo build --release --locked --manifest-path rust/Cargo.toml -p luna-core -p luna-policy-broker -p luna-identity
 
 dev:
 	cargo run --locked --manifest-path rust/Cargo.toml -p luna-core

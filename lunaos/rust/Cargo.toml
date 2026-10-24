@@ -4,6 +4,7 @@ members = [
   "crates/luna-contracts",
   "crates/luna-policy-broker",
   "crates/luna-agent-runner",
+  "crates/luna-identity",
   "crates/luna-goal-engine",
   "crates/luna-core",
   "crates/luna-llm-adapter",
@@ -34,3 +35,4 @@ tokio = { version = "1.47", features = ["macros", "rt-multi-thread", "net", "io-
 tower = { version = "0.5", features = ["util"] }
 uuid = { version = "1.18", features = ["v4", "serde"] }
 luna-agent-runner = { path = "crates/luna-agent-runner" }
+luna-identity = { path = "crates/luna-identity" }

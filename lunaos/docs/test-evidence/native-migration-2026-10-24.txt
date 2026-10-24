@@ -6,7 +6,7 @@ Commands run on the final native-code tree:
 
 1. `make test`
    PASS. Rust workspace: luna-core 3/3, luna-goal-engine 20/20,
-   luna-agent-runner integration 2/2,
+   luna-agent-runner integration 2/2, luna-identity integration 1/1,
    luna-llm-adapter 1/1, luna-policy-broker 4/4, Agent Runner integration 2/2,
    and policy child-process integration 1/1. Contracts and binary/doc-test targets
    have no unit tests.
@@ -24,9 +24,12 @@ Commands run on the final native-code tree:
    compileall passed. Baseline script was syntax-checked only.
 5. `python3 -m json.tool contracts/openapi/native-v1.json`
    PASS. This is a JSON parse check, not full OpenAPI conformance validation.
-6. `bash -n scripts/build-archiso.sh scripts/dev-native.sh scripts/smoke-native-core.sh scripts/linux-baseline.sh packaging/arch/PKGBUILD`
+6. `cargo run -p luna-identity -- --path /tmp/luna-owner-bootstrap-test.token`
+   PASS. Created a random credential using the Rust CLI in a temporary path; the
+   file was removed after the smoke test. The command did not reveal the token.
+7. `bash -n scripts/build-archiso.sh scripts/dev-native.sh scripts/smoke-native-core.sh scripts/linux-baseline.sh packaging/arch/PKGBUILD`
    PASS. This is shell syntax only; the Linux baseline and image/package builds were not executed.
-7. `git diff --check`
+8. `git diff --check`
    PASS.
 
 The native Goal Engine tests additionally verify policy denial before score,

@@ -18,6 +18,9 @@ services, updates and recovery.
   default, checks policy before scoring and again before execution, and requires
   explicit scoped grants. Budgets start at zero; external messages, payment,
   remote administration and destructive system actions require separate grants.
+- **Owner credential bootstrap:** `luna-owner-setup` creates a random private token
+  file and refuses to replace it. The secret is printed only when `--reveal-token`
+  is explicitly supplied; rotation and Linux first-boot integration remain unfinished.
 - **Desktop:** Hyprland/Wayland with a native GTK4 shell. GTK4 is selected for its
   existing Arch/Wayland accessibility, theming and D-Bus ecosystem.
 - **Local AI:** llama.cpp or another documented native local inference runtime.
@@ -53,7 +56,7 @@ locally if you want to use the live API smoke or dev launcher.
 ```sh
 make test          # Rust workspace tests
 make check         # formatting, clippy and cargo check
-make build         # native Core and Policy Broker release binaries
+make build         # Core, Policy Broker and owner setup release binaries
 make native-smoke  # real local API + separate broker process + Core restart
 make dev           # temporary local services, database and owner token
 ```
