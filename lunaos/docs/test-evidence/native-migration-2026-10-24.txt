@@ -19,7 +19,7 @@ Commands run on the final native-code tree:
    and retained completed state after restarting Core. The Broker remained a
    separate child process over a private Unix socket.
 4. `make test-reference check-reference`
-   PASS. Existing Go policy tests/vet and 16 Python reference integration tests/
+   PASS. Existing Go policy tests/vet and 25 Python reference integration tests/
    compileall passed. Baseline script was syntax-checked only.
 5. `python3 -m json.tool contracts/openapi/native-v1.json`
    PASS. This is a JSON parse check, not full OpenAPI conformance validation.

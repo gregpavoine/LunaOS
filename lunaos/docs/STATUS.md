@@ -74,7 +74,7 @@ Detailed command record: [native-migration-2026-10-24.txt](test-evidence/native-
 | `make test` | PASS: 29 Rust unit tests plus 4 integration tests (Agent Runner, Identity and child-process Broker); 0 failures |
 | `make check` | PASS: `cargo fmt --check`, Clippy across workspace/all targets with warnings denied, and `cargo check` |
 | `make native-smoke` | PASS: release Core and broker binaries; live loopback REST, unauthorized 401, owner create, duplicate idempotency, checksum evidence, then Core process restart with completed state retained |
-| `make test-reference check-reference` | PASS: existing Go policy tests/vet, 16 Python reference integration tests/compileall, Linux baseline script syntax only |
+| `make test-reference check-reference` | PASS: existing Go policy tests/vet, 25 Python reference integration tests/compileall, Linux baseline script syntax only |
 
 The smoke test used a temporary database and test credential and removed them on
 exit. Evidence is a live local process test, not CI-only evidence. No hosted CI run
