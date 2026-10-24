@@ -1,0 +1,16 @@
+[package]
+name = "luna-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+axum.workspace = true
+luna-contracts = { path = "../luna-contracts" }
+luna-goal-engine = { path = "../luna-goal-engine" }
+luna-policy-broker = { path = "../luna-policy-broker" }
+serde_json.workspace = true
+subtle.workspace = true
+tokio.workspace = true

@@ -1,0 +1,15 @@
+base
+grub
+syslinux
+linux
+linux-firmware
+hyprland
+gtk4
+networkmanager
+greetd
+greetd-tuigreet
+sudo
+git
+vim
+man-db
+man-pages

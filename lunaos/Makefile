@@ -1,18 +1,26 @@
-PYTHON ?= python3
+SHELL := /bin/bash
 
-.PHONY: env test check dev
-
-env:
-	$(PYTHON) -m venv --without-pip .venv
+.PHONY: test check dev test-reference check-reference smoke-native
 
 test:
-	go test -buildvcs=false -count=1 ./services/policy
-	$(PYTHON) -m unittest discover -s tests -v
+	cargo test --workspace --locked --manifest-path rust/Cargo.toml
 
 check:
-	go vet -buildvcs=false ./services/policy
-	$(PYTHON) -m compileall -q luna scripts tests
-	bash -n scripts/linux-baseline.sh
+	cargo fmt --all --manifest-path rust/Cargo.toml -- --check
+	cargo check --workspace --locked --manifest-path rust/Cargo.toml
 
 dev:
-	$(PYTHON) scripts/dev.py
+	cargo run --locked --manifest-path rust/Cargo.toml -p luna-core
+
+smoke-native:
+	./scripts/smoke-native-core.sh
+
+# Frozen Go/Python behavioral reference only. These tools are not required by Core.
+test-reference:
+	go test -buildvcs=false -count=1 ./services/policy
+	python3 -m unittest discover -s tests -v
+
+check-reference:
+	go vet -buildvcs=false ./services/policy
+	python3 -m compileall -q luna scripts tests
+	bash -n scripts/linux-baseline.sh

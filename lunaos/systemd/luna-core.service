@@ -1,0 +1,32 @@
+[Unit]
+Description=LunaOS Core API and durable goal scheduler
+After=network.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+StateDirectory=lunaos
+StateDirectoryMode=0700
+LoadCredential=owner-token:/etc/lunaos/owner-token
+Environment=LUNA_OWNER_TOKEN_FILE=%d/owner-token
+Environment=LUNA_DATABASE=/var/lib/lunaos/goals.sqlite
+Environment=LUNA_LISTEN=127.0.0.1:7766
+ExecStart=/usr/bin/luna-core
+Restart=on-failure
+RestartSec=2s
+UMask=0077
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target

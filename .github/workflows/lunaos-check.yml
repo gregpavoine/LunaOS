@@ -1,8 +1,8 @@
-name: LunaOS portable checks
+name: LunaOS migration reference checks
 
 on:
   push:
-    branches: [quattro, 'codex/**']
+    branches: [quattro, mont-blanc, 'codex/**']
     paths:
       - 'lunaos/**'
       - '.github/workflows/lunaos-check.yml'
@@ -36,7 +36,27 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-      - name: Unit and integration checks
-        run: make test check
+      - name: Frozen reference unit and integration checks
+        run: make test-reference check-reference
       - name: Policy broker race check
         run: go test -buildvcs=false -race -count=1 ./services/policy
+
+  native-rust:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: lunaos/rust
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Test native workspace without Python
+        run: cargo test --workspace --locked
+      - name: Build portable Luna Core
+        run: cargo build --locked --release -p luna-core

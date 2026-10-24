@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=LunaOS
+Comment=Native LunaOS command center
+Exec=/usr/bin/luna-shell
+Type=Application
+Terminal=false
+Categories=System;Utility;

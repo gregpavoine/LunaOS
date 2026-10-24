@@ -1,0 +1,19 @@
+LunaOS Rust migration bootstrap — local verification — 2026-10-24
+Host: macOS Apple Silicon development environment. No Linux target or remote host used.
+
+Commands executed:
+
+1. `make test check` from `lunaos/`
+   PASS: includes `cargo fmt --all --manifest-path rust/Cargo.toml -- --check`.
+2. `cargo test --workspace --locked` from `lunaos/rust/`
+   PASS: luna-goal-engine 5/5; luna-llm-adapter 1/1; luna-policy-broker 4/4; all other unit/doc-test targets 0 failures. Total 10 unit tests.
+3. `cargo build --locked --release -p luna-core` from `lunaos/rust/`
+   PASS; optimized release binary produced locally.
+4. `bash scripts/smoke-native-core.sh` from `lunaos/`
+   PASS: unauthenticated goal request returned 401; owner created goal; duplicate idempotency key returned same ID; fixed checksum action verified; completed goal remained readable after Core process restart.
+5. `make test-reference check-reference` from `lunaos/`
+   PASS: Go policy tests/vet and 25 Python reference integration tests/compileall; `bash -n scripts/linux-baseline.sh` only.
+6. OpenAPI JSON parse; Bash syntax checks for the archiso build, smoke, baseline and profile scripts plus the PKGBUILD; and `git diff --check`
+   PASS on the final pre-commit tree. These checks do not execute the baseline or archiso build.
+
+The smoke goal used a throwaway local SQLite file and a test-only token; it was removed by the script trap. The baseline script was syntax-checked but not run. `llama-server` and `mkarchiso` were absent. The host's `/usr/local/bin/pkg-config` failed with `bad CPU type in executable`, so GTK4 could not be queried or compiled. Llama.cpp inference, Arch packaging, archiso build/boot/install, Linux hardware, NVIDIA/ComfyUI and recovery were not performed.

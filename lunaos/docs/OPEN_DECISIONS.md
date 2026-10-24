@@ -1,67 +1,64 @@
-# Open decisions and requirement map
+# LunaOS requirements map and open decisions
 
-2026-10-24. Product specs describe requirements, not working software.
+Updated 2026-10-24 after the owner's native-OS architecture correction. Requirements are not implementation evidence. Source order: current owner instruction; Goal Engine addendum for goal/authority rules; unified Mont Blanc U0–U21 specification for all other product requirements; Series 26 for Omarchy retention.
 
-## Explicit constraints
+## Explicit architecture and constraints
 
-| Requirement | Source | Task 1 treatment |
+| Requirement | Source | Current treatment |
 |---|---|---|
-| Existing Omarchy, Mac controller, no remote before authorization | Current task; AGENTS Platforms; Series 26 | Local-only; no installation or remote connection |
-| Independent deterministic broker; owner-only privileges; budgets zero | Goal §§0,1,2,6 | Separate Go process, explicit scoped grant; every payment denied |
-| Durable registry, deny before score, verified outcomes, idle success | Goal §§3–5,11 | SQLite transaction; fixed public checksum action; executable tests |
-| No invented facts from unknown provenance | Goal §1 Series30.8; G-010 | Unknown assertion always hypothesis, confidence does not verify it |
-| Local-first, protected secrets, no sensitive general logs | Goal §§0,3,7 | Private UDS/key; public-fixture metadata only; no sensitive ingestion |
-| Preserve Omarchy KEEP components | Series 26; G-028 | No host mutation; Linux adapters unavailable |
-| Full V0 requires real GPU workflow and reboot | Goal §9 | Release blocked; local tests do not count as hardware proof |
-| All named Mont Blanc modules remain mandatory | Unified U0,U19,U20 | Retained in feature matrix, not silently deferred to Fuji/Everest |
+| Independently installable OS based on Arch Linux | Owner correction; unified spec release scope | Accepted; Archiso/installer not built yet |
+| Hyprland/Wayland, native GTK4/Slint shell | Owner correction | GTK4 selected in architecture evaluation; source added, Linux compile/runtime blocked |
+| Rust/Tokio control plane and systemd services | Owner correction | Rust workspace and Tokio/Axum Core/API added; deployed systemd services remain pending |
+| Native D-Bus, Unix socket and Linux API integration | Owner correction | Adapter boundary specified; target implementations not verified |
+| Goal Engine, Scheduler, Policy Broker, Agent Runner, Memory, Identity, Resource Manager in Rust | Owner correction | Initial Goal Engine and in-process policy crate; other modules partial/design-only |
+| Local LLM with real inference | Owner correction | llama.cpp OpenAI-compatible HTTP adapter; no local server/model configured or exercised |
+| SQLite initially and extensible storage | Owner correction; Goal Engine §2 | SQLite WAL/FULL durable store; migration adapter not implemented |
+| Omarchy as reuse/reference, never required final runtime | Owner correction | Prior additive-overlay ADR superseded; keep proven components until replacement tests pass |
+| Existing Go/Python prototype retained and frozen | Owner correction | Existing source/tests preserved; all new behavior moves to Rust |
+| No Omarchy installation on macOS, no remote access without alias + explicit authorization | Goal spec and user instruction | No install, baseline execution or remote connection performed |
+| Full Mont Blanc U0–U21 scope remains mandatory | Unified specification | Feature matrix retained; no capability silently cut or mocked |
 
-## Contradictions resolved by precedence
+## Contradictions and resolutions
 
 | Conflict | Resolution |
 |---|---|
-| From-scratch/Arch image vs existing Omarchy | Current task + Series26: additive V0 on existing installation; future image strategy unresolved |
-| Earlier persona framing vs assistant identity | Goal addendum and U0 win: assistant, no claims of subjective feeling |
-| Old unlimited autonomy/no confirmation vs independent safety | Goal §§0,1,6 win; no implicit privilege or financial grants |
-| Series29.80 retain after revocation vs revocable consent | New Goal §§1,7 require cessation, restriction, required erasure/derivative handling |
-| Annex blind always preempts deliberate capture vs U3 session exception | U3 allows specifically scoped visible session; manual BLIND always overrides; no sensors implemented here |
-| Annex discovery sync allowed during BLIND vs unresolved Q79/current U1 | Conservative no sensitive processing; exact pre-existing-data policy OPEN_DECISION |
-| 2027/year-plus roadmap vs U21 8/12-week target | Current target is conditional and high risk, never a completion guarantee |
-| Claude Code 24/7 vs Codex implementation lead | Current task authorizes Codex; no external agent subscription, unattended spending or scheduler provisioned |
-| Rust-only recommendations vs newer Go-or-Rust boundary | Goal §2 permits Go; ADR 0002 records local stack |
+| Earlier bootstrap: additive app over existing Omarchy vs independent LunaOS OS | Owner's newer explicit correction wins. LunaOS owns distro configuration, installer, shell, services, updates and recovery. Preserve Omarchy components as references and migrate with KEEP tests. |
+| Earlier ADR: Go broker/Python core vs Rust/Tokio control plane | Superseded by owner correction. Freeze prototype and port behavior/API/tests to Rust. |
+| Prior `docs/STATUS.md`: Python is current runtime and Go broker is current boundary | Historical checkpoint only. This status is replaced by native migration status and must not guide new implementation. |
+| Unified/legacy specs say “Omarchy/Arch/Hyprland” vs owner says Omarchy is not mandatory runtime | Use Arch + Hyprland as base; reuse Omarchy components only when compatible with independent ownership. |
+| Old from-scratch ISO language vs earlier Task 1 add-on-only scope | Current correction authorizes independent distro and ISO architecture; actual image creation remains unverified and gated on reproducible packaging/recovery. |
+| Prior stack discussion allowed Python for planner/ML vs owner excludes Python control plane | Python may only host isolated ML/ComfyUI/third-party workloads that require it. Planner, memory and system controller remain Rust. |
+| Product autonomy vs independent policy/consent/owner authority | Hard policy gates, consent, spend=0 until configured, owner-only privileges and revocation always outrank score/model/user prompt content. |
+| Zero-budget spending vs spend within explicit configured budget | No configured budget means refusal. A future budget allows only broker-enforced scoped spending after ledger/reservation/reconciliation exists. |
+| Historical consent answer on retaining third-party intimate data vs revocable consent/legal deletion | Stop collection immediately; restrict and erase records/derivatives where required. Never infer a right to retain from historical answers. |
+| BLIND vs authorized capture | BLIND/manual stop overrides agents and pending jobs. Only separate scoped visible/revocable capture session can run when all subjects and grants pass. No sensors are implemented here. |
 
-## Unresolved (no fabricated approvals)
+## Unresolved owner decisions from source specifications
 
-- OPEN_DECISION 29.30: provenance visibility. Always expose safe status in local API;
-  broader UI policy undecided.
-- OPEN_DECISION 29.42: tests before every modification. Task 1 uses test-first for
-  runtime behavior; this does not settle the permanent product decision.
-- OPEN_DECISION 29.79: processing already-held private data during BLIND. Sensitive
-  ingestion/processing unavailable; no inference that existing consent resolves it.
-- OPEN_DECISION 29.82: mobile platforms beyond iPhone. No additional platform claimed.
-- Series28: CPU/VRAM/concurrency/notification/budget preferences unanswered. One
-  serialized local worker, no GPU/network/spending; weighted formula is provisional.
-- Series22: disk strategy, dual boot, encryption unlock, NAS defaults, cloud GPU,
-  immutable safety/recovery and release packaging; decide before those integrations.
-- Series24: detailed private preferences unanswered; never import historic answers
-  into generic memory. No private profile created by this checkpoint.
-- SSH alias/authorization, actual Linux inventory, existing ComfyUI path, model
-  licenses/workflows, consent proofs, external APIs, device identities and money
-  settings absent. Needed only for later milestones, not this local slice.
+- Series 29.30: how source provenance should be displayed in the user experience.
+- Series 29.42: permanent rule for requiring tests before every code modification.
+- Series 29.79: handling already-held private data while BLIND is active.
+- Series 29.82: mobile platforms beyond iPhone.
+- Series 28: CPU/VRAM limits, GPU concurrency, notification behavior, goal priorities and spending budgets. Current single worker and score weights are engineering defaults, not owner-approved product settings.
+- Series 22: disk and dual-boot strategy, filesystem/encryption and unlock, NAS defaults, cloud-GPU policy, recovery media and install target selection.
+- Series 24: detailed private preferences. Do not import private history into general memory or this repository.
+- Local license choices and model size/context/quantization; target NVIDIA GPU, VRAM and thermal budget.
+- LunaOS source/package/asset licensing and the release signing-key lifecycle; the Arch package template must not ship until this is decided and its license metadata/artifact signing are verified.
+- Per-feature data retention, NAS replication scopes, iPhone coverage, legal/provider constraints and user-facing visibility where the source spec intentionally leaves product choices open.
 
-## Critical risks and release constraints
+These decisions are not needed to implement the safe checksum slice or define the architecture. Keep dependent capabilities blocked until configured.
 
-1. Local owner key authenticates possession, not biometric identity or production
-   MFA. Same-UID compromise can access development keys; separate Linux UIDs,
-   peer credentials and OS key store must precede privileged/untrusted execution.
-2. SQLite development DB is not encrypted. Only non-sensitive fixture metadata is
-   supported; private vault and encrypted backup are blocked, not simulated.
-3. Transactional serialization is safe for this bounded pure action only. It is
-   not a distributed scheduler or general exactly-once external execution.
-   Payments/messages require durable intents, reservation and provider reconciliation.
-4. Power-loss hardware durability, sensors/BLIND cutoff, GPU contention, iPhone,
-   NAS, recovery and all Linux claims require real authorized target tests.
-5. Signed grants expire after one hour; invalid or expired grants block the goal
-   with `GRANT_RENEWAL_REQUIRED`, while a temporary broker outage leaves queued
-   work intact. No automatic renewal on behalf of an absent owner.
-6. Existing duplicate start-pack specs are preserved; root docs are canonical.
-   Bundled cleanup script is reference material and must not be auto-executed.
+## Critical risks and constraints
+
+1. **Boot/recovery risk:** this is now an OS distribution project. Installer, disk selection, bootloader, rollback, update and recovery must be proven in disposable VMs and then target hardware; no destructive host action is inferred from this architecture authorization.
+2. **Security boundary incomplete:** current Rust API uses a development owner bearer token and an in-process broker crate; it is not production identity, separate-UID broker isolation, D-Bus authorization, MFA or peer-credential enforcement. Do not grant privileged host actions.
+3. **Current Core network surface:** Axum binds loopback by default and authenticates goal routes, but has not been hardened or reviewed as a production service. Capability status is a diagnostic, not readiness proof.
+4. **Target hardware absent:** no approved SSH alias, Linux baseline, NVIDIA/ComfyUI measurement, actual Hyprland run, reboot, sensor cutoff or recovery test exists. The baseline script remains unexecuted.
+5. **LLM adapter vs inference:** the Rust HTTP adapter targets a real llama.cpp server. No server/model is provisioned, licensed or measured; generated text is not yet connected to goals and cannot be treated as execution authority.
+6. **Privacy scope is release-blocking:** encrypted private vault, consent receipt/revocation, sensor isolation, BLIND, deletion and model-artifact handling are not implemented. Keep all private data/capture disabled.
+7. **Persistence/side effects:** SQLite slice covers one bounded pure action. It is not yet durable leasing/outbox/inbox for multi-process or external effects. Payments/messages/filesystem writes must remain unavailable.
+8. **Mont Blanc scale:** the full U0–U21 feature set includes GPU, consent, Intimacy, Discovery, iPhone, NAS, remote administration, orchestration and signed release. Current bootstrap does not satisfy V0 exit or Mont Blanc release.
+
+## Inputs needed before later milestones
+
+No user input is essential for the local Rust migration milestone. Before Linux-specific investigation, obtain the SSH alias and explicit authorization. Before disk installation or changes, obtain an explicit target/disk choice and demonstrated recovery authorization. Before spending, recipient communication, private media or sensor capture, obtain the applicable owner configuration plus independent subject consent where required.

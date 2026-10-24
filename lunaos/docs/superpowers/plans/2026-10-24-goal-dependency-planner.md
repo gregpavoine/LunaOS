@@ -1,5 +1,7 @@
 # Goal Dependency Planner Implementation Plan
 
+> **Historical reference only:** this plan implemented the bounded planner in the frozen Go/Python prototype. The owner later required all new control-plane behavior to be Rust. Do not continue this plan in Python; port its accepted dependency and migration behaviors into the native workspace.
+
 > **For agentic workers:** Implement this plan task by task with tests before production changes. The owner authorized continuing and pushing the work on the current feature branch.
 
 **Goal:** Persist bounded goal parent/dependency plans, reject cycles, and prevent a queued goal from running until all blocking prerequisites have completed.

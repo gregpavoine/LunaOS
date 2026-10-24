@@ -1,0 +1,34 @@
+pkgname=lunaos-native
+pkgver=0.1.0
+pkgrel=1
+pkgdesc='Native Rust control-plane and GTK shell for LunaOS'
+arch=('x86_64')
+url='https://github.com/gregpavoine/LunaOS'
+license=('custom')
+depends=('gtk4' 'glib2' 'systemd-libs')
+makedepends=('rust' 'cargo' 'pkgconf' 'clang' 'gcc' 'make')
+source=()
+sha256sums=()
+
+prepare() {
+  local repository_root="$startdir/../.."
+  cp -a "$repository_root/rust" "$srcdir/rust"
+  mkdir -p "$srcdir/systemd"
+  cp "$repository_root/systemd/luna-core.service" "$srcdir/systemd/"
+  cd "$srcdir/rust"
+  cargo fetch --locked
+}
+
+build() {
+  cd "$srcdir/rust"
+  cargo build --locked --offline --release -p luna-core
+  cargo build --locked --offline --release -p luna-shell --features gtk-ui
+}
+
+package() {
+  install -Dm755 "$srcdir/rust/target/release/luna-core" "$pkgdir/usr/bin/luna-core"
+  install -Dm755 "$srcdir/rust/target/release/luna-shell" "$pkgdir/usr/bin/luna-shell"
+  install -Dm644 "$srcdir/systemd/luna-core.service" "$pkgdir/usr/lib/systemd/system/luna-core.service"
+  install -Dm644 "$startdir/lunaos.desktop" "$pkgdir/usr/share/applications/lunaos.desktop"
+  install -Dm644 "$startdir/../../README.md" "$pkgdir/usr/share/doc/lunaos-native/README.md"
+}

@@ -1,104 +1,50 @@
-# LunaOS status — Milestone 1b — 2026-10-24
+# LunaOS status — native migration bootstrap — 2026-10-24
 
-**Working local bootstrap checkpoint. Full LunaOS V0 is NOT finished. Mont Blanc
-release remains PLANNED. No target Linux integration has been verified.**
+**Mont Blanc release: BLOCKED / NOT RELEASED. LunaOS V0: NOT COMPLETE.** The native Rust migration has a locally tested control-plane slice, but no bootable LunaOS installation, production-isolated broker, real LLM inference, Linux/Wayland runtime or target-hardware evidence has been verified.
 
-## Implemented
+## Implemented in source
 
-- Requirement/contradiction/open-decision map, architectural service boundaries,
-  incremental V0 plan, OS/stack ADRs, threat model and release feature matrix.
-- Separate Go owner-authenticated deny-default policy broker, private Unix socket,
-  signed action/goal-specific expiring grants. Guest/voice strings do not authenticate.
-- Python/SQLite persistent registry, versioned migration, queue, weighted scoring
-  after policy gate, execution recheck and durable idempotency.
-- Schema v2 preserves v1 data and adds parent links plus a bounded dependency DAG;
-  the owner plan API rejects invalid/cyclic plans and scheduler waits for completed prerequisites.
-- Real `local.checksum` action on a public fixture, independent digest/length
-  evaluation, evidence, measured strategy trial and transactional completion event.
-- Durable lifecycle outbox records and one local transactional completion consumer
-  receipt. General asynchronous event delivery is not implemented.
-- Owner-authenticated local REST API, native client, background worker and isolated
-  no-pip venv instructions. Linux operations remain an interface only.
-- Read-only Linux baseline script authored. **Not executed**; syntax-check only.
+- Owner-directed architecture correction documented: independent Arch distribution; Hyprland/Wayland; Rust/Tokio; systemd/D-Bus/Unix socket boundaries; GTK4 selection; llama.cpp adapter; SQLite initial store. Prior overlay and Go/Python stack ADRs are marked superseded.
+- Rust workspace and lockfile with contracts, policy broker crate, goal engine, Tokio/Axum Core, local-only llama.cpp HTTP adapter and GTK4 shell source.
+- Durable SQLite goal/job/evidence/event schema migration; WAL/FULL sync; database file mode 0600; deterministic weighted score; idempotency; goal/action-bound one-hour HMAC grant; deny-before-score; fixed public fixture checksum and independent constant digest/length verification; restart queue resume; idle success.
+- Owner-only bearer-gated REST routes for goal create/read/tick; background scheduler loop; llama.cpp endpoint restricted to HTTP loopback; capability route reports absent target/model/image blockers.
+- Rust logical contracts for goals, dependencies, executions, policy grants, events, strategy trials, memory assertions, persona revisions, expense intents, external conversation grants, consent receipts and erasure jobs. Most are schema-only, not live database/services.
+- systemd Core unit, Arch PKGBUILD template, archiso profile and build script authored. These are preparation artifacts, not a package or image result.
+- Existing Go/Python prototype preserved as a frozen behavior/API/test reference. New control-plane work is Rust.
+- Requirement conflicts, release constraints, risks, and unanswered owner decisions documented in `OPEN_DECISIONS.md`; Linux baseline script remains unexecuted.
 
-## Verified locally (real executed results)
+## Verified locally
 
-Evidence: [task-1.txt](test-evidence/task-1.txt).
+Commands executed on macOS Apple Silicon in this repository:
 
-| Command | Actual result |
+| Command | Result |
 |---|---|
-| `make env` | PASS; local venv created without pip/download |
-| `make test check` | PASS; Go package tests + 25 Python integration tests; vet, compileall and baseline syntax pass |
-| `go test -buildvcs=false -race -count=1 ./services/policy` | PASS |
-| `.venv/bin/python scripts/smoke.py` | PASS; real launcher stop/restart, same persisted goal and exactly one verified digest |
-| Git diff whitespace check | PASS |
-| OpenAPI JSON parse | PASS; full OpenAPI schema-validator conformance not executed |
-| Independent read-only review | Follow-up findings on terminal dependencies, SQL update bounds, expired grants and API contract fixed; reviewer confirmed resolution and no further actionable issues |
-| GitHub Actions on macOS and Ubuntu | PASS; workflow run [40083448967](https://github.com/gregpavoine/LunaOS/actions/runs/40083448967) for commit `cf405aa` |
+| `make test check` | PASS: Rust workspace tests, `cargo fmt --check` and workspace `cargo check` |
+| `cargo test --workspace --locked` | PASS: 10 Rust unit tests; policy owner-only, absent-budget payment refusal, deny-before-score, duplicate idempotency, unknown provenance, idle success, fixture evidence and process-reopen queue resume are covered |
+| `cargo build --locked --release -p luna-core` | PASS: optimized Core binary built locally |
+| `scripts/smoke-native-core.sh` | PASS: unauthenticated request denied; owner goal created; duplicate key idempotent; checksum action completed; state remained readable after Core restart |
+| `make test-reference check-reference` | PASS for frozen reference: Go tests/vet, 25 Python integration tests/compileall, Linux baseline shell syntax only |
+| Native OpenAPI JSON parse | PASS |
+| Archiso script and PKGBUILD `bash -n` | PASS (syntax only) |
+| OpenAPI JSON parse and Archiso/profile/PKGBUILD/smoke script syntax | PASS at local syntax-check time; no Arch behavior asserted |
+| Git whitespace check | PASS on the final pre-commit diff |
 
-The six Task 1 acceptance cases all pass: owner-only privileges, absent-budget
-payment refusal, policy denial before scoring, duplicate-job idempotency,
-unknown-source hypothesis, and inactive/zero-utility idle success. Additional tests
-cover score ordering, real UDS API auth, broker outage, grant forgery/scope/expiry,
-sensitive-denial canary, immutable events, concurrent workers, new-process queue
-resume and SIGKILL during execution followed by successful retry. Milestone 1b adds
-v1-to-v2 data-preserving migration, owner-authenticated plan mutation, parent and
-dependency cycle rejection, plan replacement, a 32-prerequisite cap enforced on
-insert and update, blocked/failed/zero-utility prerequisite rejection, and scheduler
-gating. If an owner grant expires before execution, the scheduler records a visible
-`GRANT_RENEWAL_REQUIRED` blocked state; the owner must create a replacement goal
-and update dependent plans.
+Evidence details: [`native-bootstrap-2026-10-24.txt`](test-evidence/native-bootstrap-2026-10-24.txt). This evidence is local-only. The old prototype tests validate reference behavior; they do not make Python a LunaOS runtime dependency. No target Linux command, baseline, SSH connection, GTK build, local model inference, Arch package build, ISO build, installer, target reboot, NVIDIA/ComfyUI workflow, privacy sensor test or restore test was executed.
 
-Checksum fixture: `LunaOS public checkpoint v1` plus newline (28 bytes).
-Verified SHA256: `07be6a1cc7b1b323fd3baca70abf34bfea13e09f9d28cf417d11aca77d4220ce`.
-This is a real checksum execution, not evidence of a model or hardware action.
+## Partially implemented / blocked
 
-## Failures encountered and resolved
+- **Policy boundary:** real Rust authorization logic and signed scoped grants are tested in the same process as Core. Separate service/UID, Unix peer credentials, credential provisioning, grant revocation UI and production key protection are not present. No privileged host action is enabled.
+- **Goal engine:** one-action schema and scheduler slice only. Full goal lifecycle/CRUD, bounded planner/DAG, durable leases, resource admission, complete events/outbox/inbox, migration parity and multi-process crash recovery remain incomplete.
+- **LLM:** real llama.cpp HTTP adapter source accepts loopback only; no server/model was configured, licensed, launched or measured. LLM is not integrated into planning or action authority.
+- **Shell:** GTK4 source reads live capability status; GTK build could not be attempted because the Mac host's `/usr/local/bin/pkg-config` fails to execute with `bad CPU type in executable`. No Arch/Hyprland login, keyboard, accessibility or recovery run.
+- **OS packaging:** PKGBUILD/profile/build script exist but are not a completed package pipeline; license metadata/key lifecycle, installer, system configuration, account/credential bootstrap, update/rollback, recovery and signed artifact flow remain unresolved. The archiso script was not executed.
+- **Mont Blanc modules:** memory/identity, resource/GPU manager, system and D-Bus adapters, privacy/BLIND/consent/vault, Intimacy, Discovery, iPhone, NAS, remote admin, payments, communications and all named hardware capabilities remain unimplemented or blocked. See the feature matrix.
 
-- Default Git path encountered Xcode licence gate; alternate `/usr/local/bin/git`
-  was incompatible (`bad CPU type in executable`). Used existing Command Line
-  Tools Git; did not accept licence, install tools or change system configuration.
-- Go VCS stamping initially selected that incompatible Git, failing build. Added
-  explicit `-buildvcs=false`; build/tests pass. Commit remains actual provenance.
-- Test-first baseline lacked implementation modules, then passed after implementation.
-- Review regressions reproduced sensitive-denied assertion persistence and duplicate
-  denial log growth. Sensitive assertions now discarded before hashing/persistence;
-  identical consecutive denials deduplicated. Both regression tests pass.
-- New plan/migration tests first failed against the v1 implementation as expected;
-  schema v2, plan validation and scheduler gating made them pass.
-- Initial route test returned 404 before plan API implementation, then passed with
-  authenticated route and matching OpenAPI contract.
-- Independent milestone review found that plans accepted already-blocked goals,
-  SQLite's edge cap could be bypassed with UPDATE, and the OpenAPI route omitted
-  503. Follow-up found expired grants could leave queued goals indefinitely pending.
-  Regression tests reproduced these cases; the implementation and contract are now
-  corrected. Final independent review confirmed there are no remaining actionable
-  findings.
+## Exact next milestone
 
-## Blocked / not verified / limits
+1. Move policy evaluation to an independent Rust Unix-socket broker; bind requests to OS peer credentials and isolate service identities before adding any privileged adapter.
+2. Port remaining Goal Engine behaviors from the frozen reference and implement versioned lifecycle, DAG and event delivery with integration tests.
+3. Resolve source/package licensing and credential bootstrap, then build the GTK shell and package on disposable Arch CI/VM infrastructure.
+4. Obtain SSH alias plus explicit authorization before running the read-only Linux baseline or doing any target integration.
 
-- Linux: no SSH alias/authorization. No remote connection, baseline execution,
-  cleanup, packages, mounts, service mutation, boot or disk operation performed.
-- Hardware: GPU/NVIDIA/CUDA, ComfyUI image/video, Omarchy shell/KEEP tests, actual
-  reboot/power-loss, sensors/BLIND, iPhone/WhatsApp, NAS and recovery NOT VERIFIED.
-- Model router, generated subgoal planner/full goal CRUD, strategy optimizer, production identity/MFA,
-  grant revocation registry, resource leases, encrypted private vault, consent,
-  full Intimacy Core, Discovery and signed images NOT IMPLEMENTED in this task.
-- Owner key is private development file, not production credential vault. Same-UID
-  hostile process is outside assurance; no privileged/untrusted tools enabled.
-- DB supports non-sensitive public metadata only; no at-rest encryption or DLP claim.
-- Assertion claim/source input is transient and not stored; provenance metadata alone cannot verify user claims.
-- Pure action recovery uses serialized SQL transactions, not distributed exactly-once
-  external effects. No payment/message adapter or configured financial budget.
-- First hosted CI run on macOS and Ubuntu failed during setup-python because the
-  workflow passed unsupported `cache: false`; tests did not start. Parameter removed.
-  Corrected run `40081965932` passed both macOS and Ubuntu. Full spec acceptance
-  suites remain open.
-
-## Next smallest milestone
-
-Complete owner session expiry/revocation and separate production service identities,
-then generated subgoal planning, remaining goal lifecycle APIs and protected private import vault. In the
-Linux lane, the first dependency is owner-supplied SSH alias **and explicit connection
-and baseline authorization**; then read-only baseline and recovery verification.
-No data is needed from the owner to use this local checkpoint.
+Do not tag or announce Mont Blanc until the complete source acceptance matrix and release gates pass on the actual target and a signed independent image is installable and recoverable.
