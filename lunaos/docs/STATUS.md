@@ -32,6 +32,7 @@ Evidence: [task-1.txt](test-evidence/task-1.txt).
 | Git diff whitespace check | PASS |
 | OpenAPI JSON parse | PASS; full OpenAPI schema-validator conformance not executed |
 | Independent read-only review | Two privacy findings fixed; follow-up reviewer confirmed both resolved and found no new actionable issues |
+| GitHub Actions on macOS and Ubuntu | PASS on corrected workflow; one earlier setup-only failure is documented below |
 
 The six requested acceptance cases all pass: owner-only privileges, absent-budget
 payment refusal, policy denial before scoring, duplicate-job idempotency,
@@ -72,8 +73,9 @@ This is a real checksum execution, not evidence of a model or hardware action.
 - Pure action recovery uses serialized SQL transactions, not distributed exactly-once
   external effects. No payment/message adapter or configured financial budget.
 - First hosted CI run on macOS and Ubuntu failed during setup-python because the
-  workflow passed unsupported `cache: false`; tests did not start. Parameter removed;
-  corrected hosted run pending. Full spec acceptance suites remain open.
+  workflow passed unsupported `cache: false`; tests did not start. Parameter removed.
+  Corrected run `40081965932` passed both macOS and Ubuntu. Full spec acceptance
+  suites remain open.
 
 ## Next smallest milestone
 

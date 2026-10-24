@@ -43,4 +43,4 @@ OpenAPI JSON parse: PASS (not a full OpenAPI conformance validator)
 Independent review identified two privacy/documentation issues. Both are fixed: public docs generalize persona-conflict wording, and assertion claim/source text is discarded before hashing or persistence. Follow-up reviewer confirmed both resolved and found no new actionable issues.
 Post-fix verification: `make test check` PASS (3 Go tests, 16 Python tests, vet, compileall, baseline syntax); Go race check PASS; process-restart smoke PASS; OpenAPI JSON parse PASS; `git diff --cached --check` PASS.
 No remote host connection. No Linux baseline or cleanup script execution.
-First hosted macOS/Ubuntu CI run failed during setup-python: `Caching for 'false' is not supported`; tests were skipped on both runners. Removed the unsupported `cache: false`; corrected CI run pending.
+First hosted run `40081898140` failed during setup-python: `Caching for 'false' is not supported`; tests were skipped on both runners. Removed the unsupported `cache: false`. Corrected run `40081965932` passed all steps on both `ubuntu-latest` and `macos-latest` (ARM64).
