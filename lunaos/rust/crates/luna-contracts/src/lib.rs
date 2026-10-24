@@ -24,6 +24,28 @@ pub struct AddDependency {
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 #[serde(deny_unknown_fields)]
+pub struct GoalPlan {
+    pub parent_goal_id: Option<String>,
+    pub dependency_goal_ids: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+pub struct GoalPlanView {
+    pub goal_id: String,
+    pub parent_goal_id: Option<String>,
+    pub dependency_goal_ids: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[serde(rename_all = "snake_case")]
+pub enum GoalLifecycleCommand {
+    Pause,
+    Resume,
+    Cancel,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
 #[serde(default)]
 pub struct Metrics {
     pub impact: f64,
@@ -130,6 +152,15 @@ pub struct ExecutionLease {
     pub owner: String,
     pub token: String,
     pub expires_at_unix: i64,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+pub struct GoalEventView {
+    pub event_id: i64,
+    pub goal_id: String,
+    pub kind: String,
+    pub decision_code: String,
+    pub created_at_utc: String,
 }
 
 /// Versioned logical entities used by inter-service APIs. These are schemas only

@@ -71,10 +71,16 @@ ecosystem. The shell and target integration still require Linux build/run eviden
    supported; private vault and encrypted backup are blocked, not simulated.
 3. Transactional serialization is safe for this bounded pure action only. It is
    not a distributed scheduler or general exactly-once external execution.
-   Payments/messages require durable intents, reservation and provider reconciliation.
+   Lease renewal, heartbeat, bounded retries and external event delivery are not
+   implemented. Payments/messages require durable intents, reservation and provider
+   reconciliation.
 4. Power-loss hardware durability, sensors/BLIND cutoff, GPU contention, iPhone,
    NAS, recovery and all Linux claims require real authorized target tests.
 5. Signed grants expire after one hour; expired/invalid/unavailable policy defers
    work. No automatic renewal on behalf of an absent owner.
 6. Existing duplicate start-pack specs are preserved; root docs are canonical.
    Bundled cleanup script is reference material and must not be auto-executed.
+7. The systemd units and Arch packaging include separate Core and Broker binaries,
+   but first-boot user creation, owner-token provisioning/rotation and an install or
+   recovery workflow are not implemented. The units must not be enabled by an image
+   until that credential bootstrap is designed and exercised in an isolated Arch VM.

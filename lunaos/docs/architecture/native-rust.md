@@ -52,15 +52,22 @@ REST routes implemented in this slice:
 
 | Method | Route | Authorization |
 |---|---|---|
+| `GET` | `/v1/goals` | Owner bearer token; at most 100, sorted by score |
 | `POST` | `/v1/goals` | Owner bearer token; requires idempotency key |
 | `GET` | `/v1/goals/{id}` | Owner bearer token |
+| `GET` | `/v1/goals/{id}/events` | Owner bearer token; append-only local event history, up to 100 |
 | `POST` | `/v1/goals/{id}/dependencies` | Owner bearer token; cycle-checked dependency edge |
+| `POST` | `/v1/goals/{id}/pause` | Owner bearer token; revokes active lease |
+| `POST` | `/v1/goals/{id}/resume` | Owner bearer token; requeues paused goal |
+| `POST` | `/v1/goals/{id}/cancel` | Owner bearer token; prevents queued/future execution |
 | `POST` | `/v1/scheduler/tick` | Owner bearer token |
 | `GET` | `/v1/system/capabilities` | Public static status; reports unavailable target capabilities |
 
-Goal DAG planning, lifecycle mutations, full CRUD, event subscriptions, lease
-renewal/heartbeats, resource quotas, external side effects, evidence vault, memory and identity
+Goal DAG planning, lifecycle mutations beyond list/pause/resume/cancel, full CRUD,
+external event subscriptions, lease renewal/heartbeats, resource quotas, external side effects, evidence vault, memory and identity
 services are not implemented. Contract structs do not mean those services exist.
+Core's transactional outbox is consumed into its local inbox only; no network/event
+bus delivery is configured or claimed.
 
 ## Native UI and inference choices
 

@@ -5,7 +5,7 @@ GPU or target hardware was accessed.
 Commands run on the final native-code tree:
 
 1. `make test`
-   PASS. Rust workspace: luna-core 1/1, luna-goal-engine 8/8,
+   PASS. Rust workspace: luna-core 3/3, luna-goal-engine 18/18,
    luna-llm-adapter 1/1, luna-policy-broker 4/4, and policy child-process
    integration 1/1. Contracts and binary/doc-test targets have no unit tests.
 2. `make check`
@@ -22,8 +22,8 @@ Commands run on the final native-code tree:
    compileall passed. Baseline script was syntax-checked only.
 5. `python3 -m json.tool contracts/openapi/native-v1.json`
    PASS. This is a JSON parse check, not full OpenAPI conformance validation.
-6. `bash -n scripts/build-archiso.sh scripts/dev-native.sh scripts/smoke-native-core.sh scripts/linux-baseline.sh`
-   PASS. Linux baseline was not executed.
+6. `bash -n scripts/build-archiso.sh scripts/dev-native.sh scripts/smoke-native-core.sh scripts/linux-baseline.sh packaging/arch/PKGBUILD`
+   PASS. This is shell syntax only; the Linux baseline and image/package builds were not executed.
 7. `git diff --check`
    PASS.
 
@@ -31,8 +31,13 @@ The native Goal Engine tests additionally verify policy denial before score,
 owner-only policy grants, absent-budget payment refusal, duplicate idempotency,
 unknown provenance status, idle success, evidence verification, dependency cycle
 rejection, dependency ordering/wait state, lease exclusivity, stale-token rejection,
-expiry recovery after engine restart and data-preserving v1 schema migration.
-The Core route test verifies owner authorization for dependency changes.
+expiry recovery after restart, data-preserving v1 schema migration, owner-only goal
+lifecycle/list REST routes, score-ordered listing, pause/resume/cancel transitions,
+completed/cancelled terminal-state enforcement, and owner-readable append-only
+event history with transactional, idempotent local outbox/inbox delivery. Planner
+tests verify atomic replacement, a combined hierarchy/dependency DAG, cycle
+rejection, prerequisite validation and size limits. Core route tests verify owner
+authorization for dependency mutation and hierarchy plan roundtrip.
 
 The GTK shell was not compiled: the host `pkg-config` executable fails with
 `bad CPU type in executable`. `llama-server` and `mkarchiso` are unavailable here.

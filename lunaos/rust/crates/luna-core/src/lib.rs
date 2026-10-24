@@ -4,7 +4,10 @@ use axum::{
     http::{HeaderMap, StatusCode},
     routing::{get, post},
 };
-use luna_contracts::{AddDependency, CreateGoal, GoalView, TickResult};
+use luna_contracts::{
+    AddDependency, CreateGoal, GoalEventView, GoalLifecycleCommand, GoalPlan, GoalPlanView,
+    GoalView, TickResult,
+};
 use luna_goal_engine::{EngineError, GoalEngine};
 use luna_policy_broker::UnixPolicyClient;
 use std::sync::Arc;
@@ -17,9 +20,17 @@ struct AppState {
 
 pub fn router(engine: GoalEngine, owner_token: String) -> Router {
     Router::new()
-        .route("/v1/goals", post(create_goal))
+        .route("/v1/goals", get(list_goals).post(create_goal))
         .route("/v1/goals/{id}", get(get_goal))
+        .route("/v1/goals/{id}/events", get(get_goal_events))
         .route("/v1/goals/{id}/dependencies", post(add_dependency))
+        .route(
+            "/v1/goals/{id}/plan",
+            get(get_goal_plan).put(replace_goal_plan),
+        )
+        .route("/v1/goals/{id}/pause", post(pause_goal))
+        .route("/v1/goals/{id}/resume", post(resume_goal))
+        .route("/v1/goals/{id}/cancel", post(cancel_goal))
         .route("/v1/scheduler/tick", post(tick))
         .route("/v1/system/capabilities", get(capabilities))
         .with_state(AppState {
@@ -66,6 +77,15 @@ async fn create_goal(
         .map(Json)
         .map_err(error)
 }
+async fn list_goals(
+    State(state): State<AppState>,
+    headers: HeaderMap,
+) -> Result<Json<Vec<GoalView>>, (StatusCode, String)> {
+    if !authenticated(&headers, &state) {
+        return Err((StatusCode::UNAUTHORIZED, "OWNER_AUTH_REQUIRED".into()));
+    }
+    state.engine.list().map(Json).map_err(error)
+}
 async fn get_goal(
     State(state): State<AppState>,
     headers: HeaderMap,
@@ -75,6 +95,16 @@ async fn get_goal(
         return Err((StatusCode::UNAUTHORIZED, "OWNER_AUTH_REQUIRED".into()));
     }
     state.engine.get(&id).map(Json).map_err(error)
+}
+async fn get_goal_events(
+    State(state): State<AppState>,
+    headers: HeaderMap,
+    Path(id): Path<String>,
+) -> Result<Json<Vec<GoalEventView>>, (StatusCode, String)> {
+    if !authenticated(&headers, &state) {
+        return Err((StatusCode::UNAUTHORIZED, "OWNER_AUTH_REQUIRED".into()));
+    }
+    state.engine.events(&id, 100).map(Json).map_err(error)
 }
 
 async fn add_dependency(
@@ -90,6 +120,67 @@ async fn add_dependency(
         .engine
         .add_dependency(&id, &body.depends_on_goal_id)
         .map(|()| StatusCode::NO_CONTENT)
+        .map_err(error)
+}
+async fn get_goal_plan(
+    State(state): State<AppState>,
+    headers: HeaderMap,
+    Path(id): Path<String>,
+) -> Result<Json<GoalPlanView>, (StatusCode, String)> {
+    if !authenticated(&headers, &state) {
+        return Err((StatusCode::UNAUTHORIZED, "OWNER_AUTH_REQUIRED".into()));
+    }
+    state.engine.get_goal_plan(&id).map(Json).map_err(error)
+}
+async fn replace_goal_plan(
+    State(state): State<AppState>,
+    headers: HeaderMap,
+    Path(id): Path<String>,
+    Json(body): Json<GoalPlan>,
+) -> Result<Json<GoalPlanView>, (StatusCode, String)> {
+    if !authenticated(&headers, &state) {
+        return Err((StatusCode::UNAUTHORIZED, "OWNER_AUTH_REQUIRED".into()));
+    }
+    state
+        .engine
+        .set_goal_plan(&id, &body)
+        .map(Json)
+        .map_err(error)
+}
+async fn pause_goal(
+    State(state): State<AppState>,
+    headers: HeaderMap,
+    Path(id): Path<String>,
+) -> Result<Json<GoalView>, (StatusCode, String)> {
+    lifecycle(state, headers, id, GoalLifecycleCommand::Pause)
+}
+async fn resume_goal(
+    State(state): State<AppState>,
+    headers: HeaderMap,
+    Path(id): Path<String>,
+) -> Result<Json<GoalView>, (StatusCode, String)> {
+    lifecycle(state, headers, id, GoalLifecycleCommand::Resume)
+}
+async fn cancel_goal(
+    State(state): State<AppState>,
+    headers: HeaderMap,
+    Path(id): Path<String>,
+) -> Result<Json<GoalView>, (StatusCode, String)> {
+    lifecycle(state, headers, id, GoalLifecycleCommand::Cancel)
+}
+fn lifecycle(
+    state: AppState,
+    headers: HeaderMap,
+    id: String,
+    command: GoalLifecycleCommand,
+) -> Result<Json<GoalView>, (StatusCode, String)> {
+    if !authenticated(&headers, &state) {
+        return Err((StatusCode::UNAUTHORIZED, "OWNER_AUTH_REQUIRED".into()));
+    }
+    state
+        .engine
+        .transition(&id, command)
+        .map(Json)
         .map_err(error)
 }
 async fn tick(
@@ -167,6 +258,196 @@ mod tests {
             .unwrap();
         let response = app.oneshot(request).await.unwrap();
         assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+        let _ = std::fs::remove_file(database);
+    }
+
+    #[tokio::test]
+    async fn goal_lifecycle_routes_require_owner_and_persist_transitions() {
+        let database =
+            std::env::temp_dir().join(format!("luna-core-lifecycle-{}.sqlite", Uuid::new_v4()));
+        let owner_token = "owner-test-token";
+        let engine = GoalEngine::open(&database, PolicyBroker::new(owner_token, None)).unwrap();
+        let goal = engine
+            .create(
+                &CreateGoal {
+                    action: "local.checksum".into(),
+                    metrics: Metrics::default(),
+                    privacy_class: PrivacyClass::General,
+                    expected_cost_minor: None,
+                    provenance: ProvenanceInput::default(),
+                },
+                owner_token,
+                "lifecycle-api",
+            )
+            .unwrap();
+        let app = router(engine, owner_token.into());
+        let list_unauthorized = Request::builder()
+            .uri("/v1/goals")
+            .body(Body::empty())
+            .unwrap();
+        assert_eq!(
+            app.clone()
+                .oneshot(list_unauthorized)
+                .await
+                .unwrap()
+                .status(),
+            StatusCode::UNAUTHORIZED
+        );
+        let list_owner = Request::builder()
+            .uri("/v1/goals")
+            .header("authorization", format!("Bearer {owner_token}"))
+            .body(Body::empty())
+            .unwrap();
+        let listed = app.clone().oneshot(list_owner).await.unwrap();
+        assert_eq!(listed.status(), StatusCode::OK);
+        let listed: Vec<GoalView> = serde_json::from_slice(
+            &axum::body::to_bytes(listed.into_body(), usize::MAX)
+                .await
+                .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(listed.len(), 1);
+        let events_unauthorized = Request::builder()
+            .uri(format!("/v1/goals/{}/events", goal.id))
+            .body(Body::empty())
+            .unwrap();
+        assert_eq!(
+            app.clone()
+                .oneshot(events_unauthorized)
+                .await
+                .unwrap()
+                .status(),
+            StatusCode::UNAUTHORIZED
+        );
+        let events_owner = Request::builder()
+            .uri(format!("/v1/goals/{}/events", goal.id))
+            .header("authorization", format!("Bearer {owner_token}"))
+            .body(Body::empty())
+            .unwrap();
+        let events = app.clone().oneshot(events_owner).await.unwrap();
+        assert_eq!(events.status(), StatusCode::OK);
+        let events: Vec<GoalEventView> = serde_json::from_slice(
+            &axum::body::to_bytes(events.into_body(), usize::MAX)
+                .await
+                .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(events.len(), 1);
+        assert_eq!(events[0].kind, "goal.created");
+        let path = format!("/v1/goals/{}/pause", goal.id);
+        let unauthorized = Request::builder()
+            .method("POST")
+            .uri(&path)
+            .body(Body::empty())
+            .unwrap();
+        assert_eq!(
+            app.clone().oneshot(unauthorized).await.unwrap().status(),
+            StatusCode::UNAUTHORIZED
+        );
+
+        let owner_request = |action: &str| {
+            Request::builder()
+                .method("POST")
+                .uri(format!("/v1/goals/{}/{action}", goal.id))
+                .header("authorization", format!("Bearer {owner_token}"))
+                .body(Body::empty())
+                .unwrap()
+        };
+        let paused = app.clone().oneshot(owner_request("pause")).await.unwrap();
+        assert_eq!(paused.status(), StatusCode::OK);
+        let paused: GoalView = serde_json::from_slice(
+            &axum::body::to_bytes(paused.into_body(), usize::MAX)
+                .await
+                .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(paused.status, "paused");
+
+        let resumed = app.clone().oneshot(owner_request("resume")).await.unwrap();
+        let resumed: GoalView = serde_json::from_slice(
+            &axum::body::to_bytes(resumed.into_body(), usize::MAX)
+                .await
+                .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(resumed.status, "active");
+        let cancelled = app.oneshot(owner_request("cancel")).await.unwrap();
+        let cancelled: GoalView = serde_json::from_slice(
+            &axum::body::to_bytes(cancelled.into_body(), usize::MAX)
+                .await
+                .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(cancelled.status, "cancelled");
+        let _ = std::fs::remove_file(database);
+    }
+
+    #[tokio::test]
+    async fn goal_plan_routes_require_owner_and_roundtrip_hierarchy() {
+        let database =
+            std::env::temp_dir().join(format!("luna-core-plan-{}.sqlite", Uuid::new_v4()));
+        let owner_token = "owner-plan-token";
+        let engine = GoalEngine::open(&database, PolicyBroker::new(owner_token, None)).unwrap();
+        let create = |key: &str| {
+            engine
+                .create(
+                    &CreateGoal {
+                        action: "local.checksum".into(),
+                        metrics: Metrics::default(),
+                        privacy_class: PrivacyClass::General,
+                        expected_cost_minor: None,
+                        provenance: ProvenanceInput::default(),
+                    },
+                    owner_token,
+                    key,
+                )
+                .unwrap()
+        };
+        let parent = create("plan-parent");
+        let child = create("plan-child");
+        let app = router(engine, owner_token.into());
+        let uri = format!("/v1/goals/{}/plan", child.id);
+        let unauthorized = Request::builder()
+            .method("PUT")
+            .uri(&uri)
+            .header("content-type", "application/json")
+            .body(Body::from(format!(
+                r#"{{"parent_goal_id":"{}","dependency_goal_ids":[]}}"#,
+                parent.id
+            )))
+            .unwrap();
+        assert_eq!(
+            app.clone().oneshot(unauthorized).await.unwrap().status(),
+            StatusCode::UNAUTHORIZED
+        );
+        let owner = Request::builder()
+            .method("PUT")
+            .uri(&uri)
+            .header("authorization", format!("Bearer {owner_token}"))
+            .header("content-type", "application/json")
+            .body(Body::from(format!(
+                r#"{{"parent_goal_id":"{}","dependency_goal_ids":[]}}"#,
+                parent.id
+            )))
+            .unwrap();
+        let response = app.clone().oneshot(owner).await.unwrap();
+        assert_eq!(response.status(), StatusCode::OK);
+        let plan: GoalPlanView = serde_json::from_slice(
+            &axum::body::to_bytes(response.into_body(), usize::MAX)
+                .await
+                .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(plan.parent_goal_id.as_deref(), Some(parent.id.as_str()));
+        let get = Request::builder()
+            .uri(&uri)
+            .header("authorization", format!("Bearer {owner_token}"))
+            .body(Body::empty())
+            .unwrap();
+        assert_eq!(
+            app.clone().oneshot(get).await.unwrap().status(),
+            StatusCode::OK
+        );
         let _ = std::fs::remove_file(database);
     }
 }

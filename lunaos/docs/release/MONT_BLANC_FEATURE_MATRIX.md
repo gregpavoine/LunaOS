@@ -10,14 +10,16 @@ All mandatory later features remain in Mont Blanc scope.
 | Native Rust goal registry + deterministic score | VERIFIED_LOCAL | Rust tests + process smoke; G-003 bounded subset |
 | Independent owner-authenticated Rust policy process | VERIFIED_LOCAL | Child-process UDS test + native smoke; checksum only |
 | Native Rust Core API and durable local queue | VERIFIED_LOCAL | Real local REST smoke; no Linux/systemd claim |
+| Rust goal list/pause/resume/cancel subset | VERIFIED_LOCAL | Owner HTTP tests, score-sorted bounded list, terminal-state checks, restart persistence; not full goal state machine |
+| Durable append-only goal events + local outbox/inbox | VERIFIED_LOCAL | SQLite migration, idempotent local consumer and owner event-history API; no external bus |
 | Budget zero, deny-before-score | VERIFIED_LOCAL | Rust policy/engine tests; no privileged system action enabled |
 | Pure-job idempotency/restart/lease-expiry recovery | VERIFIED_LOCAL | Local SQLite/process-reopen tests; no SIGKILL or target power-loss proof |
 | Unknown provenance hypothesis | VERIFIED_LOCAL | G-010 |
 | Idle success/offline local goal feature | VERIFIED_LOCAL | G-021, G-023 local subset |
 | Evidence-backed checksum completion | VERIFIED_LOCAL | G-013 pure fixture only |
 | Local REST owner transparency | VERIFIED_LOCAL | API round-trip; partial G-030 |
-| Bounded dependency edges/cycle rejection/scheduler ordering | VERIFIED_LOCAL | Local Rust tests; manual edges only, no bounded planner |
-| Full goal lifecycle/CRUD/planner/strategy optimizer | NOT_STARTED | Current API is create/read/tick plus dependency edge |
+| Bounded dependency edges/cycle rejection/scheduler ordering | VERIFIED_LOCAL | Owner-managed Rust parent/dependency plan API; limits and combined-graph cycle checks tested; no natural-language planning |
+| Full goal lifecycle/CRUD/planner/strategy optimizer | NOT_STARTED | List/create/read/tick/pause/resume/cancel and bounded plan replacement exist; editing, remaining state transitions and evidence-backed strategy evaluation remain absent |
 | Authenticated production sessions/key vault/remote admin | BLOCKED | Device identities/key store and hardened Linux boundary absent |
 | Payments, reservations/ledger, external conversation grants | NOT_STARTED | Always denied; no budget or recipients configured |
 | Native Wayland shell/session/keyboard command center | BLOCKED | GTK source not built; Linux/Hyprland run needed |

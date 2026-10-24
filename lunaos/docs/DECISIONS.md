@@ -13,6 +13,11 @@
   Explicit owner submission creates a signed one-hour goal-specific grant.
 - Zero utility is idle success. Hard denial precedes scoring. Unknown-source
   assertions remain hypotheses even when submitted by the owner.
-- One SQL write transaction encloses policy recheck, pure execution, verification,
-  evidence, event delivery and completion. No external side effects supported.
+- Job claim and result completion use separate immediate SQLite transactions. A
+  random expiring lease token fences stale workers; the only action remains a pure
+  checksum, so this does not establish exactly-once behavior for external effects.
+- Goal lifecycle currently exposes owner pause, resume and cancel. Completion and
+  cancellation are terminal; pause clears any lease; resume queues the goal again.
+- Goal events are append-only and atomically enter a local SQLite outbox; an
+  idempotent local consumer records inbox receipt. This is not external bus delivery.
 - No real hardware capability replaced by a fake provider; interfaces only.

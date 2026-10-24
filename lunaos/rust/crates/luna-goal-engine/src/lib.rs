@@ -1,6 +1,6 @@
 use luna_contracts::{
-    CONTRACT_VERSION, CreateGoal, Evidence, ExecutionLease, GoalView, PolicyRequest, Principal,
-    SourceStatus, TickResult,
+    CONTRACT_VERSION, CreateGoal, Evidence, ExecutionLease, GoalEventView, GoalLifecycleCommand,
+    GoalPlan, GoalPlanView, GoalView, PolicyRequest, Principal, SourceStatus, TickResult,
 };
 use luna_policy_broker::PolicyService;
 use rusqlite::{Connection, OptionalExtension, TransactionBehavior, params};
@@ -79,6 +79,36 @@ impl GoalEngine {
         if !lease_migration_applied {
             db.execute_batch(include_str!(
                 "../../../../migrations/native/002_execution_lease.sql"
+            ))?;
+        }
+        let lifecycle_migration_applied: bool = db.query_row(
+            "SELECT EXISTS(SELECT 1 FROM schema_migration WHERE version=3)",
+            [],
+            |row| row.get(0),
+        )?;
+        if !lifecycle_migration_applied {
+            db.execute_batch(include_str!(
+                "../../../../migrations/native/003_goal_lifecycle.sql"
+            ))?;
+        }
+        let event_migration_applied: bool = db.query_row(
+            "SELECT EXISTS(SELECT 1 FROM schema_migration WHERE version=4)",
+            [],
+            |row| row.get(0),
+        )?;
+        if !event_migration_applied {
+            db.execute_batch(include_str!(
+                "../../../../migrations/native/004_event_outbox.sql"
+            ))?;
+        }
+        let plan_migration_applied: bool = db.query_row(
+            "SELECT EXISTS(SELECT 1 FROM schema_migration WHERE version=5)",
+            [],
+            |row| row.get(0),
+        )?;
+        if !plan_migration_applied {
+            db.execute_batch(include_str!(
+                "../../../../migrations/native/005_goal_plans.sql"
             ))?;
         }
         Ok(Self {
@@ -369,6 +399,94 @@ impl GoalEngine {
         read_goal(&db, goal_id)
     }
 
+    pub fn list(&self) -> Result<Vec<GoalView>, EngineError> {
+        let db = self.db.lock().expect("sqlite mutex poisoned");
+        let ids = {
+            let mut statement = db.prepare(
+                "SELECT id FROM goal ORDER BY COALESCE(score,0) DESC,created_at_utc,id LIMIT 100",
+            )?;
+            let rows = statement.query_map([], |row| row.get::<_, String>(0))?;
+            rows.collect::<Result<Vec<_>, _>>()?
+        };
+        ids.iter().map(|id| read_goal(&db, id)).collect()
+    }
+
+    pub fn events(&self, goal_id: &str, limit: u32) -> Result<Vec<GoalEventView>, EngineError> {
+        if !(1..=100).contains(&limit) {
+            return Err(EngineError::Invalid("EVENT_LIMIT_OUT_OF_RANGE".into()));
+        }
+        let db = self.db.lock().expect("sqlite mutex poisoned");
+        let exists: bool = db.query_row(
+            "SELECT EXISTS(SELECT 1 FROM goal WHERE id=?1)",
+            [goal_id],
+            |row| row.get(0),
+        )?;
+        if !exists {
+            return Err(EngineError::NotFound);
+        }
+        let mut statement = db.prepare(
+            "SELECT id,goal_id,kind,code,created_at_utc FROM (
+               SELECT id,goal_id,kind,code,created_at_utc FROM goal_event
+               WHERE goal_id=?1 ORDER BY id DESC LIMIT ?2
+             ) ORDER BY id ASC",
+        )?;
+        let rows = statement.query_map(params![goal_id, limit], |row| {
+            Ok(GoalEventView {
+                event_id: row.get(0)?,
+                goal_id: row.get(1)?,
+                kind: row.get(2)?,
+                decision_code: row.get(3)?,
+                created_at_utc: row.get(4)?,
+            })
+        })?;
+        Ok(rows.collect::<Result<Vec<_>, _>>()?)
+    }
+
+    /// Deliver only to the local durable inbox. This does not claim an external
+    /// message bus or network delivery guarantee.
+    pub fn dispatch_events(&self, limit: u32) -> Result<u32, EngineError> {
+        if !(1..=100).contains(&limit) {
+            return Err(EngineError::Invalid("EVENT_LIMIT_OUT_OF_RANGE".into()));
+        }
+        let mut db = self.db.lock().expect("sqlite mutex poisoned");
+        let tx = db.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        let event_ids = {
+            let mut statement = tx.prepare(
+                "SELECT event_id FROM event_outbox WHERE delivered_at_utc IS NULL
+                 ORDER BY event_id LIMIT ?1",
+            )?;
+            let rows = statement.query_map([limit], |row| row.get::<_, i64>(0))?;
+            rows.collect::<Result<Vec<_>, _>>()?
+        };
+        for event_id in &event_ids {
+            tx.execute(
+                "INSERT OR IGNORE INTO event_inbox(event_id,received_at_utc)
+                 VALUES(?1,strftime('%Y-%m-%dT%H:%M:%fZ','now'))",
+                [event_id],
+            )?;
+            tx.execute(
+                "UPDATE event_outbox SET attempts=attempts+1,
+                 delivered_at_utc=strftime('%Y-%m-%dT%H:%M:%fZ','now')
+                 WHERE event_id=?1 AND delivered_at_utc IS NULL",
+                [event_id],
+            )?;
+        }
+        tx.commit()?;
+        Ok(event_ids.len() as u32)
+    }
+
+    pub fn event_delivery_counts(&self) -> Result<(u64, u64), EngineError> {
+        let db = self.db.lock().expect("sqlite mutex poisoned");
+        Ok((
+            db.query_row(
+                "SELECT count(*) FROM event_outbox WHERE delivered_at_utc IS NULL",
+                [],
+                |row| row.get(0),
+            )?,
+            db.query_row("SELECT count(*) FROM event_inbox", [], |row| row.get(0))?,
+        ))
+    }
+
     pub fn queued_count(&self) -> Result<u64, EngineError> {
         let db = self.db.lock().expect("sqlite mutex poisoned");
         Ok(
@@ -430,6 +548,212 @@ impl GoalEngine {
         )?;
         tx.commit()?;
         Ok(())
+    }
+
+    /// Atomically replace the hierarchy and prerequisites for a goal. Plans are
+    /// immutable while work is leased, terminal, or waiting for renewed policy.
+    pub fn set_goal_plan(
+        &self,
+        goal_id: &str,
+        plan: &GoalPlan,
+    ) -> Result<GoalPlanView, EngineError> {
+        const MAX_DEPENDENCIES: usize = 32;
+        const MAX_PARENT_DEPTH: usize = 16;
+        if plan.dependency_goal_ids.len() > MAX_DEPENDENCIES {
+            return Err(EngineError::Invalid("PLAN_TOO_LARGE".into()));
+        }
+        let mut unique = std::collections::HashSet::new();
+        if plan.dependency_goal_ids.iter().any(|id| !unique.insert(id)) {
+            return Err(EngineError::Invalid("DUPLICATE_DEPENDENCY".into()));
+        }
+        if plan.parent_goal_id.as_deref() == Some(goal_id)
+            || plan.dependency_goal_ids.iter().any(|id| id == goal_id)
+        {
+            return Err(EngineError::Invalid("DEPENDENCY_CYCLE".into()));
+        }
+
+        let mut db = self.db.lock().expect("sqlite mutex poisoned");
+        let tx = db.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        let target: Option<(String, String)> = tx
+            .query_row(
+                "SELECT g.status,j.state FROM goal g JOIN job j ON j.goal_id=g.id WHERE g.id=?1",
+                [goal_id],
+                |row| Ok((row.get(0)?, row.get(1)?)),
+            )
+            .optional()?;
+        let Some((status, job_state)) = target else {
+            return Err(EngineError::NotFound);
+        };
+        if !["approved", "paused"].contains(&status.as_str())
+            || !["queued", "paused", "blocked"].contains(&job_state.as_str())
+        {
+            return Err(EngineError::Invalid("PLAN_LOCKED_BY_GOAL_STATE".into()));
+        }
+        for prerequisite in plan
+            .dependency_goal_ids
+            .iter()
+            .chain(plan.parent_goal_id.iter())
+        {
+            let prerequisite_status: Option<String> = tx
+                .query_row(
+                    "SELECT status FROM goal WHERE id=?1",
+                    [prerequisite],
+                    |row| row.get(0),
+                )
+                .optional()?;
+            let Some(prerequisite_status) = prerequisite_status else {
+                return Err(EngineError::NotFound);
+            };
+            if ["blocked", "cancelled", "failed"].contains(&prerequisite_status.as_str()) {
+                return Err(EngineError::Invalid("DEPENDENCY_NOT_RUNNABLE".into()));
+            }
+        }
+
+        // Check hierarchy depth and repeats before changing persisted state.
+        let mut ancestors = std::collections::HashSet::from([goal_id.to_owned()]);
+        let mut cursor = plan.parent_goal_id.clone();
+        let mut depth = 0;
+        while let Some(parent) = cursor {
+            depth += 1;
+            if depth > MAX_PARENT_DEPTH {
+                return Err(EngineError::Invalid("PLAN_TOO_LARGE".into()));
+            }
+            if !ancestors.insert(parent.clone()) {
+                return Err(EngineError::Invalid("DEPENDENCY_CYCLE".into()));
+            }
+            cursor = tx
+                .query_row(
+                    "SELECT parent_goal_id FROM goal_parent WHERE goal_id=?1",
+                    [&parent],
+                    |row| row.get(0),
+                )
+                .optional()?;
+        }
+
+        tx.execute("DELETE FROM goal_dependency WHERE goal_id=?1", [goal_id])?;
+        tx.execute("DELETE FROM goal_parent WHERE goal_id=?1", [goal_id])?;
+        for candidate in plan
+            .dependency_goal_ids
+            .iter()
+            .chain(plan.parent_goal_id.iter())
+        {
+            let creates_cycle: bool = tx.query_row(
+                "WITH RECURSIVE edges(source,target) AS (
+                   SELECT goal_id,depends_on_goal_id FROM goal_dependency
+                   UNION SELECT goal_id,parent_goal_id FROM goal_parent
+                 ), reachable(id) AS (
+                   SELECT ?1 UNION SELECT edges.target FROM edges JOIN reachable ON edges.source=reachable.id
+                 ) SELECT EXISTS(SELECT 1 FROM reachable WHERE id=?2)",
+                params![candidate, goal_id],
+                |row| row.get(0),
+            )?;
+            if creates_cycle {
+                return Err(EngineError::Invalid("DEPENDENCY_CYCLE".into()));
+            }
+        }
+        for prerequisite in &plan.dependency_goal_ids {
+            tx.execute(
+                "INSERT INTO goal_dependency(goal_id,depends_on_goal_id,created_at_utc) VALUES(?1,?2,strftime('%Y-%m-%dT%H:%M:%fZ','now'))",
+                params![goal_id, prerequisite],
+            )?;
+        }
+        if let Some(parent) = &plan.parent_goal_id {
+            tx.execute(
+                "INSERT INTO goal_parent(goal_id,parent_goal_id,created_at_utc) VALUES(?1,?2,strftime('%Y-%m-%dT%H:%M:%fZ','now'))",
+                params![goal_id, parent],
+            )?;
+        }
+        tx.execute(
+            "INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?1,'goal.plan.replaced','OWNER_PLAN_UPDATED',strftime('%Y-%m-%dT%H:%M:%fZ','now'))",
+            [goal_id],
+        )?;
+        let view = GoalPlanView {
+            goal_id: goal_id.to_owned(),
+            parent_goal_id: plan.parent_goal_id.clone(),
+            dependency_goal_ids: plan.dependency_goal_ids.clone(),
+        };
+        tx.commit()?;
+        Ok(view)
+    }
+
+    pub fn get_goal_plan(&self, goal_id: &str) -> Result<GoalPlanView, EngineError> {
+        let db = self.db.lock().expect("sqlite mutex poisoned");
+        let exists: bool = db.query_row(
+            "SELECT EXISTS(SELECT 1 FROM goal WHERE id=?1)",
+            [goal_id],
+            |row| row.get(0),
+        )?;
+        if !exists {
+            return Err(EngineError::NotFound);
+        }
+        let parent_goal_id = db
+            .query_row(
+                "SELECT parent_goal_id FROM goal_parent WHERE goal_id=?1",
+                [goal_id],
+                |row| row.get(0),
+            )
+            .optional()?;
+        let mut statement = db.prepare(
+            "SELECT depends_on_goal_id FROM goal_dependency WHERE goal_id=?1 ORDER BY depends_on_goal_id",
+        )?;
+        let rows = statement.query_map([goal_id], |row| row.get(0))?;
+        let dependency_goal_ids = rows.collect::<Result<Vec<String>, _>>()?;
+        Ok(GoalPlanView {
+            goal_id: goal_id.to_owned(),
+            parent_goal_id,
+            dependency_goal_ids,
+        })
+    }
+
+    pub fn transition(
+        &self,
+        goal_id: &str,
+        command: GoalLifecycleCommand,
+    ) -> Result<GoalView, EngineError> {
+        let mut db = self.db.lock().expect("sqlite mutex poisoned");
+        let tx = db.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        let status = tx
+            .query_row("SELECT status FROM goal WHERE id=?1", [goal_id], |row| {
+                row.get::<_, String>(0)
+            })
+            .optional()?
+            .ok_or(EngineError::NotFound)?;
+        let (next_goal, next_job, event, code) = match command {
+            GoalLifecycleCommand::Pause
+                if ["approved", "active", "blocked"].contains(&status.as_str()) =>
+            {
+                ("paused", "paused", "goal.paused", "OWNER_PAUSED")
+            }
+            GoalLifecycleCommand::Resume if status == "paused" => {
+                ("active", "queued", "goal.resumed", "OWNER_RESUMED")
+            }
+            GoalLifecycleCommand::Cancel
+                if !["completed", "cancelled"].contains(&status.as_str()) =>
+            {
+                (
+                    "cancelled",
+                    "cancelled",
+                    "goal.cancelled",
+                    "OWNER_CANCELLED",
+                )
+            }
+            _ => return Err(EngineError::Invalid("INVALID_GOAL_TRANSITION".into())),
+        };
+        tx.execute(
+            "UPDATE goal SET status=?2 WHERE id=?1",
+            params![goal_id, next_goal],
+        )?;
+        tx.execute(
+            "UPDATE job SET state=?2,lease_owner=NULL,lease_token=NULL,lease_expires_at_unix=NULL WHERE goal_id=?1",
+            params![goal_id, next_job],
+        )?;
+        tx.execute(
+            "INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?1,?2,?3,strftime('%Y-%m-%dT%H:%M:%fZ','now'))",
+            params![goal_id, event, code],
+        )?;
+        let goal = read_goal(&tx, goal_id)?;
+        tx.commit()?;
+        Ok(goal)
     }
 }
 
@@ -642,8 +966,251 @@ mod tests {
         let engine = GoalEngine::open(&path, broker).unwrap();
         assert_eq!(engine.get(&goal_id).unwrap().id, goal_id);
         assert_eq!(engine.lease_attempts(&goal_id).unwrap(), 0);
+        let db = engine.db.lock().unwrap();
+        let broken_reference: Option<String> = db
+            .query_row(
+                "SELECT \"table\" FROM pragma_foreign_key_check LIMIT 1",
+                [],
+                |row| row.get(0),
+            )
+            .optional()
+            .unwrap();
+        assert!(broken_reference.is_none());
+        drop(db);
         assert_eq!(engine.tick().unwrap().outcome, "succeeded");
         assert_eq!(engine.lease_attempts(&goal_id).unwrap(), 1);
+    }
+
+    #[test]
+    fn pause_prevents_claim_and_resume_requeues_goal() {
+        let (engine, key) = engine();
+        let goal = engine
+            .create(&body("local.checksum"), &key, "pause-resume")
+            .unwrap();
+        let paused = engine
+            .transition(&goal.id, GoalLifecycleCommand::Pause)
+            .unwrap();
+        assert_eq!(paused.status, "paused");
+        assert!(!paused.queued);
+        assert!(
+            engine
+                .claim_next("worker", 1_800_000_000, 30)
+                .unwrap()
+                .is_none()
+        );
+        let resumed = engine
+            .transition(&goal.id, GoalLifecycleCommand::Resume)
+            .unwrap();
+        assert_eq!(resumed.status, "active");
+        assert!(resumed.queued);
+        assert_eq!(engine.tick().unwrap().outcome, "succeeded");
+    }
+
+    #[test]
+    fn pause_revokes_an_active_lease_and_terminal_goals_cannot_change() {
+        let (engine, key) = engine();
+        let goal = engine
+            .create(&body("local.checksum"), &key, "pause-lease")
+            .unwrap();
+        let claim = engine
+            .claim_next("worker", 1_800_000_000, 30)
+            .unwrap()
+            .unwrap();
+        assert_eq!(
+            engine
+                .transition(&goal.id, GoalLifecycleCommand::Pause)
+                .unwrap()
+                .status,
+            "paused"
+        );
+        assert!(
+            matches!(engine.complete_claim(&claim, 1_800_000_001), Err(EngineError::Invalid(code)) if code == "LEASE_LOST")
+        );
+        assert_eq!(
+            engine
+                .transition(&goal.id, GoalLifecycleCommand::Cancel)
+                .unwrap()
+                .status,
+            "cancelled"
+        );
+        assert!(
+            matches!(engine.transition(&goal.id, GoalLifecycleCommand::Resume), Err(EngineError::Invalid(code)) if code == "INVALID_GOAL_TRANSITION")
+        );
+        let complete = engine
+            .create(&body("local.checksum"), &key, "terminal-complete")
+            .unwrap();
+        engine.tick().unwrap();
+        assert_eq!(engine.get(&complete.id).unwrap().status, "completed");
+        assert!(
+            matches!(engine.transition(&complete.id, GoalLifecycleCommand::Pause), Err(EngineError::Invalid(code)) if code == "INVALID_GOAL_TRANSITION")
+        );
+    }
+
+    #[test]
+    fn cancellation_is_durable_across_engine_restart() {
+        let path =
+            std::env::temp_dir().join(format!("luna-cancel-restart-{}.sqlite", Uuid::new_v4()));
+        let key = "owner-test-key";
+        let goal_id = {
+            let engine = GoalEngine::open(&path, PolicyBroker::new(key, None)).unwrap();
+            let goal = engine
+                .create(&body("local.checksum"), key, "cancel-restart")
+                .unwrap();
+            engine
+                .transition(&goal.id, GoalLifecycleCommand::Cancel)
+                .unwrap();
+            goal.id
+        };
+        let engine = GoalEngine::open(&path, PolicyBroker::new(key, None)).unwrap();
+        assert_eq!(engine.get(&goal_id).unwrap().status, "cancelled");
+        assert_eq!(engine.tick().unwrap().outcome, "idle_success");
+    }
+
+    #[test]
+    fn goal_listing_is_bounded_and_ordered_by_score_then_creation() {
+        let (engine, key) = engine();
+        let low = CreateGoal {
+            metrics: Metrics {
+                impact: 0.2,
+                urgency: 0.2,
+                user_value: 0.2,
+                confidence: 0.2,
+                efficiency: 0.2,
+            },
+            ..body("local.checksum")
+        };
+        let low_goal = engine.create(&low, &key, "list-low").unwrap();
+        let high_goal = engine
+            .create(&body("local.checksum"), &key, "list-high")
+            .unwrap();
+        let goals = engine.list().unwrap();
+        assert_eq!(goals.len(), 2);
+        assert_eq!(goals[0].id, high_goal.id);
+        assert_eq!(goals[1].id, low_goal.id);
+    }
+
+    #[test]
+    fn goal_events_are_private_listable_and_delivered_idempotently() {
+        let (engine, key) = engine();
+        let goal = engine
+            .create(&body("local.checksum"), &key, "event-outbox")
+            .unwrap();
+        let events = engine.events(&goal.id, 100).unwrap();
+        assert_eq!(events.len(), 1);
+        assert_eq!(events[0].kind, "goal.created");
+        assert_eq!(engine.event_delivery_counts().unwrap(), (1, 0));
+        assert_eq!(engine.dispatch_events(100).unwrap(), 1);
+        assert_eq!(engine.event_delivery_counts().unwrap(), (0, 1));
+        assert_eq!(engine.dispatch_events(100).unwrap(), 0);
+        assert_eq!(engine.event_delivery_counts().unwrap(), (0, 1));
+        let db = engine.db.lock().unwrap();
+        assert!(
+            db.execute(
+                "UPDATE goal_event SET code='tampered' WHERE id=?1",
+                [events[0].event_id]
+            )
+            .is_err()
+        );
+        assert!(
+            db.execute("DELETE FROM goal_event WHERE id=?1", [events[0].event_id])
+                .is_err()
+        );
+    }
+
+    #[test]
+    fn goal_plan_replacement_is_atomic_and_detects_mixed_graph_cycles() {
+        let (engine, key) = engine();
+        let first = engine
+            .create(&body("local.checksum"), &key, "plan-first")
+            .unwrap();
+        let second = engine
+            .create(&body("local.checksum"), &key, "plan-second")
+            .unwrap();
+        let third = engine
+            .create(&body("local.checksum"), &key, "plan-third")
+            .unwrap();
+        engine
+            .set_goal_plan(
+                &first.id,
+                &GoalPlan {
+                    parent_goal_id: Some(second.id.clone()),
+                    dependency_goal_ids: vec![second.id.clone()],
+                },
+            )
+            .unwrap();
+        let replaced = engine
+            .set_goal_plan(
+                &first.id,
+                &GoalPlan {
+                    parent_goal_id: None,
+                    dependency_goal_ids: vec![third.id.clone()],
+                },
+            )
+            .unwrap();
+        assert_eq!(replaced.dependency_goal_ids, vec![third.id.clone()]);
+        assert!(matches!(engine.set_goal_plan(&third.id, &GoalPlan {
+            parent_goal_id: None,
+            dependency_goal_ids: vec![first.id.clone()],
+        }), Err(EngineError::Invalid(code)) if code == "DEPENDENCY_CYCLE"));
+        assert_eq!(engine.get_goal_plan(&first.id).unwrap(), replaced);
+
+        engine
+            .set_goal_plan(
+                &first.id,
+                &GoalPlan {
+                    parent_goal_id: Some(second.id.clone()),
+                    dependency_goal_ids: vec![],
+                },
+            )
+            .unwrap();
+        assert!(matches!(engine.set_goal_plan(&second.id, &GoalPlan {
+            parent_goal_id: None,
+            dependency_goal_ids: vec![first.id.clone()],
+        }), Err(EngineError::Invalid(code)) if code == "DEPENDENCY_CYCLE"));
+    }
+
+    #[test]
+    fn goal_plan_rejects_oversized_or_unrunnable_dependencies() {
+        let (engine, key) = engine();
+        let target = engine
+            .create(&body("local.checksum"), &key, "plan-limit-target")
+            .unwrap();
+        let dependencies = (0..33)
+            .map(|index| {
+                engine
+                    .create(
+                        &body("local.checksum"),
+                        &key,
+                        &format!("plan-limit-{index}"),
+                    )
+                    .unwrap()
+                    .id
+            })
+            .collect::<Vec<_>>();
+        assert!(matches!(engine.set_goal_plan(&target.id, &GoalPlan {
+            parent_goal_id: None,
+            dependency_goal_ids: dependencies,
+        }), Err(EngineError::Invalid(code)) if code == "PLAN_TOO_LARGE"));
+        let blocked = engine
+            .create(&body("local.checksum"), &key, "plan-blocked-dependency")
+            .unwrap();
+        {
+            let db = engine.db.lock().unwrap();
+            db.execute(
+                "UPDATE goal SET status='blocked' WHERE id=?1",
+                [&blocked.id],
+            )
+            .unwrap();
+            db.execute(
+                "UPDATE job SET state='blocked' WHERE goal_id=?1",
+                [&blocked.id],
+            )
+            .unwrap();
+        }
+        assert!(matches!(engine.set_goal_plan(&target.id, &GoalPlan {
+            parent_goal_id: None,
+            dependency_goal_ids: vec![blocked.id],
+        }), Err(EngineError::Invalid(code)) if code == "DEPENDENCY_NOT_RUNNABLE"));
     }
     #[test]
     fn queued_goal_resumes_after_engine_reopens() {

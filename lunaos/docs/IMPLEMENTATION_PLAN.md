@@ -12,18 +12,20 @@ as optional. Current milestone labels are updated in `STATUS.md`.
    SQLite Goal Engine, persistent local smoke and systemd unit sources. Keep the
    prior implementation unchanged as reference. Exit: Rust tests, process-level
    broker test and real local API smoke pass. Basic dependency edges, cycle
-   rejection and scheduler waiting are also verified; full planner remains open.
+   rejection and scheduler waiting are also verified.
 2. **Owner identity and grants.** Replace development bearer setup with OS-backed
    credential provisioning, session expiry/rotation/revocation and policy grant
    registry. Exit: unauthorized, guest, revoked, expired and owner flows pass on
    Linux with peer-credential checks and filesystem ACL evidence.
-3. **Goal model and planner.** Port complete CRUD/state machine, parent/dependency
-   DAG with cycle rejection, bounded planning and provenance. Exit: Rust parity
+3. **Goal model and planner.** List/create/read/tick, dependency edges and the
+   pause/resume/cancel subset and bounded owner-managed parent/dependency DAG
+   are implemented. Port remaining CRUD/state machine, natural-language planning,
+   and richer provenance. Exit: Rust parity
    tests cover every prior behavior plus DAG and transition invariants; migrations
    preserve stored records.
-4. **Durable scheduler and agent runner.** Atomic SQLite leases, expiry recovery
-   and a data-preserving schema migration are implemented locally. Add lease
-   renewal, heartbeats, bounded retries, quotas, interruption handling, transactional event outbox/inbox and tool
+4. **Durable scheduler and agent runner.** Atomic SQLite leases, expiry recovery,
+   local transactional outbox/inbox and a data-preserving schema migration are
+   implemented. Add lease renewal, heartbeats, bounded retries, quotas, interruption handling and tool
    isolation. Exit: process-kill, duplicate-delivery and concurrent-worker tests
    prove no duplicated effect for every enabled adapter.
 5. **Evidence and memory.** Implement source/confidence/freshness assertions,

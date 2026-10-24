@@ -36,7 +36,8 @@ services, updates and recovery.
 ## Current implementation status
 
 The project is in **native migration**, not release. Rust currently has a local
-Goal Engine/Core slice and a separate Policy Broker process. The only executable
+Goal Engine/Core slice with durable leases, dependencies and owner pause/resume/
+cancel transitions and a bounded owner goal list, plus a separate Policy Broker process. The only executable
 system action is a checksum of a public fixture. GTK4 source exists but is not
 verified on Linux; llama.cpp has no configured model; D-Bus, GPU, ComfyUI,
 installation, ISO boot, recovery and real hardware behavior remain unverified or

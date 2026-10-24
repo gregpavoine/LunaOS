@@ -30,6 +30,9 @@ async fn main() -> Result<()> {
                     "LUNA scheduler deferred queued work after an authorization or storage failure"
                 );
             }
+            if let Err(_error) = background_engine.dispatch_events(100) {
+                eprintln!("LUNA event consumer retained pending events after a storage failure");
+            }
         }
     });
     axum::serve(listener, router(engine, token)).await?;
