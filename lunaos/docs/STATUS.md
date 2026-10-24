@@ -71,8 +71,9 @@ This is a real checksum execution, not evidence of a model or hardware action.
 - Assertion claim/source input is transient and not stored; provenance metadata alone cannot verify user claims.
 - Pure action recovery uses serialized SQL transactions, not distributed exactly-once
   external effects. No payment/message adapter or configured financial budget.
-- Hosted CI authored, NOT EXECUTED. Linux portability inferred from standard-library
-  interfaces, not claimed as tested. Full spec acceptance suites remain open.
+- First hosted CI run on macOS and Ubuntu failed during setup-python because the
+  workflow passed unsupported `cache: false`; tests did not start. Parameter removed;
+  corrected hosted run pending. Full spec acceptance suites remain open.
 
 ## Next smallest milestone
 
