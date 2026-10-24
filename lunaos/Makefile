@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: test check build dev test-reference check-reference smoke-native
+.PHONY: test check build dev test-reference check-reference smoke-native native-smoke
 
 test:
 	cargo test --workspace --locked --manifest-path rust/Cargo.toml
@@ -18,6 +18,8 @@ dev:
 
 smoke-native: build
 	./scripts/smoke-native-core.sh
+
+native-smoke: smoke-native
 
 # Frozen Go/Python behavioral reference only. These tools are not required by Core.
 test-reference:

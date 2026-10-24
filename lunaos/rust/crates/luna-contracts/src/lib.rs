@@ -122,6 +122,16 @@ pub struct TickResult {
     pub reason: String,
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+pub struct ExecutionLease {
+    pub goal_id: String,
+    pub action: String,
+    pub grant: String,
+    pub owner: String,
+    pub token: String,
+    pub expires_at_unix: i64,
+}
+
 /// Versioned logical entities used by inter-service APIs. These are schemas only
 /// until the corresponding Rust service and migration are implemented.
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]

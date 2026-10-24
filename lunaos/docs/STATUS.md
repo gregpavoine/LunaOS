@@ -19,6 +19,10 @@ completed OS capabilities.
   evidence, unknown source status and idle success. Owners can add dependency edges;
   the engine rejects cycles, waits for prerequisites and distinguishes queued
   dependency waits from idle success.
+- Durable SQLite job leases: atomic worker claims, unique lease tokens, expiry
+  recovery after engine restart, stale-token rejection and a v1-to-v2 data-preserving
+  migration. This is verified for one local pure action; heartbeats, bounded retries,
+  multiple service processes and power-loss recovery remain unverified.
 - Rust loopback-only llama.cpp adapter source. One test rejects external endpoint
   configuration; no inference is claimed.
 - systemd service unit sources for Core and Policy Broker. These files are
@@ -35,9 +39,9 @@ Detailed command record: [native-migration-2026-10-24.txt](test-evidence/native-
 
 | Command | Result |
 |---|---|
-| `make test` | PASS: 14 Rust unit tests plus 1 child-process Unix-socket broker integration test; 0 failures |
+| `make test` | PASS: 17 Rust unit tests plus 1 child-process Unix-socket broker integration test; 0 failures |
 | `make check` | PASS: `cargo fmt --check`, Clippy across workspace/all targets with warnings denied, and `cargo check` |
-| `make smoke-native` | PASS: release Core and broker binaries; live loopback REST, unauthorized 401, owner create, duplicate idempotency, checksum evidence, then Core process restart with completed state retained |
+| `make native-smoke` | PASS: release Core and broker binaries; live loopback REST, unauthorized 401, owner create, duplicate idempotency, checksum evidence, then Core process restart with completed state retained |
 | `make test-reference check-reference` | PASS: existing Go policy tests/vet, 25 Python reference integration tests/compileall, Linux baseline script syntax only |
 
 The smoke test used a temporary database and test credential and removed them on
@@ -56,8 +60,9 @@ is being counted.
 - No llama.cpp server or licensed model is configured; no real local inference.
 - No GPU/NVIDIA/CUDA, ComfyUI, systemd, D-Bus, sensor/BLIND, iPhone, NAS, privacy
   vault, consent/erasure or remote-administration capability has been exercised.
-- Full goal lifecycle and CRUD, dependency DAG/planner, durable leases/resource
-  quotas, standalone Agent Runner, strategy optimizer, production identity/session
+- Full goal lifecycle and CRUD, bounded planner beyond manual dependency edges,
+  lease renewal/heartbeats/retry policy and resource quotas, standalone Agent Runner,
+  strategy optimizer, production identity/session
   management, encrypted memory/evidence vault, and broad Mont Blanc modules remain
   incomplete. Several contracts are types only.
 - The current authorization credential is a local bearer secret shared with the
@@ -67,8 +72,8 @@ is being counted.
 
 ## Next milestone
 
-Complete owner credential lifecycle and a full Rust goal state model/DAG with
-migration and process-restart tests. Then add durable execution leases and evidence
+Complete owner credential lifecycle and the full Rust goal state model/planner.
+Then add lease renewal/heartbeats, bounded retry policy and transactional evidence
 events before connecting any Linux action adapter. The next target-side milestone
 requires an owner-provided SSH alias and explicit connection/baseline authorization;
 no current Linux installation may be modified without a verified recovery plan and

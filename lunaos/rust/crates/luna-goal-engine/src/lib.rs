@@ -1,14 +1,15 @@
 use luna_contracts::{
-    CONTRACT_VERSION, CreateGoal, Evidence, GoalView, PolicyRequest, Principal, SourceStatus,
-    TickResult,
+    CONTRACT_VERSION, CreateGoal, Evidence, ExecutionLease, GoalView, PolicyRequest, Principal,
+    SourceStatus, TickResult,
 };
 use luna_policy_broker::PolicyService;
-use rusqlite::{Connection, OptionalExtension, params};
+use rusqlite::{Connection, OptionalExtension, TransactionBehavior, params};
 use sha2::{Digest, Sha256};
 use std::{
     fs::OpenOptions,
     path::Path,
     sync::{Arc, Mutex},
+    time::{Duration, SystemTime, UNIX_EPOCH},
 };
 use thiserror::Error;
 use uuid::Uuid;
@@ -59,6 +60,7 @@ impl GoalEngine {
             .open(path.as_ref())
             .map_err(|e| EngineError::Invalid(e.to_string()))?;
         let db = Connection::open(path.as_ref())?;
+        db.busy_timeout(Duration::from_secs(5))?;
         #[cfg(unix)]
         {
             use std::os::unix::fs::PermissionsExt;
@@ -69,6 +71,16 @@ impl GoalEngine {
         db.pragma_update(None, "synchronous", "FULL")?;
         db.pragma_update(None, "foreign_keys", "ON")?;
         db.execute_batch(include_str!("../../../../migrations/native/001_core.sql"))?;
+        let lease_migration_applied: bool = db.query_row(
+            "SELECT EXISTS(SELECT 1 FROM schema_migration WHERE version=2)",
+            [],
+            |row| row.get(0),
+        )?;
+        if !lease_migration_applied {
+            db.execute_batch(include_str!(
+                "../../../../migrations/native/002_execution_lease.sql"
+            ))?;
+        }
         Ok(Self {
             db: Arc::new(Mutex::new(db)),
             broker: Arc::new(broker),
@@ -129,87 +141,219 @@ impl GoalEngine {
         let tx = db.transaction()?;
         tx.execute("INSERT INTO goal VALUES(?1,?2,'approved',?3,?4,'unknown',?5,?6,strftime('%Y-%m-%dT%H:%M:%fZ','now'))", params![id, body.action, score, policy_code, idempotency_key, request_hash])?;
         tx.execute("INSERT INTO goal_grant VALUES(?1,?2)", params![id, grant])?;
-        tx.execute("INSERT INTO job VALUES(?1,'queued')", [&id])?;
+        tx.execute("INSERT INTO job(goal_id,state) VALUES(?1,'queued')", [&id])?;
         tx.execute("INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?1,'goal.created','OWNER_REQUEST',strftime('%Y-%m-%dT%H:%M:%fZ','now'))", [&id])?;
         tx.commit()?;
         read_goal(&db, &id)
     }
 
-    pub fn tick(&self) -> Result<TickResult, EngineError> {
+    pub fn claim_next(
+        &self,
+        worker: &str,
+        now_unix: i64,
+        lease_seconds: i64,
+    ) -> Result<Option<ExecutionLease>, EngineError> {
+        if worker.is_empty()
+            || worker.len() > 64
+            || !worker
+                .chars()
+                .all(|c| c.is_ascii_alphanumeric() || "_.-".contains(c))
+            || !(1..=300).contains(&lease_seconds)
+        {
+            return Err(EngineError::Invalid("INVALID_LEASE_REQUEST".into()));
+        }
         let mut db = self.db.lock().expect("sqlite mutex poisoned");
-        let tx = db.transaction()?;
-        let next: Option<(String,String,String)> = tx.query_row("SELECT g.id,g.action,g.policy_code FROM goal g JOIN job j ON j.goal_id=g.id WHERE j.state='queued' AND g.score>0 AND NOT EXISTS (SELECT 1 FROM goal_dependency gd JOIN goal prerequisite ON prerequisite.id=gd.depends_on_goal_id WHERE gd.goal_id=g.id AND prerequisite.status!='completed') ORDER BY g.score DESC,g.created_at_utc,g.id LIMIT 1", [], |r| Ok((r.get(0)?,r.get(1)?,r.get(2)?))).optional()?;
-        let Some((id, action, _)) = next else {
-            let queued: bool = tx.query_row(
-                "SELECT EXISTS(SELECT 1 FROM job WHERE state='queued')",
+        let tx = db.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        tx.execute(
+            "INSERT INTO goal_event(goal_id,kind,code,created_at_utc)
+             SELECT goal_id,'job.lease.expired','LEASE_REQUEUED',strftime('%Y-%m-%dT%H:%M:%fZ','now')
+             FROM job WHERE state='running' AND lease_expires_at_unix<=?1",
+            [now_unix],
+        )?;
+        tx.execute(
+            "UPDATE job SET state='queued',lease_owner=NULL,lease_token=NULL,lease_expires_at_unix=NULL
+             WHERE state='running' AND lease_expires_at_unix<=?1",
+            [now_unix],
+        )?;
+        let next: Option<(String, String)> = tx
+            .query_row(
+                "SELECT g.id,g.action FROM goal g JOIN job j ON j.goal_id=g.id
+             WHERE j.state='queued' AND g.score>0
+               AND NOT EXISTS (SELECT 1 FROM goal_dependency gd JOIN goal prerequisite
+                 ON prerequisite.id=gd.depends_on_goal_id WHERE gd.goal_id=g.id
+                   AND prerequisite.status!='completed')
+             ORDER BY g.score DESC,g.created_at_utc,g.id LIMIT 1",
                 [],
-                |r| r.get(0),
-            )?;
+                |row| Ok((row.get(0)?, row.get(1)?)),
+            )
+            .optional()?;
+        let Some((goal_id, action)) = next else {
             tx.commit()?;
-            return Ok(TickResult {
-                outcome: if queued {
-                    "waiting_for_dependencies"
-                } else {
-                    "idle_success"
-                }
-                .into(),
-                goal_id: None,
-                reason: if queued {
-                    "DEPENDENCIES_NOT_COMPLETED"
-                } else {
-                    "NO_AUTHORIZED_USEFUL_WORK"
-                }
-                .into(),
-            });
+            return Ok(None);
         };
         let grant: String = tx.query_row(
             "SELECT grant FROM goal_grant WHERE goal_id=?1",
-            [&id],
-            |r| r.get(0),
+            [&goal_id],
+            |row| row.get(0),
         )?;
-        if let Err(error) = self.broker.verify(&id, &action, &grant) {
+        if let Err(error) = self.broker.verify(&goal_id, &action, &grant) {
             if error == luna_policy_broker::BrokerError::GrantExpired {
-                tx.execute("UPDATE goal SET status='blocked' WHERE id=?1", [&id])?;
-                tx.execute("UPDATE job SET state='blocked' WHERE goal_id=?1", [&id])?;
-                tx.execute("INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?1,'goal.authorization.expired','GRANT_RENEWAL_REQUIRED',strftime('%Y-%m-%dT%H:%M:%fZ','now'))", [&id])?;
+                tx.execute("UPDATE goal SET status='blocked' WHERE id=?1", [&goal_id])?;
+                tx.execute(
+                    "UPDATE job SET state='blocked' WHERE goal_id=?1",
+                    [&goal_id],
+                )?;
+                tx.execute("INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?1,'goal.authorization.expired','GRANT_RENEWAL_REQUIRED',strftime('%Y-%m-%dT%H:%M:%fZ','now'))", [&goal_id])?;
                 tx.commit()?;
-                return Ok(TickResult {
-                    outcome: "blocked".into(),
-                    goal_id: Some(id),
-                    reason: "GRANT_RENEWAL_REQUIRED".into(),
-                });
+                return Ok(None);
             }
             tx.commit()?;
             return Err(EngineError::Policy("EXECUTION_REAUTH_REQUIRED".into()));
         }
         if action != "local.checksum" {
+            tx.commit()?;
             return Err(EngineError::Policy("ACTION_REVOKED".into()));
+        }
+        let token = Uuid::new_v4().to_string();
+        let expires_at_unix = now_unix + lease_seconds;
+        tx.execute(
+            "UPDATE job SET state='running',lease_owner=?2,lease_token=?3,
+             lease_expires_at_unix=?4,attempt_count=attempt_count+1 WHERE goal_id=?1 AND state='queued'",
+            params![goal_id, worker, token, expires_at_unix],
+        )?;
+        tx.execute("INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?1,'job.lease.claimed','AUTHORIZED_WORKER',strftime('%Y-%m-%dT%H:%M:%fZ','now'))", [&goal_id])?;
+        tx.commit()?;
+        Ok(Some(ExecutionLease {
+            goal_id,
+            action,
+            grant,
+            owner: worker.to_owned(),
+            token,
+            expires_at_unix,
+        }))
+    }
+
+    pub fn complete_claim(
+        &self,
+        lease: &ExecutionLease,
+        now_unix: i64,
+    ) -> Result<TickResult, EngineError> {
+        let mut db = self.db.lock().expect("sqlite mutex poisoned");
+        let tx = db.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        let active: Option<(String, String, String, String, i64)> = tx
+            .query_row(
+                "SELECT j.lease_owner,j.lease_token,g.action,gg.grant,j.lease_expires_at_unix
+             FROM job j JOIN goal g ON g.id=j.goal_id JOIN goal_grant gg ON gg.goal_id=g.id
+             WHERE j.goal_id=?1 AND j.state='running'",
+                [&lease.goal_id],
+                |row| {
+                    Ok((
+                        row.get(0)?,
+                        row.get(1)?,
+                        row.get(2)?,
+                        row.get(3)?,
+                        row.get(4)?,
+                    ))
+                },
+            )
+            .optional()?;
+        let Some((owner, token, action, persisted_grant, expires_at)) = active else {
+            return Err(EngineError::Invalid("LEASE_LOST".into()));
+        };
+        if owner != lease.owner
+            || token != lease.token
+            || action != lease.action
+            || persisted_grant != lease.grant
+            || now_unix >= expires_at
+        {
+            return Err(EngineError::Invalid("LEASE_LOST".into()));
+        }
+        if self
+            .broker
+            .verify(&lease.goal_id, &lease.action, &lease.grant)
+            .is_err()
+        {
+            tx.execute(
+                "UPDATE goal SET status='blocked' WHERE id=?1",
+                [&lease.goal_id],
+            )?;
+            tx.execute("UPDATE job SET state='blocked',lease_owner=NULL,lease_token=NULL,lease_expires_at_unix=NULL WHERE goal_id=?1", [&lease.goal_id])?;
+            tx.execute("INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?1,'goal.authorization.revoked','EXECUTION_REAUTH_REQUIRED',strftime('%Y-%m-%dT%H:%M:%fZ','now'))", [&lease.goal_id])?;
+            tx.commit()?;
+            return Err(EngineError::Policy("EXECUTION_REAUTH_REQUIRED".into()));
         }
         let digest = hex::encode(Sha256::digest(FIXTURE));
         const EXPECTED_SHA256: &str =
             "07be6a1cc7b1b323fd3baca70abf34bfea13e09f9d28cf417d11aca77d4220ce";
-        let verified = digest == EXPECTED_SHA256 && FIXTURE.len() == 28;
+        let verified =
+            lease.action == "local.checksum" && digest == EXPECTED_SHA256 && FIXTURE.len() == 28;
         if verified {
             tx.execute(
                 "INSERT INTO evidence VALUES(?1,?2,?3,'local_public_fixture_v1',1)",
-                params![id, digest, FIXTURE.len()],
+                params![lease.goal_id, digest, FIXTURE.len()],
             )?;
-            tx.execute("UPDATE goal SET status='completed' WHERE id=?1", [&id])?;
-            tx.execute("UPDATE job SET state='succeeded' WHERE goal_id=?1", [&id])?;
-            tx.execute("INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?1,'goal.completed','ARTIFACT_VERIFIED',strftime('%Y-%m-%dT%H:%M:%fZ','now'))",[&id])?;
+            tx.execute(
+                "UPDATE goal SET status='completed' WHERE id=?1",
+                [&lease.goal_id],
+            )?;
+            tx.execute("UPDATE job SET state='succeeded',lease_owner=NULL,lease_token=NULL,lease_expires_at_unix=NULL WHERE goal_id=?1", [&lease.goal_id])?;
+            tx.execute("INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?1,'goal.completed','ARTIFACT_VERIFIED',strftime('%Y-%m-%dT%H:%M:%fZ','now'))", [&lease.goal_id])?;
         } else {
-            tx.execute("UPDATE goal SET status='failed' WHERE id=?1", [&id])?;
-            tx.execute("UPDATE job SET state='failed' WHERE goal_id=?1", [&id])?;
-            tx.execute("INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?1,'goal.failed','ARTIFACT_MISMATCH',strftime('%Y-%m-%dT%H:%M:%fZ','now'))", [&id])?;
+            tx.execute(
+                "UPDATE goal SET status='failed' WHERE id=?1",
+                [&lease.goal_id],
+            )?;
+            tx.execute("UPDATE job SET state='failed',lease_owner=NULL,lease_token=NULL,lease_expires_at_unix=NULL WHERE goal_id=?1", [&lease.goal_id])?;
+            tx.execute("INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?1,'goal.failed','ARTIFACT_MISMATCH',strftime('%Y-%m-%dT%H:%M:%fZ','now'))", [&lease.goal_id])?;
         }
         tx.commit()?;
         Ok(TickResult {
             outcome: if verified { "succeeded" } else { "failed" }.into(),
-            goal_id: Some(id),
+            goal_id: Some(lease.goal_id.clone()),
             reason: if verified {
                 "FIXTURE_DIGEST_AND_LENGTH_VERIFIED"
             } else {
                 "ARTIFACT_MISMATCH"
+            }
+            .into(),
+        })
+    }
+
+    pub fn tick(&self) -> Result<TickResult, EngineError> {
+        let now_unix = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .map_err(|error| EngineError::Invalid(error.to_string()))?
+            .as_secs() as i64;
+        if let Some(lease) = self.claim_next("luna-core", now_unix, 30)? {
+            return self.complete_claim(&lease, now_unix);
+        }
+        let db = self.db.lock().expect("sqlite mutex poisoned");
+        let queued: bool = db.query_row(
+            "SELECT EXISTS(SELECT 1 FROM job WHERE state='queued')",
+            [],
+            |row| row.get(0),
+        )?;
+        let running: bool = db.query_row(
+            "SELECT EXISTS(SELECT 1 FROM job WHERE state='running')",
+            [],
+            |row| row.get(0),
+        )?;
+        Ok(TickResult {
+            outcome: if queued {
+                "waiting_for_dependencies"
+            } else if running {
+                "work_in_progress"
+            } else {
+                "idle_success"
+            }
+            .into(),
+            goal_id: None,
+            reason: if queued {
+                "DEPENDENCIES_NOT_COMPLETED"
+            } else if running {
+                "AUTHORIZED_JOB_LEASED"
+            } else {
+                "NO_AUTHORIZED_USEFUL_WORK"
             }
             .into(),
         })
@@ -232,6 +376,15 @@ impl GoalEngine {
                 r.get(0)
             })?,
         )
+    }
+
+    pub fn lease_attempts(&self, goal_id: &str) -> Result<u32, EngineError> {
+        let db = self.db.lock().expect("sqlite mutex poisoned");
+        Ok(db.query_row(
+            "SELECT attempt_count FROM job WHERE goal_id=?1",
+            [goal_id],
+            |row| row.get(0),
+        )?)
     }
 
     pub fn add_dependency(
@@ -281,7 +434,7 @@ impl GoalEngine {
 }
 
 fn read_goal(db: &Connection, id: &str) -> Result<GoalView, EngineError> {
-    db.query_row("SELECT id,action,status,score,policy_code,provenance_status,(SELECT state='queued' FROM job WHERE goal_id=goal.id) FROM goal WHERE id=?1",[id],|r| Ok(GoalView {contract_version:CONTRACT_VERSION,id:r.get(0)?,action:r.get(1)?,status:r.get(2)?,score:r.get(3)?,policy_code:r.get(4)?,provenance_status:match r.get::<_,String>(5)?.as_str(){"verified"=>SourceStatus::Verified,"disputed"=>SourceStatus::Disputed,_=>SourceStatus::Unknown},queued:r.get::<_,bool>(6)?})).map_err(|e| if e == rusqlite::Error::QueryReturnedNoRows { EngineError::NotFound } else { EngineError::Storage(e) })
+    db.query_row("SELECT id,action,status,score,policy_code,provenance_status,(SELECT state IN ('queued','running') FROM job WHERE goal_id=goal.id) FROM goal WHERE id=?1",[id],|r| Ok(GoalView {contract_version:CONTRACT_VERSION,id:r.get(0)?,action:r.get(1)?,status:r.get(2)?,score:r.get(3)?,policy_code:r.get(4)?,provenance_status:match r.get::<_,String>(5)?.as_str(){"verified"=>SourceStatus::Verified,"disputed"=>SourceStatus::Disputed,_=>SourceStatus::Unknown},queued:r.get::<_,bool>(6)?})).map_err(|e| if e == rusqlite::Error::QueryReturnedNoRows { EngineError::NotFound } else { EngineError::Storage(e) })
 }
 
 fn validate(body: &CreateGoal, idempotency_key: &str) -> Result<(), EngineError> {
@@ -401,6 +554,96 @@ mod tests {
         assert_eq!(engine.tick().unwrap().outcome, "succeeded");
         assert!(engine.evidence(&goal.id).unwrap().unwrap().verified);
         assert_eq!(engine.tick().unwrap().outcome, "idle_success");
+    }
+
+    #[test]
+    fn active_lease_prevents_idle_success_and_duplicate_claims() {
+        let (engine, key) = engine();
+        engine
+            .create(&body("local.checksum"), &key, "leased-once")
+            .unwrap();
+        let now = 1_800_000_000;
+        let lease = engine.claim_next("worker-a", now, 30).unwrap().unwrap();
+        assert!(engine.claim_next("worker-b", now, 30).unwrap().is_none());
+        let tick = engine.tick().unwrap();
+        assert_eq!(tick.outcome, "work_in_progress");
+        assert_eq!(tick.reason, "AUTHORIZED_JOB_LEASED");
+        assert_eq!(lease.owner, "worker-a");
+    }
+
+    #[test]
+    fn expired_lease_is_reclaimed_after_engine_restart() {
+        let path =
+            std::env::temp_dir().join(format!("luna-lease-restart-{}.sqlite", Uuid::new_v4()));
+        let key = "owner-test-key";
+        let (goal_id, first_token) = {
+            let engine = GoalEngine::open(&path, PolicyBroker::new(key, None)).unwrap();
+            let goal = engine
+                .create(&body("local.checksum"), key, "lease-restart")
+                .unwrap();
+            let claim = engine
+                .claim_next("worker-a", 1_800_000_000, 30)
+                .unwrap()
+                .unwrap();
+            (goal.id, claim.token)
+        };
+        let engine = GoalEngine::open(&path, PolicyBroker::new(key, None)).unwrap();
+        let recovered = engine
+            .claim_next("worker-b", 1_800_000_031, 30)
+            .unwrap()
+            .unwrap();
+        assert_eq!(recovered.goal_id, goal_id);
+        assert_ne!(recovered.token, first_token);
+        assert_eq!(engine.lease_attempts(&goal_id).unwrap(), 2);
+        assert!(
+            matches!(engine.complete_claim(&recovered, 1_800_000_032), Ok(result) if result.outcome == "succeeded")
+        );
+        assert!(
+            matches!(engine.complete_claim(&recovered, 1_800_000_033), Err(EngineError::Invalid(code)) if code == "LEASE_LOST")
+        );
+    }
+
+    #[test]
+    fn version_one_database_migrates_queued_work_without_loss() {
+        let path =
+            std::env::temp_dir().join(format!("luna-v1-migration-{}.sqlite", Uuid::new_v4()));
+        let key = "owner-test-key";
+        let goal_id = Uuid::new_v4().to_string();
+        let broker = PolicyBroker::new(key, None);
+        let grant = broker
+            .authorize(
+                &PolicyRequest {
+                    owner_token: key.into(),
+                    principal: Principal::Owner,
+                    action: "local.checksum".into(),
+                    privacy_class: PrivacyClass::General,
+                    expected_cost_minor: None,
+                    configured_budget_minor: None,
+                },
+                &goal_id,
+            )
+            .unwrap();
+        {
+            let db = Connection::open(&path).unwrap();
+            db.execute_batch(include_str!("../../../../migrations/native/001_core.sql"))
+                .unwrap();
+            db.execute(
+                "INSERT INTO goal VALUES(?1,'local.checksum','approved',100,'OWNER_SCOPED_GRANT','unknown','legacy-key','legacy-hash',strftime('%Y-%m-%dT%H:%M:%fZ','now'))",
+                [&goal_id],
+            ).unwrap();
+            db.execute(
+                "INSERT INTO goal_grant VALUES(?1,?2)",
+                params![goal_id, grant],
+            )
+            .unwrap();
+            db.execute("INSERT INTO job VALUES(?1,'queued')", [&goal_id])
+                .unwrap();
+        }
+        let engine = GoalEngine::open(&path, broker).unwrap();
+        assert_eq!(engine.get(&goal_id).unwrap().id, goal_id);
+        assert_eq!(engine.lease_attempts(&goal_id).unwrap(), 0);
+        assert_eq!(engine.tick().unwrap().outcome, "succeeded");
+        assert_eq!(engine.lease_attempts(&goal_id).unwrap(), 1);
     }
     #[test]
     fn queued_goal_resumes_after_engine_reopens() {

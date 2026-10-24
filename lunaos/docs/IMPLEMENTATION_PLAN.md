@@ -21,8 +21,9 @@ as optional. Current milestone labels are updated in `STATUS.md`.
    DAG with cycle rejection, bounded planning and provenance. Exit: Rust parity
    tests cover every prior behavior plus DAG and transition invariants; migrations
    preserve stored records.
-4. **Durable scheduler and agent runner.** Add leases, heartbeats, bounded retries,
-   quotas, interruption handling, transactional event outbox/inbox and tool
+4. **Durable scheduler and agent runner.** Atomic SQLite leases, expiry recovery
+   and a data-preserving schema migration are implemented locally. Add lease
+   renewal, heartbeats, bounded retries, quotas, interruption handling, transactional event outbox/inbox and tool
    isolation. Exit: process-kill, duplicate-delivery and concurrent-worker tests
    prove no duplicated effect for every enabled adapter.
 5. **Evidence and memory.** Implement source/confidence/freshness assertions,

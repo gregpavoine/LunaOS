@@ -11,12 +11,13 @@ All mandatory later features remain in Mont Blanc scope.
 | Independent owner-authenticated Rust policy process | VERIFIED_LOCAL | Child-process UDS test + native smoke; checksum only |
 | Native Rust Core API and durable local queue | VERIFIED_LOCAL | Real local REST smoke; no Linux/systemd claim |
 | Budget zero, deny-before-score | VERIFIED_LOCAL | Rust policy/engine tests; no privileged system action enabled |
-| Pure-job idempotency/restart/SIGKILL recovery | VERIFIED_LOCAL | G-012 local subset only; no target power-loss proof |
+| Pure-job idempotency/restart/lease-expiry recovery | VERIFIED_LOCAL | Local SQLite/process-reopen tests; no SIGKILL or target power-loss proof |
 | Unknown provenance hypothesis | VERIFIED_LOCAL | G-010 |
 | Idle success/offline local goal feature | VERIFIED_LOCAL | G-021, G-023 local subset |
 | Evidence-backed checksum completion | VERIFIED_LOCAL | G-013 pure fixture only |
 | Local REST owner transparency | VERIFIED_LOCAL | API round-trip; partial G-030 |
-| Full planner DAG/goal CRUD/strategy optimizer | NOT_STARTED | Basic single-job slice only |
+| Bounded dependency edges/cycle rejection/scheduler ordering | VERIFIED_LOCAL | Local Rust tests; manual edges only, no bounded planner |
+| Full goal lifecycle/CRUD/planner/strategy optimizer | NOT_STARTED | Current API is create/read/tick plus dependency edge |
 | Authenticated production sessions/key vault/remote admin | BLOCKED | Device identities/key store and hardened Linux boundary absent |
 | Payments, reservations/ledger, external conversation grants | NOT_STARTED | Always denied; no budget or recipients configured |
 | Native Wayland shell/session/keyboard command center | BLOCKED | GTK source not built; Linux/Hyprland run needed |

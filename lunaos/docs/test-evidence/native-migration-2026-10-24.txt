@@ -30,7 +30,8 @@ Commands run on the final native-code tree:
 The native Goal Engine tests additionally verify policy denial before score,
 owner-only policy grants, absent-budget payment refusal, duplicate idempotency,
 unknown provenance status, idle success, evidence verification, dependency cycle
-rejection, dependency ordering/wait state and queued state after engine reopen.
+rejection, dependency ordering/wait state, lease exclusivity, stale-token rejection,
+expiry recovery after engine restart and data-preserving v1 schema migration.
 The Core route test verifies owner authorization for dependency changes.
 
 The GTK shell was not compiled: the host `pkg-config` executable fails with
