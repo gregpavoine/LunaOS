@@ -33,8 +33,8 @@ Evidence: [task-1.txt](test-evidence/task-1.txt).
 | `.venv/bin/python scripts/smoke.py` | PASS; real launcher stop/restart, same persisted goal and exactly one verified digest |
 | Git diff whitespace check | PASS |
 | OpenAPI JSON parse | PASS; full OpenAPI schema-validator conformance not executed |
-| Independent read-only review | Two privacy findings fixed; follow-up reviewer confirmed both resolved and found no new actionable issues |
-| GitHub Actions on macOS and Ubuntu | Task 1 baseline passed; Milestone 1b workflow run pending push |
+| Independent read-only review | Follow-up findings on terminal dependencies, SQL update bounds, expired grants and API contract fixed; reviewer confirmed resolution and no further actionable issues |
+| GitHub Actions on macOS and Ubuntu | PASS; workflow run [40083034152](https://github.com/gregpavoine/LunaOS/actions/runs/40083034152) for commit `a1de19a` |
 
 The six Task 1 acceptance cases all pass: owner-only privileges, absent-budget
 payment refusal, policy denial before scoring, duplicate-job idempotency,
