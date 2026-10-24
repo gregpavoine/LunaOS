@@ -137,6 +137,56 @@
         ]
       }
     },
+    "/v1/goals/{id}/plan": {
+      "post": {
+        "summary": "Replace an owner's bounded dependency plan",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoalPlan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated goal and persisted plan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Goal"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or cyclic plan"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Goal not found"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
     "/v1/goals/{id}/decisions": {
       "get": {
         "summary": "At most 100 ordered safe events",
@@ -434,6 +484,26 @@
           }
         }
       },
+      "GoalPlan": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["depends_on"],
+        "properties": {
+          "depends_on": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 32,
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "parent_id": {
+            "type": ["string", "null"],
+            "format": "uuid"
+          }
+        }
+      },
       "Error": {
         "type": "object",
         "required": [
@@ -500,7 +570,8 @@
           "computed_priority",
           "decision_code",
           "evidence",
-          "execution"
+          "execution",
+          "plan"
         ],
         "properties": {
           "id": {
@@ -557,8 +628,29 @@
           "execution": {
             "type": "object"
           },
+          "plan": {
+            "type": "object",
+            "required": ["parent_id", "depends_on"],
+            "properties": {
+              "parent_id": {
+                "type": ["string", "null"],
+                "format": "uuid"
+              },
+              "depends_on": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
           "version": {
             "type": "integer"
+          },
+          "parent_id": {
+            "type": ["string", "null"],
+            "format": "uuid"
           },
           "created_at": {
             "type": "string",

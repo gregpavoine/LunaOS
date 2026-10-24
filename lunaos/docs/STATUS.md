@@ -1,4 +1,4 @@
-# Task 1 status — 2026-10-24
+# LunaOS status — Milestone 1b — 2026-10-24
 
 **Working local bootstrap checkpoint. Full LunaOS V0 is NOT finished. Mont Blanc
 release remains PLANNED. No target Linux integration has been verified.**
@@ -11,6 +11,8 @@ release remains PLANNED. No target Linux integration has been verified.**
   signed action/goal-specific expiring grants. Guest/voice strings do not authenticate.
 - Python/SQLite persistent registry, versioned migration, queue, weighted scoring
   after policy gate, execution recheck and durable idempotency.
+- Schema v2 preserves v1 data and adds parent links plus a bounded dependency DAG;
+  the owner plan API rejects invalid/cyclic plans and scheduler waits for completed prerequisites.
 - Real `local.checksum` action on a public fixture, independent digest/length
   evaluation, evidence, measured strategy trial and transactional completion event.
 - Durable lifecycle outbox records and one local transactional completion consumer
@@ -26,20 +28,26 @@ Evidence: [task-1.txt](test-evidence/task-1.txt).
 | Command | Actual result |
 |---|---|
 | `make env` | PASS; local venv created without pip/download |
-| `make test check` | PASS; 3 Go test functions + 16 Python integration tests; vet, compileall and baseline syntax pass |
+| `make test check` | PASS; Go package tests + 25 Python integration tests; vet, compileall and baseline syntax pass |
 | `go test -buildvcs=false -race -count=1 ./services/policy` | PASS |
 | `.venv/bin/python scripts/smoke.py` | PASS; real launcher stop/restart, same persisted goal and exactly one verified digest |
 | Git diff whitespace check | PASS |
 | OpenAPI JSON parse | PASS; full OpenAPI schema-validator conformance not executed |
 | Independent read-only review | Two privacy findings fixed; follow-up reviewer confirmed both resolved and found no new actionable issues |
-| GitHub Actions on macOS and Ubuntu | PASS on corrected workflow; one earlier setup-only failure is documented below |
+| GitHub Actions on macOS and Ubuntu | Task 1 baseline passed; Milestone 1b workflow run pending push |
 
-The six requested acceptance cases all pass: owner-only privileges, absent-budget
+The six Task 1 acceptance cases all pass: owner-only privileges, absent-budget
 payment refusal, policy denial before scoring, duplicate-job idempotency,
 unknown-source hypothesis, and inactive/zero-utility idle success. Additional tests
 cover score ordering, real UDS API auth, broker outage, grant forgery/scope/expiry,
 sensitive-denial canary, immutable events, concurrent workers, new-process queue
-resume and SIGKILL during execution followed by successful retry.
+resume and SIGKILL during execution followed by successful retry. Milestone 1b adds
+v1-to-v2 data-preserving migration, owner-authenticated plan mutation, parent and
+dependency cycle rejection, plan replacement, a 32-prerequisite cap enforced on
+insert and update, blocked/failed/zero-utility prerequisite rejection, and scheduler
+gating. If an owner grant expires before execution, the scheduler records a visible
+`GRANT_RENEWAL_REQUIRED` blocked state; the owner must create a replacement goal
+and update dependent plans.
 
 Checksum fixture: `LunaOS public checkpoint v1` plus newline (28 bytes).
 Verified SHA256: `07be6a1cc7b1b323fd3baca70abf34bfea13e09f9d28cf417d11aca77d4220ce`.
@@ -56,6 +64,15 @@ This is a real checksum execution, not evidence of a model or hardware action.
 - Review regressions reproduced sensitive-denied assertion persistence and duplicate
   denial log growth. Sensitive assertions now discarded before hashing/persistence;
   identical consecutive denials deduplicated. Both regression tests pass.
+- New plan/migration tests first failed against the v1 implementation as expected;
+  schema v2, plan validation and scheduler gating made them pass.
+- Initial route test returned 404 before plan API implementation, then passed with
+  authenticated route and matching OpenAPI contract.
+- Independent milestone review found that plans accepted already-blocked goals,
+  SQLite's edge cap could be bypassed with UPDATE, and the OpenAPI route omitted
+  503. Follow-up found expired grants could leave queued goals indefinitely pending.
+  Regression tests reproduced these cases; the implementation and contract are now
+  corrected. Final independent review is pending.
 
 ## Blocked / not verified / limits
 
@@ -63,7 +80,7 @@ This is a real checksum execution, not evidence of a model or hardware action.
   cleanup, packages, mounts, service mutation, boot or disk operation performed.
 - Hardware: GPU/NVIDIA/CUDA, ComfyUI image/video, Omarchy shell/KEEP tests, actual
   reboot/power-loss, sensors/BLIND, iPhone/WhatsApp, NAS and recovery NOT VERIFIED.
-- Model router, full planner DAG/CRUD, strategy optimizer, production identity/MFA,
+- Model router, generated subgoal planner/full goal CRUD, strategy optimizer, production identity/MFA,
   grant revocation registry, resource leases, encrypted private vault, consent,
   full Intimacy Core, Discovery and signed images NOT IMPLEMENTED in this task.
 - Owner key is private development file, not production credential vault. Same-UID
@@ -80,7 +97,7 @@ This is a real checksum execution, not evidence of a model or hardware action.
 ## Next smallest milestone
 
 Complete owner session expiry/revocation and separate production service identities,
-then goal DAG/planner + migration tests and protected private import vault. In the
+then generated subgoal planning, remaining goal lifecycle APIs and protected private import vault. In the
 Linux lane, the first dependency is owner-supplied SSH alias **and explicit connection
 and baseline authorization**; then read-only baseline and recovery verification.
 No data is needed from the owner to use this local checkpoint.

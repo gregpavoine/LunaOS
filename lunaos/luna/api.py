@@ -56,6 +56,15 @@ class Handler(BaseHTTPRequestHandler):
                 body = json.loads(self.rfile.read(length))
             if method == 'POST' and self.path == '/v1/goals':
                 self._reply(201, engine.create(body, auth[7:], self.headers.get('Idempotency-Key')))
+            elif method == 'POST' and self.path.startswith('/v1/goals/'):
+                parts = self.path.split('/')
+                if len(parts) != 5 or parts[1:3] != ['v1', 'goals'] or parts[4] != 'plan':
+                    self._reply(404, {'code': 'NOT_FOUND'})
+                    return
+                if not isinstance(body, dict) or 'depends_on' not in body or set(body) - {'depends_on', 'parent_id'}:
+                    raise Invalid('PLAN_INVALID')
+                engine.set_plan(parts[3], body['depends_on'], body.get('parent_id'), auth[7:])
+                self._reply(200, engine.get(parts[3]))
             elif method == 'POST' and self.path == '/v1/scheduler/tick':
                 if body != {}:
                     raise Invalid('EMPTY_OBJECT_REQUIRED')

@@ -21,8 +21,14 @@ Goal Engine spec §§0–13, unified master U0–U21; Series 26 controls Omarchy
    evidence, update STATUS and release matrix, inspect diff and commit checkpoint.
 
 Incremental V0 after this task:
-- M1b: dependency DAG/cycle tests, owner session expiry/revocation, independent OS
-  identities/peer credentials, production key store, encrypted private import vault.
+- M1b: bounded dependency/parent DAG, cycle rejection, scheduler gating and v1→v2
+  migration are implemented locally. Dependencies must be completed or approved
+  with positive utility; already blocked, failed or zero-utility goals are rejected.
+  Expired grants become visible blocked goals that require owner replacement.
+  Remaining: owner session expiry/revocation, independent OS identities/peer
+  credentials, production key store, encrypted private import vault.
+- M1c: implement session expiry/revocation before production tool scopes, then
+  generated subgoal planning, pause/resume/cancel lifecycle and private-vault design.
 - M2 (requires approved SSH alias): run read-only baseline, verify recovery, choose
   scoped deployment; retain Omarchy launcher/notifications/clipboard and all KEEP apps.
 - M3: real model router, Linux service adapter, measured GPU broker and existing

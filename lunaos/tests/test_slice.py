@@ -1,5 +1,7 @@
 import concurrent.futures
+import base64
 import hashlib
+import hmac
 import json
 import os
 from pathlib import Path
@@ -7,6 +9,7 @@ import socket
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import unittest
 
@@ -184,6 +187,14 @@ Engine(sys.argv[1], Broker(sys.argv[2], 'a'*64)).tick()
             self.assertEqual(request('POST', '/v1/scheduler/tick', {})[1]['outcome'], 'succeeded')
             self.assertEqual(request('GET', '/v1/goals/' + goal['id'])[1]['status'], 'completed')
             self.assertEqual(request('GET', '/v1/goals/' + goal['id'] + '/decisions')[0], 200)
+            planned = self.engine.create({'action': 'local.checksum'}, 'a' * 64, 'api-plan-goal')
+            plan_path = '/v1/goals/' + planned['id'] + '/plan'
+            self.assertEqual(request('POST', plan_path, {'depends_on': [goal['id']], 'parent_id': goal['id']}, token='guest')[0], 401)
+            plan_status, plan_goal = request('POST', plan_path, {'depends_on': [goal['id']], 'parent_id': goal['id']})
+            self.assertEqual(plan_status, 200)
+            self.assertEqual(plan_goal['plan'], {'parent_id': goal['id'], 'depends_on': [goal['id']]})
+            self.assertEqual(request('POST', plan_path, {'depends_on': [], 'unexpected': True})[0], 400)
+            self.assertEqual(request('POST', '/v1/goals/missing/plan', {'depends_on': []})[0], 404)
             self.assertEqual(request('GET', '/v1/system/capabilities')[1]['remote'], 'disabled')
             self.assertEqual(request('GET', '/v1/not-implemented')[0], 404)
             self.assertEqual(os.stat(api_socket).st_mode & 0o777, 0o600)
@@ -201,9 +212,126 @@ Engine(sys.argv[1], Broker(sys.argv[2], 'a'*64)).tick()
             with self.assertRaises(sqlite3.IntegrityError):
                 db.execute('DELETE FROM goal_event')
             self.assertEqual(db.execute('PRAGMA integrity_check').fetchone()[0], 'ok')
-            self.assertEqual(db.execute('SELECT count(*) FROM schema_migration').fetchone()[0], 1)
+            self.assertEqual(db.execute('SELECT count(*) FROM schema_migration').fetchone()[0], 2)
         Engine(self.db, self.broker)
         self.assertEqual(self.engine.get(goal['id'])['status'], 'approved')
+
+    def test_store_migrates_v1_without_data_loss(self):
+        import sqlite3
+        from luna.store import Store
+        legacy = self.root / 'legacy.sqlite'
+        conn = sqlite3.connect(legacy)
+        conn.executescript((ROOT / 'migrations/core/001_bootstrap.sql').read_text())
+        conn.execute("INSERT INTO goal(id,owner_id,action,privacy_class,status,metrics,computed_priority,priority_explanation,decision_code,assertion,grant_token,created_at,updated_at) VALUES('legacy-goal','owner','local.checksum','general','completed','{}',100,'{}','OK',NULL,'redacted','t0','t1')")
+        conn.execute("INSERT INTO goal_execution(id,goal_id,idempotency_key,request_hash,execution_state) VALUES('legacy-run','legacy-goal','legacy-key','hash','succeeded')")
+        conn.execute("INSERT INTO evidence(id,goal_id,sha256,byte_count,provenance,verified_at) VALUES('legacy-evidence','legacy-goal','aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',1,'fixture','t1')")
+        conn.execute("INSERT INTO goal_event(event_id,goal_id,event_type,decision_code,correlation_id,occurred_at) VALUES('legacy-event','legacy-goal','goal.completed','OK','legacy-goal','t1')")
+        conn.execute("INSERT INTO event_outbox(event_id,delivered_at) VALUES('legacy-event','t1')")
+        conn.commit()
+        conn.close()
+        legacy.chmod(0o600)
+        Store(legacy)
+        with Store(legacy).connect() as upgraded:
+            self.assertEqual(upgraded.execute('SELECT count(*) FROM schema_migration').fetchone()[0], 2)
+            self.assertEqual(upgraded.execute("SELECT id FROM goal WHERE id='legacy-goal'").fetchone()[0], 'legacy-goal')
+            self.assertEqual(upgraded.execute("SELECT id FROM evidence WHERE id='legacy-evidence'").fetchone()[0], 'legacy-evidence')
+            self.assertEqual(upgraded.execute("SELECT event_id FROM goal_event WHERE event_id='legacy-event'").fetchone()[0], 'legacy-event')
+            self.assertEqual(upgraded.execute("SELECT parent_id FROM goal WHERE id='legacy-goal'").fetchone()[0], None)
+
+    def test_concurrent_store_initialization_applies_migrations_once(self):
+        from luna.store import Store
+        database = self.root / 'concurrent.sqlite'
+        barrier = threading.Barrier(2)
+        def initialize(_):
+            barrier.wait(timeout=5)
+            return Store(database)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
+            list(pool.map(initialize, range(2)))
+        with Store(database).connect() as db:
+            self.assertEqual(db.execute('SELECT count(*) FROM schema_migration').fetchone()[0], 2)
+
+    def test_goal_plan_persists_replaces_dependencies_and_parent(self):
+        root = self.engine.create({'action': 'local.checksum'}, 'a' * 64, 'plan-root')
+        dep_a = self.engine.create({'action': 'local.checksum'}, 'a' * 64, 'plan-dep-a')
+        dep_b = self.engine.create({'action': 'local.checksum'}, 'a' * 64, 'plan-dep-b')
+        plan = self.engine.set_plan(root['id'], [dep_a['id']], dep_b['id'], 'a' * 64)
+        self.assertEqual(plan, {'parent_id': dep_b['id'], 'depends_on': [dep_a['id']]})
+        self.assertEqual(self.engine.get(root['id'])['plan'], plan)
+        replacement = self.engine.set_plan(root['id'], [dep_b['id']], None, 'a' * 64)
+        self.assertEqual(replacement, {'parent_id': None, 'depends_on': [dep_b['id']]})
+
+    def test_goal_plan_rejects_invalid_and_cyclic_graph_atomically(self):
+        a = self.engine.create({'action': 'local.checksum'}, 'a' * 64, 'cycle-a')
+        b = self.engine.create({'action': 'local.checksum'}, 'a' * 64, 'cycle-b')
+        with self.assertRaises(Invalid):
+            self.engine.set_plan(a['id'], [a['id']], None, 'a' * 64)
+        with self.assertRaises(Invalid):
+            self.engine.set_plan(a['id'], ['missing-goal'], None, 'a' * 64)
+        with self.assertRaises(Invalid):
+            self.engine.set_plan(a['id'], [b['id'], b['id']], None, 'a' * 64)
+        with self.assertRaisesRegex(Invalid, 'PLAN_TOO_LARGE'):
+            self.engine.set_plan(a['id'], [f'goal-{index}' for index in range(33)], None, 'a' * 64)
+        self.engine.set_plan(a['id'], [b['id']], None, 'a' * 64)
+        with self.assertRaises(Invalid):
+            self.engine.set_plan(b['id'], [a['id']], None, 'a' * 64)
+        self.assertEqual(self.engine.get(b['id'])['plan'], {'parent_id': None, 'depends_on': []})
+
+    def test_goal_plan_requires_owner_and_rejects_parent_cycle(self):
+        a = self.engine.create({'action': 'local.checksum'}, 'a' * 64, 'parent-a')
+        b = self.engine.create({'action': 'local.checksum'}, 'a' * 64, 'parent-b')
+        with self.assertRaises(Unauthorized):
+            self.engine.set_plan(a['id'], [], b['id'], 'guest')
+        self.engine.set_plan(a['id'], [], b['id'], 'a' * 64)
+        with self.assertRaises(Invalid):
+            self.engine.set_plan(b['id'], [], a['id'], 'a' * 64)
+
+    def test_goal_plan_rejects_already_blocked_prerequisite(self):
+        root = self.engine.create({'action': 'local.checksum'}, 'a' * 64, 'blocked-prereq-root')
+        blocked = self.engine.create({'action': 'system.root'}, 'a' * 64, 'blocked-prereq')
+        self.assertEqual(blocked['status'], 'blocked')
+        with self.assertRaisesRegex(Invalid, 'DEPENDENCY_NOT_RUNNABLE'):
+            self.engine.set_plan(root['id'], [blocked['id']], None, 'a' * 64)
+
+    def test_expired_grant_blocks_goal_for_owner_replacement(self):
+        goal = self.create()
+        payload = json.dumps({'goal_id': goal['id'], 'action': 'local.checksum', 'principal': 'owner', 'expires': 1}, separators=(',', ':')).encode()
+        encoded = base64.urlsafe_b64encode(payload).decode().rstrip('=')
+        signature = hmac.new(('a' * 64).encode(), payload, hashlib.sha256).hexdigest()
+        expired_grant = encoded + '.' + signature
+        with self.engine.store.transaction() as db:
+            db.execute('UPDATE goal SET grant_token=? WHERE id=?', (expired_grant, goal['id']))
+        self.assertEqual(self.engine.tick()['outcome'], 'idle_success')
+        blocked = self.engine.get(goal['id'])
+        self.assertEqual(blocked['status'], 'blocked')
+        self.assertEqual(blocked['decision_code'], 'GRANT_RENEWAL_REQUIRED')
+        self.assertEqual(blocked['execution']['execution_state'], 'blocked')
+        self.assertIn(('goal.authorization.expired', 'GRANT_RENEWAL_REQUIRED'), [(e['event_type'], e['decision_code']) for e in self.engine.events(goal['id'])])
+
+    def test_sql_trigger_enforces_dependency_limit_on_update(self):
+        import uuid
+        ids = [str(uuid.uuid4()) for _ in range(35)]
+        target, source, *others = ids
+        prerequisites = others[:32]
+        extra = others[32]
+        with self.engine.store.transaction() as db:
+            for goal_id in ids:
+                db.execute("INSERT INTO goal(id,owner_id,action,privacy_class,status,metrics,computed_priority,priority_explanation,decision_code,assertion,grant_token,created_at,updated_at) VALUES(?,'owner','local.checksum','general','approved','{}',50,'{}','OK',NULL,'redacted','t0','t0')", (goal_id,))
+            db.executemany("INSERT INTO goal_dependency(goal_id,depends_on_goal_id,dependency_type,created_at) VALUES(?,?,'blocks','t0')", [(target, item) for item in prerequisites])
+            db.execute("INSERT INTO goal_dependency(goal_id,depends_on_goal_id,dependency_type,created_at) VALUES(?,?,'blocks','t0')", (source, extra))
+        import sqlite3
+        with self.assertRaises(sqlite3.IntegrityError):
+            with self.engine.store.transaction() as db:
+                db.execute('UPDATE goal_dependency SET goal_id=? WHERE goal_id=?', (target, source))
+
+    def test_scheduler_waits_for_blocking_goal_to_complete(self):
+        dependent = self.engine.create({'action': 'local.checksum'}, 'a' * 64, 'dependent')
+        prerequisite = self.engine.create({'action': 'local.checksum'}, 'a' * 64, 'prerequisite')
+        self.engine.set_plan(dependent['id'], [prerequisite['id']], None, 'a' * 64)
+        first = self.engine.tick()
+        self.assertEqual(first['goal_id'], prerequisite['id'])
+        self.assertEqual(self.engine.get(dependent['id'])['status'], 'approved')
+        second = self.engine.tick()
+        self.assertEqual(second['goal_id'], dependent['id'])
 
 
     def test_denied_sensitive_payload_not_persisted(self):

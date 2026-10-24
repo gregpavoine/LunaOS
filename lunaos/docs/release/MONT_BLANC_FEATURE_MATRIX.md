@@ -1,6 +1,6 @@
 # Feature status — release PLANNED
 
-As of Task 1, 2026-10-24. No full V0, RC or Mont Blanc release claimed.
+As of Task 1 plus Milestone 1b, 2026-10-24. No full V0, RC or Mont Blanc release claimed.
 VERIFIED_LOCAL means only the bounded Mac slice has executed evidence.
 All mandatory later features remain in Mont Blanc scope.
 
@@ -14,7 +14,8 @@ All mandatory later features remain in Mont Blanc scope.
 | Idle success/offline local goal feature | VERIFIED_LOCAL | G-021, G-023 local subset |
 | Evidence-backed checksum completion | VERIFIED_LOCAL | G-013 pure fixture only |
 | Local REST owner transparency | VERIFIED_LOCAL | API round-trip; partial G-030 |
-| Full planner DAG/goal CRUD/strategy optimizer | NOT_STARTED | Basic single-job slice only |
+| Bounded explicit parent/dependency DAG + cycle-safe scheduler gate | VERIFIED_LOCAL | Migration 2 and plan API tests; not a model-generated planner |
+| Full goal CRUD/generated planner/strategy optimizer | NOT_STARTED | Only explicit dependency plans and one measured checksum strategy |
 | Authenticated production sessions/key vault/remote admin | BLOCKED | Device identities/key store and hardened Linux boundary absent |
 | Payments, reservations/ledger, external conversation grants | NOT_STARTED | Always denied; no budget or recipients configured |
 | Omarchy additive shell/session/keyboard command center | BLOCKED | Linux inventory + authorized deployment needed |

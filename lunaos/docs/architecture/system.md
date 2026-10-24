@@ -14,9 +14,9 @@ result/evidence/strategy measurement/event commit. Both sockets are 0600 inside
 |---|---|---|---|
 | Core API | Owner key possession; strict JSON; caller cannot supply role | `luna/api.py` | OS-authenticated shell/device session, revocable credentials |
 | Policy broker | Separate Go process; signed goal/action/owner/expiry grant | `services/policy` | Separate UID, peer credentials, OS-protected keys, owner grant UI |
-| Goal registry | Canonical request, metrics and provenance | `luna/engine.py`, SQLite | Full goal DAG/planner, policies, CRUD lifecycle |
+| Goal registry | Canonical request, metrics, provenance and bounded parent/dependency plan | `luna/engine.py`, SQLite v2 | Goal CRUD lifecycle, generated subgoals, project/domain model |
 | Scorer | Hard policy gates first, normalized 0..1 metrics | Pure weighted formula 0..100; explanation stored | Aging bonus capped at 5, project fairness, deadlines/resource factors benchmarked |
-| Scheduler | Approved queued jobs with utility >0 | One write transaction serializes workers; score DESC, oldest first | Leases/heartbeats, quotas, modes, fairness and resource admission |
+| Scheduler | Approved queued jobs with utility >0 and all `blocks` dependencies completed | One write transaction serializes workers; score DESC, oldest first; broker recheck before action | Leases/heartbeats, quotas, modes, fairness and resource admission |
 | Agent executor | Single allowlisted typed action; no arguments | SHA256 of public fixture bytes | OS-sandboxed agent tools; scoped files/service/ComfyUI adapters |
 | Outcome evaluator | Actual digest + byte count | Independent check before completion | Artifact decode, real tests/benchmarks; no LLM completion claim |
 | Strategy evaluator | Baseline hypothesis + measured result | Immutable trial/result comparison for one strategy | Bounded experimental replanning/rollback; not self-modification |
@@ -63,9 +63,12 @@ This is re-execution of a pure deterministic action, not continuation of an exte
 operation. Never carry this transaction-across-work pattern to long or network jobs.
 Outbox records for other lifecycle events remain durable and pending; no general
 message bus or dispatcher is claimed. Goal reads expose event history directly.
-Denied jobs are blocked at admission; an unavailable/expired broker at execution
-leaves queued work intact. No automatic grant renewal. Unchanged repeated denials are deduplicated; bounded retention/backoff is required
-before production long-running use. Only the latest 100 events are exposed, in chronological order.
+Denied jobs are blocked at admission. A temporary broker outage leaves queued work
+intact; an invalid or expired grant blocks the goal and records
+`GRANT_RENEWAL_REQUIRED`. There is no automatic renewal; the owner creates a
+replacement goal and updates dependent plans. Unchanged repeated denials are
+deduplicated; bounded retention/backoff is required before production long-running
+use. Only the latest 100 events are exposed, in chronological order.
 
 ## Logical data schema vs implemented subset
 
@@ -80,23 +83,24 @@ expense_ledger (intent/reservation/settlement/reconciliation), memory_assertion
 (claim/source/status/confidence/supersession/privacy/freshness), persona_revision,
 external_conversation_grant, consent_receipt and data_erasure_job.
 
-Task 1 implements only public-fixture goal fields, one signed scoped grant, executions,
-evidence, events/outbox/inbox, a single measured strategy and optional unknown-source
-assertion. The remaining entities are specified above and in source §3, not empty
-production tables or APIs masquerading as implemented services. Full planner DAG,
-ledger reservations, persona, external communication and consent are not implemented.
+Task 1 plus Milestone 1b implement only public-fixture goal fields, parent/dependency
+plans with cycle rejection, one signed scoped grant, executions, evidence, events/outbox/inbox,
+a single measured strategy and optional unknown-source assertion. The remaining entities are specified above and in source §3, not empty
+production tables or APIs masquerading as implemented services. Generated subgoal
+planning, ledger reservations, persona, external communication and consent are not implemented.
 SQLite→PostgreSQL migration path is ADR0002; concurrency/external execution needs
 leases, at-least-once outbox delivery, scoped inbox keys and provider-side reconciliation.
 
 ## REST and event contracts
 
 `contracts/openapi/local.json` describes only currently implemented UDS HTTP endpoints.
-Create accepts action, optional metrics, privacy class and an optional assertion input. Claim/source text is validated in memory and discarded before hashing or persistence; only confidence and unknown/hypothesis status are retained for the provenance test;
+Create accepts action, optional metrics, privacy class and an optional assertion input. Claim/source text is validated in memory and discarded before hashing or persistence; only confidence and unknown/hypothesis status are retained for the provenance test.
+`POST /v1/goals/{id}/plan` atomically replaces up to 32 dependency edges and the optional parent; dependencies must reference existing goals, cycles are rejected, and scheduler eligibility requires each prerequisite to be completed.
 unknown fields rejected. Idempotency-Key required; owner derived from authenticated
 configuration. Errors use fixed codes, never echo raw bodies/secrets. Origin-bearing
 browser requests are rejected; native UDS client only. Results bounded to 100 records.
 
-Planned Goal §8 routes (PATCH, plan, evaluate, remote/session, consent, persona) remain
+Planned Goal §8 routes (PATCH, evaluate, remote/session, consent, persona) remain
 unimplemented (404). Event payloads have UUID event_id/goal_id/correlation_id, UTC
 occurred_at, schema_version=1, event_type and decision_code. No prompt/body/credential
 in event payload. Exact HTTP broker grant/evaluation contracts are in OpenAPI.
