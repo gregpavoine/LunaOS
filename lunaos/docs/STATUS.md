@@ -34,7 +34,7 @@ Evidence: [task-1.txt](test-evidence/task-1.txt).
 | Git diff whitespace check | PASS |
 | OpenAPI JSON parse | PASS; full OpenAPI schema-validator conformance not executed |
 | Independent read-only review | Follow-up findings on terminal dependencies, SQL update bounds, expired grants and API contract fixed; reviewer confirmed resolution and no further actionable issues |
-| GitHub Actions on macOS and Ubuntu | PASS; workflow run [40083114663](https://github.com/gregpavoine/LunaOS/actions/runs/40083114663) for commit `7eb43f1` |
+| GitHub Actions on macOS and Ubuntu | PASS; workflow run [40083448967](https://github.com/gregpavoine/LunaOS/actions/runs/40083448967) for commit `cf405aa` |
 
 The six Task 1 acceptance cases all pass: owner-only privileges, absent-budget
 payment refusal, policy denial before scoring, duplicate-job idempotency,

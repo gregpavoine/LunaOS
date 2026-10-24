@@ -277,7 +277,7 @@ As of 2026-10-24, the public fork verifies only a portable local Goal Engine sli
 - Python/SQLite registry, deterministic provisional score, owner REST API, durable queue and outbox, idempotency, bounded parent/dependency DAG, migration and scheduler gating.
 - Grant expiry becomes a visible blocked goal requiring an owner-authorized replacement. Payments are refused because no budget is configured. Unknown-source assertions remain hypotheses.
 - The sole executable action hashes a fixed public fixture, verifies exact digest and size, and records local evidence. Idle success is implemented.
-- Local verification: 25 Python integration tests, Go tests/race/vet, compile and baseline-script syntax checks; GitHub Actions passes on Ubuntu and macOS ([latest completed run](https://github.com/gregpavoine/LunaOS/actions/runs/40083114663)). See [test evidence](docs/test-evidence/task-1.txt) and [status](docs/STATUS.md).
+- Local verification: 25 Python integration tests, Go tests/race/vet, compile and baseline-script syntax checks; GitHub Actions passes on Ubuntu and macOS ([run for the current checkpoint](https://github.com/gregpavoine/LunaOS/actions/runs/40083448967)). See [test evidence](docs/test-evidence/task-1.txt) and [status](docs/STATUS.md).
 
 The full owner session lifecycle, separate production identities, generated planner, general goal CRUD, production key store, encrypted private vault, strategy optimizer, local model/voice/UI, Linux adapters, NVIDIA/GPU, ComfyUI, sensors/BLIND, consent, Intimacy Core, Discovery, iPhone, NAS and signed installer are not implemented or target-verified. No remote Linux connection has been made and `scripts/linux-baseline.sh` has not been executed.
 
