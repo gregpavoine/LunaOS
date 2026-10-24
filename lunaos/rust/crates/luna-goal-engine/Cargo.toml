@@ -6,6 +6,7 @@ license.workspace = true
 rust-version.workspace = true
 
 [dependencies]
+luna-agent-runner.workspace = true
 luna-contracts = { path = "../luna-contracts" }
 luna-policy-broker = { path = "../luna-policy-broker" }
 hex.workspace = true

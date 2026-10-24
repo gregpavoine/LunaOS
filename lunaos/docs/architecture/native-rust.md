@@ -12,6 +12,7 @@ document distinguishes target boundaries from the subset already running locally
 | LUNA Core API + scheduler | `luna-core` | Authenticated loopback REST/JSON; Tokio periodic scheduler | Runs locally on macOS; not installed as systemd service |
 | Goal Engine | `luna-goal-engine` | Internal Rust API; SQLite migrations | Local slice: score, idempotent create, dependency ordering, restart persistence, execution leases and evidence |
 | Policy Broker | `luna-policy-broker` | Separate process; bounded newline JSON over private Unix socket | Rust child-process test passes; one public checksum action only |
+| Agent Runner | `luna-agent-runner` | In-process allowlisted action trait and evidence result | Local public-fixture runner only; no standalone service, sandbox or system actions |
 | Shared contracts | `luna-contracts` | Versioned serde request/result types | Compiles; several Mont Blanc types are schema-only |
 | Local model adapter | `luna-llm-adapter` | OpenAI-compatible local llama.cpp endpoint | Adapter source and loopback test; no model/server or real inference |
 | Native shell | `luna-shell` | GTK4 + Wayland; Core status API | Source exists behind feature; GTK build/runtime unverified |
@@ -37,15 +38,18 @@ provisioning, revocation and production key lifecycle remain release requirement
 `POST /v1/goals` accepts the typed create contract and an `Idempotency-Key`. Core
 authenticates the owner, sends the policy request to the broker, persists an
 authorized goal and queued job in SQLite, and computes the documented weighted
-score only after authorization. The scheduler revalidates the scoped grant, runs
-only `local.checksum` against a fixed public fixture, verifies the independent
+score only after authorization. The scheduler revalidates the scoped grant, passes
+the allowlisted action to `luna-agent-runner`, runs only `local.checksum` against a
+fixed public fixture, verifies the independent
 SHA-256 and size, then commits the goal outcome and evidence. SQLite uses WAL and
 full synchronous durability. Atomic leases use worker IDs, random tokens and
 expiry timestamps; expired work is requeued after restart, and stale tokens cannot
 complete it. This is tested against the local pure checksum action only. The
 versioned migration preserves v1 queued jobs.
 The initial dependency graph rejects cycles and holds dependent goals until every
-prerequisite completes. A queue that contains only blocked dependents reports
+prerequisite completes. Owner plan replacement atomically stores up to 32
+dependencies plus one parent, bounds parent depth at 16, and detects cycles across
+both edge types. A queue that contains only blocked dependents reports
 `waiting_for_dependencies`, not `idle_success`.
 
 REST routes implemented in this slice:
@@ -57,13 +61,15 @@ REST routes implemented in this slice:
 | `GET` | `/v1/goals/{id}` | Owner bearer token |
 | `GET` | `/v1/goals/{id}/events` | Owner bearer token; append-only local event history, up to 100 |
 | `POST` | `/v1/goals/{id}/dependencies` | Owner bearer token; cycle-checked dependency edge |
+| `GET` | `/v1/goals/{id}/plan` | Owner bearer token; parent and ordered dependencies |
+| `PUT` | `/v1/goals/{id}/plan` | Owner bearer token; bounded atomic plan replacement |
 | `POST` | `/v1/goals/{id}/pause` | Owner bearer token; revokes active lease |
 | `POST` | `/v1/goals/{id}/resume` | Owner bearer token; requeues paused goal |
 | `POST` | `/v1/goals/{id}/cancel` | Owner bearer token; prevents queued/future execution |
 | `POST` | `/v1/scheduler/tick` | Owner bearer token |
 | `GET` | `/v1/system/capabilities` | Public static status; reports unavailable target capabilities |
 
-Goal DAG planning, lifecycle mutations beyond list/pause/resume/cancel, full CRUD,
+Natural-language Goal DAG planning, lifecycle mutations beyond list/pause/resume/cancel, full CRUD,
 external event subscriptions, lease renewal/heartbeats, resource quotas, external side effects, evidence vault, memory and identity
 services are not implemented. Contract structs do not mean those services exist.
 Core's transactional outbox is consumed into its local inbox only; no network/event

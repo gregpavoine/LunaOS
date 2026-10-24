@@ -6,6 +6,7 @@ Commands run on the final native-code tree:
 
 1. `make test`
    PASS. Rust workspace: luna-core 3/3, luna-goal-engine 18/18,
+   luna-agent-runner integration 2/2,
    luna-llm-adapter 1/1, luna-policy-broker 4/4, and policy child-process
    integration 1/1. Contracts and binary/doc-test targets have no unit tests.
 2. `make check`
@@ -18,7 +19,7 @@ Commands run on the final native-code tree:
    and retained completed state after restarting Core. The Broker remained a
    separate child process over a private Unix socket.
 4. `make test-reference check-reference`
-   PASS. Existing Go policy tests/vet and 25 Python reference integration tests/
+   PASS. Existing Go policy tests/vet and 16 Python reference integration tests/
    compileall passed. Baseline script was syntax-checked only.
 5. `python3 -m json.tool contracts/openapi/native-v1.json`
    PASS. This is a JSON parse check, not full OpenAPI conformance validation.
@@ -39,7 +40,8 @@ tests verify atomic replacement, a combined hierarchy/dependency DAG, cycle
 rejection, prerequisite validation and size limits. Core route tests verify owner
 authorization for dependency mutation and hierarchy plan roundtrip.
 
-The GTK shell was not compiled: the host `pkg-config` executable fails with
+The Rust Agent Runner integration tests verify public-fixture digest/length and
+whitelist rejection. The GTK shell was not compiled: the host `pkg-config` executable fails with
 `bad CPU type in executable`. `llama-server` and `mkarchiso` are unavailable here.
 No Arch package, standalone image, installation, boot, recovery or real inference
 was produced or tested. No packages or services were changed on a Linux machine.

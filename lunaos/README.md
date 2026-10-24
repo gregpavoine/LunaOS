@@ -37,8 +37,9 @@ services, updates and recovery.
 
 The project is in **native migration**, not release. Rust currently has a local
 Goal Engine/Core slice with durable leases, dependencies and owner pause/resume/
-cancel transitions and a bounded owner goal list, plus a separate Policy Broker process. The only executable
-system action is a checksum of a public fixture. GTK4 source exists but is not
+cancel transitions, a bounded goal-plan API, and a separate Policy Broker process.
+The small in-process Agent Runner crate executes only a public-fixture checksum;
+it is not yet a sandboxed worker service. GTK4 source exists but is not
 verified on Linux; llama.cpp has no configured model; D-Bus, GPU, ComfyUI,
 installation, ISO boot, recovery and real hardware behavior remain unverified or
 unimplemented. The existing Go/Python implementation is frozen parity reference
@@ -59,8 +60,8 @@ make dev           # temporary local services, database and owner token
 
 The smoke test binds only `127.0.0.1:17766`, stores state in a temporary directory,
 and removes its test credential and database when it exits. It proves local process
-behavior only; it does not test Linux systemd or confer host privileges. GTK4 is
-opt-in with `make shell` and requires GTK development dependencies.
+behavior only; it does not test Linux systemd or confer host privileges. Building
+the GTK4 feature requires GTK development dependencies and a compatible target.
 
 Run frozen reference tests separately:
 

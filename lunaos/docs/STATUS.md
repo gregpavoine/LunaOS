@@ -9,7 +9,8 @@ completed OS capabilities.
 ## Implemented and verified locally
 
 - Rust workspace in `rust/`: `luna-contracts`, `luna-policy-broker`,
-  `luna-goal-engine`, `luna-core`, `luna-llm-adapter`, `luna-shell`.
+  `luna-agent-runner`, `luna-goal-engine`, `luna-core`, `luna-llm-adapter`,
+  `luna-shell`.
 - Separate Rust Policy Broker binary over an owner-only Unix socket. It checks the
   owner credential, socket peer UID, deny-by-default action list, payment budget,
   and goal/action-bound expiring HMAC grants. Only `local.checksum` is allowed.
@@ -37,6 +38,10 @@ completed OS capabilities.
 - Goal events are append-only, privacy-safe decision codes. Event creation inserts
   a durable outbox record transactionally; Core dispatches idempotently into a local
   inbox, and owners can read the last 100 events per goal. No external bus is wired.
+- Native Agent Runner interface is a separate Rust crate. Its only implementation
+  computes verifiable evidence for a fixed public fixture; it has no shell, arbitrary
+  filesystem, process or network operation. It remains linked in-process and is not
+  a sandboxed worker service.
 - Rust loopback-only llama.cpp adapter source. One test rejects external endpoint
   configuration; no inference is claimed.
 - systemd service unit sources for Core and Policy Broker. These files are
@@ -56,10 +61,10 @@ Detailed command record: [native-migration-2026-10-24.txt](test-evidence/native-
 
 | Command | Result |
 |---|---|
-| `make test` | PASS: 26 Rust unit tests plus 1 child-process Unix-socket broker integration test; 0 failures |
+| `make test` | PASS: 26 Rust unit tests plus 3 integration tests (Agent Runner and child-process Broker); 0 failures |
 | `make check` | PASS: `cargo fmt --check`, Clippy across workspace/all targets with warnings denied, and `cargo check` |
 | `make native-smoke` | PASS: release Core and broker binaries; live loopback REST, unauthorized 401, owner create, duplicate idempotency, checksum evidence, then Core process restart with completed state retained |
-| `make test-reference check-reference` | PASS: existing Go policy tests/vet, 25 Python reference integration tests/compileall, Linux baseline script syntax only |
+| `make test-reference check-reference` | PASS: existing Go policy tests/vet, 16 Python reference integration tests/compileall, Linux baseline script syntax only |
 
 The smoke test used a temporary database and test credential and removed them on
 exit. Evidence is a live local process test, not CI-only evidence. No hosted CI run

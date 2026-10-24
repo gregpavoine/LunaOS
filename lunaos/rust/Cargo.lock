@@ -962,6 +962,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4050469837a6ff301cd14c1f8f24f88549e6d548f24f64e2148eb0f72cebc51f"
 
 [[package]]
+name = "luna-agent-runner"
+version = "0.1.0"
+dependencies = [
+ "hex",
+ "sha2",
+ "thiserror",
+]
+
+[[package]]
 name = "luna-contracts"
 version = "0.1.0"
 dependencies = [
@@ -990,6 +999,7 @@ name = "luna-goal-engine"
 version = "0.1.0"
 dependencies = [
  "hex",
+ "luna-agent-runner",
  "luna-contracts",
  "luna-policy-broker",
  "rusqlite",

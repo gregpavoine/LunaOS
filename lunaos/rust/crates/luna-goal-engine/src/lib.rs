@@ -1,3 +1,4 @@
+use luna_agent_runner::{ActionRunner, LocalActionRunner};
 use luna_contracts::{
     CONTRACT_VERSION, CreateGoal, Evidence, ExecutionLease, GoalEventView, GoalLifecycleCommand,
     GoalPlan, GoalPlanView, GoalView, PolicyRequest, Principal, SourceStatus, TickResult,
@@ -13,8 +14,6 @@ use std::{
 };
 use thiserror::Error;
 use uuid::Uuid;
-
-const FIXTURE: &[u8] = b"LunaOS public checkpoint v1\n";
 
 #[derive(Debug, Error)]
 pub enum EngineError {
@@ -32,6 +31,7 @@ pub enum EngineError {
 pub struct GoalEngine {
     db: Arc<Mutex<Connection>>,
     broker: Arc<dyn PolicyService>,
+    runner: Arc<dyn ActionRunner>,
 }
 
 impl GoalEngine {
@@ -114,6 +114,7 @@ impl GoalEngine {
         Ok(Self {
             db: Arc::new(Mutex::new(db)),
             broker: Arc::new(broker),
+            runner: Arc::new(LocalActionRunner),
         })
     }
 
@@ -312,15 +313,20 @@ impl GoalEngine {
             tx.commit()?;
             return Err(EngineError::Policy("EXECUTION_REAUTH_REQUIRED".into()));
         }
-        let digest = hex::encode(Sha256::digest(FIXTURE));
         const EXPECTED_SHA256: &str =
             "07be6a1cc7b1b323fd3baca70abf34bfea13e09f9d28cf417d11aca77d4220ce";
-        let verified =
-            lease.action == "local.checksum" && digest == EXPECTED_SHA256 && FIXTURE.len() == 28;
+        let artifact = self.runner.execute(&lease.action).ok();
+        let verified = artifact.as_ref().is_some_and(|evidence| {
+            lease.action == "local.checksum"
+                && evidence.sha256 == EXPECTED_SHA256
+                && evidence.byte_count == 28
+                && evidence.provenance == "local_public_fixture_v1"
+        });
         if verified {
+            let evidence = artifact.expect("verified artifact must be present");
             tx.execute(
                 "INSERT INTO evidence VALUES(?1,?2,?3,'local_public_fixture_v1',1)",
-                params![lease.goal_id, digest, FIXTURE.len()],
+                params![lease.goal_id, evidence.sha256, evidence.byte_count],
             )?;
             tx.execute(
                 "UPDATE goal SET status='completed' WHERE id=?1",
