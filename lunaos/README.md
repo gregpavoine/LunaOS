@@ -1,76 +1,88 @@
-# LunaOS — native AI operating system
+# LunaOS — native Arch operating system
 
-LunaOS is an AI-native, local-first desktop operating system built on Arch Linux with Hyprland/Wayland. It is independently installable and owns its system configuration, package manifests, installer, desktop shell, services, updates and recovery. Omarchy is a reference implementation and source of reusable Arch/Hyprland components; Omarchy is not a mandatory LunaOS runtime dependency.
-
-The MacBook Air M2 is the initial development/controller host. It is not the LunaOS runtime target: do not install Omarchy or Linux system components on macOS. Native system behavior must be verified on Linux. No remote Linux host may be accessed until the owner provides an SSH alias and explicitly authorizes the connection.
-
-> **Release truth (2026-10-24):** the repository has a frozen Go/Python prototype and a newly started Rust migration slice. This is not a bootable LunaOS image, completed V0, or Mont Blanc release. The GTK shell has not been built/run on Arch, no local LLM model has performed inference, and no target hardware or independent ISO has been tested.
+LunaOS is an AI-native, independently installable Linux distribution. Arch Linux
+is the base, Hyprland provides the Wayland compositor, and Omarchy is a reference
+for reusable configurations and desktop integrations rather than a required
+runtime dependency. LunaOS owns its package manifests, installer, shell, system
+services, updates and recovery.
 
 ## Architecture
 
-- **Operating system:** Arch Linux, systemd, Hyprland/Wayland. Omarchy components may be reused after their behavior, license and KEEP obligations are reviewed.
-- **Control plane:** Rust 2024 and Tokio. Rust owns LUNA Core, Goal Engine, Scheduler, Policy Broker, Agent Runner, Memory Engine, Identity Engine, Strategy Evaluator and Resource Manager.
-- **Native integration:** D-Bus, private Unix sockets, systemd and typed Linux API adapters. OS actions are deny-by-default, owner-authenticated, scoped and independently evaluated.
-- **Desktop:** native Rust GTK4 shell. The UI choice and Slint comparison are documented in [native architecture](docs/architecture/native-rust.md).
-- **Inference:** local llama.cpp adapter. No response or model capability is claimed until a real local model is configured and measured.
-- **Persistence:** SQLite WAL/FULL for the initial offline store, behind a storage boundary that can grow to a multi-service database. Sensitive vault data requires separate encryption/key domains.
-- **Python boundary:** isolated ML workloads, ComfyUI and third-party tools that require Python. Python is not required to boot LunaOS or run the OS controller, Goal Engine, policy broker or shell.
+- **OS control plane:** Rust workspace, Tokio runtime, systemd services, D-Bus,
+  Unix sockets and Linux APIs. No Python or Go is intended in the boot path or LUNA
+  Core.
+- **Goal Engine and persistence:** Rust Goal Engine and Scheduler with SQLite as
+  the initial database; migrations and storage adapters must preserve an upgrade
+  path.
+- **Authority:** independent owner-authenticated Rust Policy Broker. It denies by
+  default, checks policy before scoring and again before execution, and requires
+  explicit scoped grants. Budgets start at zero; external messages, payment,
+  remote administration and destructive system actions require separate grants.
+- **Desktop:** Hyprland/Wayland with a native GTK4 shell. GTK4 is selected for its
+  existing Arch/Wayland accessibility, theming and D-Bus ecosystem.
+- **Local AI:** llama.cpp or another documented native local inference runtime.
+  Model output is untrusted input; it cannot authorize actions. Model files and
+  licenses belong in a manifest, not silently inside the source tree.
+- **Data and privacy:** versioned local memory and evidence, provenance/confidence,
+  encrypted private-data compartments, consent/revocation and BLIND sensor cutoff.
+  Sensitive data never enters general logs or cloud training without explicit scope.
+- **Mont Blanc scope:** goal planning and execution, evidence-backed evaluation,
+  strategy trials, identity/persona continuity, memory, resource/GPU scheduling,
+  ComfyUI and media workflows, privacy/consent controls, Intimacy and Discovery
+  features, iPhone sync, NAS/backup, remote administration, update/rollback and
+  recoverable independent installation. See the linked specifications and release
+  matrix; a listed requirement is not a completed feature.
 
-The Rust workspace in [`rust/`](rust/) contains versioned service contracts, a deny-by-default policy crate, persistent/scored goals, the Core REST surface, the llama.cpp adapter and the first GTK shell source. The existing `luna/` and `services/policy/` Go/Python implementation remains preserved as a frozen behavior/API/test reference; do not expand it while Rust migration is underway.
+## Current implementation status
 
-## Product behavior and safety
+The project is in **native migration**, not release. Rust currently has a local
+Goal Engine/Core slice and a separate Policy Broker process. The only executable
+system action is a checksum of a public fixture. GTK4 source exists but is not
+verified on Linux; llama.cpp has no configured model; D-Bus, GPU, ComfyUI,
+installation, ISO boot, recovery and real hardware behavior remain unverified or
+unimplemented. The existing Go/Python implementation is frozen parity reference
+code and is not the target OS runtime. Mont Blanc is not released.
 
-LUNA is a persistent assistant that helps the owner progress on projects, daily wellbeing and learning. It can plan, schedule, execute and evaluate authorized work. It must distinguish observation, inference, hypothesis, unknown data and verified evidence. It does not claim human feelings, and it does not autonomously seek employment.
+## Development on macOS or Linux
 
-The goal score uses normalized impact (0.30), urgency (0.20), user value (0.20), confidence (0.15) and efficiency (0.15) as a provisional engineering formula. Hard policy decisions precede scoring; a score cannot authorize an action. Missing authority is denied. Guest identity and model output cannot grant privileges. Payments are refused when no owner-configured budget exists. Unknown-source claims remain hypotheses. When no authorized useful work exists, idle is a successful scheduler result.
-
-Private information stays in separated, encrypted domains. Sensor use requires independent visible grants. `BLIND` stops capture and processing and cannot be overridden by an agent/model. Subject consent is scoped, explicit and revocable; an owner's grant cannot consent for another person. Revocation stops collection and initiates required source/derivative deletion. Private images, biometric data, secrets and consent proofs never belong in general logs or this repository. Until those controls are real and verified, capture, private-media ingestion and sensitive ML remain unavailable.
-
-## Required Mont Blanc 1.0 scope
-
-Every scope below remains mandatory; the current status is tracked in the [feature matrix](docs/release/MONT_BLANC_FEATURE_MATRIX.md). No missing hardware or provider capability may be replaced by a mock and reported as complete.
-
-1. **Core agency:** persistent identity/persona revisions; owner sessions; goal CRUD, hierarchical bounded planner and DAG; explainable score; adaptive scheduler, durable leases and resource modes; sandboxed agents; independent outcome/strategy evaluation; memory provenance, contradiction handling and evidence; event outbox/inbox.
-2. **System and development:** independent Arch image, installer, update and recovery; systemd/D-Bus/Wayland integrations; system diagnostics and safe rollback; local model routing/benchmarks/adapters; project-aware software development, CI, Git and release workflows; resource/GPU manager and real ComfyUI image/video workflows.
-3. **Privacy and media:** camera/screen/audio brokers; trusted BLIND latch; visible, subject-specific consent and revocation; encrypted private vault and deletion proofs; adult-only lawful Intimacy Core; consented body/face scopes and model validation; Discovery provider connectors, provenance, licensing and media indexing; voice, local perception and private notifications.
-4. **Devices and remote services:** iPhone pairing, media import, encrypted backup and contacts archive; authorized WhatsApp archive where available; encrypted NAS replication and restore tests; hardened, revocable remote administration; explicit recipient-scoped third-party communications; budget-scoped financial intent/reservation/settlement; supported peripherals and IoT.
-5. **Release:** complete G-001–G-030, U-001–U-040, BL-001–BL-030, Discovery, iPhone and Series 26 acceptance suites; real target-hardware performance, privacy, recovery, reboot and power-loss evidence; SBOM/license inventory; signed reproducible packages and independent ISO.
-
-The full owner-controlled Goal Engine and Mont Blanc source documents remain the detailed behavioral authority. Public decisions and blockers are summarized in [`OPEN_DECISIONS.md`](docs/OPEN_DECISIONS.md).
-
-## Initial Rust API
-
-The current local Core API listens on `127.0.0.1:7766` by default and uses an owner bearer token for goal operations:
-
-| Method | Path | Behavior |
-|---|---|---|
-| `POST` | `/v1/goals` | Create/idempotently return an owner goal; policy is checked before scoring |
-| `GET` | `/v1/goals/{id}` | Read goal status, score and provenance state |
-| `POST` | `/v1/scheduler/tick` | Advance one authorized queued action or return idle success |
-| `GET` | `/v1/system/capabilities` | Report current implementation/blocker state |
-
-This small contract is not the full source API; broader routes for goal lifecycle/plans/evaluation, decisions, identity, remote sessions and consent remain required and are listed in the architecture doc. The current Core route is local development software, not a hardened public network service.
-
-## Development
-
-Rust is the native implementation and the only runtime required by Core. GTK4 development packages are needed to build the shell, normally on Arch; they are not installed on the Mac host by this repository.
+Rust and Cargo are the native development path. Install `curl`, `jq` and OpenSSL
+locally if you want to use the live API smoke or dev launcher.
 
 ```sh
-cd rust
-cargo test --workspace --locked
-cargo build --locked --release -p luna-core
-# On Arch Linux with GTK4 development libraries:
-cargo build --locked --release -p luna-shell --features gtk-ui
+make test          # Rust workspace tests
+make check         # formatting, clippy and cargo check
+make build         # native Core and Policy Broker release binaries
+make native-smoke  # real local API + separate broker process + Core restart
+make dev           # temporary local services, database and owner token
 ```
 
-The frozen prototype can be checked for migration parity with `make test check` from this directory. It is not the LunaOS control-plane runtime. The Linux baseline at `scripts/linux-baseline.sh` is read-only but must not be executed until the owner authorizes it.
+The smoke test binds only `127.0.0.1:17766`, stores state in a temporary directory,
+and removes its test credential and database when it exits. It proves local process
+behavior only; it does not test Linux systemd or confer host privileges. GTK4 is
+opt-in with `make shell` and requires GTK development dependencies.
+
+Run frozen reference tests separately:
+
+```sh
+make test-reference
+make check-reference
+```
+
+## Linux target and safety
+
+The read-only inventory script is `scripts/linux-baseline.sh` and is not run
+automatically. Do not connect to an existing Linux host until the owner provides
+an SSH alias and explicitly authorizes the connection and baseline. Do not modify
+any current Linux installation without an authorized read-only baseline, a verified
+recovery plan and explicit authorization for the particular mutation. Never run
+cleanup scripts, remove Omarchy packages or alter boot/storage based only on a spec.
 
 ## Project documents
 
-- [Native architecture, service contracts, APIs and incremental plan](docs/architecture/native-rust.md)
-- [Resolved conflicts, open owner decisions and risks](docs/OPEN_DECISIONS.md)
-- [Current architecture decisions](docs/DECISIONS.md) and [ADRs](docs/adr/)
-- [Implementation milestones](docs/IMPLEMENTATION_PLAN.md)
-- [Implemented, verified and blocked status](docs/STATUS.md)
-- [Mont Blanc release feature matrix](docs/release/MONT_BLANC_FEATURE_MATRIX.md)
-- [Threat model](docs/threat-model/overview.md)
+- [Native architecture](docs/architecture/native-rust.md)
+- [Goal Engine specification](docs/LUNA_GOAL_ENGINE_CODEX_SPEC_EN.md)
+- [Mont Blanc unified specification](docs/LUNAOS_MONT_BLANC_1_0_CODEX_UNIFIED_SPEC.md)
+- [Implementation plan](docs/IMPLEMENTATION_PLAN.md)
+- [Current status and test evidence](docs/STATUS.md)
+- [Open decisions and risks](docs/OPEN_DECISIONS.md)
+- [Mont Blanc release matrix](docs/release/MONT_BLANC_FEATURE_MATRIX.md)

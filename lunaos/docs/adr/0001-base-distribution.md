@@ -1,9 +1,14 @@
-# ADR 0001: additive V0 on existing Omarchy (superseded)
+# ADR 0001: independently installable Arch-based LunaOS
 
-This was the initial bootstrap decision and is superseded by the owner's 2026-10-24
-architecture correction. LunaOS will be an independently installable Arch Linux
-distribution and Omarchy is a reference/reuse source, not a required runtime. Keep
-all Omarchy KEEP behavior during migration; do not install Omarchy on macOS or
-mutate a Linux target without a read-only baseline and explicit authorization.
-Independent image, installer, update and recovery work remains required and
-unverified.
+**Status: Accepted; supersedes the Task 1 additive-overlay decision.**
+
+LunaOS owns its distribution configuration, packages, installer, desktop shell,
+system services, update path and recovery. Arch Linux is the base, Hyprland is the
+Wayland compositor, and Omarchy is a source of reusable configurations and proven
+integrations rather than a mandatory runtime dependency.
+
+The old Task 1 work remains a local behavior reference. No current Omarchy
+installation has been inspected or changed. Any eventual transition on an existing
+installation requires an authorized read-only baseline, a verified recovery plan,
+and explicit authorization for each system mutation. A standalone image must boot
+and install in an isolated VM before being considered a candidate release.

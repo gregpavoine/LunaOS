@@ -1,50 +1,75 @@
-# LunaOS status — native migration bootstrap — 2026-10-24
+# LunaOS implementation status — native migration checkpoint
 
-**Mont Blanc release: BLOCKED / NOT RELEASED. LunaOS V0: NOT COMPLETE.** The native Rust migration has a locally tested control-plane slice, but no bootable LunaOS installation, production-isolated broker, real LLM inference, Linux/Wayland runtime or target-hardware evidence has been verified.
+**LunaOS V0: INCOMPLETE. Mont Blanc 1.0: NOT RELEASED.** This checkout has a
+portable Rust control-plane slice and separate Rust Policy Broker process. It has
+not produced or booted an Arch image and has no verified Linux/hardware run.
+Specifications, schema-only contracts and service templates are not counted as
+completed OS capabilities.
 
-## Implemented in source
+## Implemented and verified locally
 
-- Owner-directed architecture correction documented: independent Arch distribution; Hyprland/Wayland; Rust/Tokio; systemd/D-Bus/Unix socket boundaries; GTK4 selection; llama.cpp adapter; SQLite initial store. Prior overlay and Go/Python stack ADRs are marked superseded.
-- Rust workspace and lockfile with contracts, policy broker crate, goal engine, Tokio/Axum Core, local-only llama.cpp HTTP adapter and GTK4 shell source.
-- Durable SQLite goal/job/evidence/event schema migration; WAL/FULL sync; database file mode 0600; deterministic weighted score; idempotency; goal/action-bound one-hour HMAC grant; deny-before-score; fixed public fixture checksum and independent constant digest/length verification; restart queue resume; idle success.
-- Owner-only bearer-gated REST routes for goal create/read/tick; background scheduler loop; llama.cpp endpoint restricted to HTTP loopback; capability route reports absent target/model/image blockers.
-- Rust logical contracts for goals, dependencies, executions, policy grants, events, strategy trials, memory assertions, persona revisions, expense intents, external conversation grants, consent receipts and erasure jobs. Most are schema-only, not live database/services.
-- systemd Core unit, Arch PKGBUILD template, archiso profile and build script authored. These are preparation artifacts, not a package or image result.
-- Existing Go/Python prototype preserved as a frozen behavior/API/test reference. New control-plane work is Rust.
-- Requirement conflicts, release constraints, risks, and unanswered owner decisions documented in `OPEN_DECISIONS.md`; Linux baseline script remains unexecuted.
+- Rust workspace in `rust/`: `luna-contracts`, `luna-policy-broker`,
+  `luna-goal-engine`, `luna-core`, `luna-llm-adapter`, `luna-shell`.
+- Separate Rust Policy Broker binary over an owner-only Unix socket. It checks the
+  owner credential, socket peer UID, deny-by-default action list, payment budget,
+  and goal/action-bound expiring HMAC grants. Only `local.checksum` is allowed.
+- Rust/SQLite Goal Engine and Core API slice: owner-authenticated create/read/tick,
+  deterministic score after authorization, idempotency, durable queued state,
+  process-reopen resume, fixed public fixture checksum, independent digest/length
+  evidence, unknown source status and idle success. Owners can add dependency edges;
+  the engine rejects cycles, waits for prerequisites and distinguishes queued
+  dependency waits from idle success.
+- Rust loopback-only llama.cpp adapter source. One test rejects external endpoint
+  configuration; no inference is claimed.
+- systemd service unit sources for Core and Policy Broker. These files are
+  deployment templates and have not run under systemd.
+- The prior Go/Python Task 1 implementation remains frozen for behavioral reference.
+  The native Make targets no longer require Go or Python.
 
-## Verified locally
+## Commands executed on this Mac checkout
 
-Commands executed on macOS Apple Silicon in this repository:
+Host: macOS `Darwin 27.0.0 arm64`; local test results do not count as Linux or OS
+installation evidence.
+
+Detailed command record: [native-migration-2026-10-24.txt](test-evidence/native-migration-2026-10-24.txt).
 
 | Command | Result |
 |---|---|
-| `make test check` | PASS: Rust workspace tests, `cargo fmt --check` and workspace `cargo check` |
-| `cargo test --workspace --locked` | PASS: 10 Rust unit tests; policy owner-only, absent-budget payment refusal, deny-before-score, duplicate idempotency, unknown provenance, idle success, fixture evidence and process-reopen queue resume are covered |
-| `cargo build --locked --release -p luna-core` | PASS: optimized Core binary built locally |
-| `scripts/smoke-native-core.sh` | PASS: unauthenticated request denied; owner goal created; duplicate key idempotent; checksum action completed; state remained readable after Core restart |
-| `make test-reference check-reference` | PASS for frozen reference: Go tests/vet, 25 Python integration tests/compileall, Linux baseline shell syntax only |
-| Native OpenAPI JSON parse | PASS |
-| Archiso script and PKGBUILD `bash -n` | PASS (syntax only) |
-| OpenAPI JSON parse and Archiso/profile/PKGBUILD/smoke script syntax | PASS at local syntax-check time; no Arch behavior asserted |
-| Git whitespace check | PASS on the final pre-commit diff |
+| `make test` | PASS: 14 Rust unit tests plus 1 child-process Unix-socket broker integration test; 0 failures |
+| `make check` | PASS: `cargo fmt --check`, Clippy across workspace/all targets with warnings denied, and `cargo check` |
+| `make smoke-native` | PASS: release Core and broker binaries; live loopback REST, unauthorized 401, owner create, duplicate idempotency, checksum evidence, then Core process restart with completed state retained |
+| `make test-reference check-reference` | PASS: existing Go policy tests/vet, 25 Python reference integration tests/compileall, Linux baseline script syntax only |
 
-Evidence details: [`native-bootstrap-2026-10-24.txt`](test-evidence/native-bootstrap-2026-10-24.txt). This evidence is local-only. The old prototype tests validate reference behavior; they do not make Python a LunaOS runtime dependency. No target Linux command, baseline, SSH connection, GTK build, local model inference, Arch package build, ISO build, installer, target reboot, NVIDIA/ComfyUI workflow, privacy sensor test or restore test was executed.
+The smoke test used a temporary database and test credential and removed them on
+exit. Evidence is a live local process test, not CI-only evidence. No hosted CI run
+is being counted.
 
-## Partially implemented / blocked
+## Not implemented or blocked
 
-- **Policy boundary:** real Rust authorization logic and signed scoped grants are tested in the same process as Core. Separate service/UID, Unix peer credentials, credential provisioning, grant revocation UI and production key protection are not present. No privileged host action is enabled.
-- **Goal engine:** one-action schema and scheduler slice only. Full goal lifecycle/CRUD, bounded planner/DAG, durable leases, resource admission, complete events/outbox/inbox, migration parity and multi-process crash recovery remain incomplete.
-- **LLM:** real llama.cpp HTTP adapter source accepts loopback only; no server/model was configured, licensed, launched or measured. LLM is not integrated into planning or action authority.
-- **Shell:** GTK4 source reads live capability status; GTK build could not be attempted because the Mac host's `/usr/local/bin/pkg-config` fails to execute with `bad CPU type in executable`. No Arch/Hyprland login, keyboard, accessibility or recovery run.
-- **OS packaging:** PKGBUILD/profile/build script exist but are not a completed package pipeline; license metadata/key lifecycle, installer, system configuration, account/credential bootstrap, update/rollback, recovery and signed artifact flow remain unresolved. The archiso script was not executed.
-- **Mont Blanc modules:** memory/identity, resource/GPU manager, system and D-Bus adapters, privacy/BLIND/consent/vault, Intimacy, Discovery, iPhone, NAS, remote admin, payments, communications and all named hardware capabilities remain unimplemented or blocked. See the feature matrix.
+- No real Omarchy or Linux installation was accessed. No packages/services were
+  removed, disabled, retained or replaced on a host; **no cleanup occurred**. The
+  read-only Linux baseline script remains unexecuted.
+- No standalone ISO, installer, Arch package, boot, update, rollback or recovery
+  result exists. `mkarchiso` is unavailable on this Mac.
+- GTK4 shell source is present but has not been built or run. `pkg-config` fails on
+  this host with `bad CPU type in executable`; no Wayland/Hyprland target was used.
+- No llama.cpp server or licensed model is configured; no real local inference.
+- No GPU/NVIDIA/CUDA, ComfyUI, systemd, D-Bus, sensor/BLIND, iPhone, NAS, privacy
+  vault, consent/erasure or remote-administration capability has been exercised.
+- Full goal lifecycle and CRUD, dependency DAG/planner, durable leases/resource
+  quotas, standalone Agent Runner, strategy optimizer, production identity/session
+  management, encrypted memory/evidence vault, and broad Mont Blanc modules remain
+  incomplete. Several contracts are types only.
+- The current authorization credential is a local bearer secret shared with the
+  broker. The broker is a separate process, but both local service units use the
+  same unprivileged account. Production provisioning, independent service identity,
+  owner login, revocation UX and Linux security review remain release blockers.
 
-## Exact next milestone
+## Next milestone
 
-1. Move policy evaluation to an independent Rust Unix-socket broker; bind requests to OS peer credentials and isolate service identities before adding any privileged adapter.
-2. Port remaining Goal Engine behaviors from the frozen reference and implement versioned lifecycle, DAG and event delivery with integration tests.
-3. Resolve source/package licensing and credential bootstrap, then build the GTK shell and package on disposable Arch CI/VM infrastructure.
-4. Obtain SSH alias plus explicit authorization before running the read-only Linux baseline or doing any target integration.
-
-Do not tag or announce Mont Blanc until the complete source acceptance matrix and release gates pass on the actual target and a signed independent image is installable and recoverable.
+Complete owner credential lifecycle and a full Rust goal state model/DAG with
+migration and process-restart tests. Then add durable execution leases and evidence
+events before connecting any Linux action adapter. The next target-side milestone
+requires an owner-provided SSH alias and explicit connection/baseline authorization;
+no current Linux installation may be modified without a verified recovery plan and
+explicit authorization for each mutation.

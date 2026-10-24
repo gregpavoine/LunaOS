@@ -1,5 +1,5 @@
 Task 1 local verification; Linux baseline NOT EXECUTED
-Recorded UTC: 2026-10-24T09:24:57+00:00
+Recorded UTC: 2026-10-24T08:26:50.487116+00:00
 Host runtimes: Python 3.11.7
 $ make test check
 go test -buildvcs=false -count=1 ./services/policy
@@ -34,29 +34,12 @@ $ go test -buildvcs=false -race -count=1 ./services/policy
 ok  	lunaos.local/bootstrap/services/policy	0.179s
 exit_code=0
 $ .venv/bin/python scripts/smoke.py
-{"launcher_restart": "PASS", "persisted_goal": "4541aeef-6f40-4877-ae5e-4ea3b20ac5c6", "status": "completed", "evidence_count": 1, "sha256": "07be6a1cc7b1b323fd3baca70abf34bfea13e09f9d28cf417d11aca77d4220ce", "hardware": "NOT_TESTED"}
+{"launcher_restart": "PASS", "persisted_goal": "e0a4633b-2cd3-435f-9cb8-d8a3eaa857e0", "status": "completed", "evidence_count": 1, "sha256": "07be6a1cc7b1b323fd3baca70abf34bfea13e09f9d28cf417d11aca77d4220ce", "hardware": "NOT_TESTED"}
 exit_code=0
 $ /Library/Developer/CommandLineTools/usr/bin/git diff --check
 
 exit_code=0
 OpenAPI JSON parse: PASS (not a full OpenAPI conformance validator)
-Independent review identified two privacy/documentation issues. Both are fixed: public docs generalize persona-conflict wording, and assertion claim/source text is discarded before hashing or persistence. Follow-up reviewer confirmed both resolved and found no new actionable issues.
-Post-fix verification: `make test check` PASS (3 Go tests, 16 Python tests, vet, compileall, baseline syntax); Go race check PASS; process-restart smoke PASS; OpenAPI JSON parse PASS; `git diff --cached --check` PASS.
+Independent review: both reported P2 issues fixed; all 16 integration tests independently rerun and passed.
 No remote host connection. No Linux baseline or cleanup script execution.
-First hosted run `40081898140` failed during setup-python: `Caching for 'false' is not supported`; tests were skipped on both runners. Removed the unsupported `cache: false`. Corrected run `40081965932` passed all steps on both `ubuntu-latest` and `macos-latest` (ARM64).
-
-## Milestone 1b — goal dependency planner
-
-Recorded UTC: 2026-10-24T09:42:25+00:00
-$ make test check
-PASS: Go policy package; 25 Python integration tests; Go vet; Python compileall; Linux baseline bash syntax only.
-$ go test -buildvcs=false -race -count=1 ./services/policy
-PASS
-$ .venv/bin/python scripts/smoke.py
-{"launcher_restart": "PASS", "persisted_goal": "9258e108-6e92-4a39-a797-bca72e04c180", "status": "completed", "evidence_count": 1, "sha256": "07be6a1cc7b1b323fd3baca70abf34bfea13e09f9d28cf417d11aca77d4220ce", "hardware": "NOT_TESTED"}
-$ python3 -c 'import json; json.load(open("contracts/openapi/local.json"))'
-PASS
-$ /Library/Developer/CommandLineTools/usr/bin/git diff --check
-PASS
-TDD red runs: schema-upgrade test failed at migration version 1 instead of 2; plan tests failed while Engine.set_plan was absent; API plan test returned 404. Review regressions also reproduced acceptance of a blocked prerequisite, UPDATE bypass of the edge cap, and an expired grant remaining queued; all pass after correction.
-Hosted CI run 40083448967 passed on both Ubuntu and macOS for commit cf405aa; unit/integration checks and the policy broker race check passed. Independent final review found no remaining actionable issues. No Linux host or baseline script was accessed.
+CI definition authored; hosted macOS/Linux CI has NOT been run.

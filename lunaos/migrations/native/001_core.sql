@@ -20,6 +20,15 @@ CREATE TABLE IF NOT EXISTS job (
   state TEXT NOT NULL CHECK(state IN ('queued','succeeded','blocked','failed'))
 );
 
+CREATE TABLE IF NOT EXISTS goal_dependency (
+  goal_id TEXT NOT NULL REFERENCES goal(id),
+  depends_on_goal_id TEXT NOT NULL REFERENCES goal(id),
+  created_at_utc TEXT NOT NULL,
+  PRIMARY KEY(goal_id, depends_on_goal_id),
+  CHECK(goal_id <> depends_on_goal_id)
+);
+CREATE INDEX IF NOT EXISTS goal_dependency_prerequisite_idx ON goal_dependency(depends_on_goal_id);
+
 CREATE TABLE IF NOT EXISTS goal_grant (
   goal_id TEXT PRIMARY KEY REFERENCES goal(id),
   grant TEXT NOT NULL

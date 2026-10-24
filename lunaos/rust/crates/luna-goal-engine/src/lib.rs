@@ -2,7 +2,7 @@ use luna_contracts::{
     CONTRACT_VERSION, CreateGoal, Evidence, GoalView, PolicyRequest, Principal, SourceStatus,
     TickResult,
 };
-use luna_policy_broker::PolicyBroker;
+use luna_policy_broker::PolicyService;
 use rusqlite::{Connection, OptionalExtension, params};
 use sha2::{Digest, Sha256};
 use std::{
@@ -30,11 +30,14 @@ pub enum EngineError {
 #[derive(Clone)]
 pub struct GoalEngine {
     db: Arc<Mutex<Connection>>,
-    broker: PolicyBroker,
+    broker: Arc<dyn PolicyService>,
 }
 
 impl GoalEngine {
-    pub fn open(path: impl AsRef<Path>, broker: PolicyBroker) -> Result<Self, EngineError> {
+    pub fn open<P: PolicyService + 'static>(
+        path: impl AsRef<Path>,
+        broker: P,
+    ) -> Result<Self, EngineError> {
         if let Some(parent) = path.as_ref().parent() {
             std::fs::create_dir_all(parent).map_err(|e| EngineError::Invalid(e.to_string()))?;
         }
@@ -44,6 +47,7 @@ impl GoalEngine {
             OpenOptions::new()
                 .create(true)
                 .write(true)
+                .truncate(false)
                 .mode(0o600)
                 .open(path.as_ref())
                 .map_err(|e| EngineError::Invalid(e.to_string()))?;
@@ -67,7 +71,7 @@ impl GoalEngine {
         db.execute_batch(include_str!("../../../../migrations/native/001_core.sql"))?;
         Ok(Self {
             db: Arc::new(Mutex::new(db)),
-            broker,
+            broker: Arc::new(broker),
         })
     }
 
@@ -115,22 +119,15 @@ impl GoalEngine {
             expected_cost_minor: body.expected_cost_minor,
             configured_budget_minor: None,
         };
-        let policy = self
-            .broker
-            .evaluate(&policy_request)
-            .map_err(|e| EngineError::Policy(e.to_string()))?;
         let grant = self
             .broker
-            .issue_grant(&policy_request, &id)
+            .authorize(&policy_request, &id)
             .map_err(|e| EngineError::Policy(e.to_string()))?;
         // This check intentionally precedes score calculation.
-        let score = if policy.allowed {
-            Some(score(&body.metrics))
-        } else {
-            None
-        };
+        let score = Some(score(&body.metrics));
+        let policy_code = "OWNER_SCOPED_GRANT";
         let tx = db.transaction()?;
-        tx.execute("INSERT INTO goal VALUES(?1,?2,'approved',?3,?4,'unknown',?5,?6,strftime('%Y-%m-%dT%H:%M:%fZ','now'))", params![id, body.action, score, policy.code, idempotency_key, request_hash])?;
+        tx.execute("INSERT INTO goal VALUES(?1,?2,'approved',?3,?4,'unknown',?5,?6,strftime('%Y-%m-%dT%H:%M:%fZ','now'))", params![id, body.action, score, policy_code, idempotency_key, request_hash])?;
         tx.execute("INSERT INTO goal_grant VALUES(?1,?2)", params![id, grant])?;
         tx.execute("INSERT INTO job VALUES(?1,'queued')", [&id])?;
         tx.execute("INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?1,'goal.created','OWNER_REQUEST',strftime('%Y-%m-%dT%H:%M:%fZ','now'))", [&id])?;
@@ -141,13 +138,28 @@ impl GoalEngine {
     pub fn tick(&self) -> Result<TickResult, EngineError> {
         let mut db = self.db.lock().expect("sqlite mutex poisoned");
         let tx = db.transaction()?;
-        let next: Option<(String,String,String)> = tx.query_row("SELECT g.id,g.action,g.policy_code FROM goal g JOIN job j ON j.goal_id=g.id WHERE j.state='queued' AND g.score>0 ORDER BY g.score DESC,g.created_at_utc,g.id LIMIT 1", [], |r| Ok((r.get(0)?,r.get(1)?,r.get(2)?))).optional()?;
+        let next: Option<(String,String,String)> = tx.query_row("SELECT g.id,g.action,g.policy_code FROM goal g JOIN job j ON j.goal_id=g.id WHERE j.state='queued' AND g.score>0 AND NOT EXISTS (SELECT 1 FROM goal_dependency gd JOIN goal prerequisite ON prerequisite.id=gd.depends_on_goal_id WHERE gd.goal_id=g.id AND prerequisite.status!='completed') ORDER BY g.score DESC,g.created_at_utc,g.id LIMIT 1", [], |r| Ok((r.get(0)?,r.get(1)?,r.get(2)?))).optional()?;
         let Some((id, action, _)) = next else {
+            let queued: bool = tx.query_row(
+                "SELECT EXISTS(SELECT 1 FROM job WHERE state='queued')",
+                [],
+                |r| r.get(0),
+            )?;
             tx.commit()?;
             return Ok(TickResult {
-                outcome: "idle_success".into(),
+                outcome: if queued {
+                    "waiting_for_dependencies"
+                } else {
+                    "idle_success"
+                }
+                .into(),
                 goal_id: None,
-                reason: "NO_AUTHORIZED_USEFUL_WORK".into(),
+                reason: if queued {
+                    "DEPENDENCIES_NOT_COMPLETED"
+                } else {
+                    "NO_AUTHORIZED_USEFUL_WORK"
+                }
+                .into(),
             });
         };
         let grant: String = tx.query_row(
@@ -155,7 +167,7 @@ impl GoalEngine {
             [&id],
             |r| r.get(0),
         )?;
-        if let Err(error) = self.broker.verify_grant(&id, &action, &grant) {
+        if let Err(error) = self.broker.verify(&id, &action, &grant) {
             if error == luna_policy_broker::BrokerError::GrantExpired {
                 tx.execute("UPDATE goal SET status='blocked' WHERE id=?1", [&id])?;
                 tx.execute("UPDATE job SET state='blocked' WHERE goal_id=?1", [&id])?;
@@ -220,6 +232,51 @@ impl GoalEngine {
                 r.get(0)
             })?,
         )
+    }
+
+    pub fn add_dependency(
+        &self,
+        goal_id: &str,
+        depends_on_goal_id: &str,
+    ) -> Result<(), EngineError> {
+        if goal_id == depends_on_goal_id {
+            return Err(EngineError::Invalid("DEPENDENCY_CYCLE".into()));
+        }
+        let mut db = self.db.lock().expect("sqlite mutex poisoned");
+        let tx = db.transaction()?;
+        let target_exists: bool = tx.query_row(
+            "SELECT EXISTS(SELECT 1 FROM goal WHERE id=?1)",
+            [goal_id],
+            |row| row.get(0),
+        )?;
+        let prerequisite_exists: bool = tx.query_row(
+            "SELECT EXISTS(SELECT 1 FROM goal WHERE id=?1)",
+            [depends_on_goal_id],
+            |row| row.get(0),
+        )?;
+        if !target_exists || !prerequisite_exists {
+            return Err(EngineError::NotFound);
+        }
+        let creates_cycle: bool = tx.query_row(
+            "WITH RECURSIVE reachable(id) AS (
+               SELECT ?2
+               UNION
+               SELECT gd.depends_on_goal_id FROM goal_dependency gd
+                 JOIN reachable r ON gd.goal_id=r.id
+             )
+             SELECT EXISTS(SELECT 1 FROM reachable WHERE id=?1)",
+            params![goal_id, depends_on_goal_id],
+            |row| row.get(0),
+        )?;
+        if creates_cycle {
+            return Err(EngineError::Invalid("DEPENDENCY_CYCLE".into()));
+        }
+        tx.execute(
+            "INSERT OR IGNORE INTO goal_dependency(goal_id,depends_on_goal_id,created_at_utc) VALUES(?1,?2,strftime('%Y-%m-%dT%H:%M:%fZ','now'))",
+            params![goal_id, depends_on_goal_id],
+        )?;
+        tx.commit()?;
+        Ok(())
     }
 }
 
@@ -288,6 +345,7 @@ pub fn score(metrics: &luna_contracts::Metrics) -> f64 {
 mod tests {
     use super::*;
     use luna_contracts::{CreateGoal, Metrics, PrivacyClass, ProvenanceInput, SourceStatus};
+    use luna_policy_broker::PolicyBroker;
     fn body(action: &str) -> CreateGoal {
         CreateGoal {
             action: action.into(),
@@ -364,5 +422,79 @@ mod tests {
             original
         );
         assert_eq!(engine.tick().unwrap().outcome, "succeeded");
+    }
+
+    #[test]
+    fn dependency_prevents_a_higher_scored_goal_from_running_early() {
+        let (engine, key) = engine();
+        let mut low_priority = body("local.checksum");
+        low_priority.metrics = Metrics {
+            impact: 0.1,
+            urgency: 0.1,
+            user_value: 0.1,
+            confidence: 0.1,
+            efficiency: 0.1,
+        };
+        let prerequisite = engine
+            .create(&low_priority, &key, "dependency-prerequisite")
+            .unwrap();
+        let blocker = engine
+            .create(&body("local.checksum"), &key, "dependency-blocker")
+            .unwrap();
+        engine
+            .add_dependency(&blocker.id, &prerequisite.id)
+            .unwrap();
+        let first = engine.tick().unwrap();
+        assert_eq!(first.outcome, "succeeded");
+        assert_eq!(first.goal_id.as_deref(), Some(prerequisite.id.as_str()));
+        assert_eq!(engine.get(&blocker.id).unwrap().status, "approved");
+        assert_eq!(engine.tick().unwrap().outcome, "succeeded");
+    }
+
+    #[test]
+    fn dependency_cycles_are_rejected() {
+        let (engine, key) = engine();
+        let first = engine
+            .create(&body("local.checksum"), &key, "cycle-first")
+            .unwrap();
+        let second = engine
+            .create(&body("local.checksum"), &key, "cycle-second")
+            .unwrap();
+        engine.add_dependency(&first.id, &second.id).unwrap();
+        assert!(matches!(
+            engine.add_dependency(&second.id, &first.id),
+            Err(EngineError::Invalid(code)) if code == "DEPENDENCY_CYCLE"
+        ));
+    }
+
+    #[test]
+    fn queued_goal_waiting_on_blocked_dependency_is_not_reported_idle() {
+        let (engine, key) = engine();
+        let prerequisite = engine
+            .create(&body("local.checksum"), &key, "waiting-prerequisite")
+            .unwrap();
+        let dependent = engine
+            .create(&body("local.checksum"), &key, "waiting-dependent")
+            .unwrap();
+        engine
+            .add_dependency(&dependent.id, &prerequisite.id)
+            .unwrap();
+        {
+            let db = engine.db.lock().unwrap();
+            db.execute(
+                "UPDATE goal SET status='blocked' WHERE id=?1",
+                [&prerequisite.id],
+            )
+            .unwrap();
+            db.execute(
+                "UPDATE job SET state='blocked' WHERE goal_id=?1",
+                [&prerequisite.id],
+            )
+            .unwrap();
+        }
+        let tick = engine.tick().unwrap();
+        assert_eq!(tick.outcome, "waiting_for_dependencies");
+        assert_eq!(tick.reason, "DEPENDENCIES_NOT_COMPLETED");
+        assert!(engine.get(&dependent.id).unwrap().queued);
     }
 }

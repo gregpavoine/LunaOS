@@ -18,6 +18,12 @@ pub struct CreateGoal {
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 #[serde(deny_unknown_fields)]
+pub struct AddDependency {
+    pub depends_on_goal_id: String,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
 #[serde(default)]
 pub struct Metrics {
     pub impact: f64,

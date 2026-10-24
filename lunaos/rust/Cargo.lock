@@ -981,6 +981,8 @@ dependencies = [
  "serde_json",
  "subtle",
  "tokio",
+ "tower",
+ "uuid",
 ]
 
 [[package]]
@@ -1011,12 +1013,18 @@ dependencies = [
 name = "luna-policy-broker"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "hex",
  "hmac",
+ "libc",
  "luna-contracts",
+ "serde",
+ "serde_json",
  "sha2",
  "subtle",
  "thiserror",
+ "tokio",
+ "uuid",
 ]
 
 [[package]]

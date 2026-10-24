@@ -23,8 +23,16 @@
         "responses": {"200": {"description": "Goal status", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/GoalView"}}}}, "401": {"description": "Owner authentication required"}, "404": {"description": "Goal not found"}}
       }
     },
+    "/v1/goals/{id}/dependencies": {
+      "post": {
+        "operationId": "addGoalDependency",
+        "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "string", "format": "uuid"}}],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AddDependency"}}}},
+        "responses": {"204": {"description": "Dependency added idempotently"}, "400": {"description": "Dependency would create a cycle"}, "401": {"description": "Owner authentication required"}, "404": {"description": "Goal or prerequisite not found"}}
+      }
+    },
     "/v1/scheduler/tick": {
-      "post": {"operationId": "tickScheduler", "responses": {"200": {"description": "One authorized job completed or scheduler reported idle success", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TickResult"}}}}, "401": {"description": "Owner authentication required"}}}
+      "post": {"operationId": "tickScheduler", "responses": {"200": {"description": "One authorized job completed, scheduler is waiting on dependencies, or scheduler reported idle success", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TickResult"}}}}, "401": {"description": "Owner authentication required"}}}
     },
     "/v1/system/capabilities": {
       "get": {"operationId": "getCapabilities", "security": [], "responses": {"200": {"description": "Current capability state and explicit blockers"}}}
@@ -35,9 +43,10 @@
     "schemas": {
       "Metrics": {"type": "object", "additionalProperties": false, "properties": {"impact": {"type": "number", "minimum": 0, "maximum": 1}, "urgency": {"type": "number", "minimum": 0, "maximum": 1}, "user_value": {"type": "number", "minimum": 0, "maximum": 1}, "confidence": {"type": "number", "minimum": 0, "maximum": 1}, "efficiency": {"type": "number", "minimum": 0, "maximum": 1}}},
       "ProvenanceInput": {"type": "object", "additionalProperties": false, "properties": {"source_id": {"type": ["string", "null"]}, "claim": {"type": ["string", "null"]}}, "description": "Input text is validated but never persisted in this initial slice. Clients cannot declare a source verified."},
+      "AddDependency": {"type": "object", "additionalProperties": false, "required": ["depends_on_goal_id"], "properties": {"depends_on_goal_id": {"type": "string", "format": "uuid"}}},
       "CreateGoal": {"type": "object", "additionalProperties": false, "required": ["action"], "properties": {"action": {"type": "string", "pattern": "^[a-z][a-z0-9_.]{0,79}$"}, "metrics": {"$ref": "#/components/schemas/Metrics"}, "privacy_class": {"type": "string", "enum": ["general", "intimate", "biometric"]}, "expected_cost_minor": {"type": ["integer", "null"], "minimum": 0}, "provenance": {"$ref": "#/components/schemas/ProvenanceInput"}}},
       "GoalView": {"type": "object", "required": ["contract_version", "id", "action", "status", "score", "policy_code", "provenance_status", "queued"], "properties": {"contract_version": {"const": 1}, "id": {"type": "string", "format": "uuid"}, "action": {"type": "string"}, "status": {"type": "string"}, "score": {"type": ["number", "null"]}, "policy_code": {"type": "string"}, "provenance_status": {"type": "string", "enum": ["unknown", "verified", "disputed"]}, "queued": {"type": "boolean"}}},
-      "TickResult": {"type": "object", "required": ["outcome", "goal_id", "reason"], "properties": {"outcome": {"type": "string", "enum": ["succeeded", "failed", "idle_success"]}, "goal_id": {"type": ["string", "null"]}, "reason": {"type": "string"}}}
+      "TickResult": {"type": "object", "required": ["outcome", "goal_id", "reason"], "properties": {"outcome": {"type": "string", "enum": ["succeeded", "failed", "blocked", "waiting_for_dependencies", "idle_success"]}, "goal_id": {"type": ["string", "null"]}, "reason": {"type": "string"}}}
     }
   }
 }

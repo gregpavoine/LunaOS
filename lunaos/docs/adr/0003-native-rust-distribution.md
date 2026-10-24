@@ -1,7 +1,28 @@
-# ADR 0003: native LunaOS distribution and Rust control plane
+# ADR 0003: native Rust LunaOS control plane
 
-Accepted 2026-10-24 from the owner's explicit architecture correction. LunaOS ships as an independently installable Arch Linux OS, with Hyprland/Wayland and systemd. Rust/Tokio owns Core, Goal Engine, Scheduler, Policy Broker, Agent Runner, Memory/Identity, Resource Manager and native shell. GTK4 is the selected UI (evaluation in `docs/architecture/native-rust.md`). SQLite is the initial persistent store. llama.cpp is the first local inference adapter. D-Bus, Unix sockets and Linux APIs are the operating-system integration boundary.
+**Status: Accepted by owner direction, 2026-10-24.**
 
-Omarchy remains a source of reusable configuration, packages and proven integrations, but LunaOS owns its package manifests, installer, desktop shell, system services, updates and recovery. Keep upstream Omarchy components marked KEEP until their LunaOS replacements pass equivalent tests. Do not install Omarchy on macOS. Target-host inspection and mutation require a supplied SSH alias and explicit owner authorization; the baseline is read-only and must remain unexecuted until that authorization.
+LunaOS is an independently installable Arch Linux OS, not an application layered
+on Omarchy. The native OS control plane uses Rust and Tokio, systemd, D-Bus, Unix
+sockets and Linux APIs. SQLite is the initial persistent store. The existing Go and
+Python Task 1 implementation is frozen reference behavior and remains available for
+parity tests while native services replace it incrementally.
 
-The existing Go/Python prototype is frozen as a migration reference. No new Goal Engine behavior is added there. The current Rust workspace is an initial implementation slice, not proof of independent boot, real inference, target integration or Mont Blanc completion.
+The first native slice uses versioned Rust contracts, a SQLite-backed Goal Engine,
+a deny-by-default Policy Broker running as its own process, and an Axum Core API.
+The broker speaks a bounded newline-delimited JSON protocol only over an owner-only
+Unix socket. Core and broker authenticate the owner using the same protected
+credential; the broker also checks the connecting process UID against its own UID.
+The only enabled action is a pure checksum of a public fixture. No privileged Linux
+adapter is enabled.
+
+GTK4 is selected over Slint for the first native shell because LunaOS targets
+Hyprland/Wayland on Arch and needs direct access to mature GTK accessibility,
+settings, theming and D-Bus integrations already common in that environment. This
+decision reduces integration work; it does not claim the shell has been built or
+tested on Linux. Revisit only if a measured startup, resource or portability test
+shows GTK4 cannot meet the target requirements.
+
+The local inference boundary is an OpenAI-compatible loopback llama.cpp adapter.
+It remains unavailable until a real model with a documented license is configured
+and inference is demonstrated. No Python process may own system authority.

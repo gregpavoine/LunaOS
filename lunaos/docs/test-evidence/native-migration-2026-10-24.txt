@@ -1,0 +1,39 @@
+LunaOS native migration checkpoint — 2026-10-24
+Host: macOS Darwin 27.0.0 arm64. No Linux system, Omarchy installation, SSH host,
+GPU or target hardware was accessed.
+
+Commands run on the final native-code tree:
+
+1. `make test`
+   PASS. Rust workspace: luna-core 1/1, luna-goal-engine 8/8,
+   luna-llm-adapter 1/1, luna-policy-broker 4/4, and policy child-process
+   integration 1/1. Contracts and binary/doc-test targets have no unit tests.
+2. `make check`
+   PASS. `cargo fmt --check`, workspace Clippy with `-D warnings`, and
+   `cargo check` completed with exit code 0.
+3. `make smoke-native`
+   PASS. Built optimized local Core and Policy Broker binaries; live loopback API
+   rejected an unauthenticated request (401), created an owner goal, returned the
+   same goal for a duplicate idempotency key, verified the fixed checksum artifact,
+   and retained completed state after restarting Core. The Broker remained a
+   separate child process over a private Unix socket.
+4. `make test-reference check-reference`
+   PASS. Existing Go policy tests/vet and 25 Python reference integration tests/
+   compileall passed. Baseline script was syntax-checked only.
+5. `python3 -m json.tool contracts/openapi/native-v1.json`
+   PASS. This is a JSON parse check, not full OpenAPI conformance validation.
+6. `bash -n scripts/build-archiso.sh scripts/dev-native.sh scripts/smoke-native-core.sh scripts/linux-baseline.sh`
+   PASS. Linux baseline was not executed.
+7. `git diff --check`
+   PASS.
+
+The native Goal Engine tests additionally verify policy denial before score,
+owner-only policy grants, absent-budget payment refusal, duplicate idempotency,
+unknown provenance status, idle success, evidence verification, dependency cycle
+rejection, dependency ordering/wait state and queued state after engine reopen.
+The Core route test verifies owner authorization for dependency changes.
+
+The GTK shell was not compiled: the host `pkg-config` executable fails with
+`bad CPU type in executable`. `llama-server` and `mkarchiso` are unavailable here.
+No Arch package, standalone image, installation, boot, recovery or real inference
+was produced or tested. No packages or services were changed on a Linux machine.

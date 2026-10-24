@@ -1,18 +1,22 @@
 SHELL := /bin/bash
 
-.PHONY: test check dev test-reference check-reference smoke-native
+.PHONY: test check build dev test-reference check-reference smoke-native
 
 test:
 	cargo test --workspace --locked --manifest-path rust/Cargo.toml
 
 check:
 	cargo fmt --all --manifest-path rust/Cargo.toml -- --check
+	cargo clippy --workspace --all-targets --locked --manifest-path rust/Cargo.toml -- -D warnings
 	cargo check --workspace --locked --manifest-path rust/Cargo.toml
+
+build:
+	cargo build --release --locked --manifest-path rust/Cargo.toml -p luna-core -p luna-policy-broker
 
 dev:
 	cargo run --locked --manifest-path rust/Cargo.toml -p luna-core
 
-smoke-native:
+smoke-native: build
 	./scripts/smoke-native-core.sh
 
 # Frozen Go/Python behavioral reference only. These tools are not required by Core.
