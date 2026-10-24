@@ -10,7 +10,7 @@ document distinguishes target boundaries from the subset already running locally
 | Service | Rust workspace crate | Contract | Current state |
 |---|---|---|---|
 | LUNA Core API + scheduler | `luna-core` | Authenticated loopback REST/JSON; Tokio periodic scheduler | Runs locally on macOS; not installed as systemd service |
-| Goal Engine | `luna-goal-engine` | Internal Rust API; SQLite migration | Local slice: score, idempotent create, queue/tick, restart persistence, evidence |
+| Goal Engine | `luna-goal-engine` | Internal Rust API; SQLite migrations | Local slice: score, idempotent create, dependency ordering, restart persistence, execution leases and evidence |
 | Policy Broker | `luna-policy-broker` | Separate process; bounded newline JSON over private Unix socket | Rust child-process test passes; one public checksum action only |
 | Shared contracts | `luna-contracts` | Versioned serde request/result types | Compiles; several Mont Blanc types are schema-only |
 | Local model adapter | `luna-llm-adapter` | OpenAI-compatible local llama.cpp endpoint | Adapter source and loopback test; no model/server or real inference |
@@ -40,7 +40,10 @@ authorized goal and queued job in SQLite, and computes the documented weighted
 score only after authorization. The scheduler revalidates the scoped grant, runs
 only `local.checksum` against a fixed public fixture, verifies the independent
 SHA-256 and size, then commits the goal outcome and evidence. SQLite uses WAL and
-full synchronous durability. Restarting Core leaves jobs readable and resumable.
+full synchronous durability. Atomic leases use worker IDs, random tokens and
+expiry timestamps; expired work is requeued after restart, and stale tokens cannot
+complete it. This is tested against the local pure checksum action only. The
+versioned migration preserves v1 queued jobs.
 The initial dependency graph rejects cycles and holds dependent goals until every
 prerequisite completes. A queue that contains only blocked dependents reports
 `waiting_for_dependencies`, not `idle_success`.
@@ -55,8 +58,8 @@ REST routes implemented in this slice:
 | `POST` | `/v1/scheduler/tick` | Owner bearer token |
 | `GET` | `/v1/system/capabilities` | Public static status; reports unavailable target capabilities |
 
-Goal DAG planning, lifecycle mutations, full CRUD, event subscriptions, durable
-leases, resource quotas, external side effects, evidence vault, memory and identity
+Goal DAG planning, lifecycle mutations, full CRUD, event subscriptions, lease
+renewal/heartbeats, resource quotas, external side effects, evidence vault, memory and identity
 services are not implemented. Contract structs do not mean those services exist.
 
 ## Native UI and inference choices
