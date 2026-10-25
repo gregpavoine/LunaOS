@@ -161,15 +161,18 @@ release image.
 | Arch `qmllint shell/shell.qml` | PASS: exit 0 with one `PanelWindow` uncreatable-type warning; no other warnings after cleanup |
 | Updated Arch `makepkg --cleanbuild --noconfirm` | PASS: `lunaos-native-0.1.0-1-x86_64.pkg.tar.zst` built under x86_64 emulation; this exact artifact has not been installed or booted |
 | `scripts/build-archiso.sh` final attempt | BLOCKED: profile validation, package installation, live-user customization, SquashFS creation (1,145 MiB) and UEFI systemd-boot setup completed; xorriso could not write the 633,189-sector ISO because Docker reported only 121 MiB free. Docker Desktop then reported a containerd metadata/blob I/O error. No ISO file was produced. |
+| Follow-up `make build` on macOS arm64 | PASS: `luna-core`, `luna-policy-broker`, `luna-vault` and `luna-owner-setup` built under `build/local/`; these are host development binaries, not the Arch release |
+| Docker Desktop retry after the ISO failure | BLOCKED: `docker info` reports `Docker Desktop is unable to start`; `open -a Docker` did not restore the engine. The host subsequently reported 6.5 GiB free. |
 | Updated package installation and separate-UID runtime smoke | NOT RUN for this checkpoint |
 | Systemd boot, Wayland shell session, completed Archiso ISO and ISO boot | NOT RUN |
 
 The first Archiso attempt exposed and fixed an incorrect Go module working
 directory. A subsequent attempt exposed obsolete boot-mode names and missing
 bootloader files; the profile now uses UEFI systemd-boot. The latest attempt got
-past those stages and failed only while writing the ISO after exhausting Docker
-Desktop storage. The host had 340 MiB free immediately afterward. Docker system
-cleanup was not run because it could affect unrelated user images and containers.
+past those stages and failed while writing the ISO after exhausting Docker Desktop
+storage. The host had 340 MiB free immediately afterward; it now reports 6.5 GiB
+free, but Docker Desktop still does not start. Docker system cleanup was not run
+because it could affect unrelated user images and containers.
 
 The first Go build attempt failed because Go invoked an incompatible Intel Git at
 `/usr/local/bin/git` while stamping VCS metadata. The Make target now passes
@@ -223,8 +226,8 @@ Linux in this checkpoint; it intentionally exits on macOS.
 
 ## Next milestone
 
-Free space in Docker Desktop storage, rebuild the ISO, and test its UEFI boot in a
-VM. Install the updated package in a disposable Arch environment, then validate
+Restore Docker Desktop or provide an Arch Linux x86_64 builder, rebuild the ISO,
+and test its UEFI boot in a VM. Install the updated package in a disposable Arch environment, then validate
 unit restart, credential loading and service identity separation in a VM. Earlier
 package installation and same-UID process tests in emulated Arch containers do not
 boot systemd or replace those tests. Run the shell under Wayland and complete an
