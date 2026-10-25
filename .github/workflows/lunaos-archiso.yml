@@ -1,0 +1,52 @@
+name: LunaOS Arch ISO
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [mont-blanc]
+    paths:
+      - 'lunaos/**'
+      - '.github/workflows/lunaos-archiso.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  archiso:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Build LunaOS 0.1.0 ISO with Arch Linux x86_64 tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          output_dir="$RUNNER_TEMP/lunaos-archiso-output"
+          mkdir -p "$output_dir"
+          docker run --rm --privileged \
+            --mount "type=bind,source=$GITHUB_WORKSPACE,target=/workspace,readonly" \
+            --mount "type=bind,source=$output_dir,target=/output" \
+            archlinux:base-devel \
+            bash -euo pipefail -c '
+              pacman -Syu --noconfirm --needed archiso go sqlite sudo
+              LUNAOS_ISO_OUTPUT=/output \
+              LUNAOS_ISO_WORK=/tmp/lunaos-archiso-work \
+              /workspace/lunaos/scripts/build-archiso.sh
+            '
+          iso_path=$(find "$output_dir" -maxdepth 1 -type f -name '*.iso' -print -quit)
+          if [[ -z "$iso_path" ]]; then
+            printf '%s\n' 'Archiso completed without producing an ISO.' >&2
+            exit 1
+          fi
+          sha256sum "$iso_path" > "$output_dir/SHA256SUMS"
+          ls -lh "$output_dir"
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: lunaos-0.1.0-x86_64-iso
+          path: ${{ runner.temp }}/lunaos-archiso-output/*
+          if-no-files-found: error
+          retention-days: 14

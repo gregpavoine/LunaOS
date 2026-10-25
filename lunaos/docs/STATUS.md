@@ -1,5 +1,20 @@
 # LunaOS implementation status — Omarchy-aligned architecture checkpoint
 
+## Release 0 build status — 2026-10-25
+
+Fresh local verification on macOS arm64: `make test && make check && make build`
+passed, including Go unit tests, formatting, vet, shell syntax, OpenAPI JSON parsing
+and all four development binaries. `make test-rust-checkpoint &&
+make check-rust-checkpoint` also passed for the frozen Rust checkpoint, including
+workspace tests, formatting, Clippy with warnings denied and `cargo check`.
+
+The Mac cannot run `mkarchiso`. Docker Desktop did not provide a usable Linux engine:
+`docker info` returned its client details and stalled before returning server
+details. A GitHub Actions Arch x86_64 image-build workflow was added at
+`.github/workflows/lunaos-archiso.yml`; it builds the ISO and checksum as a
+temporary artifact. The workflow has not run yet, so no ISO is claimed. ISO boot,
+systemd session, Wayland shell and target-hardware verification remain outstanding.
+
 **LunaOS V0: INCOMPLETE. Mont Blanc 1.0: NOT RELEASED.** On 2026-10-25 the owner
 changed the target implementation to follow Omarchy's Arch package, Bash,
 Hyprland and Quickshell/QML techniques, with Go for long-running Luna services.
