@@ -5,7 +5,7 @@ pkgdesc='Go control-plane services for LunaOS'
 arch=('x86_64')
 url='https://github.com/gregpavoine/LunaOS'
 license=('custom')
-depends=('glibc' 'systemd-libs')
+depends=('glibc' 'systemd-libs' 'quickshell')
 makedepends=('go' 'gcc' 'make')
 options=('!debug')
 source=()
@@ -15,7 +15,7 @@ prepare() {
   local repository_root="$startdir/../.."
   cp -a "$repository_root/go.mod" "$repository_root/go.sum" "$repository_root/services" "$srcdir/"
   mkdir -p "$srcdir/systemd"
-  cp "$repository_root/systemd/luna-core.service" "$repository_root/systemd/luna-policy-broker.service" "$srcdir/systemd/"
+  cp "$repository_root/systemd/luna-core.service" "$repository_root/systemd/luna-policy-broker.service" "$repository_root/systemd/luna-owner-setup.service" "$srcdir/systemd/"
   mkdir -p "$srcdir/sysusers"
   cp "$repository_root/systemd-sysusers/lunaos.conf" "$srcdir/sysusers/"
   cd "$srcdir"
@@ -36,8 +36,11 @@ package() {
   install -Dm755 "$srcdir/luna-vault" "$pkgdir/usr/bin/luna-vault"
   install -Dm755 "$srcdir/luna-owner-setup" "$pkgdir/usr/bin/luna-owner-setup"
   install -Dm644 "$srcdir/systemd/luna-core.service" "$pkgdir/usr/lib/systemd/system/luna-core.service"
+  install -Dm644 "$srcdir/systemd/luna-owner-setup.service" "$pkgdir/usr/lib/systemd/system/luna-owner-setup.service"
   install -Dm644 "$srcdir/systemd/luna-policy-broker.service" "$pkgdir/usr/lib/systemd/system/luna-policy-broker.service"
   install -Dm644 "$srcdir/sysusers/lunaos.conf" "$pkgdir/usr/lib/sysusers.d/lunaos.conf"
   install -Dm644 "$startdir/lunaos.desktop" "$pkgdir/usr/share/applications/lunaos.desktop"
+  install -d "$pkgdir/usr/share/lunaos/shell"
+  cp -a "$startdir/../../shell/." "$pkgdir/usr/share/lunaos/shell/"
   install -Dm644 "$startdir/../../README.md" "$pkgdir/usr/share/doc/lunaos-native/README.md"
 }

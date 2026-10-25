@@ -1,11 +1,13 @@
 package core
 
 import (
+	"context"
 	"crypto/hmac"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"strings"
 	"time"
@@ -14,6 +16,17 @@ import (
 )
 
 const maxRequestBytes = 8192
+
+type ownerSocketRequestKey struct{}
+
+// OwnerSocketConnContext marks requests only when their accepted connection is a
+// Unix socket. Mount it on the private, owner-group-restricted listener only.
+func OwnerSocketConnContext(ctx context.Context, conn net.Conn) context.Context {
+	if _, ok := conn.(*net.UnixConn); !ok {
+		return ctx
+	}
+	return context.WithValue(ctx, ownerSocketRequestKey{}, true)
+}
 
 type HTTPHandler struct {
 	engine *Engine
@@ -37,9 +50,14 @@ func (h *HTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	authorization := r.Header.Get("Authorization")
-	if !strings.HasPrefix(authorization, "Bearer ") || !hmac.Equal([]byte(strings.TrimPrefix(authorization, "Bearer ")), []byte(h.token)) {
+	trustedUnixOwner, _ := r.Context().Value(ownerSocketRequestKey{}).(bool)
+	if !trustedUnixOwner && (!strings.HasPrefix(authorization, "Bearer ") || !hmac.Equal([]byte(strings.TrimPrefix(authorization, "Bearer ")), []byte(h.token))) {
 		writeJSON(w, http.StatusUnauthorized, map[string]string{"code": ErrUnauthorized.Error()})
 		return
+	}
+	ownerPrincipal := strings.TrimPrefix(authorization, "Bearer ")
+	if trustedUnixOwner {
+		ownerPrincipal = h.token
 	}
 	if r.Method == http.MethodGet && r.URL.Path == "/v1/intimacy/relationship/state" {
 		state, err := h.engine.IntimacyState(r.Context())
@@ -292,7 +310,7 @@ func (h *HTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			writeEngineError(w, err)
 			return
 		}
-		goal, err := h.engine.Create(r.Context(), body, strings.TrimPrefix(authorization, "Bearer "), r.Header.Get("Idempotency-Key"))
+		goal, err := h.engine.Create(r.Context(), body, ownerPrincipal, r.Header.Get("Idempotency-Key"))
 		if err != nil {
 			writeEngineError(w, err)
 			return

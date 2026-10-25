@@ -5,5 +5,7 @@ __pycache__/
 .local/
 rust/target/
 build/
+out/
+.archiso-work/
 .worktrees/
 *.sqlite*

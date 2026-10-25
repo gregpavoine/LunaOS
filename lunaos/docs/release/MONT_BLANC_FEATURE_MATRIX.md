@@ -10,8 +10,8 @@ later features remain in Mont Blanc scope.
 | Frozen Go/Python goal registry + deterministic score | VERIFIED_LOCAL | `make test-reference`; prototype only |
 | Go Policy Broker + Go Core process boundary | VERIFIED_LOCAL | Linux Docker process test: peer UID, owner auth, scoped grant, queued-job recovery, API idempotency and verified fixture evidence; not Arch/systemd |
 | Go Core/Broker compiled services | VERIFIED_LOCAL | Linux container build/test; packaged x86_64 Arch binaries built and installed under emulation; target hardware/systemd remain unverified |
-| Go owner credential provisioning | VERIFIED_LOCAL | Packaged CLI creates private 64-hex service credential, refuses replacement; first-boot/session UX remains absent |
-| Go service Arch package | VERIFIED_LOCAL | x86_64 Arch package built/installed in emulated Docker; packaged services ran as `lunaos`; no systemd boot or VM claim |
+| Go owner credential provisioning | PARTIAL | CLI creates separate private owner and Core-to-Broker credentials; first-boot unit is present but not validated under systemd; session delivery/revocation UX remains absent |
+| Go service Arch package | VERIFIED_LOCAL | x86_64 Arch package built under emulation; latest package not installed or run under systemd; no VM/target claim |
 | Native Rust goal registry + deterministic score | VERIFIED_LOCAL | Rust tests + process smoke; G-003 bounded subset |
 | Independent owner-authenticated Rust policy process | VERIFIED_LOCAL | Child-process UDS test + native smoke; checksum only |
 | Native Rust Core API and durable local queue | VERIFIED_LOCAL | Real local REST smoke; no Linux/systemd claim |
@@ -27,7 +27,7 @@ later features remain in Mont Blanc scope.
 | Full goal lifecycle/CRUD/planner/strategy optimizer | NOT_STARTED | List/create/read/tick/pause/resume/cancel and bounded plan replacement exist; editing, remaining state transitions and evidence-backed strategy evaluation remain absent |
 | Authenticated production sessions/key vault/remote admin | BLOCKED | Device identities/key store and hardened Linux boundary absent |
 | Payments, reservations/ledger, external conversation grants | NOT_STARTED | Always denied; no budget or recipients configured |
-| Native Wayland shell/session/keyboard command center | NOT_STARTED | Quickshell/QML shell not implemented; Linux/Hyprland run needed |
+| Native Wayland shell/session/keyboard command center | PARTIAL | Quickshell/QML dashboard source and Hyprland bindings exist; Arch `qmllint` exits 0 with a `PanelWindow` type-resolution warning; no Wayland/Hyprland runtime |
 | Launcher/clipboard/notifications/apps KEEP validation | BLOCKED | No target access; no host changes |
 | Native lock/idle/update UI + recovery/rollback | BLOCKED | Target baseline and recovery proof needed |
 | Local LLM/router/memory/persona continuity | NOT_STARTED | No inference runtime tested |

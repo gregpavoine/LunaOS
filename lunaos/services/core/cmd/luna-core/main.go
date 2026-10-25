@@ -48,7 +48,15 @@ func run() error {
 	if err := requireLoopbackAddress(address); err != nil {
 		return err
 	}
-	policy, err := core.NewUnixPolicyClient(policySocket, token)
+	policyTokenPath := os.Getenv("LUNA_POLICY_TOKEN_FILE")
+	if policyTokenPath == "" {
+		return fmt.Errorf("LUNA_POLICY_TOKEN_FILE is required")
+	}
+	policyToken, err := readOwnerToken(policyTokenPath)
+	if err != nil {
+		return fmt.Errorf("Core-to-Broker credential unavailable: %w", err)
+	}
+	policy, err := core.NewUnixPolicyClient(policySocket, policyToken)
 	if err != nil {
 		return err
 	}
@@ -80,8 +88,29 @@ func run() error {
 	if err != nil {
 		return err
 	}
+	ownerSocketPath := os.Getenv("LUNA_OWNER_SOCKET")
+	if ownerSocketPath == "" {
+		_ = listener.Close()
+		return fmt.Errorf("LUNA_OWNER_SOCKET is required")
+	}
+	ownerListener, err := core.ListenOwnerSocket(ownerSocketPath)
+	if err != nil {
+		_ = listener.Close()
+		return err
+	}
+	defer ownerListener.Close()
+	handler := core.NewHTTPHandler(engine, token, vault)
 	server := &http.Server{
-		Handler:           core.NewHTTPHandler(engine, token, vault),
+		Handler:           handler,
+		ReadHeaderTimeout: 2 * time.Second,
+		ReadTimeout:       5 * time.Second,
+		WriteTimeout:      5 * time.Second,
+		IdleTimeout:       10 * time.Second,
+		MaxHeaderBytes:    8192,
+	}
+	ownerServer := &http.Server{
+		Handler:           handler,
+		ConnContext:       core.OwnerSocketConnContext,
 		ReadHeaderTimeout: 2 * time.Second,
 		ReadTimeout:       5 * time.Second,
 		WriteTimeout:      5 * time.Second,
@@ -91,19 +120,26 @@ func run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 	go runScheduler(ctx, engine)
-	serveErr := make(chan error, 1)
-	go func() {
-		serveErr <- server.Serve(listener)
-	}()
-	select {
-	case <-ctx.Done():
+	serveErr := make(chan error, 2)
+	go func() { serveErr <- server.Serve(listener) }()
+	go func() { serveErr <- ownerServer.Serve(ownerListener) }()
+	shutdown := func() error {
 		shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
-		if err := server.Shutdown(shutdownCtx); err != nil {
-			return err
+		publicErr := server.Shutdown(shutdownCtx)
+		ownerErr := ownerServer.Shutdown(shutdownCtx)
+		_ = listener.Close()
+		_ = ownerListener.Close()
+		if publicErr != nil {
+			return publicErr
 		}
-		return nil
+		return ownerErr
+	}
+	select {
+	case <-ctx.Done():
+		return shutdown()
 	case err := <-serveErr:
+		_ = shutdown()
 		if errors.Is(err, http.ErrServerClosed) {
 			return nil
 		}

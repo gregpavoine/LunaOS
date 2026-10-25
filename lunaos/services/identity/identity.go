@@ -97,3 +97,45 @@ func syncDirectory(path string) error {
 	defer directory.Close()
 	return directory.Sync()
 }
+
+// ProvisionServiceCredentials creates independent owner/API and Core-to-Broker
+// credentials. It refuses to replace either path and rolls back a newly created
+// owner credential if publishing the broker credential fails.
+func ProvisionServiceCredentials(ownerPath, policyPath string) (string, string, error) {
+	if ownerPath == "" || policyPath == "" {
+		return "", "", fmt.Errorf("owner and policy credential paths are required")
+	}
+	ownerAbsolute, err := filepath.Abs(ownerPath)
+	if err != nil {
+		return "", "", fmt.Errorf("resolve owner credential path: %w", err)
+	}
+	policyAbsolute, err := filepath.Abs(policyPath)
+	if err != nil {
+		return "", "", fmt.Errorf("resolve policy credential path: %w", err)
+	}
+	if ownerAbsolute == policyAbsolute {
+		return "", "", fmt.Errorf("owner and policy credential paths must differ")
+	}
+	for _, path := range []string{ownerAbsolute, policyAbsolute} {
+		if err := ensurePrivateDirectory(filepath.Dir(path)); err != nil {
+			return "", "", err
+		}
+		if _, err := os.Lstat(path); err == nil {
+			return "", "", ErrAlreadyProvisioned
+		} else if !errors.Is(err, os.ErrNotExist) {
+			return "", "", fmt.Errorf("inspect credential path: %w", err)
+		}
+	}
+	owner, err := ProvisionOwnerToken(ownerAbsolute)
+	if err != nil {
+		return "", "", err
+	}
+	policy, err := ProvisionOwnerToken(policyAbsolute)
+	if err != nil {
+		if removeErr := os.Remove(ownerAbsolute); removeErr != nil {
+			return "", "", fmt.Errorf("publish policy credential: %w (owner credential rollback failed: %v)", err, removeErr)
+		}
+		return "", "", err
+	}
+	return owner, policy, nil
+}

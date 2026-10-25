@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"net"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 )
 
@@ -125,5 +127,50 @@ func TestIntimacyStopIsOwnerOnlyAndPersistsAcrossRestart(t *testing.T) {
 	}
 	if !state.Stopped || state.PrivacyMode != "unknown" || state.BackendAvailable {
 		t.Fatalf("unsafe intimacy state after restart: %+v", state)
+	}
+}
+
+func TestOwnerBearerMayBeOmittedOnlyOnTrustedUnixConnection(t *testing.T) {
+	e := testEngine(t, testDBPath(t), &testPolicy{})
+	handler := NewHTTPHandler(e, "owner-secret")
+	temporaryFile, err := os.CreateTemp("/tmp", "luna-")
+	if err != nil {
+		t.Fatal(err)
+	}
+	path := temporaryFile.Name() + ".sock"
+	if err := temporaryFile.Close(); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Remove(temporaryFile.Name()); err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(path)
+	listener, err := net.ListenUnix("unix", &net.UnixAddr{Name: path, Net: "unix"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer listener.Close()
+	client, err := net.DialUnix("unix", nil, &net.UnixAddr{Name: path, Net: "unix"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer client.Close()
+	server, err := listener.AcceptUnix()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer server.Close()
+	request := httptest.NewRequest(http.MethodGet, "/v1/goals", nil)
+	request = request.WithContext(OwnerSocketConnContext(request.Context(), server))
+	response := httptest.NewRecorder()
+	handler.ServeHTTP(response, request)
+	if response.Code != http.StatusOK {
+		t.Fatalf("owner Unix connection status=%d body=%s", response.Code, response.Body.String())
+	}
+
+	ordinary := httptest.NewRecorder()
+	handler.ServeHTTP(ordinary, httptest.NewRequest(http.MethodGet, "/v1/goals", nil))
+	if ordinary.Code != http.StatusUnauthorized {
+		t.Fatalf("ordinary HTTP without bearer status=%d", ordinary.Code)
 	}
 }

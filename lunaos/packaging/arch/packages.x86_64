@@ -4,7 +4,8 @@ syslinux
 linux
 linux-firmware
 hyprland
-gtk4
+quickshell
+foot
 networkmanager
 greetd
 greetd-tuigreet

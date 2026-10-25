@@ -10,9 +10,11 @@ import (
 )
 
 func TestRunDoesNotPrintCredentialUnlessRequested(t *testing.T) {
-	path := filepath.Join(t.TempDir(), "owner-token")
+	dir := t.TempDir()
+	path := filepath.Join(dir, "owner-token")
+	policyPath := filepath.Join(dir, "policy-token")
 	var output, errorsOutput bytes.Buffer
-	if code := run([]string{"--path", path}, &output, &errorsOutput); code != 0 {
+	if code := run([]string{"--path", path, "--policy-path", policyPath}, &output, &errorsOutput); code != 0 {
 		t.Fatalf("run exit=%d stderr=%s", code, errorsOutput.String())
 	}
 	contents, err := os.ReadFile(path)
@@ -29,9 +31,11 @@ func TestRunDoesNotPrintCredentialUnlessRequested(t *testing.T) {
 }
 
 func TestRunExplicitlyRevealsCredential(t *testing.T) {
-	path := filepath.Join(t.TempDir(), "owner-token")
+	dir := t.TempDir()
+	path := filepath.Join(dir, "owner-token")
+	policyPath := filepath.Join(dir, "policy-token")
 	var output, errorsOutput bytes.Buffer
-	if code := run([]string{"--path", path, "--reveal-token"}, &output, &errorsOutput); code != 0 {
+	if code := run([]string{"--path", path, "--policy-path", policyPath, "--reveal-token"}, &output, &errorsOutput); code != 0 {
 		t.Fatalf("run exit=%d stderr=%s", code, errorsOutput.String())
 	}
 	contents, err := os.ReadFile(path)

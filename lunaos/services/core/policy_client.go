@@ -17,9 +17,9 @@ type UnixPolicyClient struct {
 	client *http.Client
 }
 
-func NewUnixPolicyClient(socket, ownerToken string) (*UnixPolicyClient, error) {
-	if socket == "" || ownerToken == "" {
-		return nil, fmt.Errorf("policy socket and owner token are required")
+func NewUnixPolicyClient(socket, policyToken string) (*UnixPolicyClient, error) {
+	if socket == "" || policyToken == "" {
+		return nil, fmt.Errorf("policy socket and Core-to-Broker credential are required")
 	}
 	transport := &http.Transport{
 		DialContext: func(ctx context.Context, _, _ string) (net.Conn, error) {
@@ -29,7 +29,7 @@ func NewUnixPolicyClient(socket, ownerToken string) (*UnixPolicyClient, error) {
 	}
 	return &UnixPolicyClient{
 		socket: socket,
-		token:  ownerToken,
+		token:  policyToken,
 		client: &http.Client{Transport: transport, Timeout: 3 * time.Second, CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }},
 	}, nil
 }

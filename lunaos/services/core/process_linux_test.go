@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"os/user"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -32,6 +33,11 @@ func TestGoCoreAndPolicyBrokerProcessesRecoverQueuedGoal(t *testing.T) {
 	if err := os.WriteFile(tokenPath, []byte(token), 0600); err != nil {
 		t.Fatal(err)
 	}
+	policyToken := strings.Repeat("b", 64)
+	policyTokenPath := filepath.Join(dir, "policy-token")
+	if err := os.WriteFile(policyTokenPath, []byte(policyToken), 0600); err != nil {
+		t.Fatal(err)
+	}
 
 	brokerPath := filepath.Join(dir, "luna-policy-broker")
 	corePath := filepath.Join(dir, "luna-core")
@@ -46,14 +52,14 @@ func TestGoCoreAndPolicyBrokerProcessesRecoverQueuedGoal(t *testing.T) {
 	build(corePath, "./cmd/luna-core")
 
 	socket := filepath.Join(dir, "policy.sock")
-	startTestProcess(t, brokerPath, "--socket="+socket, "--key-file="+tokenPath)
+	startTestProcess(t, brokerPath, "--socket="+socket, "--key-file="+policyTokenPath, "--client-user="+currentUsername(t))
 	waitForCondition(t, "policy socket", func() bool {
 		info, err := os.Lstat(socket)
 		return err == nil && info.Mode()&os.ModeSocket != 0
 	})
 
 	database := filepath.Join(dir, "goals.sqlite")
-	policy, err := NewUnixPolicyClient(socket, token)
+	policy, err := NewUnixPolicyClient(socket, policyToken)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -85,10 +91,43 @@ func TestGoCoreAndPolicyBrokerProcessesRecoverQueuedGoal(t *testing.T) {
 	coreEnv := append(os.Environ(),
 		"LUNA_OWNER_TOKEN_FILE="+tokenPath,
 		"LUNA_DATABASE="+database,
+		"LUNA_OWNER_SOCKET="+filepath.Join(dir, "owner-api.sock"),
 		"LUNA_POLICY_SOCKET="+socket,
+		"LUNA_POLICY_TOKEN_FILE="+policyTokenPath,
 		"LUNA_LISTEN="+address,
 	)
 	startTestProcessWithEnv(t, corePath, coreEnv)
+	waitForCondition(t, "owner API socket", func() bool {
+		info, err := os.Lstat(filepath.Join(dir, "owner-api.sock"))
+		return err == nil && info.Mode()&os.ModeSocket != 0 && info.Mode().Perm() == 0660
+	})
+	ownerClient := newOwnerSocketTestClient(filepath.Join(dir, "owner-api.sock"))
+	ownerResponse, err := ownerClient.Get("http://luna/v1/goals")
+	if err != nil {
+		t.Fatal(err)
+	}
+	ownerResponse.Body.Close()
+	if ownerResponse.StatusCode != http.StatusOK {
+		t.Fatalf("owner Unix API status=%d", ownerResponse.StatusCode)
+	}
+	ownerGoalRequest, err := http.NewRequest(http.MethodPost, "http://luna/v1/goals", strings.NewReader(`{"action":"local.checksum","privacy_class":"general"}`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	ownerGoalRequest.Header.Set("Content-Type", "application/json")
+	ownerGoalRequest.Header.Set("Idempotency-Key", "owner-socket-goal")
+	ownerGoalResponse, err := ownerClient.Do(ownerGoalRequest)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var ownerGoal Goal
+	if err := json.NewDecoder(ownerGoalResponse.Body).Decode(&ownerGoal); err != nil {
+		t.Fatal(err)
+	}
+	ownerGoalResponse.Body.Close()
+	if ownerGoalResponse.StatusCode != http.StatusCreated || ownerGoal.ID == "" {
+		t.Fatalf("owner Unix create status=%d goal=%+v", ownerGoalResponse.StatusCode, ownerGoal)
+	}
 
 	baseURL := "http://" + address
 	client := &http.Client{Timeout: time.Second}
@@ -115,6 +154,15 @@ func TestGoCoreAndPolicyBrokerProcessesRecoverQueuedGoal(t *testing.T) {
 type testProcess struct {
 	cmd    *exec.Cmd
 	output bytes.Buffer
+}
+
+func currentUsername(t *testing.T) string {
+	t.Helper()
+	current, err := user.Current()
+	if err != nil {
+		t.Fatal(err)
+	}
+	return current.Username
 }
 
 func startTestProcess(t *testing.T, executable string, args ...string) *testProcess {
@@ -214,4 +262,11 @@ func assertGoalCompletesWithEvidence(t *testing.T, client *http.Client, baseURL,
 	if last.Evidence.ByteCount <= 0 || last.Evidence.Provenance != "local_public_fixture_v1" {
 		t.Fatalf("unexpected evidence provenance: %+v", last.Evidence)
 	}
+}
+
+func newOwnerSocketTestClient(socket string) *http.Client {
+	transport := &http.Transport{DialContext: func(ctx context.Context, _, _ string) (net.Conn, error) {
+		return (&net.Dialer{Timeout: time.Second}).DialContext(ctx, "unix", socket)
+	}}
+	return &http.Client{Timeout: time.Second, Transport: transport}
 }

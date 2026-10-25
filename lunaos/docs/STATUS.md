@@ -5,8 +5,10 @@ changed the target implementation to follow Omarchy's Arch package, Bash,
 Hyprland and Quickshell/QML techniques, with Go for long-running Luna services.
 This direction is documented in ADR 0004. The Go Core/Broker migration has a
 tested portable slice and a Linux process-level integration test in Docker
-Desktop; Quickshell/QML migration has not started. No Arch image has been
-produced or booted and there is no verified Arch or target-hardware run.
+Desktop. A first Quickshell/QML dashboard, Arch live profile and separate
+Core/Broker service identities have source implementations, but their target
+runtime has not been verified. No Arch image has been produced or booted and
+there is no verified Arch installation or target-hardware run.
 Specifications, schema-only contracts and service templates are not counted as
 completed OS capabilities.
 
@@ -14,13 +16,17 @@ completed OS capabilities.
 
 The Rust workspace and GTK experiment are frozen historical checkpoints, not active
 LunaOS services or desktop functionality. The current implementation path is Go
-services, Bash integration and a not-yet-built Quickshell/QML shell.
+services, Bash integration and a Quickshell/QML source shell not yet run under
+Wayland.
 
-- Go Policy Broker checks Linux Unix-socket peer UID at runtime and fails closed
-  on non-Linux. Handler tests pass on macOS, including UID comparison. The Linux
-  `SO_PEERCRED` path and child-process IPC passed in a disposable Debian
-  `golang:1.20-bookworm` container. Arch systemd sandboxing, separate service UIDs
-  and target socket lifecycle remain unverified.
+- Go Policy Broker checks `SO_PEERCRED` against the configured Core service UID,
+  distinct from its own service UID, and fails closed on non-Linux. It uses a
+  dedicated Core-to-Broker secret separate from the owner API credential. Unit tests
+  cover UID allow/deny and owner-secret rejection. Linux process tests verify the
+  real UDS boundary in a disposable Debian `golang:1.20-bookworm` container. The
+  systemd templates now assign separate `lunaos` and `luna-policy` service users,
+  separate owner/Core credentials, and an owner-group-restricted Core API socket.
+  The configuration has not yet been exercised under systemd.
 - Go Goal Engine/Core in `services/core` implements SQLite WAL/FULL storage,
   authenticated goal create/read/list, policy authorization before weighted score,
   one benign checksum action, idempotency, unknown-source hypothesis provenance,
@@ -31,13 +37,15 @@ services, Bash integration and a not-yet-built Quickshell/QML shell.
   SQLite database, broker Unix socket, loopback REST API and two-second scheduler.
   A Linux process test starts the real Go broker and Core binaries, loads a queued
   goal from SQLite after Core startup, checks owner authentication and API
-  idempotency, then verifies completed checksum evidence. This is a Debian
-  container result, not an Arch image or systemd result.
-- Go `services/identity` and `luna-owner-setup` create the service credential as
-  32 random bytes encoded as 64 lowercase hex characters. The CLI uses the format
-  Core and Broker require, creates a new credential directory as `0700`, writes a
-  `0600` regular file atomically, refuses existing paths and prints the token only
-  when explicitly asked. Unit tests and a local binary smoke passed.
+  idempotency, then verifies completed checksum evidence. The private Unix owner
+  socket also accepts owner-group local UI requests without embedding a secret in
+  QML; loopback TCP still requires its bearer token. This is a Debian container
+  result, not an Arch image or systemd result.
+- Go `services/identity` and `luna-owner-setup` create independent owner API and
+  Core-to-Broker credentials as 32 random bytes encoded as 64 lowercase hex
+  characters. The CLI creates new credential directories as `0700`, writes `0600`
+  regular files without replacement, and prints only the owner token when explicitly
+  asked. Unit tests cover distinct values, permissions and no-overwrite behavior.
 - The x86_64 `lunaos-native` Arch package built and installed in a disposable Arch
   Docker container under x86_64 emulation. Its sysusers hook created the `lunaos`
   account; the packaged credential CLI, Broker and Core then ran as that account
@@ -121,8 +129,7 @@ systemd, boot or target-hardware behavior.
 | Command | Result |
 |---|---|
 | `make test` | PASS: Go Broker/Core/Intimacy vault, REST, backup CLI and restore tests; 0 failures |
-| `make test test-process-linux` in `golang:1.20-bookworm` | PASS: Go service tests and real Core/Broker process integration; queued recovery, owner-authenticated API, duplicate idempotency and verified evidence |
-| `go vet -buildvcs=false ./services/policy ./services/core/... ./services/intimacy/... ./services/identity/...` in `golang:1.20-bookworm` | PASS |
+| `make test && make test-process-linux && go vet -buildvcs=false ./services/policy ./services/core/... ./services/intimacy/... ./services/identity/...` in `golang:1.20-bookworm` | PASS: Go unit suites, real Core/Broker process integration including the owner Unix socket and queued recovery, plus vet; 0 failures |
 | Arch `makepkg --cleanbuild --noconfirm` in x86_64 Docker container | PASS: built `lunaos-native-0.1.0-1-x86_64.pkg.tar.zst` with Core, Broker, vault and Go owner setup |
 | `pacman -U` in disposable Arch container | PASS: package installed; sysusers created `lunaos`; packaged credential CLI and Broker/Core processes ran as that account and completed a goal with verified evidence |
 | `systemd-analyze verify` in emulated Arch container | BLOCKED: returned `Invalid argument` for all ExecStart paths, including `/usr/bin/true`; systemd unit validation remains open |
@@ -137,6 +144,32 @@ systemd, boot or target-hardware behavior.
 | `make test-rust-checkpoint` | PASS: Rust workspace unit, integration, process-boundary and doc tests; 0 failures on final run |
 | `make check-rust-checkpoint` | PASS: Rust formatting, Clippy with warnings denied, and workspace check |
 | `git diff --check` | PASS |
+
+## Mont Blanc local implementation checkpoint, 2026-10-25
+
+This work adds distinct Core/Broker identities and credentials, first-boot
+credential setup, a group-restricted owner Unix API for the local shell, a
+Quickshell/QML dashboard source, and a live Arch profile that applies LunaOS
+sysusers before creating the interactive account. It does not yet produce a
+release image.
+
+| Check | Result |
+|---|---|
+| `make test check build` on macOS arm64 | PASS: Go unit tests, gofmt, vet, Bash syntax, OpenAPI JSON and four Go binaries |
+| Debian Docker service and process checks | PASS: unit suites, real Core/Broker process test including bearerless owner Unix socket, queued-goal recovery and evidence, plus `go vet` |
+| Arch `systemd-sysusers --root=<temporary-root>` | PASS: separate Broker/Core users and socket groups created without warnings |
+| Arch `qmllint shell/shell.qml` | PASS: exit 0 with one `PanelWindow` uncreatable-type warning; no other warnings after cleanup |
+| Updated Arch `makepkg --cleanbuild --noconfirm` | PASS: `lunaos-native-0.1.0-1-x86_64.pkg.tar.zst` built under x86_64 emulation; this exact artifact has not been installed or booted |
+| `scripts/build-archiso.sh` final attempt | BLOCKED: profile validation, package installation, live-user customization, SquashFS creation (1,145 MiB) and UEFI systemd-boot setup completed; xorriso could not write the 633,189-sector ISO because Docker reported only 121 MiB free. Docker Desktop then reported a containerd metadata/blob I/O error. No ISO file was produced. |
+| Updated package installation and separate-UID runtime smoke | NOT RUN for this checkpoint |
+| Systemd boot, Wayland shell session, completed Archiso ISO and ISO boot | NOT RUN |
+
+The first Archiso attempt exposed and fixed an incorrect Go module working
+directory. A subsequent attempt exposed obsolete boot-mode names and missing
+bootloader files; the profile now uses UEFI systemd-boot. The latest attempt got
+past those stages and failed only while writing the ISO after exhausting Docker
+Desktop storage. The host had 340 MiB free immediately afterward. Docker system
+cleanup was not run because it could affect unrelated user images and containers.
 
 The first Go build attempt failed because Go invoked an incompatible Intel Git at
 `/usr/local/bin/git` while stamping VCS metadata. The Make target now passes
@@ -157,14 +190,18 @@ round-trip into new database paths, and corrupted restores do not publish a DB.
   removed, disabled, retained or replaced on a host; **no cleanup occurred**. The
   read-only Linux baseline script remains unexecuted.
 - No standalone ISO, installer, boot, update, rollback or recovery result exists.
-  The archiso script is syntax-checked only; `mkarchiso` is unavailable on this Mac.
+  An Archiso profile and builder script now exist. The image build reached final
+  ISO creation but Docker Desktop ran out of storage; nothing has been booted or
+  installed. A safe retry requires more free Docker Desktop storage.
 - No runtime performance benchmarks have been recorded. The broker's prior Go
   cross-builds prove compilation for x86_64 baselines; the v3 artifact has not run
   on a feature-checked Ryzen 9 5950X. Core/Broker/vault/identity binaries are in an
   Arch package built under emulation, not tested on target hardware. No boot-to-shell,
   idle resource, scheduler/API latency or throughput claim is made.
-- No Quickshell/QML shell has been implemented or run. The frozen GTK4 source is a
-  historical experiment; no Wayland/Hyprland target was used.
+- A minimal Quickshell/QML shell source now exposes Core connection state, goal
+  listing, one benign checksum action and privacy-stop control. Arch `qmllint`
+  exits 0 with one `PanelWindow` type-resolution warning; the shell has not run
+  under Wayland/Hyprland. Frozen GTK4 source is still a historical experiment.
 - No llama.cpp server or licensed model is configured; no real local inference.
 - No GPU/NVIDIA/CUDA, ComfyUI, systemd, D-Bus, sensor/BLIND, iPhone, NAS,
   production privacy-vault operations, consent/erasure or remote-administration
@@ -175,24 +212,24 @@ independent heartbeat workers/configurable retry policy, external event delivery
   strategy optimizer, production identity/session
   management, encrypted memory/evidence vault, and broad Mont Blanc modules remain
   incomplete. Several contracts are types only.
-- The current authorization credential is a local bearer secret shared with the
-  broker. The broker is a separate process, but both local service units use the
-  same unprivileged account. Production provisioning, independent service identity,
-  owner login, revocation UX and Linux security review remain release blockers.
-- Go owner-token setup is included in the Arch package and works in local tests.
-  Automated first-boot orchestration, owner login/session distribution, and
-  credential rotation/revocation workflows remain incomplete.
+- Core and Broker have distinct accounts and credentials in the current service
+  templates; the local shell uses a restricted Unix socket instead of embedding
+  the owner secret. The systemd services and first-boot credential setup have not
+  been run under systemd. Production owner login, credential revocation UX and
+  Linux security review remain release blockers.
 
 The portable Go development launcher is syntax-checked but has not been run on
 Linux in this checkpoint; it intentionally exits on macOS.
 
 ## Next milestone
 
-Validate the Go systemd units on a non-emulated Arch VM and test service restart,
-credential loading and restrictions there. The package and same-UID Go process
-flow have passed in an emulated x86_64 Arch container, but it does not boot systemd
-or replace a VM/target run. Then build a functional Quickshell/QML shell against the
-loopback API. No real Linux installation has been accessed or changed; a remote
+Free space in Docker Desktop storage, rebuild the ISO, and test its UEFI boot in a
+VM. Install the updated package in a disposable Arch environment, then validate
+unit restart, credential loading and service identity separation in a VM. Earlier
+package installation and same-UID process tests in emulated Arch containers do not
+boot systemd or replace those tests. Run the shell under Wayland and complete an
+installer/recovery path before calling this a release. No real Linux installation
+has been accessed or changed; a remote
 baseline still requires an owner-provided SSH alias and explicit connection
 authorization, and any mutation requires a verified recovery plan and explicit
 authorization for that mutation.

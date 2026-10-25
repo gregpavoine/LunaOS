@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=LunaOS
 Comment=Native LunaOS command center
-Exec=/usr/bin/luna-shell
+Exec=qs -p /usr/share/lunaos/shell/shell.qml
 Type=Application
 Terminal=false
 Categories=System;Utility;

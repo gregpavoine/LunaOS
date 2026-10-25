@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -81,12 +82,70 @@ func TestUnknownAndMalformed(t *testing.T) {
 	}
 }
 
-func TestUnixSocketPeerMustMatchBrokerUID(t *testing.T) {
-	uid := os.Getuid()
-	if !peerUIDAllowed(uid, uid) {
-		t.Fatal("same-UID Core service must pass the broker peer check")
+func TestUnixSocketPeerMustMatchConfiguredCoreUID(t *testing.T) {
+	brokerUID := os.Getuid()
+	coreUID := brokerUID + 1
+	if !peerUIDAllowed(coreUID, coreUID) {
+		t.Fatal("configured Core service UID must pass the broker peer check")
 	}
-	if peerUIDAllowed(uid+1, uid) {
-		t.Fatal("different-UID process passed the broker peer check")
+	if peerUIDAllowed(brokerUID, coreUID) {
+		t.Fatal("broker's own UID must not pass as the Core peer")
+	}
+	if peerUIDAllowed(coreUID+1, coreUID) {
+		t.Fatal("unconfigured process passed the broker peer check")
+	}
+}
+
+func TestOwnerTokenIsNotBrokerCredential(t *testing.T) {
+	brokerToken := "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	ownerToken := "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+	b := &broker{key: []byte(brokerToken)}
+	if call(t, b, "/v1/grants", ownerToken, request{GoalID: "g", Action: "local.checksum", Privacy: "general"}).Allowed {
+		t.Fatal("owner API credential also authenticated directly to policy broker")
+	}
+	if got := call(t, b, "/v1/grants", brokerToken, request{GoalID: "g", Action: "local.checksum", Privacy: "general"}); !got.Allowed {
+		t.Fatalf("dedicated Core-to-Broker credential was rejected: %+v", got)
+	}
+}
+
+func TestBrokerRequiresConfiguredCorePeerBeforeCredential(t *testing.T) {
+	brokerUID := os.Getuid()
+	coreUID := brokerUID + 1
+	b := &broker{key: []byte("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"), requirePeerUID: true, allowedPeerUID: coreUID}
+	invoke := func(uid int) *httptest.ResponseRecorder {
+		r := httptest.NewRequest(http.MethodPost, "/v1/grants", bytes.NewBufferString(`{"goal_id":"g","action":"local.checksum","privacy_class":"general"}`))
+		r.Header.Set("Authorization", "Bearer "+string(b.key))
+		r = r.WithContext(context.WithValue(r.Context(), peerUIDContextKey{}, uid))
+		w := httptest.NewRecorder()
+		b.ServeHTTP(w, r)
+		return w
+	}
+	if response := invoke(coreUID); response.Code != http.StatusOK {
+		t.Fatalf("configured Core UID status=%d body=%s", response.Code, response.Body.String())
+	}
+	if response := invoke(brokerUID); response.Code != http.StatusForbidden {
+		t.Fatalf("Broker's own UID status=%d, want forbidden", response.Code)
+	}
+}
+
+func TestBrokerRuntimeDirectoryAllowsRestrictedCoreGroupTraversal(t *testing.T) {
+	dir := t.TempDir()
+	if err := os.Chmod(dir, 0750); err != nil {
+		t.Fatal(err)
+	}
+	if err := private(dir, true); err != nil {
+		t.Fatalf("restricted 0750 runtime directory rejected: %v", err)
+	}
+	if err := os.Chmod(dir, 0751); err != nil {
+		t.Fatal(err)
+	}
+	if err := private(dir, true); err == nil {
+		t.Fatal("runtime directory with world traversal was accepted")
+	}
+	if err := os.Chmod(dir, 0770); err != nil {
+		t.Fatal(err)
+	}
+	if err := private(dir, true); err == nil {
+		t.Fatal("runtime directory writable by the socket group was accepted")
 	}
 }

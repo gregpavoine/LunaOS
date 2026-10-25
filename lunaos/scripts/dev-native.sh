@@ -33,11 +33,11 @@ trap cleanup EXIT INT TERM
 go build -buildvcs=false -trimpath -o "$temporary_dir/luna-owner-setup" "$repo_dir/services/identity/cmd/luna-owner-setup"
 go build -buildvcs=false -trimpath -o "$temporary_dir/luna-policy-broker" "$repo_dir/services/policy"
 go build -buildvcs=false -trimpath -o "$temporary_dir/luna-core" "$repo_dir/services/core/cmd/luna-core"
-"$temporary_dir/luna-owner-setup" --path "$temporary_dir/owner-token" --reveal-token
+"$temporary_dir/luna-owner-setup" --path "$temporary_dir/owner-token" --policy-path "$temporary_dir/policy-token" --reveal-token
 
 "$temporary_dir/luna-policy-broker" \
   --socket="$temporary_dir/policy.sock" \
-  --key-file="$temporary_dir/owner-token" &
+  --key-file="$temporary_dir/policy-token" --client-user="$(id -un)" &
 broker_pid=$!
 for _ in {1..50}; do
   if [[ -S $temporary_dir/policy.sock ]]; then
@@ -57,7 +57,9 @@ fi
 listen_address=${LUNA_LISTEN:-127.0.0.1:7766}
 LUNA_OWNER_TOKEN_FILE="$temporary_dir/owner-token" \
   LUNA_POLICY_SOCKET="$temporary_dir/policy.sock" \
+  LUNA_POLICY_TOKEN_FILE="$temporary_dir/policy-token" \
   LUNA_DATABASE="$temporary_dir/goals.sqlite" \
+  LUNA_OWNER_SOCKET="$temporary_dir/core.sock" \
   LUNA_LISTEN="$listen_address" \
   "$temporary_dir/luna-core" &
 core_pid=$!

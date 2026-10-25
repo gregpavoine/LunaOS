@@ -14,8 +14,10 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"os/user"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 	"syscall"
 	"time"
@@ -41,6 +43,7 @@ type grant struct {
 type broker struct {
 	key            []byte
 	requirePeerUID bool
+	allowedPeerUID int
 }
 
 type peerUIDContextKey struct{}
@@ -82,13 +85,13 @@ func (b *broker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	reply := func(status int, v response) { w.WriteHeader(status); _ = json.NewEncoder(w).Encode(v) }
 	if b.requirePeerUID {
 		peerUID, ok := r.Context().Value(peerUIDContextKey{}).(int)
-		if !ok || !peerUIDAllowed(peerUID, os.Getuid()) {
+		if !ok || !peerUIDAllowed(peerUID, b.allowedPeerUID) {
 			reply(http.StatusForbidden, response{Code: "SOCKET_PEER_DENIED"})
 			return
 		}
 	}
 	if !hmac.Equal([]byte(r.Header.Get("Authorization")), []byte("Bearer "+string(b.key))) {
-		reply(401, response{Code: "OWNER_AUTH_REQUIRED"})
+		reply(401, response{Code: "CORE_AUTH_REQUIRED"})
 		return
 	}
 	if r.Method != "POST" {
@@ -134,11 +137,19 @@ func private(path string, dir bool) error {
 	if err != nil {
 		return err
 	}
-	if st.Mode()&os.ModeSymlink != 0 || st.IsDir() != dir || st.Mode().Perm()&0077 != 0 {
-		return fmt.Errorf("private owner-only path required")
+	if st.Mode()&os.ModeSymlink != 0 || st.IsDir() != dir {
+		return fmt.Errorf("private broker path required")
 	}
-	if !dir && !st.Mode().IsRegular() {
-		return fmt.Errorf("regular key file required")
+	if dir {
+		// The Core runs under a separate UID and traverses via the dedicated
+		// luna-policy group. No world access or group write is permitted.
+		if st.Mode().Perm()&0007 != 0 || st.Mode().Perm()&0020 != 0 {
+			return fmt.Errorf("broker runtime directory must deny world access and group write")
+		}
+	} else {
+		if st.Mode().Perm()&0077 != 0 || !st.Mode().IsRegular() {
+			return fmt.Errorf("broker credential must be a private regular file")
+		}
 	}
 	if s, ok := st.Sys().(*syscall.Stat_t); !ok || int(s.Uid) != os.Getuid() {
 		return fmt.Errorf("path owner mismatch")
@@ -147,17 +158,26 @@ func private(path string, dir bool) error {
 }
 func run() error {
 	socket := flag.String("socket", "", "private Unix socket path")
-	keyFile := flag.String("key-file", "", "owner key file (0600)")
+	keyFile := flag.String("key-file", "", "Core-to-Broker credential file (0600)")
+	clientUser := flag.String("client-user", "", "dedicated Core service account permitted to call the broker")
 	flag.Parse()
-	if *socket == "" || *keyFile == "" {
-		return fmt.Errorf("socket and key-file required")
+	if *socket == "" || *keyFile == "" || *clientUser == "" {
+		return fmt.Errorf("socket, key-file and client-user required")
 	}
-	return serve(*socket, *keyFile)
+	return serve(*socket, *keyFile, *clientUser)
 }
 
-func serve(socket, keyFile string) error {
+func serve(socket, keyFile, clientUser string) error {
 	if runtime.GOOS != "linux" {
 		return fmt.Errorf("policy broker requires Linux Unix-socket peer credentials")
+	}
+	account, err := user.Lookup(clientUser)
+	if err != nil {
+		return fmt.Errorf("lookup Core service account: %w", err)
+	}
+	allowedPeerUID, err := strconv.Atoi(account.Uid)
+	if err != nil || allowedPeerUID < 0 {
+		return fmt.Errorf("Core service account has an invalid UID")
 	}
 	if err := private(filepath.Dir(socket), true); err != nil {
 		return err
@@ -185,11 +205,11 @@ func serve(socket, keyFile string) error {
 		return err
 	}
 	defer l.Close()
-	if err := os.Chmod(socket, 0600); err != nil {
+	if err := os.Chmod(socket, 0660); err != nil {
 		return err
 	}
 	server := &http.Server{
-		Handler: &broker{key: key, requirePeerUID: true},
+		Handler: &broker{key: key, requirePeerUID: true, allowedPeerUID: allowedPeerUID},
 		ConnContext: func(ctx context.Context, conn net.Conn) context.Context {
 			uid, peerErr := unixPeerUID(conn)
 			if peerErr != nil {

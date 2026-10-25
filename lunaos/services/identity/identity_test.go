@@ -86,3 +86,46 @@ func TestProvisionOwnerTokenRejectsSymlinkedCredential(t *testing.T) {
 		t.Fatalf("symlink target was changed: %q", contents)
 	}
 }
+
+func TestProvisionServiceCredentialsCreatesDistinctPrivateTokens(t *testing.T) {
+	dir := t.TempDir()
+	if err := os.Chmod(dir, 0700); err != nil {
+		t.Fatal(err)
+	}
+	ownerPath := filepath.Join(dir, "owner-token")
+	policyPath := filepath.Join(dir, "policy-token")
+	owner, policy, err := ProvisionServiceCredentials(ownerPath, policyPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(owner) != 64 || len(policy) != 64 || owner == policy {
+		t.Fatalf("credentials are not distinct 32-byte hex tokens")
+	}
+	for _, path := range []string{ownerPath, policyPath} {
+		info, err := os.Stat(path)
+		if err != nil || info.Mode().Perm() != 0600 {
+			t.Fatalf("credential file %s mode=%v err=%v", path, info.Mode(), err)
+		}
+	}
+	if _, _, err := ProvisionServiceCredentials(ownerPath, policyPath); !errors.Is(err, ErrAlreadyProvisioned) {
+		t.Fatalf("second provisioning error=%v", err)
+	}
+}
+
+func TestProvisionServiceCredentialsDoesNotLeavePartialPair(t *testing.T) {
+	dir := t.TempDir()
+	if err := os.Chmod(dir, 0700); err != nil {
+		t.Fatal(err)
+	}
+	ownerPath := filepath.Join(dir, "owner-token")
+	policyPath := filepath.Join(dir, "policy-token")
+	if err := os.WriteFile(policyPath, []byte("existing-policy"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	if _, _, err := ProvisionServiceCredentials(ownerPath, policyPath); !errors.Is(err, ErrAlreadyProvisioned) {
+		t.Fatalf("expected existing policy credential to fail atomically, got %v", err)
+	}
+	if _, err := os.Lstat(ownerPath); !errors.Is(err, os.ErrNotExist) {
+		t.Fatalf("partial owner credential left behind: %v", err)
+	}
+}

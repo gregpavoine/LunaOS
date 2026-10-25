@@ -1,16 +1,18 @@
 [Unit]
 Description=LunaOS owner-authenticated policy broker
 Before=luna-core.service
+Requires=luna-owner-setup.service
+After=luna-owner-setup.service
 PartOf=luna-core.service
 
 [Service]
 Type=simple
-User=lunaos
-Group=lunaos
-RuntimeDirectory=lunaos
-RuntimeDirectoryMode=0700
-LoadCredential=owner-token:/etc/lunaos/owner-token
-ExecStart=/usr/bin/luna-policy-broker --socket=/run/lunaos/policy.sock --key-file=%d/owner-token
+User=luna-policy
+Group=luna-policy
+RuntimeDirectory=luna-policy
+RuntimeDirectoryMode=0750
+LoadCredential=policy-token:/var/lib/lunaos-identity/policy-token
+ExecStart=/usr/bin/luna-policy-broker --socket=/run/luna-policy/policy.sock --key-file=%d/policy-token --client-user=lunaos
 Restart=on-failure
 RestartSec=2s
 UMask=0077

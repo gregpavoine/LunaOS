@@ -1,0 +1,19 @@
+[Unit]
+Description=Provision first-boot LunaOS owner and Broker credentials
+Before=luna-policy-broker.service
+ConditionPathExists=!/var/lib/lunaos-identity/owner-token
+
+[Service]
+Type=oneshot
+StateDirectory=lunaos-identity
+StateDirectoryMode=0700
+UMask=0077
+ExecStart=/usr/bin/luna-owner-setup --path=/var/lib/lunaos-identity/owner-token --policy-path=/var/lib/lunaos-identity/policy-token
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/var/lib/lunaos-identity
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -10,13 +10,13 @@ not a runtime dependency.
 
 | Layer | LunaOS choice | Why | Current state |
 |---|---|---|---|
-| Base and boot | Arch packages, upstream Linux kernel, systemd, boot/recovery tools | Reuse maintained Linux components instead of writing an OS kernel | Arch ISO, boot and recovery not built or tested |
+| Base and boot | Arch packages, upstream Linux kernel, systemd, boot/recovery tools | Reuse maintained Linux components instead of writing an OS kernel | Archiso profile and build script exist; ISO, boot, installer and recovery not built or tested |
 | Desktop session | Hyprland/Wayland plus Omarchy-compatible config and protocols | Reuse the target desktop and its mature integrations | Config/source only; no real Linux session test |
-| Shell, bar and panels | Quickshell/QML/Qt | Same shell technology used by current Omarchy; supports a long-running compositor-integrated shell | Luna shell not implemented; Rust GTK source is a frozen experiment |
-| OS composition | Bash scripts, declarative package lists, systemd units | Fits Arch installation and Omarchy's shell-first integration approach | Existing scripts are partial and not release-ready |
-| Goal/API/scheduler | Go services with SQLite | Compiled Linux binaries, typed service boundary and existing Go reference behavior | Core/Broker process slice and owner credential CLI pass Linux-container tests; Arch package builds/installs in an emulated x86_64 Arch container; full service parity and systemd boot remain |
-| Policy broker | Separate Go service over private Unix socket | Independent owner-authenticated policy boundary; avoids a scripting process holding broad system authority | Go owner-token, scoped-grant and Linux peer-UID checks passed in real Broker/Core processes in Debian and an emulated Arch container; systemd sandboxing and separate service-UID validation remain; Rust broker is frozen |
-| Owner credential setup | Go `luna-owner-setup` CLI | Creates the credential format consumed by Go Core and Broker without replacing an existing file | Packaged, tested for private permissions and no-overwrite; automated first boot and owner login/session remain |
+| Shell, bar and panels | Quickshell/QML/Qt | Same shell technology used by current Omarchy; supports a long-running compositor-integrated shell | Dashboard source and Hyprland config exist; Arch `qmllint` exits 0 with one `PanelWindow` type-resolution warning; no runtime session test |
+| OS composition | Bash scripts, declarative package lists, systemd units | Fits Arch installation and Omarchy's shell-first integration approach | Live profile, first-boot setup and build script exist; ISO and installed lifecycle are not release-ready |
+| Goal/API/scheduler | Go services with SQLite | Compiled Linux binaries, typed service boundary and existing Go reference behavior | Core/Broker process slice and owner credential CLI pass Linux-container tests; updated Arch package builds under x86_64 emulation; full service parity and systemd boot remain |
+| Policy broker | Separate Go service over private Unix socket | Independent owner-authenticated policy boundary; avoids a scripting process holding broad system authority | Go owner-token, scoped-grant and Linux peer-UID checks pass in tests; distinct Core/Broker users and credentials are configured and `systemd-sysusers` validated, but unit execution in systemd remains unverified; Rust broker is frozen |
+| Owner credential setup | Go `luna-owner-setup` CLI | Creates separate owner and Core-to-Broker credentials without replacing existing files | Packaged CLI and first-boot unit exist; credential file permissions are tested, but first boot and owner login/session remain unverified |
 | ML and external tools | Isolated Python workloads only where required; real llama.cpp backend for local inference | Keep Python out of the OS control plane while supporting established ML tooling | No model inference or workload sandbox verified |
 | Hardware extensions | Upstream drivers/modules first; DKMS or kernel package only for verified need | Avoid maintaining an unnecessary kernel fork | No target hardware inspected |
 
@@ -77,8 +77,8 @@ compiler flags alone; do not use generic `-march=native` output in a portable IS
 3. Port the Goal Engine, SQLite lifecycle and scheduler with parity tests for
    authorization-before-score, idempotency, restart recovery, evidence, provenance,
    dependencies, pause/resume/cancel and idle success.
-4. Implement a Quickshell/QML Luna shell that displays real service state and uses
-   authenticated service contracts.
+4. Complete and run the initial Quickshell/QML dashboard against the restricted
+   owner API socket, then add service state only as working contracts are verified.
 5. Integrate systemd, D-Bus and only the required Linux adapters, behind package
    boundaries and owner-scoped policy.
 6. Build optimized native service packages and an Arch ISO in an isolated Arch VM;
@@ -89,9 +89,9 @@ compiler flags alone; do not use generic `-march=native` output in a portable IS
 
 ## Evidence limits
 
-The repository currently contains a Rust implementation checkpoint, a frozen
-Go/Python reference implementation, partial Arch packaging and a GTK shell source.
-It does not yet contain a working Quickshell desktop, complete Go Goal Engine, real
-local model inference, bootable image or verified kernel/driver integration. Refer
-to [STATUS](../STATUS.md) for executed checks and exact blockers.
+The repository contains a frozen Rust checkpoint, Go services, partial Arch
+packaging, an Archiso profile and a Quickshell dashboard source. It does not yet
+contain a verified Wayland desktop, complete Go Goal Engine, real local model
+inference, verified bootable/installable image or target kernel/driver integration.
+Refer to [STATUS](../STATUS.md) for executed checks and exact blockers.
 

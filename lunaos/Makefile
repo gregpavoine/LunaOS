@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: test test-process-linux check build build-linux-amd64 build-linux-amd64-v3 build-local test-reference check-reference test-rust-checkpoint check-rust-checkpoint smoke-rust-checkpoint
+.PHONY: test test-process-linux check check-qml build build-linux-amd64 build-linux-amd64-v3 build-local test-reference check-reference test-rust-checkpoint check-rust-checkpoint smoke-rust-checkpoint
 
 test:
 	go test -buildvcs=false -count=1 ./services/policy ./services/core/... ./services/intimacy/... ./services/identity/...
@@ -15,6 +15,16 @@ check:
 	go vet -buildvcs=false ./services/policy ./services/core/... ./services/intimacy/... ./services/identity/...
 	bash -n scripts/linux-baseline.sh scripts/build-archiso.sh scripts/dev-native.sh packaging/arch/PKGBUILD
 	python3 -m json.tool contracts/openapi/local.json >/dev/null
+
+# Run from an Arch/Qt environment that provides Quickshell's qmllint tooling.
+check-qml:
+	@if command -v qmllint >/dev/null 2>&1; then \
+		qmllint shell/shell.qml; \
+	elif [[ -x /usr/lib/qt6/bin/qmllint ]]; then \
+		/usr/lib/qt6/bin/qmllint shell/shell.qml; \
+	else \
+		echo 'Install Quickshell/Qt declarative tooling to run qmllint.' >&2; exit 2; \
+	fi
 
 build-local:
 	mkdir -p build/local
