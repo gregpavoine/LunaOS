@@ -8,12 +8,16 @@ and all four development binaries. `make test-rust-checkpoint &&
 make check-rust-checkpoint` also passed for the frozen Rust checkpoint, including
 workspace tests, formatting, Clippy with warnings denied and `cargo check`.
 
-The Mac cannot run `mkarchiso`. Docker Desktop did not provide a usable Linux engine:
-`docker info` returned its client details and stalled before returning server
-details. A GitHub Actions Arch x86_64 image-build workflow was added at
-`.github/workflows/lunaos-archiso.yml`; it builds the ISO and checksum as a
-temporary artifact. The workflow has not run yet, so no ISO is claimed. ISO boot,
-systemd session, Wayland shell and target-hardware verification remain outstanding.
+The Mac cannot run `mkarchiso`, and Docker Desktop did not provide a usable Linux
+engine. The GitHub Actions Arch x86_64 image-build workflow at
+`.github/workflows/lunaos-archiso.yml` completed successfully and uploaded
+`lunaos-0.1.0-x86_64.iso` as a temporary artifact. The artifact was downloaded and
+`sha256sum --check` passed. ISO boot, installation, systemd session, Wayland shell
+and target-hardware verification remain outstanding.
+
+- Build run: [GitHub Actions 40220619493](https://github.com/gregpavoine/LunaOS/actions/runs/40220619493)
+- Artifact: [lunaos-0.1.0-x86_64-iso](https://github.com/gregpavoine/LunaOS/actions/runs/40220619493/artifacts/12608679636), 1,296,797,696 bytes
+- ISO SHA-256: `dd7c9cfc3bd7b5fd8e811998f4ef3a2b5ff373ed8a34ee5b47563021f2a54752`
 
 **LunaOS V0: INCOMPLETE. Mont Blanc 1.0: NOT RELEASED.** On 2026-10-25 the owner
 changed the target implementation to follow Omarchy's Arch package, Bash,
@@ -22,8 +26,8 @@ This direction is documented in ADR 0004. The Go Core/Broker migration has a
 tested portable slice and a Linux process-level integration test in Docker
 Desktop. A first Quickshell/QML dashboard, Arch live profile and separate
 Core/Broker service identities have source implementations, but their target
-runtime has not been verified. No Arch image has been produced or booted and
-there is no verified Arch installation or target-hardware run.
+runtime has not been verified. No Arch image has been booted and there is no
+verified Arch installation or target-hardware run.
 Specifications, schema-only contracts and service templates are not counted as
 completed OS capabilities.
 
@@ -165,8 +169,8 @@ systemd, boot or target-hardware behavior.
 This work adds distinct Core/Broker identities and credentials, first-boot
 credential setup, a group-restricted owner Unix API for the local shell, a
 Quickshell/QML dashboard source, and a live Arch profile that applies LunaOS
-sysusers before creating the interactive account. It does not yet produce a
-release image.
+sysusers before creating the interactive account. The hosted Archiso build below
+produced an image, but this checkpoint has not verified boot or installation.
 
 | Check | Result |
 |---|---|
@@ -176,27 +180,30 @@ release image.
 | Arch `qmllint shell/shell.qml` | PASS: exit 0 with one `PanelWindow` uncreatable-type warning; no other warnings after cleanup |
 | Updated Arch `makepkg --cleanbuild --noconfirm` | PASS: `lunaos-native-0.1.0-1-x86_64.pkg.tar.zst` built under x86_64 emulation; this exact artifact has not been installed or booted |
 | `scripts/build-archiso.sh` final attempt | BLOCKED: profile validation, package installation, live-user customization, SquashFS creation (1,145 MiB) and UEFI systemd-boot setup completed; xorriso could not write the 633,189-sector ISO because Docker reported only 121 MiB free. Docker Desktop then reported a containerd metadata/blob I/O error. No ISO file was produced. |
+| GitHub Actions Arch x86_64 build, run `40220619493` | PASS: produced and uploaded `lunaos-0.1.0-x86_64.iso` (1,296,797,696 bytes); downloaded artifact passed `sha256sum --check`; SHA-256 `dd7c9cfc3bd7b5fd8e811998f4ef3a2b5ff373ed8a34ee5b47563021f2a54752`. This verifies build and artifact integrity, not boot. |
 | Follow-up `make build` on macOS arm64 | PASS: `luna-core`, `luna-policy-broker`, `luna-vault` and `luna-owner-setup` built under `build/local/`; these are host development binaries, not the Arch release |
 | Docker Desktop retry after the ISO failure | BLOCKED: `docker info` reports `Docker Desktop is unable to start`; `open -a Docker` did not restore the engine. The host subsequently reported 6.5 GiB free. |
 | Updated package installation and separate-UID runtime smoke | NOT RUN for this checkpoint |
-| Systemd boot, Wayland shell session, completed Archiso ISO and ISO boot | NOT RUN |
+| ISO boot, installation, systemd boot, Wayland shell session | NOT RUN |
 
 The first Archiso attempt exposed and fixed an incorrect Go module working
 directory. A subsequent attempt exposed obsolete boot-mode names and missing
-bootloader files; the profile now uses UEFI systemd-boot. The latest attempt got
-past those stages and failed while writing the ISO after exhausting Docker Desktop
-storage. The host had 340 MiB free immediately afterward; it now reports 6.5 GiB
-free, but Docker Desktop still does not start. Docker system cleanup was not run
-because it could affect unrelated user images and containers.
+bootloader files; the profile now uses UEFI systemd-boot. The final Mac Docker
+attempt got past those stages and failed while writing the ISO after exhausting
+Docker Desktop storage. The host had 340 MiB free immediately afterward and 6.5
+GiB at a later check; Docker system cleanup was not run because it could affect
+unrelated user images and containers. The successful hosted build above supersedes
+that local build blocker.
 
 The first Go build attempt failed because Go invoked an incompatible Intel Git at
 `/usr/local/bin/git` while stamping VCS metadata. The Make target now passes
 `-buildvcs=false`; the retry passed. This changes only build metadata generation.
 
-The Rust smoke test at the earlier checkpoint used a temporary database and test
-credential and removed them on exit. The Go process test uses only a temporary
-directory, synthetic owner key and public checksum fixture; it does not access a
-host installation. No hosted CI run is being counted. The vault CLI smoke also
+The hosted CI ISO result is a real image-build artifact, but it does not prove the
+image boots or runs on target hardware. The Rust smoke test at the earlier
+checkpoint used a temporary database and test credential and removed them on exit.
+The Go process test uses only a temporary directory, synthetic owner key and public
+checksum fixture; it does not access a host installation. The vault CLI smoke also
 used only a temporary directory.
 Intimacy vault and API tests use temporary databases and
 synthetic text only; tests verify that writes omit plaintext, encrypted backups
@@ -207,10 +214,9 @@ round-trip into new database paths, and corrupted restores do not publish a DB.
 - No real Omarchy or Linux installation was accessed. No packages/services were
   removed, disabled, retained or replaced on a host; **no cleanup occurred**. The
   read-only Linux baseline script remains unexecuted.
-- No standalone ISO, installer, boot, update, rollback or recovery result exists.
-  An Archiso profile and builder script now exist. The image build reached final
-  ISO creation but Docker Desktop ran out of storage; nothing has been booted or
-  installed. A safe retry requires more free Docker Desktop storage.
+- A standalone Arch x86_64 ISO has been built, checksum-verified and uploaded; it
+  has not been booted or installed. No installer, update, rollback or recovery
+  result exists. No real Omarchy or Linux host was modified.
 - No runtime performance benchmarks have been recorded. The broker's prior Go
   cross-builds prove compilation for x86_64 baselines; the v3 artifact has not run
   on a feature-checked Ryzen 9 5950X. Core/Broker/vault/identity binaries are in an
