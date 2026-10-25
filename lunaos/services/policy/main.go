@@ -2,6 +2,7 @@
 package main
 
 import (
+	"context"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/base64"
@@ -14,6 +15,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"syscall"
 	"time"
@@ -36,7 +38,14 @@ type grant struct {
 	Principal string `json:"principal"`
 	Expires   int64  `json:"expires"`
 }
-type broker struct{ key []byte }
+type broker struct {
+	key            []byte
+	requirePeerUID bool
+}
+
+type peerUIDContextKey struct{}
+
+func peerUIDAllowed(peerUID, brokerUID int) bool { return peerUID == brokerUID }
 
 func (b *broker) sign(g grant) string {
 	raw, _ := json.Marshal(g)
@@ -71,6 +80,13 @@ func (b *broker) valid(s string, r request) bool {
 func (b *broker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	reply := func(status int, v response) { w.WriteHeader(status); _ = json.NewEncoder(w).Encode(v) }
+	if b.requirePeerUID {
+		peerUID, ok := r.Context().Value(peerUIDContextKey{}).(int)
+		if !ok || !peerUIDAllowed(peerUID, os.Getuid()) {
+			reply(http.StatusForbidden, response{Code: "SOCKET_PEER_DENIED"})
+			return
+		}
+	}
 	if !hmac.Equal([]byte(r.Header.Get("Authorization")), []byte("Bearer "+string(b.key))) {
 		reply(401, response{Code: "OWNER_AUTH_REQUIRED"})
 		return
@@ -136,13 +152,20 @@ func run() error {
 	if *socket == "" || *keyFile == "" {
 		return fmt.Errorf("socket and key-file required")
 	}
-	if err := private(filepath.Dir(*socket), true); err != nil {
+	return serve(*socket, *keyFile)
+}
+
+func serve(socket, keyFile string) error {
+	if runtime.GOOS != "linux" {
+		return fmt.Errorf("policy broker requires Linux Unix-socket peer credentials")
+	}
+	if err := private(filepath.Dir(socket), true); err != nil {
 		return err
 	}
-	if err := private(*keyFile, false); err != nil {
+	if err := private(keyFile, false); err != nil {
 		return err
 	}
-	key, err := os.ReadFile(*keyFile)
+	key, err := os.ReadFile(keyFile)
 	if err != nil {
 		return err
 	}
@@ -153,16 +176,30 @@ func run() error {
 	if _, err = hex.DecodeString(string(key)); err != nil {
 		return fmt.Errorf("key must be hex")
 	}
-	if _, err = os.Lstat(*socket); !os.IsNotExist(err) {
+	if _, err = os.Lstat(socket); !os.IsNotExist(err) {
 		return fmt.Errorf("socket path exists or cannot be inspected; refusing replacement")
 	}
 	syscall.Umask(0077)
-	l, err := net.Listen("unix", *socket)
+	l, err := net.Listen("unix", socket)
 	if err != nil {
 		return err
 	}
 	defer l.Close()
-	server := &http.Server{Handler: &broker{key: key}, ReadHeaderTimeout: 2 * time.Second, ReadTimeout: 3 * time.Second, WriteTimeout: 3 * time.Second, IdleTimeout: 3 * time.Second, MaxHeaderBytes: 8192}
+	if err := os.Chmod(socket, 0600); err != nil {
+		return err
+	}
+	server := &http.Server{
+		Handler: &broker{key: key, requirePeerUID: true},
+		ConnContext: func(ctx context.Context, conn net.Conn) context.Context {
+			uid, peerErr := unixPeerUID(conn)
+			if peerErr != nil {
+				return context.WithValue(ctx, peerUIDContextKey{}, -1)
+			}
+			return context.WithValue(ctx, peerUIDContextKey{}, uid)
+		},
+		ReadHeaderTimeout: 2 * time.Second, ReadTimeout: 3 * time.Second,
+		WriteTimeout: 3 * time.Second, IdleTimeout: 3 * time.Second, MaxHeaderBytes: 8192,
+	}
 	return server.Serve(l)
 }
 func main() {

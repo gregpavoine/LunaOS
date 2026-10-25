@@ -10,6 +10,8 @@
 
 > **Read this before the annexes.** Sections U0–U21 are the CURRENT authoritative decisions and implementation contract. Legacy source specifications are embedded in full after the annex divider for implementation detail, not equal-authority policy. In any inconsistency, the CURRENT sections override legacy annexes. Codex must add automated tests proving the latest behavior.
 
+> **Implementation-language precedence:** owner-approved [ADR 0004](adr/0004-omarchy-aligned-implementation.md) supersedes earlier Rust/GTK preferences in this document for implementation choices. LunaOS uses Arch package composition, Bash integration, Hyprland, Quickshell/QML, and Go for long-running services. Python remains isolated to workloads that require it. Functional and safety requirements in this specification remain mandatory. The Linux kernel is upstream; LunaOS must not write a new kernel.
+
 ## U0. Product intent, boundaries and source of truth
 
 LunaOS is an AI-native local-first Linux desktop; LUNA is its autonomous personal assistant. LUNA **is not the user's sexual partner**, and may discuss adult sexuality directly, curate legally accessible adult media, learn specifically authorized preferences, and create legal fictional adult media through ComfyUI. The user explicitly does not want a primarily voice-driven computer: preserve conventional keyboard/mouse/windows. Desktop is flat black, no wallpaper or desktop icons, slim lower text bar, subtle LUNA presence. Design visuals used previously are conceptual, not a mandate for a neon/photo background.

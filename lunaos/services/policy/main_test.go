@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 	"time"
 )
@@ -77,5 +78,15 @@ func TestUnknownAndMalformed(t *testing.T) {
 	b.ServeHTTP(w, r)
 	if w.Code != http.StatusMethodNotAllowed {
 		t.Fatal(w.Code)
+	}
+}
+
+func TestUnixSocketPeerMustMatchBrokerUID(t *testing.T) {
+	uid := os.Getuid()
+	if !peerUIDAllowed(uid, uid) {
+		t.Fatal("same-UID Core service must pass the broker peer check")
+	}
+	if peerUIDAllowed(uid+1, uid) {
+		t.Fatal("different-UID process passed the broker peer check")
 	}
 }

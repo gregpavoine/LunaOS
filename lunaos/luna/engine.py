@@ -5,7 +5,6 @@ import hmac
 import json
 import math
 import re
-import sqlite3
 import uuid
 
 from .actions import execute, verify
@@ -55,9 +54,8 @@ def normalize(body):
             raise Invalid('INVALID_ASSERTION')
         if type(confidence) not in (int, float) or not math.isfinite(confidence) or not 0 <= confidence <= 1:
             raise Invalid('INVALID_CONFIDENCE')
-        # The text is validated but never retained or hashed: this slice stores
-        # only epistemic/provenance metadata, not user-authored assertion content.
-        assertion = {'confidence': confidence, 'provenance_status': 'unknown', 'epistemic_status': 'hypothesis'}
+        # User-supplied attribution alone is not independent verification.
+        assertion = {'claim': claim, 'source': source, 'confidence': confidence, 'provenance_status': 'unknown', 'epistemic_status': 'hypothesis'}
     if privacy != 'general':
         assertion = None  # No sensitive payload or payload hash enters this store.
     return {'action': action, 'privacy_class': privacy, 'metrics': metrics, 'assertion': assertion}
@@ -120,49 +118,7 @@ class Engine:
                 out[key] = json.loads(out[key])
             out['evidence'] = [dict(r) for r in db.execute('SELECT * FROM evidence WHERE goal_id=?', (goal_id,))]
             out['execution'] = dict(db.execute('SELECT id,execution_state,attempt,finished_at FROM goal_execution WHERE goal_id=?', (goal_id,)).fetchone())
-            out['plan'] = {
-                'parent_id': out['parent_id'],
-                'depends_on': [r['depends_on_goal_id'] for r in db.execute('SELECT depends_on_goal_id FROM goal_dependency WHERE goal_id=? ORDER BY depends_on_goal_id', (goal_id,))],
-            }
             return out
-
-    def set_plan(self, goal_id, depends_on, parent_id, token):
-        self.authenticate(token)
-        if not isinstance(depends_on, list) or any(not isinstance(item, str) or not item for item in depends_on):
-            raise Invalid('PLAN_INVALID')
-        if len(depends_on) > 32:
-            raise Invalid('PLAN_TOO_LARGE')
-        if len(set(depends_on)) != len(depends_on) or parent_id is not None and (not isinstance(parent_id, str) or not parent_id):
-            raise Invalid('PLAN_INVALID')
-        if goal_id in depends_on or parent_id == goal_id:
-            raise Invalid('PLAN_INVALID')
-        try:
-            with self.store.transaction() as db:
-                goal = db.execute('SELECT status FROM goal WHERE id=?', (goal_id,)).fetchone()
-                if goal is None:
-                    raise KeyError('GOAL_NOT_FOUND')
-                if goal['status'] != 'approved':
-                    raise Invalid('GOAL_NOT_PLANNABLE')
-                references = set(depends_on)
-                if parent_id is not None:
-                    references.add(parent_id)
-                if references:
-                    placeholders = ','.join('?' for _ in references)
-                    rows = db.execute(f'SELECT id,status,computed_priority FROM goal WHERE id IN ({placeholders})', tuple(references)).fetchall()
-                    existing = {r['id'] for r in rows}
-                    if existing != references:
-                        raise Invalid('PLAN_INVALID')
-                    dependencies = {r['id']: r for r in rows if r['id'] in depends_on}
-                    if any(row['status'] != 'completed' and (row['status'] != 'approved' or row['computed_priority'] is None or row['computed_priority'] <= 0) for row in dependencies.values()):
-                        raise Invalid('DEPENDENCY_NOT_RUNNABLE')
-                db.execute('DELETE FROM goal_dependency WHERE goal_id=?', (goal_id,))
-                db.execute('UPDATE goal SET parent_id=?,updated_at=?,version=version+1 WHERE id=?', (parent_id, now(), goal_id))
-                for dependency_id in sorted(depends_on):
-                    db.execute('INSERT INTO goal_dependency(goal_id,depends_on_goal_id,dependency_type,created_at) VALUES(?,?,?,?)', (goal_id, dependency_id, 'blocks', now()))
-                self.event(db, goal_id, 'goal.plan.updated', 'OWNER_PLAN')
-        except sqlite3.IntegrityError as exc:
-            raise Invalid('PLAN_INVALID') from exc
-        return {'parent_id': parent_id, 'depends_on': sorted(depends_on)}
 
     def list_goals(self):
         with self.store.connect() as db:
@@ -178,15 +134,10 @@ class Engine:
 
     def tick(self):
         with self.store.transaction() as db:
-            candidates = db.execute('SELECT g.* FROM goal g JOIN goal_execution e ON e.goal_id=g.id WHERE e.execution_state="queued" AND g.status="approved" AND g.computed_priority>0 AND NOT EXISTS (SELECT 1 FROM goal_dependency d JOIN goal prerequisite ON prerequisite.id=d.depends_on_goal_id WHERE d.goal_id=g.id AND prerequisite.status!="completed") ORDER BY g.computed_priority DESC,g.created_at,g.id').fetchall()
+            candidates = db.execute('SELECT g.* FROM goal g JOIN goal_execution e ON e.goal_id=g.id WHERE e.execution_state="queued" AND g.status="approved" AND g.computed_priority>0 ORDER BY g.computed_priority DESC,g.created_at,g.id').fetchall()
             for goal in candidates:
                 policy = self.broker.evaluate(goal['id'], goal['action'], goal['grant_token'], goal['privacy_class'])
                 if not policy['allowed']:
-                    if policy['code'] == 'GRANT_INVALID_OR_EXPIRED':
-                        db.execute('UPDATE goal SET status="blocked",decision_code="GRANT_RENEWAL_REQUIRED",updated_at=?,version=version+1 WHERE id=?', (now(), goal['id']))
-                        db.execute('UPDATE goal_execution SET execution_state="blocked",finished_at=? WHERE goal_id=?', (now(), goal['id']))
-                        self.event(db, goal['id'], 'goal.authorization.expired', 'GRANT_RENEWAL_REQUIRED')
-                        continue
                     previous = db.execute('SELECT event_type,decision_code FROM goal_event WHERE goal_id=? ORDER BY rowid DESC LIMIT 1', (goal['id'],)).fetchone()
                     if previous is None or (previous['event_type'], previous['decision_code']) != ('policy.denied', policy['code']):
                         self.event(db, goal['id'], 'policy.denied', policy['code'])

@@ -31,9 +31,9 @@ All mandatory later features remain in Mont Blanc scope.
 | Independent guardian/system-root action sandbox | NOT_STARTED | Broker here has zero privileged actions |
 | Privacy controller + BLIND/sensor brokers | NOT_STARTED | No camera/mic/screen access; no protection claim |
 | Consent/revocation/erasure/subject identity | NOT_STARTED | Verifiable subject workflow and deletion proofs required |
-| Encrypted private vault + body/face/training scopes | NOT_STARTED | No sensitive data ingestion supported |
-| Full native Intimacy Core/preferences/conversation | NOT_STARTED | Mandatory Mont Blanc scope preserved |
-| Discovery Reddit/Civitai/source policy/downloads | BLOCKED | Actual API grants/provider review; no simulated connector |
+| Encrypted private vault + body/face/training scopes | PARTIAL | Owner-only AES-GCM vault, scoped consent, keygen, atomic key rotation and encrypted backup/restore CLI exist; no OS key store, key-file rotation, lost-key recovery, third-party scopes, body/face data or model scopes |
+| Full native Intimacy Core/preferences/conversation | PARTIAL | Go Core now has encrypted, owner-declared preference CRUD with scoped consent and correction; no conversation model, preference inference, verified age/identity or media features |
+| Discovery Reddit/Civitai/source policy/downloads | BLOCKED | Encrypted fail-closed local metadata allowlist is implemented; real provider API grants, reviewed connector, media retrieval/licensing and age/consent checks remain absent |
 | Adult media multimodal index/search/recommendations | NOT_STARTED | Licensed fixtures and real models required |
 | Voice/STT/TTS, perception, private notifications | NOT_STARTED | Permissions and real integrations required |
 | iPhone USB pairing/media/encrypted backup/contacts | BLOCKED | Actual Linux+iPhone/iOS tests required |

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # READ-ONLY TARGET INVENTORY. AUTHORED BUT NOT EXECUTED BY TASK 1.
 # Execute only on the authorized Linux host after explicit owner authorization.
 # Output may contain machine names/mount paths. Review locally before committing.

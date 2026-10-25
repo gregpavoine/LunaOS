@@ -5,8 +5,11 @@
   relevant before any separately authorized migration from an existing Omarchy host.
 - ADR0001 now selects an independently installable Arch-based LunaOS; Omarchy is
   a reference implementation, not a runtime dependency.
-- ADR0002's Go/Python selection is superseded. ADR0003 selects the Rust/Tokio OS
-  control plane; the initial Go/Python behavior remains frozen as test reference.
+- ADR0002 records the initial Go/Python checkpoint. ADR0003 records the subsequent
+  Rust checkpoint. ADR0004 supersedes ADR0003 for future implementation: Bash for
+  distribution integration, Quickshell/QML for the shell, Go for long-running Luna
+  services, and Python only for isolated ML/third-party workloads. Keep the current
+  Rust code frozen until Go parity passes; no Rust removal is implemented yet.
 - Development owner key is generated locally with private permissions and never
   committed or logged. No caller-supplied role/owner field establishes identity.
 - Only action `local.checksum` on the compiled public fixture is executable.

@@ -1,32 +1,53 @@
 SHELL := /bin/bash
 
-.PHONY: test check build dev test-reference check-reference smoke-native native-smoke
+.PHONY: test check build build-linux-amd64 build-linux-amd64-v3 build-local test-reference check-reference test-rust-checkpoint check-rust-checkpoint smoke-rust-checkpoint
 
 test:
-	cargo test --workspace --locked --manifest-path rust/Cargo.toml
+	go test -buildvcs=false -count=1 ./services/policy ./services/core/... ./services/intimacy/...
 
 check:
-	cargo fmt --all --manifest-path rust/Cargo.toml -- --check
-	cargo clippy --workspace --all-targets --locked --manifest-path rust/Cargo.toml -- -D warnings
-	cargo check --workspace --locked --manifest-path rust/Cargo.toml
+	test -z "$$(gofmt -l $$(find services -name '*.go' -type f))"
+	go vet -buildvcs=false ./services/policy ./services/core/... ./services/intimacy/...
+	bash -n scripts/linux-baseline.sh scripts/build-archiso.sh packaging/arch/PKGBUILD
+	python3 -m json.tool contracts/openapi/local.json >/dev/null
 
-build:
-	cargo build --release --locked --manifest-path rust/Cargo.toml -p luna-core -p luna-policy-broker -p luna-identity
+build-local:
+	mkdir -p build/local
+	CGO_ENABLED=1 go build -buildvcs=false -trimpath -o build/local/luna-policy-broker ./services/policy
+	CGO_ENABLED=1 go build -buildvcs=false -trimpath -o build/local/luna-core ./services/core/cmd/luna-core
+	CGO_ENABLED=1 go build -buildvcs=false -trimpath -o build/local/luna-vault ./services/intimacy/cmd/luna-vault
 
-dev:
-	cargo run --locked --manifest-path rust/Cargo.toml -p luna-core
+build: build-local
 
-smoke-native: build
-	./scripts/smoke-native-core.sh
+# Generic Arch x86_64 compatibility baseline for the broker. The Core uses the
+# Cgo SQLite driver and must be built in an Arch environment with its native toolchain.
+build-linux-amd64:
+	mkdir -p build/target
+	GOOS=linux GOARCH=amd64 GOAMD64=v1 CGO_ENABLED=0 go build -buildvcs=false -trimpath -o build/target/luna-policy-broker-x86_64 ./services/policy
 
-native-smoke: smoke-native
+# Ryzen 9 5950X target profile. Install only after CPU feature detection confirms v3.
+build-linux-amd64-v3:
+	mkdir -p build/target
+	GOOS=linux GOARCH=amd64 GOAMD64=v3 CGO_ENABLED=0 go build -buildvcs=false -trimpath -o build/target/luna-policy-broker-x86_64-v3 ./services/policy
 
 # Frozen Go/Python behavioral reference only. These tools are not required by Core.
 test-reference:
 	go test -buildvcs=false -count=1 ./services/policy
-	python3 -m unittest discover -s tests -v
+	@if [[ "$$(uname -s)" == Linux ]]; then python3 -m unittest discover -s tests -v; else echo 'SKIP: frozen Python process tests require Linux SO_PEERCRED'; fi
 
 check-reference:
 	go vet -buildvcs=false ./services/policy
 	python3 -m compileall -q luna scripts tests
 	bash -n scripts/linux-baseline.sh
+
+test-rust-checkpoint:
+	cargo test --workspace --locked --manifest-path rust/Cargo.toml
+
+check-rust-checkpoint:
+	cargo fmt --all --manifest-path rust/Cargo.toml -- --check
+	cargo clippy --workspace --all-targets --locked --manifest-path rust/Cargo.toml -- -D warnings
+	cargo check --workspace --locked --manifest-path rust/Cargo.toml
+
+smoke-rust-checkpoint:
+	cargo build --release --locked --manifest-path rust/Cargo.toml -p luna-core -p luna-policy-broker -p luna-identity
+	./scripts/smoke-native-core.sh

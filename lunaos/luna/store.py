@@ -5,19 +5,7 @@ import os
 import sqlite3
 import stat
 
-MIGRATIONS = Path(__file__).resolve().parents[1] / 'migrations/core'
-
-
-def statements(script):
-    current = ''
-    for line in script.splitlines(keepends=True):
-        current += line
-        if sqlite3.complete_statement(current):
-            statement, current = current.strip(), ''
-            if statement:
-                yield statement
-    if current.strip():
-        raise ValueError('incomplete database migration')
+MIGRATION = Path(__file__).resolve().parents[1] / 'migrations/core/001_bootstrap.sql'
 
 
 def private_path(path, directory=False):
@@ -39,29 +27,11 @@ class Store:
         self.path = Path(path).absolute()
         private_path(self.path.parent, directory=True)
         if not self.path.exists():
-            try:
-                fd = os.open(self.path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
-            except FileExistsError:
-                pass
-            else:
-                os.close(fd)
+            fd = os.open(self.path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+            os.close(fd)
         private_path(self.path)
-        migration_files = sorted(MIGRATIONS.glob('[0-9][0-9][0-9]_*.sql'))
-        for migration in migration_files:
-            version = int(migration.name.split('_', 1)[0])
-            with self.connect() as db:
-                db.execute('BEGIN IMMEDIATE')
-                try:
-                    migration_table = db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='schema_migration'").fetchone()
-                    applied = db.execute('SELECT 1 FROM schema_migration WHERE version=?', (version,)).fetchone() if migration_table else None
-                    if applied is None:
-                        for statement in statements(migration.read_text()):
-                            if statement.rstrip(';').strip().upper() not in ('BEGIN IMMEDIATE', 'COMMIT'):
-                                db.execute(statement)
-                    db.commit()
-                except BaseException:
-                    db.rollback()
-                    raise
+        with self.connect() as db:
+            db.executescript(MIGRATION.read_text())
 
     @contextmanager
     def connect(self):

@@ -1,39 +1,37 @@
 pkgname=lunaos-native
 pkgver=0.1.0
 pkgrel=1
-pkgdesc='Native Rust control-plane and GTK shell for LunaOS'
+pkgdesc='Go control-plane services for LunaOS'
 arch=('x86_64')
 url='https://github.com/gregpavoine/LunaOS'
 license=('custom')
-depends=('gtk4' 'glib2' 'systemd-libs')
-makedepends=('rust' 'cargo' 'pkgconf' 'clang' 'gcc' 'make')
+depends=('glibc' 'systemd-libs')
+makedepends=('go' 'gcc' 'make')
 source=()
 sha256sums=()
 
 prepare() {
   local repository_root="$startdir/../.."
-  cp -a "$repository_root/rust" "$srcdir/rust"
+  cp -a "$repository_root/go.mod" "$repository_root/go.sum" "$repository_root/services" "$srcdir/"
   mkdir -p "$srcdir/systemd"
   cp "$repository_root/systemd/luna-core.service" "$repository_root/systemd/luna-policy-broker.service" "$srcdir/systemd/"
   mkdir -p "$srcdir/sysusers"
   cp "$repository_root/systemd-sysusers/lunaos.conf" "$srcdir/sysusers/"
-  cd "$srcdir/rust"
-  cargo fetch --locked
+  cd "$srcdir"
+  go mod download
 }
 
 build() {
-  cd "$srcdir/rust"
-  cargo build --locked --offline --release -p luna-core
-  cargo build --locked --offline --release -p luna-policy-broker
-  cargo build --locked --offline --release -p luna-identity
-  cargo build --locked --offline --release -p luna-shell --features gtk-ui
+  cd "$srcdir"
+  CGO_ENABLED=1 go build -buildvcs=false -trimpath -ldflags='-s -w' -o luna-core ./services/core/cmd/luna-core
+  CGO_ENABLED=1 go build -buildvcs=false -trimpath -ldflags='-s -w' -o luna-policy-broker ./services/policy
+  CGO_ENABLED=1 go build -buildvcs=false -trimpath -ldflags='-s -w' -o luna-vault ./services/intimacy/cmd/luna-vault
 }
 
 package() {
-  install -Dm755 "$srcdir/rust/target/release/luna-core" "$pkgdir/usr/bin/luna-core"
-  install -Dm755 "$srcdir/rust/target/release/luna-policy-broker" "$pkgdir/usr/bin/luna-policy-broker"
-  install -Dm755 "$srcdir/rust/target/release/luna-owner-setup" "$pkgdir/usr/bin/luna-owner-setup"
-  install -Dm755 "$srcdir/rust/target/release/luna-shell" "$pkgdir/usr/bin/luna-shell"
+  install -Dm755 "$srcdir/luna-core" "$pkgdir/usr/bin/luna-core"
+  install -Dm755 "$srcdir/luna-policy-broker" "$pkgdir/usr/bin/luna-policy-broker"
+  install -Dm755 "$srcdir/luna-vault" "$pkgdir/usr/bin/luna-vault"
   install -Dm644 "$srcdir/systemd/luna-core.service" "$pkgdir/usr/lib/systemd/system/luna-core.service"
   install -Dm644 "$srcdir/systemd/luna-policy-broker.service" "$pkgdir/usr/lib/systemd/system/luna-policy-broker.service"
   install -Dm644 "$srcdir/sysusers/lunaos.conf" "$pkgdir/usr/lib/sysusers.d/lunaos.conf"

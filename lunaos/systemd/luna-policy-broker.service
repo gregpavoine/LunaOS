@@ -10,9 +10,7 @@ Group=lunaos
 RuntimeDirectory=lunaos
 RuntimeDirectoryMode=0700
 LoadCredential=owner-token:/etc/lunaos/owner-token
-Environment=LUNA_OWNER_TOKEN_FILE=%d/owner-token
-Environment=LUNA_POLICY_SOCKET=/run/lunaos/policy.sock
-ExecStart=/usr/bin/luna-policy-broker
+ExecStart=/usr/bin/luna-policy-broker --socket=/run/lunaos/policy.sock --key-file=%d/owner-token
 Restart=on-failure
 RestartSec=2s
 UMask=0077

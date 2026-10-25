@@ -3,7 +3,7 @@ __pycache__/
 *.pyc
 .venv/
 .local/
+rust/target/
+build/
+.worktrees/
 *.sqlite*
-/rust/target/
-.archiso-work/
-/out/

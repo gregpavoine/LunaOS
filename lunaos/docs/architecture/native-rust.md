@@ -1,4 +1,6 @@
-# Native LunaOS architecture
+# Historical native Rust checkpoint architecture
+
+> Historical record only. The 2026-10-25 owner direction and [ADR 0004](../adr/0004-omarchy-aligned-implementation.md) supersede this as the target architecture. Keep the verified code frozen as a migration/parity reference; see [Omarchy-aligned architecture](omarchy-aligned.md).
 
 **Target:** independently installable Arch Linux distribution with Hyprland on
 Wayland. Omarchy contributes reusable configurations and integrations; it is not
