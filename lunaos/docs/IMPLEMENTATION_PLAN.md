@@ -24,16 +24,19 @@ scope stays mandatory. This plan is a dependency order, not a completion claim.
    and stale lease tests remain.
 4. **Go Core API and contracts.** Loopback-only authenticated HTTP routes for
    create/list/read/tick/evidence and a Unix-socket broker client are implemented.
-   Strict input and handler tests pass. OpenAPI contract and process-level
-   API/Broker smoke remain.
+   Strict input and handler tests pass. A process-level Linux test now starts the
+   Go Broker and Core, verifies queued SQLite recovery, owner-authenticated API
+   access, duplicate idempotency and checksum evidence in a Debian container.
+   Arch package installation and systemd validation remain.
 5. **Quickshell/QML desktop.** Build owner login/session surfaces, goal list and
    status/evidence screens, command center and persistent privacy status. Exit: real
    service state renders under Hyprland, keyboard and mouse controls work, and no
    placeholder reports unavailable hardware as active.
 6. **Arch package composition.** Define LunaOS package groups, systemd units,
-   sysusers, file permissions and first-run credential setup. Exit: clean Arch
-   package builds install in a disposable VM; services run as restricted dedicated
-   users and restart cleanly.
+   sysusers, file permissions and first-run credential setup. The native Go package
+   now builds and installs in a disposable x86_64 Arch container; Broker/Core also
+   run as the `lunaos` account there. Exit remains a non-emulated Arch VM that boots
+   systemd, loads credentials, validates unit restrictions and verifies restart.
 7. **Linux adapters.** Add one typed broker adapter at a time for systemd/D-Bus,
    Hyprland, storage and GPU only after read-only discovery. Exit: each adapter has
    scope tests, owner-grant tests and a real Linux VM integration check.

@@ -4,81 +4,47 @@
 changed the target implementation to follow Omarchy's Arch package, Bash,
 Hyprland and Quickshell/QML techniques, with Go for long-running Luna services.
 This direction is documented in ADR 0004. The Go Core/Broker migration has a
-tested portable first slice; Quickshell/QML migration has not started. No Arch
-image has been produced or booted and there is no verified Linux/hardware run.
+tested portable slice and a Linux process-level integration test in Docker
+Desktop; Quickshell/QML migration has not started. No Arch image has been
+produced or booted and there is no verified Arch or target-hardware run.
 Specifications, schema-only contracts and service templates are not counted as
 completed OS capabilities.
 
 ## Implemented and verified locally
 
-- Rust workspace in `rust/`: `luna-contracts`, `luna-policy-broker`,
-  `luna-agent-runner`, `luna-identity`, `luna-goal-engine`, `luna-core`,
-  `luna-llm-adapter`, `luna-shell`.
-- Separate Rust Policy Broker binary over an owner-only Unix socket. It checks the
-  owner credential, socket peer UID, deny-by-default action list, payment budget,
-  and goal/action-bound expiring HMAC grants. Only `local.checksum` is allowed.
-- Rust/SQLite Goal Engine and Core API slice: owner-authenticated create/read/tick,
-  deterministic score after authorization, idempotency, durable queued state,
-  process-reopen resume, fixed public fixture checksum, independent digest/length
-  evidence, unknown source status and idle success. Owners can add dependency edges;
-  the engine rejects cycles, waits for prerequisites and distinguishes queued
-  dependency waits from idle success.
-- Durable SQLite job leases: atomic worker claims, unique lease tokens, expiry
-  recovery after engine restart, stale-token rejection, authenticated lease renewal
-  with a persisted heartbeat timestamp, and a default limit of three expired leases.
-  Schema migrations now preserve records through v6. This covers the local pure
-  action only; independent heartbeat processes, configurable retry policy, concurrent
-  service processes and power-loss recovery remain unverified.
-- Goal lifecycle subset in Rust: owner-authenticated pause, resume and cancel routes;
-  pause revokes an active lease, resume requeues work, cancellation survives restart,
-  and completed/cancelled states reject further transitions. SQLite v3 migration
-  broadens state constraints while preserving goals, grants, dependencies and jobs.
-- Owner-authenticated goal listing returns at most 100 goals ordered by score and
-  creation time. Editing and full CRUD semantics are still absent.
-- Owner-authenticated goal plan GET/PUT replaces hierarchy and prerequisite edges
-  atomically. The planner caps direct prerequisites at 32 and parent depth at 16,
-  rejects duplicate/missing/unrunnable edges and cycles across the combined graph,
-  and locks plans once a goal is running or terminal. It does not yet generate
-  plans from natural language or provide strategy evaluation.
-- Goal events are append-only, privacy-safe decision codes. Event creation inserts
-  a durable outbox record transactionally; Core dispatches idempotently into a local
-  inbox, and owners can read the last 100 events per goal. No external bus is wired.
-- Owners can retrieve verified artifact evidence over a dedicated authenticated
-  route; unknown goals or goals without evidence return 404. Only checksum fixture
-  evidence exists in this slice.
-- Native Agent Runner interface is a separate Rust crate. Its only implementation
-  computes verifiable evidence for a fixed public fixture; it has no shell, arbitrary
-  filesystem, process or network operation. It remains linked in-process and is not
-  a sandboxed worker service.
-- Native owner credential provisioning CLI creates a random private token file
-  without overwriting an existing credential; a `--reveal-token` flag is required
-  to print the secret. Temporary-path creation, file mode and duplicate refusal
-  are tested. No Linux first-boot flow or credential rotation/revocation UX exists.
-- Rust loopback-only llama.cpp adapter source. One test rejects external endpoint
-  configuration; no inference is claimed.
-- systemd service unit sources for Core and Policy Broker. These files are
-  deployment templates and have not run under systemd. The PKGBUILD and archiso
-  staging script now include Core, Broker, owner setup, sysusers configuration and
-  the GTK shell, but have not been built or executed. The owner setup command is
-  manual only; installer/recovery flow is absent, so services are not enabled by
-  the image.
-- The prior Go/Python Task 1 implementation remains frozen for behavioral reference.
-  The native Make targets no longer require Go or Python.
-- Architecture direction changed after these verified Rust results: the Rust
-  workspace is now frozen and must not be expanded. Go service parity and the
-  Quickshell/QML desktop are pending; no Rust runtime removal has occurred.
+The Rust workspace and GTK experiment are frozen historical checkpoints, not active
+LunaOS services or desktop functionality. The current implementation path is Go
+services, Bash integration and a not-yet-built Quickshell/QML shell.
+
 - Go Policy Broker checks Linux Unix-socket peer UID at runtime and fails closed
   on non-Linux. Handler tests pass on macOS, including UID comparison. The Linux
-  `SO_PEERCRED` path, runtime socket ACLs and child-process IPC have not been run.
+  `SO_PEERCRED` path and child-process IPC passed in a disposable Debian
+  `golang:1.20-bookworm` container. Arch systemd sandboxing, separate service UIDs
+  and target socket lifecycle remain unverified.
 - Go Goal Engine/Core in `services/core` implements SQLite WAL/FULL storage,
   authenticated goal create/read/list, policy authorization before weighted score,
   one benign checksum action, idempotency, unknown-source hypothesis provenance,
   durable evidence, queued-work recovery after Engine reopen, and idle queue success.
-  Unit and HTTP handler tests pass. The handler tests inject a policy test double;
-  no live Linux broker process has been connected to Core.
+  Unit and HTTP handler tests pass. A Linux process test connects Core to the real
+  broker binary; handler unit tests still use a policy test double.
 - `services/core/cmd/luna-core` is a runnable process with a private owner token,
   SQLite database, broker Unix socket, loopback REST API and two-second scheduler.
-  Native macOS binaries build; no process-level smoke has yet been run.
+  A Linux process test starts the real Go broker and Core binaries, loads a queued
+  goal from SQLite after Core startup, checks owner authentication and API
+  idempotency, then verifies completed checksum evidence. This is a Debian
+  container result, not an Arch image or systemd result.
+- Go `services/identity` and `luna-owner-setup` create the service credential as
+  32 random bytes encoded as 64 lowercase hex characters. The CLI uses the format
+  Core and Broker require, creates a new credential directory as `0700`, writes a
+  `0600` regular file atomically, refuses existing paths and prints the token only
+  when explicitly asked. Unit tests and a local binary smoke passed.
+- The x86_64 `lunaos-native` Arch package built and installed in a disposable Arch
+  Docker container under x86_64 emulation. Its sysusers hook created the `lunaos`
+  account; the packaged credential CLI, Broker and Core then ran as that account
+  against a temporary database and completed a checksum goal with verified
+  evidence. This did not boot systemd. `systemd-analyze verify` could not validate
+  ExecStart paths in this emulated environment: it returned `Invalid argument` for
+  the packaged binary and also for `/usr/bin/true`.
 - Intimacy control foundation is implemented in Go Core: `/v1/intimacy/stop`
   persists STOP_INTIMACY in SQLite, `/v1/intimacy/relationship/state` reports only
   privacy-safe control metadata, and `/v1/intimacy/conversation` blocks while STOP
@@ -130,13 +96,6 @@ completed OS capabilities.
   builds and the Arch package recipe. OS key-store integration, key-file
   replacement, Linux service coordination and lost-key recovery remain
   absent/unverified.
-- No NSFW conversation model, preference learner, consent/subject
-  identity workflow, adult media index/classifier/recommender, ComfyUI generation,
-  GPU controls or global UI/voice stop binding exists. The local model backend is
-  unavailable and the API reports that honestly.
-- systemd templates, Arch PKGBUILD and archiso staging now refer to Go Core/Broker.
-  They have not been built by makepkg, run on Arch or booted. The image does not
-  yet include a functional Luna shell or Go owner-credential provisioning.
 
 ## Frozen Rust checkpoint verification, 2026-10-24
 
@@ -154,15 +113,22 @@ Detailed command record: [native-migration-2026-10-24.txt](test-evidence/native-
 
 ## Omarchy-aligned command verification, 2026-10-25
 
-Host: same macOS Apple Silicon checkout. These checks exercise Go Core/Broker
-logic and native macOS builds; they do not establish Linux peer-credential behavior
-or OS integration.
+Host: macOS Apple Silicon checkout plus a disposable Docker Desktop Linux
+container (`golang:1.20-bookworm`). Linux process checks below exercise Unix peer
+credentials and real Go child processes; they do not establish Arch packaging,
+systemd, boot or target-hardware behavior.
 
 | Command | Result |
 |---|---|
 | `make test` | PASS: Go Broker/Core/Intimacy vault, REST, backup CLI and restore tests; 0 failures |
+| `make test test-process-linux` in `golang:1.20-bookworm` | PASS: Go service tests and real Core/Broker process integration; queued recovery, owner-authenticated API, duplicate idempotency and verified evidence |
+| `go vet -buildvcs=false ./services/policy ./services/core/... ./services/intimacy/... ./services/identity/...` in `golang:1.20-bookworm` | PASS |
+| Arch `makepkg --cleanbuild --noconfirm` in x86_64 Docker container | PASS: built `lunaos-native-0.1.0-1-x86_64.pkg.tar.zst` with Core, Broker, vault and Go owner setup |
+| `pacman -U` in disposable Arch container | PASS: package installed; sysusers created `lunaos`; packaged credential CLI and Broker/Core processes ran as that account and completed a goal with verified evidence |
+| `systemd-analyze verify` in emulated Arch container | BLOCKED: returned `Invalid argument` for all ExecStart paths, including `/usr/bin/true`; systemd unit validation remains open |
+| Go owner setup CLI smoke on macOS | PASS: created 64-hex credential, directory mode `0700`, file mode `0600`, refused duplicate provisioning; secret was not printed |
 | `make check` | PASS: gofmt, go vet, Bash syntax (including Arch PKGBUILD) and OpenAPI JSON validation |
-| `make build` | PASS: native macOS arm64 Core, Broker and `luna-vault` binaries built with CGO enabled |
+| `make build` | PASS: native macOS arm64 Core, Broker, `luna-vault` and `luna-owner-setup` binaries built with CGO enabled |
 | `luna-vault` process smoke | PASS: generated two owner-only keys, backed up an empty vault and restored it to a new path in a temporary private directory; both key files were mode 0600 |
 | `make build-linux-amd64-v3` | PASS: optional Go policy prototype cross-compiled for Linux x86_64-v3; not run on target hardware |
 | `go test -race -count=1 ./services/policy` | PASS: race-enabled Go policy tests; 0 failures |
@@ -177,8 +143,10 @@ The first Go build attempt failed because Go invoked an incompatible Intel Git a
 `-buildvcs=false`; the retry passed. This changes only build metadata generation.
 
 The Rust smoke test at the earlier checkpoint used a temporary database and test
-credential and removed them on exit. No Go Core/Broker process smoke or hosted CI
-run is being counted. The vault CLI smoke also used only a temporary directory.
+credential and removed them on exit. The Go process test uses only a temporary
+directory, synthetic owner key and public checksum fixture; it does not access a
+host installation. No hosted CI run is being counted. The vault CLI smoke also
+used only a temporary directory.
 Intimacy vault and API tests use temporary databases and
 synthetic text only; tests verify that writes omit plaintext, encrypted backups
 round-trip into new database paths, and corrupted restores do not publish a DB.
@@ -188,19 +156,20 @@ round-trip into new database paths, and corrupted restores do not publish a DB.
 - No real Omarchy or Linux installation was accessed. No packages/services were
   removed, disabled, retained or replaced on a host; **no cleanup occurred**. The
   read-only Linux baseline script remains unexecuted.
-- No Arch package has been built, and no standalone ISO, installer, boot, update,
-  rollback or recovery result exists. The archiso script is syntax-checked only;
-  `mkarchiso` is unavailable on this Mac.
+- No standalone ISO, installer, boot, update, rollback or recovery result exists.
+  The archiso script is syntax-checked only; `mkarchiso` is unavailable on this Mac.
 - No runtime performance benchmarks have been recorded. The broker's prior Go
   cross-builds prove compilation for x86_64 baselines; the v3 artifact has not run
-  on a feature-checked Ryzen 9 5950X. The CGO Core has not been cross-compiled for
-  Linux. No service startup, boot-to-shell, idle resource,
-  scheduler/API latency or throughput claim is made.
-- GTK4 shell source is present but has not been built or run. `pkg-config` fails on
-  this host with `bad CPU type in executable`; no Wayland/Hyprland target was used.
+  on a feature-checked Ryzen 9 5950X. Core/Broker/vault/identity binaries are in an
+  Arch package built under emulation, not tested on target hardware. No boot-to-shell,
+  idle resource, scheduler/API latency or throughput claim is made.
+- No Quickshell/QML shell has been implemented or run. The frozen GTK4 source is a
+  historical experiment; no Wayland/Hyprland target was used.
 - No llama.cpp server or licensed model is configured; no real local inference.
-- No GPU/NVIDIA/CUDA, ComfyUI, systemd, D-Bus, sensor/BLIND, iPhone, NAS, privacy
-  vault, consent/erasure or remote-administration capability has been exercised.
+- No GPU/NVIDIA/CUDA, ComfyUI, systemd, D-Bus, sensor/BLIND, iPhone, NAS,
+  production privacy-vault operations, consent/erasure or remote-administration
+  capability has been exercised. The optional private vault has portable tests,
+  but no production key or device integration.
 - Full goal lifecycle beyond list/pause/resume/cancel and CRUD, natural-language plan generation and strategy scoring,
 independent heartbeat workers/configurable retry policy, external event delivery and resource quotas, sandboxed Agent Runner service,
   strategy optimizer, production identity/session
@@ -210,15 +179,19 @@ independent heartbeat workers/configurable retry policy, external event delivery
   broker. The broker is a separate process, but both local service units use the
   same unprivileged account. Production provisioning, independent service identity,
   owner login, revocation UX and Linux security review remain release blockers.
-- Owner-token setup exists only as a local Rust checkpoint command, but it is not
-  installed in the Go image path. Target provisioning and credential
-  rotation/revocation workflows remain untested and incomplete.
+- Go owner-token setup is included in the Arch package and works in local tests.
+  Automated first-boot orchestration, owner login/session distribution, and
+  credential rotation/revocation workflows remain incomplete.
+
+The portable Go development launcher is syntax-checked but has not been run on
+Linux in this checkpoint; it intentionally exits on macOS.
 
 ## Next milestone
 
-Run process-level Core/Broker tests in an isolated Arch VM, including owner auth,
-peer UID, payment denial, grant revalidation, queued recovery and systemd startup.
-Then add Go credential provisioning and a functional Quickshell/QML shell using the
+Validate the Go systemd units on a non-emulated Arch VM and test service restart,
+credential loading and restrictions there. The package and same-UID Go process
+flow have passed in an emulated x86_64 Arch container, but it does not boot systemd
+or replace a VM/target run. Then build a functional Quickshell/QML shell against the
 loopback API. No real Linux installation has been accessed or changed; a remote
 baseline still requires an owner-provided SSH alias and explicit connection
 authorization, and any mutation requires a verified recovery plan and explicit

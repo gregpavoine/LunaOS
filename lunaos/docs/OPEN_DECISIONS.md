@@ -12,8 +12,9 @@ is verified. Omarchy remains a reference, not a runtime dependency. The kernel i
 upstream Arch; no LunaOS kernel is planned by default.
 
 No host cleanup or system modification is authorized. The Go Core/Broker and
-optional private-memory vault have a portable local slice; Quickshell/QML and all
-Linux/Arch execution remain unimplemented or unverified.
+optional private-memory vault have local implementations; a Linux Docker process
+test now verifies the Go Broker/Core boundary. Quickshell/QML and Arch/target
+execution remain unimplemented or unverified.
 
 2026-10-24. Product specs describe requirements, not working software.
 
@@ -22,7 +23,7 @@ Linux/Arch execution remain unimplemented or unverified.
 | Requirement | Source | Task 1 treatment |
 |---|---|---|
 | Mac controller; no remote before authorization | Current task; AGENTS Platforms; Series 26 | Local-only; no installation or remote connection |
-| Independent native broker; owner-only privileges; budgets zero | Goal §§0,1,2,6 plus owner architecture corrections | Current Rust checkpoint has a separate process and scoped grants; target Go broker migration remains pending; payments denied |
+| Independent native broker; owner-only privileges; budgets zero | Goal §§0,1,2,6 plus owner architecture corrections | Go Broker is a separate Linux process with owner token, same-UID peer check, scoped grants and zero payment budget; verified in a Debian container, not yet under Arch systemd; payments denied |
 | Durable registry, deny before score, verified outcomes, idle success | Goal §§3–5,11 | SQLite transaction; fixed public checksum action; executable tests |
 | No invented facts from unknown provenance | Goal §1 Series30.8; G-010 | Unknown assertion always hypothesis, confidence does not verify it |
 | Local-first, protected secrets, no sensitive general logs | Goal §§0,3,7 | Private UDS/key; public-fixture metadata only; no sensitive ingestion |
@@ -86,9 +87,9 @@ Linux/Arch execution remain unimplemented or unverified.
 ## Critical risks and release constraints
 
 1. Local owner key authenticates possession, not production MFA. Same-UID compromise
-   can access development keys. Go Broker source checks Linux peer UID but has not
-   been executed on Linux; broker and Core run under the same account in templates
-   and are not ready to hold system authority.
+   can access development keys. Go Broker's Linux peer-UID check has been exercised
+   in a Debian process test, but Core and Broker still run under the same account in
+   templates and are not ready to hold system authority.
 2. The Core SQLite DB is not encrypted. A separate optional vault encrypts memory
    payloads and now has local rotation/backup/restore commands, but key
    provisioning, service coordination, lost-key recovery and Linux

@@ -23,9 +23,10 @@ owns its package manifests, installer, shell, services, updates and recovery.
   default, checks policy before scoring and again before execution, and requires
   explicit scoped grants. Budgets start at zero; external messages, payment,
   remote administration and destructive system actions require separate grants.
-- **Existing checkpoint credential bootstrap:** the Rust `luna-owner-setup` command
-  creates a random private token file and refuses to replace it. It is not integrated
-  into the Go target path; rotation and Linux first-boot integration remain unfinished.
+- **Owner credential setup:** the Go `luna-owner-setup` command creates the 32-byte
+  hex credential expected by Core and Broker, stores it in a private file without
+  overwriting an existing path, and prints it only with explicit `--reveal-token`.
+  Production login sessions, rotation and first-boot orchestration remain unfinished.
 - **Desktop:** Hyprland/Wayland with a Quickshell/QML shell, following Omarchy's
   compositor-integrated desktop approach.
 - **Local AI:** llama.cpp or another documented native local inference runtime.
@@ -49,7 +50,8 @@ SQLite-backed goal engine, scoring after policy authorization, an idempotent cre
 API, a fixed benign checksum action, persistent evidence and a scheduler that can
 resume queued work after reopening the database. The separate Go broker enforces
 owner authentication and Linux Unix-socket peer UID checks. Go tests run locally on
-macOS; the Linux peer-credential path has not been executed here. The Intimacy
+macOS; a disposable Linux container process test also verifies the live broker/Core
+boundary and queued-job recovery. It is not Arch/systemd/hardware validation. The Intimacy
 control foundation persists an owner-only STOP endpoint and fails closed on unknown
 privacy state. A separate encrypted memory store and scoped/revocable owner consent
 API exist, but the vault is disabled until its private key and database are configured.
@@ -62,10 +64,8 @@ generation is owner-only and does not print key bytes. OS key-store integration,
 key-file rotation and lost-key recovery are not available.
 These are storage and policy components only: there is no conversation model,
 media connector, age/consent classifier, or generation backend configured.
-Quickshell/QML,
-owner credential provisioning for the Go services, target systemd validation, a
-standalone ISO, recovery and real local inference remain unimplemented. Mont Blanc
-is not released.
+Quickshell/QML, target systemd validation, a standalone ISO, recovery and real local
+inference remain unimplemented. Mont Blanc is not released.
 
 ## Development on macOS or Linux
 
@@ -75,7 +75,9 @@ SQLite driver. Build and run them locally using:
 ```sh
 make test          # Go broker and persistent Core tests
 make check         # gofmt, go vet and shell syntax checks
-make build         # local native luna-core and luna-policy-broker binaries
+make build         # local Core, Broker, vault and owner-setup binaries
+make test-process-linux # real Core/Broker process test; Linux only
+./scripts/dev-native.sh # temporary Go Core/Broker development run; Linux only
 make build-linux-amd64 # broker only, generic Linux x86_64, CGO disabled
 make build-linux-amd64-v3 # broker only, optional x86_64-v3 profile
 make test-rust-checkpoint     # frozen Rust checkpoint tests

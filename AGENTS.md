@@ -2,7 +2,7 @@
 
 ## LunaOS subproject architecture
 
-Within `lunaos/`, follow [`lunaos/AGENTS.md`](lunaos/AGENTS.md): LunaOS is an independently installable Arch Linux distribution whose control plane and native shell are Rust/Tokio/GTK4. Omarchy is a reusable reference, not a required LunaOS runtime. Preserve existing Omarchy components while extracting them; do not install Omarchy on macOS or connect to a Linux host without an owner-provided SSH alias and explicit authorization.
+Within `lunaos/`, follow [`lunaos/AGENTS.md`](lunaos/AGENTS.md): LunaOS is an independently installable Arch Linux distribution using Arch packages, Bash integration, Go control-plane services, and a Quickshell/QML shell. The Rust workspace is a frozen checkpoint until Go parity is proven. Omarchy is a reusable reference, not a required LunaOS runtime. Preserve existing Omarchy components while extracting them; do not install Omarchy on macOS or connect to a Linux host without an owner-provided SSH alias and explicit authorization.
 
 Deeper instructions for specific kinds of work live in `agents/skills/`. Read the
 matching guide before starting:
