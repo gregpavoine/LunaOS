@@ -41,7 +41,8 @@ jobs:
             printf '%s\n' 'Archiso completed without producing an ISO.' >&2
             exit 1
           fi
-          sha256sum "$iso_path" > "$output_dir/SHA256SUMS"
+          (cd "$output_dir" && sha256sum "$(basename "$iso_path")" > SHA256SUMS)
+          cat "$output_dir/SHA256SUMS"
           ls -lh "$output_dir"
 
       - uses: actions/upload-artifact@v6
