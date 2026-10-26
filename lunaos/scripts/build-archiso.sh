@@ -84,7 +84,7 @@ if ((${#cached_packages[@]} == 0)); then
 fi
 for cached_package in "${cached_packages[@]}"; do
   package_basename=${cached_package##*/}
-  package_name=$(pacman -Qp --qf '%n' "$cached_package")
+  package_name=$(pacman -Qp --print-format '%n' "$cached_package")
   source_repo=$(pacman -Si --config "$staging/pacman-install.conf" "$package_name" | awk -F ': ' '/^Repository/ { print $2; exit }')
   case $source_repo in
     core) package_destination=$target_core ;;
