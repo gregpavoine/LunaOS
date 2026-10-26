@@ -20,8 +20,8 @@ if [[ ! -d /sys/firmware/efi ]]; then
   exit 1
 fi
 repo_root=/usr/share/lunaos/repo
-if [[ ! -r $repo_root/core/os/x86_64/core.db || ! -r $repo_root/extra/os/x86_64/extra.db || ! -r $repo_root/lunaos-local/os/x86_64/lunaos-local.db ]]; then
-  printf '%s\n' 'The LunaOS install package repository is missing from this ISO.' >&2
+if [[ ! -r $repo_root/lunaos-local/os/x86_64/lunaos-local.db ]]; then
+  printf '%s\n' 'The LunaOS package repository is missing from this ISO.' >&2
   exit 1
 fi
 if ! command -v archinstall >/dev/null 2>&1 || [[ ! -r /usr/share/lunaos/archinstall.json ]]; then
@@ -30,6 +30,7 @@ if ! command -v archinstall >/dev/null 2>&1 || [[ ! -r /usr/share/lunaos/archins
 fi
 
 printf '%s\n' 'LunaOS standalone installer — x86_64 UEFI preview' ''
+printf '%s\n' 'Internet access is required to download Arch packages during installation. Connect Ethernet or configure Wi-Fi before continuing.'
 printf '%s\n' 'Target package plan:'
 cat /usr/share/lunaos/target-packages.txt
 printf '\n'

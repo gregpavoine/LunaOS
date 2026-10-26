@@ -91,7 +91,7 @@ jq \
     ]
   }
   | .silent = true
-  | .offline = true
+  | .offline = false
   | .no_pkg_lookups = true
   | del(.auth_config, .users, .disk_encryption)
   ' "$template" > "$output_dir/user_configuration.json"

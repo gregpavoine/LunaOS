@@ -14,11 +14,6 @@
     "linux"
   ],
   "mirror_config": {
-    "custom_servers": [
-      {
-        "url": "file:///run/lunaos-repo/$repo/os/$arch"
-      }
-    ],
     "custom_repositories": [
       {
         "name": "lunaos-local",
@@ -29,7 +24,7 @@
     ]
   },
   "no_pkg_lookups": true,
-  "offline": true,
+  "offline": false,
   "packages": [],
   "script": "guided",
   "silent": false

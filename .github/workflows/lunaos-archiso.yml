@@ -22,39 +22,86 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Build LunaOS 0.1.1 installable-preview ISO with Arch Linux x86_64 tools
+      - name: Start isolated Arch build container
         shell: bash
         run: |
           set -euo pipefail
           output_dir="$RUNNER_TEMP/lunaos-archiso-output"
+          container_name="lunaos-archiso-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           mkdir -p "$output_dir"
-          docker run --rm --privileged \
+          printf 'LUNAOS_ARCHISO_OUTPUT=%s\n' "$output_dir" >> "$GITHUB_ENV"
+          printf 'LUNAOS_ARCHISO_CONTAINER=%s\n' "$container_name" >> "$GITHUB_ENV"
+          docker run --detach --name "$container_name" --privileged \
             --mount "type=bind,source=$GITHUB_WORKSPACE,target=/workspace,readonly" \
             --mount "type=bind,source=$output_dir,target=/output" \
-            archlinux:base-devel \
-            bash -euo pipefail -c '
-              pacman -Syu --noconfirm --needed archiso go sqlite sudo qemu-system-x86 qemu-img edk2-ovmf procps-ng jq expect xorriso
-              LUNAOS_ISO_OUTPUT=/output \
-              LUNAOS_ISO_WORK=/tmp/lunaos-archiso-work \
-              /workspace/lunaos/scripts/build-archiso.sh
-              /workspace/lunaos/scripts/test-iso-boot.sh /output/lunaos-0.1.1-x86_64.iso
-              LUNAOS_KEEP_INSTALL_LOGS=1 \
-              LUNAOS_INSTALL_LOG_DEST=/output/lunaos-install.log \
-              /workspace/lunaos/scripts/test-iso-install.sh /output/lunaos-0.1.1-x86_64.iso
-            '
-          iso_path=$(find "$output_dir" -maxdepth 1 -type f -name '*.iso' -print -quit)
-          if [[ -z "$iso_path" ]]; then
-            printf '%s\n' 'Archiso completed without producing an ISO.' >&2
+            archlinux:base-devel sleep infinity
+
+      - name: Install Arch ISO and VM test tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker exec "$LUNAOS_ARCHISO_CONTAINER" bash -euo pipefail -c '
+            pacman -Syu --noconfirm --needed archiso go sqlite sudo qemu-system-x86 qemu-img edk2-ovmf procps-ng jq expect xorriso
+          '
+
+      - name: Build standalone Arch ISO
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker exec \
+            -e LUNAOS_ISO_OUTPUT=/output \
+            -e LUNAOS_ISO_WORK=/tmp/lunaos-archiso-work \
+            "$LUNAOS_ARCHISO_CONTAINER" \
+            bash -euo pipefail -c '/workspace/lunaos/scripts/build-archiso.sh'
+
+      - name: Verify one release-sized ISO and checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          iso_files=("$LUNAOS_ARCHISO_OUTPUT"/*.iso)
+          if ((${#iso_files[@]} != 1)); then
+            printf 'Expected exactly one ISO, found %s.\n' "${#iso_files[@]}" >&2
             exit 1
           fi
-          (cd "$output_dir" && sha256sum "$(basename "$iso_path")" > SHA256SUMS)
-          cat "$output_dir/SHA256SUMS"
-          ls -lh "$output_dir"
+          iso_path=${iso_files[0]}
+          printf 'LUNAOS_ISO_FILENAME=%s\n' "$(basename "$iso_path")" >> "$GITHUB_ENV"
+          iso_size=$(stat -c '%s' "$iso_path")
+          max_release_asset_size=1900000000
+          if (( iso_size >= max_release_asset_size )); then
+            printf 'ISO is %s bytes; maximum for a single release asset is %s bytes.\n' \
+              "$iso_size" "$max_release_asset_size" >&2
+            exit 1
+          fi
+          (cd "$LUNAOS_ARCHISO_OUTPUT" && sha256sum "$(basename "$iso_path")" > SHA256SUMS)
+          cat "$LUNAOS_ARCHISO_OUTPUT/SHA256SUMS"
+          ls -lh "$iso_path" "$LUNAOS_ARCHISO_OUTPUT/SHA256SUMS"
+
+      - name: Verify UEFI live boot
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker exec -e LUNAOS_ISO_PATH="/output/$LUNAOS_ISO_FILENAME" \
+            "$LUNAOS_ARCHISO_CONTAINER" \
+            bash -euo pipefail -c '/workspace/lunaos/scripts/test-iso-boot.sh "$LUNAOS_ISO_PATH"'
+
+      - name: Install to a disposable VM and verify installed services and goal evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker exec \
+            -e LUNAOS_KEEP_INSTALL_LOGS=1 \
+            -e LUNAOS_INSTALL_LOG_DEST=/output/lunaos-install.log \
+            -e LUNAOS_ISO_PATH="/output/$LUNAOS_ISO_FILENAME" \
+            "$LUNAOS_ARCHISO_CONTAINER" \
+            bash -euo pipefail -c '/workspace/lunaos/scripts/test-iso-install.sh "$LUNAOS_ISO_PATH"'
 
       - uses: actions/upload-artifact@v6
         with:
-          name: lunaos-0.1.1-install-and-boot-verified-x86_64-iso
-          path: ${{ runner.temp }}/lunaos-archiso-output/*
+          name: lunaos-0.1.1-rc.2-x86_64-iso
+          path: |
+            ${{ runner.temp }}/lunaos-archiso-output/lunaos-0.1.1-x86_64.iso
+            ${{ runner.temp }}/lunaos-archiso-output/SHA256SUMS
           if-no-files-found: error
           retention-days: 14
 
@@ -62,7 +109,16 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v6
         with:
-          name: lunaos-0.1.1-install-vm-diagnostics
+          name: lunaos-0.1.1-rc.2-install-vm-diagnostics
           path: ${{ runner.temp }}/lunaos-archiso-output/lunaos-install.log
           if-no-files-found: warn
           retention-days: 7
+
+      - name: Stop isolated Arch build container
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -n ${LUNAOS_ARCHISO_CONTAINER:-} ]]; then
+            docker rm --force "$LUNAOS_ARCHISO_CONTAINER" >/dev/null 2>&1 || true
+          fi

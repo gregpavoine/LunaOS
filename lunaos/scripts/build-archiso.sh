@@ -25,8 +25,10 @@ mkdir -p "$staging/airootfs/usr/bin"
 mkdir -p "$staging/airootfs/etc/sudoers.d" "$staging/airootfs/usr/local/bin" \
   "$staging/airootfs/usr/share/applications" "$staging/airootfs/usr/share/lunaos"
 
-# Build the target package and its complete dependency closure into an
-# ISO-local Pacman repository. makepkg must never run as root.
+# Build the LunaOS package into an ISO-local Pacman repository. Arch packages
+# are fetched from official mirrors during installation instead of duplicating
+# their complete package archive closure inside the live image. makepkg must
+# never run as root.
 mkdir -p "$package_build/lunaos/packaging/arch"
 mkdir -p "$package_build/home" "$package_build/gocache" "$package_build/gomodcache"
 cp "$profile_source/PKGBUILD" "$package_build/lunaos/packaging/arch/PKGBUILD"
@@ -45,9 +47,6 @@ if [[ -z $package_file ]]; then
   exit 1
 fi
 
-package_cache="$staging/package-cache"
-package_db="$staging/package-db"
-mkdir -p "$package_cache" "$package_db"
 mapfile -t target_packages < <(awk 'NF && $1 !~ /^#/ { print $1 }' "$profile_source/packages.install.x86_64")
 package_json=$(printf '%s\n' "${target_packages[@]}" | jq -Rsc 'split("\n") | map(select(length > 0))')
 jq --argjson packages "$package_json" '.packages = $packages' \
@@ -57,49 +56,9 @@ install -Dm644 "$staging/archinstall.json" "$staging/airootfs/usr/share/lunaos/a
 printf '%s\n' "${target_packages[@]}" > "$staging/target-packages.txt"
 install -Dm644 "$staging/target-packages.txt" "$staging/airootfs/usr/share/lunaos/target-packages.txt"
 
-awk '
-  /^DownloadUser[[:space:]]*=/ { next }
-  /^\[core\]$/ { print "DownloadUser = root" }
-  { print }
-' /etc/pacman.conf > "$staging/pacman-install.conf"
-mapfile -t arch_packages < <(printf '%s\n' "${target_packages[@]}" | awk '$1 != "lunaos-native"')
-pacman -Syw --noconfirm --needed --cachedir "$package_cache" --dbpath "$package_db" \
-  --config "$staging/pacman-install.conf" "${arch_packages[@]}"
-target_core="$staging/airootfs/usr/share/lunaos/repo/core/os/x86_64"
-target_extra="$staging/airootfs/usr/share/lunaos/repo/extra/os/x86_64"
 target_local="$staging/airootfs/usr/share/lunaos/repo/lunaos-local/os/x86_64"
-mkdir -p "$target_core" "$target_extra" "$target_local"
-mapfile -d '' cached_packages < <(find "$package_cache" -maxdepth 1 -type f -name '*.pkg.tar.*' ! -name '*.sig' -print0)
-if ((${#cached_packages[@]} == 0)); then
-  printf '%s\n' 'Pacman did not download any target packages.' >&2
-  exit 1
-fi
-for cached_package in "${cached_packages[@]}"; do
-  package_basename=${cached_package##*/}
-  package_name=$(pacman -Qp "$cached_package" | awk '{ print $1; exit }')
-  source_repo=$(pacman -Si --config "$staging/pacman-install.conf" "$package_name" | awk -F ': ' '/^Repository/ { print $2; exit }')
-  case $source_repo in
-    core) package_destination=$target_core ;;
-    extra) package_destination=$target_extra ;;
-    *)
-      printf 'Refusing to stage package %s from unexpected repository %s.\n' "$package_basename" "$source_repo" >&2
-      exit 1
-      ;;
-  esac
-  cp "$cached_package" "$package_destination/"
-  if [[ -r $cached_package.sig ]]; then
-    cp "$cached_package.sig" "$package_destination/"
-  fi
-done
+mkdir -p "$target_local"
 cp "$package_file" "$target_local/"
-mapfile -d '' core_packages < <(find "$target_core" -maxdepth 1 -type f -name '*.pkg.tar.*' ! -name '*.sig' -print0)
-mapfile -d '' extra_packages < <(find "$target_extra" -maxdepth 1 -type f -name '*.pkg.tar.*' ! -name '*.sig' -print0)
-if ((${#core_packages[@]} == 0 || ${#extra_packages[@]} == 0)); then
-  printf '%s\n' 'No signed Arch target packages were staged in the local mirrors.' >&2
-  exit 1
-fi
-repo-add "$target_core/core.db.tar.gz" "${core_packages[@]}"
-repo-add "$target_extra/extra.db.tar.gz" "${extra_packages[@]}"
 repo-add "$target_local/lunaos-local.db.tar.gz" "$target_local"/*.pkg.tar.*
 
 install -Dm755 "$profile_source/airootfs/usr/local/bin/lunaos-install" "$staging/airootfs/usr/local/bin/lunaos-install"

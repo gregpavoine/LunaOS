@@ -1,5 +1,30 @@
 # LunaOS implementation status — Omarchy-aligned architecture checkpoint
 
+## Single-file installer candidate rebuild — 2026-10-26 (not released)
+
+The current installer source no longer embeds the complete Arch package dependency
+closure a second time in the live ISO. It packages the LunaOS-native target
+locally and configures Archinstall to fetch Arch packages from standard mirrors;
+the installer now states that network access is required. The disposable QEMU
+installer test receives a user-mode network adapter. The Arch ISO workflow now
+reports image build, size/checksum, live boot, and install-to-disk as separate
+steps, and refuses an ISO at or above 1,900,000,000 bytes so the release is one
+file within GitHub's per-asset limit.
+
+**Verified locally:** `make test check` passes on macOS arm64, including the
+Archinstall configuration test for online official mirrors and the retained local
+LunaOS repository. The Linux-only process test is skipped on macOS by design. The
+Rust checkpoint's `cargo test --workspace --locked` also passed on this checkout.
+The portable GitHub checks pass at commit `88334b56`; that run predates this ISO
+rebuild.
+
+**Not yet verified:** this change has not yet been built with Archiso, size-checked,
+booted or installed in QEMU. The previous grouped ISO workflow run
+[40328871429](https://github.com/gregpavoine/LunaOS/actions/runs/40328871429) was
+cancelled before its hidden build/install step produced diagnostics. Public
+`v0.1.1-rc.1` still contains split ISO parts and has no install-to-disk acceptance;
+it is superseded. No clean single-file replacement has been published yet.
+
 ## Disposable installer VM gate implementation — 2026-10-26
 
 On local branch `feature/installer-vm-acceptance`, an Archinstall test-input
