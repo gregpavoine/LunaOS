@@ -60,7 +60,11 @@ install -Dm644 "$staging/archinstall.json" "$staging/airootfs/usr/share/lunaos/a
 printf '%s\n' "${target_packages[@]}" > "$staging/target-packages.txt"
 install -Dm644 "$staging/target-packages.txt" "$staging/airootfs/usr/share/lunaos/target-packages.txt"
 
-cat /etc/pacman.conf > "$staging/pacman-install.conf"
+awk '
+  /^DownloadUser[[:space:]]*=/ { next }
+  /^\[core\]$/ { print "DownloadUser = root" }
+  { print }
+' /etc/pacman.conf > "$staging/pacman-install.conf"
 cat >> "$staging/pacman-install.conf" <<EOF
 
 [lunaos-local]
