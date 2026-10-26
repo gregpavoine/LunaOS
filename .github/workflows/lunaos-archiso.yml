@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [mont-blanc]
+    tags: ['v0.1.0']
     paths:
       - 'lunaos/**'
       - '.github/workflows/lunaos-archiso.yml'
@@ -15,6 +16,8 @@ jobs:
   archiso:
     runs-on: ubuntu-24.04
     timeout-minutes: 120
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v7
         with:
@@ -45,9 +48,45 @@ jobs:
           cat "$output_dir/SHA256SUMS"
           ls -lh "$output_dir"
 
+      - name: Install QEMU UEFI boot test tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes qemu-system-x86 ovmf
+
+      - name: Boot ISO to systemd graphical target in QEMU
+        run: lunaos/scripts/test-iso-boot.sh "$RUNNER_TEMP/lunaos-archiso-output/lunaos-0.1.0-x86_64.iso"
+
       - uses: actions/upload-artifact@v6
         with:
           name: lunaos-0.1.0-x86_64-iso
           path: ${{ runner.temp }}/lunaos-archiso-output/*
           if-no-files-found: error
           retention-days: 14
+
+  release:
+    if: github.ref == 'refs/tags/v0.1.0'
+    needs: archiso
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v6
+        with:
+          name: lunaos-0.1.0-x86_64-iso
+          path: ${{ runner.temp }}/lunaos-release
+
+      - name: Publish verified ISO release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            "$RUNNER_TEMP/lunaos-release/lunaos-0.1.0-x86_64.iso" \
+            "$RUNNER_TEMP/lunaos-release/SHA256SUMS" \
+            --repo "$GITHUB_REPOSITORY" \
+            --verify-tag \
+            --title "LunaOS 0.1.0 — First Bootable ISO" \
+            --notes-file lunaos/docs/release/v0.1.0.md
