@@ -33,6 +33,12 @@ expect {
   eof { puts stderr "FAIL: live ISO exited before installer confirmation"; exit 1 }
 }
 expect {
+  -re {root@archiso[^\r\n]*[#] ?$} {}
+  timeout { puts stderr "FAIL: Archinstall did not return to the live shell after installation"; exit 1 }
+  eof { puts stderr "FAIL: live ISO exited before the installed-target reboot"; exit 1 }
+}
+send -- "systemctl reboot\r"
+expect {
   -re {LUNAOS_INSTALL_SMOKE=PASS installed_boot=1 core=active broker=active goal=completed evidence=verified} {}
   -re {LUNAOS_INSTALL_SMOKE=FAIL} { puts stderr "FAIL: installed target acceptance service reported failure"; exit 1 }
   eof { puts stderr "FAIL: QEMU exited before the installed target acceptance marker"; exit 1 }
