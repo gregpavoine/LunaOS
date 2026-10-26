@@ -10,7 +10,6 @@ StateDirectoryMode=0700
 StandardOutput=journal+console
 StandardError=journal+console
 UMask=0077
-ExecStartPre=/usr/bin/sh -c 'ls -ld /var/lib/lunaos-identity /usr/bin/luna-owner-setup'
 ExecStart=/usr/bin/luna-owner-setup --path=/var/lib/lunaos-identity/owner-token --policy-path=/var/lib/lunaos-identity/policy-token
 ProtectSystem=strict
 ProtectHome=yes

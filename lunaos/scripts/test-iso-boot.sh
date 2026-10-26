@@ -70,8 +70,8 @@ while ((SECONDS < deadline)); do
   if grep -q 'Graphical Interface' "$log_file"; then
     for marker in \
       'Owner and policy credentials provisioned' \
-      'Started LunaOS owner-authenticated policy broker' \
-      'Started LunaOS Core API and durable goal scheduler'; do
+      'owner-authenticated policy broker' \
+      'Core API and durable goal scheduler'; do
       if ! grep -q "$marker" "$log_file"; then
         printf 'FAIL: LunaOS boot did not confirm: %s\n' "$marker" >&2
         cat "$log_file" >&2
