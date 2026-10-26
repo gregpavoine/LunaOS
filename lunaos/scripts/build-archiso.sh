@@ -57,7 +57,8 @@ jq --argjson packages "$package_json" '.packages = $packages' \
   "$profile_source/airootfs/usr/share/lunaos/archinstall.json" \
   > "$staging/archinstall.json"
 install -Dm644 "$staging/archinstall.json" "$staging/airootfs/usr/share/lunaos/archinstall.json"
-install -Dm644 "$target_packages" "$staging/airootfs/usr/share/lunaos/target-packages.txt"
+printf '%s\n' "${target_packages[@]}" > "$staging/target-packages.txt"
+install -Dm644 "$staging/target-packages.txt" "$staging/airootfs/usr/share/lunaos/target-packages.txt"
 
 cat /etc/pacman.conf > "$staging/pacman-install.conf"
 cat >> "$staging/pacman-install.conf" <<EOF
