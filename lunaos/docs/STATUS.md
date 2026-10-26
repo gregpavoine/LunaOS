@@ -18,12 +18,16 @@ Rust checkpoint's `cargo test --workspace --locked` also passed on this checkout
 The portable GitHub checks pass at commit `88334b56`; that run predates this ISO
 rebuild.
 
-**Not yet verified:** this change has not yet been built with Archiso, size-checked,
-booted or installed in QEMU. The previous grouped ISO workflow run
-[40328871429](https://github.com/gregpavoine/LunaOS/actions/runs/40328871429) was
-cancelled before its hidden build/install step produced diagnostics. Public
-`v0.1.1-rc.1` still contains split ISO parts and has no install-to-disk acceptance;
-it is superseded. No clean single-file replacement has been published yet.
+**Verified before the latest installer-test correction:** run
+[40340116326](https://github.com/gregpavoine/LunaOS/actions/runs/40340116326) on
+`09631803` built the ISO, passed the single-file size guard and passed the UEFI
+live-boot check. I cancelled it during the install VM step after identifying that
+QEMU's `-no-reboot` option exits the VM instead of allowing the required reboot to
+the installed disk. The install acceptance marker was not observed, and the gated
+artifact was not uploaded. The option is removed in the current unpushed correction;
+the complete build and VM acceptance must run again. Public `v0.1.1-rc.1` still
+contains split ISO parts and has no install-to-disk acceptance; it is superseded.
+No clean single-file replacement has been published yet.
 
 ## Disposable installer VM gate implementation — 2026-10-26
 
