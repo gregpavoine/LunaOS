@@ -41,6 +41,8 @@ fi
 work_dir=$(mktemp -d "${TMPDIR:-/tmp}/lunaos-install-vm.XXXXXX")
 chmod 0700 "$work_dir"
 pkg_dir=$(mktemp -d /tmp/lunaos-install-smoke-package.XXXXXX)
+mkdir -p "$pkg_dir/home" "$pkg_dir/gocache" "$pkg_dir/gomodcache"
+chown -R nobody:nobody "$pkg_dir"
 keep_logs=${LUNAOS_KEEP_INSTALL_LOGS:-0}
 cleanup() {
   if [[ $keep_logs == 1 ]]; then
@@ -67,8 +69,9 @@ install -m 0600 "$work_dir/inputs/user_credentials.json" "$work_dir/user_credent
 cp "$repo_root/lunaos/packaging/arch/install-test/PKGBUILD" \
   "$repo_root/lunaos/packaging/arch/install-test/lunaos-install-smoke.go" \
   "$repo_root/lunaos/packaging/arch/install-test/lunaos-install-smoke.service" "$pkg_dir/"
-chown -R nobody:nobody "$pkg_dir"
-(cd "$pkg_dir" && runuser -u nobody -- makepkg --nodeps --noconfirm --clean)
+(cd "$pkg_dir" && runuser -u nobody -- env \
+  HOME="$pkg_dir/home" GOCACHE="$pkg_dir/gocache" GOMODCACHE="$pkg_dir/gomodcache" \
+  makepkg --nodeps --noconfirm --clean)
 smoke_package=$(find "$pkg_dir" -maxdepth 1 -type f -name 'lunaos-install-smoke-*.pkg.tar.*' -print -quit)
 if [[ -z $smoke_package ]]; then
   printf '%s\n' 'CI-only install smoke package was not built.' >&2

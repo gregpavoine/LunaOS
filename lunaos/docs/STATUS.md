@@ -25,11 +25,15 @@ boot smoke. The new install acceptance harness stopped at preflight because
 `qemu-img` was missing from the CI container. Run [40325027426](https://github.com/gregpavoine/LunaOS/actions/runs/40325027426)
 also built the ISO and passed live boot, then stopped before starting the install
 VM because the config generator was invoked without executable permissions.
-Neither run attempted disk installation or uploaded an ISO artifact. The
-current fix invokes the generator explicitly through Bash; CI must run again to
-verify it. The installed target, systemd services and goal/evidence path remain
-unverified. The Mac itself has no Archiso, QEMU or OVMF runtime. No real Omarchy
-or Linux host was accessed or modified.
+Run [40326179529](https://github.com/gregpavoine/LunaOS/actions/runs/40326179529)
+also built the ISO and passed live boot, then reached CI package creation but
+failed because Go's build cache defaulted to `/.cache/go-build`, which is not
+writable by the unprivileged package builder. None of these runs attempted disk
+installation or uploaded an ISO artifact. The current fix directs Go caches to
+the package builder's temporary home; CI must run again to verify it. The
+installed target, systemd services and goal/evidence path remain unverified. The
+Mac itself has no Archiso, QEMU or OVMF runtime. No real Omarchy or Linux host
+was accessed or modified.
 
 ## Standalone installer source checkpoint — 2026-10-26 (not released)
 
