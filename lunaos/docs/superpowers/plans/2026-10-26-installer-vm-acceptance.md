@@ -51,7 +51,7 @@
 - Create: `lunaos/scripts/test-iso-install.expect`
 - Create: `lunaos/packaging/arch/install-test/PKGBUILD`
 - Create: `lunaos/packaging/arch/install-test/lunaos-install-smoke.service`
-- Create: `lunaos/packaging/arch/install-test/lunaos-install-smoke`
+- Create: `lunaos/packaging/arch/install-test/lunaos-install-smoke.go`
 - Create: `lunaos/tests/install-smoke-script-test.sh`
 - Modify: `lunaos/Makefile`
 
@@ -64,15 +64,13 @@
 - [x] Implement the QEMU/OVMF harness with a dedicated seed medium for test-only config; test config and credentials remain outside the release ISO and the test package is injected only in the CI guest.
 - [ ] Run the script on the Arch CI runner against the built ISO; require install, reboot, service and goal evidence markers. Blocked until this branch is pushed and Actions runs.
 - [x] Run the full portable Go and installer test suite, shell syntax checks and `git diff --check`.
-- [ ] Commit the VM acceptance harness and test package.
+- [x] Commit the VM acceptance harness and test package (`da0d06dc`); the explicit live-to-installed reboot fix is `e503cbe4`.
 
 ## Task 3: Gate the ISO artifact and update factual release status
 
 **Files:**
 - Modify: `.github/workflows/lunaos-archiso.yml`
 - Modify: `lunaos/docs/STATUS.md`
-- Modify: `lunaos/docs/release/MONT_BLANC_FEATURE_MATRIX.md`
-- Modify: `lunaos/docs/release/v0.1.1-rc.1.md`
 
 **Interfaces:**
 - Consumes: the real ISO and exit status from Task 2.
@@ -83,5 +81,5 @@
 - [x] Add the install-and-reboot test to the Arch workflow and retain only its serial log on failure; private VM inputs and disk are removed by the harness.
 - [x] Update status documentation with exact local outcomes and remaining install-verification blockers; no new artifact checksum exists yet.
 - [x] Run YAML parsing, `make test check`, and `git diff --check` locally.
-- [ ] Commit the VM acceptance harness, CI gate and factual status.
+- [x] Commit the CI gate and factual status (`da0d06dc`).
 
