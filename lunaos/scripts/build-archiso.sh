@@ -37,7 +37,7 @@ cp "$lunaos_dir/README.md" "$package_build/lunaos/README.md"
 chown -R nobody:nobody "$package_build"
 runuser -u nobody -- env HOME="$package_build/home" GOCACHE="$package_build/gocache" \
   GOMODCACHE="$package_build/gomodcache" \
-  bash -euo pipefail -c 'cd "$1/packaging/arch" && makepkg --noconfirm' _ "$package_build/lunaos"
+  bash -euo pipefail -c 'cd "$1/packaging/arch" && makepkg --nodeps --noconfirm' _ "$package_build/lunaos"
 package_file=$(find "$package_build/lunaos/packaging/arch" -maxdepth 1 -type f -name 'lunaos-native-*.pkg.tar.*' -print -quit)
 if [[ -z $package_file ]]; then
   printf '%s\n' 'makepkg did not produce lunaos-native.' >&2
