@@ -65,7 +65,9 @@ trap cleanup EXIT
 
 deadline=$((SECONDS + timeout_seconds))
 while ((SECONDS < deadline)); do
-  if grep -Eq 'Reached target Graphical Interface|Startup finished in' "$log_file"; then
+  # systemd writes ANSI color escapes between words on a serial console, so
+  # match the stable target name instead of the formatted log line.
+  if grep -q 'Graphical Interface' "$log_file"; then
     printf 'PASS: LunaOS reached the systemd graphical target in UEFI QEMU.\n'
     cat "$log_file"
     exit 0

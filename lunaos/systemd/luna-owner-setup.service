@@ -7,6 +7,8 @@ ConditionPathExists=!/var/lib/lunaos-identity/owner-token
 Type=oneshot
 StateDirectory=lunaos-identity
 StateDirectoryMode=0700
+StandardOutput=journal+console
+StandardError=journal+console
 UMask=0077
 ExecStart=/usr/bin/luna-owner-setup --path=/var/lib/lunaos-identity/owner-token --policy-path=/var/lib/lunaos-identity/policy-token
 ProtectSystem=strict
