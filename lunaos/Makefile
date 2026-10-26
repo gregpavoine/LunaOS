@@ -1,13 +1,17 @@
 SHELL := /bin/bash
 
-.PHONY: test test-installer-boundary test-process-linux check check-qml build build-linux-amd64 build-linux-amd64-v3 build-local test-reference check-reference test-rust-checkpoint check-rust-checkpoint smoke-rust-checkpoint
+.PHONY: test test-installer-boundary test-install-smoke-config test-process-linux check check-qml build build-linux-amd64 build-linux-amd64-v3 build-local test-reference check-reference test-rust-checkpoint check-rust-checkpoint smoke-rust-checkpoint
 
 test:
 	go test -buildvcs=false -count=1 ./services/policy ./services/core/... ./services/intimacy/... ./services/identity/...
 	bash tests/installer-boundary-test.sh
+	bash tests/install-smoke-config-test.sh
 
 test-installer-boundary:
 	bash tests/installer-boundary-test.sh
+
+test-install-smoke-config:
+	bash tests/install-smoke-config-test.sh
 
 # Real Linux child-process smoke: isolated broker, Core, SQLite recovery and API.
 test-process-linux:
@@ -17,7 +21,7 @@ test-process-linux:
 check:
 	test -z "$$(gofmt -l $$(find services -name '*.go' -type f))"
 	go vet -buildvcs=false ./services/policy ./services/core/... ./services/intimacy/... ./services/identity/...
-	bash -n scripts/linux-baseline.sh scripts/build-archiso.sh scripts/dev-native.sh scripts/test-iso-boot.sh tests/installer-boundary-test.sh packaging/arch/PKGBUILD packaging/arch/airootfs/usr/local/bin/lunaos-install packaging/arch/install/lunaos-install-finalize packaging/arch/airootfs/root/customize_airootfs.sh
+	bash -n scripts/linux-baseline.sh scripts/build-archiso.sh scripts/dev-native.sh scripts/test-iso-boot.sh scripts/generate-install-smoke-config.sh tests/installer-boundary-test.sh tests/install-smoke-config-test.sh packaging/arch/PKGBUILD packaging/arch/airootfs/usr/local/bin/lunaos-install packaging/arch/install/lunaos-install-finalize packaging/arch/airootfs/root/customize_airootfs.sh
 	python3 -m json.tool contracts/openapi/local.json >/dev/null
 
 # Run from an Arch/Qt environment that provides Quickshell's qmllint tooling.
