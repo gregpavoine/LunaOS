@@ -2,32 +2,15 @@
 
 ## Single-file installer candidate rebuild — 2026-10-26 (not released)
 
-The current installer source no longer embeds the complete Arch package dependency
-closure a second time in the live ISO. It packages the LunaOS-native target
-locally and configures Archinstall to fetch Arch packages from standard mirrors;
-the installer now states that network access is required. The disposable QEMU
-installer test receives a user-mode network adapter. The Arch ISO workflow now
-reports image build, size/checksum, live boot, and install-to-disk as separate
-steps, and refuses an ISO at or above 1,900,000,000 bytes so the release is one
-file within GitHub's per-asset limit.
+The ISO now contains the LunaOS package without duplicating the complete Arch package closure. Arch packages are installed from an official mirror, so the installer requires internet access. The Arch workflow builds one ISO, enforces a 1,900,000,000-byte asset limit, and checks UEFI live boot and a disposable disk installation before uploading anything.
 
-**Verified locally:** `make test check` passes on macOS arm64, including the
-Archinstall configuration test for online official mirrors and the retained local
-LunaOS repository. The Linux-only process test is skipped on macOS by design. The
-Rust checkpoint's `cargo test --workspace --locked` also passed on this checkout.
-The portable GitHub checks pass at commit `88334b56`; that run predates this ISO
-rebuild.
+**Verified locally:** `make -C lunaos test check` passes on macOS arm64, including Go tests, installer/configuration checks, `go vet`, Bash syntax, and API JSON validation. The Rust checkpoint's `cargo test --workspace --locked` passed on this checkout earlier. Neither local check proves Arch installation.
 
-**Verified before the latest installer-test correction:** run
-[40340116326](https://github.com/gregpavoine/LunaOS/actions/runs/40340116326) on
-`09631803` built the ISO, passed the single-file size guard and passed the UEFI
-live-boot check. I cancelled it during the install VM step after identifying that
-QEMU's `-no-reboot` option exits the VM instead of allowing the required reboot to
-the installed disk. The install acceptance marker was not observed, and the gated
-artifact was not uploaded. The option is removed in the current unpushed correction;
-the complete build and VM acceptance must run again. Public `v0.1.1-rc.1` still
-contains split ISO parts and has no install-to-disk acceptance; it is superseded.
-No clean single-file replacement has been published yet.
+**Verified in GitHub Actions:** run [40350470720](https://github.com/gregpavoine/LunaOS/actions/runs/40350470720) built a single ISO below the configured size limit and passed the UEFI live-boot check. The install VM reached the production installer, but Archinstall failed before partitioning: its `pacman -Sy` reported `no servers configured for repository`. The QEMU guest had a working NetworkManager connection and could fetch the official CDN URL; the live ISO's `/etc/pacman.d/mirrorlist` contained only commented servers. The run was cancelled after the failure diagnostic path did not shut down QEMU. It did not install LunaOS or upload an ISO artifact.
+
+The current source adds an enabled official CDN server to the live ISO mirrorlist, retains an explicit Archinstall server and NetworkManager configuration, and shuts down QEMU cleanly on an installer error. The acceptance test now checks that LunaOS binaries and systemd units exist on the installed partition before rebooting, and boots the disk before falling back to the live CD. These corrections have passed local source checks; the next Arch build and installation run has not started yet.
+
+Public `v0.1.1-rc.1` remains the superseded split-part release. No clean single-file replacement has been published. The install-to-disk and first-boot acceptance marker remain unverified.
 
 ## Disposable installer VM gate implementation — 2026-10-26
 

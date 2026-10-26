@@ -2,13 +2,13 @@
 set timeout 7200
 log_file -noappend $env(LUNAOS_INSTALL_LOG)
 spawn qemu-system-x86_64 \
-  -machine q35,accel=tcg -cpu max -smp 4 -m 6144 \
+  -machine q35,accel=kvm:tcg -cpu max -smp 4 -m 6144 \
   -drive if=pflash,format=raw,unit=0,readonly=on,file=$env(LUNAOS_OVMF_CODE) \
   -drive if=pflash,format=raw,unit=1,file=$env(LUNAOS_OVMF_VARS) \
   -drive file=$env(LUNAOS_TARGET_DISK),if=virtio,format=qcow2 \
   -cdrom $env(LUNAOS_ISO_PATH) \
   -drive file=$env(LUNAOS_SEED_ISO),media=cdrom,if=ide,index=1,readonly=on \
-  -boot order=cd -display none -serial stdio -monitor none -nic user,model=virtio-net-pci
+  -boot order=dc -display none -serial stdio -monitor none -nic user,model=virtio-net-pci
 
 expect {
   -re {root@[^\r\n]*[#] ?} {}
@@ -47,7 +47,8 @@ expect {
     }
     send -- "printf '\\nLUNAOS_INSTALL_SYNC_DIAGNOSTICS\\n'; cat /var/log/archinstall/install.log; printf '\\nLUNAOS_LIVE_MIRRORLIST\\n'; cat /etc/pacman.d/mirrorlist; printf '\\nLUNAOS_LIVE_NETWORK\\n'; ip route; nmcli device status\r"
     expect -re {root@[^\r\n]*[#] ?}
-    send -- "\001x"
+    send -- "systemctl poweroff\r"
+    expect eof
     wait
     puts stderr "FAIL: archinstall could not sync the Arch package database; see captured mirror, network, and archinstall logs"
     exit 1
@@ -55,6 +56,19 @@ expect {
   -re {root@[^\r\n]*[#] ?} {}
   timeout { puts stderr "FAIL: Archinstall did not return to the live shell after installation"; exit 1 }
   eof { puts stderr "FAIL: live ISO exited before the installed-target reboot"; exit 1 }
+}
+send -- "mkdir -p /run/lunaos-installed-target; if mount -o ro /dev/vda2 /run/lunaos-installed-target && test -x /run/lunaos-installed-target/usr/bin/luna-core && test -x /run/lunaos-installed-target/usr/bin/luna-policy-broker && test -f /run/lunaos-installed-target/usr/lib/systemd/system/luna-core.service && test -f /run/lunaos-installed-target/usr/lib/systemd/system/luna-policy-broker.service; then echo LUNAOS_TEST_INSTALL_TREE=PASS; umount /run/lunaos-installed-target; else echo LUNAOS_TEST_INSTALL_TREE=FAIL; umount /run/lunaos-installed-target 2>/dev/null || true; fi\r"
+expect {
+  -re {LUNAOS_TEST_INSTALL_TREE=PASS} {}
+  -re {LUNAOS_TEST_INSTALL_TREE=FAIL} {
+    send -- "systemctl poweroff\r"
+    expect eof
+    wait
+    puts stderr "FAIL: archinstall returned without installing LunaOS binaries and systemd units to /dev/vda2"
+    exit 1
+  }
+  timeout { puts stderr "FAIL: could not verify the installed LunaOS tree before reboot"; exit 1 }
+  eof { puts stderr "FAIL: live ISO exited before installed-tree verification"; exit 1 }
 }
 send -- "systemctl reboot\r"
 expect {
