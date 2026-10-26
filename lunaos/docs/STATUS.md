@@ -19,13 +19,17 @@ Archinstall config test, unsupported-host preflight regression, gofmt, vet, Bash
 syntax and OpenAPI JSON validation. `git diff --check` passes. The host preflight
 rejects this Mac before creating any VM artifact.
 
-**Not verified / blocked:** this Mac has no Archiso, QEMU or OVMF runtime. The
-new Arch package build, QEMU disk installation, installed-system reboot,
-systemd service checks and goal/evidence acceptance have not run. The updated
-GitHub Actions job has not run because this local branch has not been pushed.
-No ISO produced from this branch is available yet. The previous RC1 artifact
-remains install-unverified; this source change does not retroactively validate
-it. No real Omarchy or Linux host was accessed or modified.
+**Verified by GitHub Actions run 40323710952 on merge commit `996d7802`:** the
+Arch target package and ISO built, and the live image passed its UEFI/QEMU boot
+smoke. The new install acceptance harness then stopped at its dependency
+preflight because `qemu-img` was missing from the CI container. The install VM
+did not start, no install artifact was uploaded, and the installed target,
+systemd services and goal/evidence path remain unverified. The workflow now
+requests the missing `qemu-img` package and the feature branch carries an
+additional permissions fix for the CI-only `makepkg` directory. A follow-up
+Actions run is required before an install-verified ISO can be offered. The Mac
+itself has no Archiso, QEMU or OVMF runtime. No real Omarchy or Linux host was
+accessed or modified.
 
 ## Standalone installer source checkpoint — 2026-10-26 (not released)
 
