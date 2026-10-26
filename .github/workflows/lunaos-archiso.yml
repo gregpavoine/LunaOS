@@ -33,7 +33,7 @@ jobs:
             --mount "type=bind,source=$output_dir,target=/output" \
             archlinux:base-devel \
             bash -euo pipefail -c '
-              pacman -Syu --noconfirm --needed archiso go sqlite sudo qemu-system-x86 edk2-ovmf procps-ng jq expect xorriso
+              pacman -Syu --noconfirm --needed archiso go sqlite sudo qemu-system-x86 qemu-img edk2-ovmf procps-ng jq expect xorriso
               LUNAOS_ISO_OUTPUT=/output \
               LUNAOS_ISO_WORK=/tmp/lunaos-archiso-work \
               /workspace/lunaos/scripts/build-archiso.sh
