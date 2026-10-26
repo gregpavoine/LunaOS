@@ -14,6 +14,11 @@
     "linux"
   ],
   "mirror_config": {
+    "custom_servers": [
+      {
+        "url": "https://geo.mirror.pkgbuild.com/$repo/os/$arch"
+      }
+    ],
     "custom_repositories": [
       {
         "name": "lunaos-local",
@@ -22,6 +27,9 @@
         "sign_option": "TrustAll"
       }
     ]
+  },
+  "network_config": {
+    "type": "nm"
   },
   "no_pkg_lookups": true,
   "offline": false,

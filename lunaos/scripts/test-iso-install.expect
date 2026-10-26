@@ -25,6 +25,12 @@ send -- "exec /usr/bin/archinstall --creds /mnt/lunaos-ci/user_credentials.json 
 send -- "LUNAOS_WRAPPER\r"
 send -- "chmod 0755 /run/lunaos-archinstall-test-bin/archinstall\r"
 send -- "export PATH=/run/lunaos-archinstall-test-bin:\$PATH\r"
+send -- "nmcli networking on; network_device=\$(nmcli -t -f TYPE,DEVICE device | grep '^ethernet:' | cut -d: -f2 | head -n1); test -n \"\$network_device\"; nmcli --wait 45 device connect \"\$network_device\"; curl --fail --silent --show-error --connect-timeout 15 --max-time 30 https://geo.mirror.pkgbuild.com/core/os/x86_64/core.db -o /dev/null\r"
+expect {
+  -re {root@[^\r\n]*[#] ?} {}
+  timeout { puts stderr "FAIL: live ISO could not establish network access to the official Arch mirror"; exit 1 }
+  eof { puts stderr "FAIL: live ISO exited during network setup"; exit 1 }
+}
 send -- "lunaos-install\r"
 expect {
   -re {type INSTALL LUNAOS exactly: $} { send -- "INSTALL LUNAOS\r" }
@@ -33,6 +39,19 @@ expect {
   eof { puts stderr "FAIL: live ISO exited before installer confirmation"; exit 1 }
 }
 expect {
+  -re {Failed to sync Arch Linux package database} {
+    expect {
+      -re {root@[^\r\n]*[#] ?} {}
+      timeout { puts stderr "FAIL: archinstall package database sync failed and returned no live shell"; exit 1 }
+      eof { puts stderr "FAIL: live ISO exited after archinstall package database sync failed"; exit 1 }
+    }
+    send -- "printf '\\nLUNAOS_INSTALL_SYNC_DIAGNOSTICS\\n'; cat /var/log/archinstall/install.log; printf '\\nLUNAOS_LIVE_MIRRORLIST\\n'; cat /etc/pacman.d/mirrorlist; printf '\\nLUNAOS_LIVE_NETWORK\\n'; ip route; nmcli device status\r"
+    expect -re {root@[^\r\n]*[#] ?}
+    send -- "\001x"
+    wait
+    puts stderr "FAIL: archinstall could not sync the Arch package database; see captured mirror, network, and archinstall logs"
+    exit 1
+  }
   -re {root@[^\r\n]*[#] ?} {}
   timeout { puts stderr "FAIL: Archinstall did not return to the live shell after installation"; exit 1 }
   eof { puts stderr "FAIL: live ISO exited before the installed-target reboot"; exit 1 }
