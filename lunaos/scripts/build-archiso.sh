@@ -30,6 +30,7 @@ mkdir -p "$staging/airootfs/etc/sudoers.d" "$staging/airootfs/usr/local/bin" \
 mkdir -p "$package_build/lunaos/packaging/arch"
 mkdir -p "$package_build/home" "$package_build/gocache" "$package_build/gomodcache"
 cp "$profile_source/PKGBUILD" "$package_build/lunaos/packaging/arch/PKGBUILD"
+cp "$profile_source/lunaos.desktop" "$package_build/lunaos/packaging/arch/lunaos.desktop"
 cp -a "$profile_source/install" "$package_build/lunaos/packaging/arch/install"
 cp -a "$lunaos_dir/go.mod" "$lunaos_dir/go.sum" "$lunaos_dir/services" "$lunaos_dir/systemd" \
   "$lunaos_dir/systemd-sysusers" "$lunaos_dir/shell" "$package_build/lunaos/"
