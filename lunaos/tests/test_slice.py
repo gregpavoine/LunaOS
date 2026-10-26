@@ -1,4 +1,5 @@
 import concurrent.futures
+import getpass
 import hashlib
 import json
 import os
@@ -35,7 +36,7 @@ class SliceTests(unittest.TestCase):
         self.key.write_text('a' * 64)
         self.key.chmod(0o600)
         self.sock = str(self.root / 'broker.sock')
-        self.proc = subprocess.Popen([self.binary, '--socket', self.sock, '--key-file', str(self.key)], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+        self.proc = subprocess.Popen([self.binary, '--socket', self.sock, '--key-file', str(self.key), '--client-user', getpass.getuser()], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
         for _ in range(100):
             if Path(self.sock).exists():
                 break

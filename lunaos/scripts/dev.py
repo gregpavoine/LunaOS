@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Start only the local development broker and API; never connects to Linux."""
 import os
+import getpass
 from pathlib import Path
 import secrets
 import signal
@@ -35,7 +36,7 @@ def main():
         raise KeyboardInterrupt
     signal.signal(signal.SIGTERM, stop)
     try:
-        processes.append(subprocess.Popen([str(binary), '--socket', str(broker_socket), '--key-file', str(key)]))
+        processes.append(subprocess.Popen([str(binary), '--socket', str(broker_socket), '--key-file', str(key), '--client-user', getpass.getuser()]))
         for _ in range(100):
             if broker_socket.exists():
                 break
