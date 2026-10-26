@@ -69,6 +69,8 @@ type Goal struct {
 	PolicyCode       string            `json:"policy_code"`
 	ProvenanceStatus string            `json:"provenance_status"`
 	Assertion        *Assertion        `json:"assertion,omitempty"`
+	ParentID         *string           `json:"parent_id,omitempty"`
+	DependencyIDs    []string          `json:"dependency_goal_ids"`
 	Evidence         *ArtifactEvidence `json:"evidence,omitempty"`
 	CreatedAtUTC     string            `json:"created_at_utc"`
 	UpdatedAtUTC     string            `json:"updated_at_utc"`

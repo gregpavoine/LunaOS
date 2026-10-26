@@ -2,6 +2,7 @@ package core
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"os"
 	"path/filepath"
@@ -293,6 +294,114 @@ func TestInactiveQueueIsIdleSuccess(t *testing.T) {
 	}
 	if result.Outcome != "idle_success" {
 		t.Fatalf("idle result = %+v", result)
+	}
+}
+
+func TestGoalPlanRequiresOwnerAndRejectsCycles(t *testing.T) {
+	e := testEngine(t, testDBPath(t), &testPolicy{})
+	a, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "plan-a")
+	if err != nil {
+		t.Fatal(err)
+	}
+	b, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "plan-b")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := e.SetPlan(context.Background(), a.ID, []string{b.ID}, nil, "guest"); !errors.Is(err, ErrUnauthorized) {
+		t.Fatalf("guest plan error = %v, want ErrUnauthorized", err)
+	}
+	if _, err := e.SetPlan(context.Background(), a.ID, []string{b.ID, b.ID}, nil, "owner-secret"); !errors.Is(err, ErrInvalid) {
+		t.Fatalf("duplicate dependency error = %v, want ErrInvalid", err)
+	}
+	if _, err := e.SetPlan(context.Background(), a.ID, []string{a.ID}, nil, "owner-secret"); !errors.Is(err, ErrInvalid) {
+		t.Fatalf("self dependency error = %v, want ErrInvalid", err)
+	}
+	if _, err := e.SetPlan(context.Background(), a.ID, []string{b.ID}, nil, "owner-secret"); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := e.SetPlan(context.Background(), b.ID, []string{a.ID}, nil, "owner-secret"); !errors.Is(err, ErrInvalid) {
+		t.Fatalf("cycle error = %v, want ErrInvalid", err)
+	}
+	if _, err := e.SetPlan(context.Background(), a.ID, []string{}, &b.ID, "owner-secret"); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := e.SetPlan(context.Background(), b.ID, []string{a.ID}, nil, "owner-secret"); !errors.Is(err, ErrInvalid) {
+		t.Fatalf("combined hierarchy/dependency cycle error = %v, want ErrInvalid", err)
+	}
+	if _, err := e.SetPlan(context.Background(), a.ID, []string{"missing-goal"}, nil, "owner-secret"); !errors.Is(err, ErrNotFound) {
+		t.Fatalf("missing dependency error = %v, want ErrNotFound", err)
+	}
+}
+
+func TestSchedulerWaitsForDependenciesAndPlanSurvivesRestart(t *testing.T) {
+	path := testDBPath(t)
+	policy := &testPolicy{}
+	e := testEngine(t, path, policy)
+	dependent, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "dependent-goal")
+	if err != nil {
+		t.Fatal(err)
+	}
+	prerequisite, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "prerequisite-goal")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := e.SetPlan(context.Background(), dependent.ID, []string{prerequisite.ID}, nil, "owner-secret"); err != nil {
+		t.Fatal(err)
+	}
+	if err := e.Close(); err != nil {
+		t.Fatal(err)
+	}
+	reopened, err := Open(path, "owner-secret", policy, ChecksumRunner{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = reopened.Close() })
+	current, err := reopened.Get(context.Background(), dependent.ID)
+	if err != nil || len(current.DependencyIDs) != 1 || current.DependencyIDs[0] != prerequisite.ID {
+		t.Fatalf("plan after restart = %+v, err=%v", current.DependencyIDs, err)
+	}
+	first, err := reopened.Tick(context.Background())
+	if err != nil || first.GoalID != prerequisite.ID || first.Outcome != "succeeded" {
+		t.Fatalf("first scheduler tick = %+v, err=%v; want prerequisite", first, err)
+	}
+	second, err := reopened.Tick(context.Background())
+	if err != nil || second.GoalID != dependent.ID || second.Outcome != "succeeded" {
+		t.Fatalf("second scheduler tick = %+v, err=%v; want dependent", second, err)
+	}
+}
+
+func TestGoalDependencyMigrationPreservesExistingGoal(t *testing.T) {
+	path := testDBPath(t)
+	db, err := sql.Open("sqlite3", path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err = db.Exec(schemaSQL); err != nil {
+		t.Fatal(err)
+	}
+	_, err = db.Exec(`INSERT INTO goal(id,action,privacy_class,status,metrics_json,score,policy_code,provenance_status,idempotency_key,request_hash,created_at_utc,updated_at_utc)
+		VALUES('legacy-goal','local.checksum','general','approved','{}',50,'OWNER_SCOPED_GRANT','unknown','legacy-key','legacy-hash','2026-01-01T00:00:00Z','2026-01-01T00:00:00Z')`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := db.Close(); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Chmod(path, 0600); err != nil {
+		t.Fatal(err)
+	}
+	e, err := Open(path, "owner-secret", &testPolicy{}, ChecksumRunner{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = e.Close() })
+	goal, err := e.Get(context.Background(), "legacy-goal")
+	if err != nil || goal.ID != "legacy-goal" || goal.Status != "approved" || len(goal.DependencyIDs) != 0 {
+		t.Fatalf("legacy goal after additive migration = %+v, err=%v", goal, err)
+	}
+	var version int
+	if err := e.db.QueryRow(`SELECT max(version) FROM schema_migration`).Scan(&version); err != nil || version != 3 {
+		t.Fatalf("migration version=%d err=%v; want 3", version, err)
 	}
 }
 
