@@ -45,12 +45,9 @@ if [[ -z $package_file ]]; then
   exit 1
 fi
 
-local_repo="$staging/lunaos-repo/lunaos-local/os/x86_64"
 package_cache="$staging/package-cache"
 package_db="$staging/package-db"
-mkdir -p "$local_repo" "$package_cache" "$package_db"
-cp "$package_file" "$local_repo/"
-repo-add "$local_repo/lunaos-local.db.tar.gz" "$local_repo"/lunaos-native-*.pkg.tar.*
+mkdir -p "$package_cache" "$package_db"
 mapfile -t target_packages < <(awk 'NF && $1 !~ /^#/ { print $1 }' "$profile_source/packages.install.x86_64")
 package_json=$(printf '%s\n' "${target_packages[@]}" | jq -Rsc 'split("\n") | map(select(length > 0))')
 jq --argjson packages "$package_json" '.packages = $packages' \
@@ -65,14 +62,9 @@ awk '
   /^\[core\]$/ { print "DownloadUser = root" }
   { print }
 ' /etc/pacman.conf > "$staging/pacman-install.conf"
-cat >> "$staging/pacman-install.conf" <<EOF
-
-[lunaos-local]
-SigLevel = Optional TrustAll
-Server = file://$local_repo
-EOF
+mapfile -t arch_packages < <(printf '%s\n' "${target_packages[@]}" | awk '$1 != "lunaos-native"')
 pacman -Syw --noconfirm --needed --cachedir "$package_cache" --dbpath "$package_db" \
-  --config "$staging/pacman-install.conf" "${target_packages[@]}"
+  --config "$staging/pacman-install.conf" "${arch_packages[@]}"
 target_core="$staging/airootfs/usr/share/lunaos/repo/core/os/x86_64"
 target_extra="$staging/airootfs/usr/share/lunaos/repo/extra/os/x86_64"
 target_local="$staging/airootfs/usr/share/lunaos/repo/lunaos-local/os/x86_64"
@@ -89,7 +81,6 @@ for cached_package in "${cached_packages[@]}"; do
   case $source_repo in
     core) package_destination=$target_core ;;
     extra) package_destination=$target_extra ;;
-    lunaos-local) package_destination=$target_local ;;
     *)
       printf 'Refusing to stage package %s from unexpected repository %s.\n' "$package_basename" "$source_repo" >&2
       exit 1
