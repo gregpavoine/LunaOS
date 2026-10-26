@@ -356,6 +356,93 @@ func (e *Engine) SetPlan(ctx context.Context, goalID string, dependencyIDs []str
 	return e.Get(ctx, goalID)
 }
 
+// Reprioritize changes only score inputs. It reauthorizes first and never
+// changes the goal action, expected spend, assertion or execution evidence.
+func (e *Engine) Reprioritize(ctx context.Context, goalID string, metrics Metrics, ownerToken string) (Goal, error) {
+	if !hmac.Equal([]byte(ownerToken), []byte(e.ownerToken)) {
+		return Goal{}, ErrUnauthorized
+	}
+	if metrics.Impact == nil || metrics.Urgency == nil || metrics.UserValue == nil || metrics.Confidence == nil || metrics.Efficiency == nil {
+		return Goal{}, fmt.Errorf("%w: ALL_METRICS_REQUIRED", ErrInvalid)
+	}
+	goal, err := e.Get(ctx, goalID)
+	if err != nil {
+		return Goal{}, err
+	}
+	req, err := normalize(Request{Action: goal.Action, PrivacyClass: goal.PrivacyClass, Metrics: metrics, Assertion: goal.Assertion})
+	if err != nil {
+		return Goal{}, err
+	}
+	decision, err := e.policy.Authorize(ctx, goalID, req)
+	if err != nil {
+		return Goal{}, fmt.Errorf("policy authorization unavailable: %w", err)
+	}
+	if decision.Code == "" {
+		return Goal{}, fmt.Errorf("policy returned an empty decision")
+	}
+	if decision.Allowed && decision.Grant == "" {
+		return Goal{}, fmt.Errorf("policy allowed action without a scoped grant")
+	}
+	metricsJSON, err := json.Marshal(req.Metrics)
+	if err != nil {
+		return Goal{}, err
+	}
+	tx, err := e.db.BeginTx(ctx, nil)
+	if err != nil {
+		return Goal{}, err
+	}
+	defer tx.Rollback()
+	var status, jobState string
+	err = tx.QueryRowContext(ctx, `SELECT COALESCE(c.state,g.status),j.state FROM goal g JOIN job j ON j.goal_id=g.id LEFT JOIN goal_control c ON c.goal_id=g.id WHERE g.id=?`, goalID).Scan(&status, &jobState)
+	if errors.Is(err, sql.ErrNoRows) {
+		return Goal{}, ErrNotFound
+	}
+	if err != nil {
+		return Goal{}, err
+	}
+	if jobState == "running" || (status != "approved" && status != "blocked") || (jobState != "queued" && jobState != "blocked") {
+		return Goal{}, ErrTransitionConflict
+	}
+	now := timestamp()
+	newStatus, newJobState, policyCode := "blocked", "blocked", decision.Code
+	var scoreValue any
+	var grant any
+	if decision.Allowed {
+		newStatus, newJobState = "approved", "queued"
+		scoreValue = Score(req.Metrics)
+		grant = decision.Grant
+	}
+	if _, err = tx.ExecContext(ctx, `UPDATE goal SET status=?,metrics_json=?,score=?,policy_code=?,grant_token=?,updated_at_utc=? WHERE id=?`, newStatus, string(metricsJSON), scoreValue, policyCode, grant, now, goalID); err != nil {
+		return Goal{}, err
+	}
+	if _, err = tx.ExecContext(ctx, `UPDATE job SET state=?,lease_owner=NULL,lease_token=NULL,lease_expires_at_unix=NULL WHERE goal_id=?`, newJobState, goalID); err != nil {
+		return Goal{}, err
+	}
+	policyEvent := "policy.denied"
+	if decision.Allowed {
+		policyEvent = "policy.allowed"
+	}
+	if err = insertEvent(ctx, tx, goalID, policyEvent, decision.Code, now); err != nil {
+		return Goal{}, err
+	}
+	if !decision.Allowed {
+		if err = insertEvent(ctx, tx, goalID, "goal.blocked", decision.Code, now); err != nil {
+			return Goal{}, err
+		}
+	} else {
+		if err = insertEvent(ctx, tx, goalID, "goal.reprioritized", "OWNER_REQUEST", now); err != nil {
+			return Goal{}, err
+		}
+		if err = insertEvent(ctx, tx, goalID, "goal.scored", "WEIGHTED_V1", now); err != nil {
+			return Goal{}, err
+		}
+	}
+	if err = tx.Commit(); err != nil {
+		return Goal{}, err
+	}
+	return e.Get(ctx, goalID)
+}
+
 func (e *Engine) Pause(ctx context.Context, goalID, ownerToken string) (Goal, error) {
 	return e.controlGoal(ctx, goalID, ownerToken, "paused")
 }

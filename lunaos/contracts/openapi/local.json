@@ -116,7 +116,26 @@
                 "type": "object",
                 "additionalProperties": false,
                 "required": ["operation"],
-                "properties": {"operation": {"type": "string", "enum": ["pause", "resume", "cancel"]}}
+                "properties": {
+                  "operation": {"type": "string", "enum": ["pause", "resume", "reprioritize", "cancel"]},
+                  "metrics": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["impact", "urgency", "user_value", "confidence", "efficiency"],
+                    "properties": {
+                      "impact": {"type": "number", "minimum": 0, "maximum": 1},
+                      "urgency": {"type": "number", "minimum": 0, "maximum": 1},
+                      "user_value": {"type": "number", "minimum": 0, "maximum": 1},
+                      "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+                      "efficiency": {"type": "number", "minimum": 0, "maximum": 1}
+                    }
+                  }
+                },
+                "allOf": [{
+                  "if": {"properties": {"operation": {"const": "reprioritize"}}},
+                  "then": {"required": ["metrics"]},
+                  "else": {"not": {"required": ["metrics"]}}
+                }]
               }
             }
           }
@@ -126,7 +145,7 @@
             "description": "Transition applied",
             "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Goal"}}}
           },
-          "400": {"description": "Invalid operation"},
+          "400": {"description": "Invalid operation or score metrics"},
           "401": {"description": "Owner authentication required"},
           "404": {"description": "Unknown goal"},
           "409": {"description": "Invalid lifecycle transition"},
