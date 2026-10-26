@@ -204,8 +204,8 @@ func (e *Engine) Get(ctx context.Context, goalID string) (Goal, error) {
 	var metricsJSON string
 	var assertionJSON sql.NullString
 	var scoreNumber sql.NullFloat64
-	err := e.db.QueryRowContext(ctx, `SELECT id,action,privacy_class,status,metrics_json,score,policy_code,provenance_status,assertion_json,created_at_utc,updated_at_utc
-		FROM goal WHERE id=?`, goalID).Scan(&g.ID, &g.Action, &g.PrivacyClass, &g.Status, &metricsJSON, &scoreNumber, &g.PolicyCode, &g.ProvenanceStatus, &assertionJSON, &g.CreatedAtUTC, &g.UpdatedAtUTC)
+	err := e.db.QueryRowContext(ctx, `SELECT g.id,g.action,g.privacy_class,COALESCE(c.state,g.status),g.metrics_json,g.score,g.policy_code,g.provenance_status,g.assertion_json,g.created_at_utc,COALESCE(c.updated_at_utc,g.updated_at_utc)
+		FROM goal g LEFT JOIN goal_control c ON c.goal_id=g.id WHERE g.id=?`, goalID).Scan(&g.ID, &g.Action, &g.PrivacyClass, &g.Status, &metricsJSON, &scoreNumber, &g.PolicyCode, &g.ProvenanceStatus, &assertionJSON, &g.CreatedAtUTC, &g.UpdatedAtUTC)
 	if errors.Is(err, sql.ErrNoRows) {
 		return Goal{}, ErrNotFound
 	}
@@ -236,6 +236,99 @@ func (e *Engine) Get(ctx context.Context, goalID string) (Goal, error) {
 		return Goal{}, err
 	}
 	return g, nil
+}
+
+func (e *Engine) Pause(ctx context.Context, goalID, ownerToken string) (Goal, error) {
+	return e.controlGoal(ctx, goalID, ownerToken, "paused")
+}
+
+func (e *Engine) Cancel(ctx context.Context, goalID, ownerToken string) (Goal, error) {
+	return e.controlGoal(ctx, goalID, ownerToken, "cancelled")
+}
+
+func (e *Engine) Resume(ctx context.Context, goalID, ownerToken string) (Goal, error) {
+	if !hmac.Equal([]byte(ownerToken), []byte(e.ownerToken)) {
+		return Goal{}, ErrUnauthorized
+	}
+	tx, err := e.db.BeginTx(ctx, nil)
+	if err != nil {
+		return Goal{}, err
+	}
+	defer tx.Rollback()
+	var state, jobState string
+	err = tx.QueryRowContext(ctx, `SELECT c.state,j.state FROM goal_control c JOIN job j ON j.goal_id=c.goal_id WHERE c.goal_id=?`, goalID).Scan(&state, &jobState)
+	if errors.Is(err, sql.ErrNoRows) {
+		var exists int
+		if tx.QueryRowContext(ctx, `SELECT count(*) FROM goal WHERE id=?`, goalID).Scan(&exists) != nil || exists == 0 {
+			return Goal{}, ErrNotFound
+		}
+		return Goal{}, ErrTransitionConflict
+	}
+	if err != nil {
+		return Goal{}, err
+	}
+	if state != "paused" || jobState != "queued" {
+		return Goal{}, ErrTransitionConflict
+	}
+	now := timestamp()
+	if _, err = tx.ExecContext(ctx, `DELETE FROM goal_control WHERE goal_id=?`, goalID); err != nil {
+		return Goal{}, err
+	}
+	if _, err = tx.ExecContext(ctx, `UPDATE goal SET updated_at_utc=? WHERE id=?`, now, goalID); err != nil {
+		return Goal{}, err
+	}
+	if err = insertEvent(ctx, tx, goalID, "goal.resumed", "OWNER_REQUEST", now); err != nil {
+		return Goal{}, err
+	}
+	if err = tx.Commit(); err != nil {
+		return Goal{}, err
+	}
+	return e.Get(ctx, goalID)
+}
+
+func (e *Engine) controlGoal(ctx context.Context, goalID, ownerToken, target string) (Goal, error) {
+	if !hmac.Equal([]byte(ownerToken), []byte(e.ownerToken)) {
+		return Goal{}, ErrUnauthorized
+	}
+	tx, err := e.db.BeginTx(ctx, nil)
+	if err != nil {
+		return Goal{}, err
+	}
+	defer tx.Rollback()
+	var status, jobState string
+	err = tx.QueryRowContext(ctx, `SELECT COALESCE(c.state,g.status),j.state FROM goal g JOIN job j ON j.goal_id=g.id LEFT JOIN goal_control c ON c.goal_id=g.id WHERE g.id=?`, goalID).Scan(&status, &jobState)
+	if errors.Is(err, sql.ErrNoRows) {
+		return Goal{}, ErrNotFound
+	}
+	if err != nil {
+		return Goal{}, err
+	}
+	if status == target {
+		if err = tx.Commit(); err != nil {
+			return Goal{}, err
+		}
+		return e.Get(ctx, goalID)
+	}
+	if jobState == "running" {
+		return Goal{}, ErrTransitionConflict
+	}
+	if target == "paused" && (status != "approved" || jobState != "queued") {
+		return Goal{}, ErrTransitionConflict
+	}
+	if target == "cancelled" && status != "approved" && status != "paused" && status != "blocked" {
+		return Goal{}, ErrTransitionConflict
+	}
+	now := timestamp()
+	if _, err = tx.ExecContext(ctx, `INSERT INTO goal_control(goal_id,state,updated_at_utc) VALUES(?,?,?) ON CONFLICT(goal_id) DO UPDATE SET state=excluded.state,updated_at_utc=excluded.updated_at_utc`, goalID, target, now); err != nil {
+		return Goal{}, err
+	}
+	if err = insertEvent(ctx, tx, goalID, "goal."+target, "OWNER_REQUEST", now); err != nil {
+		return Goal{}, err
+	}
+	if err = tx.Commit(); err != nil {
+		return Goal{}, err
+	}
+	return e.Get(ctx, goalID)
 }
 
 func (e *Engine) List(ctx context.Context) ([]Goal, error) {
@@ -329,7 +422,7 @@ func (e *Engine) claim(ctx context.Context) (string, Request, string, string, er
 	var score sql.NullFloat64
 	err = tx.QueryRowContext(ctx, `SELECT g.id,g.action,g.privacy_class,g.metrics_json,g.assertion_json,g.grant_token,g.score
 		FROM goal g JOIN job j ON j.goal_id=g.id
-		WHERE j.state='queued' AND g.status='approved' AND g.score>0
+		WHERE j.state='queued' AND g.status='approved' AND g.score>0 AND NOT EXISTS (SELECT 1 FROM goal_control c WHERE c.goal_id=g.id)
 		ORDER BY g.score DESC,g.created_at_utc,g.id LIMIT 1`).Scan(&goalID, &action, &privacyClass, &metricsJSON, &assertionJSON, &grant, &score)
 	if errors.Is(err, sql.ErrNoRows) {
 		if err = tx.Commit(); err != nil {

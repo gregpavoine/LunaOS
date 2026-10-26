@@ -98,6 +98,41 @@
       }
     },
     "/v1/goals/{id}": {
+      "patch": {
+        "summary": "Pause, resume, or cancel an owner goal",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {"type": "string", "format": "uuid"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["operation"],
+                "properties": {"operation": {"type": "string", "enum": ["pause", "resume", "cancel"]}}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transition applied",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Goal"}}}
+          },
+          "400": {"description": "Invalid operation"},
+          "401": {"description": "Owner authentication required"},
+          "404": {"description": "Unknown goal"},
+          "409": {"description": "Invalid lifecycle transition"},
+          "503": {"description": "Local service unavailable"}
+        }
+      },
       "get": {
         "summary": "Goal and evidence",
         "responses": {

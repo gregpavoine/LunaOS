@@ -10,6 +10,7 @@ var (
 	ErrIdempotencyConflict = errors.New("IDEMPOTENCY_CONFLICT")
 	ErrNotFound            = errors.New("GOAL_NOT_FOUND")
 	ErrInvalid             = errors.New("INVALID_REQUEST")
+	ErrTransitionConflict  = errors.New("GOAL_TRANSITION_CONFLICT")
 )
 
 type Metrics struct {

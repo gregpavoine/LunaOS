@@ -67,3 +67,12 @@ CREATE TABLE IF NOT EXISTS intimacy_control (
 );
 INSERT OR IGNORE INTO intimacy_control(singleton, stopped, privacy_mode, updated_at_utc)
 VALUES (1, 1, 'unknown', strftime('%Y-%m-%dT%H:%M:%fZ','now'));
+
+-- Additive overlay keeps older goal rows readable and persists owner controls.
+CREATE TABLE IF NOT EXISTS goal_control (
+  goal_id TEXT PRIMARY KEY REFERENCES goal(id),
+  state TEXT NOT NULL CHECK (state IN ('paused','cancelled')),
+  updated_at_utc TEXT NOT NULL
+);
+INSERT OR IGNORE INTO schema_migration(version, applied_at_utc)
+VALUES (2, strftime('%Y-%m-%dT%H:%M:%fZ','now'));

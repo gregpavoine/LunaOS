@@ -83,6 +83,41 @@ func TestHTTPRejectsUnknownFieldsAndBrowserOrigins(t *testing.T) {
 	}
 }
 
+func TestHTTPGoalControlsRequireOwnerAndEnforceTransitions(t *testing.T) {
+	e := testEngine(t, testDBPath(t), &testPolicy{})
+	handler := NewHTTPHandler(e, "owner-secret")
+	goal, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "http-control-1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	request := func(token, operation string) *httptest.ResponseRecorder {
+		req := httptest.NewRequest(http.MethodPatch, "/v1/goals/"+goal.ID, bytes.NewBufferString(`{"operation":"`+operation+`"}`))
+		req.Header.Set("Authorization", "Bearer "+token)
+		req.Header.Set("Content-Type", "application/json")
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, req)
+		return response
+	}
+	if response := request("guest", "pause"); response.Code != http.StatusUnauthorized {
+		t.Fatalf("guest pause status=%d", response.Code)
+	}
+	if response := request("owner-secret", "pause"); response.Code != http.StatusOK || !bytes.Contains(response.Body.Bytes(), []byte(`"status":"paused"`)) {
+		t.Fatalf("pause status=%d body=%s", response.Code, response.Body.String())
+	}
+	if response := request("owner-secret", "resume"); response.Code != http.StatusOK || !bytes.Contains(response.Body.Bytes(), []byte(`"status":"approved"`)) {
+		t.Fatalf("resume status=%d body=%s", response.Code, response.Body.String())
+	}
+	if response := request("owner-secret", "cancel"); response.Code != http.StatusOK || !bytes.Contains(response.Body.Bytes(), []byte(`"status":"cancelled"`)) {
+		t.Fatalf("cancel status=%d body=%s", response.Code, response.Body.String())
+	}
+	if response := request("owner-secret", "resume"); response.Code != http.StatusConflict {
+		t.Fatalf("invalid transition status=%d body=%s", response.Code, response.Body.String())
+	}
+	if response := request("owner-secret", "delete"); response.Code != http.StatusBadRequest {
+		t.Fatalf("invalid operation status=%d body=%s", response.Code, response.Body.String())
+	}
+}
+
 func TestIntimacyStopIsOwnerOnlyAndPersistsAcrossRestart(t *testing.T) {
 	path := testDBPath(t)
 	policy := &testPolicy{}

@@ -361,6 +361,38 @@ func (h *HTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	if r.Method == http.MethodPatch && strings.HasPrefix(r.URL.Path, "/v1/goals/") {
+		parts := strings.Split(strings.TrimPrefix(r.URL.Path, "/v1/goals/"), "/")
+		if len(parts) != 1 || parts[0] == "" {
+			writeJSON(w, http.StatusNotFound, map[string]string{"code": "NOT_FOUND"})
+			return
+		}
+		var body struct {
+			Operation string `json:"operation"`
+		}
+		if err := decodeBody(w, r, &body); err != nil {
+			writeEngineError(w, err)
+			return
+		}
+		var goal Goal
+		var err error
+		switch body.Operation {
+		case "pause":
+			goal, err = h.engine.Pause(r.Context(), parts[0], ownerPrincipal)
+		case "resume":
+			goal, err = h.engine.Resume(r.Context(), parts[0], ownerPrincipal)
+		case "cancel":
+			goal, err = h.engine.Cancel(r.Context(), parts[0], ownerPrincipal)
+		default:
+			err = fmt.Errorf("%w: INVALID_GOAL_OPERATION", ErrInvalid)
+		}
+		if err != nil {
+			writeEngineError(w, err)
+			return
+		}
+		writeJSON(w, http.StatusOK, goal)
+		return
+	}
 	if r.Method != http.MethodGet && r.Method != http.MethodPost {
 		writeJSON(w, http.StatusMethodNotAllowed, map[string]string{"code": "METHOD_NOT_ALLOWED"})
 		return
@@ -424,6 +456,8 @@ func writeEngineError(w http.ResponseWriter, err error) {
 		writeJSON(w, http.StatusBadRequest, map[string]string{"code": err.Error()})
 	case errors.Is(err, ErrNotFound):
 		writeJSON(w, http.StatusNotFound, map[string]string{"code": ErrNotFound.Error()})
+	case errors.Is(err, ErrTransitionConflict):
+		writeJSON(w, http.StatusConflict, map[string]string{"code": ErrTransitionConflict.Error()})
 	default:
 		writeJSON(w, http.StatusServiceUnavailable, map[string]string{"code": "LOCAL_SERVICE_UNAVAILABLE"})
 	}

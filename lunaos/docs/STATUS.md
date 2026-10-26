@@ -257,3 +257,16 @@ has been accessed or changed; a remote
 baseline still requires an owner-provided SSH alias and explicit connection
 authorization, and any mutation requires a verified recovery plan and explicit
 authorization for that mutation.
+
+## Goal lifecycle controls checkpoint, 2026-10-26
+
+Go Core now supports owner-authenticated `PATCH /v1/goals/{id}` pause, resume and
+cancel operations. An additive SQLite `goal_control` table preserves the base
+goal/job schema and records paused/cancelled overlays; state transitions append
+events. Scheduler claims exclude controlled goals. Pause/cancel conflict while
+execution is already running, and resume is limited to a paused queued job. Unit
+and HTTP tests cover owner rejection, persistence through reopen, scheduler
+exclusion, idempotent cancellation, invalid transitions and event recording.
+This is a bounded Go Goal Engine feature, not full lifecycle parity or a Mont
+Blanc release. Cross-service, systemd, Wayland, Arch boot and hardware behavior
+remain unverified.

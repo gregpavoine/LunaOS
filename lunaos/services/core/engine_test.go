@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"time"
 )
 
 type testPolicy struct {
@@ -50,6 +51,21 @@ func testDBPath(t *testing.T) string {
 		t.Fatal(err)
 	}
 	return filepath.Join(dir, "goals.sqlite")
+}
+
+type blockingRunner struct {
+	started chan struct{}
+	resume  chan struct{}
+}
+
+func (r blockingRunner) Execute(ctx context.Context, action string) (ArtifactEvidence, error) {
+	close(r.started)
+	select {
+	case <-r.resume:
+		return (ChecksumRunner{}).Execute(ctx, action)
+	case <-ctx.Done():
+		return ArtifactEvidence{}, ctx.Err()
+	}
 }
 
 func TestCreateRequiresOwner(t *testing.T) {
@@ -145,6 +161,128 @@ func TestQueuedGoalResumesAfterEngineRestart(t *testing.T) {
 	if result.Outcome != "succeeded" || goal.Status != "completed" || goal.Evidence == nil || !goal.Evidence.Verified {
 		t.Fatalf("result=%+v goal=%+v", result, goal)
 	}
+}
+
+func TestGoalPauseRequiresOwner(t *testing.T) {
+	e := testEngine(t, testDBPath(t), &testPolicy{})
+	goal, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "pause-owner-1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err = e.Pause(context.Background(), goal.ID, "guest"); !errors.Is(err, ErrUnauthorized) {
+		t.Fatalf("guest pause error = %v, want ErrUnauthorized", err)
+	}
+	current, err := e.Get(context.Background(), goal.ID)
+	if err != nil || current.Status != "approved" {
+		t.Fatalf("unauthorized pause changed goal: goal=%+v err=%v", current, err)
+	}
+}
+
+func TestGoalPauseBlocksTickAndResumeAfterRestart(t *testing.T) {
+	path := testDBPath(t)
+	policy := &testPolicy{}
+	e := testEngine(t, path, policy)
+	goal, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "pause-resume-1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	paused, err := e.Pause(context.Background(), goal.ID, "owner-secret")
+	if err != nil || paused.Status != "paused" {
+		t.Fatalf("pause goal=%+v err=%v", paused, err)
+	}
+	if result, err := e.Tick(context.Background()); err != nil || result.Outcome != "idle_success" {
+		t.Fatalf("tick while paused result=%+v err=%v", result, err)
+	}
+	if count := eventCount(t, e, goal.ID, "goal.paused"); count != 1 {
+		t.Fatalf("goal.paused events=%d, want 1", count)
+	}
+	if err := e.Close(); err != nil {
+		t.Fatal(err)
+	}
+	reopened := testEngine(t, path, policy)
+	current, err := reopened.Get(context.Background(), goal.ID)
+	if err != nil || current.Status != "paused" {
+		t.Fatalf("goal after restart=%+v err=%v", current, err)
+	}
+	resumed, err := reopened.Resume(context.Background(), goal.ID, "owner-secret")
+	if err != nil || resumed.Status != "approved" {
+		t.Fatalf("resume goal=%+v err=%v", resumed, err)
+	}
+	if result, err := reopened.Tick(context.Background()); err != nil || result.Outcome != "succeeded" {
+		t.Fatalf("tick after resume result=%+v err=%v", result, err)
+	}
+}
+
+func TestGoalCancelIsIdempotentAndNeverRuns(t *testing.T) {
+	policy := &testPolicy{}
+	e := testEngine(t, testDBPath(t), policy)
+	goal, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "cancel-1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	first, err := e.Cancel(context.Background(), goal.ID, "owner-secret")
+	if err != nil || first.Status != "cancelled" {
+		t.Fatalf("cancel goal=%+v err=%v", first, err)
+	}
+	second, err := e.Cancel(context.Background(), goal.ID, "owner-secret")
+	if err != nil || second.Status != "cancelled" {
+		t.Fatalf("repeat cancel goal=%+v err=%v", second, err)
+	}
+	if count := eventCount(t, e, goal.ID, "goal.cancelled"); count != 1 {
+		t.Fatalf("goal.cancelled events=%d, want 1", count)
+	}
+	if result, err := e.Tick(context.Background()); err != nil || result.Outcome != "idle_success" {
+		t.Fatalf("tick after cancel result=%+v err=%v", result, err)
+	}
+	if policy.evaluateCalls != 0 {
+		t.Fatalf("cancelled goal reached policy evaluation %d times", policy.evaluateCalls)
+	}
+}
+
+func TestGoalPauseRejectsRunningJob(t *testing.T) {
+	path := testDBPath(t)
+	policy := &testPolicy{}
+	runner := blockingRunner{started: make(chan struct{}), resume: make(chan struct{})}
+	e, err := Open(path, "owner-secret", policy, runner)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = e.Close() })
+	goal, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "pause-running-1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	tickResult := make(chan error, 1)
+	go func() {
+		_, tickErr := e.Tick(context.Background())
+		tickResult <- tickErr
+	}()
+	select {
+	case <-runner.started:
+	case <-time.After(2 * time.Second):
+		t.Fatal("runner did not start")
+	}
+	if _, err := e.Pause(context.Background(), goal.ID, "owner-secret"); !errors.Is(err, ErrTransitionConflict) {
+		t.Fatalf("pause during execution error = %v, want ErrTransitionConflict", err)
+	}
+	close(runner.resume)
+	select {
+	case err := <-tickResult:
+		if err != nil {
+			t.Fatal(err)
+		}
+	case <-time.After(2 * time.Second):
+		t.Fatal("running goal did not finish after release")
+	}
+}
+
+func eventCount(t *testing.T, e *Engine, goalID, kind string) int {
+	t.Helper()
+	var count int
+	if err := e.db.QueryRow(`SELECT count(*) FROM goal_event WHERE goal_id=? AND kind=?`, goalID, kind).Scan(&count); err != nil {
+		t.Fatal(err)
+	}
+	return count
 }
 
 func TestInactiveQueueIsIdleSuccess(t *testing.T) {
