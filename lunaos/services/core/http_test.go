@@ -175,6 +175,33 @@ func TestHTTPReprioritizeRequiresOwnerAndAllMetrics(t *testing.T) {
 	}
 }
 
+func TestHTTPGoalMetadataEditIsOwnerOnly(t *testing.T) {
+	e := testEngine(t, testDBPath(t), &testPolicy{})
+	goal, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "http-metadata-edit")
+	if err != nil {
+		t.Fatal(err)
+	}
+	handler := NewHTTPHandler(e, "owner-secret")
+	request := func(token, body string) *httptest.ResponseRecorder {
+		req := httptest.NewRequest(http.MethodPatch, "/v1/goals/"+goal.ID, bytes.NewBufferString(body))
+		req.Header.Set("Authorization", "Bearer "+token)
+		req.Header.Set("Content-Type", "application/json")
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, req)
+		return response
+	}
+	body := `{"operation":"edit","title":"My goal","description":"Owner metadata"}`
+	if response := request("guest", body); response.Code != http.StatusUnauthorized {
+		t.Fatalf("guest edit status=%d body=%s", response.Code, response.Body.String())
+	}
+	if response := request("owner-secret", `{"operation":"edit"}`); response.Code != http.StatusBadRequest {
+		t.Fatalf("empty edit status=%d body=%s", response.Code, response.Body.String())
+	}
+	if response := request("owner-secret", body); response.Code != http.StatusOK || !bytes.Contains(response.Body.Bytes(), []byte(`"title":"My goal"`)) {
+		t.Fatalf("owner edit status=%d body=%s", response.Code, response.Body.String())
+	}
+}
+
 func TestIntimacyStopIsOwnerOnlyAndPersistsAcrossRestart(t *testing.T) {
 	path := testDBPath(t)
 	policy := &testPolicy{}

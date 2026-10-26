@@ -44,6 +44,10 @@ tests; the QEMU smoke only confirms the boot path and service startup. These
 features are not full goal content editing, natural-language planning or a
 completed Mont Blanc 1.0 release.
 
+The current feature branch `feature/go-goal-metadata` adds persistent goal titles
+and descriptions, plus owner-only edits before execution. It is still under local
+verification and is not yet merged or included in an ISO artifact.
+
 ## Release 0 build status — 2026-10-25
 
 Fresh local verification on macOS arm64: `make test && make check && make build`
