@@ -19,17 +19,17 @@ Archinstall config test, unsupported-host preflight regression, gofmt, vet, Bash
 syntax and OpenAPI JSON validation. `git diff --check` passes. The host preflight
 rejects this Mac before creating any VM artifact.
 
-**Verified by GitHub Actions run 40323710952 on merge commit `996d7802`:** the
-Arch target package and ISO built, and the live image passed its UEFI/QEMU boot
-smoke. The new install acceptance harness then stopped at its dependency
-preflight because `qemu-img` was missing from the CI container. The install VM
-did not start, no install artifact was uploaded, and the installed target,
-systemd services and goal/evidence path remain unverified. The workflow now
-requests the missing `qemu-img` package and the feature branch carries an
-additional permissions fix for the CI-only `makepkg` directory. A follow-up
-Actions run is required before an install-verified ISO can be offered. The Mac
-itself has no Archiso, QEMU or OVMF runtime. No real Omarchy or Linux host was
-accessed or modified.
+**GitHub Actions results:** run [40323710952](https://github.com/gregpavoine/LunaOS/actions/runs/40323710952)
+built the Arch target package and ISO, and the live image passed its UEFI/QEMU
+boot smoke. The new install acceptance harness stopped at preflight because
+`qemu-img` was missing from the CI container. Run [40325027426](https://github.com/gregpavoine/LunaOS/actions/runs/40325027426)
+also built the ISO and passed live boot, then stopped before starting the install
+VM because the config generator was invoked without executable permissions.
+Neither run attempted disk installation or uploaded an ISO artifact. The
+current fix invokes the generator explicitly through Bash; CI must run again to
+verify it. The installed target, systemd services and goal/evidence path remain
+unverified. The Mac itself has no Archiso, QEMU or OVMF runtime. No real Omarchy
+or Linux host was accessed or modified.
 
 ## Standalone installer source checkpoint — 2026-10-26 (not released)
 

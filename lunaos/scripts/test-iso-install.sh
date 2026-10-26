@@ -57,7 +57,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-"$script_dir/generate-install-smoke-config.sh" \
+bash "$script_dir/generate-install-smoke-config.sh" \
   "$repo_root/lunaos/packaging/arch/airootfs/usr/share/lunaos/archinstall.json" \
   "$work_dir/inputs"
 jq '.packages += ["lunaos-install-smoke"] | .mirror_config.custom_repositories += [{name:"lunaos-ci",url:"file:///mnt/lunaos-ci/repo/$arch",sign_check:"Never",sign_option:"TrustAll"}]' \
