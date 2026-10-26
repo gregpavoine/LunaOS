@@ -1,5 +1,23 @@
 # LunaOS implementation status — Omarchy-aligned architecture checkpoint
 
+## Current release checkpoint — 2026-10-26
+
+**Bootable ISO verified in CI; GitHub release not published yet.** The `mont-blanc`
+branch workflow built an Arch x86_64 live ISO and booted it with QEMU TCG and OVMF
+UEFI. The captured serial log confirms systemd reached `Graphical Interface`,
+first-boot owner and broker credentials were created, and systemd started the
+Policy Broker and Core services. This does not verify a visible Hyprland session,
+physical hardware, disk installation, upgrades, recovery or Secure Boot.
+
+- Source commit: `1b2688bafd81512291ece4656bc4d8c9dc3aa77c`
+- Build and UEFI smoke: [GitHub Actions 40287955011](https://github.com/gregpavoine/LunaOS/actions/runs/40287955011)
+- Temporary ISO artifact: [lunaos-0.1.0-x86_64-iso](https://github.com/gregpavoine/LunaOS/actions/runs/40287955011/artifacts/12635192570) (1,647,567,072 bytes)
+- ISO SHA-256 from the build job: `0325c55fa07a39053b6606aa8a78157e881a9176bdf1b2b5402b3e95d1855868`
+- `make test check` on the same source: PASS (Go tests, gofmt, vet, shell syntax and OpenAPI JSON validation)
+- `v0.1.0` GitHub release: NOT PUBLISHED; the release job runs only after a tag build and UEFI smoke pass.
+
+This is a live technical preview, not the completed Mont Blanc 1.0 scope.
+
 ## Release 0 build status — 2026-10-25
 
 Fresh local verification on macOS arm64: `make test && make check && make build`
@@ -13,7 +31,8 @@ engine. The GitHub Actions Arch x86_64 image-build workflow at
 `.github/workflows/lunaos-archiso.yml` completed successfully and uploaded
 `lunaos-0.1.0-x86_64.iso` as a temporary artifact. The artifact was downloaded and
 `sha256sum --check` passed. ISO boot, installation, systemd session, Wayland shell
-and target-hardware verification remain outstanding.
+and target-hardware verification were outstanding at that checkpoint; the later
+boot verification is recorded above.
 
 - Build run: [GitHub Actions 40220619493](https://github.com/gregpavoine/LunaOS/actions/runs/40220619493)
 - Artifact: [lunaos-0.1.0-x86_64-iso](https://github.com/gregpavoine/LunaOS/actions/runs/40220619493/artifacts/12608679636), 1,296,797,696 bytes
@@ -26,7 +45,7 @@ This direction is documented in ADR 0004. The Go Core/Broker migration has a
 tested portable slice and a Linux process-level integration test in Docker
 Desktop. A first Quickshell/QML dashboard, Arch live profile and separate
 Core/Broker service identities have source implementations, but their target
-runtime has not been verified. No Arch image has been booted and there is no
+runtime has not been verified beyond the QEMU UEFI smoke test above. There is no
 verified Arch installation or target-hardware run.
 Specifications, schema-only contracts and service templates are not counted as
 completed OS capabilities.
@@ -214,9 +233,9 @@ round-trip into new database paths, and corrupted restores do not publish a DB.
 - No real Omarchy or Linux installation was accessed. No packages/services were
   removed, disabled, retained or replaced on a host; **no cleanup occurred**. The
   read-only Linux baseline script remains unexecuted.
-- A standalone Arch x86_64 ISO has been built, checksum-verified and uploaded; it
-  has not been booted or installed. No installer, update, rollback or recovery
-  result exists. No real Omarchy or Linux host was modified.
+- A standalone Arch x86_64 live ISO has been built and booted to systemd's
+  graphical target in QEMU; it has not been installed. No installer, update,
+  rollback or recovery result exists. No real Omarchy or Linux host was modified.
 - No runtime performance benchmarks have been recorded. The broker's prior Go
   cross-builds prove compilation for x86_64 baselines; the v3 artifact has not run
   on a feature-checked Ryzen 9 5950X. Core/Broker/vault/identity binaries are in an
@@ -238,21 +257,22 @@ independent heartbeat workers/configurable retry policy, external event delivery
   incomplete. Several contracts are types only.
 - Core and Broker have distinct accounts and credentials in the current service
   templates; the local shell uses a restricted Unix socket instead of embedding
-  the owner secret. The systemd services and first-boot credential setup have not
-  been run under systemd. Production owner login, credential revocation UX and
-  Linux security review remain release blockers.
+  the owner secret. The first-boot credential setup and Core/Broker service starts
+  were observed under systemd in the QEMU live boot. Their installed-system
+  lifecycle, API behavior after systemd launch, production owner login, credential
+  revocation UX and Linux security review remain unverified.
 
 The portable Go development launcher is syntax-checked but has not been run on
 Linux in this checkpoint; it intentionally exits on macOS.
 
 ## Next milestone
 
-Restore Docker Desktop or provide an Arch Linux x86_64 builder, rebuild the ISO,
-and test its UEFI boot in a VM. Install the updated package in a disposable Arch environment, then validate
-unit restart, credential loading and service identity separation in a VM. Earlier
+Publish the tagged v0.1.0 release from the verified `mont-blanc` commit. Install
+the updated package in a disposable Arch environment, then validate unit restart,
+credential loading and service identity separation in an installed VM. Earlier
 package installation and same-UID process tests in emulated Arch containers do not
-boot systemd or replace those tests. Run the shell under Wayland and complete an
-installer/recovery path before calling this a release. No real Linux installation
+replace those tests. Run the shell visibly under Wayland and complete an
+installer/recovery path before calling Mont Blanc 1.0 complete. No real Linux installation
 has been accessed or changed; a remote
 baseline still requires an owner-provided SSH alias and explicit connection
 authorization, and any mutation requires a verified recovery plan and explicit
