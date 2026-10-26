@@ -31,9 +31,16 @@ failed because Go's build cache defaulted to `/.cache/go-build`, which is not
 writable by the unprivileged package builder. None of these runs attempted disk
 installation or uploaded an ISO artifact. The current fix directs Go caches to
 the package builder's temporary home; CI must run again to verify it. The
-installed target, systemd services and goal/evidence path remain unverified. The
-Mac itself has no Archiso, QEMU or OVMF runtime. No real Omarchy or Linux host
-was accessed or modified.
+installed target, systemd services and goal/evidence path remain unverified.
+Run [40327343802](https://github.com/gregpavoine/LunaOS/actions/runs/40327343802)
+built the ISO, passed live boot, compiled the CI smoke package and started QEMU,
+but QEMU rejected the boot-order argument. The same run selected the debug
+package instead of its executable package and the diagnostic log's private mode
+blocked upload. The current changes fix the QEMU argument, select packages by
+Pacman metadata and redact diagnostics before making them readable by the
+Actions runner. No disk installation has yet been attempted. The Mac itself has
+no Archiso, QEMU or OVMF runtime. No real Omarchy or Linux host was accessed or
+modified.
 
 ## Standalone installer source checkpoint — 2026-10-26 (not released)
 

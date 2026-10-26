@@ -13,7 +13,7 @@ fi
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 repo_root=$(cd "$script_dir/../.." && pwd)
 iso_path=$(cd "$(dirname "$1")" && pwd)/$(basename "$1")
-for command_name in qemu-system-x86_64 qemu-img expect xorriso jq openssl makepkg runuser repo-add timeout; do
+for command_name in qemu-system-x86_64 qemu-img expect xorriso jq openssl makepkg runuser repo-add pacman timeout; do
   if ! command -v "$command_name" >/dev/null 2>&1; then
     printf 'Missing install VM acceptance tool: %s\n' "$command_name" >&2
     exit 2
@@ -48,8 +48,13 @@ cleanup() {
   if [[ $keep_logs == 1 ]]; then
     log_destination=${LUNAOS_INSTALL_LOG_DEST:-}
     if [[ -n $log_destination && -f $work_dir/install.log ]]; then
-      install -D -m 0600 "$work_dir/install.log" "$log_destination"
-      printf 'Sanitized serial diagnostics retained at %s\n' "$log_destination" >&2
+      sed -E \
+        -e 's/("(root_enc_password|enc_password|password)"[[:space:]]*:[[:space:]]*")[^"]*"/\1[REDACTED]"/g' \
+        -e 's/(\$6\$)[^[:space:]\"]+/\1[REDACTED]/g' \
+        -e 's/(Bearer[[:space:]]+)[[:alnum:]]+/\1[REDACTED]/g' \
+        "$work_dir/install.log" > "$work_dir/install-redacted.log"
+      install -D -m 0644 "$work_dir/install-redacted.log" "$log_destination"
+      printf 'Redacted serial diagnostics retained at %s\n' "$log_destination" >&2
     else
       printf '%s\n' 'Install VM diagnostics destination missing; private VM artifacts will be removed.' >&2
     fi
@@ -72,7 +77,14 @@ cp "$repo_root/lunaos/packaging/arch/install-test/PKGBUILD" \
 (cd "$pkg_dir" && runuser -u nobody -- env \
   HOME="$pkg_dir/home" GOCACHE="$pkg_dir/gocache" GOMODCACHE="$pkg_dir/gomodcache" \
   makepkg --nodeps --noconfirm --clean)
-smoke_package=$(find "$pkg_dir" -maxdepth 1 -type f -name 'lunaos-install-smoke-*.pkg.tar.*' -print -quit)
+smoke_package=''
+while IFS= read -r package_path; do
+  package_name=$(pacman -Qp "$package_path" | awk 'NR == 1 {print $1}')
+  if [[ $package_name == 'lunaos-install-smoke' ]]; then
+    smoke_package=$package_path
+    break
+  fi
+done < <(find "$pkg_dir" -maxdepth 1 -type f -name 'lunaos-install-smoke-*.pkg.tar.*' -print)
 if [[ -z $smoke_package ]]; then
   printf '%s\n' 'CI-only install smoke package was not built.' >&2
   exit 1
