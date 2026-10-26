@@ -1,0 +1,23 @@
+pkgname=lunaos-install-smoke
+pkgver=0.1.1
+pkgrel=1
+pkgdesc='CI-only installed-system acceptance check for LunaOS'
+arch=('x86_64')
+url='https://github.com/gregpavoine/LunaOS'
+license=('custom')
+depends=('glibc' 'systemd')
+makedepends=('go')
+source=('lunaos-install-smoke.go' 'lunaos-install-smoke.service')
+sha256sums=('SKIP' 'SKIP')
+
+build() {
+  cd "$srcdir"
+  go build -trimpath -buildvcs=false -ldflags='-s -w' -o lunaos-install-smoke lunaos-install-smoke.go
+}
+
+package() {
+  install -Dm755 "$srcdir/lunaos-install-smoke" "$pkgdir/usr/bin/lunaos-install-smoke"
+  install -Dm644 "$srcdir/lunaos-install-smoke.service" "$pkgdir/usr/lib/systemd/system/lunaos-install-smoke.service"
+  install -d "$pkgdir/usr/lib/systemd/system/multi-user.target.wants"
+  ln -s ../lunaos-install-smoke.service "$pkgdir/usr/lib/systemd/system/multi-user.target.wants/lunaos-install-smoke.service"
+}

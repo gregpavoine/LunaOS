@@ -1,0 +1,15 @@
+[Unit]
+Description=LunaOS disposable VM install acceptance check (CI only)
+After=network.target luna-owner-setup.service luna-policy-broker.service luna-core.service
+Requires=luna-owner-setup.service luna-policy-broker.service luna-core.service
+ConditionPathExists=/var/lib/lunaos-identity/owner-token
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/lunaos-install-smoke
+TimeoutStartSec=180
+StandardOutput=journal+console
+StandardError=journal+console
+
+[Install]
+WantedBy=multi-user.target

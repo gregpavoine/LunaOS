@@ -1,0 +1,42 @@
+#!/usr/bin/expect -f
+set timeout 7200
+log_file -noappend $env(LUNAOS_INSTALL_LOG)
+spawn qemu-system-x86_64 \
+  -machine q35,accel=tcg -cpu max -smp 4 -m 6144 \
+  -drive if=pflash,format=raw,unit=0,readonly=on,file=$env(LUNAOS_OVMF_CODE) \
+  -drive if=pflash,format=raw,unit=1,file=$env(LUNAOS_OVMF_VARS) \
+  -drive file=$env(LUNAOS_TARGET_DISK),if=virtio,format=qcow2 \
+  -cdrom $env(LUNAOS_ISO_PATH) \
+  -drive file=$env(LUNAOS_SEED_ISO),media=cdrom,if=ide,index=1,readonly=on \
+  -boot order=c,d -display none -serial stdio -monitor none -net none -no-reboot
+
+expect {
+  -re {root@archiso[^\r\n]*[#] ?$} {}
+  timeout { puts stderr "FAIL: no root shell appeared on the live ISO serial console"; exit 1 }
+  eof { puts stderr "FAIL: QEMU exited before the live ISO shell appeared"; exit 1 }
+}
+send -- "set -euo pipefail\r"
+send -- "seed_device=\$(blkid -L LUNAOS_CI); test -n \"\$seed_device\"; mkdir -p /mnt/lunaos-ci; mount -o ro \"\$seed_device\" /mnt/lunaos-ci\r"
+send -- "install -m 0600 /mnt/lunaos-ci/user_configuration.json /usr/share/lunaos/archinstall.json\r"
+send -- "install -d /run/lunaos-archinstall-test-bin\r"
+send -- "cat > /run/lunaos-archinstall-test-bin/archinstall <<'LUNAOS_WRAPPER'\r"
+send -- "#!/bin/bash\r"
+send -- "exec /usr/bin/archinstall --creds /mnt/lunaos-ci/user_credentials.json \"\$@\"\r"
+send -- "LUNAOS_WRAPPER\r"
+send -- "chmod 0755 /run/lunaos-archinstall-test-bin/archinstall\r"
+send -- "export PATH=/run/lunaos-archinstall-test-bin:\$PATH\r"
+send -- "lunaos-install\r"
+expect {
+  -re {type INSTALL LUNAOS exactly: $} { send -- "INSTALL LUNAOS\r" }
+  -re {The guided installer requires an interactive terminal} { puts stderr "FAIL: production installer did not receive a tty"; exit 1 }
+  timeout { puts stderr "FAIL: production installer confirmation prompt did not appear"; exit 1 }
+  eof { puts stderr "FAIL: live ISO exited before installer confirmation"; exit 1 }
+}
+expect {
+  -re {LUNAOS_INSTALL_SMOKE=PASS installed_boot=1 core=active broker=active goal=completed evidence=verified} {}
+  -re {LUNAOS_INSTALL_SMOKE=FAIL} { puts stderr "FAIL: installed target acceptance service reported failure"; exit 1 }
+  eof { puts stderr "FAIL: QEMU exited before the installed target acceptance marker"; exit 1 }
+  timeout { puts stderr "FAIL: installed target did not complete the goal acceptance check within timeout"; exit 1 }
+}
+wait
+exit 0

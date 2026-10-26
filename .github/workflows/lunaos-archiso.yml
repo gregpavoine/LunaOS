@@ -3,7 +3,7 @@ name: LunaOS Arch ISO
 on:
   workflow_dispatch:
   push:
-    branches: [mont-blanc, feature/standalone-installable-iso]
+    branches: [mont-blanc, feature/standalone-installable-iso, feature/installer-vm-acceptance]
     paths:
       - 'lunaos/**'
       - '.github/workflows/lunaos-archiso.yml'
@@ -33,11 +33,14 @@ jobs:
             --mount "type=bind,source=$output_dir,target=/output" \
             archlinux:base-devel \
             bash -euo pipefail -c '
-              pacman -Syu --noconfirm --needed archiso go sqlite sudo qemu-system-x86 edk2-ovmf procps-ng jq
+              pacman -Syu --noconfirm --needed archiso go sqlite sudo qemu-system-x86 edk2-ovmf procps-ng jq expect xorriso
               LUNAOS_ISO_OUTPUT=/output \
               LUNAOS_ISO_WORK=/tmp/lunaos-archiso-work \
               /workspace/lunaos/scripts/build-archiso.sh
               /workspace/lunaos/scripts/test-iso-boot.sh /output/lunaos-0.1.1-x86_64.iso
+              LUNAOS_KEEP_INSTALL_LOGS=1 \
+              LUNAOS_INSTALL_LOG_DEST=/output/lunaos-install.log \
+              /workspace/lunaos/scripts/test-iso-install.sh /output/lunaos-0.1.1-x86_64.iso
             '
           iso_path=$(find "$output_dir" -maxdepth 1 -type f -name '*.iso' -print -quit)
           if [[ -z "$iso_path" ]]; then
@@ -50,7 +53,16 @@ jobs:
 
       - uses: actions/upload-artifact@v6
         with:
-          name: lunaos-0.1.1-installable-preview-x86_64-iso
+          name: lunaos-0.1.1-install-and-boot-verified-x86_64-iso
           path: ${{ runner.temp }}/lunaos-archiso-output/*
           if-no-files-found: error
           retention-days: 14
+
+      - name: Upload install VM diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: lunaos-0.1.1-install-vm-diagnostics
+          path: ${{ runner.temp }}/lunaos-archiso-output/lunaos-install.log
+          if-no-files-found: warn
+          retention-days: 7

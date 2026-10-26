@@ -1,5 +1,32 @@
 # LunaOS implementation status — Omarchy-aligned architecture checkpoint
 
+## Disposable installer VM gate implementation — 2026-10-26
+
+On local branch `feature/installer-vm-acceptance`, an Archinstall test-input
+generator and a QEMU/OVMF install acceptance harness are implemented. The
+generator creates private CI-only credentials and a fixed `/dev/vda` layout.
+The harness creates its own temporary qcow2 disk, injects a CI-only smoke package
+through a temporary package repository, invokes the same interactive
+`lunaos-install` entrypoint shipped in the ISO, then requires the installed Core
+and Policy Broker to be active and a real owner-authorized `local.checksum` goal
+to complete with the fixture SHA-256, byte count, provenance and verified flag.
+The CI-only package removes its temporary repository stanza before reporting
+success. It is not part of the release ISO package manifest.
+
+**Verified locally:** `make test check` passed on macOS arm64, including Go tests
+and compilation of the smoke helper, the installer boundary test, private
+Archinstall config test, unsupported-host preflight regression, gofmt, vet, Bash
+syntax and OpenAPI JSON validation. `git diff --check` passes. The host preflight
+rejects this Mac before creating any VM artifact.
+
+**Not verified / blocked:** this Mac has no Archiso, QEMU or OVMF runtime. The
+new Arch package build, QEMU disk installation, installed-system reboot,
+systemd service checks and goal/evidence acceptance have not run. The updated
+GitHub Actions job has not run because this local branch has not been pushed.
+No ISO produced from this branch is available yet. The previous RC1 artifact
+remains install-unverified; this source change does not retroactively validate
+it. No real Omarchy or Linux host was accessed or modified.
+
 ## Standalone installer source checkpoint — 2026-10-26 (not released)
 
 On `feature/standalone-installable-iso`, installer source now adds a root-only
