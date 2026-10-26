@@ -22,16 +22,7 @@ This is a live technical preview, not the completed Mont Blanc 1.0 scope.
 
 ## Latest implementation checkpoint — 2026-10-26
 
-Three Go Core goal features are merged into `mont-blanc`: bounded dependency
-planning (`67dd84ab`, merge `67ebc099`), policy-checked reprioritization
-(`521c69ee`, merge `6d631fb7`), and persistent metadata/editing (`b78f2d76`, merge
-`ec32e0d0`). On macOS arm64, `make test check` and
-`go test -buildvcs=false -race -count=1 ./services/core` passed. The repo's
-portable CI run [40292836837](https://github.com/gregpavoine/LunaOS/actions/runs/40292836837)
-passed its Ubuntu and macOS jobs. The Arch ISO run
-[40292836869](https://github.com/gregpavoine/LunaOS/actions/runs/40292836869)
-passed the x86_64 build and UEFI/QEMU smoke test, which confirmed the graphical
-systemd target and startup of first-boot owner setup, Policy Broker and Core.
+At the pushed checkpoint `7f2830ec`, three Go Core goal features were merged into `mont-blanc`: bounded dependency planning (`67dd84ab`, merge `67ebc099`), policy-checked reprioritization (`521c69ee`, merge `6d631fb7`), and persistent metadata/editing (`b78f2d76`, merge `ec32e0d0`). On macOS arm64, `make test check` and `go test -buildvcs=false -race -count=1 ./services/core` passed. The repo's portable CI run [40292836837](https://github.com/gregpavoine/LunaOS/actions/runs/40292836837) passed its Ubuntu and macOS jobs. The Arch ISO run [40292836869](https://github.com/gregpavoine/LunaOS/actions/runs/40292836869) passed the x86_64 build and UEFI/QEMU smoke test, which confirmed the graphical systemd target and startup of first-boot owner setup, Policy Broker and Core.
 
 The [test ISO artifact](https://github.com/gregpavoine/LunaOS/actions/runs/40292836869/artifacts/12636767777)
 contains `lunaos-0.1.0-x86_64.iso` and `SHA256SUMS`; ISO SHA-256 is
@@ -55,16 +46,9 @@ the Go Core race suite passed locally. The ISO build from the merge commit passe
 the QEMU boot smoke; it confirms service startup, not use of the metadata route in
 the live image.
 
-The current local branch `feature/go-goal-decisions` implements the already
-documented `GET /v1/goals/{id}/decisions` contract using the existing append-only
-SQLite audit events. The response is owner-authenticated, returns only event ID,
-kind, code and timestamp, and is limited to the latest 100 events in chronological
-order. Its focused Go handler test first failed on the missing route and then
-passed after implementation. `make test check` and
-`go test -buildvcs=false -race -count=1 ./services/core` both pass locally on macOS
-arm64. This branch is not yet merged or included in an ISO. Linux process and Arch
-VM validation were not run. This audit-history endpoint is not the
-evidence-backed strategy evaluator.
+The goal decisions endpoint was committed as `440591b3` and fast-forward merged locally into `mont-blanc`; that local commit has not been pushed and is not included in an ISO. It implements the documented `GET /v1/goals/{id}/decisions` contract using append-only SQLite audit events. The response is owner-authenticated, returns only event ID, kind, code and timestamp, and is limited to the latest 100 events in chronological order. Its focused handler test first failed on the missing route and then passed. `make test check` and `go test -buildvcs=false -race -count=1 ./services/core` passed locally on macOS arm64. Linux process and Arch VM validation were not run. This audit-history endpoint is not the evidence-backed strategy evaluator.
+
+The `feature/go-goal-evaluation` change adds a limited owner-triggered evidence check for `local.checksum` and is fast-forward merged locally into `mont-blanc`; it is not pushed or included in an ISO. The evaluator recomputes the known public fixture SHA-256 and byte count, returns `insufficient_evidence` for uncompleted goals or unsupported provenance, reports mismatches, and appends an evaluation event without changing goal state. It does not evaluate strategies or general artifacts. The focused test, `make test check`, the Core race suite and `make build-local` pass locally on macOS arm64. Linux process and Arch VM checks were not run.
 
 ## Release 0 build status — 2026-10-25
 

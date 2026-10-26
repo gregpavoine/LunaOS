@@ -201,6 +201,86 @@ func TestHTTPGoalDecisionsAreOwnerOnlySafeAndBounded(t *testing.T) {
 	}
 }
 
+func TestHTTPGoalEvidenceEvaluationVerifiesOnlyKnownCompletedFixture(t *testing.T) {
+	e := testEngine(t, testDBPath(t), &testPolicy{})
+	handler := NewHTTPHandler(e, "owner-secret")
+	goal, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "http-evaluate-1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	request := func(token, goalID, body string) *httptest.ResponseRecorder {
+		req := httptest.NewRequest(http.MethodPost, "/v1/goals/"+goalID+"/evaluate", bytes.NewBufferString(body))
+		req.Header.Set("Authorization", "Bearer "+token)
+		req.Header.Set("Content-Type", "application/json")
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, req)
+		return response
+	}
+	if response := request("guest", goal.ID, "{}"); response.Code != http.StatusUnauthorized {
+		t.Fatalf("guest evaluation status=%d body=%s", response.Code, response.Body.String())
+	}
+	if eventCount(t, e, goal.ID, "goal.evidence.evaluated") != 0 {
+		t.Fatal("unauthorized evaluation appended an audit event")
+	}
+	if response := request("owner-secret", "missing-goal", "{}"); response.Code != http.StatusNotFound {
+		t.Fatalf("missing goal evaluation status=%d body=%s", response.Code, response.Body.String())
+	}
+	if response := request("owner-secret", goal.ID, `{"unexpected":true}`); response.Code != http.StatusBadRequest {
+		t.Fatalf("non-empty evaluation body status=%d body=%s", response.Code, response.Body.String())
+	}
+
+	evaluate := func(wantOutcome, wantCode string) {
+		t.Helper()
+		response := request("owner-secret", goal.ID, "{}")
+		if response.Code != http.StatusOK {
+			t.Fatalf("evaluation status=%d body=%s", response.Code, response.Body.String())
+		}
+		var result struct {
+			GoalID         string `json:"goal_id"`
+			Outcome        string `json:"outcome"`
+			Code           string `json:"code"`
+			EvaluatedAtUTC string `json:"evaluated_at_utc"`
+		}
+		if err := json.Unmarshal(response.Body.Bytes(), &result); err != nil {
+			t.Fatal(err)
+		}
+		if result.GoalID != goal.ID || result.Outcome != wantOutcome || result.Code != wantCode || result.EvaluatedAtUTC == "" {
+			t.Fatalf("evaluation=%+v, want outcome=%s code=%s", result, wantOutcome, wantCode)
+		}
+	}
+	evaluate("insufficient_evidence", "GOAL_NOT_COMPLETED")
+	if _, err := e.Tick(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	evaluate("verified", "FIXTURE_EVIDENCE_MATCH")
+	completed, err := e.Get(context.Background(), goal.ID)
+	if err != nil || completed.Status != "completed" {
+		t.Fatalf("evaluation changed goal status: goal=%+v err=%v", completed, err)
+	}
+	if _, err := e.db.Exec(`UPDATE evidence SET sha256=? WHERE goal_id=?`, strings.Repeat("0", 64), goal.ID); err != nil {
+		t.Fatal(err)
+	}
+	evaluate("mismatch", "EVIDENCE_MISMATCH")
+	if _, err := e.db.Exec(`UPDATE evidence SET provenance=? WHERE goal_id=?`, "unknown_source", goal.ID); err != nil {
+		t.Fatal(err)
+	}
+	evaluate("insufficient_evidence", "EVIDENCE_SOURCE_UNSUPPORTED")
+	if eventCount(t, e, goal.ID, "goal.evidence.evaluated") != 4 {
+		t.Fatal("each authorized evaluation must append one audit event")
+	}
+	missingEvidenceGoal, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "http-evaluate-missing-evidence")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := e.db.Exec(`UPDATE goal SET status='completed' WHERE id=?`, missingEvidenceGoal.ID); err != nil {
+		t.Fatal(err)
+	}
+	missingEvidenceResponse := request("owner-secret", missingEvidenceGoal.ID, "{}")
+	if missingEvidenceResponse.Code != http.StatusOK || !strings.Contains(missingEvidenceResponse.Body.String(), `"code":"EVIDENCE_MISSING"`) {
+		t.Fatalf("missing evidence response status=%d body=%s", missingEvidenceResponse.Code, missingEvidenceResponse.Body.String())
+	}
+}
+
 func TestHTTPReprioritizeRequiresOwnerAndAllMetrics(t *testing.T) {
 	e := testEngine(t, testDBPath(t), &testPolicy{})
 	goal, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "http-reprioritize")

@@ -857,6 +857,55 @@ func (e *Engine) Decisions(ctx context.Context, goalID string) ([]GoalDecision, 
 	return out, nil
 }
 
+// EvaluateEvidence verifies the only currently supported artifact against the
+// known public fixture and records an append-only audit event.
+func (e *Engine) EvaluateEvidence(ctx context.Context, goalID string) (GoalEvaluation, error) {
+	tx, err := e.db.BeginTx(ctx, nil)
+	if err != nil {
+		return GoalEvaluation{}, err
+	}
+	defer tx.Rollback()
+	var action, status string
+	var digest, provenance sql.NullString
+	var byteCount, verified sql.NullInt64
+	err = tx.QueryRowContext(ctx, `SELECT g.action,g.status,e.sha256,e.byte_count,e.provenance,e.verified
+		FROM goal g LEFT JOIN evidence e ON e.goal_id=g.id WHERE g.id=?`, goalID).
+		Scan(&action, &status, &digest, &byteCount, &provenance, &verified)
+	if errors.Is(err, sql.ErrNoRows) {
+		return GoalEvaluation{}, ErrNotFound
+	}
+	if err != nil {
+		return GoalEvaluation{}, err
+	}
+	evaluation := GoalEvaluation{GoalID: goalID, Outcome: "insufficient_evidence", Code: "GOAL_NOT_COMPLETED"}
+	if status == "completed" {
+		switch {
+		case !digest.Valid || !byteCount.Valid || !provenance.Valid || !verified.Valid:
+			evaluation.Code = "EVIDENCE_MISSING"
+		case action != "local.checksum" || provenance.String != "local_public_fixture_v1":
+			evaluation.Code = "EVIDENCE_SOURCE_UNSUPPORTED"
+		default:
+			expectedDigest := sha256.Sum256([]byte(publicFixture))
+			expectedSHA256 := hex.EncodeToString(expectedDigest[:])
+			if verified.Int64 == 1 && digest.String == expectedSHA256 && byteCount.Int64 == int64(len(publicFixture)) {
+				evaluation.Outcome = "verified"
+				evaluation.Code = "FIXTURE_EVIDENCE_MATCH"
+			} else {
+				evaluation.Outcome = "mismatch"
+				evaluation.Code = "EVIDENCE_MISMATCH"
+			}
+		}
+	}
+	evaluation.EvaluatedAtUTC = timestamp()
+	if _, err := tx.ExecContext(ctx, `INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?,?,?,?)`, goalID, "goal.evidence.evaluated", evaluation.Code, evaluation.EvaluatedAtUTC); err != nil {
+		return GoalEvaluation{}, err
+	}
+	if err := tx.Commit(); err != nil {
+		return GoalEvaluation{}, err
+	}
+	return evaluation, nil
+}
+
 func normalize(input Request) (Request, error) {
 	if !actionPattern.MatchString(input.Action) {
 		return Request{}, fmt.Errorf("%w: INVALID_ACTION", ErrInvalid)

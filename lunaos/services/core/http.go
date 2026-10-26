@@ -343,6 +343,29 @@ func (h *HTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusOK, goal)
 		return
 	}
+	if r.Method == http.MethodPost && strings.HasPrefix(r.URL.Path, "/v1/goals/") && strings.HasSuffix(r.URL.Path, "/evaluate") {
+		parts := strings.Split(strings.Trim(r.URL.Path, "/"), "/")
+		if len(parts) != 4 || parts[0] != "v1" || parts[1] != "goals" || parts[2] == "" {
+			writeJSON(w, http.StatusNotFound, map[string]string{"code": "NOT_FOUND"})
+			return
+		}
+		var empty map[string]any
+		if err := decodeBody(w, r, &empty); err != nil {
+			writeEngineError(w, err)
+			return
+		}
+		if len(empty) != 0 {
+			writeEngineError(w, fmt.Errorf("%w: EMPTY_OBJECT_REQUIRED", ErrInvalid))
+			return
+		}
+		result, err := h.engine.EvaluateEvidence(r.Context(), parts[2])
+		if err != nil {
+			writeEngineError(w, err)
+			return
+		}
+		writeJSON(w, http.StatusOK, result)
+		return
+	}
 	if r.Method == http.MethodPost && r.URL.Path == "/v1/scheduler/tick" {
 		var empty map[string]any
 		if err := decodeBody(w, r, &empty); err != nil {

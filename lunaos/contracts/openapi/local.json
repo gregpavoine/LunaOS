@@ -233,6 +233,46 @@
         }
       }
     },
+    "/v1/goals/{id}/evaluate": {
+      "post": {
+        "summary": "Owner evaluates evidence for the supported local checksum action only",
+        "parameters": [
+          {"in": "path", "name": "id", "required": true, "schema": {"type": "string", "format": "uuid"}}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"type": "object", "maxProperties": 0, "additionalProperties": false}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Evidence evaluation result; no goal state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["goal_id", "outcome", "code", "evaluated_at_utc"],
+                  "properties": {
+                    "goal_id": {"type": "string", "format": "uuid"},
+                    "outcome": {"type": "string", "enum": ["verified", "insufficient_evidence", "mismatch"]},
+                    "code": {"type": "string"},
+                    "evaluated_at_utc": {"type": "string", "format": "date-time"}
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {"description": "Malformed or non-empty request body"},
+          "401": {"description": "Owner authentication required"},
+          "404": {"description": "Goal not found"},
+          "503": {"description": "Local service unavailable"}
+        }
+      }
+    },
     "/v1/goals/{id}/decisions": {
       "get": {
         "summary": "At most 100 ordered safe events",

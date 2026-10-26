@@ -88,6 +88,14 @@ type GoalDecision struct {
 	CreatedAtUTC string `json:"created_at_utc"`
 }
 
+// GoalEvaluation reports a bounded evidence check without changing goal state.
+type GoalEvaluation struct {
+	GoalID         string `json:"goal_id"`
+	Outcome        string `json:"outcome"`
+	Code           string `json:"code"`
+	EvaluatedAtUTC string `json:"evaluated_at_utc"`
+}
+
 type TickResult struct {
 	Outcome string `json:"outcome"`
 	GoalID  string `json:"goal_id,omitempty"`
