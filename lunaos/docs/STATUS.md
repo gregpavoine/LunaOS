@@ -22,31 +22,38 @@ This is a live technical preview, not the completed Mont Blanc 1.0 scope.
 
 ## Latest implementation checkpoint — 2026-10-26
 
-Two Go Core goal features are merged into `mont-blanc`: bounded dependency
-planning (`67dd84ab`, merge `67ebc099`) and policy-checked reprioritization
-(`521c69ee`, merge `6d631fb7`). On macOS arm64, `make test check` and
+Three Go Core goal features are merged into `mont-blanc`: bounded dependency
+planning (`67dd84ab`, merge `67ebc099`), policy-checked reprioritization
+(`521c69ee`, merge `6d631fb7`), and persistent metadata/editing (`b78f2d76`, merge
+`ec32e0d0`). On macOS arm64, `make test check` and
 `go test -buildvcs=false -race -count=1 ./services/core` passed. The repo's
-portable CI run [40291432005](https://github.com/gregpavoine/LunaOS/actions/runs/40291432005)
+portable CI run [40292836837](https://github.com/gregpavoine/LunaOS/actions/runs/40292836837)
 passed its Ubuntu and macOS jobs. The Arch ISO run
-[40291432039](https://github.com/gregpavoine/LunaOS/actions/runs/40291432039)
+[40292836869](https://github.com/gregpavoine/LunaOS/actions/runs/40292836869)
 passed the x86_64 build and UEFI/QEMU smoke test, which confirmed the graphical
 systemd target and startup of first-boot owner setup, Policy Broker and Core.
 
-The [test ISO artifact](https://github.com/gregpavoine/LunaOS/actions/runs/40291432039/artifacts/12636089430)
+The [test ISO artifact](https://github.com/gregpavoine/LunaOS/actions/runs/40292836869/artifacts/12636767777)
 contains `lunaos-0.1.0-x86_64.iso` and `SHA256SUMS`; ISO SHA-256 is
-`f4a93581d7d73e1d5c28e07aa09293d4412a895c652d10d5cd3c5b87e15fdbce`. It was
-built from source commit `6d631fb7e80228bfe2e4d794a515823fcd487052` and expires
+`8956099794c9f7c2044f6e24a527e5a0e08f6c92fa1a72c618b81003642396e6a`. It was
+built from source commit `ec32e0d0402060bd5356fbd2ffea014a1f6bc49d` and expires
 2026-11-09. It is a temporary Actions artifact, not a new GitHub release tag; the
 published release remains `v0.1.0`. The smoke test does not verify a visible
 Hyprland/QML session, disk installation or recovery, physical hardware, or full
 Mont Blanc 1.0. Reprioritization and planner REST behavior are covered by local Go
 tests; the QEMU smoke only confirms the boot path and service startup. These
-features are not full goal content editing, natural-language planning or a
-completed Mont Blanc 1.0 release.
+features are not full goal CRUD, natural-language planning or a completed Mont
+Blanc 1.0 release.
 
-The current feature branch `feature/go-goal-metadata` adds persistent goal titles
-and descriptions, plus owner-only edits before execution. It is still under local
-verification and is not yet merged or included in an ISO artifact.
+Goal metadata support was implemented on `feature/go-goal-metadata` and merged into
+`mont-blanc` at `ec32e0d0` (feature commit `b78f2d76`). Migration 4 adds bounded
+title/description columns and backfills existing titles from each action; create
+requests without the new fields preserve their previous idempotency hashes. The
+owner edit endpoint updates text only for queued goals before execution, preserves
+authorization and evidence state, and appends an audit event. `make test check` and
+the Go Core race suite passed locally. The ISO build from the merge commit passed
+the QEMU boot smoke; it confirms service startup, not use of the metadata route in
+the live image.
 
 ## Release 0 build status — 2026-10-25
 
