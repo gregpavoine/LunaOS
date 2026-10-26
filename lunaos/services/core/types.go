@@ -35,6 +35,8 @@ type Request struct {
 	Metrics           Metrics    `json:"metrics,omitempty"`
 	Assertion         *Assertion `json:"assertion,omitempty"`
 	ExpectedCostMinor int64      `json:"expected_cost_minor,omitempty"`
+	Title             string     `json:"title,omitempty"`
+	Description       string     `json:"description,omitempty"`
 }
 
 type Decision struct {
@@ -61,6 +63,8 @@ type Runner interface {
 
 type Goal struct {
 	ID               string            `json:"id"`
+	Title            string            `json:"title"`
+	Description      string            `json:"description"`
 	Action           string            `json:"action"`
 	PrivacyClass     string            `json:"privacy_class"`
 	Status           string            `json:"status"`

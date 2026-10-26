@@ -15,8 +15,10 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 	"syscall"
 	"time"
+	"unicode/utf8"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -70,28 +72,32 @@ func Open(path, ownerToken string, policy Policy, runner Runner) (*Engine, error
 		_ = db.Close()
 		return nil, err
 	}
-	if err := applyGoalDependencyMigration(context.Background(), db); err != nil {
+	if err := applyMigration(context.Background(), db, 3, goalDependencyMigration); err != nil {
+		_ = db.Close()
+		return nil, err
+	}
+	if err := applyMigration(context.Background(), db, 4, goalMetadataMigration); err != nil {
 		_ = db.Close()
 		return nil, err
 	}
 	return &Engine{db: db, ownerToken: ownerToken, policy: policy, runner: runner}, nil
 }
 
-func applyGoalDependencyMigration(ctx context.Context, db *sql.DB) error {
+func applyMigration(ctx context.Context, db *sql.DB, version int, migration string) error {
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
 		return err
 	}
 	defer tx.Rollback()
 	var applied int
-	if err = tx.QueryRowContext(ctx, `SELECT count(*) FROM schema_migration WHERE version=3`).Scan(&applied); err != nil {
+	if err = tx.QueryRowContext(ctx, `SELECT count(*) FROM schema_migration WHERE version=?`, version).Scan(&applied); err != nil {
 		return err
 	}
 	if applied != 0 {
 		return tx.Commit()
 	}
-	if _, err = tx.ExecContext(ctx, goalDependencyMigration); err != nil {
-		return fmt.Errorf("apply goal dependency migration: %w", err)
+	if _, err = tx.ExecContext(ctx, migration); err != nil {
+		return fmt.Errorf("apply database migration %d: %w", version, err)
 	}
 	return tx.Commit()
 }
@@ -181,10 +187,14 @@ func (e *Engine) Create(ctx context.Context, input Request, ownerToken, idempote
 		return Goal{}, err
 	}
 	defer tx.Rollback()
+	title := req.Title
+	if title == "" {
+		title = req.Action
+	}
 	_, err = tx.ExecContext(ctx, `INSERT INTO goal
-		(id,action,privacy_class,status,metrics_json,score,policy_code,provenance_status,assertion_json,idempotency_key,request_hash,grant_token,created_at_utc,updated_at_utc)
-		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, goalID, req.Action, req.PrivacyClass, status, string(metricsJSON), scoreValue,
-		decision.Code, provenanceFor(req.Assertion), nullableJSON(assertionJSON), idempotencyKey, hashText, nullableString(grant), now, now)
+		(id,action,privacy_class,status,metrics_json,score,policy_code,provenance_status,assertion_json,idempotency_key,request_hash,grant_token,created_at_utc,updated_at_utc,title,description)
+		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, goalID, req.Action, req.PrivacyClass, status, string(metricsJSON), scoreValue,
+		decision.Code, provenanceFor(req.Assertion), nullableJSON(assertionJSON), idempotencyKey, hashText, nullableString(grant), now, now, title, req.Description)
 	if err != nil {
 		if existing, oldHash, lookupErr := e.findIdempotent(ctx, idempotencyKey); lookupErr == nil {
 			if oldHash != hashText {
@@ -228,8 +238,8 @@ func (e *Engine) Get(ctx context.Context, goalID string) (Goal, error) {
 	var assertionJSON sql.NullString
 	var parentID sql.NullString
 	var scoreNumber sql.NullFloat64
-	err := e.db.QueryRowContext(ctx, `SELECT g.id,g.action,g.privacy_class,COALESCE(c.state,g.status),g.metrics_json,g.score,g.policy_code,g.provenance_status,g.assertion_json,g.parent_id,g.created_at_utc,COALESCE(c.updated_at_utc,g.updated_at_utc)
-		FROM goal g LEFT JOIN goal_control c ON c.goal_id=g.id WHERE g.id=?`, goalID).Scan(&g.ID, &g.Action, &g.PrivacyClass, &g.Status, &metricsJSON, &scoreNumber, &g.PolicyCode, &g.ProvenanceStatus, &assertionJSON, &parentID, &g.CreatedAtUTC, &g.UpdatedAtUTC)
+	err := e.db.QueryRowContext(ctx, `SELECT g.id,g.title,g.description,g.action,g.privacy_class,COALESCE(c.state,g.status),g.metrics_json,g.score,g.policy_code,g.provenance_status,g.assertion_json,g.parent_id,g.created_at_utc,COALESCE(c.updated_at_utc,g.updated_at_utc)
+		FROM goal g LEFT JOIN goal_control c ON c.goal_id=g.id WHERE g.id=?`, goalID).Scan(&g.ID, &g.Title, &g.Description, &g.Action, &g.PrivacyClass, &g.Status, &metricsJSON, &scoreNumber, &g.PolicyCode, &g.ProvenanceStatus, &assertionJSON, &parentID, &g.CreatedAtUTC, &g.UpdatedAtUTC)
 	if errors.Is(err, sql.ErrNoRows) {
 		return Goal{}, ErrNotFound
 	}
@@ -280,6 +290,61 @@ func (e *Engine) Get(ctx context.Context, goalID string) (Goal, error) {
 		return Goal{}, err
 	}
 	return g, nil
+}
+
+// UpdateMetadata edits only owner-visible text for work that has not started.
+// It cannot alter the action, grant, score, evidence, or job state.
+func (e *Engine) UpdateMetadata(ctx context.Context, goalID string, title, description *string, ownerToken string) (Goal, error) {
+	if !hmac.Equal([]byte(ownerToken), []byte(e.ownerToken)) {
+		return Goal{}, ErrUnauthorized
+	}
+	if title == nil && description == nil {
+		return Goal{}, fmt.Errorf("%w: GOAL_METADATA_REQUIRED", ErrInvalid)
+	}
+	var normalizedTitle, normalizedDescription any
+	if title != nil {
+		value := strings.TrimSpace(*title)
+		if value == "" || utf8.RuneCountInString(value) > 256 {
+			return Goal{}, fmt.Errorf("%w: INVALID_GOAL_TITLE", ErrInvalid)
+		}
+		normalizedTitle = value
+	}
+	if description != nil {
+		if utf8.RuneCountInString(*description) > 4096 {
+			return Goal{}, fmt.Errorf("%w: INVALID_GOAL_DESCRIPTION", ErrInvalid)
+		}
+		normalizedDescription = *description
+	}
+	if _, err := e.Get(ctx, goalID); err != nil {
+		return Goal{}, err
+	}
+	tx, err := e.db.BeginTx(ctx, nil)
+	if err != nil {
+		return Goal{}, err
+	}
+	defer tx.Rollback()
+	var status, jobState string
+	err = tx.QueryRowContext(ctx, `SELECT COALESCE(c.state,g.status),j.state FROM goal g JOIN job j ON j.goal_id=g.id LEFT JOIN goal_control c ON c.goal_id=g.id WHERE g.id=?`, goalID).Scan(&status, &jobState)
+	if errors.Is(err, sql.ErrNoRows) {
+		return Goal{}, ErrNotFound
+	}
+	if err != nil {
+		return Goal{}, err
+	}
+	if (status != "approved" && status != "blocked") || (jobState != "queued" && jobState != "blocked") {
+		return Goal{}, ErrTransitionConflict
+	}
+	now := timestamp()
+	if _, err = tx.ExecContext(ctx, `UPDATE goal SET title=COALESCE(?,title),description=COALESCE(?,description),updated_at_utc=? WHERE id=?`, normalizedTitle, normalizedDescription, now, goalID); err != nil {
+		return Goal{}, err
+	}
+	if err = insertEvent(ctx, tx, goalID, "goal.metadata.updated", "OWNER_REQUEST", now); err != nil {
+		return Goal{}, err
+	}
+	if err = tx.Commit(); err != nil {
+		return Goal{}, err
+	}
+	return e.Get(ctx, goalID)
 }
 
 // SetPlan atomically replaces the owner-authenticated hierarchy parent and
@@ -774,6 +839,15 @@ func normalize(input Request) (Request, error) {
 	}
 	if input.ExpectedCostMinor < 0 {
 		return Request{}, fmt.Errorf("%w: INVALID_EXPECTED_COST", ErrInvalid)
+	}
+	if input.Title != "" {
+		input.Title = strings.TrimSpace(input.Title)
+		if input.Title == "" || utf8.RuneCountInString(input.Title) > 256 {
+			return Request{}, fmt.Errorf("%w: INVALID_GOAL_TITLE", ErrInvalid)
+		}
+	}
+	if utf8.RuneCountInString(input.Description) > 4096 {
+		return Request{}, fmt.Errorf("%w: INVALID_GOAL_DESCRIPTION", ErrInvalid)
 	}
 	var err error
 	input.Metrics.Impact, err = metric(input.Metrics.Impact)

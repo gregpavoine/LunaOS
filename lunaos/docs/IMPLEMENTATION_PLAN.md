@@ -13,11 +13,12 @@ scope stays mandatory. This plan is a dependency order, not a completion claim.
    decisions, scoped grants and private Unix-socket peer checks into a separate Go
    Policy Broker. Exit: Go tests prove owner-only privileges, absent-budget payment
    refusal, policy denial before scoring, grant expiry and peer UID enforcement.
-2. **Go Goal Engine and store.** First slice implemented: goal persistence, weighted
+2. **Go Goal Engine and store.** Implemented: goal title/description persistence
+   and owner-authenticated metadata edits before execution; goal persistence, weighted
    scoring after authorization, provenance, idempotent creation and one checksum
    action over SQLite. Tests cover duplicate idempotency, unknown-source hypotheses,
    owner-only operations, payment refusal without budget and persisted evidence.
-   Full lifecycle and plan parity remain.
+   Full lifecycle and strategy evaluation remain.
 3. **Go scheduler and lifecycle.** Single-process scheduler, durable claim and
    queued-job recovery after reopening the database are implemented. Multi-process
    worker safety, dependency ordering, configurable retries, pause/resume/cancel,

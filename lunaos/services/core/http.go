@@ -393,8 +393,10 @@ func (h *HTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		var body struct {
-			Operation string   `json:"operation"`
-			Metrics   *Metrics `json:"metrics"`
+			Operation   string   `json:"operation"`
+			Metrics     *Metrics `json:"metrics"`
+			Title       *string  `json:"title"`
+			Description *string  `json:"description"`
 		}
 		if err := decodeBody(w, r, &body); err != nil {
 			writeEngineError(w, err)
@@ -403,27 +405,33 @@ func (h *HTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		var goal Goal
 		var err error
 		switch body.Operation {
+		case "edit":
+			if body.Metrics != nil {
+				err = fmt.Errorf("%w: METRICS_NOT_ALLOWED", ErrInvalid)
+			} else {
+				goal, err = h.engine.UpdateMetadata(r.Context(), parts[0], body.Title, body.Description, ownerPrincipal)
+			}
 		case "reprioritize":
-			if body.Metrics == nil {
+			if body.Metrics == nil || body.Title != nil || body.Description != nil {
 				err = fmt.Errorf("%w: ALL_METRICS_REQUIRED", ErrInvalid)
 			} else {
 				goal, err = h.engine.Reprioritize(r.Context(), parts[0], *body.Metrics, ownerPrincipal)
 			}
 		case "pause":
-			if body.Metrics != nil {
-				err = fmt.Errorf("%w: METRICS_NOT_ALLOWED", ErrInvalid)
+			if body.Metrics != nil || body.Title != nil || body.Description != nil {
+				err = fmt.Errorf("%w: FIELDS_NOT_ALLOWED", ErrInvalid)
 				break
 			}
 			goal, err = h.engine.Pause(r.Context(), parts[0], ownerPrincipal)
 		case "resume":
-			if body.Metrics != nil {
-				err = fmt.Errorf("%w: METRICS_NOT_ALLOWED", ErrInvalid)
+			if body.Metrics != nil || body.Title != nil || body.Description != nil {
+				err = fmt.Errorf("%w: FIELDS_NOT_ALLOWED", ErrInvalid)
 				break
 			}
 			goal, err = h.engine.Resume(r.Context(), parts[0], ownerPrincipal)
 		case "cancel":
-			if body.Metrics != nil {
-				err = fmt.Errorf("%w: METRICS_NOT_ALLOWED", ErrInvalid)
+			if body.Metrics != nil || body.Title != nil || body.Description != nil {
+				err = fmt.Errorf("%w: FIELDS_NOT_ALLOWED", ErrInvalid)
 				break
 			}
 			goal, err = h.engine.Cancel(r.Context(), parts[0], ownerPrincipal)

@@ -2,10 +2,14 @@ package core
 
 import (
 	"context"
+	"crypto/sha256"
 	"database/sql"
+	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 )
@@ -174,6 +178,83 @@ func TestDuplicateIdempotencyReturnsOneGoal(t *testing.T) {
 	}
 	if _, err := e.Create(context.Background(), Request{Action: "local.checksum", Metrics: Metrics{Impact: float64Ptr(0)}}, "owner-secret", "same-key"); !errors.Is(err, ErrIdempotencyConflict) {
 		t.Fatalf("changed request error = %v, want idempotency conflict", err)
+	}
+}
+
+func TestGoalMetadataDefaultsAndLegacyIdempotencySurviveMigration(t *testing.T) {
+	path := testDBPath(t)
+	policy := &testPolicy{}
+	e := testEngine(t, path, policy)
+	first, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "legacy-metadata-key")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if first.Title != "local.checksum" || first.Description != "" {
+		t.Fatalf("default metadata = title %q description %q", first.Title, first.Description)
+	}
+	withMetadata, err := e.Create(context.Background(), Request{Action: "local.checksum", Title: "Custom title", Description: "Custom details"}, "owner-secret", "create-metadata")
+	if err != nil || withMetadata.Title != "Custom title" || withMetadata.Description != "Custom details" {
+		t.Fatalf("create with metadata = %+v, err=%v", withMetadata, err)
+	}
+	if err := e.Close(); err != nil {
+		t.Fatal(err)
+	}
+	reopened, err := Open(path, "owner-secret", policy, ChecksumRunner{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = reopened.Close() })
+	duplicate, err := reopened.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "legacy-metadata-key")
+	if err != nil || duplicate.ID != first.ID {
+		t.Fatalf("legacy idempotent create after migration = %+v, err=%v", duplicate, err)
+	}
+	var version int
+	if err := reopened.db.QueryRow(`SELECT max(version) FROM schema_migration`).Scan(&version); err != nil || version != 4 {
+		t.Fatalf("migration version=%d err=%v, want 4", version, err)
+	}
+}
+
+func TestGoalMetadataEditIsOwnerOnlyBoundedAndPersistent(t *testing.T) {
+	path := testDBPath(t)
+	policy := &testPolicy{}
+	e := testEngine(t, path, policy)
+	goal, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "metadata-edit")
+	if err != nil {
+		t.Fatal(err)
+	}
+	title := "Verified local task"
+	description := "Keep the action and grant unchanged."
+	if _, err := e.UpdateMetadata(context.Background(), goal.ID, &title, &description, "guest"); !errors.Is(err, ErrUnauthorized) {
+		t.Fatalf("guest metadata edit error=%v, want ErrUnauthorized", err)
+	}
+	tooLong := strings.Repeat("🙂", 257)
+	if _, err := e.UpdateMetadata(context.Background(), goal.ID, &tooLong, nil, "owner-secret"); !errors.Is(err, ErrInvalid) {
+		t.Fatalf("oversized title error=%v, want ErrInvalid", err)
+	}
+	updated, err := e.UpdateMetadata(context.Background(), goal.ID, &title, &description, "owner-secret")
+	if err != nil || updated.Title != title || updated.Description != description || updated.Action != goal.Action || updated.Status != goal.Status {
+		t.Fatalf("metadata edit = %+v, err=%v", updated, err)
+	}
+	if err := e.Close(); err != nil {
+		t.Fatal(err)
+	}
+	reopened, err := Open(path, "owner-secret", policy, ChecksumRunner{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = reopened.Close() })
+	current, err := reopened.Get(context.Background(), goal.ID)
+	if err != nil || current.Title != title || current.Description != description || current.PolicyCode != goal.PolicyCode || current.Score == nil {
+		t.Fatalf("metadata after reopen = %+v err=%v", current, err)
+	}
+	if eventCount(t, reopened, goal.ID, "goal.metadata.updated") != 1 {
+		t.Fatal("metadata edit did not create exactly one append-only audit event")
+	}
+	if _, err := reopened.Pause(context.Background(), goal.ID, "owner-secret"); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := reopened.UpdateMetadata(context.Background(), goal.ID, &title, nil, "owner-secret"); !errors.Is(err, ErrTransitionConflict) {
+		t.Fatalf("paused metadata edit error=%v, want ErrTransitionConflict", err)
 	}
 }
 
@@ -429,6 +510,7 @@ func TestSchedulerWaitsForDependenciesAndPlanSurvivesRestart(t *testing.T) {
 
 func TestGoalDependencyMigrationPreservesExistingGoal(t *testing.T) {
 	path := testDBPath(t)
+	legacyHash := legacyCreateRequestHash()
 	db, err := sql.Open("sqlite3", path)
 	if err != nil {
 		t.Fatal(err)
@@ -437,7 +519,7 @@ func TestGoalDependencyMigrationPreservesExistingGoal(t *testing.T) {
 		t.Fatal(err)
 	}
 	_, err = db.Exec(`INSERT INTO goal(id,action,privacy_class,status,metrics_json,score,policy_code,provenance_status,idempotency_key,request_hash,created_at_utc,updated_at_utc)
-		VALUES('legacy-goal','local.checksum','general','approved','{}',50,'OWNER_SCOPED_GRANT','unknown','legacy-key','legacy-hash','2026-01-01T00:00:00Z','2026-01-01T00:00:00Z')`)
+		VALUES('legacy-goal','local.checksum','general','approved','{}',50,'OWNER_SCOPED_GRANT','unknown','legacy-key',?,'2026-01-01T00:00:00Z','2026-01-01T00:00:00Z')`, legacyHash)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -453,13 +535,33 @@ func TestGoalDependencyMigrationPreservesExistingGoal(t *testing.T) {
 	}
 	t.Cleanup(func() { _ = e.Close() })
 	goal, err := e.Get(context.Background(), "legacy-goal")
-	if err != nil || goal.ID != "legacy-goal" || goal.Status != "approved" || len(goal.DependencyIDs) != 0 {
+	if err != nil || goal.ID != "legacy-goal" || goal.Title != "local.checksum" || goal.Status != "approved" || len(goal.DependencyIDs) != 0 {
 		t.Fatalf("legacy goal after additive migration = %+v, err=%v", goal, err)
 	}
-	var version int
-	if err := e.db.QueryRow(`SELECT max(version) FROM schema_migration`).Scan(&version); err != nil || version != 3 {
-		t.Fatalf("migration version=%d err=%v; want 3", version, err)
+	duplicate, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "legacy-key")
+	if err != nil || duplicate.ID != "legacy-goal" {
+		t.Fatalf("pre-metadata idempotency key after migration = %+v, err=%v", duplicate, err)
 	}
+	var version int
+	if err := e.db.QueryRow(`SELECT max(version) FROM schema_migration`).Scan(&version); err != nil || version != 4 {
+		t.Fatalf("migration version=%d err=%v; want 4", version, err)
+	}
+}
+
+func legacyCreateRequestHash() string {
+	legacyRequest := struct {
+		Action            string     `json:"action"`
+		PrivacyClass      string     `json:"privacy_class,omitempty"`
+		Metrics           Metrics    `json:"metrics,omitempty"`
+		Assertion         *Assertion `json:"assertion,omitempty"`
+		ExpectedCostMinor int64      `json:"expected_cost_minor,omitempty"`
+	}{
+		Action: "local.checksum", PrivacyClass: "general",
+		Metrics: Metrics{Impact: float64Ptr(1), Urgency: float64Ptr(1), UserValue: float64Ptr(1), Confidence: float64Ptr(1), Efficiency: float64Ptr(1)},
+	}
+	canonical, _ := json.Marshal(legacyRequest)
+	hash := sha256.Sum256(canonical)
+	return hex.EncodeToString(hash[:])
 }
 
 func float64Ptr(v float64) *float64 { return &v }
