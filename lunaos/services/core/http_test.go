@@ -118,6 +118,36 @@ func TestHTTPGoalControlsRequireOwnerAndEnforceTransitions(t *testing.T) {
 	}
 }
 
+func TestHTTPGoalPlanIsOwnerOnlyAndValidatesBody(t *testing.T) {
+	e := testEngine(t, testDBPath(t), &testPolicy{})
+	goal, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "http-plan-goal")
+	if err != nil {
+		t.Fatal(err)
+	}
+	dependency, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "http-plan-dependency")
+	if err != nil {
+		t.Fatal(err)
+	}
+	handler := NewHTTPHandler(e, "owner-secret")
+	request := func(token, body string) *httptest.ResponseRecorder {
+		req := httptest.NewRequest(http.MethodPost, "/v1/goals/"+goal.ID+"/plan", bytes.NewBufferString(body))
+		req.Header.Set("Authorization", "Bearer "+token)
+		req.Header.Set("Content-Type", "application/json")
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, req)
+		return response
+	}
+	if response := request("guest", `{"dependency_goal_ids":["`+dependency.ID+`"]}`); response.Code != http.StatusUnauthorized {
+		t.Fatalf("guest plan status=%d body=%s", response.Code, response.Body.String())
+	}
+	if response := request("owner-secret", `{"dependency_goal_ids":["`+dependency.ID+`"],"unexpected":true}`); response.Code != http.StatusBadRequest {
+		t.Fatalf("unknown plan field status=%d body=%s", response.Code, response.Body.String())
+	}
+	if response := request("owner-secret", `{"dependency_goal_ids":["`+dependency.ID+`"]}`); response.Code != http.StatusOK || !bytes.Contains(response.Body.Bytes(), []byte(dependency.ID)) {
+		t.Fatalf("owner plan status=%d body=%s", response.Code, response.Body.String())
+	}
+}
+
 func TestIntimacyStopIsOwnerOnlyAndPersistsAcrossRestart(t *testing.T) {
 	path := testDBPath(t)
 	policy := &testPolicy{}

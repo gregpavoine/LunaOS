@@ -70,7 +70,30 @@ func Open(path, ownerToken string, policy Policy, runner Runner) (*Engine, error
 		_ = db.Close()
 		return nil, err
 	}
+	if err := applyGoalDependencyMigration(context.Background(), db); err != nil {
+		_ = db.Close()
+		return nil, err
+	}
 	return &Engine{db: db, ownerToken: ownerToken, policy: policy, runner: runner}, nil
+}
+
+func applyGoalDependencyMigration(ctx context.Context, db *sql.DB) error {
+	tx, err := db.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+	var applied int
+	if err = tx.QueryRowContext(ctx, `SELECT count(*) FROM schema_migration WHERE version=3`).Scan(&applied); err != nil {
+		return err
+	}
+	if applied != 0 {
+		return tx.Commit()
+	}
+	if _, err = tx.ExecContext(ctx, goalDependencyMigration); err != nil {
+		return fmt.Errorf("apply goal dependency migration: %w", err)
+	}
+	return tx.Commit()
 }
 
 func (e *Engine) Close() error { return e.db.Close() }
@@ -203,13 +226,34 @@ func (e *Engine) Get(ctx context.Context, goalID string) (Goal, error) {
 	var g Goal
 	var metricsJSON string
 	var assertionJSON sql.NullString
+	var parentID sql.NullString
 	var scoreNumber sql.NullFloat64
-	err := e.db.QueryRowContext(ctx, `SELECT g.id,g.action,g.privacy_class,COALESCE(c.state,g.status),g.metrics_json,g.score,g.policy_code,g.provenance_status,g.assertion_json,g.created_at_utc,COALESCE(c.updated_at_utc,g.updated_at_utc)
-		FROM goal g LEFT JOIN goal_control c ON c.goal_id=g.id WHERE g.id=?`, goalID).Scan(&g.ID, &g.Action, &g.PrivacyClass, &g.Status, &metricsJSON, &scoreNumber, &g.PolicyCode, &g.ProvenanceStatus, &assertionJSON, &g.CreatedAtUTC, &g.UpdatedAtUTC)
+	err := e.db.QueryRowContext(ctx, `SELECT g.id,g.action,g.privacy_class,COALESCE(c.state,g.status),g.metrics_json,g.score,g.policy_code,g.provenance_status,g.assertion_json,g.parent_id,g.created_at_utc,COALESCE(c.updated_at_utc,g.updated_at_utc)
+		FROM goal g LEFT JOIN goal_control c ON c.goal_id=g.id WHERE g.id=?`, goalID).Scan(&g.ID, &g.Action, &g.PrivacyClass, &g.Status, &metricsJSON, &scoreNumber, &g.PolicyCode, &g.ProvenanceStatus, &assertionJSON, &parentID, &g.CreatedAtUTC, &g.UpdatedAtUTC)
 	if errors.Is(err, sql.ErrNoRows) {
 		return Goal{}, ErrNotFound
 	}
 	if err != nil {
+		return Goal{}, err
+	}
+	if parentID.Valid {
+		value := parentID.String
+		g.ParentID = &value
+	}
+	g.DependencyIDs = []string{}
+	rows, err := e.db.QueryContext(ctx, `SELECT depends_on_goal_id FROM goal_dependency WHERE goal_id=? ORDER BY depends_on_goal_id`, goalID)
+	if err != nil {
+		return Goal{}, err
+	}
+	for rows.Next() {
+		var dependencyID string
+		if err := rows.Scan(&dependencyID); err != nil {
+			rows.Close()
+			return Goal{}, err
+		}
+		g.DependencyIDs = append(g.DependencyIDs, dependencyID)
+	}
+	if err := rows.Close(); err != nil {
 		return Goal{}, err
 	}
 	if err = json.Unmarshal([]byte(metricsJSON), &g.Metrics); err != nil {
@@ -236,6 +280,80 @@ func (e *Engine) Get(ctx context.Context, goalID string) (Goal, error) {
 		return Goal{}, err
 	}
 	return g, nil
+}
+
+// SetPlan atomically replaces the owner-authenticated hierarchy parent and
+// blocking prerequisites for one goal. It never creates an authorization grant.
+func (e *Engine) SetPlan(ctx context.Context, goalID string, dependencyIDs []string, parentID *string, ownerToken string) (Goal, error) {
+	if !hmac.Equal([]byte(ownerToken), []byte(e.ownerToken)) {
+		return Goal{}, ErrUnauthorized
+	}
+	if goalID == "" || len(dependencyIDs) > 32 {
+		return Goal{}, fmt.Errorf("%w: PLAN_TOO_LARGE_OR_INVALID", ErrInvalid)
+	}
+	seen := make(map[string]struct{}, len(dependencyIDs))
+	for _, id := range dependencyIDs {
+		if id == "" || id == goalID {
+			return Goal{}, fmt.Errorf("%w: PLAN_INVALID", ErrInvalid)
+		}
+		if _, duplicate := seen[id]; duplicate {
+			return Goal{}, fmt.Errorf("%w: PLAN_INVALID", ErrInvalid)
+		}
+		seen[id] = struct{}{}
+	}
+	if parentID != nil && (*parentID == "" || *parentID == goalID) {
+		return Goal{}, fmt.Errorf("%w: PLAN_INVALID", ErrInvalid)
+	}
+	tx, err := e.db.BeginTx(ctx, nil)
+	if err != nil {
+		return Goal{}, err
+	}
+	defer tx.Rollback()
+	var exists int
+	if err = tx.QueryRowContext(ctx, `SELECT count(*) FROM goal WHERE id=?`, goalID).Scan(&exists); err != nil {
+		return Goal{}, err
+	}
+	if exists == 0 {
+		return Goal{}, ErrNotFound
+	}
+	for _, id := range dependencyIDs {
+		if err = tx.QueryRowContext(ctx, `SELECT count(*) FROM goal WHERE id=?`, id).Scan(&exists); err != nil {
+			return Goal{}, err
+		}
+		if exists == 0 {
+			return Goal{}, ErrNotFound
+		}
+	}
+	if parentID != nil {
+		if err = tx.QueryRowContext(ctx, `SELECT count(*) FROM goal WHERE id=?`, *parentID).Scan(&exists); err != nil {
+			return Goal{}, err
+		}
+		if exists == 0 {
+			return Goal{}, ErrNotFound
+		}
+	}
+	if _, err = tx.ExecContext(ctx, `DELETE FROM goal_dependency WHERE goal_id=?`, goalID); err != nil {
+		return Goal{}, err
+	}
+	var parent any
+	if parentID != nil {
+		parent = *parentID
+	}
+	if _, err = tx.ExecContext(ctx, `UPDATE goal SET parent_id=?,updated_at_utc=? WHERE id=?`, parent, timestamp(), goalID); err != nil {
+		return Goal{}, fmt.Errorf("%w: PLAN_CYCLE_OR_INVALID", ErrInvalid)
+	}
+	for _, id := range dependencyIDs {
+		if _, err = tx.ExecContext(ctx, `INSERT INTO goal_dependency(goal_id,depends_on_goal_id,dependency_type,created_at_utc) VALUES(?,?,'blocks',?)`, goalID, id, timestamp()); err != nil {
+			return Goal{}, fmt.Errorf("%w: PLAN_CYCLE_OR_INVALID", ErrInvalid)
+		}
+	}
+	if err = insertEvent(ctx, tx, goalID, "goal.plan.updated", "OWNER_PLAN", timestamp()); err != nil {
+		return Goal{}, err
+	}
+	if err = tx.Commit(); err != nil {
+		return Goal{}, err
+	}
+	return e.Get(ctx, goalID)
 }
 
 func (e *Engine) Pause(ctx context.Context, goalID, ownerToken string) (Goal, error) {
@@ -423,6 +541,7 @@ func (e *Engine) claim(ctx context.Context) (string, Request, string, string, er
 	err = tx.QueryRowContext(ctx, `SELECT g.id,g.action,g.privacy_class,g.metrics_json,g.assertion_json,g.grant_token,g.score
 		FROM goal g JOIN job j ON j.goal_id=g.id
 		WHERE j.state='queued' AND g.status='approved' AND g.score>0 AND NOT EXISTS (SELECT 1 FROM goal_control c WHERE c.goal_id=g.id)
+		AND NOT EXISTS (SELECT 1 FROM goal_dependency d JOIN goal prerequisite ON prerequisite.id=d.depends_on_goal_id WHERE d.goal_id=g.id AND prerequisite.status!='completed')
 		ORDER BY g.score DESC,g.created_at_utc,g.id LIMIT 1`).Scan(&goalID, &action, &privacyClass, &metricsJSON, &assertionJSON, &grant, &score)
 	if errors.Is(err, sql.ErrNoRows) {
 		if err = tx.Commit(); err != nil {

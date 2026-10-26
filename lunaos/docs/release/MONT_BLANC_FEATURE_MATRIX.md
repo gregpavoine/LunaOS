@@ -1,6 +1,6 @@
 # Feature status — Mont Blanc NOT RELEASED
 
-Updated 2026-10-25. No full V0, RC or Mont Blanc release claimed.
+Updated 2026-10-26. No full V0, RC or Mont Blanc release claimed.
 `VERIFIED_LOCAL` means a bounded local test or process result; it does not imply
 Arch installation, systemd, boot, hardware or release verification. All mandatory
 later features remain in Mont Blanc scope.
@@ -23,8 +23,8 @@ later features remain in Mont Blanc scope.
 | Idle success/offline local goal feature | VERIFIED_LOCAL | G-021, G-023 local subset |
 | Evidence-backed checksum completion | VERIFIED_LOCAL | G-013 pure fixture only |
 | Local REST owner transparency | VERIFIED_LOCAL | API round-trip; partial G-030 |
-| Bounded dependency edges/cycle rejection/scheduler ordering | VERIFIED_LOCAL | Owner-managed Rust parent/dependency plan API; limits and combined-graph cycle checks tested; no natural-language planning |
-| Full goal lifecycle/CRUD/planner/strategy optimizer | PARTIAL | Go Core now has owner-authenticated persistent pause/resume/cancel at `PATCH /v1/goals/{id}` with lifecycle events and running-job conflict protection; editing, remaining state transitions, complete state-machine parity, natural-language planning and evidence-backed strategy evaluation remain absent |
+| Bounded dependency edges/cycle rejection/scheduler ordering | VERIFIED_LOCAL | Owner-authenticated Rust and Go Core parent/dependency plans; additive Go SQLite migration, 32-edge bound, combined-graph cycle checks, dependency gate and restart persistence pass local tests; no natural-language planning or Arch/systemd proof |
+| Full goal lifecycle/CRUD/planner/strategy optimizer | PARTIAL | Go Core has owner-authenticated persistent pause/resume/cancel and bounded plan mutation with running-job conflict protection; editing, remaining transitions, natural-language planning and evidence-backed strategy evaluation remain absent |
 | Authenticated production sessions/key vault/remote admin | BLOCKED | Device identities/key store and hardened Linux boundary absent |
 | Payments, reservations/ledger, external conversation grants | NOT_STARTED | Always denied; no budget or recipients configured |
 | Native Wayland shell/session/keyboard command center | PARTIAL | Quickshell/QML dashboard source and Hyprland bindings exist; Arch `qmllint` exits 0 with a `PanelWindow` type-resolution warning; no Wayland/Hyprland runtime |

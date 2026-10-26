@@ -20,6 +20,16 @@ installation, upgrades, recovery or Secure Boot.
 
 This is a live technical preview, not the completed Mont Blanc 1.0 scope.
 
+## Latest implementation checkpoint — 2026-10-26
+
+Go Core dependency planning was added on branch `feature/go-goal-dependencies`.
+`cd lunaos && make test check` passed on macOS arm64 after the change; the Go Core
+race suite (`go test -buildvcs=false -race -count=1 ./services/core`) also passed.
+This local result covers Go tests, formatting, vet, shell syntax and OpenAPI JSON
+parsing. No Linux process integration, QML runtime, target Arch, hardware, or ISO
+build was run for this change. The branch does not complete or release Mont Blanc
+1.0.
+
 ## Release 0 build status — 2026-10-25
 
 Fresh local verification on macOS arm64: `make test && make check && make build`
@@ -73,6 +83,16 @@ Wayland.
   durable evidence, queued-work recovery after Engine reopen, and idle queue success.
   Unit and HTTP handler tests pass. A Linux process test connects Core to the real
   broker binary; handler unit tests still use a policy test double.
+- Go Core now also supports an owner-authenticated bounded parent/dependency plan
+  at `POST /v1/goals/{id}/plan`. Migration 3 adds the plan tables without
+  replacing existing goal rows; SQL guards reject combined hierarchy/dependency
+  cycles and limit each goal to 32 prerequisites. The scheduler skips a queued
+  goal until every prerequisite is completed and still revalidates Policy Broker
+  authorization before the action. Tests verify unauthorized and malformed plans,
+  duplicate/self/missing/cyclic references, cross-type cycle rejection, legacy
+  row preservation, plan persistence across restart, and prerequisite ordering.
+  This is local Go behavior evidence only; no target Arch/systemd validation or
+  natural-language planning is implemented.
 - `services/core/cmd/luna-core` is a runnable process with a private owner token,
   SQLite database, broker Unix socket, loopback REST API and two-second scheduler.
   A Linux process test starts the real Go broker and Core binaries, loads a queued

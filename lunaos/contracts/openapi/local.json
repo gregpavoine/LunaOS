@@ -172,6 +172,42 @@
         ]
       }
     },
+    "/v1/goals/{id}/plan": {
+      "post": {
+        "summary": "Owner replaces the bounded hierarchy parent and blocking prerequisites",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {"type": "string", "format": "uuid"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["dependency_goal_ids"],
+                "properties": {
+                  "dependency_goal_ids": {"type": "array", "maxItems": 32, "uniqueItems": true, "items": {"type": "string", "format": "uuid"}},
+                  "parent_id": {"type": ["string", "null"], "format": "uuid"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Plan persisted and returned with the goal"},
+          "400": {"description": "Malformed, oversized, or cyclic plan"},
+          "401": {"description": "Owner authentication required"},
+          "404": {"description": "Goal or prerequisite not found"},
+          "503": {"description": "Local service unavailable"}
+        }
+      }
+    },
     "/v1/goals/{id}/decisions": {
       "get": {
         "summary": "At most 100 ordered safe events",
