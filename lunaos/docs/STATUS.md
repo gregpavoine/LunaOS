@@ -2,19 +2,21 @@
 
 ## Current release checkpoint — 2026-10-26
 
-**Bootable ISO verified in CI; GitHub release not published yet.** The `mont-blanc`
-branch workflow built an Arch x86_64 live ISO and booted it with QEMU TCG and OVMF
-UEFI. The captured serial log confirms systemd reached `Graphical Interface`,
-first-boot owner and broker credentials were created, and systemd started the
-Policy Broker and Core services. This does not verify a visible Hyprland session,
-physical hardware, disk installation, upgrades, recovery or Secure Boot.
+**LunaOS 0.1.0 is published.** The `v0.1.0` tag workflow rebuilt the Arch x86_64
+live ISO and booted it with QEMU TCG and OVMF UEFI before publishing. Its captured
+serial log confirms systemd reached `Graphical Interface`, first-boot owner and
+broker credentials were created, and systemd started the Policy Broker and Core
+services. This does not verify a visible Hyprland session, physical hardware, disk
+installation, upgrades, recovery or Secure Boot.
 
 - Source commit: `1b2688bafd81512291ece4656bc4d8c9dc3aa77c`
 - Build and UEFI smoke: [GitHub Actions 40287955011](https://github.com/gregpavoine/LunaOS/actions/runs/40287955011)
 - Temporary ISO artifact: [lunaos-0.1.0-x86_64-iso](https://github.com/gregpavoine/LunaOS/actions/runs/40287955011/artifacts/12635192570) (1,647,567,072 bytes)
 - ISO SHA-256 from the build job: `0325c55fa07a39053b6606aa8a78157e881a9176bdf1b2b5402b3e95d1855868`
 - `make test check` on the same source: PASS (Go tests, gofmt, vet, shell syntax and OpenAPI JSON validation)
-- `v0.1.0` GitHub release: NOT PUBLISHED; the release job runs only after a tag build and UEFI smoke pass.
+- Published release: [LunaOS 0.1.0 — First Bootable ISO](https://github.com/gregpavoine/LunaOS/releases/tag/v0.1.0), created by [tag workflow 40288575830](https://github.com/gregpavoine/LunaOS/actions/runs/40288575830)
+- Published ISO: `lunaos-0.1.0-x86_64.iso` (1,658,187,776 bytes)
+- Published ISO SHA-256: `fa52b6c2048bd1fe2277786fd7c5b24e6903b23fa196cf0e783efcae2ab7ac6d` (matches the `SHA256SUMS` asset and GitHub asset digest)
 
 This is a live technical preview, not the completed Mont Blanc 1.0 scope.
 
