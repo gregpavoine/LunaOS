@@ -8,7 +8,7 @@ spawn qemu-system-x86_64 \
   -drive file=$env(LUNAOS_TARGET_DISK),if=virtio,format=qcow2 \
   -cdrom $env(LUNAOS_ISO_PATH) \
   -drive file=$env(LUNAOS_SEED_ISO),media=cdrom,if=ide,index=1,readonly=on \
-  -boot order=dc -display none -serial stdio -monitor none -nic user,model=virtio-net-pci
+  -boot order=cd -display none -serial stdio -monitor none -nic user,model=virtio-net-pci
 
 expect {
   -re {root@[^\r\n]*[#] ?} {}
