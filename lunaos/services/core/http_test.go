@@ -148,6 +148,33 @@ func TestHTTPGoalPlanIsOwnerOnlyAndValidatesBody(t *testing.T) {
 	}
 }
 
+func TestHTTPReprioritizeRequiresOwnerAndAllMetrics(t *testing.T) {
+	e := testEngine(t, testDBPath(t), &testPolicy{})
+	goal, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "http-reprioritize")
+	if err != nil {
+		t.Fatal(err)
+	}
+	handler := NewHTTPHandler(e, "owner-secret")
+	request := func(token, body string) *httptest.ResponseRecorder {
+		req := httptest.NewRequest(http.MethodPatch, "/v1/goals/"+goal.ID, bytes.NewBufferString(body))
+		req.Header.Set("Authorization", "Bearer "+token)
+		req.Header.Set("Content-Type", "application/json")
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, req)
+		return response
+	}
+	body := `{"operation":"reprioritize","metrics":{"impact":0.2,"urgency":0.2,"user_value":0.2,"confidence":0.2,"efficiency":0.2}}`
+	if response := request("guest", body); response.Code != http.StatusUnauthorized {
+		t.Fatalf("guest reprioritize status=%d body=%s", response.Code, response.Body.String())
+	}
+	if response := request("owner-secret", `{"operation":"reprioritize"}`); response.Code != http.StatusBadRequest {
+		t.Fatalf("missing metrics status=%d body=%s", response.Code, response.Body.String())
+	}
+	if response := request("owner-secret", body); response.Code != http.StatusOK || !bytes.Contains(response.Body.Bytes(), []byte(`"score":20`)) {
+		t.Fatalf("reprioritize status=%d body=%s", response.Code, response.Body.String())
+	}
+}
+
 func TestIntimacyStopIsOwnerOnlyAndPersistsAcrossRestart(t *testing.T) {
 	path := testDBPath(t)
 	policy := &testPolicy{}

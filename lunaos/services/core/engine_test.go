@@ -89,6 +89,63 @@ func TestPaymentDeniedWhenBudgetAbsent(t *testing.T) {
 	}
 }
 
+func TestReprioritizeRequiresOwnerAndExplicitBoundedMetrics(t *testing.T) {
+	e := testEngine(t, testDBPath(t), &testPolicy{})
+	goal, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "reprio-validation")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := e.Reprioritize(context.Background(), goal.ID, Metrics{Impact: float64Ptr(.1), Urgency: float64Ptr(.1), UserValue: float64Ptr(.1), Confidence: float64Ptr(.1)}, "owner-secret"); !errors.Is(err, ErrInvalid) {
+		t.Fatalf("incomplete metrics error=%v, want ErrInvalid", err)
+	}
+	if _, err := e.Reprioritize(context.Background(), goal.ID, validMetrics(2), "owner-secret"); !errors.Is(err, ErrInvalid) {
+		t.Fatalf("out-of-range metrics error=%v, want ErrInvalid", err)
+	}
+	if _, err := e.Reprioritize(context.Background(), goal.ID, validMetrics(.4), "guest"); !errors.Is(err, ErrUnauthorized) {
+		t.Fatalf("guest reprioritize error=%v, want ErrUnauthorized", err)
+	}
+	if _, err := e.Pause(context.Background(), goal.ID, "owner-secret"); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := e.Reprioritize(context.Background(), goal.ID, validMetrics(.4), "owner-secret"); !errors.Is(err, ErrTransitionConflict) {
+		t.Fatalf("paused reprioritize error=%v, want ErrTransitionConflict", err)
+	}
+	current, err := e.Get(context.Background(), goal.ID)
+	if err != nil || current.Score == nil || *current.Score != 100 {
+		t.Fatalf("rejected requests changed goal score: goal=%+v err=%v", current, err)
+	}
+}
+
+func TestReprioritizeDenialBlocksWithoutScoringAndAllowedUpdatePersists(t *testing.T) {
+	policy := &testPolicy{}
+	e := testEngine(t, testDBPath(t), policy)
+	goal, err := e.Create(context.Background(), Request{Action: "local.checksum"}, "owner-secret", "reprio-policy")
+	if err != nil {
+		t.Fatal(err)
+	}
+	policy.denyCode = "ACTION_DENIED"
+	denied, err := e.Reprioritize(context.Background(), goal.ID, validMetrics(.2), "owner-secret")
+	if err != nil || denied.Status != "blocked" || denied.Score != nil || denied.PolicyCode != "ACTION_DENIED" {
+		t.Fatalf("denied reprioritize=%+v err=%v", denied, err)
+	}
+	var jobState string
+	if err := e.db.QueryRow(`SELECT state FROM job WHERE goal_id=?`, goal.ID).Scan(&jobState); err != nil || jobState != "blocked" {
+		t.Fatalf("denied reprioritize job state=%q err=%v", jobState, err)
+	}
+	policy.denyCode = ""
+	updated, err := e.Reprioritize(context.Background(), goal.ID, validMetrics(.2), "owner-secret")
+	if err != nil || updated.Status != "approved" || updated.Score == nil || *updated.Score != Score(validMetrics(.2)) {
+		t.Fatalf("allowed reprioritize=%+v err=%v", updated, err)
+	}
+	if eventCount(t, e, goal.ID, "goal.reprioritized") != 1 {
+		t.Fatal("successful reprioritize did not create one audit event")
+	}
+}
+
+func validMetrics(value float64) Metrics {
+	return Metrics{Impact: float64Ptr(value), Urgency: float64Ptr(value), UserValue: float64Ptr(value), Confidence: float64Ptr(value), Efficiency: float64Ptr(value)}
+}
+
 func TestPolicyDenialHappensBeforeScore(t *testing.T) {
 	policy := &testPolicy{denyCode: "ACTION_DENIED"}
 	e := testEngine(t, testDBPath(t), policy)

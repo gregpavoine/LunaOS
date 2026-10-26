@@ -37,6 +37,12 @@ QEMU smoke does not verify a visible Hyprland/QML session, install/recovery,
 physical hardware or complete Mont Blanc 1.0. This branch does not complete or
 release Mont Blanc 1.0.
 
+The next separate feature branch, `feature/go-goal-reprioritize`, adds guarded
+score-input changes to the Go Goal Engine. On macOS arm64, `make test check` and
+`go test -buildvcs=false -race -count=1 ./services/core` passed. The branch has not
+yet been merged or packaged into the ISO artifact above. Reprioritization is not
+full goal content editing or full CRUD.
+
 ## Release 0 build status — 2026-10-25
 
 Fresh local verification on macOS arm64: `make test && make check && make build`
@@ -100,6 +106,14 @@ Wayland.
   row preservation, plan persistence across restart, and prerequisite ordering.
   This is local Go behavior evidence only; no target Arch/systemd validation or
   natural-language planning is implemented.
+- Go Core also exposes owner-authenticated reprioritization through
+  `PATCH /v1/goals/{id}`. It requires explicit finite 0..1 values for every score
+  metric, calls Policy Broker authorization before scoring, atomically replaces
+  score inputs and grant only on allow, and moves denied work to blocked without a
+  score or grant. Running, paused, cancelled, completed and failed goals cannot be
+  reprioritized. Engine and HTTP tests cover owner denial, metric validation,
+  broker denial, persisted successful score and lifecycle restrictions. This
+  changes scheduling priority only; it does not edit goal action, cost or content.
 - `services/core/cmd/luna-core` is a runnable process with a private owner token,
   SQLite database, broker Unix socket, loopback REST API and two-second scheduler.
   A Linux process test starts the real Go broker and Core binaries, loads a queued
