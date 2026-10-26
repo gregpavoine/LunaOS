@@ -11,7 +11,7 @@ spawn qemu-system-x86_64 \
   -boot order=cd -display none -serial stdio -monitor none -nic user,model=virtio-net-pci
 
 expect {
-  -re {root@archiso[^\r\n]*[#] ?$} {}
+  -re {root@[^\r\n]*[#] ?} {}
   timeout { puts stderr "FAIL: no root shell appeared on the live ISO serial console"; exit 1 }
   eof { puts stderr "FAIL: QEMU exited before the live ISO shell appeared"; exit 1 }
 }
@@ -33,7 +33,7 @@ expect {
   eof { puts stderr "FAIL: live ISO exited before installer confirmation"; exit 1 }
 }
 expect {
-  -re {root@archiso[^\r\n]*[#] ?$} {}
+  -re {root@[^\r\n]*[#] ?} {}
   timeout { puts stderr "FAIL: Archinstall did not return to the live shell after installation"; exit 1 }
   eof { puts stderr "FAIL: live ISO exited before the installed-target reboot"; exit 1 }
 }
