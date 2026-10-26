@@ -3,6 +3,7 @@ grub
 syslinux
 linux
 linux-firmware
+mkinitcpio-archiso
 hyprland
 quickshell
 foot
