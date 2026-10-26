@@ -22,26 +22,27 @@ This is a live technical preview, not the completed Mont Blanc 1.0 scope.
 
 ## Latest implementation checkpoint — 2026-10-26
 
-Go Core dependency planning was added on branch `feature/go-goal-dependencies`.
-`cd lunaos && make test check` passed on macOS arm64 after the change; the Go Core
-race suite (`go test -buildvcs=false -race -count=1 ./services/core`) also passed.
-This local result covers Go tests, formatting, vet, shell syntax and OpenAPI JSON
-parsing. CI on the merged commit `67ebc0992fabc15f9614a93693d43dc1e04b6846`
-passed portable checks and built an Arch x86_64 ISO; the embedded UEFI/QEMU smoke
-test passed, confirming the graphical systemd target and first-boot owner setup,
-Policy Broker and Core startup. The downloadable [Actions ISO artifact](https://github.com/gregpavoine/LunaOS/actions/runs/40290474604/artifacts/12635882051)
-contains `lunaos-0.1.0-x86_64.iso` and `SHA256SUMS`; ISO SHA-256:
-`8517b5b33628a9a90896d12bd26c311457c494821edc24c6f6764e64da7f3a95f`. It is a
-temporary test artifact expiring 2026-11-09, not a new GitHub release tag. The
-QEMU smoke does not verify a visible Hyprland/QML session, install/recovery,
-physical hardware or complete Mont Blanc 1.0. This branch does not complete or
-release Mont Blanc 1.0.
+Two Go Core goal features are merged into `mont-blanc`: bounded dependency
+planning (`67dd84ab`, merge `67ebc099`) and policy-checked reprioritization
+(`521c69ee`, merge `6d631fb7`). On macOS arm64, `make test check` and
+`go test -buildvcs=false -race -count=1 ./services/core` passed. The repo's
+portable CI run [40291432005](https://github.com/gregpavoine/LunaOS/actions/runs/40291432005)
+passed its Ubuntu and macOS jobs. The Arch ISO run
+[40291432039](https://github.com/gregpavoine/LunaOS/actions/runs/40291432039)
+passed the x86_64 build and UEFI/QEMU smoke test, which confirmed the graphical
+systemd target and startup of first-boot owner setup, Policy Broker and Core.
 
-The next separate feature branch, `feature/go-goal-reprioritize`, adds guarded
-score-input changes to the Go Goal Engine. On macOS arm64, `make test check` and
-`go test -buildvcs=false -race -count=1 ./services/core` passed. The branch has not
-yet been merged or packaged into the ISO artifact above. Reprioritization is not
-full goal content editing or full CRUD.
+The [test ISO artifact](https://github.com/gregpavoine/LunaOS/actions/runs/40291432039/artifacts/12636089430)
+contains `lunaos-0.1.0-x86_64.iso` and `SHA256SUMS`; ISO SHA-256 is
+`f4a93581d7d73e1d5c28e07aa09293d4412a895c652d10d5cd3c5b87e15fdbce`. It was
+built from source commit `6d631fb7e80228bfe2e4d794a515823fcd487052` and expires
+2026-11-09. It is a temporary Actions artifact, not a new GitHub release tag; the
+published release remains `v0.1.0`. The smoke test does not verify a visible
+Hyprland/QML session, disk installation or recovery, physical hardware, or full
+Mont Blanc 1.0. Reprioritization and planner REST behavior are covered by local Go
+tests; the QEMU smoke only confirms the boot path and service startup. These
+features are not full goal content editing, natural-language planning or a
+completed Mont Blanc 1.0 release.
 
 ## Release 0 build status — 2026-10-25
 
