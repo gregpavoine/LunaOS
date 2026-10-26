@@ -1,19 +1,19 @@
 # Omarchy-aligned LunaOS architecture
 
-LunaOS is an independent Arch-based distribution assembled with the same broad
-techniques used by Omarchy: upstream packages, configuration and Bash integration,
-Hyprland on Wayland, and a Quickshell/QML desktop. LunaOS owns its image, package
-manifest, branding, services, updates and recovery. An installed Omarchy system is
-not a runtime dependency.
+This repository is LunaOS's Omarchy-derived Arch distribution source. It owns the
+base configuration, Bash integration and lifecycle, Hyprland session, Quickshell
+desktop, and update/recovery behavior. Package recipes and the branded ISO are
+maintained in separate sibling repositories following Omarchy's source/package/ISO
+split. LunaOS does not require an independently installed Omarchy system at runtime.
 
 ## Component and language boundaries
 
 | Layer | LunaOS choice | Why | Current state |
 |---|---|---|---|
-| Base and boot | Arch packages, upstream Linux kernel, systemd, boot/recovery tools | Reuse maintained Linux components instead of writing an OS kernel | Archiso profile and build script exist; ISO, boot, installer and recovery not built or tested |
+| Base and boot | This repository's Omarchy-derived Arch source, upstream Linux kernel, systemd and established boot/recovery tools | Reuse the existing distribution implementation instead of building a parallel one | Source and integration scripts exist; release ISO install/recovery acceptance remains incomplete |
 | Desktop session | Hyprland/Wayland plus Omarchy-compatible config and protocols | Reuse the target desktop and its mature integrations | Config/source only; no real Linux session test |
 | Shell, bar and panels | Quickshell/QML/Qt | Same shell technology used by current Omarchy; supports a long-running compositor-integrated shell | Dashboard source and Hyprland config exist; Arch `qmllint` exits 0 with one `PanelWindow` type-resolution warning; no runtime session test |
-| OS composition | Bash scripts, declarative package lists, systemd units | Fits Arch installation and Omarchy's shell-first integration approach | Live profile, first-boot setup and build script exist; ISO and installed lifecycle are not release-ready |
+| OS composition | Existing Bash scripts, declarative package lists and systemd units in this source repository | Extend the running system lifecycle in its native integration points | LunaOS service source exists; package/image integration and installed lifecycle remain incomplete |
 | Goal/API/scheduler | Go services with SQLite | Compiled Linux binaries, typed service boundary and existing Go reference behavior | Core/Broker process slice and owner credential CLI pass Linux-container tests; updated Arch package builds under x86_64 emulation; full service parity and systemd boot remain |
 | Policy broker | Separate Go service over private Unix socket | Independent owner-authenticated policy boundary; avoids a scripting process holding broad system authority | Go owner-token, scoped-grant and Linux peer-UID checks pass in tests; distinct Core/Broker users and credentials are configured and `systemd-sysusers` validated, but unit execution in systemd remains unverified; Rust broker is frozen |
 | Owner credential setup | Go `luna-owner-setup` CLI | Creates separate owner and Core-to-Broker credentials without replacing existing files | Packaged CLI and first-boot unit exist; credential file permissions are tested, but first boot and owner login/session remain unverified |
@@ -46,10 +46,11 @@ the Arch toolchain, and test both boot and fallback recovery in an isolated targ
 Never replace the kernel or drivers on an existing Omarchy host as part of a source
 development task.
 
-Build LunaOS applications as Arch packages with `makepkg`/clean build environments;
-build the install image with `archiso`. Pin package inputs and record package
-checksums/SBOMs. A source build or package manifest is not evidence that the image
-boots. Every LunaOS-owned core daemon must ship as a native binary for the declared
+Build LunaOS applications as Arch packages in the separate `LunaOS-pkgs` repository
+with `makepkg`/clean build environments; build the branded image in the separate
+`LunaOS-iso` repository from the maintained Omarchy ISO structure. Pin package and
+source inputs and record package checksums/SBOMs. A source build or package manifest
+is not evidence that the image boots. Every LunaOS-owned core daemon must ship as a native binary for the declared
 target CPU; scripts serve as deterministic glue, not as an interpreted core service.
 Build Go release binaries for the target architecture with reproducible inputs.
 Keep x86-64-v1 for generic Arch compatibility; the specified Ryzen 9 5950X can

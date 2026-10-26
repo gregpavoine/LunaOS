@@ -3,13 +3,8 @@
 - Source order: later owner architecture correction > AGENTS/new Goal addendum for
   goals and authority > unified U0–U21 > legacy annexes. Series26 KEEP items remain
   relevant before any separately authorized migration from an existing Omarchy host.
-- ADR0001 now selects an independently installable Arch-based LunaOS; Omarchy is
-  a reference implementation, not a runtime dependency.
-- ADR0002 records the initial Go/Python checkpoint. ADR0003 records the subsequent
-  Rust checkpoint. ADR0004 supersedes ADR0003 for future implementation: Bash for
-  distribution integration, Quickshell/QML for the shell, Go for long-running Luna
-  services, and Python only for isolated ML/third-party workloads. Keep the current
-  Rust code frozen until Go parity passes; no Rust removal is implemented yet.
+- ADR0001 and ADR0004 are historical. ADR0005 is the current distribution boundary: this repository is the Omarchy-derived LunaOS system source; package recipes and the branded ISO are separate sibling repositories. Do not build a parallel installer, shell or base package closure.
+- ADR0002 records the initial Go/Python checkpoint. ADR0003 records the Rust checkpoint. ADR0005 keeps Go for active long-running Luna services, Bash for distribution integration, Quickshell/QML for desktop integration and Python only for isolated ML/third-party workloads. Keep the Rust checkpoint frozen until Go parity passes; no Rust removal is implemented yet.
 - Development owner key is generated locally with private permissions and never
   committed or logged. No caller-supplied role/owner field establishes identity.
 - Only action `local.checksum` on the compiled public fixture is executable.

@@ -1,5 +1,16 @@
 # LunaOS implementation status — Omarchy-aligned architecture checkpoint
 
+## Omarchy-style restart — 2026-10-26
+
+**Implemented locally:** ADR 0005 now makes this Omarchy-derived source tree the LunaOS system source and assigns package recipes and image tooling to separate repositories. Public repositories `gregpavoine/LunaOS-pkgs` and `gregpavoine/LunaOS-iso` were created. Local checkouts are on `feature/lunaos-packages` and `feature/lunaos-iso`, based respectively on `omacom/omarchy-pkgs` commit `e1bfe449defe677ba4d10e92cea2c5ef391c87be` and `omacom/omarchy-iso` commit `b851dfa665ead6520f799cc704572a7c5b39587e`. A pinned, vendored x86_64 `lunaos-control-plane` PKGBUILD and a local-source ISO builder wrapper are present in those checkouts. None of these commits has been pushed.
+
+**Verified locally:** `go mod verify` passes on the vendored source; the control-plane source archive matches the PKGBUILD SHA-256; Go module dependencies in the source snapshot pass `go mod verify`; all three package binaries compile from that archive on macOS arm64; and the ISO wrapper checks required checkout paths and passes its focused unit test. These checks do not build an Arch package. No Arch package, ISO, boot, install or Wayland test has been run for these new repository changes.
+
+**Blocked:** package/repository signing is not configured because no LunaOS signing key or CI publishing secret is established. Pacman must not be configured to trust or install unsigned LunaOS packages. The ISO checkout still has upstream Omarchy branding and release assumptions. The integration wrapper is for local development only; no LunaOS ISO is claimed. Main-source package lists, systemd enablement, existing Quickshell integration and install/reboot acceptance remain outstanding. x86_64 is the only planned first package architecture; aarch64 has no LunaOS package build evidence. The inherited package workflow still targets Omarchy publication paths, and read-only audits found high-severity shell interpolation findings in both cloned repositories. Their workflows were not edited or run and will trigger on matching GitHub events after push; do not push these repos until they are reviewed and adapted.
+
+**Safety state:** no host package, service, bootloader, disk or user data was changed; no remote Linux host was accessed. The previous nested installer and shell remain untouched as migration references.
+
+
 ## Single-file installer candidate rebuild — 2026-10-26 (not released)
 
 The ISO now contains the LunaOS package without duplicating the complete Arch package closure. Arch packages are installed from an official mirror, so the installer requires internet access. The Arch workflow builds one ISO, enforces a 1,900,000,000-byte asset limit, and checks UEFI live boot and a disposable disk installation before uploading anything.

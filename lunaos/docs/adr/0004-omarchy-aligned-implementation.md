@@ -1,6 +1,8 @@
 # ADR 0004: Omarchy-aligned distribution and implementation techniques
 
-**Status: Accepted by owner direction, 2026-10-25. Supersedes ADR 0003 for future implementation.**
+**Status: Superseded by ADR 0005 on 2026-10-26. Preserve as the historical language/service decision record.**
+
+**Current-state correction:** the Consequences section below described the Core/API as Rust, which was stale even when ADR 0004 was accepted. The active implementation is Go; ADR 0005 records the current distribution boundary and this correction.
 
 ## Context
 

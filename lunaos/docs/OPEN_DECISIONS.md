@@ -1,15 +1,24 @@
 # Open decisions and requirement map
 
+## Current Omarchy-style restart checkpoint (2026-10-26)
+
+The owner chose separate repositories following Omarchy. Public repositories now exist at `gregpavoine/LunaOS-pkgs` and `gregpavoine/LunaOS-iso`; local checkouts are based on pinned Omarchy repository revisions. No commits have been pushed. LunaOS package signing keys and publishing credentials do not yet exist, so the package repository cannot be safely enabled in pacman or published. The ISO checkout still has upstream Omarchy branding and release workflows; it is a builder base, not a LunaOS release. First supported package architecture is x86_64 until aarch64 build and installation acceptance are proven.
+
+ADR 0005 is current. ADRs 0001 and 0004 contain historical parallel-distribution wording and are superseded for repository boundaries. The nested `lunaos/packaging/arch` installer/profile and `lunaos/shell/shell.qml` remain migration references until an Omarchy-style image and desktop pass real VM acceptance. No host cleanup, package removal or remote Linux access occurred.
+
+The new package and ISO checkouts still inherit Omarchy GitHub Actions. Read-only workflow audits found 4 high-severity `MD-WF-007` findings in `LunaOS-pkgs/.github/workflows/build-pr.yml` (lines 60, 106, 216, 289) and 2 high-severity `MD-WF-007` findings in `LunaOS-iso/.github/workflows/install-test.yml` (lines 349, 450), all for untrusted event data interpolated into shell. The package audit also reported 52 medium findings; the ISO audit reported 2 medium findings. The inherited package publication workflow still names Omarchy channels/storage. Do not push or run either repository's workflows until their trust boundaries, permissions, and destinations are adapted for LunaOS. No workflow was edited or run in this checkpoint; the inherited workflows remain present and will trigger on their configured GitHub events after push.
+
+
 ## Architecture corrections (owner direction, 2026-10-24 and 2026-10-25)
 
-The 2026-10-24 correction established an independently installable Arch-based
-distribution and froze the initial Go/Python implementation. On 2026-10-25 the
-owner directed LunaOS to follow Omarchy's implementation techniques and not require
-Rust. ADR 0004 now selects upstream Arch packages, Bash integration, Hyprland,
-Quickshell/QML, and Go for long-running Luna services; Python remains isolated to
-ML/third-party workloads. The existing Rust checkpoint is frozen until Go parity
-is verified. Omarchy remains a reference, not a runtime dependency. The kernel is
-upstream Arch; no LunaOS kernel is planned by default.
+The 2026-10-24 correction established an Arch-based independent product. On
+2026-10-25 the owner selected Omarchy's implementation techniques and Go for
+long-running Luna services. On 2026-10-26 the owner clarified the repository
+boundary: this Omarchy-derived source tree is the LunaOS system base, with package
+recipes and image tooling in separate repositories. ADR 0005 supersedes ADR 0001
+and ADR 0004 on this boundary. The Rust checkpoint remains frozen pending parity;
+Python stays isolated to ML/third-party workloads. The kernel remains upstream
+Arch; no LunaOS kernel is planned by default.
 
 No host cleanup or system modification is authorized. The Go Core/Broker and
 optional private-memory vault have local implementations; Linux Docker process
@@ -42,7 +51,7 @@ failure recovery, Secure Boot and non-x86_64 support remain unresolved.
 
 | Conflict | Resolution |
 |---|---|
-| Additive Omarchy overlay vs independently installable Arch OS | Later owner architecture correction supersedes the older Task 1 and Series26 deployment recommendation: LunaOS owns its image; Omarchy is a reference. Any installed-host transition still requires separate authorization and recovery proof. |
+| Independently implemented Arch base vs Omarchy-style source reuse | ADR 0005 supersedes the earlier parallel-base recommendation: use this Omarchy-derived source as the system layer, and maintain separate package-recipe and ISO repositories. Do not create a second installer, shell or base package closure. Any installed-host transition still requires separate authorization and a verified recovery plan. |
 | Old romantic partner behavior vs assistant identity | Goal addendum and U0 win: assistant, no claims of subjective feeling |
 | Old unlimited autonomy/no confirmation vs independent safety | Goal §§0,1,6 win; no implicit privilege or financial grants |
 | Series29.80 retain after revocation vs revocable consent | New Goal §§1,7 require cessation, restriction, required erasure/derivative handling |

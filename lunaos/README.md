@@ -3,14 +3,11 @@
 LunaOS is an AI-native, independently installable Arch Linux distribution. It
 follows Omarchy's proven composition techniques: upstream Arch packages,
 configuration and Bash integration, Hyprland/Wayland, and Quickshell/QML for the
-desktop shell. Omarchy is a reusable reference, not a runtime dependency. LunaOS
-owns its package manifests, installer, shell, services, updates and recovery.
+desktop shell. This repository is the Omarchy-derived LunaOS system source. It owns the shared base system configuration, lifecycle, desktop session and recovery integration. LunaOS package recipes and the branded ISO are maintained in separate sibling repositories. An installed Omarchy system is not a runtime dependency.
 
 ## Architecture
 
-- **System composition:** Arch package manifests, systemd units and idempotent
-  Bash integration scripts. Reuse the upstream Linux kernel and drivers; do not
-  write a LunaOS kernel.
+- **System composition:** reuse this repository's Arch package manifests, systemd units and idempotent Bash lifecycle. The separate `LunaOS-pkgs` repository owns LunaOS package recipes; `LunaOS-iso` owns the branded image using the maintained Omarchy ISO builder. Reuse the upstream Linux kernel and drivers; do not write a LunaOS kernel.
 - **Native builds and speed:** every Luna-owned core service must ship as a
   compiled native binary for the target CPU. Package-time QML cache/AOT is used
   where Quickshell supports it. Performance is measured on the actual target
