@@ -40,6 +40,7 @@ fi
 
 work_dir=$(mktemp -d "${TMPDIR:-/tmp}/lunaos-install-vm.XXXXXX")
 chmod 0700 "$work_dir"
+pkg_dir=$(mktemp -d /tmp/lunaos-install-smoke-package.XXXXXX)
 keep_logs=${LUNAOS_KEEP_INSTALL_LOGS:-0}
 cleanup() {
   if [[ $keep_logs == 1 ]]; then
@@ -52,6 +53,7 @@ cleanup() {
     fi
   fi
   rm -rf -- "$work_dir"
+  rm -rf -- "$pkg_dir"
 }
 trap cleanup EXIT
 
@@ -62,8 +64,6 @@ jq '.packages += ["lunaos-install-smoke"] | .mirror_config.custom_repositories +
   "$work_dir/inputs/user_configuration.json" > "$work_dir/user_configuration.json"
 install -m 0600 "$work_dir/inputs/user_credentials.json" "$work_dir/user_credentials.json"
 
-pkg_dir="$work_dir/pkgbuild"
-mkdir -m 0755 "$pkg_dir"
 cp "$repo_root/lunaos/packaging/arch/install-test/PKGBUILD" \
   "$repo_root/lunaos/packaging/arch/install-test/lunaos-install-smoke.go" \
   "$repo_root/lunaos/packaging/arch/install-test/lunaos-install-smoke.service" "$pkg_dir/"
