@@ -13,7 +13,7 @@ test-process-linux:
 check:
 	test -z "$$(gofmt -l $$(find services -name '*.go' -type f))"
 	go vet -buildvcs=false ./services/policy ./services/core/... ./services/intimacy/... ./services/identity/...
-	bash -n scripts/linux-baseline.sh scripts/build-archiso.sh scripts/dev-native.sh packaging/arch/PKGBUILD
+	bash -n scripts/linux-baseline.sh scripts/build-archiso.sh scripts/dev-native.sh scripts/test-iso-boot.sh packaging/arch/PKGBUILD
 	python3 -m json.tool contracts/openapi/local.json >/dev/null
 
 # Run from an Arch/Qt environment that provides Quickshell's qmllint tooling.

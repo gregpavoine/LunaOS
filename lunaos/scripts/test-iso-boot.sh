@@ -16,26 +16,35 @@ if ! command -v qemu-system-x86_64 >/dev/null 2>&1; then
   exit 2
 fi
 
-firmware=""
-for candidate in /usr/share/OVMF/OVMF_CODE_4M.fd /usr/share/OVMF/OVMF_CODE.fd /usr/share/edk2/x64/OVMF_CODE.4m.fd; do
-  if [[ -f $candidate ]]; then
-    firmware=$candidate
+firmware_code=""
+firmware_vars=""
+for pair in \
+  "/usr/share/OVMF/OVMF_CODE_4M.fd /usr/share/OVMF/OVMF_VARS_4M.fd" \
+  "/usr/share/OVMF/OVMF_CODE.fd /usr/share/OVMF/OVMF_VARS.fd" \
+  "/usr/share/edk2/x64/OVMF_CODE.4m.fd /usr/share/edk2/x64/OVMF_VARS.4m.fd"; do
+  read -r code_candidate vars_candidate <<<"$pair"
+  if [[ -f $code_candidate && -f $vars_candidate ]]; then
+    firmware_code=$code_candidate
+    firmware_vars=$vars_candidate
     break
   fi
 done
-if [[ -z $firmware ]]; then
+if [[ -z $firmware_code ]]; then
   printf '%s\n' 'Missing OVMF UEFI firmware; install the ovmf package.' >&2
   exit 2
 fi
 
 log_file=${LUNAOS_BOOT_LOG:-"${TMPDIR:-/tmp}/lunaos-iso-boot.log"}
 timeout_seconds=${LUNAOS_BOOT_TIMEOUT_SECONDS:-600}
+firmware_work=$(mktemp -d "${TMPDIR:-/tmp}/lunaos-ovmf.XXXXXX")
+cp "$firmware_vars" "$firmware_work/OVMF_VARS.fd"
 timeout --signal=TERM "$timeout_seconds" qemu-system-x86_64 \
   -machine q35,accel=tcg \
   -cpu max \
   -smp 2 \
   -m 4096 \
-  -bios "$firmware" \
+  -drive "if=pflash,format=raw,unit=0,readonly=on,file=$firmware_code" \
+  -drive "if=pflash,format=raw,unit=1,file=$firmware_work/OVMF_VARS.fd" \
   -cdrom "$1" \
   -boot order=d \
   -display none \
@@ -50,6 +59,7 @@ cleanup() {
     kill -TERM "$qemu_pid" 2>/dev/null || true
     wait "$qemu_pid" 2>/dev/null || true
   fi
+  rm -rf -- "$firmware_work"
 }
 trap cleanup EXIT
 
