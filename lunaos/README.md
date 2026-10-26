@@ -5,6 +5,10 @@ follows Omarchy's proven composition techniques: upstream Arch packages,
 configuration and Bash integration, Hyprland/Wayland, and Quickshell/QML for the
 desktop shell. This repository is the Omarchy-derived LunaOS system source. It owns the shared base system configuration, lifecycle, desktop session and recovery integration. LunaOS package recipes and the branded ISO are maintained in separate sibling repositories. An installed Omarchy system is not a runtime dependency.
 
+## Try Luna on macOS
+
+[Try Luna](https://github.com/gregpavoine/try-luna) is the separate native macOS launcher derived from Try Omarchy. Its first preview opens a local LunaOS x86_64 ISO in QEMU and keeps a separate virtual disk. Apple Silicon uses x86_64 emulation until a real LunaOS ARM factory is available. The launcher does not provide a public ISO release or establish OS installation/runtime acceptance. Build and verification results are recorded in the launcher's own `docs/STATUS.md`.
+
 ## Architecture
 
 - **System composition:** reuse this repository's Arch package manifests, systemd units and idempotent Bash lifecycle. The separate `LunaOS-pkgs` repository owns LunaOS package recipes; `LunaOS-iso` owns the branded image using the maintained Omarchy ISO builder. Reuse the upstream Linux kernel and drivers; do not write a LunaOS kernel.

@@ -11,6 +11,10 @@
 **Safety state:** no host package, service, bootloader, disk or user data was changed; no remote Linux host was accessed. The previous nested installer and shell remain untouched as migration references.
 
 
+## Try Luna macOS launcher preview — 2026-10-26
+
+A separate `gregpavoine/try-luna` repository and local checkout were created from `omacom/try-omarchy` commit `13d63df8da2947f833c04025ff5ade187d39ba81`. Local Try Luna checkpoint `438b232` adds a native Swift/AppKit ISO launcher and Bash/QEMU x86_64 adapter with a persistent, isolated virtual disk. The original ARM integration sources remain references behind a LunaOS factory provenance guard. The development app and unsigned DMG compiled on macOS 27 arm64; 522 Swift tests, host-shell regressions, focused launch/state-policy tests and DMG integrity checks passed. The real window, missing-QEMU diagnosis and refusal to start without an ISO were checked. No VM was launched: QEMU is absent, and current GitHub release listings contain no public LunaOS ISO or ARM factory. Guest boot/install/reboot and native ARM integration remain unverified. The owner handles pushing these local commits. See the launcher's `docs/STATUS.md` for exact scope and limitations.
+
 ## Single-file installer candidate rebuild — 2026-10-26 (not released)
 
 The ISO now contains the LunaOS package without duplicating the complete Arch package closure. Arch packages are installed from an official mirror, so the installer requires internet access. The Arch workflow builds one ISO, enforces a 1,900,000,000-byte asset limit, and checks UEFI live boot and a disposable disk installation before uploading anything.

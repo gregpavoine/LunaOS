@@ -78,4 +78,4 @@ Omarchy is released under the [MIT License](https://opensource.org/licenses/MIT)
 
 ## LunaOS V0 development
 
-This fork also hosts the additive LunaOS goal-engine work. The LunaOS product and engineering specification, current implementation, architecture, release scope and blockers are documented in [`lunaos/README.md`](lunaos/README.md). Omarchy remains the host system; LunaOS hardware integration requires a separately authorized Linux baseline.
+This Omarchy-derived repository is the LunaOS system source; package recipes and image tooling live in separate LunaOS repositories. The product specifications, implementation and blockers are documented in [`lunaos/README.md`](lunaos/README.md). [Try Luna](https://github.com/gregpavoine/try-luna) provides a macOS ISO-preview launcher. It currently requires a separately supplied LunaOS ISO and QEMU; no LunaOS ARM image or native-performance VM is claimed. Hardware integration requires an explicitly authorized Linux baseline.
