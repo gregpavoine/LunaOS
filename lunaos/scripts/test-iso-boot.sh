@@ -68,12 +68,17 @@ while ((SECONDS < deadline)); do
   # systemd writes ANSI color escapes between words on a serial console, so
   # match the stable target name instead of the formatted log line.
   if grep -q 'Graphical Interface' "$log_file"; then
-    if ! grep -q 'Owner and policy credentials provisioned' "$log_file"; then
-      printf '%s\n' 'FAIL: LunaOS reached the graphical target but owner credentials were not provisioned.' >&2
-      cat "$log_file" >&2
-      exit 1
-    fi
-    printf 'PASS: LunaOS reached the systemd graphical target in UEFI QEMU.\n'
+    for marker in \
+      'Owner and policy credentials provisioned' \
+      'Started LunaOS owner-authenticated policy broker' \
+      'Started LunaOS Core API and durable goal scheduler'; do
+      if ! grep -q "$marker" "$log_file"; then
+        printf 'FAIL: LunaOS boot did not confirm: %s\n' "$marker" >&2
+        cat "$log_file" >&2
+        exit 1
+      fi
+    done
+    printf 'PASS: LunaOS reached the graphical target and started first-boot credentials, Policy Broker, and Core in UEFI QEMU.\n'
     cat "$log_file"
     exit 0
   fi
