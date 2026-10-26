@@ -1,0 +1,48 @@
+#!/bin/bash -p
+# This entrypoint is sudo-allowlisted; privileged Bash mode suppresses BASH_ENV
+# and exported-function startup injection before the first command is evaluated.
+set -euo pipefail
+
+if (( EUID != 0 )); then
+  printf '%s\n' 'Run this installer through the LunaOS desktop launcher or as root.' >&2
+  exit 1
+fi
+if (( $# != 0 )); then
+  printf '%s\n' 'This installer does not accept command-line options.' >&2
+  exit 2
+fi
+if [[ ! -t 0 || ! -t 1 ]]; then
+  printf '%s\n' 'The guided installer requires an interactive terminal.' >&2
+  exit 1
+fi
+if [[ ! -d /sys/firmware/efi ]]; then
+  printf '%s\n' 'This preview supports UEFI boot only.' >&2
+  exit 1
+fi
+repo_root=/usr/share/lunaos/repo
+if [[ ! -r $repo_root/core/os/x86_64/core.db || ! -r $repo_root/extra/os/x86_64/extra.db || ! -r $repo_root/lunaos-local/os/x86_64/lunaos-local.db ]]; then
+  printf '%s\n' 'The LunaOS install package repository is missing from this ISO.' >&2
+  exit 1
+fi
+if ! command -v archinstall >/dev/null 2>&1 || [[ ! -r /usr/share/lunaos/archinstall.json ]]; then
+  printf '%s\n' 'The guided Arch installer configuration is missing.' >&2
+  exit 1
+fi
+
+printf '%s\n' 'LunaOS standalone installer — x86_64 UEFI preview' ''
+printf '%s\n' 'Target package plan:'
+cat /usr/share/lunaos/target-packages.txt
+printf '\n'
+printf '%s\n' 'Detected disks (read-only):'
+lsblk --nodeps --output NAME,SIZE,TYPE,MODEL,TRAN
+printf '\n%s\n' 'The next screen is Arch Linux archinstall. You must choose the target disk, layout, account and bootloader there.'
+printf '%s' 'To continue, type INSTALL LUNAOS exactly: '
+IFS= read -r confirmation
+if [[ $confirmation != 'INSTALL LUNAOS' ]]; then
+  printf '%s\n' 'Installation cancelled.'
+  exit 0
+fi
+
+install -d /run/lunaos-repo
+mount --bind "$repo_root" /run/lunaos-repo
+exec archinstall --config /usr/share/lunaos/archinstall.json

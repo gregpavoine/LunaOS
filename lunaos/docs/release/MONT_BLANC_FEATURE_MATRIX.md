@@ -12,6 +12,7 @@ later features remain in Mont Blanc scope.
 | Go Core/Broker compiled services | VERIFIED_LOCAL | Linux container build/test; packaged x86_64 Arch binaries built and installed under emulation; target hardware/systemd remain unverified |
 | Go owner credential provisioning | PARTIAL | CLI creates separate private owner and Core-to-Broker credentials; first-boot unit is present but not validated under systemd; session delivery/revocation UX remains absent |
 | Go service Arch package | VERIFIED_LOCAL | x86_64 Arch package built under emulation; latest package not installed or run under systemd; no VM/target claim |
+| Standalone Arch installer source | PARTIAL | `feature/standalone-installable-iso` adds guided archinstall, diskless config, target finalizer, signed local mirrors for Arch packages and a command-scoped live sudo rule; shell boundary regression passes on macOS; no Arch package/ISO build or install/reboot VM acceptance |
 | Native Rust goal registry + deterministic score | VERIFIED_LOCAL | Rust tests + process smoke; G-003 bounded subset |
 | Independent owner-authenticated Rust policy process | VERIFIED_LOCAL | Child-process UDS test + native smoke; checksum only |
 | Native Rust Core API and durable local queue | VERIFIED_LOCAL | Real local REST smoke; no Linux/systemd claim |

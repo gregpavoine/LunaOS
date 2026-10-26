@@ -1,5 +1,5 @@
 pkgname=lunaos-native
-pkgver=0.1.0
+pkgver=0.1.1
 pkgrel=1
 pkgdesc='Go control-plane services for LunaOS'
 arch=('x86_64')
@@ -18,6 +18,8 @@ prepare() {
   cp "$repository_root/systemd/luna-core.service" "$repository_root/systemd/luna-policy-broker.service" "$repository_root/systemd/luna-owner-setup.service" "$srcdir/systemd/"
   mkdir -p "$srcdir/sysusers"
   cp "$repository_root/systemd-sysusers/lunaos.conf" "$srcdir/sysusers/"
+  mkdir -p "$srcdir/install"
+  cp "$startdir/install/lunaos-install-finalize" "$srcdir/install/"
   cd "$srcdir"
   go mod download
 }
@@ -39,6 +41,7 @@ package() {
   install -Dm644 "$srcdir/systemd/luna-owner-setup.service" "$pkgdir/usr/lib/systemd/system/luna-owner-setup.service"
   install -Dm644 "$srcdir/systemd/luna-policy-broker.service" "$pkgdir/usr/lib/systemd/system/luna-policy-broker.service"
   install -Dm644 "$srcdir/sysusers/lunaos.conf" "$pkgdir/usr/lib/sysusers.d/lunaos.conf"
+  install -Dm755 "$srcdir/install/lunaos-install-finalize" "$pkgdir/usr/bin/lunaos-install-finalize"
   install -Dm644 "$startdir/lunaos.desktop" "$pkgdir/usr/share/applications/lunaos.desktop"
   install -d "$pkgdir/usr/share/lunaos/shell"
   cp -a "$startdir/../../shell/." "$pkgdir/usr/share/lunaos/shell/"

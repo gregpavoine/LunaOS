@@ -17,6 +17,12 @@ tests verify the Go Broker/Core boundary and owner-only local Unix API. A first
 Quickshell/QML dashboard and Arch live profile are now present in source, but
 Arch lint/package and systemd/Wayland execution remain unverified.
 
+The standalone installer branch adds source for an x86_64 UEFI archinstall flow
+and ISO-local package repositories. The build, install, reboot and recovery path
+are unverified; v0.1.0 remains a live-only ISO. The install workflow now uses a
+guided disk/account selection, but dual-boot preservation, encryption defaults,
+failure recovery, Secure Boot and non-x86_64 support remain unresolved.
+
 2026-10-24. Product specs describe requirements, not working software.
 
 ## Explicit constraints
@@ -59,6 +65,9 @@ Arch lint/package and systemd/Wayland execution remain unverified.
   serialized local worker, no GPU/network/spending; weighted formula is provisional.
 - Series22: disk strategy, dual boot, encryption unlock, NAS defaults, cloud GPU,
   immutable safety/recovery and release packaging; decide before those integrations.
+  The current installer source delegates disk layout, account and encryption
+  choices to archinstall with no preset disk; it is not verified to preserve an
+  existing OS or recover from an interrupted install.
 - Performance budgets: define boot-to-shell, service startup, scheduler/API p50/p95,
   idle CPU/RSS and throughput targets only after an Arch VM and target baseline.
   The current Mac test/build results do not establish Linux performance.
@@ -112,9 +121,10 @@ Arch lint/package and systemd/Wayland execution remain unverified.
    Bundled cleanup script is reference material and must not be auto-executed.
 7. The owner setup command now creates separate private owner API and Core-to-Broker
    credentials; systemd-sysusers declares the Core and Broker accounts and their
-   socket group. Linux first-boot orchestration, token rotation/revocation and an
-   install/recovery workflow are not implemented. The units must not be enabled by
-   an image until credential loading and restrictions pass in an isolated Arch VM.
+   socket group. First-boot units are present but not validated under Arch systemd;
+   token rotation/revocation and recovery remain incomplete. An archinstall-based
+   installer exists in source but is not built or validated, so the units must not
+   be considered production-ready.
 8. The Intimacy vault's `adult_attested` value is a self-declaration, not verified
    age. Third-party consent, intimacy-read/write session capabilities beyond the
    memory scopes, local model safeguards, STOP wiring to voice/UI, and automatic

@@ -1,9 +1,9 @@
 #!/bin/bash
 iso_name="lunaos"
-iso_label="LUNAOS_0_1_0"
+iso_label="LUNAOS_0_1_1"
 iso_publisher="LunaOS"
-iso_application="LunaOS Arch Linux Live Image"
-iso_version="0.1.0"
+iso_application="LunaOS Arch Linux Installable Preview"
+iso_version="0.1.1"
 install_dir="lunaos"
 buildmodes=('iso')
 bootmodes=('uefi.systemd-boot')

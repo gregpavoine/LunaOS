@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Install LunaOS
+Comment=Install LunaOS to a selected disk
+Exec=foot -e sudo -n /usr/local/bin/lunaos-install
+Icon=system-software-install
+Terminal=false
+Categories=System;

@@ -1,5 +1,62 @@
 # LunaOS implementation status — Omarchy-aligned architecture checkpoint
 
+## Disposable installer VM gate implementation — 2026-10-26
+
+On local branch `feature/installer-vm-acceptance`, an Archinstall test-input
+generator and a QEMU/OVMF install acceptance harness are implemented. The
+generator creates private CI-only credentials and a fixed `/dev/vda` layout.
+The harness creates its own temporary qcow2 disk, injects a CI-only smoke package
+through a temporary package repository, invokes the same interactive
+`lunaos-install` entrypoint shipped in the ISO, then requires the installed Core
+and Policy Broker to be active and a real owner-authorized `local.checksum` goal
+to complete with the fixture SHA-256, byte count, provenance and verified flag.
+The CI-only package removes its temporary repository stanza before reporting
+success. It is not part of the release ISO package manifest.
+
+**Verified locally:** `make test check` passed on macOS arm64, including Go tests
+and compilation of the smoke helper, the installer boundary test, private
+Archinstall config test, unsupported-host preflight regression, gofmt, vet, Bash
+syntax and OpenAPI JSON validation. `git diff --check` passes. The host preflight
+rejects this Mac before creating any VM artifact.
+
+**Not verified / blocked:** this Mac has no Archiso, QEMU or OVMF runtime. The
+new Arch package build, QEMU disk installation, installed-system reboot,
+systemd service checks and goal/evidence acceptance have not run. The updated
+GitHub Actions job has not run because this local branch has not been pushed.
+No ISO produced from this branch is available yet. The previous RC1 artifact
+remains install-unverified; this source change does not retroactively validate
+it. No real Omarchy or Linux host was accessed or modified.
+
+## Standalone installer source checkpoint — 2026-10-26 (not released)
+
+On `feature/standalone-installable-iso`, installer source now adds a root-only
+interactive launcher, an archinstall guided configuration with no disk or user
+credentials preselected, an installed-target finalizer, a separate target package
+manifest, a live desktop launcher restricted by a command-specific sudoers rule,
+and an ISO-local Pacman repository assembly path that downloads the target package
+dependency closure. The Archiso profile version is 0.1.1; the GitHub workflow is
+configured to build a temporary artifact on this feature branch and `mont-blanc` updates and no longer
+publishes a release from this installer-preview workflow.
+
+**Not verified:** this Mac cannot run Archiso or boot the resulting x86_64 image.
+No Arch package build, ISO build, guided install, disk write, reboot to installed
+system, systemd service check, visible desktop check or benign-goal acceptance has
+been run for this change. The Archiso workflow is configured to build an artifact
+from this feature branch or `mont-blanc` after push. Until an Arch x86_64 runner builds it and a disposable
+UEFI VM completes the entire installation and reboot flow, the project has no
+verified installable image. The existing `v0.1.0` artifact remains a live-only
+image. This work is source implementation, not an installer release.
+
+Source checks for this checkpoint passed: `bash -n` on the modified build,
+installer, finalizer and customization scripts; `python3 -m json.tool` on the
+archinstall template; a `jq` expansion check confirmed the installed package list
+contains `lunaos-native` and no preselected `disk_config` or `users`; `git diff --check`;
+and `bash tests/installer-boundary-test.sh` (protected interpreter
+ignored a decoy `BASH_ENV`, and the installer rejected the decoy `-p` argument).
+Go suites, `make test`, Arch package/ISO builds and VM installation were not run.
+The local Docker CLI exists, but `docker info` did not respond within the 10-second
+probe and that probe was terminated; no container or ISO build was started.
+
 ## Current release checkpoint — 2026-10-26
 
 **LunaOS 0.1.0 is published.** The `v0.1.0` tag workflow rebuilt the Arch x86_64

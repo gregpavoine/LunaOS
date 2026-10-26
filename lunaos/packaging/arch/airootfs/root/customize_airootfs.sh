@@ -2,6 +2,9 @@
 set -euo pipefail
 
 chmod 0755 /usr/bin/luna-core /usr/bin/luna-policy-broker /usr/bin/luna-owner-setup /usr/bin/luna-vault
+chmod 0755 /usr/local/bin/lunaos-install
+chmod 0440 /etc/sudoers.d/lunaos-install
+visudo -c -f /etc/sudoers.d/lunaos-install
 systemd-sysusers /usr/lib/sysusers.d/lunaos.conf
 useradd --create-home --groups wheel,luna-owner luna
 passwd --lock luna
