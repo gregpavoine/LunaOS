@@ -94,6 +94,14 @@ func (b *broker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		reply(401, response{Code: "CORE_AUTH_REQUIRED"})
 		return
 	}
+	if r.Method == http.MethodGet && r.URL.Path == "/v1/system/health" {
+		w.WriteHeader(http.StatusOK)
+		_ = json.NewEncoder(w).Encode(struct {
+			Status string `json:"status"`
+			Code   string `json:"code"`
+		}{Status: "ready", Code: "BROKER_READY"})
+		return
+	}
 	if r.Method != "POST" {
 		reply(405, response{Code: "METHOD_NOT_ALLOWED"})
 		return

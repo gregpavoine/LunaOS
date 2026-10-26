@@ -50,6 +50,10 @@ type Policy interface {
 	Evaluate(context.Context, string, Request, string) (Decision, error)
 }
 
+type PolicyHealth interface {
+	Health(context.Context) error
+}
+
 type ArtifactEvidence struct {
 	SHA256     string `json:"sha256"`
 	ByteCount  int64  `json:"byte_count"`
@@ -94,6 +98,20 @@ type GoalEvaluation struct {
 	Outcome        string `json:"outcome"`
 	Code           string `json:"code"`
 	EvaluatedAtUTC string `json:"evaluated_at_utc"`
+}
+
+type ComponentCapability struct {
+	Status string `json:"status"`
+	Code   string `json:"code"`
+}
+
+type SystemCapabilities struct {
+	GeneratedAtUTC string              `json:"generated_at_utc"`
+	Core           ComponentCapability `json:"core"`
+	Storage        ComponentCapability `json:"storage"`
+	PolicyBroker   ComponentCapability `json:"policy_broker"`
+	LocalLLM       ComponentCapability `json:"local_llm"`
+	Hardware       ComponentCapability `json:"hardware"`
 }
 
 type TickResult struct {

@@ -906,6 +906,32 @@ func (e *Engine) EvaluateEvidence(ctx context.Context, goalID string) (GoalEvalu
 	return evaluation, nil
 }
 
+// Capabilities reports live local service checks and explicit non-readiness for
+// backends that have not been implemented or probed.
+func (e *Engine) Capabilities(ctx context.Context) SystemCapabilities {
+	capabilities := SystemCapabilities{
+		GeneratedAtUTC: timestamp(),
+		Core:           ComponentCapability{Status: "ready", Code: "CORE_API_RESPONDING"},
+		Storage:        ComponentCapability{Status: "unavailable", Code: "DATABASE_UNAVAILABLE"},
+		PolicyBroker:   ComponentCapability{Status: "unknown", Code: "HEALTH_CHECK_UNSUPPORTED"},
+		LocalLLM:       ComponentCapability{Status: "unavailable", Code: "LOCAL_MODEL_BACKEND_NOT_CONFIGURED"},
+		Hardware:       ComponentCapability{Status: "unverified", Code: "HARDWARE_NOT_PROBED"},
+	}
+	if err := e.db.PingContext(ctx); err == nil {
+		capabilities.Storage = ComponentCapability{Status: "ready", Code: "SQLITE_PING_OK"}
+	}
+	if health, ok := e.policy.(PolicyHealth); ok {
+		probeCtx, cancel := context.WithTimeout(ctx, 2*time.Second)
+		err := health.Health(probeCtx)
+		cancel()
+		capabilities.PolicyBroker = ComponentCapability{Status: "unavailable", Code: "BROKER_UNAVAILABLE"}
+		if err == nil {
+			capabilities.PolicyBroker = ComponentCapability{Status: "ready", Code: "BROKER_READY"}
+		}
+	}
+	return capabilities
+}
+
 func normalize(input Request) (Request, error) {
 	if !actionPattern.MatchString(input.Action) {
 		return Request{}, fmt.Errorf("%w: INVALID_ACTION", ErrInvalid)

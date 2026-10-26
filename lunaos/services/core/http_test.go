@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net"
 	"net/http"
@@ -12,6 +13,13 @@ import (
 	"strings"
 	"testing"
 )
+
+type healthTestPolicy struct {
+	*testPolicy
+	err error
+}
+
+func (p *healthTestPolicy) Health(context.Context) error { return p.err }
 
 func TestHTTPGoalLifecycleRequiresOwnerAndReturnsEvidence(t *testing.T) {
 	e := testEngine(t, testDBPath(t), &testPolicy{})
@@ -278,6 +286,59 @@ func TestHTTPGoalEvidenceEvaluationVerifiesOnlyKnownCompletedFixture(t *testing.
 	missingEvidenceResponse := request("owner-secret", missingEvidenceGoal.ID, "{}")
 	if missingEvidenceResponse.Code != http.StatusOK || !strings.Contains(missingEvidenceResponse.Body.String(), `"code":"EVIDENCE_MISSING"`) {
 		t.Fatalf("missing evidence response status=%d body=%s", missingEvidenceResponse.Code, missingEvidenceResponse.Body.String())
+	}
+}
+
+func TestHTTPSystemCapabilitiesAreOwnerOnlyAndDoNotClaimUnavailableFeatures(t *testing.T) {
+	policy := &healthTestPolicy{testPolicy: &testPolicy{}}
+	e, err := Open(testDBPath(t), "owner-secret", policy, ChecksumRunner{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = e.Close() })
+	handler := NewHTTPHandler(e, "owner-secret")
+	request := func(token string) *httptest.ResponseRecorder {
+		req := httptest.NewRequest(http.MethodGet, "/v1/system/capabilities", nil)
+		req.Header.Set("Authorization", "Bearer "+token)
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, req)
+		return response
+	}
+	if response := request("guest"); response.Code != http.StatusUnauthorized {
+		t.Fatalf("guest capabilities status=%d body=%s", response.Code, response.Body.String())
+	}
+	response := request("owner-secret")
+	if response.Code != http.StatusOK {
+		t.Fatalf("capabilities status=%d body=%s", response.Code, response.Body.String())
+	}
+	var capabilities struct {
+		GeneratedAtUTC string `json:"generated_at_utc"`
+		Core           struct {
+			Status string `json:"status"`
+		} `json:"core"`
+		Storage struct {
+			Status string `json:"status"`
+		} `json:"storage"`
+		PolicyBroker struct {
+			Status string `json:"status"`
+		} `json:"policy_broker"`
+		LocalLLM struct {
+			Status string `json:"status"`
+		} `json:"local_llm"`
+		Hardware struct {
+			Status string `json:"status"`
+		} `json:"hardware"`
+	}
+	if err := json.Unmarshal(response.Body.Bytes(), &capabilities); err != nil {
+		t.Fatal(err)
+	}
+	if capabilities.GeneratedAtUTC == "" || capabilities.Core.Status != "ready" || capabilities.Storage.Status != "ready" || capabilities.PolicyBroker.Status != "ready" || capabilities.LocalLLM.Status != "unavailable" || capabilities.Hardware.Status != "unverified" {
+		t.Fatalf("unexpected capability states: %+v", capabilities)
+	}
+	policy.err = errors.New("broker socket unavailable")
+	response = request("owner-secret")
+	if response.Code != http.StatusOK || !strings.Contains(response.Body.String(), `"policy_broker":{"status":"unavailable"`) {
+		t.Fatalf("broker outage status=%d body=%s", response.Code, response.Body.String())
 	}
 }
 

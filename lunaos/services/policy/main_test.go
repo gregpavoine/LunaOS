@@ -82,6 +82,26 @@ func TestUnknownAndMalformed(t *testing.T) {
 	}
 }
 
+func TestBrokerHealthRequiresCoreCredential(t *testing.T) {
+	b := &broker{key: []byte("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+	request := func(token string) *httptest.ResponseRecorder {
+		req := httptest.NewRequest(http.MethodGet, "/v1/system/health", nil)
+		if token != "" {
+			req.Header.Set("Authorization", "Bearer "+token)
+		}
+		response := httptest.NewRecorder()
+		b.ServeHTTP(response, req)
+		return response
+	}
+	if response := request("guest"); response.Code != http.StatusUnauthorized {
+		t.Fatalf("guest health status=%d body=%s", response.Code, response.Body.String())
+	}
+	response := request(string(b.key))
+	if response.Code != http.StatusOK || !bytes.Contains(response.Body.Bytes(), []byte(`"status":"ready"`)) || !bytes.Contains(response.Body.Bytes(), []byte(`"code":"BROKER_READY"`)) {
+		t.Fatalf("Core health status=%d body=%s", response.Code, response.Body.String())
+	}
+}
+
 func TestUnixSocketPeerMustMatchConfiguredCoreUID(t *testing.T) {
 	brokerUID := os.Getuid()
 	coreUID := brokerUID + 1
@@ -125,6 +145,20 @@ func TestBrokerRequiresConfiguredCorePeerBeforeCredential(t *testing.T) {
 	}
 	if response := invoke(brokerUID); response.Code != http.StatusForbidden {
 		t.Fatalf("Broker's own UID status=%d, want forbidden", response.Code)
+	}
+	health := func(uid int) *httptest.ResponseRecorder {
+		req := httptest.NewRequest(http.MethodGet, "/v1/system/health", nil)
+		req.Header.Set("Authorization", "Bearer "+string(b.key))
+		req = req.WithContext(context.WithValue(req.Context(), peerUIDContextKey{}, uid))
+		response := httptest.NewRecorder()
+		b.ServeHTTP(response, req)
+		return response
+	}
+	if response := health(coreUID); response.Code != http.StatusOK {
+		t.Fatalf("configured Core UID health status=%d body=%s", response.Code, response.Body.String())
+	}
+	if response := health(brokerUID); response.Code != http.StatusForbidden {
+		t.Fatalf("Broker's own UID health status=%d, want forbidden", response.Code)
 	}
 }
 

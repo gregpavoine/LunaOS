@@ -50,6 +50,8 @@ The goal decisions endpoint was committed as `440591b3` and fast-forward merged 
 
 The `feature/go-goal-evaluation` change adds a limited owner-triggered evidence check for `local.checksum` and is fast-forward merged locally into `mont-blanc`; it is not pushed or included in an ISO. The evaluator recomputes the known public fixture SHA-256 and byte count, returns `insufficient_evidence` for uncompleted goals or unsupported provenance, reports mismatches, and appends an evaluation event without changing goal state. It does not evaluate strategies or general artifacts. The focused test, `make test check`, the Core race suite and `make build-local` pass locally on macOS arm64. Linux process and Arch VM checks were not run.
 
+The `feature/go-system-capabilities` change implements owner-authenticated `GET /v1/system/capabilities`, with a live SQLite ping and a Core-credential Policy Broker health request over the configured Unix socket. The broker health endpoint also checks the configured peer UID. Broker failure reports `unavailable`; the local LLM is `unavailable` and hardware is `unverified`. Policy handler/client/API tests, `make test check`, the Core race suite, and `make build-local` pass locally on macOS arm64. This branch has been fast-forward merged locally into `mont-blanc`, but is not pushed or included in an ISO; Linux peer-credential and systemd validation were not run.
+
 ## Release 0 build status — 2026-10-25
 
 Fresh local verification on macOS arm64: `make test && make check && make build`

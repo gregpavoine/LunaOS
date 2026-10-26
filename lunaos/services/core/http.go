@@ -59,6 +59,10 @@ func (h *HTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if trustedUnixOwner {
 		ownerPrincipal = h.token
 	}
+	if r.Method == http.MethodGet && r.URL.Path == "/v1/system/capabilities" {
+		writeJSON(w, http.StatusOK, h.engine.Capabilities(r.Context()))
+		return
+	}
 	if r.Method == http.MethodGet && r.URL.Path == "/v1/intimacy/relationship/state" {
 		state, err := h.engine.IntimacyState(r.Context())
 		if err != nil {

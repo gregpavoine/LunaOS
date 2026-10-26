@@ -334,14 +334,24 @@
     },
     "/v1/system/capabilities": {
       "get": {
-        "summary": "Truthful readiness; hardware unavailable",
+        "summary": "Live service readiness; hardware remains unverified",
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "object",
+                  "required": ["generated_at_utc", "core", "storage", "policy_broker", "local_llm", "hardware"],
+                  "properties": {
+                    "generated_at_utc": {"type": "string", "format": "date-time"},
+                    "core": {"$ref": "#/components/schemas/ComponentCapability"},
+                    "storage": {"$ref": "#/components/schemas/ComponentCapability"},
+                    "policy_broker": {"$ref": "#/components/schemas/ComponentCapability"},
+                    "local_llm": {"$ref": "#/components/schemas/ComponentCapability"},
+                    "hardware": {"$ref": "#/components/schemas/ComponentCapability"}
+                  },
+                  "additionalProperties": false
                 }
               }
             }
@@ -404,6 +414,7 @@
     "/v1/grants": {
       "post": {
         "summary": "Broker socket only: issue scoped grant",
+        "security": [{"CoreBrokerBearer": []}],
         "responses": {
           "200": {
             "description": "Success",
@@ -419,7 +430,7 @@
             "description": "Invalid request"
           },
           "401": {
-            "description": "Owner authentication required"
+            "description": "Core-to-Broker credential required"
           },
           "404": {
             "description": "Unknown resource"
@@ -441,9 +452,36 @@
         "description": "Served only by separate policy socket, not Core API. Denials return allowed=false and code; no score can override. Payment default budget zero."
       }
     },
+    "/v1/system/health": {
+      "get": {
+        "summary": "Policy Broker Unix socket only; Core credential and peer UID required",
+        "security": [{"CoreBrokerBearer": []}],
+        "responses": {
+          "200": {
+            "description": "Broker process is responding",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "code"],
+                  "properties": {
+                    "status": {"type": "string", "enum": ["ready"]},
+                    "code": {"type": "string", "enum": ["BROKER_READY"]}
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {"description": "Core-to-Broker credential required"},
+          "403": {"description": "Unix socket peer UID denied"}
+        }
+      }
+    },
     "/v1/policy/evaluate": {
       "post": {
         "summary": "Broker socket only: recheck signed scope",
+        "security": [{"CoreBrokerBearer": []}],
         "responses": {
           "200": {
             "description": "Success",
@@ -459,7 +497,7 @@
             "description": "Invalid request"
           },
           "401": {
-            "description": "Owner authentication required"
+            "description": "Core-to-Broker credential required"
           },
           "404": {
             "description": "Unknown resource"
@@ -1023,6 +1061,11 @@
         "type": "http",
         "scheme": "bearer",
         "description": "Owner key read from protected file, not caller role or voice claim"
+      },
+      "CoreBrokerBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Dedicated Core-to-Policy-Broker token; request must also pass the configured Unix socket peer UID check"
       }
     },
     "schemas": {
@@ -1160,6 +1203,15 @@
           "grant": {
             "type": "string"
           }
+        }
+      },
+      "ComponentCapability": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "code"],
+        "properties": {
+          "status": {"type": "string", "enum": ["ready", "unavailable", "unverified", "unknown"]},
+          "code": {"type": "string"}
         }
       },
       "BrokerDecision": {

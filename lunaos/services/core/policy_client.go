@@ -42,6 +42,39 @@ func (p *UnixPolicyClient) Evaluate(ctx context.Context, goalID string, req Requ
 	return p.call(ctx, "/v1/policy/evaluate", brokerRequest{GoalID: goalID, Action: req.Action, PrivacyClass: req.PrivacyClass, Grant: grant})
 }
 
+func (p *UnixPolicyClient) Health(ctx context.Context) error {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "http://unix/v1/system/health", nil)
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Authorization", "Bearer "+p.token)
+	response, err := p.client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer response.Body.Close()
+	if response.StatusCode != http.StatusOK {
+		return fmt.Errorf("policy broker health returned HTTP %d", response.StatusCode)
+	}
+	decoder := json.NewDecoder(io.LimitReader(response.Body, 8193))
+	decoder.DisallowUnknownFields()
+	var result struct {
+		Status string `json:"status"`
+		Code   string `json:"code"`
+	}
+	if err := decoder.Decode(&result); err != nil {
+		return fmt.Errorf("invalid policy broker health response: %w", err)
+	}
+	var extra any
+	if err := decoder.Decode(&extra); err != io.EOF {
+		return fmt.Errorf("invalid trailing policy broker health data")
+	}
+	if result.Status != "ready" || result.Code != "BROKER_READY" {
+		return fmt.Errorf("unexpected policy broker health code")
+	}
+	return nil
+}
+
 type brokerRequest struct {
 	GoalID       string `json:"goal_id"`
 	Action       string `json:"action"`
