@@ -385,6 +385,15 @@ func (h *HTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			writeJSON(w, http.StatusOK, goal.Evidence)
 			return
 		}
+		if len(parts) == 2 && parts[0] != "" && parts[1] == "decisions" {
+			decisions, err := h.engine.Decisions(r.Context(), parts[0])
+			if err != nil {
+				writeEngineError(w, err)
+				return
+			}
+			writeJSON(w, http.StatusOK, map[string]any{"decisions": decisions})
+			return
+		}
 	}
 	if r.Method == http.MethodPatch && strings.HasPrefix(r.URL.Path, "/v1/goals/") {
 		parts := strings.Split(strings.TrimPrefix(r.URL.Path, "/v1/goals/"), "/")

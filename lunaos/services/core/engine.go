@@ -827,6 +827,36 @@ func (e *Engine) findIdempotent(ctx context.Context, key string) (Goal, string, 
 	return g, requestHash, err
 }
 
+// Decisions returns up to the newest 100 safe audit events in chronological order.
+func (e *Engine) Decisions(ctx context.Context, goalID string) ([]GoalDecision, error) {
+	var exists int
+	if err := e.db.QueryRowContext(ctx, `SELECT 1 FROM goal WHERE id=?`, goalID).Scan(&exists); errors.Is(err, sql.ErrNoRows) {
+		return nil, ErrNotFound
+	} else if err != nil {
+		return nil, err
+	}
+	rows, err := e.db.QueryContext(ctx, `SELECT id,kind,code,created_at_utc FROM (
+		SELECT id,kind,code,created_at_utc FROM goal_event WHERE goal_id=?
+		ORDER BY created_at_utc DESC,id DESC LIMIT 100
+	) ORDER BY created_at_utc,id`, goalID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	out := make([]GoalDecision, 0, 100)
+	for rows.Next() {
+		var decision GoalDecision
+		if err := rows.Scan(&decision.ID, &decision.Kind, &decision.Code, &decision.CreatedAtUTC); err != nil {
+			return nil, err
+		}
+		out = append(out, decision)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func normalize(input Request) (Request, error) {
 	if !actionPattern.MatchString(input.Action) {
 		return Request{}, fmt.Errorf("%w: INVALID_ACTION", ErrInvalid)

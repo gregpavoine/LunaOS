@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"net"
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strings"
 	"testing"
 )
 
@@ -145,6 +147,57 @@ func TestHTTPGoalPlanIsOwnerOnlyAndValidatesBody(t *testing.T) {
 	}
 	if response := request("owner-secret", `{"dependency_goal_ids":["`+dependency.ID+`"]}`); response.Code != http.StatusOK || !bytes.Contains(response.Body.Bytes(), []byte(dependency.ID)) {
 		t.Fatalf("owner plan status=%d body=%s", response.Code, response.Body.String())
+	}
+}
+
+func TestHTTPGoalDecisionsAreOwnerOnlySafeAndBounded(t *testing.T) {
+	e := testEngine(t, testDBPath(t), &testPolicy{})
+	goal, err := e.Create(context.Background(), Request{Action: "local.checksum", Description: "private goal description"}, "owner-secret", "http-decisions-1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for i := 0; i < 105; i++ {
+		if _, err := e.db.Exec(`INSERT INTO goal_event(goal_id,kind,code,created_at_utc) VALUES(?,?,?,?)`, goal.ID, "test.decision", fmt.Sprintf("EVENT-%03d", i), fmt.Sprintf("2030-01-01T00:%02d:%02d.000000Z", i/60, i%60)); err != nil {
+			t.Fatal(err)
+		}
+	}
+	handler := NewHTTPHandler(e, "owner-secret")
+	request := func(token, goalID string) *httptest.ResponseRecorder {
+		req := httptest.NewRequest(http.MethodGet, "/v1/goals/"+goalID+"/decisions", nil)
+		req.Header.Set("Authorization", "Bearer "+token)
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, req)
+		return response
+	}
+	if response := request("guest", goal.ID); response.Code != http.StatusUnauthorized {
+		t.Fatalf("guest decisions status=%d body=%s", response.Code, response.Body.String())
+	}
+	if response := request("owner-secret", "missing-goal"); response.Code != http.StatusNotFound {
+		t.Fatalf("missing goal decisions status=%d body=%s", response.Code, response.Body.String())
+	}
+	response := request("owner-secret", goal.ID)
+	if response.Code != http.StatusOK {
+		t.Fatalf("decisions status=%d body=%s", response.Code, response.Body.String())
+	}
+	var payload struct {
+		Decisions []map[string]any `json:"decisions"`
+	}
+	if err := json.Unmarshal(response.Body.Bytes(), &payload); err != nil {
+		t.Fatal(err)
+	}
+	if len(payload.Decisions) != 100 {
+		t.Fatalf("decision count=%d, want latest 100", len(payload.Decisions))
+	}
+	if payload.Decisions[0]["code"] != "EVENT-005" || payload.Decisions[99]["code"] != "EVENT-104" {
+		t.Fatalf("decisions are not the latest events in chronological order: first=%v last=%v", payload.Decisions[0], payload.Decisions[99])
+	}
+	for _, decision := range payload.Decisions {
+		if len(decision) != 4 || decision["id"] == nil || decision["kind"] == nil || decision["code"] == nil || decision["created_at_utc"] == nil {
+			t.Fatalf("unexpected or missing safe decision fields: %#v", decision)
+		}
+		if strings.Contains(response.Body.String(), "private goal description") {
+			t.Fatal("decision response exposed private goal description")
+		}
 	}
 }
 

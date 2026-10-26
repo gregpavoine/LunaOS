@@ -80,6 +80,14 @@ type Goal struct {
 	UpdatedAtUTC     string            `json:"updated_at_utc"`
 }
 
+// GoalDecision contains only the privacy-safe fields from the append-only event log.
+type GoalDecision struct {
+	ID           int64  `json:"id"`
+	Kind         string `json:"kind"`
+	Code         string `json:"code"`
+	CreatedAtUTC string `json:"created_at_utc"`
+}
+
 type TickResult struct {
 	Outcome string `json:"outcome"`
 	GoalID  string `json:"goal_id,omitempty"`

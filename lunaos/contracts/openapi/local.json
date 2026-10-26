@@ -242,7 +242,26 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "object",
+                  "required": ["decisions"],
+                  "properties": {
+                    "decisions": {
+                      "type": "array",
+                      "maxItems": 100,
+                      "items": {
+                        "type": "object",
+                        "required": ["id", "kind", "code", "created_at_utc"],
+                        "properties": {
+                          "id": {"type": "integer", "format": "int64"},
+                          "kind": {"type": "string"},
+                          "code": {"type": "string"},
+                          "created_at_utc": {"type": "string", "format": "date-time"}
+                        },
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "additionalProperties": false
                 }
               }
             }

@@ -55,6 +55,17 @@ the Go Core race suite passed locally. The ISO build from the merge commit passe
 the QEMU boot smoke; it confirms service startup, not use of the metadata route in
 the live image.
 
+The current local branch `feature/go-goal-decisions` implements the already
+documented `GET /v1/goals/{id}/decisions` contract using the existing append-only
+SQLite audit events. The response is owner-authenticated, returns only event ID,
+kind, code and timestamp, and is limited to the latest 100 events in chronological
+order. Its focused Go handler test first failed on the missing route and then
+passed after implementation. `make test check` and
+`go test -buildvcs=false -race -count=1 ./services/core` both pass locally on macOS
+arm64. This branch is not yet merged or included in an ISO. Linux process and Arch
+VM validation were not run. This audit-history endpoint is not the
+evidence-backed strategy evaluator.
+
 ## Release 0 build status — 2026-10-25
 
 Fresh local verification on macOS arm64: `make test && make check && make build`
