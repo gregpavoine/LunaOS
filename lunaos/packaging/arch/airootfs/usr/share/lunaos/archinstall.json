@@ -1,0 +1,36 @@
+{
+  "additional-repositories": [],
+  "archinstall-language": "English",
+  "bootloader": "Systemd-boot",
+  "bootloader_config": {
+    "bootloader": "Systemd-boot",
+    "uki": false,
+    "removable": false
+  },
+  "custom_commands": [
+    "lunaos-install-finalize"
+  ],
+  "kernels": [
+    "linux"
+  ],
+  "mirror_config": {
+    "custom_servers": [
+      {
+        "url": "file:///run/lunaos-repo/$repo/os/$arch"
+      }
+    ],
+    "custom_repositories": [
+      {
+        "name": "lunaos-local",
+        "url": "file:///run/lunaos-repo/lunaos-local/os/$arch",
+        "sign_check": "Never",
+        "sign_option": "TrustAll"
+      }
+    ]
+  },
+  "no_pkg_lookups": true,
+  "offline": true,
+  "packages": [],
+  "script": "guided",
+  "silent": false
+}

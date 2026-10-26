@@ -1,0 +1,76 @@
+#!/bin/bash
+set -euo pipefail
+
+if (( EUID != 0 )) || [[ ! -f /etc/arch-release ]]; then
+  printf '%s\n' 'This command must run as root inside the newly installed Arch target.' >&2
+  exit 1
+fi
+
+if ! getent group luna-owner >/dev/null; then
+  systemd-sysusers /usr/lib/sysusers.d/lunaos.conf
+fi
+
+owner_user=''
+owner_home=''
+while IFS=: read -r username _ uid _ _ home shell; do
+  if (( uid >= 1000 && uid < 60000 )) && [[ $username != 'nobody' && $home == /* && $shell != */nologin && $shell != */false ]]; then
+    owner_user=$username
+    owner_home=$home
+    break
+  fi
+done < <(getent passwd)
+if [[ -z $owner_user ]]; then
+  printf '%s\n' 'No interactive owner account was created by archinstall; refusing to finalize.' >&2
+  exit 1
+fi
+
+usermod -aG wheel,luna-owner "$owner_user"
+install -d -m 0755 /etc/greetd
+cat > /etc/greetd/config.toml <<'EOF'
+[terminal]
+vt = 1
+
+[default_session]
+command = "tuigreet --time --remember --cmd Hyprland"
+user = "greeter"
+EOF
+install -d -m 0755 /etc/skel/.config/hypr
+cat > /etc/skel/.config/hypr/hyprland.conf <<'EOF'
+exec-once = qs -p /usr/share/lunaos/shell/shell.qml
+input {
+  kb_layout = us
+}
+general {
+  border_size = 2
+  gaps_in = 4
+  gaps_out = 8
+}
+decoration {
+  rounding = 8
+}
+EOF
+install -d -o "$owner_user" -g "$owner_user" -m 0755 "$owner_home/.config/hypr"
+install -o "$owner_user" -g "$owner_user" -m 0644 /etc/skel/.config/hypr/hyprland.conf "$owner_home/.config/hypr/hyprland.conf"
+
+if grep -q '^\[lunaos-local\]$' /etc/pacman.conf; then
+  tmp_config=$(mktemp /etc/pacman.conf.XXXXXX)
+  awk '
+    /^\[lunaos-local\]$/ { skip = 1; next }
+    /^\[/ { skip = 0 }
+    !skip { print }
+  ' /etc/pacman.conf > "$tmp_config"
+  install -o root -g root -m 0644 "$tmp_config" /etc/pacman.conf
+  rm -f "$tmp_config"
+fi
+
+if grep -Fq 'file:///run/lunaos-repo/' /etc/pacman.d/mirrorlist; then
+  tmp_mirrorlist=$(mktemp /etc/pacman.d/mirrorlist.XXXXXX)
+  awk '!/file:\/\/\/run\/lunaos-repo\//' /etc/pacman.d/mirrorlist > "$tmp_mirrorlist"
+  printf '%s\n' 'Server = https://geo.mirror.pkgbuild.com/$repo/os/$arch' >> "$tmp_mirrorlist"
+  install -o root -g root -m 0644 "$tmp_mirrorlist" /etc/pacman.d/mirrorlist
+  rm -f "$tmp_mirrorlist"
+fi
+
+systemctl enable NetworkManager.service greetd.service luna-owner-setup.service luna-policy-broker.service luna-core.service
+systemctl set-default graphical.target
+printf 'LunaOS target setup completed for owner account %s.\n' "$owner_user"

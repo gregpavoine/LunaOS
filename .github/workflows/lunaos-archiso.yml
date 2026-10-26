@@ -3,8 +3,7 @@ name: LunaOS Arch ISO
 on:
   workflow_dispatch:
   push:
-    branches: [mont-blanc]
-    tags: ['v0.1.0']
+    branches: [mont-blanc, feature/standalone-installable-iso]
     paths:
       - 'lunaos/**'
       - '.github/workflows/lunaos-archiso.yml'
@@ -23,7 +22,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Build LunaOS 0.1.0 ISO with Arch Linux x86_64 tools
+      - name: Build LunaOS 0.1.1 installable-preview ISO with Arch Linux x86_64 tools
         shell: bash
         run: |
           set -euo pipefail
@@ -34,11 +33,11 @@ jobs:
             --mount "type=bind,source=$output_dir,target=/output" \
             archlinux:base-devel \
             bash -euo pipefail -c '
-              pacman -Syu --noconfirm --needed archiso go sqlite sudo qemu-system-x86 edk2-ovmf procps-ng
+              pacman -Syu --noconfirm --needed archiso go sqlite sudo qemu-system-x86 edk2-ovmf procps-ng jq
               LUNAOS_ISO_OUTPUT=/output \
               LUNAOS_ISO_WORK=/tmp/lunaos-archiso-work \
               /workspace/lunaos/scripts/build-archiso.sh
-              /workspace/lunaos/scripts/test-iso-boot.sh /output/lunaos-0.1.0-x86_64.iso
+              /workspace/lunaos/scripts/test-iso-boot.sh /output/lunaos-0.1.1-x86_64.iso
             '
           iso_path=$(find "$output_dir" -maxdepth 1 -type f -name '*.iso' -print -quit)
           if [[ -z "$iso_path" ]]; then
@@ -51,35 +50,7 @@ jobs:
 
       - uses: actions/upload-artifact@v6
         with:
-          name: lunaos-0.1.0-x86_64-iso
+          name: lunaos-0.1.1-installable-preview-x86_64-iso
           path: ${{ runner.temp }}/lunaos-archiso-output/*
           if-no-files-found: error
           retention-days: 14
-
-  release:
-    if: github.ref == 'refs/tags/v0.1.0'
-    needs: archiso
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-
-      - uses: actions/download-artifact@v6
-        with:
-          name: lunaos-0.1.0-x86_64-iso
-          path: ${{ runner.temp }}/lunaos-release
-
-      - name: Publish verified ISO release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh release create "$GITHUB_REF_NAME" \
-            "$RUNNER_TEMP/lunaos-release/lunaos-0.1.0-x86_64.iso" \
-            "$RUNNER_TEMP/lunaos-release/SHA256SUMS" \
-            --repo "$GITHUB_REPOSITORY" \
-            --verify-tag \
-            --title "LunaOS 0.1.0 — First Bootable ISO" \
-            --notes-file lunaos/docs/release/v0.1.0.md

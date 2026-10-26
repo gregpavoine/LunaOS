@@ -68,9 +68,25 @@ These are storage and policy components only: there is no conversation model,
 media connector, age/consent classifier, or generation backend configured.
 A first Quickshell/QML command-center source and an Archiso live profile now exist;
 the UI has not been run under Wayland, and the updated Arch package only built
-under x86_64 emulation. The ISO build is not yet verified. Target systemd
-validation, installer, recovery and real local inference remain unimplemented.
-Mont Blanc is not released.
+under x86_64 emulation. An interactive Archinstall-based installer and target
+finalizer are now present in source, with a separate target package manifest and
+an ISO-local package repository build path. This installer change has not yet been
+built on Arch or exercised in a disposable VM; the existing published ISO remains
+a live image and is not installable. Recovery and real local inference remain
+unimplemented. Mont Blanc is not released.
+
+## Installable preview workflow
+
+The Archiso profile is x86_64 UEFI. On boot, choose **Install LunaOS** from the
+live desktop or run `sudo -n /usr/local/bin/lunaos-install` in a terminal. The
+installer prints its package plan and detected disks, then requires the exact
+confirmation `INSTALL LUNAOS` before opening upstream archinstall. Archinstall
+still requires the operator to select the disk, layout, bootloader, user and
+encryption options. The ISO build bundles the LunaOS package and its target
+package dependency closure in a local repository. Do not use this preview on a
+machine containing data you need to preserve: dual-boot behavior, disk recovery,
+physical hardware and installed-system boot remain unverified until disposable
+UEFI VM acceptance is complete.
 
 ## Development on macOS or Linux
 
