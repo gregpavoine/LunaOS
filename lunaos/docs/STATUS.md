@@ -26,9 +26,16 @@ Go Core dependency planning was added on branch `feature/go-goal-dependencies`.
 `cd lunaos && make test check` passed on macOS arm64 after the change; the Go Core
 race suite (`go test -buildvcs=false -race -count=1 ./services/core`) also passed.
 This local result covers Go tests, formatting, vet, shell syntax and OpenAPI JSON
-parsing. No Linux process integration, QML runtime, target Arch, hardware, or ISO
-build was run for this change. The branch does not complete or release Mont Blanc
-1.0.
+parsing. CI on the merged commit `67ebc0992fabc15f9614a93693d43dc1e04b6846`
+passed portable checks and built an Arch x86_64 ISO; the embedded UEFI/QEMU smoke
+test passed, confirming the graphical systemd target and first-boot owner setup,
+Policy Broker and Core startup. The downloadable [Actions ISO artifact](https://github.com/gregpavoine/LunaOS/actions/runs/40290474604/artifacts/12635882051)
+contains `lunaos-0.1.0-x86_64.iso` and `SHA256SUMS`; ISO SHA-256:
+`8517b5b33628a9a90896d12bd26c311457c494821edc24c6f6764e64da7f3a95f`. It is a
+temporary test artifact expiring 2026-11-09, not a new GitHub release tag. The
+QEMU smoke does not verify a visible Hyprland/QML session, install/recovery,
+physical hardware or complete Mont Blanc 1.0. This branch does not complete or
+release Mont Blanc 1.0.
 
 ## Release 0 build status — 2026-10-25
 
