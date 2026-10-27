@@ -1,5 +1,9 @@
 # Open decisions and requirement map
 
+## Legacy image withdrawal (2026-10-27)
+
+The owner requested deletion of the previous installable releases. There are no published GitHub releases in LunaOS or LunaOS-iso; all 16 old ISO Actions artifacts and the local old ISO/part copies were removed. The legacy Archiso workflow is disabled remotely and archived outside the active local workflow directory. Historical tags and source history remain. Future release acceptance must use the separate LunaOS-iso build, not the withdrawn nested Archiso preview. The legacy image's successful UEFI boot and Core/Broker startup do not validate a desktop session, installation or the new architecture.
+
 ## Current Omarchy-style restart checkpoint (2026-10-26)
 
 The owner chose separate repositories following Omarchy. Public repositories now exist at `gregpavoine/LunaOS-pkgs` and `gregpavoine/LunaOS-iso`; local checkouts are based on pinned Omarchy repository revisions. No commits have been pushed. LunaOS package signing keys and publishing credentials do not yet exist, so the package repository cannot be safely enabled in pacman or published. The ISO checkout still has upstream Omarchy branding and release workflows; it is a builder base, not a LunaOS release. First supported package architecture is x86_64 until aarch64 build and installation acceptance are proven.
