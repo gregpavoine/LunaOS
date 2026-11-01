@@ -1,5 +1,12 @@
 # Open decisions and requirement map
 
+## Mac test image and package signing (2026-11-01)
+
+- **Sibling repositories removed locally.** The owner deleted the local LunaOS-pkgs, LunaOS-iso and try-luna checkouts; the GitHub LunaOS-pkgs and LunaOS-iso repositories exist but hold no content, and try-luna is still on GitHub at `49132a41`. Until the owner decides otherwise, the control-plane recipe lives in `lunaos/packaging/control-plane/` and the image is built by a workflow in this repository that checks out `omacom/omarchy-iso` and `omacom/omarchy-pkgs` at pinned commits, rather than in a LunaOS fork of them. Open: restore the source/package/ISO split, or keep this layout.
+- **aarch64 before x86_64.** The owner wants to test on the Mac before the Linux workstation is available, so the first image is aarch64 (native under Apple's Hypervisor framework) and `lunaos-control-plane` declares both architectures. The x86_64 image for the workstation has no workflow yet: Omarchy's builder accepts a package bundle only on aarch64.
+- **Signature checks on the image path.** The package and repository are signed with key `48C0A74703A61B358247549A5EA1A2D955727D01`, and CI proves pacman refuses unsigned and foreign-signed repositories. Omarchy's builder serves the bundle as `[platform]` with `SigLevel = Optional TrustAll`, so the ISO itself does not re-verify that signature; installed systems do not yet carry a LunaOS repository or keyring for updates.
+- **Workflow file location.** The remote file tools refuse to write under `.github/`, so the workflow is staged at `lunaos/packaging/ci/lunaos-iso.yml`; the owner moves it to `.github/workflows/` before pushing.
+
 ## Legacy image withdrawal (2026-10-27)
 
 The owner requested deletion of the previous installable releases. There are no published GitHub releases in LunaOS or LunaOS-iso; all 16 old ISO Actions artifacts and the local old ISO/part copies were removed. The legacy Archiso workflow is disabled remotely and archived outside the active local workflow directory. Historical tags and source history remain. Future release acceptance must use the separate LunaOS-iso build, not the withdrawn nested Archiso preview. The legacy image's successful UEFI boot and Core/Broker startup do not validate a desktop session, installation or the new architecture.
