@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "omarchy.lunaos",
+  "name": "LUNA",
+  "version": "1.0.0",
+  "author": "LunaOS",
+  "license": "MIT",
+  "description": "LUNA Core status, recent goals and owner controls through the local owner socket.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "activation": "on-demand",
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "LUNA",
+    "description": "Core, Policy Broker, storage and model readiness, recent goals, a benign checksum goal and the intimacy stop.",
+    "category": "AI",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}
