@@ -59,9 +59,14 @@ work=/home/builder/lunaos
 rm -rf "$work"
 cp -a "$src/lunaos" "$work"
 chown -R builder:builder /home/builder
-su builder -c "cd '$work/packaging/control-plane' && makepkg --noconfirm --cleanbuild"
+# Arch Linux ARM's makepkg.conf writes .pkg.tar.xz; pin the destination and
+# the zstd format so both architectures produce the same artifact names.
+packages=/home/builder/packages
+mkdir -p "$packages"
+chown -R builder:builder /home/builder
+su builder -c "cd '$work/packaging/control-plane' && PKGDEST='$packages' PKGEXT=.pkg.tar.zst makepkg --noconfirm --cleanbuild"
 
-package=$(find "$work/packaging/control-plane" -maxdepth 1 -name "lunaos-control-plane-[0-9]*-$arch.pkg.tar.zst" -print -quit)
+package=$(find "$packages" -maxdepth 1 -name "lunaos-control-plane-[0-9]*-$arch.pkg.tar.zst" -print -quit)
 [[ -n $package ]] || fail "makepkg produced no lunaos-control-plane package"
 package_name=${package##*/}
 
