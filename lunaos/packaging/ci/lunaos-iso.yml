@@ -12,8 +12,12 @@ name: LunaOS image
 # LUNAOS_PACKAGE_SIGNING_KEY and must match lunaos/packaging/keys; a missing or
 # different key stops the run before anything is signed.
 
+# A manual run needs this file on the default branch; pushing a tag such as
+# lunaos-test-1 starts the run from any branch.
 on:
   workflow_dispatch:
+  push:
+    tags: ['lunaos-test-*']
 
 permissions:
   contents: read
