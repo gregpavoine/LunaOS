@@ -36,7 +36,7 @@ if rg -F -q -- "$(cat "$password_file")" "$credentials"; then
 fi
 
 for path in "$output_dir" "$config" "$credentials" "$password_file"; do
-  mode=$(stat -f '%Lp' "$path" 2>/dev/null || stat -c '%a' "$path")
+  mode=$(stat -c '%a' "$path" 2>/dev/null || stat -f '%Lp' "$path")
   expected=700
   if [[ $path != "$output_dir" ]]; then
     expected=600
