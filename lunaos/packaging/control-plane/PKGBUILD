@@ -1,0 +1,47 @@
+# LunaOS control plane: the Go Core, Policy Broker, owner credential setup and
+# private vault CLI, with their systemd units and service accounts. Built from
+# this source tree, so makepkg runs from lunaos/packaging/control-plane and the
+# Go module is two levels up. No toolchain is a runtime dependency.
+pkgname=lunaos-control-plane
+pkgver=0.2.0
+pkgrel=1
+pkgdesc='LUNA Core, Policy Broker and owner credential services for LunaOS'
+arch=('x86_64' 'aarch64')
+url='https://github.com/gregpavoine/LunaOS'
+license=('MIT')
+depends=('glibc')
+makedepends=('go' 'gcc')
+options=('!debug' '!lto')
+source=()
+sha256sums=()
+
+prepare() {
+  local lunaos_root="$startdir/../.."
+  mkdir -p "$srcdir/lunaos"
+  cp -a "$lunaos_root/go.mod" "$lunaos_root/go.sum" "$lunaos_root/services" "$lunaos_root/systemd" \
+    "$lunaos_root/systemd-sysusers" "$srcdir/lunaos/"
+  cd "$srcdir/lunaos"
+  go mod download
+}
+
+build() {
+  cd "$srcdir/lunaos"
+  export CGO_ENABLED=1 GOFLAGS='-buildvcs=false -trimpath'
+  go build -ldflags='-s -w' -o luna-core ./services/core/cmd/luna-core
+  go build -ldflags='-s -w' -o luna-policy-broker ./services/policy
+  go build -ldflags='-s -w' -o luna-owner-setup ./services/identity/cmd/luna-owner-setup
+  go build -ldflags='-s -w' -o luna-vault ./services/intimacy/cmd/luna-vault
+}
+
+check() {
+  cd "$srcdir/lunaos"
+  CGO_ENABLED=1 go test -buildvcs=false -count=1 ./services/policy ./services/core/... ./services/identity/...
+}
+
+package() {
+  cd "$srcdir/lunaos"
+  install -Dm755 -t "$pkgdir/usr/bin" luna-core luna-policy-broker luna-owner-setup luna-vault
+  install -Dm644 -t "$pkgdir/usr/lib/systemd/system" \
+    systemd/luna-core.service systemd/luna-policy-broker.service systemd/luna-owner-setup.service
+  install -Dm644 systemd-sysusers/lunaos.conf "$pkgdir/usr/lib/sysusers.d/lunaos.conf"
+}

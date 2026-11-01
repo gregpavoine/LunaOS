@@ -1,0 +1,99 @@
+#!/bin/bash
+
+# Try LunaOS on an Apple Silicon Mac. The aarch64 ISO built by the "LunaOS
+# image" workflow installs into a virtual disk and then boots from it, natively
+# through Apple's Hypervisor framework. Nothing outside the VM folder changes.
+#
+#   lunaos-mac-vm install <lunaos-aarch64.iso>   install into a new virtual disk
+#   lunaos-mac-vm start                          boot the installed system
+#   lunaos-mac-vm reset                          delete the virtual disk
+#
+# Needs QEMU from Homebrew (brew install qemu). Written for the Bash 3.2 that
+# ships with macOS. LUNAOS_VM_DIR (default ~/LunaOS-VM), LUNAOS_VM_CPUS and
+# LUNAOS_VM_MEMORY override the folder and the machine size. SSH reaches the
+# guest at 127.0.0.1:2222 once it runs an SSH server.
+
+set -euo pipefail
+
+state=${LUNAOS_VM_DIR:-$HOME/LunaOS-VM}
+disk=$state/lunaos.qcow2
+vars=$state/efi-vars.fd
+
+die() {
+  echo "lunaos-mac-vm: $*" >&2
+  exit 1
+}
+
+usage() {
+  echo "Usage: lunaos-mac-vm install <lunaos-aarch64.iso> | start | reset" >&2
+  exit 2
+}
+
+[[ $(uname -s) == "Darwin" && $(uname -m) == "arm64" ]] || die "this runs on an Apple Silicon Mac"
+command -v qemu-system-aarch64 >/dev/null || die "QEMU is missing: run 'brew install qemu'"
+
+firmware_dir=$(cd "$(dirname "$(command -v qemu-system-aarch64)")/../share/qemu" && pwd)
+code=$firmware_dir/edk2-aarch64-code.fd
+vars_template=$firmware_dir/edk2-arm-vars.fd
+[[ -f $code && -f $vars_template ]] || die "UEFI firmware not found in $firmware_dir"
+
+# shellcheck disable=SC2054 # commas belong to QEMU option values
+run_vm() {
+  local -a args=(
+    -name LunaOS
+    -machine virt,highmem=on
+    -accel hvf
+    -cpu host
+    -smp "${LUNAOS_VM_CPUS:-4}"
+    -m "${LUNAOS_VM_MEMORY:-8G}"
+    -drive "if=pflash,format=raw,readonly=on,file=$code"
+    -drive "if=pflash,format=raw,file=$vars"
+    -drive "if=none,id=hd,format=qcow2,discard=unmap,file=$disk"
+    -device virtio-blk-pci,drive=hd,bootindex=0
+    -device virtio-gpu-pci
+    -display cocoa,show-cursor=on
+    -device qemu-xhci
+    -device usb-kbd
+    -device usb-tablet
+    -device virtio-rng-pci
+    -nic user,model=virtio-net-pci,hostfwd=tcp:127.0.0.1:2222-:22
+  )
+  # The empty disk falls through to the installer; once installed, the disk
+  # boots first and the ISO is no longer attached.
+  if [[ -n ${1:-} ]]; then
+    args+=(
+      -device virtio-scsi-pci,id=scsi
+      -drive "if=none,id=cd,media=cdrom,readonly=on,file=$1"
+      -device scsi-cd,drive=cd,bootindex=1
+    )
+  fi
+  exec qemu-system-aarch64 "${args[@]}"
+}
+
+case ${1:-} in
+  install)
+    iso=${2:-}
+    [[ -n $iso && -f $iso ]] || usage
+    if [[ -f $iso.sha256 ]]; then
+      (cd "$(dirname "$iso")" && shasum -a 256 -c "$(basename "$iso").sha256") || die "the ISO does not match its checksum"
+    else
+      echo "lunaos-mac-vm: no $iso.sha256 next to the ISO; its integrity is not checked" >&2
+    fi
+    [[ ! -e $disk ]] || die "$disk already exists: run 'lunaos-mac-vm start', or 'lunaos-mac-vm reset' to start over"
+    mkdir -p "$state"
+    qemu-img create -q -f qcow2 "$disk" 64G
+    cp "$vars_template" "$vars"
+    run_vm "$iso"
+    ;;
+  start)
+    [[ -f $disk && -f $vars ]] || die "no installed system in $state: run 'lunaos-mac-vm install <iso>' first"
+    run_vm
+    ;;
+  reset)
+    rm -f "$disk" "$vars"
+    echo "Removed the LunaOS virtual disk from $state"
+    ;;
+  *)
+    usage
+    ;;
+esac

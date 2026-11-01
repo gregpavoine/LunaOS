@@ -1,0 +1,126 @@
+name: LunaOS image
+
+# Builds what a Mac needs to try LunaOS: the signed lunaos-control-plane
+# package for aarch64 and an aarch64 installer ISO made with Omarchy's own image
+# builder from this source tree, so the desktop, the LUNA bar panel and the
+# install leaf are the ones in this commit. The package rides in the builder's
+# package bundle, which installs it into the target; Apple Silicon runs the
+# image natively in QEMU with lunaos/scripts/lunaos-mac-vm.
+#
+# Nothing is published: the ISO, its checksum and the signed package repository
+# are workflow artifacts. The signing key comes from the repository secret
+# LUNAOS_PACKAGE_SIGNING_KEY and must match lunaos/packaging/keys; a missing or
+# different key stops the run before anything is signed.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lunaos-image-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Omarchy's image builder and package recipes at the revisions this source
+  # tree was last integrated against (lunaos/docs/STATUS.md).
+  OMARCHY_ISO_COMMIT: b851dfa665ead6520f799cc704572a7c5b39587e
+  OMARCHY_PKGS_COMMIT: e1bfe449defe677ba4d10e92cea2c5ef391c87be
+  # The same pinned Arch Linux ARM image the builder uses for aarch64.
+  ALARM_IMAGE: ghcr.io/menci/archlinuxarm@sha256:3e1074c407fc1a57c2a2117af6920c96a7cc906fa6f1f2da8a4a7fd3aa2c2f4e
+
+jobs:
+  package:
+    name: "aarch64: build, sign and verify lunaos-control-plane"
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Build, sign and verify in Arch Linux ARM
+        env:
+          SIGNING_KEY: ${{ secrets.LUNAOS_PACKAGE_SIGNING_KEY }}
+        run: |
+          [[ -n $SIGNING_KEY ]] || { echo "::error::secret LUNAOS_PACKAGE_SIGNING_KEY is not set"; exit 1; }
+          mkdir -p out
+          printf '%s\n' "$SIGNING_KEY" >"$RUNNER_TEMP/signing.asc"
+          docker run --rm --platform linux/arm64 \
+            -v "$PWD:/src:ro" -v "$PWD/out:/out" -v "$RUNNER_TEMP/signing.asc:/signing.asc:ro" \
+            "$ALARM_IMAGE" bash /src/lunaos/packaging/control-plane/build-signed-repo.sh /src /out
+          rm -f "$RUNNER_TEMP/signing.asc"
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: lunaos-control-plane-aarch64
+          path: out/
+          retention-days: 14
+
+  iso:
+    name: "aarch64: build the LunaOS ISO"
+    needs: package
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: lunaos-source
+          persist-credentials: false
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: omacom/omarchy-iso
+          ref: ${{ env.OMARCHY_ISO_COMMIT }}
+          path: omarchy-iso
+          submodules: recursive
+          persist-credentials: false
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: omacom/omarchy-pkgs
+          ref: ${{ env.OMARCHY_PKGS_COMMIT }}
+          path: omarchy-pkgs
+          persist-credentials: false
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: lunaos-control-plane-aarch64
+          path: package
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /usr/local/share/boost "$AGENT_TOOLSDIRECTORY" || true
+          df -h /
+          avail_gb=$(df -BG --output=avail / | tail -1 | tr -dc 0-9)
+          (( avail_gb >= 40 )) || { echo "::error::only ${avail_gb} GB free, the ISO build needs about 40 GB"; exit 1; }
+
+      # The builder's bundle is a plain directory of packages and SHA256SUMS.
+      # Every package in it is installed on the target.
+      - name: Stage the package bundle
+        run: |
+          mkdir bundle
+          cp package/lunaos-control-plane-*.pkg.tar.zst bundle/
+          (cd bundle && sha256sum ./*.pkg.tar.zst >SHA256SUMS)
+          cat bundle/SHA256SUMS
+
+      - name: Build the ISO
+        working-directory: omarchy-iso
+        run: |
+          ./bin/omarchy-iso-make --arch aarch64 --no-boot-offer --keep-pkg-cache \
+            --package-dir ../bundle --local-source ../lunaos-source ../omarchy-pkgs
+          iso=$(ls -t release/*.iso | head -1)
+          name="lunaos-${GITHUB_SHA::12}-aarch64.iso"
+          mv "$iso" "release/$name"
+          (cd release && sha256sum "$name" >"$name.sha256")
+          ls -l release
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: lunaos-iso-aarch64
+          path: |
+            omarchy-iso/release/lunaos-*.iso
+            omarchy-iso/release/lunaos-*.iso.sha256
+          compression-level: 0
+          retention-days: 14
