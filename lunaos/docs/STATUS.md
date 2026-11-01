@@ -8,6 +8,8 @@
 
 **Not verified:** the widget has not run under Quickshell/Hyprland; Arch `qmllint`, the idle-spawn regression and visual verification require a Wayland session in a disposable Arch VM. Not merged into `mont-blanc` until that graphical check passes.
 
+**System lifecycle leaf (local branch `feature/lunaos-system-services`, commit `afc0692d`, stacked on the panel branch, not pushed):** `install/config/lunaos-services.sh`, called from `install/config/all.sh`, enables `luna-owner-setup`, `luna-policy-broker` and `luna-core` only when `lunaos-control-plane` is installed and adds the install user to `luna-owner` (deferred provisioning records the group once). `lunaos-test.sh` covers the absent-package no-op and the single grant; `provisioning-groups-test.sh` and `systemd-test.sh` still pass. The package is deliberately not added to any package list and no pacman repository is configured: there is no LunaOS signing key, and pacman must not trust an unsigned repository. Not exercised in an Arch install.
+
 **Also fixed:** `lunaos/tests/install-smoke-config-test.sh` used BSD `stat -f` first, which GNU stat accepts as `--file-system`, so `make test` failed on every Linux host (commit `4fd22540` on `feature/omarchy-style-integration`).
 
 ## Validation and withdrawal of legacy ISOs — 2026-10-27
