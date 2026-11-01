@@ -1,6 +1,6 @@
 # Feature status — Mont Blanc NOT RELEASED
 
-Updated 2026-10-26. No full V0, RC or Mont Blanc release claimed.
+Updated 2026-11-01. No full V0, RC or Mont Blanc release claimed.
 `VERIFIED_LOCAL` means a bounded local test or process result; it does not imply
 Arch installation, systemd, boot, hardware or release verification. All mandatory
 later features remain in Mont Blanc scope.
@@ -31,6 +31,7 @@ later features remain in Mont Blanc scope.
 | Full goal lifecycle/CRUD/planner/strategy optimizer | PARTIAL | Go Core has owner-authenticated title/description editing before execution, pause/resume/cancel, bounded plan mutation and policy-rechecked reprioritization; action/content lifecycle editing, remaining transitions, natural-language planning and evidence-backed strategy evaluation remain absent |
 | Authenticated production sessions/key vault/remote admin | BLOCKED | Device identities/key store and hardened Linux boundary absent |
 | Payments, reservations/ledger, external conversation grants | NOT_STARTED | Always denied; no budget or recipients configured |
+| LUNA bar panel + owner-socket CLI (`omarchy.lunaos`, `omarchy-lunaos`) | VERIFIED_LOCAL | 2026-11-01: CLI drove real Core/Broker binaries to verified checksum evidence over the owner socket (Linux container); widget not yet run under Quickshell/Hyprland; branch `feature/lunaos-shell-panel` unmerged |
 | Native Wayland shell/session/keyboard command center | PARTIAL | Quickshell/QML dashboard source and Hyprland bindings exist; Arch `qmllint` exits 0 with a `PanelWindow` type-resolution warning; no Wayland/Hyprland runtime |
 | Launcher/clipboard/notifications/apps KEEP validation | BLOCKED | No target access; no host changes |
 | Native lock/idle/update UI + recovery/rollback | BLOCKED | Target baseline and recovery proof needed |
