@@ -34,6 +34,27 @@ LUNAOS_CORE_SOCKET="$WORKDIR/absent.sock" "$cli" pause '../intimacy/stop' >/dev/
 (( status == 2 )) || fail "lunaos rejects a goal id that is not a UUID" "status=$status"
 pass "lunaos rejects a goal id that is not a UUID"
 
+# The install leaf touches nothing until the control-plane package exists, and a
+# deferred-provisioning install records the owner group once however often it runs.
+stubs="$WORKDIR/stubs"
+mkdir -p "$stubs"
+printf '#!/bin/bash\n[[ -e %q ]]\n' "$WORKDIR/package-installed" >"$stubs/omarchy-pkg-present"
+printf '#!/bin/bash\necho "$0 $*" >>%q\n' "$WORKDIR/calls" | tee "$stubs/systemctl" >"$stubs/usermod"
+chmod +x "$stubs"/*
+leaf() { PATH="$stubs:$PATH" OMARCHY_PROVISIONING_DIR="$WORKDIR/provisioning" OMARCHY_INSTALL_USER="$1" bash -eE "$ROOT/install/config/lunaos-services.sh"; }
+
+leaf ""
+[[ ! -e $WORKDIR/calls && ! -e $WORKDIR/provisioning/groups ]] || fail "lunaos install leaf does nothing without the package"
+pass "lunaos install leaf does nothing without the package"
+
+touch "$WORKDIR/package-installed"
+leaf ""
+leaf ""
+[[ $(grep -cx luna-owner "$WORKDIR/provisioning/groups") == 1 ]] || fail "deferred provisioning records luna-owner once" "$(cat "$WORKDIR/provisioning/groups")"
+leaf owner
+grep -q 'usermod -aG luna-owner owner' "$WORKDIR/calls" || fail "the install user joins luna-owner" "$(cat "$WORKDIR/calls")"
+pass "the install leaf grants luna-owner to the owner only, once"
+
 bin=${LUNAOS_TEST_BIN:-}
 if [[ -z $bin || ! -x $bin/luna-core || ! -x $bin/luna-policy-broker ]] || [[ $(uname -s) != "Linux" ]]; then
   skip "lunaos drives the real Core and Policy Broker (set LUNAOS_TEST_BIN on Linux)"
