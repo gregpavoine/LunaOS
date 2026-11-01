@@ -28,6 +28,11 @@ fingerprint_of() {
   gpg --batch --with-colons "$@" 2>/dev/null | awk -F: '/^fpr:/ { print $10; exit }'
 }
 
+# pacman 7 downloads as the alpm user inside a Landlock sandbox, which an
+# unprivileged container cannot apply ("restricting filesystem access failed").
+# The container is disposable and every package is still signature-checked.
+grep -qx DisableSandbox /etc/pacman.conf || sed -i '/^\[options\]/a DisableSandbox' /etc/pacman.conf
+
 pacman-key --init >/dev/null
 if [[ $arch == "aarch64" ]]; then
   pacman-key --populate archlinuxarm >/dev/null
@@ -80,6 +85,7 @@ try_repo() {
 [options]
 Architecture = $arch
 SigLevel = Required DatabaseRequired
+DisableSandbox
 
 [lunaos]
 Server = file://$dir
