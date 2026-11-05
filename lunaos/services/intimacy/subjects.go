@@ -10,6 +10,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"sort"
 	"strings"
 	"time"
 )
@@ -82,6 +83,16 @@ func init() {
 	for scope := range intimateScopes {
 		knownScopes[scope] = true
 	}
+}
+
+// KnownScopes lists every consent scope the vault accepts, sorted.
+func KnownScopes() []SubjectScope {
+	scopes := make([]SubjectScope, 0, len(knownScopes))
+	for scope := range knownScopes {
+		scopes = append(scopes, scope)
+	}
+	sort.Slice(scopes, func(i, j int) bool { return scopes[i] < scopes[j] })
+	return scopes
 }
 
 type Subject struct {
