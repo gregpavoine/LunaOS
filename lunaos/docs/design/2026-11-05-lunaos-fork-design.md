@@ -83,7 +83,7 @@ Reprise après revue depuis `feature/lunaos-mac-image` :
 ## 4. Piste C — moteur LLM local
 
 - `luna-inference` : superviseur Go de **llama.cpp `llama-server`** (CUDA sur la RTX 3080 Ti 12 Go, Vulkan ou CPU sur Mac aarch64). Il démarre, surveille et arrête le serveur, et l'expose uniquement sur un socket Unix local.
-- `lunaos/models/manifest.toml` : chaque modèle déclare URL, sha256, licence, taille, budget VRAM. Aucun fichier de modèle dans le dépôt ; téléchargement vérifié par hash, refus sinon.
+- `lunaos/models/manifest.json` (JSON plutôt que TOML : pas de dépendance hors stdlib Go) : chaque modèle déclare URL, sha256, licence, taille, budget VRAM. Aucun fichier de modèle dans le dépôt ; téléchargement vérifié par hash, refus sinon.
 - Accès : le Core appelle l'inférence uniquement avec un grant Broker `inference.generate`. **La sortie du modèle est une donnée non fiable** : elle ne peut ni autoriser une action, ni lever BLIND, ni élargir un scope.
 - Politique VRAM initiale : ComfyUI prioritaire ; l'inférence se décharge à la demande. Pas de repli cloud (désactivé, non approuvé).
 - BLIND n'arrête pas le texte local mais bloque toute entrée perceptive (caméra, micro, écran) vers le modèle.
