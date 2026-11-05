@@ -3,11 +3,11 @@ SHELL := /bin/bash
 .PHONY: test check test-process-linux build build-local
 
 test:
-	go test -buildvcs=false -count=1 ./services/...
+	go test -buildvcs=false -count=1 ./services/... ./contracts/...
 
 check:
-	test -z "$$(gofmt -l services)"
-	go vet -buildvcs=false ./services/...
+	test -z "$$(gofmt -l services contracts)"
+	go vet -buildvcs=false ./services/... ./contracts/...
 	bash -n scripts/dev-native.sh
 	for f in $$(find contracts -name '*.json' -type f); do python3 -m json.tool "$$f" >/dev/null || exit 1; done
 
