@@ -58,11 +58,12 @@ if command -v systemd-analyze >/dev/null && [[ -e /.dockerenv || -e /run/.contai
       chmod 755 "/usr/bin/$bin"
     fi
   done
+  # One call so the Requires=/After= units resolve against each other.
+  if ! systemd-analyze verify "$units/luna-owner-setup.service" "$units/luna-policy-broker.service" "$units/luna-core.service"; then
+    fail "systemd-analyze verify"
+  fi
   for unit in luna-core.service luna-policy-broker.service luna-owner-setup.service; do
-    if ! systemd-analyze verify "$units/$unit"; then
-      fail "systemd-analyze verify $unit"
-    fi
-    systemd-analyze security --no-pager "$units/$unit" || true
+    systemd-analyze security --offline=yes --no-pager "$units/$unit" || true
   done
 else
   echo "SKIP: systemd-analyze verify needs a disposable Linux container"
