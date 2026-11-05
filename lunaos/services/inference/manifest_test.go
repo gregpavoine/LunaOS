@@ -148,6 +148,23 @@ func TestFetchOversizeAborted(t *testing.T) {
 	noLeftovers(t, dir, ".m1.part", "m1.gguf")
 }
 
+func TestFetchOversizeStreamedWithoutContentLength(t *testing.T) {
+	data := []byte("0123456789")
+	srv, _ := serve(t, func(w http.ResponseWriter, r *http.Request) {
+		// Flush between writes so the response is chunked, with no Content-Length.
+		for i := 0; i < len(data); i += 2 {
+			w.Write(data[i : i+2])
+			w.(http.Flusher).Flush()
+		}
+	})
+	dir := t.TempDir()
+	m := Model{ID: "m1", URL: srv.URL, SHA256: sum(data), SizeBytes: 4}
+	if _, err := Fetch(context.Background(), m, dir, srv.Client()); err == nil {
+		t.Fatal("expected error")
+	}
+	noLeftovers(t, dir, ".m1.part", "m1.gguf")
+}
+
 func TestFetchSkipsVerifiedFile(t *testing.T) {
 	data := []byte("cached")
 	srv, n := serve(t, func(w http.ResponseWriter, r *http.Request) { w.Write(data) })
