@@ -451,39 +451,116 @@ func (s *Store) Open(ctx context.Context, sha256hex string) (io.ReadCloser, erro
 
 // Delete removes the row and, when no other row shares it, the blob.
 func (s *Store) Delete(ctx context.Context, provider, externalID string) error {
+	_, err := s.deleteItem(ctx, provider, externalID)
+	return err
+}
+
+// deleteItem is Delete reporting whether a row existed.
+func (s *Store) deleteItem(ctx context.Context, provider, externalID string) (bool, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	tx, err := s.db.BeginTx(ctx, nil)
 	if err != nil {
-		return err
+		return false, err
 	}
 	defer tx.Rollback()
 	var name string
 	err = tx.QueryRowContext(ctx, `SELECT blob_name FROM items WHERE provider=? AND external_id=?`, provider, externalID).Scan(&name)
 	if errors.Is(err, sql.ErrNoRows) {
-		return nil
+		return false, nil
 	}
 	if err != nil {
-		return err
+		return false, err
 	}
 	if _, err = tx.ExecContext(ctx, `DELETE FROM items WHERE provider=? AND external_id=?`, provider, externalID); err != nil {
-		return err
+		return false, err
 	}
 	remaining := 0
 	if name != "" {
 		if err = tx.QueryRowContext(ctx, `SELECT COUNT(*) FROM items WHERE blob_name=?`, name).Scan(&remaining); err != nil {
-			return err
+			return false, err
 		}
 	}
 	if err = tx.Commit(); err != nil {
-		return err
+		return false, err
 	}
 	if name != "" && remaining == 0 {
 		if err = os.Remove(filepath.Join(s.blobDir, name)); err != nil && !os.IsNotExist(err) {
-			return err
+			return true, err
 		}
 	}
-	return nil
+	return true, nil
+}
+
+// ExternalIDs lists the provider's stored external IDs.
+func (s *Store) ExternalIDs(ctx context.Context, provider string) ([]string, error) {
+	rows, err := s.db.QueryContext(ctx, `SELECT external_id FROM items WHERE provider=? ORDER BY external_id`, provider)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var ids []string
+	for rows.Next() {
+		var id string
+		if err = rows.Scan(&id); err != nil {
+			return nil, err
+		}
+		ids = append(ids, id)
+	}
+	return ids, rows.Err()
+}
+
+// DeadLetter is a request that kept failing. It holds only codes and opaque
+// identifiers: a fetch failure sets Scope and Cursor, a download failure sets
+// ExternalID.
+type DeadLetter struct {
+	Provider, Scope, Cursor, ExternalID, Code string
+	At                                        time.Time
+}
+
+func (s *Store) AddDeadLetter(ctx context.Context, d DeadLetter) error {
+	_, err := s.db.ExecContext(ctx, `INSERT INTO dead_letter(provider, scope, cursor, external_id, code, at) VALUES(?,?,?,?,?,?)`,
+		d.Provider, d.Scope, d.Cursor, d.ExternalID, d.Code, d.At.UnixNano())
+	return err
+}
+
+// DeadLetters lists the provider's dead letters, oldest first.
+func (s *Store) DeadLetters(ctx context.Context, provider string) ([]DeadLetter, error) {
+	rows, err := s.db.QueryContext(ctx, `SELECT provider, scope, cursor, external_id, code, at FROM dead_letter WHERE provider=? ORDER BY id`, provider)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var out []DeadLetter
+	for rows.Next() {
+		var d DeadLetter
+		var at int64
+		if err = rows.Scan(&d.Provider, &d.Scope, &d.Cursor, &d.ExternalID, &d.Code, &at); err != nil {
+			return nil, err
+		}
+		d.At = time.Unix(0, at)
+		out = append(out, d)
+	}
+	return out, rows.Err()
+}
+
+// SetNotBefore records that the provider must not be called before t.
+func (s *Store) SetNotBefore(ctx context.Context, provider string, t time.Time) error {
+	_, err := s.db.ExecContext(ctx, `INSERT INTO rate_limits(provider, not_before) VALUES(?,?) ON CONFLICT(provider) DO UPDATE SET not_before=excluded.not_before`, provider, t.UnixNano())
+	return err
+}
+
+// NotBefore returns the zero time when the provider has no recorded limit.
+func (s *Store) NotBefore(ctx context.Context, provider string) (time.Time, error) {
+	var n int64
+	err := s.db.QueryRowContext(ctx, `SELECT not_before FROM rate_limits WHERE provider=?`, provider).Scan(&n)
+	if errors.Is(err, sql.ErrNoRows) {
+		return time.Time{}, nil
+	}
+	if err != nil {
+		return time.Time{}, err
+	}
+	return time.Unix(0, n), nil
 }
 
 func (s *Store) SaveCursor(ctx context.Context, provider, scope, cursor string) error {

@@ -16,3 +16,16 @@ CREATE TABLE IF NOT EXISTS cursors (
   cursor TEXT NOT NULL,
   PRIMARY KEY (provider, scope)
 );
+CREATE TABLE IF NOT EXISTS dead_letter (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  provider TEXT NOT NULL,
+  scope TEXT NOT NULL DEFAULT '',
+  cursor TEXT NOT NULL DEFAULT '',
+  external_id TEXT NOT NULL DEFAULT '',
+  code TEXT NOT NULL,
+  at INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS rate_limits (
+  provider TEXT PRIMARY KEY,
+  not_before INTEGER NOT NULL
+);
