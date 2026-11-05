@@ -4,10 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"net"
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strconv"
 	"sync"
 	"syscall"
@@ -51,25 +53,39 @@ const (
 // restart in the background: callers Start it lazily, and repeated failures
 // make it degraded until Reset.
 type Supervisor struct {
-	Binary, ModelPath string
-	GPULayers         int
-	StartTimeout      time.Duration // 0 -> 60 s
-	StopGrace         time.Duration // SIGTERM to SIGKILL delay; 0 -> 10 s
+	Binary       string // absolute path; no PATH lookup
+	ModelPath    string
+	GPULayers    int
+	StartTimeout time.Duration // 0 -> 60 s
+	StopGrace    time.Duration // SIGTERM to SIGKILL delay; 0 -> 10 s
+	Log          io.Writer     // child stdout/stderr; nil -> os.Stderr (journal)
 
-	mu        sync.Mutex // never held while waiting on the child or the network
-	state     State
-	run       *run
-	baseURL   string
-	failures  []time.Time
-	startDone chan struct{} // non-nil while a start is in progress
-	startErr  error
+	mu       sync.Mutex // never held while waiting on the child or the network
+	state    State
+	run      *run
+	baseURL  string
+	failures []time.Time
+	cur      *start // start in progress, if any
+
+	// Test hooks; nil in production.
+	beforeSpawn func() // launch, before the binary check
+	stopHook    func() // Stop, after it inspected state, before it terminates
 }
 
 // run is one child process. stopped is guarded by Supervisor.mu.
 type run struct {
 	cmd     *exec.Cmd
 	done    chan struct{} // closed after the child is reaped
-	stopped bool          // Stop or a cancelled Start asked it to end
+	stopped bool          // Stop asked it to end
+	waitErr error         // cmd.Wait result, set before done closes
+}
+
+// start is one shared start attempt.
+type start struct {
+	done   chan struct{}
+	cancel context.CancelFunc
+	url    string
+	err    error
 }
 
 var healthClient = &http.Client{Timeout: time.Second}
@@ -107,7 +123,9 @@ func (s *Supervisor) recordFailure() {
 }
 
 // Start launches llama-server if needed and returns its base URL once /health
-// answers 200. Concurrent callers share one start.
+// answers 200. Concurrent callers share one start. The start runs detached
+// from the callers: a caller's ctx only bounds its own wait, and only
+// StartTimeout or Stop abort the start itself.
 func (s *Supervisor) Start(ctx context.Context) (string, error) {
 	s.mu.Lock()
 	switch s.state {
@@ -118,42 +136,40 @@ func (s *Supervisor) Start(ctx context.Context) (string, error) {
 	case StateDegraded:
 		s.mu.Unlock()
 		return "", errors.New("llama-server is degraded")
-	case StateStarting:
-		done := s.startDone
-		s.mu.Unlock()
-		select {
-		case <-done:
-		case <-ctx.Done():
-			return "", ctx.Err()
-		}
-		s.mu.Lock()
-		defer s.mu.Unlock()
-		if s.startErr != nil {
-			return "", s.startErr
-		}
-		return s.baseURL, nil
+	case StateStopped:
+		st := &start{done: make(chan struct{})}
+		startCtx, cancel := context.WithCancel(context.Background())
+		st.cancel = cancel
+		s.state = StateStarting
+		s.cur = st
+		go func() {
+			st.url, st.err = s.launch(startCtx)
+			cancel()
+			s.mu.Lock()
+			if s.cur == st {
+				s.cur = nil
+			}
+			if st.err == nil {
+				s.baseURL = st.url
+			}
+			s.mu.Unlock()
+			close(st.done)
+		}()
 	}
-	s.state = StateStarting
-	s.startDone = make(chan struct{})
-	done := s.startDone
+	st := s.cur
 	s.mu.Unlock()
 
-	url, err := s.launch(ctx)
-
-	s.mu.Lock()
-	s.startErr = err
-	if err == nil {
-		s.baseURL = url
+	select {
+	case <-st.done:
+		return st.url, st.err
+	case <-ctx.Done():
+		return "", ctx.Err()
 	}
-	s.startDone = nil
-	close(done)
-	s.mu.Unlock()
-	return url, err
 }
 
 // launch spawns the child and waits for readiness. It leaves s.state at Ready,
-// Stopped or Degraded.
-func (s *Supervisor) launch(ctx context.Context) (string, error) {
+// Stopped or Degraded. startCtx is cancelled only by Stop.
+func (s *Supervisor) launch(startCtx context.Context) (string, error) {
 	fail := func(err error, count bool) (string, error) {
 		s.mu.Lock()
 		if count {
@@ -165,12 +181,25 @@ func (s *Supervisor) launch(ctx context.Context) (string, error) {
 		s.mu.Unlock()
 		return "", err
 	}
-
-	if fi, err := os.Stat(s.Binary); err != nil || fi.IsDir() || fi.Mode().Perm()&0o111 == 0 {
+	degrade := func(err error) (string, error) {
 		s.mu.Lock()
 		s.state = StateDegraded
 		s.mu.Unlock()
-		return "", fmt.Errorf("llama-server binary %q missing or not executable", s.Binary)
+		return "", err
+	}
+	errStopped := errors.New("llama-server stopped during start")
+
+	if s.beforeSpawn != nil {
+		s.beforeSpawn()
+	}
+	if !filepath.IsAbs(s.Binary) {
+		return degrade(fmt.Errorf("llama-server binary %q must be an absolute path", s.Binary))
+	}
+	if fi, err := os.Stat(s.Binary); err != nil || fi.IsDir() || fi.Mode().Perm()&0o111 == 0 {
+		return degrade(fmt.Errorf("llama-server binary %q missing or not executable", s.Binary))
+	}
+	if startCtx.Err() != nil {
+		return fail(errStopped, false)
 	}
 	port, err := freePort()
 	if err != nil {
@@ -178,17 +207,23 @@ func (s *Supervisor) launch(ctx context.Context) (string, error) {
 	}
 	cmd := exec.Command(s.Binary, "-m", s.ModelPath, "--host", "127.0.0.1",
 		"--port", strconv.Itoa(port), "-ngl", strconv.Itoa(s.GPULayers))
+	var out io.Writer = os.Stderr
+	if s.Log != nil {
+		out = s.Log
+	}
+	cmd.Stdout, cmd.Stderr = out, out
 	if err := cmd.Start(); err != nil {
-		s.mu.Lock()
-		s.state = StateDegraded
-		s.mu.Unlock()
-		return "", fmt.Errorf("start llama-server: %w", err)
+		return degrade(fmt.Errorf("start llama-server: %w", err))
 	}
 	r := &run{cmd: cmd, done: make(chan struct{})}
 	s.mu.Lock()
 	s.run = r
 	s.mu.Unlock()
 	go s.reap(r)
+	if startCtx.Err() != nil { // Stop ran before the child existed
+		s.terminate(r, true)
+		return fail(errStopped, false)
+	}
 
 	timeout := s.StartTimeout
 	if timeout <= 0 {
@@ -204,15 +239,15 @@ func (s *Supervisor) launch(ctx context.Context) (string, error) {
 		select {
 		case <-r.done:
 			s.mu.Lock()
-			stopped := r.stopped
+			stopped, werr := r.stopped, r.waitErr
 			s.mu.Unlock()
 			if stopped {
-				return fail(errors.New("llama-server stopped during start"), false)
+				return fail(errStopped, false)
 			}
-			return fail(errors.New("llama-server exited before becoming healthy"), true)
-		case <-ctx.Done():
+			return fail(fmt.Errorf("llama-server exited before becoming healthy: %v", werr), true)
+		case <-startCtx.Done():
 			s.terminate(r, true)
-			return fail(ctx.Err(), false)
+			return fail(errStopped, false)
 		case <-deadline.C:
 			s.terminate(r, false)
 			return fail(fmt.Errorf("llama-server not healthy after %v", timeout), true)
@@ -227,7 +262,7 @@ func (s *Supervisor) launch(ctx context.Context) (string, error) {
 				continue
 			default:
 			}
-			if r.stopped {
+			if startCtx.Err() != nil { // Stop cancels under mu, so this is final
 				s.mu.Unlock()
 				continue
 			}
@@ -238,16 +273,19 @@ func (s *Supervisor) launch(ctx context.Context) (string, error) {
 	}
 }
 
-// reap waits for the child and applies an unexpected exit to the state.
+// reap waits for the child and applies its exit to the state.
 func (s *Supervisor) reap(r *run) {
-	r.cmd.Wait()
+	err := r.cmd.Wait()
 	s.mu.Lock()
+	r.waitErr = err
 	if s.run == r {
 		s.run = nil
 		// During Starting the starter observes done and accounts for it.
-		if s.state == StateReady && !r.stopped {
+		if s.state == StateReady {
 			s.state = StateStopped
-			s.recordFailure()
+			if !r.stopped {
+				s.recordFailure()
+			}
 		}
 	}
 	close(r.done)
@@ -282,19 +320,29 @@ func (s *Supervisor) terminate(r *run, markStopped bool) {
 	}
 }
 
-// Stop terminates the child (SIGTERM, then SIGKILL after StopGrace). It is a
-// no-op when nothing is running and also ends a start in progress.
+// Stop ends a start in progress and terminates the child (SIGTERM, then
+// SIGKILL after StopGrace). When it returns no child is left. It is a no-op
+// when nothing is running.
 func (s *Supervisor) Stop() error {
 	s.mu.Lock()
+	st := s.cur
+	if st != nil {
+		st.cancel() // under mu: a start can no longer turn Ready
+	}
 	r := s.run
 	if r != nil && s.state == StateReady {
 		s.state = StateStopped
 	}
 	s.mu.Unlock()
-	if r == nil {
-		return nil
+	if s.stopHook != nil {
+		s.stopHook()
 	}
-	s.terminate(r, true)
+	if r != nil {
+		s.terminate(r, true)
+	}
+	if st != nil {
+		<-st.done // the start kills a child it spawned after we looked
+	}
 	return nil
 }
 

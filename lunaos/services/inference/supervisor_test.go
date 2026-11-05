@@ -2,6 +2,7 @@ package inference
 
 import (
 	"context"
+	"io"
 	"net/http"
 	"os"
 	"strconv"
@@ -20,6 +21,7 @@ func newSup(t *testing.T) *Supervisor {
 		GPULayers:    1,
 		StartTimeout: 5 * time.Second,
 		StopGrace:    time.Second,
+		Log:          io.Discard,
 	}
 	t.Cleanup(func() { s.Stop() })
 	return s
@@ -255,4 +257,130 @@ func TestUnexpectedExitMovesToStopped(t *testing.T) {
 	if err := s.Stop(); err != nil {
 		t.Fatalf("Stop after death: %v", err)
 	}
+}
+
+func TestStopBeforeSpawnLeavesNoChild(t *testing.T) {
+	pidfile := t.TempDir() + "/pids"
+	t.Setenv("FAKE_PIDFILE", pidfile)
+	s := newSup(t)
+	hooked, release := make(chan struct{}), make(chan struct{})
+	s.beforeSpawn = func() { close(hooked); <-release }
+	startErr := make(chan error, 1)
+	go func() { _, err := s.Start(context.Background()); startErr <- err }()
+	<-hooked
+	stopped := make(chan struct{})
+	go func() { s.Stop(); close(stopped) }()
+	time.Sleep(150 * time.Millisecond)
+	close(release)
+	if err := <-startErr; err == nil {
+		t.Fatal("Start should fail after Stop")
+	}
+	<-stopped
+	if s.State() != StateStopped {
+		t.Fatalf("state = %v, want stopped", s.State())
+	}
+	for _, pid := range readPIDs(t, pidfile) {
+		if alive(pid) {
+			t.Fatalf("child %d outlived Stop", pid)
+		}
+	}
+}
+
+func TestStopRacingHealthCheckEndsStopped(t *testing.T) {
+	t.Setenv("FAKE_HEALTH_DELAY_MS", "300")
+	pidfile := t.TempDir() + "/pids"
+	t.Setenv("FAKE_PIDFILE", pidfile)
+	s := newSup(t)
+	release := make(chan struct{})
+	hooked := make(chan struct{}, 1)
+	s.stopHook = func() { hooked <- struct{}{}; <-release }
+	startErr := make(chan error, 1)
+	go func() { _, err := s.Start(context.Background()); startErr <- err }()
+	time.Sleep(100 * time.Millisecond) // child spawned, not yet healthy
+	stopped := make(chan struct{})
+	go func() { s.Stop(); close(stopped) }()
+	<-hooked
+	time.Sleep(700 * time.Millisecond) // the child would be healthy by now
+	close(release)
+	<-stopped
+	<-startErr
+	if s.State() != StateStopped {
+		t.Fatalf("state = %v, want stopped", s.State())
+	}
+	s.stopHook = nil
+	if _, err := s.Start(context.Background()); err != nil {
+		t.Fatalf("next Start: %v", err)
+	}
+	if n := len(readPIDs(t, pidfile)); n != 2 {
+		t.Fatalf("spawned %d processes, want 2", n)
+	}
+}
+
+func TestCancelledFirstCallerDoesNotAbortSharedStart(t *testing.T) {
+	t.Setenv("FAKE_HEALTH_DELAY_MS", "500")
+	pidfile := t.TempDir() + "/pids"
+	t.Setenv("FAKE_PIDFILE", pidfile)
+	s := newSup(t)
+	ctx1, cancel1 := context.WithCancel(context.Background())
+	err1 := make(chan error, 1)
+	begin := time.Now()
+	go func() { _, err := s.Start(ctx1); err1 <- err }()
+	time.Sleep(50 * time.Millisecond)
+	url2 := make(chan string, 1)
+	go func() {
+		u, err := s.Start(context.Background())
+		if err != nil {
+			t.Error(err)
+		}
+		url2 <- u
+	}()
+	time.Sleep(50 * time.Millisecond)
+	cancel1()
+	if err := <-err1; err != context.Canceled {
+		t.Fatalf("first caller err = %v, want context.Canceled", err)
+	}
+	if time.Since(begin) > 400*time.Millisecond {
+		t.Fatal("cancelled caller did not return promptly")
+	}
+	if u := <-url2; u == "" {
+		t.Fatal("second caller got no URL")
+	}
+	if s.State() != StateReady {
+		t.Fatalf("state = %v, want ready", s.State())
+	}
+	s.mu.Lock()
+	nf := len(s.failures)
+	s.mu.Unlock()
+	if nf != 0 || len(readPIDs(t, pidfile)) != 1 {
+		t.Fatalf("failures=%d spawns=%d, want 0 and 1", nf, len(readPIDs(t, pidfile)))
+	}
+}
+
+func TestRelativeBinaryIsDegraded(t *testing.T) {
+	s := &Supervisor{Binary: "llama-server", ModelPath: "m.gguf"}
+	if _, err := s.Start(context.Background()); err == nil || s.State() != StateDegraded {
+		t.Fatalf("relative binary: err=%v state=%v", err, s.State())
+	}
+}
+
+func TestStartFailureReportsExitStatusAndLogs(t *testing.T) {
+	t.Setenv("FAKE_EXIT_CODE", "7")
+	s := newSup(t)
+	var buf syncBuf
+	s.Log = &buf
+	_, err := s.Start(context.Background())
+	if err == nil || !strings.Contains(err.Error(), "exit status 7") {
+		t.Fatalf("err = %v, want exit status 7", err)
+	}
+}
+
+type syncBuf struct {
+	mu sync.Mutex
+	b  strings.Builder
+}
+
+func (w *syncBuf) Write(p []byte) (int, error) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	return w.b.Write(p)
 }
