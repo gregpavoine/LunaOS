@@ -11,9 +11,9 @@ Ce fichier et tout ce qui se trouve sous `lunaos/docs/` (plans compris) appartie
 | A — Fork | tout ce qui est hors de `lunaos/`, plus `lunaos/rebrand/` (seule exception sous `lunaos/`) | `lunaos/` hors `lunaos/rebrand/`, et les dossiers de B, C et D |
 | B — Cerveau | `lunaos/services/{core,policy,identity}/` (sauf les fichiers de D listés plus bas), `lunaos/systemd/`, `lunaos/systemd-sysusers/`, `lunaos/tests/` | hors `lunaos/`, et les dossiers de A, C et D |
 | C — LLM | `lunaos/services/inference/` (dont `systemd/` pour ses unités), `lunaos/models/` | hors `lunaos/`, et les dossiers de A, B et D |
-| D — NSFW | `lunaos/services/intimacy/`, `lunaos/services/discovery/` (dont `systemd/` pour ses unités), et les fichiers de `lunaos/services/core/` listés plus bas | hors `lunaos/`, et les dossiers de A, B et C |
+| D — NSFW | `lunaos/services/intimacy/`, `lunaos/services/discovery/` (dont `systemd/` pour ses unités), et les fichiers de `lunaos/services/core/` listés plus bas | hors `lunaos/`, et les dossiers de A, B et C (sauf les fichiers de `lunaos/services/core/` listés plus bas) |
 
-« Idem » ne s'applique pas entre pistes : C et D ne touchent ni les dossiers de B, ni ceux de l'autre piste.
+« Idem » ne s'applique pas entre pistes : C et D ne touchent ni les dossiers de B, ni ceux de l'autre piste (sauf les fichiers de `lunaos/services/core/` listés plus bas pour D).
 
 ## Attributions fines
 
@@ -46,8 +46,8 @@ Tout autre fichier de `lunaos/services/core/` appartient à B, même s'il réfé
 Ces chemins n'appartiennent à aucune piste et sont tenus par le contrôleur de la phase 0 :
 
 - `lunaos/docs/` et tout ce qu'il contient, plans compris ;
-- `lunaos/README` et les autres fichiers à la racine de `lunaos/` ;
-- tout chemin sous `lunaos/` qui n'est listé dans aucune ligne du tableau ci-dessus.
+- `lunaos/README` et les autres fichiers à la racine de `lunaos/`, sauf les fichiers partagés ci-dessus (`go.mod`, `go.sum`, `Makefile`, `contracts/`) ;
+- tout chemin sous `lunaos/` qui n'est listé dans aucune ligne du tableau ci-dessus, sauf les fichiers partagés ci-dessus (`go.mod`, `go.sum`, `Makefile`, `contracts/`).
 
 ## Faits partagés
 
