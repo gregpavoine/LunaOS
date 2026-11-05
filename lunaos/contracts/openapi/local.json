@@ -1,0 +1,1836 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LunaOS Task 1 local REST contracts",
+    "version": "0.1.0",
+    "description": "HTTP/JSON over private Unix sockets only. No TCP server URL. Core and broker routes are separate services; no remote access. Unlisted spec routes are unimplemented."
+  },
+  "security": [
+    {
+      "OwnerBearer": []
+    }
+  ],
+  "paths": {
+    "/v1/goals": {
+      "post": {
+        "summary": "Create scoped local goal; duplicate same key/payload returns existing goal",
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Goal"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGoal"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_.:-]{1,128}$"
+            }
+          }
+        ]
+      },
+      "get": {
+        "summary": "List at most 100 goals",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "goals": {
+                      "type": "array",
+                      "maxItems": 100,
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
+    "/v1/goals/{id}": {
+      "patch": {
+        "summary": "Edit owner goal metadata, reprioritize, pause, resume, or cancel",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {"type": "string", "format": "uuid"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["operation"],
+                "properties": {
+                  "operation": {"type": "string", "enum": ["edit", "pause", "resume", "reprioritize", "cancel"]},
+                  "title": {"type": "string", "minLength": 1, "maxLength": 256},
+                  "description": {"type": "string", "maxLength": 4096},
+                  "metrics": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["impact", "urgency", "user_value", "confidence", "efficiency"],
+                    "properties": {
+                      "impact": {"type": "number", "minimum": 0, "maximum": 1},
+                      "urgency": {"type": "number", "minimum": 0, "maximum": 1},
+                      "user_value": {"type": "number", "minimum": 0, "maximum": 1},
+                      "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+                      "efficiency": {"type": "number", "minimum": 0, "maximum": 1}
+                    }
+                  }
+                },
+                "allOf": [{
+                  "if": {"properties": {"operation": {"const": "reprioritize"}}},
+                  "then": {"required": ["metrics"]},
+                  "else": {"not": {"required": ["metrics"]}}
+                }, {
+                  "if": {"properties": {"operation": {"const": "edit"}}},
+                  "then": {"anyOf": [{"required": ["title"]}, {"required": ["description"]}]},
+                  "else": {"not": {"anyOf": [{"required": ["title"]}, {"required": ["description"]}]}}
+                }]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transition applied",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Goal"}}}
+          },
+          "400": {"description": "Invalid operation or score metrics"},
+          "401": {"description": "Owner authentication required"},
+          "404": {"description": "Unknown goal"},
+          "409": {"description": "Invalid lifecycle transition"},
+          "503": {"description": "Local service unavailable"}
+        }
+      },
+      "get": {
+        "summary": "Goal and evidence",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Goal"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/v1/goals/{id}/plan": {
+      "post": {
+        "summary": "Owner replaces the bounded hierarchy parent and blocking prerequisites",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {"type": "string", "format": "uuid"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["dependency_goal_ids"],
+                "properties": {
+                  "dependency_goal_ids": {"type": "array", "maxItems": 32, "uniqueItems": true, "items": {"type": "string", "format": "uuid"}},
+                  "parent_id": {"type": ["string", "null"], "format": "uuid"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Plan persisted and returned with the goal"},
+          "400": {"description": "Malformed, oversized, or cyclic plan"},
+          "401": {"description": "Owner authentication required"},
+          "404": {"description": "Goal or prerequisite not found"},
+          "503": {"description": "Local service unavailable"}
+        }
+      }
+    },
+    "/v1/goals/{id}/evaluate": {
+      "post": {
+        "summary": "Owner evaluates evidence for the supported local checksum action only",
+        "parameters": [
+          {"in": "path", "name": "id", "required": true, "schema": {"type": "string", "format": "uuid"}}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"type": "object", "maxProperties": 0, "additionalProperties": false}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Evidence evaluation result; no goal state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["goal_id", "outcome", "code", "evaluated_at_utc"],
+                  "properties": {
+                    "goal_id": {"type": "string", "format": "uuid"},
+                    "outcome": {"type": "string", "enum": ["verified", "insufficient_evidence", "mismatch"]},
+                    "code": {"type": "string"},
+                    "evaluated_at_utc": {"type": "string", "format": "date-time"}
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {"description": "Malformed or non-empty request body"},
+          "401": {"description": "Owner authentication required"},
+          "404": {"description": "Goal not found"},
+          "503": {"description": "Local service unavailable"}
+        }
+      }
+    },
+    "/v1/goals/{id}/decisions": {
+      "get": {
+        "summary": "At most 100 ordered safe events",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["decisions"],
+                  "properties": {
+                    "decisions": {
+                      "type": "array",
+                      "maxItems": 100,
+                      "items": {
+                        "type": "object",
+                        "required": ["id", "kind", "code", "created_at_utc"],
+                        "properties": {
+                          "id": {"type": "integer", "format": "int64"},
+                          "kind": {"type": "string"},
+                          "code": {"type": "string"},
+                          "created_at_utc": {"type": "string", "format": "date-time"}
+                        },
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/v1/system/capabilities": {
+      "get": {
+        "summary": "Live service readiness; hardware remains unverified",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["generated_at_utc", "core", "storage", "policy_broker", "local_llm", "hardware"],
+                  "properties": {
+                    "generated_at_utc": {"type": "string", "format": "date-time"},
+                    "core": {"$ref": "#/components/schemas/ComponentCapability"},
+                    "storage": {"$ref": "#/components/schemas/ComponentCapability"},
+                    "policy_broker": {"$ref": "#/components/schemas/ComponentCapability"},
+                    "local_llm": {"$ref": "#/components/schemas/ComponentCapability"},
+                    "hardware": {"$ref": "#/components/schemas/ComponentCapability"}
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
+    "/v1/scheduler/tick": {
+      "post": {
+        "summary": "Run at most one useful authorized pure job; idle_success is success",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/grants": {
+      "post": {
+        "summary": "Broker socket only: issue scoped grant",
+        "security": [{"CoreBrokerBearer": []}],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrokerDecision"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Core-to-Broker credential required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "405": {
+            "description": "Unsupported method"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrokerRequest"
+              }
+            }
+          }
+        },
+        "description": "Served only by separate policy socket, not Core API. Denials return allowed=false and code; no score can override. Payment default budget zero."
+      }
+    },
+    "/v1/system/health": {
+      "get": {
+        "summary": "Policy Broker Unix socket only; Core credential and peer UID required",
+        "security": [{"CoreBrokerBearer": []}],
+        "responses": {
+          "200": {
+            "description": "Broker process is responding",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "code"],
+                  "properties": {
+                    "status": {"type": "string", "enum": ["ready"]},
+                    "code": {"type": "string", "enum": ["BROKER_READY"]}
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {"description": "Core-to-Broker credential required"},
+          "403": {"description": "Unix socket peer UID denied"}
+        }
+      }
+    },
+    "/v1/policy/evaluate": {
+      "post": {
+        "summary": "Broker socket only: recheck signed scope",
+        "security": [{"CoreBrokerBearer": []}],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrokerDecision"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Core-to-Broker credential required"
+          },
+          "404": {
+            "description": "Unknown resource"
+          },
+          "405": {
+            "description": "Unsupported method"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrokerRequest"
+              }
+            }
+          }
+        },
+        "description": "Served only by separate policy socket, not Core API. Denials return allowed=false and code; no score can override. Payment default budget zero."
+      }
+    },
+    "/v1/intimacy/relationship/state": {
+      "get": {
+        "summary": "Read privacy-safe Intimacy control state; never returns intimate content",
+        "responses": {
+          "200": {
+            "description": "Current stop, privacy and local-backend state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntimacyState"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Owner authentication required"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/stop": {
+      "post": {
+        "summary": "Persist STOP_INTIMACY and block intimate conversation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "maxProperties": 0
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Intimacy stopped"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "503": {
+            "description": "Local state unavailable"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/conversation": {
+      "post": {
+        "summary": "Conversation endpoint; fail closed until private context and a real local model are configured",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "message"
+                ],
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "maxLength": 4000
+                  },
+                  "context": {
+                    "type": "string",
+                    "maxLength": 128
+                  },
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "conversation",
+                      "fictional_roleplay"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "423": {
+            "description": "Blocked by STOP_INTIMACY or unknown/non-private context"
+          },
+          "503": {
+            "description": "Real local model is unavailable"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/consents": {
+      "post": {
+        "summary": "Record explicit owner-only local memory consent with expiry and adult self-attestation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateConsentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Scoped consent recorded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivateConsent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing attestation"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "503": {
+            "description": "Private vault unavailable"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/consents/{id}/revoke": {
+      "post": {
+        "summary": "Revoke local owner consent immediately",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "maxProperties": 0
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Consent revoked"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Consent unavailable"
+          },
+          "503": {
+            "description": "Private vault unavailable"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/memories": {
+      "post": {
+        "summary": "Store owner-only private memory encrypted at rest",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateMemoryWrite"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Stored; response contains metadata only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivateMemoryReceipt"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid provenance or payload"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Consent absent, expired, revoked or missing write scope"
+          },
+          "503": {
+            "description": "Private vault unavailable"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/memories/{id}": {
+      "get": {
+        "summary": "Read private memory with active memory.read consent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "consent_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Decrypted owner memory"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Consent absent, expired, revoked or missing read scope"
+          },
+          "404": {
+            "description": "Memory unavailable"
+          },
+          "503": {
+            "description": "Private vault unavailable"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete owner memory, including after consent revocation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Memory deleted"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Memory unavailable"
+          },
+          "503": {
+            "description": "Private vault unavailable"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/preferences": {
+      "post": {
+        "summary": "Store an explicitly declared owner preference encrypted at rest; response excludes value",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivatePreferenceWrite"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Declared preference metadata only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivatePreferenceMetadata"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid preference or missing confirmation"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Active preferences.write consent required"
+          },
+          "503": {
+            "description": "Private vault unavailable"
+          }
+        }
+      },
+      "get": {
+        "summary": "Read owner preferences with active preferences.read consent",
+        "parameters": [
+          {
+            "name": "consent_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Decrypted locally scoped declared preferences",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivatePreferenceList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Active preferences.read consent required"
+          },
+          "503": {
+            "description": "Private vault unavailable"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/preferences/{id}/correction": {
+      "post": {
+        "summary": "Correct a declared preference; response excludes value",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivatePreferenceCorrection"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Corrected preference metadata only"
+          },
+          "400": {
+            "description": "Invalid correction or missing confirmation"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Active preferences.write consent required"
+          },
+          "404": {
+            "description": "Preference unavailable"
+          },
+          "503": {
+            "description": "Private vault unavailable"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/preferences/{id}": {
+      "delete": {
+        "summary": "Delete owner preference, including after consent revocation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Preference deleted"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Preference unavailable"
+          },
+          "503": {
+            "description": "Private vault unavailable"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/discovery/policy": {
+      "put": {
+        "summary": "Replace encrypted owner allowlists after explicit confirmation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiscoveryPolicyUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Policy stored encrypted"
+          },
+          "400": {
+            "description": "Invalid policy or missing explicit owner confirmation"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Active discovery.policy.write consent required"
+          },
+          "503": {
+            "description": "Private vault unavailable"
+          }
+        }
+      },
+      "get": {
+        "summary": "Read encrypted owner discovery policy with scoped consent",
+        "parameters": [
+          {
+            "name": "consent_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owner-configured metadata allowlists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiscoveryAllowlist"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Active discovery.policy.read consent required"
+          },
+          "503": {
+            "description": "Private vault unavailable"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/discovery/evaluate": {
+      "post": {
+        "summary": "Evaluate supplied metadata only against owner allowlists; does not retrieve or classify media",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiscoveryEvaluationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Fail-closed allowlist decision",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiscoveryDecision"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Active discovery.run consent required"
+          },
+          "503": {
+            "description": "Private vault unavailable"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "OwnerBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Owner key read from protected file, not caller role or voice claim"
+      },
+      "CoreBrokerBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Dedicated Core-to-Policy-Broker token; request must also pass the configured Unix socket peer UID check"
+      }
+    },
+    "schemas": {
+      "Metrics": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "impact": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
+          },
+          "urgency": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
+          },
+          "user_value": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
+          },
+          "efficiency": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
+          }
+        }
+      },
+      "AssertionInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "claim"
+        ],
+        "properties": {
+          "claim": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "source": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 256
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 0
+          }
+        }
+      },
+      "CreateGoal": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_.]{0,79}$"
+          },
+          "title": {"type": "string", "maxLength": 256},
+          "description": {"type": "string", "maxLength": 4096},
+          "metrics": {
+            "$ref": "#/components/schemas/Metrics"
+          },
+          "privacy_class": {
+            "enum": [
+              "general",
+              "intimate",
+              "biometric"
+            ],
+            "default": "general"
+          },
+          "assertion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AssertionInput"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "code"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          }
+        }
+      },
+      "BrokerRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "goal_id",
+          "action",
+          "privacy_class"
+        ],
+        "properties": {
+          "goal_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "action": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "privacy_class": {
+            "type": "string"
+          },
+          "grant": {
+            "type": "string"
+          }
+        }
+      },
+      "ComponentCapability": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "code"],
+        "properties": {
+          "status": {"type": "string", "enum": ["ready", "unavailable", "unverified", "unknown"]},
+          "code": {"type": "string"}
+        }
+      },
+      "BrokerDecision": {
+        "type": "object",
+        "required": [
+          "allowed",
+          "code"
+        ],
+        "properties": {
+          "allowed": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "grant": {
+            "type": "string",
+            "description": "Signed one-hour capability, only on authorized issuance"
+          }
+        }
+      },
+      "Goal": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "description",
+          "action",
+          "privacy_class",
+          "status",
+          "metrics",
+          "score",
+          "policy_code",
+          "provenance_status",
+          "dependency_goal_ids",
+          "created_at_utc",
+          "updated_at_utc"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {"type": "string", "minLength": 1, "maxLength": 256},
+          "description": {"type": "string", "maxLength": 4096},
+          "action": {
+            "type": "string"
+          },
+          "privacy_class": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "approved",
+              "blocked",
+              "completed",
+              "failed",
+              "paused",
+              "cancelled"
+            ]
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/Metrics"
+          },
+          "score": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 100
+          },
+          "policy_code": {
+            "type": "string"
+          },
+          "provenance_status": {"type": "string", "enum": ["unknown", "verified", "disputed"]},
+          "assertion": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["claim", "confidence", "provenance_status", "epistemic_status"],
+            "properties": {
+              "claim": {"type": "string"},
+              "source": {"type": ["string", "null"]},
+              "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+              "provenance_status": {"type": "string"},
+              "epistemic_status": {"type": "string"}
+            }
+          },
+          "parent_id": {"type": "string", "format": "uuid"},
+          "dependency_goal_ids": {"type": "array", "maxItems": 32, "items": {"type": "string", "format": "uuid"}},
+          "evidence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["sha256", "byte_count", "provenance", "verified"],
+            "properties": {
+              "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "byte_count": {"type": "integer", "minimum": 0},
+              "provenance": {"type": "string"},
+              "verified": {"type": "boolean"}
+            }
+          },
+          "created_at_utc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at_utc": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "IntimacyState": {
+        "type": "object",
+        "required": [
+          "stopped",
+          "privacy_mode",
+          "backend_available",
+          "updated_at_utc"
+        ],
+        "properties": {
+          "stopped": {
+            "type": "boolean"
+          },
+          "privacy_mode": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "private",
+              "public"
+            ]
+          },
+          "backend_available": {
+            "type": "boolean"
+          },
+          "updated_at_utc": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PrivateConsentRequest": {
+        "type": "object",
+        "required": [
+          "scopes",
+          "expires_at",
+          "confirm_owner",
+          "adult_attested"
+        ],
+        "properties": {
+          "scopes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "memory.read",
+                "memory.write",
+                "preferences.read",
+                "preferences.write",
+                "discovery.policy.read",
+                "discovery.policy.write",
+                "discovery.run"
+              ]
+            }
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "confirm_owner": {
+            "type": "boolean",
+            "const": true
+          },
+          "adult_attested": {
+            "type": "boolean",
+            "const": true,
+            "description": "Owner self-attestation only; not independent age or identity verification."
+          }
+        }
+      },
+      "PrivateConsent": {
+        "type": "object",
+        "required": [
+          "consent_id",
+          "subject_id",
+          "scopes",
+          "expires_at"
+        ],
+        "properties": {
+          "consent_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subject_id": {
+            "type": "string",
+            "enum": [
+              "owner"
+            ]
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "revoked_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PrivateMemoryWrite": {
+        "type": "object",
+        "required": [
+          "consent_id",
+          "origin_type",
+          "content"
+        ],
+        "properties": {
+          "consent_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "origin_type": {
+            "type": "string",
+            "enum": [
+              "user_asserted",
+              "observed",
+              "inferred",
+              "fictional_roleplay",
+              "generated_artifact",
+              "external_media"
+            ]
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 7000
+          }
+        }
+      },
+      "PrivateMemoryReceipt": {
+        "type": "object",
+        "required": [
+          "memory_id",
+          "subject_id",
+          "origin_type",
+          "created_at"
+        ],
+        "properties": {
+          "memory_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subject_id": {
+            "type": "string",
+            "enum": [
+              "owner"
+            ]
+          },
+          "origin_type": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PrivatePreferenceWrite": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "consent_id",
+          "dimension",
+          "value",
+          "strength",
+          "timescale",
+          "confirm_preference"
+        ],
+        "properties": {
+          "consent_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dimension": {
+            "type": "string",
+            "enum": [
+              "content_category",
+              "consensual_activity",
+              "fictional_scenario",
+              "clothing_style",
+              "visual_style",
+              "body_descriptor",
+              "format",
+              "composition",
+              "sound",
+              "mood"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "timescale": {
+            "type": "string",
+            "enum": [
+              "persistent",
+              "recurring",
+              "occasional"
+            ]
+          },
+          "confirm_preference": {
+            "type": "boolean",
+            "const": true
+          }
+        }
+      },
+      "PrivatePreferenceCorrection": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "consent_id",
+          "value",
+          "strength",
+          "disagreed_with_previous",
+          "confirm_correction"
+        ],
+        "properties": {
+          "consent_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "value": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "disagreed_with_previous": {
+            "type": "boolean"
+          },
+          "confirm_correction": {
+            "type": "boolean",
+            "const": true
+          }
+        }
+      },
+      "PrivatePreferenceMetadata": {
+        "type": "object",
+        "required": [
+          "preference_id",
+          "dimension",
+          "source_type",
+          "confidence",
+          "strength",
+          "timescale",
+          "first_seen_at",
+          "last_seen_at",
+          "evidence_count",
+          "negative_feedback_count",
+          "consent_scope"
+        ],
+        "properties": {
+          "preference_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dimension": {
+            "type": "string"
+          },
+          "source_type": {
+            "type": "string",
+            "const": "declared"
+          },
+          "confidence": {
+            "type": "number",
+            "const": 1
+          },
+          "strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "timescale": {
+            "type": "string"
+          },
+          "first_seen_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_seen_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "evidence_count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "negative_feedback_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "consent_scope": {
+            "type": "string",
+            "const": "local_only"
+          }
+        }
+      },
+      "PrivatePreferenceList": {
+        "type": "object",
+        "required": [
+          "preferences"
+        ],
+        "properties": {
+          "preferences": {
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/PrivatePreferenceMetadata"
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "value"
+                  ],
+                  "properties": {
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "DiscoveryAllowlist": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "enabled",
+          "sources",
+          "creators",
+          "categories",
+          "model_families",
+          "tags"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "sources": {
+            "type": "array",
+            "maxItems": 256,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "creators": {
+            "type": "array",
+            "maxItems": 256,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "categories": {
+            "type": "array",
+            "maxItems": 256,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "model_families": {
+            "type": "array",
+            "maxItems": 256,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "tags": {
+            "type": "array",
+            "maxItems": 256,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        }
+      },
+      "DiscoveryCandidate": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source",
+          "creator",
+          "category",
+          "model_family",
+          "tags"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "creator": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "category": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "model_family": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "tags": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 256,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        }
+      },
+      "DiscoveryPolicyUpdate": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "consent_id",
+          "policy",
+          "confirm_owner"
+        ],
+        "properties": {
+          "consent_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "policy": {
+            "$ref": "#/components/schemas/DiscoveryAllowlist"
+          },
+          "confirm_owner": {
+            "type": "boolean",
+            "const": true
+          }
+        }
+      },
+      "DiscoveryEvaluationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "consent_id",
+          "candidate"
+        ],
+        "properties": {
+          "consent_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "candidate": {
+            "$ref": "#/components/schemas/DiscoveryCandidate"
+          }
+        }
+      },
+      "DiscoveryDecision": {
+        "type": "object",
+        "required": [
+          "allowed",
+          "code"
+        ],
+        "properties": {
+          "allowed": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string",
+            "enum": [
+              "POLICY_DISABLED",
+              "POLICY_UNCONFIGURED",
+              "ALLOWLIST_MISS",
+              "ALLOWLIST_MATCH"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
