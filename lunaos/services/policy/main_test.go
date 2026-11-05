@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -106,13 +107,14 @@ func TestBrokerHealthRequiresCoreCredential(t *testing.T) {
 func TestUnixSocketPeerMustMatchConfiguredCoreUID(t *testing.T) {
 	brokerUID := os.Getuid()
 	coreUID := brokerUID + 1
-	if !peerUIDAllowed(coreUID, coreUID) {
+	ctxOf := func(uid int) context.Context { return peer.WithUID(context.Background(), uid) }
+	if !peer.Allowed(ctxOf(coreUID), coreUID) {
 		t.Fatal("configured Core service UID must pass the broker peer check")
 	}
-	if peerUIDAllowed(brokerUID, coreUID) {
+	if peer.Allowed(ctxOf(brokerUID), coreUID) {
 		t.Fatal("broker's own UID must not pass as the Core peer")
 	}
-	if peerUIDAllowed(coreUID+1, coreUID) {
+	if peer.Allowed(ctxOf(coreUID+1), coreUID) {
 		t.Fatal("unconfigured process passed the broker peer check")
 	}
 }

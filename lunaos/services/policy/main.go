@@ -47,8 +47,6 @@ type broker struct {
 	allowedPeerUID int
 }
 
-func peerUIDAllowed(peerUID, brokerUID int) bool { return peerUID == brokerUID }
-
 func (b *broker) sign(g grant) string {
 	raw, _ := json.Marshal(g)
 	mac := hmac.New(sha256.New, b.key)
@@ -83,8 +81,7 @@ func (b *broker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	reply := func(status int, v response) { w.WriteHeader(status); _ = json.NewEncoder(w).Encode(v) }
 	if b.requirePeerUID {
-		peerUID, ok := peer.FromContext(r.Context())
-		if !ok || !peerUIDAllowed(peerUID, b.allowedPeerUID) {
+		if !peer.Allowed(r.Context(), b.allowedPeerUID) {
 			reply(http.StatusForbidden, response{Code: "SOCKET_PEER_DENIED"})
 			return
 		}
