@@ -595,10 +595,7 @@ func TestRegisteredActionWithoutRunnerIsRejected(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if result.Outcome != "failed" || goal.Status != "failed" || (goal.Evidence != nil && goal.Evidence.Verified) {
+	if result.Outcome != "failed" || result.Reason != "ACTION_NOT_ALLOWED" || goal.Status != "failed" || goal.PolicyCode != "ACTION_NOT_ALLOWED" || (goal.Evidence != nil && goal.Evidence.Verified) {
 		t.Fatalf("result=%+v goal=%+v", result, goal)
-	}
-	if _, runErr := (ChecksumRunner{}).Execute(context.Background(), "inference.generate"); !errors.Is(runErr, ErrActionNotAllowed) {
-		t.Fatalf("runner error=%v, want ACTION_NOT_ALLOWED", runErr)
 	}
 }
