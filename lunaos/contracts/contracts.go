@@ -6,6 +6,9 @@ package contracts
 import (
 	_ "embed"
 	"encoding/json"
+	"fmt"
+	"regexp"
+	"strings"
 )
 
 //go:embed actions.json
@@ -45,3 +48,17 @@ func Actions() []Action { return append([]Action(nil), actions...) }
 
 // ConsentScopes returns a copy of the consent scope names.
 func ConsentScopes() []string { return append([]string(nil), consentScopes...) }
+
+var actionNamePattern = regexp.MustCompile(`^[a-z]+(\.[a-z_]+)+$`)
+
+// validActionName rejects names that must never reach the Broker allowlist: anything that is not
+// a dotted lowercase name, and every payment.* name (payments are never grantable).
+func validActionName(name string) error {
+	if strings.HasPrefix(name, "payment.") {
+		return fmt.Errorf("action %q: payment actions are not allowed", name)
+	}
+	if !actionNamePattern.MatchString(name) {
+		return fmt.Errorf("action %q does not match %s", name, actionNamePattern)
+	}
+	return nil
+}
