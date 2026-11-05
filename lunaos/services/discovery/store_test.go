@@ -240,3 +240,39 @@ func TestCursorRoundTrip(t *testing.T) {
 		t.Fatal(c)
 	}
 }
+
+func TestOpenSwappedBlobsFail(t *testing.T) {
+	s, _ := newTestStore(t)
+	ctx := context.Background()
+	a, b := []byte("media A"), []byte("media B")
+	s.Put(ctx, Item{Provider: "p", ExternalID: "a"}, bytes.NewReader(a))
+	s.Put(ctx, Item{Provider: "p", ExternalID: "b"}, bytes.NewReader(b))
+	pa := filepath.Join(s.blobDir, s.blobName(shaHex(a)))
+	pb := filepath.Join(s.blobDir, s.blobName(shaHex(b)))
+	da, _ := os.ReadFile(pa)
+	db, _ := os.ReadFile(pb)
+	os.WriteFile(pa, db, 0600)
+	os.WriteFile(pb, da, 0600)
+	for _, m := range [][]byte{a, b} {
+		rc, err := s.Open(ctx, shaHex(m))
+		if err == nil {
+			_, err = io.ReadAll(rc)
+			rc.Close()
+		}
+		if err == nil {
+			t.Fatal("swapped blob must fail to open")
+		}
+	}
+}
+
+func TestRejectsWritableDatabaseDirectory(t *testing.T) {
+	dir := t.TempDir()
+	keyPath := filepath.Join(dir, "key")
+	writeKey(t, keyPath, 0600, 32)
+	open := filepath.Join(dir, "open")
+	os.Mkdir(open, 0777)
+	os.Chmod(open, 0777)
+	if _, err := OpenStore(filepath.Join(open, "d.db"), filepath.Join(dir, "blobs"), keyPath); err == nil {
+		t.Fatal("group/other-writable db directory must be refused")
+	}
+}

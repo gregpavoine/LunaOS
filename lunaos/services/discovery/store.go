@@ -20,11 +20,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"hash"
 	"io"
 	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
+	"syscall"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -109,8 +111,14 @@ func OpenStore(dbPath, blobDir, keyPath string) (*Store, error) {
 	if err = os.Chmod(blobDir, 0700); err != nil {
 		return nil, err
 	}
+	if err = privateDir(blobDir); err != nil {
+		return nil, err
+	}
 	absolute, err := filepath.Abs(dbPath)
 	if err != nil {
+		return nil, err
+	}
+	if err = notWritableByOthers(filepath.Dir(absolute)); err != nil {
 		return nil, err
 	}
 	if _, statErr := os.Lstat(absolute); os.IsNotExist(statErr) {
@@ -193,14 +201,18 @@ func chunkNonce(prefix []byte, i uint32) []byte {
 	return n
 }
 
-func chunkAAD(final bool) []byte {
+// chunkAAD binds a chunk to the format version, the blob's HMAC file name and
+// its final flag.
+func chunkAAD(name string, final bool) []byte {
+	f := byte(0)
 	if final {
-		return []byte{1}
+		f = 1
 	}
-	return []byte{0}
+	return append([]byte("discovery-blob-v1\x00"+name+"\x00"), f)
 }
 
-// Put stores the item. stored is true when new blob bytes (or, with a nil
+// Put stores the item. A re-Put of an existing (Provider, ExternalID) returns
+// stored=false without consuming media. stored is true when new blob bytes (or, with a nil
 // media, a new metadata row) were written.
 func (s *Store) Put(ctx context.Context, it Item, media io.Reader) (stored bool, err error) {
 	if it.Provider == "" || it.ExternalID == "" {
@@ -220,7 +232,7 @@ func (s *Store) Put(ctx context.Context, it Item, media io.Reader) (stored bool,
 	if media != nil {
 		var sha string
 		var tmp string
-		sha, size, tmp, err = s.encryptToTemp(media)
+		sha, size, tmp, err = s.encryptToTemp(media, "")
 		if err != nil {
 			return false, err
 		}
@@ -232,7 +244,18 @@ func (s *Store) Put(ctx context.Context, it Item, media io.Reader) (stored bool,
 		name = s.blobName(sha)
 		final := filepath.Join(s.blobDir, name)
 		if _, statErr := os.Lstat(final); os.IsNotExist(statErr) {
-			if err = os.Rename(tmp, final); err != nil {
+			// Reseal under the name-bound AAD; plaintext never touches disk.
+			src, openErr := s.openBlobFile(tmp, "")
+			if openErr != nil {
+				return false, openErr
+			}
+			_, _, bound, sealErr := s.encryptToTemp(src, name)
+			_ = src.Close()
+			if sealErr != nil {
+				return false, sealErr
+			}
+			defer os.Remove(bound)
+			if err = os.Rename(bound, final); err != nil {
 				return false, err
 			}
 			newBlob = true
@@ -265,7 +288,7 @@ func (s *Store) Put(ctx context.Context, it Item, media io.Reader) (stored bool,
 	return newBlob, nil
 }
 
-func (s *Store) encryptToTemp(media io.Reader) (sha string, size int64, path string, err error) {
+func (s *Store) encryptToTemp(media io.Reader, name string) (sha string, size int64, path string, err error) {
 	f, err := os.CreateTemp(s.blobDir, ".tmp-*")
 	if err != nil {
 		return "", 0, "", err
@@ -305,7 +328,7 @@ func (s *Store) encryptToTemp(media io.Reader) (sha string, size int64, path str
 		}
 		h.Write(buf[:n])
 		size += int64(n)
-		ct := s.blob.Seal(nil, chunkNonce(prefix, i), buf[:n], chunkAAD(final))
+		ct := s.blob.Seal(nil, chunkNonce(prefix, i), buf[:n], chunkAAD(name, final))
 		if _, err = f.Write(ct); err != nil {
 			return
 		}
@@ -323,6 +346,7 @@ type blobReader struct {
 	f      *os.File
 	br     *bufio.Reader
 	aead   cipher.AEAD
+	name   string
 	prefix []byte
 	idx    uint32
 	plain  []byte
@@ -338,7 +362,7 @@ func (r *blobReader) next() error {
 	}
 	_, peekErr := r.br.Peek(1)
 	final := peekErr == io.EOF
-	plain, err := r.aead.Open(nil, chunkNonce(r.prefix, r.idx), ct[:n], chunkAAD(final))
+	plain, err := r.aead.Open(nil, chunkNonce(r.prefix, r.idx), ct[:n], chunkAAD(r.name, final))
 	if err != nil {
 		return ErrBlobCorrupt
 	}
@@ -365,11 +389,8 @@ func (r *blobReader) Read(p []byte) (int, error) {
 
 func (r *blobReader) Close() error { return r.f.Close() }
 
-// Open returns a reader over the decrypted media. The first chunk is verified
-// before returning, so a wrong key or a tampered file fails here or on read,
-// never yields unauthenticated bytes.
-func (s *Store) Open(ctx context.Context, sha256hex string) (io.ReadCloser, error) {
-	f, err := os.Open(filepath.Join(s.blobDir, s.blobName(sha256hex)))
+func (s *Store) openBlobFile(path, name string) (*blobReader, error) {
+	f, err := os.Open(path)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return nil, ErrNotFound
@@ -381,12 +402,42 @@ func (s *Store) Open(ctx context.Context, sha256hex string) (io.ReadCloser, erro
 		_ = f.Close()
 		return nil, ErrBlobCorrupt
 	}
-	r := &blobReader{f: f, br: bufio.NewReaderSize(f, chunkSize+s.blob.Overhead()+1), aead: s.blob, prefix: prefix}
+	r := &blobReader{f: f, br: bufio.NewReaderSize(f, chunkSize+s.blob.Overhead()+1), aead: s.blob, name: name, prefix: prefix}
 	if err = r.next(); err != nil {
 		_ = f.Close()
 		return nil, err
 	}
 	return r, nil
+}
+
+// verifyReader fails at EOF unless the decrypted bytes hash to the requested
+// SHA-256.
+type verifyReader struct {
+	*blobReader
+	h    hash.Hash
+	want string
+}
+
+func (v *verifyReader) Read(p []byte) (int, error) {
+	n, err := v.blobReader.Read(p)
+	v.h.Write(p[:n])
+	if err == io.EOF && !strings.EqualFold(hex.EncodeToString(v.h.Sum(nil)), v.want) {
+		return n, ErrBlobCorrupt
+	}
+	return n, err
+}
+
+// Open returns a reader over the decrypted media. The first chunk is verified
+// before returning; a wrong key, tampered or swapped file fails here or on
+// read (the name-bound AAD and a final SHA-256 check), never yielding
+// unauthenticated media as a clean EOF.
+func (s *Store) Open(ctx context.Context, sha256hex string) (io.ReadCloser, error) {
+	name := s.blobName(sha256hex)
+	r, err := s.openBlobFile(filepath.Join(s.blobDir, name), name)
+	if err != nil {
+		return nil, err
+	}
+	return &verifyReader{blobReader: r, h: sha256.New(), want: sha256hex}, nil
 }
 
 // Delete removes the row and, when no other row shares it, the blob.
@@ -437,4 +488,23 @@ func (s *Store) Cursor(ctx context.Context, provider, scope string) (string, err
 		return "", nil
 	}
 	return c, err
+}
+
+func privateDir(path string) error {
+	info, err := os.Lstat(path)
+	if err != nil || info.Mode()&os.ModeSymlink != 0 || !info.IsDir() || info.Mode().Perm()&0077 != 0 {
+		return fmt.Errorf("discovery requires a private non-symlink blob directory")
+	}
+	if stat, ok := info.Sys().(*syscall.Stat_t); !ok || int(stat.Uid) != os.Getuid() {
+		return fmt.Errorf("discovery blob directory owner mismatch")
+	}
+	return nil
+}
+
+func notWritableByOthers(path string) error {
+	info, err := os.Stat(path)
+	if err != nil || !info.IsDir() || info.Mode().Perm()&0022 != 0 {
+		return fmt.Errorf("discovery database directory must exist and not be group/other-writable")
+	}
+	return nil
 }
