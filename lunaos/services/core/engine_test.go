@@ -565,3 +565,40 @@ func legacyCreateRequestHash() string {
 }
 
 func float64Ptr(v float64) *float64 { return &v }
+
+type approveAllPolicy struct{}
+
+func (approveAllPolicy) Authorize(context.Context, string, Request) (Decision, error) {
+	return Decision{Allowed: true, Code: "OWNER_SCOPED_GRANT", Grant: "test-scoped-grant"}, nil
+}
+
+func (approveAllPolicy) Evaluate(context.Context, string, Request, string) (Decision, error) {
+	return Decision{Allowed: true, Code: "SCOPED_ACTION_ALLOWED"}, nil
+}
+
+// A registered action the broker grants has no runner here: the goal must fail closed, never panic or verify.
+func TestRegisteredActionWithoutRunnerIsRejected(t *testing.T) {
+	e, err := Open(testDBPath(t), "owner-secret", approveAllPolicy{}, ChecksumRunner{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = e.Close() })
+	created, err := e.Create(context.Background(), Request{Action: "inference.generate"}, "owner-secret", "no-runner-1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	result, err := e.Tick(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+	goal, err := e.Get(context.Background(), created.ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if result.Outcome != "failed" || goal.Status != "failed" || (goal.Evidence != nil && goal.Evidence.Verified) {
+		t.Fatalf("result=%+v goal=%+v", result, goal)
+	}
+	if _, runErr := (ChecksumRunner{}).Execute(context.Background(), "inference.generate"); !errors.Is(runErr, ErrActionNotAllowed) {
+		t.Fatalf("runner error=%v, want ACTION_NOT_ALLOWED", runErr)
+	}
+}
