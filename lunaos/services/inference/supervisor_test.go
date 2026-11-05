@@ -384,3 +384,23 @@ func (w *syncBuf) Write(p []byte) (int, error) {
 	defer w.mu.Unlock()
 	return w.b.Write(p)
 }
+
+func TestReadyStateAlwaysHasBaseURL(t *testing.T) {
+	s := newSup(t)
+	hooked, release := make(chan struct{}), make(chan struct{})
+	var once sync.Once
+	unblock := func() { once.Do(func() { close(release) }) }
+	t.Cleanup(unblock) // runs before newSup's Stop, which would otherwise wait on the hook
+	s.afterReady = func() { close(hooked); <-release }
+	first := make(chan error, 1)
+	go func() { _, err := s.Start(context.Background()); first <- err }()
+	<-hooked // state is Ready, the starting goroutine has not published yet
+	u, err := s.Start(context.Background())
+	if err != nil || !strings.HasPrefix(u, "http://127.0.0.1:") {
+		t.Fatalf("Start while Ready = %q, %v", u, err)
+	}
+	unblock()
+	if err := <-first; err != nil {
+		t.Fatal(err)
+	}
+}

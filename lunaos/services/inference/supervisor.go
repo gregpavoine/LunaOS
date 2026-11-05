@@ -69,6 +69,7 @@ type Supervisor struct {
 
 	// Test hooks; nil in production.
 	beforeSpawn func() // launch, before the binary check
+	afterReady  func() // launch, just after state became Ready, before it returns
 	stopHook    func() // Stop, after it inspected state, before it terminates
 }
 
@@ -149,9 +150,6 @@ func (s *Supervisor) Start(ctx context.Context) (string, error) {
 			if s.cur == st {
 				s.cur = nil
 			}
-			if st.err == nil {
-				s.baseURL = st.url
-			}
 			s.mu.Unlock()
 			close(st.done)
 		}()
@@ -212,6 +210,8 @@ func (s *Supervisor) launch(startCtx context.Context) (string, error) {
 		out = s.Log
 	}
 	cmd.Stdout, cmd.Stderr = out, out
+	// A grandchild holding the output pipe must not block Wait forever.
+	cmd.WaitDelay = s.grace()
 	if err := cmd.Start(); err != nil {
 		return degrade(fmt.Errorf("start llama-server: %w", err))
 	}
@@ -241,7 +241,7 @@ func (s *Supervisor) launch(startCtx context.Context) (string, error) {
 			s.mu.Lock()
 			stopped, werr := r.stopped, r.waitErr
 			s.mu.Unlock()
-			if stopped {
+			if stopped || startCtx.Err() != nil {
 				return fail(errStopped, false)
 			}
 			return fail(fmt.Errorf("llama-server exited before becoming healthy: %v", werr), true)
@@ -250,7 +250,7 @@ func (s *Supervisor) launch(startCtx context.Context) (string, error) {
 			return fail(errStopped, false)
 		case <-deadline.C:
 			s.terminate(r, false)
-			return fail(fmt.Errorf("llama-server not healthy after %v", timeout), true)
+			return fail(fmt.Errorf("llama-server not healthy after %v", timeout), startCtx.Err() == nil)
 		case <-tick.C:
 			if !healthy(base) {
 				continue
@@ -267,7 +267,11 @@ func (s *Supervisor) launch(startCtx context.Context) (string, error) {
 				continue
 			}
 			s.state = StateReady
+			s.baseURL = base // published with the state, never after it
 			s.mu.Unlock()
+			if s.afterReady != nil {
+				s.afterReady()
+			}
 			return base, nil
 		}
 	}
@@ -292,6 +296,13 @@ func (s *Supervisor) reap(r *run) {
 	s.mu.Unlock()
 }
 
+func (s *Supervisor) grace() time.Duration {
+	if s.StopGrace > 0 {
+		return s.StopGrace
+	}
+	return defaultStopGrace
+}
+
 // terminate sends SIGTERM, then SIGKILL after StopGrace, and waits for the
 // child to be reaped. markStopped flags the exit as requested, not a failure.
 func (s *Supervisor) terminate(r *run, markStopped bool) {
@@ -306,11 +317,7 @@ func (s *Supervisor) terminate(r *run, markStopped bool) {
 	default:
 	}
 	r.cmd.Process.Signal(syscall.SIGTERM)
-	grace := s.StopGrace
-	if grace <= 0 {
-		grace = defaultStopGrace
-	}
-	t := time.NewTimer(grace)
+	t := time.NewTimer(s.grace())
 	defer t.Stop()
 	select {
 	case <-r.done:
