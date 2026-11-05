@@ -15,6 +15,8 @@ Ce fichier et tout ce qui se trouve sous `lunaos/docs/` (plans compris) appartie
 
 « Idem » ne s'applique pas entre pistes : C et D ne touchent ni les dossiers de B, ni ceux de l'autre piste (sauf les fichiers de `lunaos/services/core/` listés plus bas pour D).
 
+La colonne « Ne touche jamais » s'entend hors fichiers partagés : les fichiers régis par la règle `shared:` (`lunaos/go.mod`, `lunaos/go.sum`, `lunaos/Makefile`, `lunaos/contracts/`) font exception pour toutes les pistes.
+
 ## Attributions fines
 
 ### Dans `lunaos/services/core/` (B et D)
@@ -37,7 +39,7 @@ Tout autre fichier de `lunaos/services/core/` appartient à B, même s'il réfé
 
 ### Fichiers partagés
 
-`lunaos/go.mod`, `lunaos/go.sum`, `lunaos/Makefile` et `lunaos/contracts/` n'ont pas de propriétaire unique. Toute piste peut les modifier, mais seulement dans un commit isolé dont le sujet commence par `shared:` et énonce le changement. Ce commit ne contient rien d'autre.
+`lunaos/go.mod`, `lunaos/go.sum`, `lunaos/Makefile` et `lunaos/contracts/` n'ont pas de propriétaire unique. Toute piste peut les modifier, mais seulement dans un commit isolé dont le sujet commence par `shared:` et énonce le changement. Ce commit ne contient rien d'autre. `lunaos/contracts/actions.json` est la liste d'autorisation du Policy Broker : toute modification exige en plus la relecture de B ou du contrôleur.
 
 `lunaos/services/internal/` est en lecture seule pour les pistes. Seul le contrôleur y modifie quelque chose.
 
@@ -52,7 +54,7 @@ Ces chemins n'appartiennent à aucune piste et sont tenus par le contrôleur de 
 ## Faits partagés
 
 - Branche d'intégration : `claude/omarchy-fork-specs-ad9dd4`. Chaque piste part de la tête de la branche d'intégration `claude/omarchy-fork-specs-ad9dd4` au moment du lancement des pistes, dans son propre worktree et sa propre branche.
-- Remote `upstream` : Omarchy à `99f479b6`.
+- Branche locale `upstream` (créée par `git branch upstream`, ce n'est pas un remote) : Omarchy à `99f479b6`.
 - Registre partagé : `contracts.Actions()` et `contracts.ConsentScopes()` sont exportés par `lunaos/contracts/`. Toute nouvelle action ou nouveau scope de consentement passe par ce registre, pas par une liste locale.
 - Scopes intimes : `intimacy.KnownScopes()` est exporté par `lunaos/services/intimacy/subjects.go`.
 - Identité du pair : le package `lunaos.local/lunaos/services/internal/peer` fournit `UID`, `ConnContext`, `FromContext` et `WithUID`. Ce package est en lecture seule pour les pistes ; les services qui authentifient un pair sur socket Unix l'utilisent tel quel.

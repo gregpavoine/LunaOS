@@ -40,6 +40,7 @@
 - [ ] **Step 1: Tests** : `TestGrantForRegisteredInferenceAction` (`inference.generate`, `general` → `Allowed`, `OWNER_SCOPED_GRANT`) ; `TestUnregisteredActionDenied` (`shell.exec` → `ACTION_DENIED`) ; `TestGrantNotReusableAcrossActions` (grant `local.checksum` évalué pour `inference.generate` → `GRANT_INVALID_OR_EXPIRED`) ; `TestExpiredGrantDenied` (grant signé avec `Expires = now-1`) ; `TestPaymentStillUnset` ; `TestPrivacyClassMismatchDenied` (`inference.generate` + `sensitive` → `PRIVACY_SCOPE_DENIED`).
 - [ ] **Step 2:** Lancer dans le conteneur → FAIL sur les deux premiers.
 - [ ] **Step 3:** Construire au démarrage `map[string]string` nom→classe depuis `contracts.Actions()` ; remplacer le test `req.Action != "local.checksum"` par une recherche dans cette table.
+  Valider le registre au démarrage du Broker (noms vides ou en double, noms `payment.`, classes de confidentialité inconnues rejetés) et refuser de démarrer en cas d'échec, avec le test `TestBrokerRefusesInvalidRegistry`.
 - [ ] **Step 4:** Test Core `TestRegisteredActionWithoutRunnerIsRejected` dans `lunaos/services/core/engine_test.go` : un goal `inference.generate` approuvé par une politique de test se termine en échec `ACTION_NOT_ALLOWED`, sans panique, evidence non vérifiée.
 - [ ] **Step 5:** Relancer `make test check` → PASS.
 - [ ] **Step 6:** Commit `feat(policy): grant actions from the shared registry`.
@@ -56,3 +57,15 @@
 - [ ] **Step 4:** Relancer le test ; relancer `make test-process-linux` (test de processus réel importé) → PASS.
 - [ ] **Step 5:** Ajouter `bash tests/systemd-units-test.sh` à la cible `check` du Makefile (commit isolé annoncé, cf. `OWNERSHIP.md`).
 - [ ] **Step 6:** Commit `feat(systemd): harden and verify the LUNA service units`.
+
+### Task 3: Rafraîchir le contrat OpenAPI du Core
+
+**Files:**
+- Modify: `lunaos/contracts/openapi/local.json` (commit `shared:`)
+- Test: un test Go dans `lunaos/contracts/` ou `lunaos/services/core/`
+
+- [ ] **Step 1: Test** : étendre `make check` avec un test Go qui vérifie que chaque route enregistrée par le handler HTTP du Core apparaît dans `local.json`.
+- [ ] **Step 2:** Lancer → FAIL (routes manquantes).
+- [ ] **Step 3:** Ajouter à `local.json` les routes `/v1/privacy/{blind,open-eyes,status,leases,leases/validate}`, `/v1/subjects*`, `/v1/intimacy/library/*`, `/v1/intimacy/context` et `/v1/intimacy/resume`, avec les formes de requête et de réponse prises des handlers du Core.
+- [ ] **Step 4:** Relancer `make test check` → PASS.
+- [ ] **Step 5:** Commit `shared: document the Core privacy, subject and intimacy routes`.
