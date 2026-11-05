@@ -59,7 +59,7 @@ Ces chemins n'appartiennent à aucune piste et sont tenus par le contrôleur de 
 - Scopes intimes : `intimacy.KnownScopes()` est exporté par `lunaos/services/intimacy/subjects.go`.
 - Identité du pair : le package `lunaos.local/lunaos/services/internal/peer` fournit `UID`, `ConnContext`, `FromContext` et `WithUID`. Ce package est en lecture seule pour les pistes ; les services qui authentifient un pair sur socket Unix l'utilisent tel quel.
 - Module Go : un seul module, `lunaos.local/lunaos`.
-- Docker Desktop ne répond pas sur ce Mac pour le moment. La vérification Go se fait donc nativement avec `cd lunaos && make test check`. Les tests réservés à Linux restent une dette enregistrée jusqu'à ce qu'une exécution en conteneur soit possible.
+- Toolchain Go : 1.24.13 (`go.mod`). Copie locale : `/private/tmp/claude-501/-Users-gregorypavoine-Projects-LunaOS--claude-worktrees-omarchy-fork-specs-ad9dd4/1e1859b8-8cd3-434d-b33b-252442b53da8/scratchpad/toolchain/go1.24.13/go` (scratchpad de session ; si elle a disparu, retélécharger go1.24.13 depuis go.dev et vérifier le sha256 `f282d882c3353485e2fc6c634606d85caf36e855167d59b996dbeae19fa7629a`). Commande de vérification : `PATH=<dossier go>/bin:$PATH GOTOOLCHAIN=local make -C lunaos test check`. Les tests réservés à Linux (chemin SO_PEERCRED, `make test-process-linux`) restent une dette à exécuter sur un runner Linux avant l'intégration (Z).
 
 ## Procédure en cas de besoin
 
