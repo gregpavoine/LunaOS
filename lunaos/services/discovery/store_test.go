@@ -10,6 +10,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 	"testing"
 )
 
@@ -38,6 +39,43 @@ func newTestStore(t *testing.T) (*Store, string) {
 	}
 	t.Cleanup(func() { s.Close() })
 	return s, dir
+}
+
+func mustPut(t *testing.T, s *Store, it Item, media []byte) {
+	t.Helper()
+	if _, err := s.Put(context.Background(), it, bytes.NewReader(media)); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func mustRead(t *testing.T, p string) []byte {
+	t.Helper()
+	d, err := os.ReadFile(p)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return d
+}
+
+func mustWrite(t *testing.T, p string, d []byte) {
+	t.Helper()
+	if err := os.WriteFile(p, d, 0600); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func mustReadAll(t *testing.T, s *Store, sha string) []byte {
+	t.Helper()
+	rc, err := s.Open(context.Background(), sha)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer rc.Close()
+	d, err := io.ReadAll(rc)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return d
 }
 
 func shaHex(b []byte) string { h := sha256.Sum256(b); return hex.EncodeToString(h[:]) }
@@ -78,7 +116,7 @@ func TestPutEncryptsAtRest(t *testing.T) {
 		if err != nil || info.IsDir() || filepath.Base(p) == "key" {
 			return nil
 		}
-		data, _ := os.ReadFile(p)
+		data := mustRead(t, p)
 		for _, n := range needles {
 			if bytes.Contains(data, n) {
 				t.Errorf("%s contains a plaintext needle", filepath.Base(p))
@@ -142,8 +180,8 @@ func TestDeleteRemovesBlobAndRow(t *testing.T) {
 	s, _ := newTestStore(t)
 	ctx := context.Background()
 	media := []byte("media")
-	s.Put(ctx, Item{Provider: "p", ExternalID: "a"}, bytes.NewReader(media))
-	s.Put(ctx, Item{Provider: "p", ExternalID: "b"}, bytes.NewReader(media))
+	mustPut(t, s, Item{Provider: "p", ExternalID: "a"}, media)
+	mustPut(t, s, Item{Provider: "p", ExternalID: "b"}, media)
 	if err := s.Delete(ctx, "p", "a"); err != nil {
 		t.Fatal(err)
 	}
@@ -171,7 +209,7 @@ func TestOpenWithWrongKeyFails(t *testing.T) {
 	ctx := context.Background()
 	media := bytes.Repeat([]byte("m"), 70000)
 	sha := shaHex(media)
-	s.Put(ctx, Item{Provider: "p", ExternalID: "a"}, bytes.NewReader(media))
+	mustPut(t, s, Item{Provider: "p", ExternalID: "a"}, media)
 	keyB := filepath.Join(dir, "keyB")
 	writeKey(t, keyB, 0600, 32)
 	other, err := OpenStore(filepath.Join(dir, "o.db"), filepath.Join(dir, "oblobs"), keyB)
@@ -180,8 +218,8 @@ func TestOpenWithWrongKeyFails(t *testing.T) {
 	}
 	defer other.Close()
 	// Plant the blob under the name the wrong key would look up.
-	data, _ := os.ReadFile(blobFiles(t, s)[0])
-	os.WriteFile(filepath.Join(other.blobDir, other.blobName(sha)), data, 0600)
+	data := mustRead(t, blobFiles(t, s)[0])
+	mustWrite(t, filepath.Join(other.blobDir, other.blobName(sha)), data)
 	if rc, err := other.Open(ctx, sha); err == nil {
 		rc.Close()
 		t.Fatal("wrong key must fail")
@@ -189,7 +227,7 @@ func TestOpenWithWrongKeyFails(t *testing.T) {
 	// Tampering: flip a late byte, reading must error.
 	path := blobFiles(t, s)[0]
 	data[len(data)-5] ^= 0xff
-	os.WriteFile(path, data, 0600)
+	mustWrite(t, path, data)
 	rc, err := s.Open(ctx, sha)
 	if err == nil {
 		_, err = io.ReadAll(rc)
@@ -200,7 +238,7 @@ func TestOpenWithWrongKeyFails(t *testing.T) {
 	}
 	// Truncation of whole last chunk must also fail.
 	data2 := data[:8+chunkSize+16]
-	os.WriteFile(path, data2, 0600)
+	mustWrite(t, path, data2)
 	rc, err = s.Open(ctx, sha)
 	if err == nil {
 		_, err = io.ReadAll(rc)
@@ -216,7 +254,7 @@ func TestRejectsWeakKeyFile(t *testing.T) {
 	for name, c := range map[string]struct {
 		mode os.FileMode
 		n    int
-	}{"wide": {0644, 32}, "group": {0640, 32}, "short": {0600, 16}, "long": {0600, 64}} {
+	}{"wide": {0644, 32}, "exec": {0700, 32}, "worldw": {0666, 32}, "group": {0640, 32}, "short": {0600, 16}, "long": {0600, 64}} {
 		p := filepath.Join(dir, name)
 		writeKey(t, p, c.mode, c.n)
 		if _, err := OpenStore(filepath.Join(dir, name+".db"), filepath.Join(dir, name+"-b"), p); err == nil {
@@ -231,8 +269,12 @@ func TestCursorRoundTrip(t *testing.T) {
 	if c, err := s.Cursor(ctx, "p", "s"); err != nil || c != "" {
 		t.Fatal(c, err)
 	}
-	s.SaveCursor(ctx, "p", "s", "one")
-	s.SaveCursor(ctx, "p", "s", "two")
+	if err := s.SaveCursor(ctx, "p", "s", "one"); err != nil {
+		t.Fatal(err)
+	}
+	if err := s.SaveCursor(ctx, "p", "s", "two"); err != nil {
+		t.Fatal(err)
+	}
 	if c, _ := s.Cursor(ctx, "p", "s"); c != "two" {
 		t.Fatal(c)
 	}
@@ -245,14 +287,17 @@ func TestOpenSwappedBlobsFail(t *testing.T) {
 	s, _ := newTestStore(t)
 	ctx := context.Background()
 	a, b := []byte("media A"), []byte("media B")
-	s.Put(ctx, Item{Provider: "p", ExternalID: "a"}, bytes.NewReader(a))
-	s.Put(ctx, Item{Provider: "p", ExternalID: "b"}, bytes.NewReader(b))
+	mustPut(t, s, Item{Provider: "p", ExternalID: "a"}, a)
+	mustPut(t, s, Item{Provider: "p", ExternalID: "b"}, b)
+	if !bytes.Equal(mustReadAll(t, s, shaHex(a)), a) || !bytes.Equal(mustReadAll(t, s, shaHex(b)), b) {
+		t.Fatal("precondition: blobs must open before the swap")
+	}
 	pa := filepath.Join(s.blobDir, s.blobName(shaHex(a)))
 	pb := filepath.Join(s.blobDir, s.blobName(shaHex(b)))
-	da, _ := os.ReadFile(pa)
-	db, _ := os.ReadFile(pb)
-	os.WriteFile(pa, db, 0600)
-	os.WriteFile(pb, da, 0600)
+	da := mustRead(t, pa)
+	db := mustRead(t, pb)
+	mustWrite(t, pa, db)
+	mustWrite(t, pb, da)
 	for _, m := range [][]byte{a, b} {
 		rc, err := s.Open(ctx, shaHex(m))
 		if err == nil {
@@ -274,5 +319,43 @@ func TestRejectsWritableDatabaseDirectory(t *testing.T) {
 	os.Chmod(open, 0777)
 	if _, err := OpenStore(filepath.Join(open, "d.db"), filepath.Join(dir, "blobs"), keyPath); err == nil {
 		t.Fatal("group/other-writable db directory must be refused")
+	}
+}
+
+func TestConcurrentPutDeleteKeepsBlobsReachable(t *testing.T) {
+	s, _ := newTestStore(t)
+	ctx := context.Background()
+	media := []byte("shared media")
+	sha := shaHex(media)
+	for round := 0; round < 40; round++ {
+		var wg sync.WaitGroup
+		for i := 0; i < 4; i++ {
+			id := string(rune('a' + i))
+			wg.Add(2)
+			go func() {
+				defer wg.Done()
+				if _, err := s.Put(ctx, Item{Provider: "p", ExternalID: id}, bytes.NewReader(media)); err != nil {
+					t.Error(err)
+				}
+			}()
+			go func() {
+				defer wg.Done()
+				if err := s.Delete(ctx, "p", string(rune('a'+(i+1)%4))); err != nil {
+					t.Error(err)
+				}
+			}()
+		}
+		wg.Wait()
+		var rows int
+		if err := s.db.QueryRow(`SELECT COUNT(*) FROM items`).Scan(&rows); err != nil {
+			t.Fatal(err)
+		}
+		if rows > 0 {
+			if got := mustReadAll(t, s, sha); !bytes.Equal(got, media) {
+				t.Fatal("blob content mismatch")
+			}
+		} else if len(blobFiles(t, s)) != 0 {
+			t.Fatal("orphan blob left behind")
+		}
 	}
 }

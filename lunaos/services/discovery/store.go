@@ -26,6 +26,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 
@@ -60,6 +61,7 @@ type Store struct {
 	nameKey []byte
 	aead    cipher.AEAD // metadata
 	blob    cipher.AEAD // blobs
+	mu      sync.Mutex  // serializes blob-file decisions with the row refcount
 }
 
 type sealedMeta struct {
@@ -91,7 +93,7 @@ func OpenStore(dbPath, blobDir, keyPath string) (*Store, error) {
 	if err != nil {
 		return nil, ErrInvalidKey
 	}
-	if !info.Mode().IsRegular() || info.Mode().Perm()&0077 != 0 || info.Size() != 32 {
+	if !info.Mode().IsRegular() || info.Mode().Perm()&^0600 != 0 || info.Size() != 32 {
 		return nil, ErrInvalidKey
 	}
 	key, err := os.ReadFile(keyPath)
@@ -242,6 +244,10 @@ func (s *Store) Put(ctx context.Context, it Item, media io.Reader) (stored bool,
 		}
 		meta.SHA256 = sha
 		name = s.blobName(sha)
+		// Held until Put returns: blob existence, row insert and cleanup must
+		// not interleave with another Put or Delete.
+		s.mu.Lock()
+		defer s.mu.Unlock()
 		final := filepath.Join(s.blobDir, name)
 		if _, statErr := os.Lstat(final); os.IsNotExist(statErr) {
 			// Reseal under the name-bound AAD; plaintext never touches disk.
@@ -280,6 +286,9 @@ func (s *Store) Put(ctx context.Context, it Item, media io.Reader) (stored bool,
 		return false, err
 	}
 	if n, _ := res.RowsAffected(); n == 0 {
+		if newBlob {
+			_ = os.Remove(filepath.Join(s.blobDir, name))
+		}
 		return false, nil
 	}
 	if media == nil {
@@ -442,6 +451,8 @@ func (s *Store) Open(ctx context.Context, sha256hex string) (io.ReadCloser, erro
 
 // Delete removes the row and, when no other row shares it, the blob.
 func (s *Store) Delete(ctx context.Context, provider, externalID string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	tx, err := s.db.BeginTx(ctx, nil)
 	if err != nil {
 		return err
