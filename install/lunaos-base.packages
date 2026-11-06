@@ -76,7 +76,6 @@ less
 libsecret
 libvips
 libyaml
-libreoffice-fresh
 localsend
 lua51
 luarocks
@@ -84,7 +83,6 @@ man-db
 mariadb-libs
 mise-bin
 monologue
-moonlight-qt
 mpv
 mpv-mpris
 nautilus
@@ -96,8 +94,6 @@ noto-fonts-emoji
 nss-mdns
 nvim
 obsidian
-omacalc
-omacut
 omawrite
 omarchy-nvim
 omarchy-hyprland-titlebars
@@ -107,7 +103,6 @@ owe
 owe-lockfeed
 pacman-contrib
 pamixer
-pinta
 plocate
 plymouth
 postgresql-libs

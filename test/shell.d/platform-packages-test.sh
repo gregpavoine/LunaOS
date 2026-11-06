@@ -117,6 +117,18 @@ for platform in aarch64-apple aarch64 x86; do
 done
 pass "base packages only x86_64 builds stay out of every aarch64 set"
 
+# Series 26 dropped these applications from the defaults on every platform.
+for platform in x86 aarch64; do
+  defaults=$(LUNAOS_PATH="$ROOT" lunaos-pkg-defaults "$platform")
+  for package in libreoffice-fresh kdenlive omacut pinta xournalpp moonlight-qt omacalc; do
+    ! grep -Fxq "$package" <<<"$defaults" || fail "$platform no longer ships the Series 26 removed $package"
+  done
+  for package in obsidian chromium localsend cliamp foot nvim docker; do
+    grep -Fxq "$package" <<<"$defaults" || fail "$platform keeps $package"
+  done
+done
+pass "the Series 26 removed applications are absent from the defaults"
+
 ! lunaos-pkg-defaults riscv 2>/dev/null || fail "an unknown platform is refused"
 failing_bin="$work/failing-bin"
 mkdir -p "$failing_bin"

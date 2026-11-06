@@ -129,7 +129,7 @@ if lunaos_dock position diagonal 2>/dev/null; then
 fi
 pass "dock position is set and read through lunaos-dock"
 
-[[ $(lunaos_dock pinned | paste -sd " ") == "org.gnome.Nautilus chromium foot omacalc omawrite X YouTube" ]] || fail "dock pins start from the defaults"
+[[ $(lunaos_dock pinned | paste -sd " ") == "org.gnome.Nautilus chromium foot omawrite X YouTube" ]] || fail "dock pins start from the defaults"
 lunaos_dock unpin spotify >/dev/null
 lunaos_dock pin com.example.App.desktop >/dev/null
 lunaos_dock pin com.example.App >/dev/null

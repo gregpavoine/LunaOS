@@ -28,12 +28,6 @@ You start Obsidian with `Super + Shift + O`. To use theme syncing, you must sele
 
 You start Omawrite with `Super + Shift + W`.
 
-## Pinta
-
-[Pinta](https://www.pinta-project.com/) is a basic image editing tool that's great for cropping, resizing, and other basic manipulations. Just don't expect a Photoshop alternative. But it's still got a Magic Wand and layers!
-
-You start Pinta via the application launcher (`Super + Space`).
-
 ## Aether
 
 [Aether](https://github.com/bjarneo/aether) is a theming application that can extract colors from a background image and turn them into a complete, cohesive theme. It's the easiest way to [make your own theme](43-making-your-own-theme.md).
@@ -57,12 +51,6 @@ You can also send straight from the file manager: right-click any selection in N
 
 LunaOS's firewall is closed by default except for LocalSend's port, so this works out of the box on a fresh install. See [security](48-security.md).
 
-## LibreOffice
-
-[LibreOffice](https://www.libreoffice.org/) is a complete office package with word processor, spreadsheet, presentations, drawing application, and more. It's compatible with files from Microsoft Office, so this is a great way to be able to open those Word documents.
-
-You start LibreOffice via the application launcher (`Super + Space`).
-
 ## Hype
 
 [Hype](https://github.com/omacom/hype) is LunaOS's own dead-simple presentation app. Your deck is a single Markdown file with its images and videos beside it: write each slide below a live preview, drag slides into order, then present fullscreen or export to PDF and PowerPoint. It even picks up your LunaOS theme.
@@ -75,12 +63,6 @@ You start Hype via the application launcher (`Super + Space`). Press `?` inside 
 
 You start Signed via the application launcher (`Super + Space`), or open a PDF with it from the file manager.
 
-## Omacalc
-
-[Omacalc](https://github.com/omacom-io/omacalc) is LunaOS's own dead-simple calculator, which opens in a floating window.
-
-You start Omacalc with `Super + Shift + Q` (or the calculator key, if your keyboard has one).
-
 ## Signal
 
 [Signal](https://signal.org/) is the pioneer of E2E encrypted messaging, and a great communication option for anyone who'd prefer not to go through one of the big tech conglomerates.
@@ -92,12 +74,6 @@ You start Signal with `Super + Shift + G`. It's not part of the base install, so
 [mpv](https://mpv.io/) is a simple, fast media player that'll play almost anything from any source. Great for watching videos.
 
 You start mpv via the application launcher (`Super + Space`) or just double-click on a video in the file manager.
-
-## Omacut
-
-[Omacut](https://github.com/omacom-io/omacut) is LunaOS's own dead-simple video trimmer. When all you need is to cut the start and end off a clip, it beats firing up a full video editor.
-
-You start Omacut via the application launcher (`Super + Space`).
 
 ## Monologue
 

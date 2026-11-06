@@ -11,8 +11,6 @@ if o.preinstalled_bindings_enabled() then
   -- Bindings for preinstalled LunaOS applications, TUIs, and web apps.
   o.bind("SUPER + ALT + RETURN", "Tmux", { lunaos = "terminal-tmux" })
   o.bind("SUPER + CTRL + RETURN", "Herdr", { lunaos = "terminal-herdr" })
-  o.bind("SUPER + SHIFT + Q", "Calculator", "omacalc")
-  o.bind("XF86Calculator", "Calculator", "omacalc")
   o.bind("SUPER + SHIFT + M", "Music", { lunaos = "spotify" })
   o.bind("SUPER + SHIFT + ALT + M", "Music TUI", { tui = "cliamp", focus = true })
   if o.cmd_present("lazydocker") then

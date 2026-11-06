@@ -125,7 +125,10 @@ pass "a commented-out opt-out does not count"
 dropped:  ${dropped[*]}"
 pass "Install and Remove Preinstalls cover the same packages"
 
+# Series 26 dropped these from the defaults; the commands still restore them as optional tools.
+series26_dropped=" libreoffice-fresh pinta moonlight-qt omacut omacalc "
 for package in "${restored[@]}"; do
+  [[ $series26_dropped == *" $package "* ]] && continue
   printf '%s\n' "${shipped[@]}" | grep -qxF "$package" ||
     fail "every preinstall is shipped in lunaos-base.packages" "$package is not shipped"
 done

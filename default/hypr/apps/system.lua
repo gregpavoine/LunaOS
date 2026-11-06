@@ -27,8 +27,6 @@ o.window("org.lunaos.about", { float = true })
 o.window("org.lunaos.about", { center = true })
 o.window("org.lunaos.about", { size = { 920, 480 } })
 
-o.window("omacalc", { float = true })
-
 -- Fullscreen screensaver.
 o.window("org.lunaos.screensaver", { fullscreen = true })
 o.window("org.lunaos.screensaver", { float = true })
