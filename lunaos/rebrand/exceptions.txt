@@ -57,3 +57,9 @@ signwriting|omarchy	Family name inside the icon font binary (font-list filters t
 private `omarchy` font	Family name inside the icon font binary
 personal fork of [Omarchy]	README attribution to the project LunaOS forks
 upstream Omarchy	LunaOS-owned text that names the project it forks
+Omarchy](https://omarchy.org)	Attribution link to the upstream project in the root README
+fork of Omarchy	Attribution of the fork to its upstream in the root README
+the Omarchy base	Attribution of the inherited base in the root README
+inherited from Omarchy	Attribution of the inherited manual in the root README
+The Omarchy manual	Heading of the inherited manual index in the root README
+Omarchy-to-LunaOS	Name of the rebrand tool, cross-linked from the root README
