@@ -1,6 +1,6 @@
 # LunaOS
 
-LunaOS is a beautiful, fun & agentic Linux distribution by DHH.
+LunaOS is a personal fork of [Omarchy](https://omarchy.org), DHH's beautiful, fun & agentic Linux distribution.
 
 Read more at [omarchy.org](https://omarchy.org).
 
