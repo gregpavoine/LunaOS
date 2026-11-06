@@ -2232,6 +2232,19 @@
           }
         }
       }
+    },
+    "/v1/inference/generate": {
+      "post": {
+        "summary": "Generate text on the local model; owner socket only, gated by a Broker grant for inference.generate; output is untrusted data",
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"type": "object", "additionalProperties": false, "required": ["prompt", "max_tokens"], "properties": {"prompt": {"type": "string", "minLength": 1, "maxLength": 32768}, "max_tokens": {"type": "integer", "minimum": 1, "maximum": 1024}}}}}},
+        "responses": {
+          "200": {"description": "Generated text, never an action", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/GeneratedText"}}}},
+          "400": {"description": "INVALID_REQUEST", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}},
+          "403": {"description": "OWNER_SOCKET_REQUIRED or a Broker refusal code", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}},
+          "502": {"description": "INFERENCE_ERROR", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}},
+          "503": {"description": "INFERENCE_DEGRADED, INFERENCE_TIMEOUT, INFERENCE_NO_MODEL, INFERENCE_UNAVAILABLE or BROKER_UNAVAILABLE", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}}
+        }
+      }
     }
   },
   "components": {
@@ -2248,6 +2261,7 @@
       }
     },
     "schemas": {
+      "GeneratedText": {"type": "object", "additionalProperties": false, "required": ["text", "model", "untrusted"], "properties": {"text": {"type": "string"}, "model": {"type": "string"}, "untrusted": {"type": "boolean", "const": true}}},
       "Metrics": {
         "type": "object",
         "additionalProperties": false,
