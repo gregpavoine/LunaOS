@@ -2,7 +2,9 @@
 
 ## Report a vulnerability
 
-If you believe you’ve found a security vulnerability in LunaOS, please tell the [LunaOS Security Team](https://omarchy.org/teams/#security) privately so we have an opportunity to investigate and fix it before it is made public.
+If you believe you’ve found a security vulnerability in LunaOS, please report it privately through [GitHub private vulnerability reporting](https://github.com/gregpavoine/LunaOS/security/advisories/new) so there is an opportunity to investigate and fix it before it is made public.
+
+If the issue is in upstream Omarchy code and not specific to LunaOS, please tell the upstream Omarchy [security team](https://omarchy.org/teams/#security) instead.
 
 [security@omarchy.org](mailto:security@omarchy.org?subject=Security%20report)
 
