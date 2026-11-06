@@ -200,12 +200,38 @@ func (p *providerRun) checkRemovals(ctx context.Context, rc RemovalChecker) bool
 	if err != nil {
 		return p.fail(ctx, err, DeadLetter{Scope: removalScope})
 	}
+	// A provider-side absence can have causes other than a takedown (token
+	// browsing level, regional SFW-only serving). Deletion is irreversible, so
+	// a sync that would remove most of the library deletes nothing.
+	if takedownGuardTrips(ids, gone) {
+		return p.fail(ctx, errTakedownGuard, DeadLetter{Scope: removalScope})
+	}
 	for _, id := range gone {
 		if !p.remove(ctx, id) {
 			return false
 		}
 	}
 	return true
+}
+
+// takedownGuardTrips reports whether more than half of at least two checked
+// IDs came back removed.
+func takedownGuardTrips(checked, gone []string) bool {
+	if len(checked) < 2 {
+		return false
+	}
+	asked := make(map[string]bool, len(checked))
+	for _, id := range checked {
+		asked[id] = true
+	}
+	removed := 0
+	for _, id := range gone {
+		if asked[id] {
+			removed++
+			asked[id] = false
+		}
+	}
+	return 2*removed > len(checked)
 }
 
 func (p *providerRun) remove(ctx context.Context, externalID string) bool {

@@ -50,6 +50,10 @@ var (
 	// ErrCursorExpired means the provider refuses to continue a saved cursor;
 	// the scope restarts from the beginning on the next sync.
 	ErrCursorExpired = errors.New("DISCOVERY_CURSOR_EXPIRED")
+
+	// errTakedownGuard refuses a removal check that would delete most of the
+	// provider's stored items in one sync.
+	errTakedownGuard = errors.New("DISCOVERY_TAKEDOWN_GUARD")
 )
 
 func asRateLimited(err error) (ErrRateLimited, bool) {
@@ -76,6 +80,8 @@ func errorCode(err error) string {
 		return "transient"
 	case errors.Is(err, ErrCursorExpired):
 		return "cursor_expired"
+	case errors.Is(err, errTakedownGuard):
+		return "takedown_guard"
 	}
 	if _, ok := asRateLimited(err); ok {
 		return "rate_limited"

@@ -27,6 +27,9 @@ const (
 	cursorExpiredMsg = "This cursor can no longer be continued"
 	cursorFiltersMsg = "This cursor cannot be continued with these filters"
 
+	// civitaiMaxLevel is the highest documented `nsfw` value.
+	civitaiMaxLevel = "X"
+
 	civitaiMaxBody          = 8 << 20
 	civitaiDefaultRateLimit = 60 * time.Second
 
@@ -153,15 +156,16 @@ func (c *civitai) candidate(img civitaiImage) Candidate {
 }
 
 // Removed looks each stored ID up with the documented single-image filter
-// `imageId`; an ID the provider no longer returns has been taken down (or no
-// longer fits the owner's content-level cap) and is reported removed.
+// `imageId` at the documented maximum level `nsfw=X`, so the owner's cap never
+// drives deletions; an ID the provider no longer returns is reported removed.
+// The engine's takedown guard bounds the damage of a wrong absence.
 func (c *civitai) Removed(ctx context.Context, externalIDs []string) ([]string, error) {
 	var gone []string
 	for _, id := range externalIDs {
 		if _, err := strconv.ParseUint(id, 10, 64); err != nil {
 			continue
 		}
-		resp, err := c.get(ctx, url.Values{"imageId": {id}})
+		resp, err := c.get(ctx, url.Values{"imageId": {id}, "nsfw": {civitaiMaxLevel}})
 		if err != nil {
 			return nil, err
 		}
@@ -172,10 +176,13 @@ func (c *civitai) Removed(ctx context.Context, externalIDs []string) ([]string, 
 	return gone, nil
 }
 
-// get sends one authenticated request with the content-level cap. Errors are
-// codes only: no URL, query, header or body is ever included.
+// get sends one authenticated request, with the owner's content-level cap
+// unless the caller set `nsfw`. Errors are codes only: no URL, query, header
+// or body is ever included.
 func (c *civitai) get(ctx context.Context, q url.Values) (civitaiResponse, error) {
-	q.Set("nsfw", c.policy.MaxContentLevel)
+	if !q.Has("nsfw") {
+		q.Set("nsfw", c.policy.MaxContentLevel)
+	}
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.base+"/api/v1/images?"+q.Encode(), nil)
 	if err != nil {
 		return civitaiResponse{}, errCivitaiRequest

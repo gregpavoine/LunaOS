@@ -567,3 +567,45 @@ func TestExpiredCursorResetsScope(t *testing.T) {
 		t.Fatalf("dead letters = %v sleeps = %v", dl, clock.Sleeps())
 	}
 }
+
+func TestTakedownGuardKeepsLibrary(t *testing.T) {
+	for name, c := range map[string]struct {
+		gone    []string
+		kept    []string
+		guarded bool
+	}{
+		"most reported removed": {gone: []string{"a", "b", "c"}, kept: []string{"a", "b", "c", "d"}, guarded: true},
+		"one reported removed":  {gone: []string{"a"}, kept: []string{"b", "c", "d"}},
+	} {
+		t.Run(name, func(t *testing.T) {
+			s, _ := newTestStore(t)
+			clock := newFakeClock()
+			for _, id := range []string{"a", "b", "c", "d"} {
+				mustPut(t, s, Item{Provider: "civitai", ExternalID: id}, []byte("media-"+id))
+			}
+			listed := 0
+			conn := &removalConnector{
+				fakeConnector: &fakeConnector{name: "civitai", scopes: []string{"tag:a"}, clock: clock, fetch: func(scope, cursor string, n int) (Page, error) {
+					listed++
+					return Page{}, nil
+				}},
+				removed: func(ids []string) []string { return c.gone },
+			}
+			pr := newTestEngine(t, s, clock, nil, conn).Sync(context.Background()).PerProvider["civitai"]
+			if got := externalIDs(t, s, "civitai"); !reflect.DeepEqual(got, c.kept) {
+				t.Fatalf("ids = %v, want %v", got, c.kept)
+			}
+			dl := deadLetters(t, s, "civitai")
+			if c.guarded {
+				if pr.State != "failed" || pr.Removed != 0 || len(dl) != 1 || dl[0].Scope != removalScope || dl[0].Code != "takedown_guard" {
+					t.Fatalf("report = %+v dead letters = %+v", pr, dl)
+				}
+			} else if pr.State != "ok" || pr.Removed != 1 || len(dl) != 0 {
+				t.Fatalf("report = %+v dead letters = %+v", pr, dl)
+			}
+			if listed != 1 {
+				t.Fatalf("listing scopes must still run: %d fetches", listed)
+			}
+		})
+	}
+}

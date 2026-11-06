@@ -295,7 +295,8 @@ func TestCivitaiTakedownDeletesItem(t *testing.T) {
 		}
 		return ok(page("", items...))
 	})
-	p := CivitaiPolicy{Creators: []string{"Ajuro"}, MaxContentLevel: "X", AllowedLicenses: []string{civitaiLicense}}
+	// The cap is Mature, yet lookups ask for X so the cap never drives deletions.
+	p := CivitaiPolicy{Creators: []string{"Ajuro"}, MaxContentLevel: "Mature", AllowedLicenses: []string{civitaiLicense}}
 	conn := NewCivitai(srv.URL, testAPIKey, p, srv.Client())
 	s, _ := newTestStore(t)
 	ctx := context.Background()
@@ -328,6 +329,8 @@ func TestCivitaiTakedownDeletesItem(t *testing.T) {
 			if q.Get("nsfw") != "X" || q.Has("username") || q.Has("tags") || q.Has("cursor") {
 				t.Errorf("lookup query %v", q)
 			}
+		} else if q.Get("nsfw") != "Mature" {
+			t.Errorf("listing query %v must carry the policy cap", q)
 		}
 	}
 	if lookups != 2 {
