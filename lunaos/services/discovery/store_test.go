@@ -97,7 +97,7 @@ func TestPutEncryptsAtRest(t *testing.T) {
 	s, dir := newTestStore(t)
 	plain := append(bytes.Repeat([]byte("PLAINTEXT-MARKER-"), 10000), []byte("tail")...) // spans several chunks
 	sha := shaHex(plain)
-	it := Item{Provider: "civitai", ExternalID: "1", SourceURL: "https://example.test/secret-url", Creator: "secret-creator", Tags: []string{"secret-tag"}, ContentLevel: "adult", License: "l"}
+	it := Item{Provider: "civitai", ExternalID: "1", SourceURL: "https://example.test/secret-url", Creator: "secret-creator", Title: "secret-title", LinkURL: "https://example.test/secret-link", Tags: []string{"secret-tag"}, ContentLevel: "adult", License: "l"}
 	stored, err := s.Put(context.Background(), it, bytes.NewReader(plain))
 	if err != nil || !stored {
 		t.Fatalf("stored=%v err=%v", stored, err)
@@ -111,7 +111,14 @@ func TestPutEncryptsAtRest(t *testing.T) {
 	if err != nil || !bytes.Equal(got, plain) {
 		t.Fatalf("round trip failed: %v", err)
 	}
-	needles := [][]byte{[]byte("PLAINTEXT-MARKER-"), []byte("secret-url"), []byte("secret-creator"), []byte("secret-tag"), []byte(sha)}
+	var sealed []byte
+	if err = s.db.QueryRow(`SELECT meta FROM items WHERE provider='civitai' AND external_id='1'`).Scan(&sealed); err != nil {
+		t.Fatal(err)
+	}
+	if m, err := s.openMeta(sealed, "civitai", "1"); err != nil || m.Title != it.Title || m.LinkURL != it.LinkURL {
+		t.Fatalf("sealed meta = %+v, %v", m, err)
+	}
+	needles := [][]byte{[]byte("PLAINTEXT-MARKER-"), []byte("secret-url"), []byte("secret-creator"), []byte("secret-title"), []byte("secret-link"), []byte("secret-tag"), []byte(sha)}
 	filepath.Walk(dir, func(p string, info os.FileInfo, err error) error {
 		if err != nil || info.IsDir() || filepath.Base(p) == "key" {
 			return nil

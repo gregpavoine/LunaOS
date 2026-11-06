@@ -47,6 +47,20 @@ var (
 	ErrUnauthorized = errors.New("DISCOVERY_UNAUTHORIZED")
 	// ErrTransient is a retryable failure (network, 5xx).
 	ErrTransient = errors.New("DISCOVERY_TRANSIENT")
+	// ErrCursorExpired means the provider refuses to continue a saved cursor;
+	// the scope restarts from the beginning on the next sync.
+	ErrCursorExpired = errors.New("DISCOVERY_CURSOR_EXPIRED")
+	// ErrConfig means the connector's configuration is incomplete; it sends
+	// no request and is never retried.
+	ErrConfig = errors.New("DISCOVERY_CONFIG")
+	// ErrScopeUnavailable means the provider refuses one scope (a private,
+	// banned or missing subreddit); only that scope fails, and it is never
+	// retried within a sync.
+	ErrScopeUnavailable = errors.New("DISCOVERY_SCOPE_UNAVAILABLE")
+
+	// errTakedownGuard refuses a removal check that would delete most of the
+	// provider's stored items in one sync.
+	errTakedownGuard = errors.New("DISCOVERY_TAKEDOWN_GUARD")
 )
 
 func asRateLimited(err error) (ErrRateLimited, bool) {
@@ -71,6 +85,20 @@ func errorCode(err error) string {
 		return "hash_mismatch"
 	case errors.Is(err, ErrTransient):
 		return "transient"
+	case errors.Is(err, ErrCursorExpired):
+		return "cursor_expired"
+	case errors.Is(err, ErrConfig):
+		return "config"
+	case errors.Is(err, ErrScopeUnavailable):
+		return "scope_unavailable"
+	case errors.Is(err, errTakedownGuard):
+		return "takedown_guard"
+	case errors.Is(err, ErrTooLarge):
+		return "too_large"
+	case errors.Is(err, ErrDownloadGone):
+		return "gone"
+	case errors.Is(err, ErrDownloadRefused):
+		return "refused"
 	}
 	if _, ok := asRateLimited(err); ok {
 		return "rate_limited"

@@ -1,0 +1,36 @@
+[Unit]
+Description=LunaOS allowlisted media and link discovery sync
+After=network-online.target
+Wants=network-online.target
+
+# /etc/lunaos/discovery/policy.json and secrets.json must be owned by
+# luna-discovery with mode 0600: the loaders refuse any permission bit outside
+# 0600. Create the key once as that user:
+#   luna-discovery keygen --key /var/lib/luna-discovery/key
+
+[Service]
+Type=oneshot
+User=luna-discovery
+Group=luna-discovery
+StateDirectory=luna-discovery
+StateDirectoryMode=0700
+UMask=0077
+ExecStart=/usr/bin/luna-discovery sync --policy /etc/lunaos/discovery/policy.json --secrets /etc/lunaos/discovery/secrets.json --db /var/lib/luna-discovery/index.db --blobs /var/lib/luna-discovery/blobs --key /var/lib/luna-discovery/key
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
+RestrictNamespaces=yes
+ProtectKernelLogs=yes
+CapabilityBoundingSet=
+ProtectClock=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
