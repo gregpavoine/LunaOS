@@ -44,6 +44,7 @@ type Config struct {
 	StartWait       time.Duration // 0 -> DefaultStartWait
 	GenerateTimeout time.Duration // 0 -> DefaultGenerateTimeout
 	Log             io.Writer     // service and llama-server log; nil -> os.Stderr
+	KeyDir          string        // private dir for llama-server's API key; "" -> temp dir
 }
 
 // Server is the HTTP API of luna-inference. Every route first checks that the
@@ -105,7 +106,7 @@ func NewServer(cfg Config) (*Server, error) {
 
 	if path, ok := s.verifiedModel(models, cfg.ModelDir, cfg.ModelID); ok {
 		s.modelID = cfg.ModelID
-		s.sup = &Supervisor{Binary: cfg.LlamaServer, ModelPath: path, GPULayers: cfg.GPULayers, Log: s.log}
+		s.sup = &Supervisor{Binary: cfg.LlamaServer, ModelPath: path, GPULayers: cfg.GPULayers, Log: s.log, KeyDir: cfg.KeyDir}
 	}
 	return s, nil
 }
@@ -268,7 +269,7 @@ func (s *Server) generate(w http.ResponseWriter, r *http.Request) {
 	s.gen.RLock()
 	defer s.gen.RUnlock()
 	startCtx, cancel := context.WithTimeout(r.Context(), s.startWait)
-	base, err := s.sup.Start(startCtx)
+	base, key, err := s.sup.Connect(startCtx)
 	waited := startCtx.Err() != nil
 	cancel()
 	if err != nil {
@@ -283,7 +284,7 @@ func (s *Server) generate(w http.ResponseWriter, r *http.Request) {
 	if s.relayHook != nil {
 		s.relayHook()
 	}
-	text, err := s.complete(r.Context(), base, req)
+	text, err := s.complete(r.Context(), base, key, req)
 	if err != nil {
 		s.logf("completion failed: %v", err)
 		fail(w, http.StatusBadGateway, "INFERENCE_UPSTREAM")
@@ -293,10 +294,11 @@ func (s *Server) generate(w http.ResponseWriter, r *http.Request) {
 	reply(w, http.StatusOK, generateReply{Text: text, Model: s.modelID, Untrusted: true})
 }
 
-// complete relays one request to llama-server's POST /completion. Anything but
+// complete relays one request to llama-server's POST /completion with the
+// per-spawn API key. Anything but
 // a 200 with a non-empty string "content" is an error, so an empty or failed
 // completion is never passed on as a success.
-func (s *Server) complete(ctx context.Context, base string, req generateRequest) (string, error) {
+func (s *Server) complete(ctx context.Context, base, key string, req generateRequest) (string, error) {
 	body, err := json.Marshal(struct {
 		Prompt   string `json:"prompt"`
 		NPredict int    `json:"n_predict"`
@@ -309,6 +311,7 @@ func (s *Server) complete(ctx context.Context, base string, req generateRequest)
 		return "", err
 	}
 	hreq.Header.Set("Content-Type", "application/json")
+	hreq.Header.Set("Authorization", "Bearer "+key)
 	resp, err := s.upstream.Do(hreq)
 	if err != nil {
 		return "", err

@@ -36,7 +36,7 @@ func TestParseServeRequiresExactlyOneAllowedPeer(t *testing.T) {
 		t.Fatal(err)
 	}
 	if socket != "/run/x.sock" || cfg.AllowedUID != 1000 || cfg.ModelID != "m1" || cfg.GPULayers != 99 ||
-		cfg.ModelDir != "/m" || cfg.Manifest != "/m.json" || cfg.LlamaServer != "/usr/bin/llama-server" {
+		cfg.ModelDir != "/m" || cfg.Manifest != "/m.json" || cfg.LlamaServer != "/usr/bin/llama-server" || cfg.KeyDir != "/run/llama-key" {
 		t.Fatalf("parsed %q %+v", socket, cfg)
 	}
 

@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"sync"
@@ -402,5 +403,147 @@ func TestReadyStateAlwaysHasBaseURL(t *testing.T) {
 	unblock()
 	if err := <-first; err != nil {
 		t.Fatal(err)
+	}
+}
+
+// keyFileFromArgv returns the --api-key-file value of the last spawn in argvFile.
+func keyFileFromArgv(t *testing.T, argvFile string) (argv, keyFile string) {
+	t.Helper()
+	b, err := os.ReadFile(argvFile)
+	if err != nil {
+		t.Fatal(err)
+	}
+	lines := strings.Split(strings.TrimSpace(string(b)), "\n")
+	argv = lines[len(lines)-1]
+	f := strings.Fields(argv)
+	for i := range f {
+		if f[i] == "--api-key-file" && i+1 < len(f) {
+			return argv, f[i+1]
+		}
+	}
+	t.Fatalf("no --api-key-file in argv %q", argv)
+	return "", ""
+}
+
+func TestSpawnKeyIsPrivateAndNeverOnArgv(t *testing.T) {
+	argvFile := t.TempDir() + "/argv"
+	t.Setenv("FAKE_ARGV_FILE", argvFile)
+	s := newSup(t)
+	base, key, err := s.Connect(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(key) != 64 {
+		t.Fatalf("key %q is not 32 bytes of hex", key)
+	}
+	argv, keyFile := keyFileFromArgv(t, argvFile)
+	if strings.Contains(argv, key) {
+		t.Fatalf("key appears on argv: %q", argv)
+	}
+	got, err := os.ReadFile(keyFile)
+	if err != nil || strings.TrimSpace(string(got)) != key {
+		t.Fatalf("key file %s = %q, %v", keyFile, got, err)
+	}
+	fi, err := os.Stat(keyFile)
+	if err != nil || fi.Mode().Perm() != 0o600 {
+		t.Fatalf("key file mode = %v, %v; want 0600", fi.Mode(), err)
+	}
+	di, err := os.Stat(filepath.Dir(keyFile))
+	if err != nil || di.Mode().Perm() != 0o700 {
+		t.Fatalf("key dir mode = %v, %v; want 0700", di.Mode(), err)
+	}
+
+	// The key is required by the child and Connect returns the right one.
+	for _, k := range []string{"", "wrong", key} {
+		req, _ := http.NewRequest("GET", base+"/props", nil)
+		if k != "" {
+			req.Header.Set("Authorization", "Bearer "+k)
+		}
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		resp.Body.Close()
+		if want := map[bool]int{true: 200, false: 401}[k == key]; resp.StatusCode != want {
+			t.Fatalf("/props with key %q = %d, want %d", k, resp.StatusCode, want)
+		}
+	}
+
+	// Each spawn gets a fresh key.
+	s.Stop()
+	if _, err := os.Stat(keyFile); !os.IsNotExist(err) {
+		t.Fatalf("key file left after Stop: %v", err)
+	}
+	if _, err := os.Stat(filepath.Dir(keyFile)); !os.IsNotExist(err) {
+		t.Fatalf("temporary key dir left after Stop: %v", err)
+	}
+	_, key2, err := s.Connect(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if key2 == key {
+		t.Fatal("key reused across spawns")
+	}
+}
+
+func TestKeyDirIsUsedAndMustBePrivate(t *testing.T) {
+	argvFile := t.TempDir() + "/argv"
+	t.Setenv("FAKE_ARGV_FILE", argvFile)
+	s := newSup(t)
+	s.KeyDir = filepath.Join(t.TempDir(), "keys")
+	if _, err := s.Start(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	_, keyFile := keyFileFromArgv(t, argvFile)
+	if filepath.Dir(keyFile) != s.KeyDir {
+		t.Fatalf("key file %s not in KeyDir %s", keyFile, s.KeyDir)
+	}
+	if di, err := os.Stat(s.KeyDir); err != nil || di.Mode().Perm() != 0o700 {
+		t.Fatalf("KeyDir mode = %v, %v; want 0700", di.Mode(), err)
+	}
+	s.Stop()
+	if _, err := os.Stat(keyFile); !os.IsNotExist(err) {
+		t.Fatalf("key file left after Stop: %v", err)
+	}
+	if _, err := os.Stat(s.KeyDir); err != nil {
+		t.Fatalf("configured KeyDir removed: %v", err)
+	}
+
+	wide := filepath.Join(t.TempDir(), "wide")
+	os.Mkdir(wide, 0o755)
+	os.Chmod(wide, 0o755)
+	link := filepath.Join(t.TempDir(), "link")
+	os.Symlink(s.KeyDir, link)
+	for _, dir := range []string{wide, link} {
+		w := newSup(t)
+		w.KeyDir = dir
+		if _, err := w.Start(context.Background()); err == nil || w.State() != StateDegraded {
+			t.Fatalf("KeyDir %s: err=%v state=%v, want degraded", dir, err, w.State())
+		}
+	}
+}
+
+func TestImpostorWithoutTheKeyIsRejected(t *testing.T) {
+	// A server that accepts any key cannot prove it holds ours.
+	t.Setenv("FAKE_ACCEPT_ANY_KEY", "1")
+	pidfile := t.TempDir() + "/pids"
+	t.Setenv("FAKE_PIDFILE", pidfile)
+	s := newSup(t)
+	if _, err := s.Start(context.Background()); err == nil {
+		t.Fatal("Start accepted a server that does not check the key")
+	}
+	if st := s.State(); st != StateStopped {
+		t.Fatalf("state = %v, want stopped", st)
+	}
+	s.mu.Lock()
+	n := len(s.failures)
+	s.mu.Unlock()
+	if n != 1 {
+		t.Fatalf("failures = %d, want 1", n)
+	}
+	for _, pid := range readPIDs(t, pidfile) {
+		if alive(pid) {
+			t.Fatalf("impostor child %d still alive", pid)
+		}
 	}
 }

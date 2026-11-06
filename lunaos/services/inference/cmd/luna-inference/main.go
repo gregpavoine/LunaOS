@@ -13,6 +13,7 @@ import (
 	"os"
 	"os/signal"
 	"os/user"
+	"path/filepath"
 	"runtime"
 	"strconv"
 	"syscall"
@@ -94,6 +95,9 @@ func parseServe(args []string) (string, inference.Config, error) {
 		LlamaServer: *llama,
 		GPULayers:   *gpuLayers,
 		AllowedUID:  uid,
+		// llama-server's per-spawn API key lives next to the socket, in the
+		// service's private runtime directory.
+		KeyDir: filepath.Join(filepath.Dir(*socket), "llama-key"),
 	}, nil
 }
 
