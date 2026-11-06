@@ -190,11 +190,11 @@ All style options are also accessible under _Style_ in the LunaOS menu (`Super +
 | `Super + Ctrl + I` | Toggle locking on idle |
 | `Super + Ctrl + Delete` | Toggle laptop display on/off |
 | `Super + Ctrl + Alt + Delete` | Toggle laptop display mirroring |
-| `Super + Shift + Space` | Toggle the top bar  |
+| `Super + Shift + Space` | Toggle the bar  |
 | `Shift + Mute` | Switch to next audio output |
 | `Shift + Play` | Switch to next media source |
 | `Super + Shift + Backspace` | Toggle window gaps |
-| `Super + Ctrl + Alt + F` | Toggle full screen desktop (top bar + window gaps) |
+| `Super + Ctrl + Alt + F` | Toggle full screen desktop (bar + window gaps) |
 
 ## Reminders
 
