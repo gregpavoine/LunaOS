@@ -16,7 +16,7 @@ mkdir -p "$mock_bin" "$mount_dir"
 # Run the real theme refresh, renderer and publisher in a throwaway home.
 # Only the app install, the AppImage mount, the channel prompt and the desktop
 # launch are stubbed.
-cat >"$mock_bin/omarchy-install-t3code-app" <<'SH'
+cat >"$mock_bin/lunaos-install-t3code-app" <<'SH'
 #!/bin/bash
 echo "$1" >"$TEST_TMP/channel"
 mkdir -p "$HOME/.local/share/t3code"
@@ -37,31 +37,31 @@ cat >"$mount_dir/t3code" <<'SH'
 #!/bin/bash
 [[ $ELECTRON_RUN_AS_NODE == "1" && $1 == "$(dirname "$0")/resources/app.asar/apps/server/dist/bin.mjs" ]] || exit 1
 shift
-[[ $1 == "theme" && $2 == "set" && $3 == "omarchy" && $4 == "--base-dir" && $5 == "$T3CODE_HOME" ]] || exit 1
-palette="$T3CODE_HOME/userdata/themes/omarchy.json"
-if [[ ! -f $palette ]] || ! jq -e '.name == "Omarchy" and (.accent | test("^#[0-9a-fA-F]{6}$"))' "$palette" >/dev/null; then
-  echo "No published Omarchy theme"
+[[ $1 == "theme" && $2 == "set" && $3 == "lunaos" && $4 == "--base-dir" && $5 == "$T3CODE_HOME" ]] || exit 1
+palette="$T3CODE_HOME/userdata/themes/lunaos.json"
+if [[ ! -f $palette ]] || ! jq -e '.name == "LunaOS" and (.accent | test("^#[0-9a-fA-F]{6}$"))' "$palette" >/dev/null; then
+  echo "No published LunaOS theme"
   exit 1
 fi
-if [[ ${OMARCHY_TEST_T3_FAIL:-0} == "1" ]]; then
+if [[ ${LUNAOS_TEST_T3_FAIL:-0} == "1" ]]; then
   echo "T3 theme selection failed"
   exit 1
 fi
-if [[ ${OMARCHY_TEST_T3_HANG:-0} == "1" ]]; then
+if [[ ${LUNAOS_TEST_T3_HANG:-0} == "1" ]]; then
   touch "$TEST_TMP/cli-started"
   exec sleep 30
 fi
-echo "T3 selected Omarchy"
+echo "T3 selected LunaOS"
 SH
 
 cat >"$mock_bin/gum" <<'SH'
 #!/bin/bash
 [[ $1 == "choose" && $2 == "--header" && $3 == "Install T3 Code from which channel?" ]] || exit 1
 [[ $4 == "Stable" && $5 == "Nightly" ]] || exit 1
-echo "${OMARCHY_TEST_GUM_PICK:-Stable}"
+echo "${LUNAOS_TEST_GUM_PICK:-Stable}"
 SH
 
-cat >"$mock_bin/omarchy-pkg-drop" <<'SH'
+cat >"$mock_bin/lunaos-pkg-drop" <<'SH'
 #!/bin/bash
 echo "$*" >"$TEST_TMP/dropped"
 SH
@@ -69,30 +69,30 @@ SH
 # The launch is backgrounded, so each run names its own record.
 cat >"$mock_bin/setsid" <<'SH'
 #!/bin/bash
-touch "$TEST_TMP/launched-${OMARCHY_TEST_RUN:-default}"
+touch "$TEST_TMP/launched-${LUNAOS_TEST_RUN:-default}"
 SH
 chmod +x "$mock_bin"/* "$mount_dir/t3code"
 
 mkdir -p "$test_tmp/tmp"
 run_installer() {
   TMPDIR="$test_tmp/tmp" HOME="$test_home" T3CODE_HOME="$test_tmp/custom t3 home" \
-    OMARCHY_PATH="$ROOT" PATH="$mock_bin:$ROOT/bin:$PATH" \
-    OMARCHY_THEME_HEADLESS=1 XDG_RUNTIME_DIR="$test_tmp" \
-    "$ROOT/bin/omarchy-install-ai-t3-code" "$@" >"$test_tmp/output" 2>&1
+    LUNAOS_PATH="$ROOT" PATH="$mock_bin:$ROOT/bin:$PATH" \
+    LUNAOS_THEME_HEADLESS=1 XDG_RUNTIME_DIR="$test_tmp" \
+    "$ROOT/bin/lunaos-install-ai-t3-code" "$@" >"$test_tmp/output" 2>&1
 }
 
-state="$test_home/.local/state/omarchy/current"
-palette="$test_tmp/custom t3 home/userdata/themes/omarchy.json"
+state="$test_home/.local/state/lunaos/current"
+palette="$test_tmp/custom t3 home/userdata/themes/lunaos.json"
 settings="$test_tmp/custom t3 home/userdata/settings.json"
 mkdir -p "$state/theme"
 echo 'tokyo-night' >"$state/theme.name"
 cp "$ROOT/themes/tokyo-night/colors.toml" "$state/theme/colors.toml"
 
-OMARCHY_TEST_GUM_PICK=Nightly run_installer || fail "installing after an update succeeds" "$(cat "$test_tmp/output")"
+LUNAOS_TEST_GUM_PICK=Nightly run_installer || fail "installing after an update succeeds" "$(cat "$test_tmp/output")"
 [[ $(cat "$test_tmp/channel") == "nightly" ]] || fail "the channel picked at the prompt is installed"
 [[ -f $state/theme/t3code.json && -f $palette ]] || fail "the missing palette is rendered and published"
 cmp -s "$state/theme/t3code.json" "$palette" || fail "T3 receives the current theme's palette"
-grep -q 'T3 selected Omarchy' "$test_tmp/output" || fail "the published palette is selected"
+grep -q 'T3 selected LunaOS' "$test_tmp/output" || fail "the published palette is selected"
 grep -q 'Opening T3 Code' "$test_tmp/output" || fail "the themed app opens"
 [[ $(cat "$test_tmp/dropped") == "t3code-bin t3code-nightly-bin" ]] || fail "the T3 Code packages go once the app is themed"
 [[ ! -e $test_home/.t3 ]] || fail "the custom T3 home is respected"
@@ -103,7 +103,7 @@ if kill -0 "$(cat "$test_tmp/mounter.pid")" 2>/dev/null; then
 fi
 pass "the AppImage is unmounted once its CLI has run"
 
-OMARCHY_TEST_GUM_PICK=Stable run_installer || fail "installing stable succeeds" "$(cat "$test_tmp/output")"
+LUNAOS_TEST_GUM_PICK=Stable run_installer || fail "installing stable succeeds" "$(cat "$test_tmp/output")"
 [[ $(cat "$test_tmp/channel") == "stable" ]] || fail "Stable at the prompt installs the stable channel"
 pass "the prompt chooses between the stable and nightly channels"
 
@@ -115,9 +115,9 @@ cmp -s "$test_tmp/palette.json" "$palette" || fail "an existing palette is publi
 pass "an existing palette is used without refreshing the current theme"
 
 rm -f "$test_tmp/channel"
-OMARCHY_TEST_RUN=no-launch run_installer nightly --no-launch || fail "installing without a launch succeeds" "$(cat "$test_tmp/output")"
+LUNAOS_TEST_RUN=no-launch run_installer nightly --no-launch || fail "installing without a launch succeeds" "$(cat "$test_tmp/output")"
 [[ $(cat "$test_tmp/channel") == "nightly" ]] || fail "the named channel is installed without a prompt"
-grep -q 'T3 selected Omarchy' "$test_tmp/output" || fail "the palette is selected without a launch"
+grep -q 'T3 selected LunaOS' "$test_tmp/output" || fail "the palette is selected without a launch"
 if [[ -f $test_tmp/launched-no-launch ]] || grep -q 'Opening T3 Code' "$test_tmp/output"; then
   fail "--no-launch leaves T3 Code closed" "$(cat "$test_tmp/output")"
 fi
@@ -126,7 +126,7 @@ pass "--no-launch installs and themes the named channel without opening T3 Code"
 rm -f "$test_tmp/dropped"
 printf '{"defaultTheme":"dark","keep":"existing settings"}\n' >"$settings"
 cp "$settings" "$test_tmp/settings-before.json"
-if OMARCHY_TEST_T3_FAIL=1 run_installer stable; then
+if LUNAOS_TEST_T3_FAIL=1 run_installer stable; then
   fail "a failed T3 theme selection fails the installer"
 fi
 grep -q 'T3 theme selection failed' "$test_tmp/output" || fail "the CLI failure is visible"
@@ -141,7 +141,7 @@ pass "a CLI failure remains visible and leaves the existing settings and package
 # mounter ignores it, so the installer has to unmount on its way out.
 rm -f "$test_tmp/cli-started" "$test_tmp/mounter.pid"
 set -m
-OMARCHY_TEST_T3_HANG=1 run_installer stable &
+LUNAOS_TEST_T3_HANG=1 run_installer stable &
 installer=$!
 set +m
 for _ in {1..100}; do

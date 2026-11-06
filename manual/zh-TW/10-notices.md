@@ -14,7 +14,7 @@
 
  ![notice-weather](images/notice-weather.webp)
 
-位置是從你的 IP 位址偵測而來，通常夠接近，但不見得總是如此。你可以用 `omarchy weather location --set Malibu` 將它固定下來，或者再加上座標來精確指定：`omarchy weather location --set Malibu 34.0259,-118.7798`。單獨執行 `omarchy weather location` 可以查看它認為你在哪裡，而 `--clear` 則回到自動偵測。
+位置是從你的 IP 位址偵測而來，通常夠接近，但不見得總是如此。你可以用 `lunaos weather location --set Malibu` 將它固定下來，或者再加上座標來精確指定：`lunaos weather location --set Malibu 34.0259,-118.7798`。單獨執行 `lunaos weather location` 可以查看它認為你在哪裡，而 `--clear` 則回到自動偵測。
 
 ### 電池
 

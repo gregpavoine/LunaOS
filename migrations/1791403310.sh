@@ -1,3 +1,3 @@
 echo "Install titlebars for floating workspaces"
 
-omarchy-pkg-add omarchy-hyprland-titlebars
+lunaos-pkg-add omarchy-hyprland-titlebars

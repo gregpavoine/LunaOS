@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# A file Omarchy writes into /usr belongs to nobody, and the
+# A file LunaOS writes into /usr belongs to nobody, and the
 # day a package starts shipping that same path, pacman refuses the upgrade for
-# everyone who has the file. omarchy-update-system-pkgs-when-conflicted recovers from
+# everyone who has the file. lunaos-update-system-pkgs-when-conflicted recovers from
 # that, but the cheaper answer is to ship the file in the package instead.
 #
 # This flags a script writing such a path unless a PKGBUILD installs it, or it
@@ -17,14 +17,14 @@ set -euo pipefail
 source "$(dirname "$0")/base-test.sh"
 
 # The PKGBUILDs live in the omarchy-pkgs checkout, wherever this machine keeps it.
-if find_omarchy_pkgs; then
-  python3 - "$ROOT" "$OMARCHY_PKGS_ROOT" <<'PYTHON'
+if find_lunaos_pkgs; then
+  python3 - "$ROOT" "$LUNAOS_PKGS_ROOT" <<'PYTHON'
 import os, re, sys
 from pathlib import Path
 
 root = Path(sys.argv[1])
 
-# Paths Omarchy writes into /usr that no package owns, with the reason.
+# Paths LunaOS writes into /usr that no package owns, with the reason.
 allowed = {
   # Symlinks into another package's icon theme; owning them would mean owning
   # paths inside Yaru.
@@ -34,14 +34,14 @@ allowed = {
   "/usr/lib/systemd/system-sleep",
   # Written through a variable, so the scan below cannot see them at the point
   # they are written. These drop configuration into another project's tree
-  # rather than Omarchy's and are not candidates for omarchy-settings.
+  # rather than LunaOS's and are not candidates for lunaos-settings.
   "/usr/share/chromium/extensions",
   "/usr/lib/firefox/distribution",
   # Claude's extension is registered only when the user selects Claude.
   "/usr/share/google-chrome/extensions",
   "/usr/share/microsoft-edge/extensions",
-  # Static content that belongs in omarchy-settings. It cannot move there in the
-  # same release that first ships omarchy-update-system-pkgs-when-conflicted: the
+  # Static content that belongs in lunaos-settings. It cannot move there in the
+  # same release that first ships lunaos-update-system-pkgs-when-conflicted: the
   # upgrade carrying the handler is the one that would hit the conflict, and the
   # handler only helps once it is on disk. Package it the release after.
   "/usr/lib/chromium/initial_preferences",
@@ -49,20 +49,20 @@ allowed = {
 
 # One-time 3.x upgrade. It runs before this rule existed and cannot be made to
 # retroactively matter for machines that already ran it.
-skip_scripts = {"bin/omarchy-upgrade-to-quattro"}
+skip_scripts = {"bin/lunaos-upgrade-to-quattro"}
 
 pkgs_root = Path(sys.argv[2])
 packaged = "\n".join(p.read_text() for p in pkgs_root.glob("*/PKGBUILD"))
 
 # Commands that put a file somewhere, as opposed to reading one.
-# /etc is administrator territory that Omarchy legitimately edits. /usr is
+# /etc is administrator territory that LunaOS legitimately edits. /usr is
 # package territory, where writing anything is the thing worth catching.
-# The command itself, not a word inside a longer name: omarchy-hook-install
+# The command itself, not a word inside a longer name: lunaos-hook-install
 # copies a package's file out of /usr, which is reading it.
 writer = re.compile(r"(?<![\w.-])(tee|cp|install|ln)(?![\w.-])|>\s*/usr/")
 target = re.compile(r"/usr/[A-Za-z0-9._@/+-]+")
 for code, writes in (
-  ("omarchy-hook-install theme-set /usr/share/owe/10-owe-sync", False),
+  ("lunaos-hook-install theme-set /usr/share/owe/10-owe-sync", False),
   ("sudo install -Dm644 10-owe-sync /usr/share/owe/10-owe-sync", True),
   ("cp -f hook /usr/lib/systemd/system-sleep/hook", True),
   ("printf x | sudo tee /usr/share/x/y", True),
@@ -107,8 +107,8 @@ for base in ("bin", "install", "migrations"):
         if not tokens or not tokens[-1].startswith("/usr/"):
           continue
         hit = tokens[-1].rstrip("/")
-      # Omarchy's own tree and its binaries are covered elsewhere.
-      if hit.startswith(("/usr/share/omarchy", "/usr/bin")) or hit.count("/") < 3:
+      # LunaOS's own tree and its binaries are covered elsewhere.
+      if hit.startswith(("/usr/share/lunaos", "/usr/bin")) or hit.count("/") < 3:
         continue
       # Directory or file form of a recorded path both count as recorded, but
       # only on a path boundary: system-sleeping is not system-sleep.
@@ -123,7 +123,7 @@ for base in ("bin", "install", "migrations"):
       problems.append(f"{rel}:{lineno}: {hit}")
 
 if problems:
-  print("not ok - Omarchy writes paths under /usr that no package owns", file=sys.stderr)
+  print("not ok - LunaOS writes paths under /usr that no package owns", file=sys.stderr)
   for p in problems:
     print(f"  {p}", file=sys.stderr)
   print(
@@ -133,13 +133,13 @@ if problems:
   )
   sys.exit(1)
 PYTHON
-  pass "no Omarchy script writes a path under /usr that no package owns"
+  pass "no LunaOS script writes a path under /usr that no package owns"
 else
-  skip "no Omarchy script writes a path under /usr that no package owns: needs the omarchy-pkgs checkout; set OMARCHY_PKGS_PATH to it"
+  skip "no LunaOS script writes a path under /usr that no package owns: needs the omarchy-pkgs checkout; set LUNAOS_PKGS_PATH to it"
 fi
 
-for script in bin/omarchy-hibernation-setup bin/omarchy-toggle-hybrid-gpu; do
-  grep -F '"${destination%/*}/.${destination##*/}.omarchy.XXXXXX"' "$ROOT/$script" >/dev/null ||
+for script in bin/lunaos-hibernation-setup bin/lunaos-toggle-hybrid-gpu; do
+  grep -F '"${destination%/*}/.${destination##*/}.lunaos.XXXXXX"' "$ROOT/$script" >/dev/null ||
     fail "$script reserves a hidden sibling for the privileged replacement"
   grep -F 'sudo /usr/bin/install -m "$mode" -o root -g root -T "$source" "$stage"' "$ROOT/$script" >/dev/null ||
     fail "$script prepares privileged files with final root ownership and mode"
@@ -150,24 +150,24 @@ for script in bin/omarchy-hibernation-setup bin/omarchy-toggle-hybrid-gpu; do
   fi
 done
 
-grep -F '  /usr/lib/systemd/system-sleep/keyboard-backlight 0755' "$ROOT/bin/omarchy-hibernation-setup" >/dev/null ||
+grep -F '  /usr/lib/systemd/system-sleep/keyboard-backlight 0755' "$ROOT/bin/lunaos-hibernation-setup" >/dev/null ||
   fail "hibernation setup installs keyboard-backlight as a root-owned executable"
 
-hook_install_line=$(rg -n '^if ! install_root_file .*keyboard-backlight' "$ROOT/bin/omarchy-hibernation-setup" | cut -d: -f1)
-resume_marker_line=$(rg -n '^echo "HOOKS\+=\(resume\)"' "$ROOT/bin/omarchy-hibernation-setup" | cut -d: -f1)
+hook_install_line=$(rg -n '^if ! install_root_file .*keyboard-backlight' "$ROOT/bin/lunaos-hibernation-setup" | cut -d: -f1)
+resume_marker_line=$(rg -n '^echo "HOOKS\+=\(resume\)"' "$ROOT/bin/lunaos-hibernation-setup" | cut -d: -f1)
 [[ -n $hook_install_line && -n $resume_marker_line ]] ||
   fail "hibernation setup keeps recognizable hook-install and resume-marker steps"
 (( hook_install_line < resume_marker_line )) ||
   fail "hibernation setup marks completion before a failed hook install can be retried"
 
-grep -F '  /usr/lib/systemd/system-sleep/force-igpu 0755' "$ROOT/bin/omarchy-toggle-hybrid-gpu" >/dev/null ||
+grep -F '  /usr/lib/systemd/system-sleep/force-igpu 0755' "$ROOT/bin/lunaos-toggle-hybrid-gpu" >/dev/null ||
   fail "hybrid GPU setup installs force-igpu as a root-owned executable"
-grep -F '  /etc/systemd/system/supergfxd.service.d/delay-start.conf 0644' "$ROOT/bin/omarchy-toggle-hybrid-gpu" >/dev/null ||
+grep -F '  /etc/systemd/system/supergfxd.service.d/delay-start.conf 0644' "$ROOT/bin/lunaos-toggle-hybrid-gpu" >/dev/null ||
   fail "hybrid GPU setup installs its root service drop-in as root-owned configuration"
 
-delay_install_line=$(rg -n '^    if ! install_root_file .*delay-start\.conf' "$ROOT/bin/omarchy-toggle-hybrid-gpu" | cut -d: -f1)
-force_install_line=$(rg -n '^    if ! install_root_file .*force-igpu' "$ROOT/bin/omarchy-toggle-hybrid-gpu" | cut -d: -f1)
-config_switch_line=$(rg -n '^    sudo sed -i \\' "$ROOT/bin/omarchy-toggle-hybrid-gpu" | tail -1 | cut -d: -f1)
+delay_install_line=$(rg -n '^    if ! install_root_file .*delay-start\.conf' "$ROOT/bin/lunaos-toggle-hybrid-gpu" | cut -d: -f1)
+force_install_line=$(rg -n '^    if ! install_root_file .*force-igpu' "$ROOT/bin/lunaos-toggle-hybrid-gpu" | cut -d: -f1)
+config_switch_line=$(rg -n '^    sudo sed -i \\' "$ROOT/bin/lunaos-toggle-hybrid-gpu" | tail -1 | cut -d: -f1)
 [[ -n $delay_install_line && -n $force_install_line && -n $config_switch_line ]] ||
   fail "hybrid GPU setup keeps recognizable support-file and config-switch steps"
 (( delay_install_line < config_switch_line && force_install_line < config_switch_line )) ||
@@ -176,7 +176,7 @@ config_switch_line=$(rg -n '^    sudo sed -i \\' "$ROOT/bin/omarchy-toggle-hybri
 grep -Fq '/usr/bin/grep -Eq' "$ROOT/default/systemd/system-sleep/force-igpu" ||
   fail "force-igpu does not guard execution with the configured GPU mode"
 
-if rg -n 'cp -p.*(system-sleep|supergfxd\.service\.d)' "$ROOT/bin/omarchy-hibernation-setup" "$ROOT/bin/omarchy-toggle-hybrid-gpu"; then
+if rg -n 'cp -p.*(system-sleep|supergfxd\.service\.d)' "$ROOT/bin/lunaos-hibernation-setup" "$ROOT/bin/lunaos-toggle-hybrid-gpu"; then
   fail "privileged sleep and hybrid GPU files are never copied with source ownership"
 fi
 

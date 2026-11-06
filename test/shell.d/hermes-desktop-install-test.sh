@@ -8,7 +8,7 @@ for command in git jq python3; do require_command "$command"; done
 
 test_tmp=$(mktemp -d)
 trap 'rm -rf -- "$test_tmp"' EXIT
-export OMARCHY_TEST_ROOT="$test_tmp"
+export LUNAOS_TEST_ROOT="$test_tmp"
 mkdir -p "$test_tmp/bin" "$test_tmp/package/resources" "$test_tmp/share" "$test_tmp/seed"
 
 # Real Git exercises patch checks and preservation; all package, desktop and
@@ -27,10 +27,10 @@ def _write_desktop_build_stamp(project_root, *, source_mode):
     home = Path(os.environ['HERMES_HOME'])
     assert project_root == home / 'hermes-agent'
     assert source_mode is False
-    app_dir = os.environ.get('OMARCHY_TEST_APP_DIR', 'linux-unpacked')
+    app_dir = os.environ.get('LUNAOS_TEST_APP_DIR', 'linux-unpacked')
     assert (project_root / 'apps/desktop/release' / app_dir / 'resources/app.asar').is_file()
     (home / 'desktop-build-stamp.json').write_text('upstream build stamp')
-    with (Path(os.environ['OMARCHY_TEST_ROOT']) / 'events').open('a') as log:
+    with (Path(os.environ['LUNAOS_TEST_ROOT']) / 'events').open('a') as log:
         log.write('build-stamp\n')
 PY
 git -C "$test_tmp/seed" add .
@@ -43,7 +43,7 @@ printf 'newer desktop source\n' >"$test_tmp/seed/apps/desktop/src/main.js"
 git -C "$test_tmp/seed" add apps/desktop/src/main.js
 git -C "$test_tmp/seed" -c user.name=Test -c user.email=test@example.invalid commit -qm newer-main
 origin_commit=$(git -C "$test_tmp/seed" rev-parse HEAD)
-export OMARCHY_TEST_RELEASE_COMMIT="$release_commit"
+export LUNAOS_TEST_RELEASE_COMMIT="$release_commit"
 printf '{"branch":"main","commit":"%s"}\n' "$release_commit" >"$test_tmp/package/resources/install-stamp.json"
 printf 'packaged app\n' >"$test_tmp/package/resources/app.asar"
 printf '#!/bin/bash\nexit 0\n' >"$test_tmp/package/Hermes"
@@ -54,10 +54,10 @@ chmod 4755 "$test_tmp/package/chrome-sandbox"
 cat >"$test_tmp/share/install.sh" <<'MOCK'
 #!/bin/bash
 set -e
-printf '%s\n' "$@" >"$OMARCHY_TEST_ROOT/install-args"
-printf '%s\n' "${npm_config_yes:-unset}" >"$OMARCHY_TEST_ROOT/install-npx-answer"
-[[ ${OMARCHY_TEST_INSTALL_FAIL:-0} != 1 ]] || exit 7
-commit=$OMARCHY_TEST_RELEASE_COMMIT
+printf '%s\n' "$@" >"$LUNAOS_TEST_ROOT/install-args"
+printf '%s\n' "${npm_config_yes:-unset}" >"$LUNAOS_TEST_ROOT/install-npx-answer"
+[[ ${LUNAOS_TEST_INSTALL_FAIL:-0} != 1 ]] || exit 7
+commit=$LUNAOS_TEST_RELEASE_COMMIT
 force=false
 stage=""
 while (( $# )); do
@@ -83,14 +83,14 @@ write_commands() {
 }
 # The path stage writes the commands alone, without touching the checkout.
 if [[ $stage == "path" ]]; then
-  printf 'path\n' >>"$OMARCHY_TEST_ROOT/events"
+  printf 'path\n' >>"$LUNAOS_TEST_ROOT/events"
   write_commands
   exit 0
 fi
-printf 'bootstrap\n' >>"$OMARCHY_TEST_ROOT/events"
+printf 'bootstrap\n' >>"$LUNAOS_TEST_ROOT/events"
 mkdir -p -- "${runtime%/*}"
 if [[ ! -d $runtime ]]; then
-  git clone -q --depth 1 "file://$OMARCHY_TEST_ROOT/seed" "$runtime"
+  git clone -q --depth 1 "file://$LUNAOS_TEST_ROOT/seed" "$runtime"
 else
   git -C "$runtime" checkout -q main
   git -C "$runtime" pull -q --ff-only origin main
@@ -114,23 +114,23 @@ SH
 chmod +x "$runtime/venv/bin/hermes"
 printf '#!/bin/bash\nexec /usr/bin/python3 "$@"\n' >"$runtime/venv/bin/python"
 chmod +x "$runtime/venv/bin/python"
-[[ ${OMARCHY_TEST_NO_MARKER:-0} == 1 ]] || touch "$runtime/.hermes-bootstrap-complete"
+[[ ${LUNAOS_TEST_NO_MARKER:-0} == 1 ]] || touch "$runtime/.hermes-bootstrap-complete"
 write_commands
 MOCK
 
-cat >"$test_tmp/bin/omarchy-pkg-add" <<'MOCK'
+cat >"$test_tmp/bin/lunaos-pkg-add" <<'MOCK'
 #!/bin/bash
-printf 'package %s\n' "$*" >>"$OMARCHY_TEST_ROOT/events"
-[[ ${OMARCHY_TEST_PACKAGE_FAIL:-0} != 1 ]] || exit 1
-touch "$OMARCHY_TEST_ROOT/package-installed"
+printf 'package %s\n' "$*" >>"$LUNAOS_TEST_ROOT/events"
+[[ ${LUNAOS_TEST_PACKAGE_FAIL:-0} != 1 ]] || exit 1
+touch "$LUNAOS_TEST_ROOT/package-installed"
 MOCK
-cat >"$test_tmp/bin/omarchy-pkg-present" <<'MOCK'
+cat >"$test_tmp/bin/lunaos-pkg-present" <<'MOCK'
 #!/bin/bash
-[[ -e $OMARCHY_TEST_ROOT/package-installed ]]
+[[ -e $LUNAOS_TEST_ROOT/package-installed ]]
 MOCK
 cat >"$test_tmp/bin/git" <<'MOCK'
 #!/bin/bash
-if [[ ${OMARCHY_TEST_FETCH_FAIL:-0} == 1 && " $* " == *" --unshallow "* ]]; then exit 8; fi
+if [[ ${LUNAOS_TEST_FETCH_FAIL:-0} == 1 && " $* " == *" --unshallow "* ]]; then exit 8; fi
 exec /usr/bin/git "$@"
 MOCK
 cat >"$test_tmp/bin/setsid" <<'MOCK'
@@ -139,7 +139,7 @@ exec "$@"
 MOCK
 cat >"$test_tmp/bin/cp" <<'MOCK'
 #!/bin/bash
-if [[ ${OMARCHY_TEST_COPY_FAIL:-0} == 1 ]]; then
+if [[ ${LUNAOS_TEST_COPY_FAIL:-0} == 1 ]]; then
   touch "${@: -1}/partial-copy"
   exit 9
 fi
@@ -147,7 +147,7 @@ exec /usr/bin/cp "$@"
 MOCK
 cat >"$test_tmp/bin/mv" <<'MOCK'
 #!/bin/bash
-if [[ ${OMARCHY_TEST_COPY_RACE:-0} == 1 && $1 == -T ]]; then
+if [[ ${LUNAOS_TEST_COPY_RACE:-0} == 1 && $1 == -T ]]; then
   mkdir -p "${@: -1}"
 fi
 exec /usr/bin/mv "$@"
@@ -161,50 +161,50 @@ MOCK
 cat >"$test_tmp/bin/hermes-desktop" <<'MOCK'
 #!/bin/bash
 sleep 0.05
-native="$HERMES_HOME/hermes-agent/apps/desktop/release/${OMARCHY_TEST_APP_DIR:-linux-unpacked}"
+native="$HERMES_HOME/hermes-agent/apps/desktop/release/${LUNAOS_TEST_APP_DIR:-linux-unpacked}"
 if [[ -x $native/Hermes && -f $native/resources/app.asar ]]; then
-  printf 'launch\n' >>"$OMARCHY_TEST_ROOT/events"
+  printf 'launch\n' >>"$LUNAOS_TEST_ROOT/events"
 else
-  printf 'launch-before-copy\n' >>"$OMARCHY_TEST_ROOT/events"
+  printf 'launch-before-copy\n' >>"$LUNAOS_TEST_ROOT/events"
 fi
 MOCK
 # The scenarios are x86_64 unless one says otherwise, whatever the host is.
-cat >"$test_tmp/bin/omarchy-hw-aarch64" <<'MOCK'
+cat >"$test_tmp/bin/lunaos-hw-aarch64" <<'MOCK'
 #!/bin/bash
-[[ ${OMARCHY_TEST_AARCH64:-0} == 1 ]]
+[[ ${LUNAOS_TEST_AARCH64:-0} == 1 ]]
 MOCK
 cat >"$test_tmp/bin/systemctl" <<'MOCK'
 #!/bin/bash
-printf 'theme-stop\n' >>"$OMARCHY_TEST_ROOT/events"
+printf 'theme-stop\n' >>"$LUNAOS_TEST_ROOT/events"
 MOCK
 cat >"$test_tmp/bin/systemd-run" <<'MOCK'
 #!/bin/bash
-printf 'theme-start\n' >>"$OMARCHY_TEST_ROOT/events"
+printf 'theme-start\n' >>"$LUNAOS_TEST_ROOT/events"
 MOCK
 # The only thing the installer asks mise is to remove what the retired wrapper
 # built. `where` finds that environment and `ls -g` lists it while a test says
 # it was built and it has not been uninstalled and unrequested; uninstalling
-# also takes the shim stand-in named in OMARCHY_TEST_SHIM, as mise's does.
+# also takes the shim stand-in named in LUNAOS_TEST_SHIM, as mise's does.
 cat >"$test_tmp/bin/mise" <<'MOCK'
 #!/bin/bash
-printf 'mise %s\n' "$*" >>"$OMARCHY_TEST_ROOT/mise-log"
+printf 'mise %s\n' "$*" >>"$LUNAOS_TEST_ROOT/mise-log"
 case "$1" in
-  where) [[ ${OMARCHY_TEST_MISE_BUILT:-0} == 1 && ! -e $OMARCHY_TEST_ROOT/mise-removed ]] ;;
+  where) [[ ${LUNAOS_TEST_MISE_BUILT:-0} == 1 && ! -e $LUNAOS_TEST_ROOT/mise-removed ]] ;;
   ls)
-    if [[ ${OMARCHY_TEST_MISE_BUILT:-0} == 1 && ! -e $OMARCHY_TEST_ROOT/mise-unrequested ]]; then
+    if [[ ${LUNAOS_TEST_MISE_BUILT:-0} == 1 && ! -e $LUNAOS_TEST_ROOT/mise-unrequested ]]; then
       echo '{"pipx:hermes-agent[extras=all]": [{"version": "latest"}]}'
     else
       echo '{}'
     fi
     ;;
-  rm) touch "$OMARCHY_TEST_ROOT/mise-unrequested" ;;
-  uninstall) touch "$OMARCHY_TEST_ROOT/mise-removed"; rm -f "${OMARCHY_TEST_SHIM:-}" ;;
+  rm) touch "$LUNAOS_TEST_ROOT/mise-unrequested" ;;
+  uninstall) touch "$LUNAOS_TEST_ROOT/mise-removed"; rm -f "${LUNAOS_TEST_SHIM:-}" ;;
 esac
 MOCK
 chmod +x "$test_tmp/bin/"*
 
 # Substitute only system package paths in scratch copies of the actual scripts.
-# The runtime setup lives in omarchy-install-hermes-cli, which the desktop
+# The runtime setup lives in lunaos-install-hermes-cli, which the desktop
 # installer finds on PATH under its own name.
 python3 - "$ROOT/bin" "$test_tmp" <<'PY'
 from pathlib import Path
@@ -215,12 +215,12 @@ substitutions = {
     '/usr/share/hermes-desktop': str(scratch / 'share'),
     '/usr/bin/hermes-desktop': str(scratch / 'bin/hermes-desktop'),
 }
-for name, target in (('omarchy-install-ai-hermes', scratch / 'installer'),
-                     ('omarchy-install-hermes-cli', scratch / 'bin/omarchy-install-hermes-cli')):
+for name, target in (('lunaos-install-ai-hermes', scratch / 'installer'),
+                     ('lunaos-install-hermes-cli', scratch / 'bin/lunaos-install-hermes-cli')):
     script = (source / name).read_text()
     for original, replacement in substitutions.items():
         script = script.replace(original, replacement)
-    if name == 'omarchy-install-hermes-cli':
+    if name == 'lunaos-install-hermes-cli':
         # The lock-wait and fetch-retry polls are 2s; the scenarios only
         # need the waiting to happen, not its real duration.
         script = script.replace('sleep 2', 'sleep 0.1')
@@ -232,7 +232,7 @@ new_home() {
   test_home="$test_tmp/$1"
   hermes_home="$test_home/.hermes"
   runtime="$hermes_home/hermes-agent"
-  native="$runtime/apps/desktop/release/${OMARCHY_TEST_APP_DIR:-linux-unpacked}"
+  native="$runtime/apps/desktop/release/${LUNAOS_TEST_APP_DIR:-linux-unpacked}"
   mkdir -p "$test_home"
   rm -f "$test_tmp/package-installed"
   : >"$test_tmp/events"
@@ -240,7 +240,7 @@ new_home() {
 # The app opens in the background, so a run that got that far is joined to it
 # before anything is asserted; one that stopped earlier started nothing.
 run_installer() {
-  HOME="$test_home" HERMES_HOME="${OMARCHY_TEST_HOME:-$hermes_home}" PATH="$test_tmp/bin:$test_home/.local/bin:$PATH" npm_config_yes= \
+  HOME="$test_home" HERMES_HOME="${LUNAOS_TEST_HOME:-$hermes_home}" PATH="$test_tmp/bin:$test_home/.local/bin:$PATH" npm_config_yes= \
     bash "$test_tmp/installer" >"$test_tmp/output" 2>&1 || return
   for (( attempt=0; attempt<200; attempt++ )); do
     if grep -q '^launch' "$test_tmp/events"; then return 0; fi
@@ -248,10 +248,10 @@ run_installer() {
   done
   return 1
 }
-# ~/.local/bin is on PATH the way Omarchy puts it there, after the mocks.
+# ~/.local/bin is on PATH the way LunaOS puts it there, after the mocks.
 run_cli() {
-  HOME="$test_home" HERMES_HOME="${OMARCHY_TEST_HOME:-$hermes_home}" PATH="$test_tmp/bin:$test_home/.local/bin:$PATH" npm_config_yes= \
-    bash "$test_tmp/bin/omarchy-install-hermes-cli" "$@" >"$test_tmp/output" 2>&1
+  HOME="$test_home" HERMES_HOME="${LUNAOS_TEST_HOME:-$hermes_home}" PATH="$test_tmp/bin:$test_home/.local/bin:$PATH" npm_config_yes= \
+    bash "$test_tmp/bin/lunaos-install-hermes-cli" "$@" >"$test_tmp/output" 2>&1
 }
 assert_stopped() {
   if grep -Eq '^(launch|theme-|build-stamp)' "$test_tmp/events"; then fail "$1"; fi
@@ -347,9 +347,9 @@ pass "a matching commit with modified desktop sources is preserved without seedi
 for failure in package install marker; do
   new_home "$failure-failure"
   case "$failure" in
-    package) OMARCHY_TEST_PACKAGE_FAIL=1 run_installer && fail "package failure stops setup" ;;
-    install) OMARCHY_TEST_INSTALL_FAIL=1 run_installer && fail "installer failure stops setup" ;;
-    marker) OMARCHY_TEST_NO_MARKER=1 run_installer && fail "missing marker stops setup" ;;
+    package) LUNAOS_TEST_PACKAGE_FAIL=1 run_installer && fail "package failure stops setup" ;;
+    install) LUNAOS_TEST_INSTALL_FAIL=1 run_installer && fail "installer failure stops setup" ;;
+    marker) LUNAOS_TEST_NO_MARKER=1 run_installer && fail "missing marker stops setup" ;;
   esac
   [[ ! -e $native ]] || fail "failed setup does not seed the app"
   assert_stopped "failed setup prevents launch and theme setup"
@@ -359,10 +359,10 @@ pass "package, upstream installer and readiness failures stop before launch"
 for failure in copy race; do
   new_home "$failure-failure"
   if [[ $failure == "copy" ]]; then
-    OMARCHY_TEST_COPY_FAIL=1 run_installer && fail "copy failure stops setup"
+    LUNAOS_TEST_COPY_FAIL=1 run_installer && fail "copy failure stops setup"
     [[ ! -e $native ]] || fail "partial copy is never published"
   else
-    OMARCHY_TEST_COPY_RACE=1 run_installer && fail "concurrent native app stops publication"
+    LUNAOS_TEST_COPY_RACE=1 run_installer && fail "concurrent native app stops publication"
     [[ -d $native && -z $(ls -A "$native") ]] || fail "concurrent empty app directory is preserved"
   fi
   [[ -z $(find "${native%/*}" -maxdepth 1 -name ".${native##*/}.*" -print) ]] || fail "owned staging directory is cleaned up"
@@ -379,7 +379,7 @@ run_installer && fail "incomplete existing app requires repair"
 assert_stopped "incomplete native app prevents launch"
 pass "an incomplete existing native app is preserved"
 
-# A runtime already at the release, edited where the patch lands, before Omarchy
+# A runtime already at the release, edited where the patch lands, before LunaOS
 # has prepared it: the conflict is reported and nothing is touched.
 new_home patch-conflict
 HOME="$test_home" HERMES_HOME="$hermes_home" bash "$test_tmp/share/install.sh" --dir "$runtime" --hermes-home "$hermes_home"
@@ -417,7 +417,7 @@ assert_untouched "a patch conflict"
 # An unfinished runtime beside a half-built app.
 new_home incomplete-app
 touch "$test_tmp/package-installed"
-OMARCHY_TEST_NO_MARKER=1 HOME="$test_home" HERMES_HOME="$hermes_home" bash "$test_tmp/share/install.sh" --dir "$runtime" --hermes-home "$hermes_home"
+LUNAOS_TEST_NO_MARKER=1 HOME="$test_home" HERMES_HOME="$hermes_home" bash "$test_tmp/share/install.sh" --dir "$runtime" --hermes-home "$hermes_home"
 mkdir -p "$native/resources"
 printf 'half\n' >"$native/resources/app.asar"
 printf '%s\n' "$own_launcher" >"$test_home/.local/bin/hermes"
@@ -428,7 +428,7 @@ assert_untouched "a half-built app"
 # An unfinished runtime whose git state cannot be read is not a clean one.
 new_home unreadable-incomplete
 touch "$test_tmp/package-installed"
-OMARCHY_TEST_NO_MARKER=1 HOME="$test_home" HERMES_HOME="$hermes_home" bash "$test_tmp/share/install.sh" --dir "$runtime" --hermes-home "$hermes_home"
+LUNAOS_TEST_NO_MARKER=1 HOME="$test_home" HERMES_HOME="$hermes_home" bash "$test_tmp/share/install.sh" --dir "$runtime" --hermes-home "$hermes_home"
 printf '%s\n' "$own_launcher" >"$test_home/.local/bin/hermes"
 chmod 000 "$runtime/.git/index"
 : >"$test_tmp/events"
@@ -470,9 +470,9 @@ local_main=$(git -C "$runtime" rev-parse main)
 git -C "$runtime" checkout -q --detach "$release_commit"
 run_installer || fail "a runtime whose main carries other work still sets up" "$(cat "$test_tmp/output")"
 [[ $(git -C "$runtime" rev-parse main) == "$release_commit" ]] || fail "main starts at the release"
-kept=$(git -C "$runtime" for-each-ref --format='%(objectname)' 'refs/heads/main-before-omarchy-*')
+kept=$(git -C "$runtime" for-each-ref --format='%(objectname)' 'refs/heads/main-before-lunaos-*')
 [[ $kept == "$local_main" ]] || fail "what main pointed at is kept under another name" "$kept"
-grep -q 'main-before-omarchy-' "$test_tmp/output" || fail "the kept branch is named in the output"
+grep -q 'main-before-lunaos-' "$test_tmp/output" || fail "the kept branch is named in the output"
 [[ -f $native/resources/app.asar ]] || fail "setup carries on to seed the app"
 pass "work on main is kept under another name rather than refused"
 
@@ -501,12 +501,12 @@ live_lock_case() {
   printf 'live\n' >"$runtime/.git/shallow.lock"
   touch -d '5 minutes ago' "$runtime/.git/shallow.lock"
   rm -f "$test_tmp/lock-stolen" "$test_tmp/release-git"
-  (cd "$where" && { if (( $# )); then export "$@"; fi; } && export LOCK="$runtime/.git/shallow.lock" && exec -a "${OMARCHY_TEST_GIT_ARGV0:-git}" bash -c 'for (( i = 0; i < 900; i++ )); do [[ -e "$1" ]] && exit; [[ -e $LOCK ]] || { touch "$2"; exit; }; sleep 0.1; done' _ "$test_tmp/release-git" "$test_tmp/lock-stolen") &
+  (cd "$where" && { if (( $# )); then export "$@"; fi; } && export LOCK="$runtime/.git/shallow.lock" && exec -a "${LUNAOS_TEST_GIT_ARGV0:-git}" bash -c 'for (( i = 0; i < 900; i++ )); do [[ -e "$1" ]] && exit; [[ -e $LOCK ]] || { touch "$2"; exit; }; sleep 0.1; done' _ "$test_tmp/release-git" "$test_tmp/lock-stolen") &
   fake_git=$!
   : >"$test_tmp/output"
   # The runtime is reached through a link, as a symlinked home would, since
   # /proc reports canonical paths and the runtime path keeps links.
-  OMARCHY_TEST_HOME="$test_tmp/$name-link/.hermes" run_installer &
+  LUNAOS_TEST_HOME="$test_tmp/$name-link/.hermes" run_installer &
   installer=$!
   for (( attempt = 0; attempt < 300; attempt++ )); do
     grep -q "$output_line" "$test_tmp/output" 2>/dev/null && break
@@ -533,7 +533,7 @@ big_env=$(head -c 120000 /dev/zero | tr '\0' 'x')
 live_lock_case live-lock-env "$test_tmp" BIG_ENV="$big_env" GIT_DIR="$test_tmp/live-lock-env/.hermes/hermes-agent/.git/"
 pass "a git working from elsewhere with GIT_DIR naming the runtime is found by its environment"
 # Named by its path, as a git run as /usr/bin/git is.
-live_lock_case live-lock-path "$test_tmp/live-lock-path/.hermes/hermes-agent" OMARCHY_TEST_GIT_ARGV0=/usr/bin/git
+live_lock_case live-lock-path "$test_tmp/live-lock-path/.hermes/hermes-agent" LUNAOS_TEST_GIT_ARGV0=/usr/bin/git
 pass "a git that names itself by its path is found too"
 # A process that only names git on its command line, an editor opened on
 # /usr/bin/git from inside the runtime say, is not a git at work there: the
@@ -553,7 +553,7 @@ wait "$bystander" 2>/dev/null || true
 pass "a process that only names git on its command line is not waited for"
 
 new_home deepen-retry
-OMARCHY_TEST_FETCH_FAIL=1 run_installer && fail "history fetch failure stops setup"
+LUNAOS_TEST_FETCH_FAIL=1 run_installer && fail "history fetch failure stops setup"
 [[ ! -e $native ]] || fail "failed history fetch does not seed the app"
 assert_stopped "failed history fetch prevents launch"
 : >"$test_tmp/events"
@@ -579,7 +579,7 @@ pass "pre-existing command files and symlinks are backed up before replacement"
 new_home old-package
 mv "$test_tmp/package/resources/install-stamp.json" "$test_tmp/saved-install-stamp.json"
 run_installer && fail "an old installed package cannot bootstrap"
-grep -q 'omarchy update' "$test_tmp/output" || fail "old package has actionable upgrade guidance"
+grep -q 'lunaos update' "$test_tmp/output" || fail "old package has actionable upgrade guidance"
 ! grep -qx bootstrap "$test_tmp/events" || fail "old package never reaches upstream installer"
 mv "$test_tmp/saved-install-stamp.json" "$test_tmp/package/resources/install-stamp.json"
 pass "old package fails with upgrade guidance before changing the runtime"
@@ -663,7 +663,7 @@ run_cli --check || fail "--check follows the install once nothing shadows it"
 pass "a hermes ahead of ~/.local/bin on PATH is reported, not set up over"
 
 # A machine that chose Hermes before its migration ran: the wrapper's copy the
-# runtime setup saved aside proves the mise environment Omarchy's, and mise's
+# runtime setup saved aside proves the mise environment LunaOS's, and mise's
 # shim for it sits ahead of ~/.local/bin. Choosing Hermes again finishes the
 # handover: the environment goes, the shim and the saved copy with it, and
 # only then is the command the one PATH finds.
@@ -671,13 +671,13 @@ new_home handover
 run_cli --now || fail "handover fixture sets up" "$(cat "$test_tmp/output")"
 saved="$test_home/.local/bin/.hermes-before-desktop.mise01"
 mkdir -p "$saved"
-printf '%s\n' "#!/bin/bash" "# Written by omarchy-install-hermes-cli." >"$saved/hermes"
+printf '%s\n' "#!/bin/bash" "# Written by lunaos-install-hermes-cli." >"$saved/hermes"
 cp "$test_home/.local/bin/hermes" "$test_tmp/bin/hermes"
 : >"$test_tmp/mise-log"; rm -f "$test_tmp/mise-removed" "$test_tmp/mise-unrequested"
-OMARCHY_TEST_MISE_BUILT=1 run_cli --check && fail "--check calls a handover with the mise environment still there finished"
+LUNAOS_TEST_MISE_BUILT=1 run_cli --check && fail "--check calls a handover with the mise environment still there finished"
 : >"$test_tmp/events"
-OMARCHY_TEST_MISE_BUILT=1 OMARCHY_TEST_SHIM="$test_tmp/bin/hermes" run_cli --now || fail "--now finishes the handover" "$(cat "$test_tmp/output")"
-grep -q 'mise uninstall --all' "$test_tmp/mise-log" || fail "the environment the saved wrapper proves Omarchy's is removed" "$(cat "$test_tmp/mise-log")"
+LUNAOS_TEST_MISE_BUILT=1 LUNAOS_TEST_SHIM="$test_tmp/bin/hermes" run_cli --now || fail "--now finishes the handover" "$(cat "$test_tmp/output")"
+grep -q 'mise uninstall --all' "$test_tmp/mise-log" || fail "the environment the saved wrapper proves LunaOS's is removed" "$(cat "$test_tmp/mise-log")"
 [[ ! -e $test_tmp/bin/hermes ]] || fail "the shim is gone with the environment"
 [[ ! -e $saved/hermes && ! -d $saved ]] || fail "the saved wrapper and its directory go once the environment is gone"
 [[ ! -s $test_tmp/events ]] || fail "the handover sets nothing up again" "$(cat "$test_tmp/events")"
@@ -687,14 +687,14 @@ pass "choosing Hermes again before the migration finishes the handover: the mise
 new_home custom-profile
 hermes_home="$test_home/custom home"
 runtime="$hermes_home/hermes-agent"
-OMARCHY_TEST_HOME="$hermes_home/PrOfIlEs/coder/../coder/" run_installer || fail "profile setup succeeds"
+LUNAOS_TEST_HOME="$hermes_home/PrOfIlEs/coder/../coder/" run_installer || fail "profile setup succeeds"
 [[ -x $runtime/apps/desktop/release/linux-unpacked/Hermes ]] || fail "profile uses the canonical root runtime"
 grep -qxF "$hermes_home" "$test_tmp/install-args" || fail "canonical custom home reaches upstream installer"
 pass "custom profile paths normalize to the shared Hermes home"
 
 # electron-builder names the ARM app linux-arm64-unpacked, and that is where
 # `hermes update` rebuilds it, so an ARM machine is seeded there.
-export OMARCHY_TEST_AARCH64=1 OMARCHY_TEST_APP_DIR=linux-arm64-unpacked
+export LUNAOS_TEST_AARCH64=1 LUNAOS_TEST_APP_DIR=linux-arm64-unpacked
 new_home arm
 run_installer || fail "ARM setup succeeds" "$(cat "$test_tmp/output")"
 [[ -x $native/Hermes && -f $native/resources/app.asar ]] || fail "ARM seeds the app under the name its rebuilds use"
@@ -706,16 +706,16 @@ pass "ARM seeds the app under linux-arm64-unpacked"
 
 # An ARM machine seeded under the x86_64 name before this keeps that app
 # rather than gaining a second copy.
-unset OMARCHY_TEST_AARCH64 OMARCHY_TEST_APP_DIR
+unset LUNAOS_TEST_AARCH64 LUNAOS_TEST_APP_DIR
 new_home arm-seeded-before
 run_cli --now || fail "earlier ARM fixture sets up" "$(cat "$test_tmp/output")"
-export OMARCHY_TEST_AARCH64=1
+export LUNAOS_TEST_AARCH64=1
 run_cli --check || fail "--check finds an ARM app seeded under the x86_64 name" "$(cat "$test_tmp/output")"
 : >"$test_tmp/events"
 run_cli --now || fail "--now accepts an ARM app seeded under the x86_64 name" "$(cat "$test_tmp/output")"
 [[ ! -s $test_tmp/events ]] || fail "an ARM app seeded under the x86_64 name is not set up again" "$(cat "$test_tmp/events")"
 [[ ! -e $runtime/apps/desktop/release/linux-arm64-unpacked ]] || fail "an ARM app seeded under the x86_64 name gains no second copy"
-unset OMARCHY_TEST_AARCH64
+unset LUNAOS_TEST_AARCH64
 pass "an ARM app seeded under the x86_64 name still counts"
 
 # New releases moved the stamp writer out of main. Keep the earlier cases on
@@ -725,7 +725,7 @@ printf 'raise AssertionError("legacy module imported after desktop split")\n' >"
 git -C "$test_tmp/seed" add hermes_cli/main.py
 git -C "$test_tmp/seed" -c user.name=Test -c user.email=test@example.invalid commit -qm split-desktop
 release_commit=$(git -C "$test_tmp/seed" rev-parse HEAD)
-export OMARCHY_TEST_RELEASE_COMMIT="$release_commit"
+export LUNAOS_TEST_RELEASE_COMMIT="$release_commit"
 printf '{"branch":"main","commit":"%s"}\n' "$release_commit" >"$test_tmp/package/resources/install-stamp.json"
 new_home split-desktop
 run_installer || fail "setup supports the relocated desktop helper" "$(cat "$test_tmp/output")"

@@ -21,7 +21,7 @@ Editorul de adnotare poate desena săgeți, linii, forme, evidențieri, marcaje 
 
 Capturile de ecran salvate ajung implicit în `~/Pictures/Screenshots`, cu un nume precum `screenshot-2026-08-13_14-22-05-firefox.png`. Setează `OMASNAP_SCREENSHOT_DIR` ca să folosești alt director — vezi [întrebările frecvente](46-faq.md) pentru locul în care să pui variabilele de mediu ale sesiunii. Omasnap creează directorul atunci când salvează prima captură. Setează `[output] autosave = false` în `~/.config/omasnap/omasnap.conf` ca să dezactivezi salvarea automată.
 
-Din terminal, `omarchy screenshot` deschide aceeași suprapunere și îi poți alege modul de pornire: `omarchy capture screenshot region`, `windows`, `fullscreen` sau `scroll`. Un al doilea argument, `copy` sau `save`, sare peste previzualizare și trimite captura direct la destinația aceea. Ca să editezi înainte de ieșire, folosește `omarchy screenshot --editor=overlay` pentru un editor pe tot ecranul sau `omarchy screenshot --editor=window` pentru o fereastră separată.
+Din terminal, `lunaos screenshot` deschide aceeași suprapunere și îi poți alege modul de pornire: `lunaos capture screenshot region`, `windows`, `fullscreen` sau `scroll`. Un al doilea argument, `copy` sau `save`, sare peste previzualizare și trimite captura direct la destinația aceea. Ca să editezi înainte de ieșire, folosește `lunaos screenshot --editor=overlay` pentru un editor pe tot ecranul sau `lunaos screenshot --editor=window` pentru o fereastră separată.
 
 ### Conducerea selectorului de la tastatură
 
@@ -40,9 +40,9 @@ Aceste mapări există doar cât Omasnap este deschis, așa că nu se pot ciocni
 
 ## Înregistrarea ecranului
 
-`Alt + Print Screen` deschide _Declanșator > Captură > Înregistrare ecran_, care întreabă ce vrei pe coloana sonoră: fără sunet, sunet desktop, desktop plus microfon sau desktop plus microfon plus webcam. Ultima apare doar dacă chiar ai o cameră conectată. Alege una și selectorul de înregistrare al Omarchy îți permite să tragi o regiune sau să faci clic pe o fereastră sau un monitor.
+`Alt + Print Screen` deschide _Declanșator > Captură > Înregistrare ecran_, care întreabă ce vrei pe coloana sonoră: fără sunet, sunet desktop, desktop plus microfon sau desktop plus microfon plus webcam. Ultima apare doar dacă chiar ai o cameră conectată. Alege una și selectorul de înregistrare al LunaOS îți permite să tragi o regiune sau să faci clic pe o fereastră sau un monitor.
 
-Înregistrarea rulează pe gpu-screen-recorder, care codează pe GPU la 60 fps și revine la CPU dacă trebuie. Rezultatul este un MP4 în `~/Videos`, numit `screenrecording-2026-08-13_14-22-05.mp4`. Setează `OMARCHY_SCREENRECORD_DIR` ca să schimbi asta — dar reține că, spre deosebire de directorul capturilor de ecran, acesta trebuie să existe deja, altfel înregistrarea refuză să pornească.
+Înregistrarea rulează pe gpu-screen-recorder, care codează pe GPU la 60 fps și revine la CPU dacă trebuie. Rezultatul este un MP4 în `~/Videos`, numit `screenrecording-2026-08-13_14-22-05.mp4`. Setează `LUNAOS_SCREENRECORD_DIR` ca să schimbi asta — dar reține că, spre deosebire de directorul capturilor de ecran, acesta trebuie să existe deja, altfel înregistrarea refuză să pornească.
 
 Cât înregistrezi, în bară apare un mic indicator. Fă clic pe el ca să oprești. Poți opri și cu `Alt + Print Screen` din nou sau cu intrarea _Oprește înregistrarea_ de sub _Declanșator > Captură > Înregistrare ecran_, care apare doar cât timp ceva înregistrează cu adevărat.
 
@@ -59,7 +59,7 @@ Atunci când înregistrezi cu o cameră web, camera apare ca o fereastră-portre
 
 Există trei dimensiuni — mică, medie și mare — iar scurtăturile pășesc între ele. Media este implicită. Sunt proporționale cu înregistrarea, astfel încât camera ocupă aceeași cotă din cadru fie că înregistrezi un monitor 1080p, fie unul 6K. Și, dacă ai înregistrat o regiune mai degrabă decât un întreg afișaj, suprapunerea se ancorează în colțul regiunii, mai degrabă decât în cel al monitorului, astfel încât rămâne în interiorul capturii.
 
-O poți apela și direct cu `omarchy-capture-webcam-resize small` sau cu `reset` ca să revii la medie.
+O poți apela și direct cu `lunaos-capture-webcam-resize small` sau cu `reset` ca să revii la medie.
 
 ## Text, coduri QR și culori
 
@@ -75,7 +75,7 @@ O înregistrare de ecran 4K sau un HEIC brut de pe telefon este adesea prea mare
 
 Imaginile ajung jpg sau png la calitate înaltă, medie sau joasă, care limitează lățimea la 3160, 2160 și 1080 de pixeli. Videoclipurile ajung mp4 sau un gif animat la 4k, 1080p sau 720p. Fișierul convertit este scris lângă original, cu rezoluția în nume — `demo-1080p.mp4` — iar calea este copiată pe clipboard ca URI de fișier, astfel încât o poți lipi direct într-o aplicație care acceptă fișiere trăsnite.
 
-Funcționează și din terminal, dacă știi deja ce vrei: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Există și `omarchy transcode ascii`, care transformă o imagine în artă ASCII — aceea este mai ales pentru [branding](41-branding.md).
+Funcționează și din terminal, dacă știi deja ce vrei: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Există și `lunaos transcode ascii`, care transformă o imagine în artă ASCII — aceea este mai ales pentru [branding](41-branding.md).
 
 ## Trimiterea undeva
 

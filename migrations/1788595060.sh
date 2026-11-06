@@ -1,4 +1,4 @@
 echo "Register the Chromium extension native messaging hosts for Brave Origin"
 
-omarchy-install-chromium-copy-url
-omarchy-install-chromium-ytdlp
+lunaos-install-chromium-copy-url
+lunaos-install-chromium-ytdlp

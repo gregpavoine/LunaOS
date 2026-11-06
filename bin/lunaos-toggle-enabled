@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# lunaos:summary=Check if a toggle is enabled (flag file exists)
+# lunaos:args=<flag-name>
+
+[[ -f "$HOME/.local/state/lunaos/toggles/$1" ]]

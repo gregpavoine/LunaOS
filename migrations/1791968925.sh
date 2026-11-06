@@ -10,17 +10,17 @@ echo "Write the bar's tray where the bar drew it"
 #
 # A replacement bar (a clone of the built-in one, or a third party's) reads the
 # layout the way it was written for, so its config is left as it is.
-config_file="$HOME/.config/omarchy/shell.json"
+config_file="$HOME/.config/lunaos/shell.json"
 if [[ -s $config_file ]] && jq -e '
-  (.bar | type) == "object" and ((.bar.id // "" | tostring) | IN("", "omarchy.bar")) and (.bar.layout | type) == "object"
+  (.bar | type) == "object" and ((.bar.id // "" | tostring) | IN("", "lunaos.bar")) and (.bar.layout | type) == "object"
 ' "$config_file" >/dev/null; then
   tmp=$(mktemp)
   jq '
     def entry_id: if type == "object" then (.id // "" | tostring) else tostring end;
     def pin($first):
       if type == "array" then
-        map(select(entry_id == "omarchy.tray"))[-1:] as $tray
-        | map(select(entry_id != "omarchy.tray")) as $rest
+        map(select(entry_id == "lunaos.tray"))[-1:] as $tray
+        | map(select(entry_id != "lunaos.tray")) as $rest
         | if $first then $tray + $rest else $rest + $tray end
       end;
 

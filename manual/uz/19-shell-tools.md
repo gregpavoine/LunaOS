@@ -1,6 +1,6 @@
 # Shell vositalari
 
-Standart Linux vositalaridan tashqari, Omarchy bir qator takomillashtirilgan shell vositalari bilan ham keladi. Asosiylari mana.
+Standart Linux vositalaridan tashqari, LunaOS bir qator takomillashtirilgan shell vositalari bilan ham keladi. Asosiylari mana.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Toʻliq qoʻllanmani `man fzf` orqali topish mumkin.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) cd ning oʻrnini bosuvchi vositadir. U siz boʻlgan kataloglarni eslab qoladi, shuning uchun keyingi safar ularga osonroq sakrashingiz mumkin. Aytaylik, bir marta `cd ~/.config/omarchy` qilasiz. Keyingi safar shunchaki `cd omarchy` (yoki hatto shunchaki `cd oma`) qilishingiz mumkin va Zoxide sizni toʻgʻridan-toʻgʻri u yerga olib boradi.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) cd ning oʻrnini bosuvchi vositadir. U siz boʻlgan kataloglarni eslab qoladi, shuning uchun keyingi safar ularga osonroq sakrashingiz mumkin. Aytaylik, bir marta `cd ~/.config/lunaos` qilasiz. Keyingi safar shunchaki `cd lunaos` (yoki hatto shunchaki `cd oma`) qilishingiz mumkin va Zoxide sizni toʻgʻridan-toʻgʻri u yerga olib boradi.
 
 Toʻliq qoʻllanmani `man zoxide` orqali topish mumkin.
 
@@ -58,4 +58,4 @@ Toʻliq qoʻllanmani `man yt-dlp` orqali topish mumkin.
 
 [try](https://github.com/tobi/try) sana tamgʻalangan kataloglar bilan dasturlash tajribalarini boshqarishni osonlashtiradi. Barcha tajribalar `~/Work/tries` da yashaydi va ularga `try` orqali kirishingiz mumkin.
 
-Omarchy loyihaning `bin/` katalogini `PATH` ga avtomatik qoʻshmaydi. Ishonchli loyiha-mahalliy vositalarni `bin/rails` yoki `./bin/dev` kabi aniq nisbiy yoʻl bilan ishga tushiring.
+LunaOS loyihaning `bin/` katalogini `PATH` ga avtomatik qoʻshmaydi. Ishonchli loyiha-mahalliy vositalarni `bin/rails` yoki `./bin/dev` kabi aniq nisbiy yoʻl bilan ishga tushiring.

@@ -1,14 +1,14 @@
 # Ang Top Bar
 
-Ang strip sa tuktok ng iyong screen ay ang bar ng Omarchy. Hindi ito isang ikinabit lang na status bar kundi bahagi ng shell ng Omarchy, ang nag-iisang matagal na tumatakbong proseso ng Quickshell na gumuguhit din ng menu, mga notipikasyon, mga popup na OSD, at ng lock screen. Kaya perpekto itong nagti-tema kasama ng lahat ng iba pa at kaya mabilis na bumubukas ang isang panel sa halip na maglunsad ng bagong app.
+Ang strip sa tuktok ng iyong screen ay ang bar ng LunaOS. Hindi ito isang ikinabit lang na status bar kundi bahagi ng shell ng LunaOS, ang nag-iisang matagal na tumatakbong proseso ng Quickshell na gumuguhit din ng menu, mga notipikasyon, mga popup na OSD, at ng lock screen. Kaya perpekto itong nagti-tema kasama ng lahat ng iba pa at kaya mabilis na bumubukas ang isang panel sa halip na maglunsad ng bagong app.
 
 Ito rin ang nag-iisang bahagi ng desktop na palaging nasa screen, kaya sulit na malaman kung ano ang ginagawa ng lahat ng maliliit na glyph na iyon.
 
 ## Ano ang nasa ibabaw nito bilang default
 
-May tatlong seksyon ang bar. Sa kaliwa nakaupo ang logo ng Omarchy (ang launcher ng menu) at ang mga indikator ng workspace. Sa gitna, makukuha mo ang mga status indicator, ang orasan, Elsewhen (isang world clock), ang panahon, at isang badge ng update ng Omarchy. Sa kanan: ang layout ng keyboard (kapag higit sa isa ang naka-configure), ang system tray, mga agent, bluetooth, network, audio, display, at power.
+May tatlong seksyon ang bar. Sa kaliwa nakaupo ang logo ng LunaOS (ang launcher ng menu) at ang mga indikator ng workspace. Sa gitna, makukuha mo ang mga status indicator, ang orasan, Elsewhen (isang world clock), ang panahon, at isang badge ng update ng LunaOS. Sa kanan: ang layout ng keyboard (kapag higit sa isa ang naka-configure), ang system tray, mga agent, bluetooth, network, audio, display, at power.
 
-Ilan sa mga iyon ay lumalabas lang kapag mayroon silang gustong sabihin. Lumalabas lang ang layout ng keyboard kung nakapag-configure ka ng higit sa isang layout. Lumalabas lang ang badge ng update kapag may naghihintay na update ng Omarchy. At lumalabas ang icon ng mga agent sa unang pagkakataong makahanap ang Omarchy ng paggamit ng AI coding sa makina (tingnan ang [AI](17-ai.md)).
+Ilan sa mga iyon ay lumalabas lang kapag mayroon silang gustong sabihin. Lumalabas lang ang layout ng keyboard kung nakapag-configure ka ng higit sa isang layout. Lumalabas lang ang badge ng update kapag may naghihintay na update ng LunaOS. At lumalabas ang icon ng mga agent sa unang pagkakataong makahanap ang LunaOS ng paggamit ng AI coding sa makina (tingnan ang [AI](17-ai.md)).
 
 ## Pag-click sa paligid
 
@@ -16,7 +16,7 @@ Halos bawat widget ay may ginagawa sa kaliwa, kanan, at gitnang click, at marami
 
 | Widget | Kaliwa | Kanan | Gitna / scroll |
 | --- | --- | --- | --- |
-| Menu | Menu ng Omarchy | Bagong terminal | — |
+| Menu | Menu ng LunaOS | Bagong terminal | — |
 | Mga Workspace | I-focus ang workspace na iyon | — | Scroll: susunod/nakaraang workspace |
 | Orasan | Popup ng kalendaryo | I-cycle ang format ng label | Gitna: tagapili ng timezone |
 | Panahon | Popup ng forecast | Buong panahon bilang notipikasyon | Gitna: i-refresh |
@@ -29,7 +29,7 @@ Halos bawat widget ay may ginagawa sa kaliwa, kanan, at gitnang click, at marami
 | Media | I-play/i-pause | Popup ng cover art | Gitna: susunod · scroll: nakaraan/susunod |
 | Mga Agent | Panel ng mga agent | Ilunsad ang iyong agent | Gitna: susunod na subscription |
 | Tray | I-hover para ipakita ang drawer | I-right-click ang chevron para pamahalaan | — |
-| Update ng Omarchy | Patakbuhin ang update | — | — |
+| Update ng LunaOS | Patakbuhin ang update | — | — |
 
 Hindi lahat ng nasa talahanayang iyon ay nasa iyong bar mula sa simula. Ang widget ng media (MPRIS now-playing, na may scrolling na track at artist) at ang widget ng mikropono ay parehong built-in ngunit naka-off bilang default — idagdag ang mga ito kung gusto mo, tulad ng inilalarawan sa ibaba.
 
@@ -65,7 +65,7 @@ Binibilang ng `Super + Ctrl + 1-9` ang mga panel mula kaliwa papunta sa kanan sa
 
 Dalawa pang widget ang lumalabas sa bar kapag ini-install mo ang katugmang serbisyo mula sa **I-install → Serbisyo**, at parehong sulit malaman dahil higit pa sa pag-uulat ng status ang ginagawa ng mga ito.
 
-Kinukonekta at dinidiskonekta ng panel ng **Tailscale** ang tailnet, nagpapalit sa pagitan ng mga account, at pumipili ng exit node (ang iyong sariling mga makina at mga rehiyon ng Mullvad ay parehong lumalabas sa listahang iyon). Nagba-browse din ito ng iyong mga makina — at kapag may napili, ang `s` ay nagpapadala ng mga file dito sa pamamagitan ng Taildrop, na siyang pinakamabilis na paraan para ilipat ang isang file sa iyong telepono o ibang laptop. Kinokopya ng `c` ang IP ng makina, ng `n` ang pangalan nito, at ng `d` ang buong DNS name nito. Mayroon ding send button sa bawat row ng makina, kung mas gusto mong mag-click. Ang parehong bagay mula sa terminal ay `omarchy tailscale send <machine> [file...]`.
+Kinukonekta at dinidiskonekta ng panel ng **Tailscale** ang tailnet, nagpapalit sa pagitan ng mga account, at pumipili ng exit node (ang iyong sariling mga makina at mga rehiyon ng Mullvad ay parehong lumalabas sa listahang iyon). Nagba-browse din ito ng iyong mga makina — at kapag may napili, ang `s` ay nagpapadala ng mga file dito sa pamamagitan ng Taildrop, na siyang pinakamabilis na paraan para ilipat ang isang file sa iyong telepono o ibang laptop. Kinokopya ng `c` ang IP ng makina, ng `n` ang pangalan nito, at ng `d` ang buong DNS name nito. Mayroon ding send button sa bawat row ng makina, kung mas gusto mong mag-click. Ang parehong bagay mula sa terminal ay `lunaos tailscale send <machine> [file...]`.
 
 Pinangangasiwaan ng panel ng **Dropbox** ang pag-login, ipinapakita kung gaano karaming storage ang nagamit mo, at inililista ang mga kamakailang na-sync na file.
 
@@ -90,19 +90,19 @@ Kung mas gusto mong pumili mula sa isang menu, ang **Mag-trigger → Hitsura →
 Ang parehong mga bagay ay may mga command, na siyang gusto mo para sa isang [dotfiles](31-dotfiles.md) na setup:
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Para magdagdag o mag-alis ng isang widget nang buo, gamitin ang mga command ng plugin. Ini-print ng `omarchy plugin list` ang bawat widget na kilala ng shell kasama ang id nito, at pagkatapos:
+Para magdagdag o mag-alis ng isang widget nang buo, gamitin ang mga command ng plugin. Ini-print ng `lunaos plugin list` ang bawat widget na kilala ng shell kasama ang id nito, at pagkatapos:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Pagtatago ng bar
@@ -111,7 +111,7 @@ Ini-toggle ng `Super + Shift + Space` ang bar off at on muli nang hindi pinapata
 
 ## Ang config file
 
-Ang lahat ng ito ay nakaimbak sa `~/.config/omarchy/shell.json`, sa ilalim ng `bar` key. Narito ang isang pinaikling bersyon:
+Ang lahat ng ito ay nakaimbak sa `~/.config/lunaos/shell.json`, sa ilalim ng `bar` key. Narito ang isang pinaikling bersyon:
 
 ```json
 {
@@ -119,20 +119,20 @@ Ang lahat ng ito ay nakaimbak sa `~/.config/omarchy/shell.json`, sa ilalim ng `b
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Bawat widget ay isang entry sa isa sa tatlong layout array, at ang mga setting nito ay nakaupo nang inline sa entry na iyon — walang hiwalay na settings file at walang `config` na sub-object. Ang `format` ng orasan, ang `formatAlt` (kung saan nag-cycle ang right-click), at ang `verticalFormat` ay lahat nakatira roon sa `{ "id": "omarchy.clock" }`.
+Bawat widget ay isang entry sa isa sa tatlong layout array, at ang mga setting nito ay nakaupo nang inline sa entry na iyon — walang hiwalay na settings file at walang `config` na sub-object. Ang `format` ng orasan, ang `formatAlt` (kung saan nag-cycle ang right-click), at ang `verticalFormat` ay lahat nakatira roon sa `{ "id": "lunaos.clock" }`.
 
 Pinapangalanan ng `centerAnchor` ang nag-iisang center widget na napipinned sa eksaktong gitna ng screen, habang ang iba ay nasa gilid nito. Ganiyan nananatiling nasa pinakagitna ang orasan kahit dumarating at umaalis ang panahon at badge ng update. Itakda ito sa isang empty string at ang center list ay isesentro na lang bilang isang grupo.
 
-Isang panuntunan na sulit tandaan: **kapag mayroon ka nang sarili mong `shell.json`, ito ay canonical**. Hanggang wala ka pang kino-customize, binabasa ng shell ang default file ng Omarchy. Sa sandaling mag-drag ka ng widget, magpatakbo ng `omarchy bar`, o mag-edit ng file mismo, sa iyo na ito — walang deep merge, kaya ang mga bagong default widget sa mga susunod na release ng Omarchy ay hindi awtomatikong lalabas sa iyong bar. Ibinabalik ng `omarchy bar defaults` ang shipped na layout tuwing gusto mo ng malinis na simula.
+Isang panuntunan na sulit tandaan: **kapag mayroon ka nang sarili mong `shell.json`, ito ay canonical**. Hanggang wala ka pang kino-customize, binabasa ng shell ang default file ng LunaOS. Sa sandaling mag-drag ka ng widget, magpatakbo ng `lunaos bar`, o mag-edit ng file mismo, sa iyo na ito — walang deep merge, kaya ang mga bagong default widget sa mga susunod na release ng LunaOS ay hindi awtomatikong lalabas sa iyong bar. Ibinabalik ng `lunaos bar defaults` ang shipped na layout tuwing gusto mo ng malinis na simula.
 
 Ang parehong file ay naglalaman din ng iyong mga idle timing sa top level, sa labas ng `bar` key: `idle.screensaver` at `idle.lock`, parehong sa segundo mula nang maging idle ka. Kaya ang default na screensaver ay nagsisimula sa 150 segundo at ang lock sa 300.

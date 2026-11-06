@@ -1,6 +1,6 @@
 # Orodja lupine
 
-Poleg standardnih orodij Linuxa Omarchy dobavlja tudi kup izboljšanih orodij lupine. Tu so ključna.
+Poleg standardnih orodij Linuxa LunaOS dobavlja tudi kup izboljšanih orodij lupine. Tu so ključna.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Celoten priročnik najdete prek `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) je zamenjava za cd. Zapomni si mape, v katerih ste bili, da lahko naslednjič lažje skočite vanje. Recimo, da enkrat izvedete `cd ~/.config/omarchy`. Naslednjič lahko preprosto izvedete `cd omarchy` (ali celo samo `cd oma`) in Zoxide vas bo odpeljal neposredno tja.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) je zamenjava za cd. Zapomni si mape, v katerih ste bili, da lahko naslednjič lažje skočite vanje. Recimo, da enkrat izvedete `cd ~/.config/lunaos`. Naslednjič lahko preprosto izvedete `cd lunaos` (ali celo samo `cd oma`) in Zoxide vas bo odpeljal neposredno tja.
 
 Celoten priročnik najdete prek `man zoxide`.
 
@@ -58,4 +58,4 @@ Celoten priročnik najdete prek `man yt-dlp`.
 
 [try](https://github.com/tobi/try) olajša upravljanje programskih poskusov z mapami z datumskimi žigi. Vsi poskusi živijo v `~/Work/tries` in do njih dostopate prek `try`.
 
-Omarchy ne doda mape `bin/` projekta v `PATH` samodejno. Zaupanja vredna projektno lokalna orodja zaganjajte z eksplicitno relativno potjo, na primer `bin/rails` ali `./bin/dev`.
+LunaOS ne doda mape `bin/` projekta v `PATH` samodejno. Zaupanja vredna projektno lokalna orodja zaganjajte z eksplicitno relativno potjo, na primer `bin/rails` ali `./bin/dev`.

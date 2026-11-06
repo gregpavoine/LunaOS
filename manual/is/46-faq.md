@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ Stikan mun sjálfkrafa sýna núverandi lyklaborðskipan þína þegar þú hefu
 Hægrismelltu á klukkuna á stikunni til að sigla í gegnum algengu sniðin, þar á meðal 12 stunda sniðin. Þú getur líka stillt sniðið beint:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Þetta mun sýna Sunday 10:55 AM.
 
 ### Hvernig breyti ég tímabelti mínu?
 
-Keyrðu _Uppfæra > Tímabelti_ í Omarchy-valmyndinni og veldu af listanum. Ef tímabeltið er rétt en klukkan sjálf hefur rekið endurræsir _Uppfæra > Tími_ tímasamstillinguna fyrir þig.
+Keyrðu _Uppfæra > Tímabelti_ í LunaOS-valmyndinni og veldu af listanum. Ef tímabeltið er rétt en klukkan sjálf hefur rekið endurræsir _Uppfæra > Tími_ tímasamstillinguna fyrir þig.
 
 ### Hvernig breyti ég DNS mínu, deili Wi-Fi netinu mínu eða athuga tengingarhraðann minn?
 
@@ -36,11 +36,11 @@ Keyrðu _Uppfæra > Tímabelti_ í Omarchy-valmyndinni og veldu af listanum. Ef 
 
 ### Hvernig athuga ég hversu hraður diskurinn minn er?
 
-_Kveikja > Hraðapróf > Diskahraðapróf_ mælir lifandi lestrar- og skrifhraða á drifinu þínu, eða `omarchy disk speedtest` úr terminal.
+_Kveikja > Hraðapróf > Diskahraðapróf_ mælir lifandi lestrar- og skrifhraða á drifinu þínu, eða `lunaos disk speedtest` úr terminal.
 
 ### Af hverju get ég ekki skráð mig inn á Google reikninginn minn í Chromium?
 
-Einfalda opna Chromium byggingin flytur ekki með sér OAuth skilríkin sem Google krefst fyrir reikningsinnskráningu. Keyrðu _Setja upp > Þjónusta > Chromium-reikningur_ í Omarchy-valmyndinni til að bæta þeim við, endurræstu vafrann og innskráningin mun ganga í gegn.
+Einfalda opna Chromium byggingin flytur ekki með sér OAuth skilríkin sem Google krefst fyrir reikningsinnskráningu. Keyrðu _Setja upp > Þjónusta > Chromium-reikningur_ í LunaOS-valmyndinni til að bæta þeim við, endurræstu vafrann og innskráningin mun ganga í gegn.
 
 ### Hvernig bæti ég við prentara?
 
@@ -60,15 +60,15 @@ Vistaðar skjámyndir fara sjálfgefið í `~/Pictures/Screenshots`. Til að not
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Þú getur gert það sama fyrir skjáupptökur með `OMARCHY_SCREENRECORD_DIR`.
+Þú getur gert það sama fyrir skjáupptökur með `LUNAOS_SCREENRECORD_DIR`.
 
-Omasnap býr til skjámyndamöppu sína sjálfkrafa. Búðu til skjáupptökumöppuna sjálfur og endurræstu svo Omarchy til að hvor umhverfisbreytingin sem er taki gildi.
+Omasnap býr til skjámyndamöppu sína sjálfkrafa. Búðu til skjáupptökumöppuna sjálfur og endurræstu svo LunaOS til að hvor umhverfisbreytingin sem er taki gildi.
 
 ### Hvernig fæ ég hátalarana + vefmyndavélina til að virka á Apple Studio Display mínum?
 
 Þú myndir halda að allt ætti bara að virka með því að stinga USB C í samband, en því miður er það ekki svo. Lausnin sem ég hef fundið til að láta þetta virka áreiðanlega er að nota [WJESOG DisplayPort + USB-A => USB-C snúruna](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/). Þá virka hátalarar og vefmyndavél eins og í sögu.
 
-Mundu að þú hefur innbyggða birtustýringu í Omarchy fyrir Apple skjáina (bæði Studio og XDR) með venjulegu birtu takkunum á lyklaborðinu.
+Mundu að þú hefur innbyggða birtustýringu í LunaOS fyrir Apple skjáina (bæði Studio og XDR) með venjulegu birtu takkunum á lyklaborðinu.
 
 ### Hvernig losna ég við allan auka hugbúnaðinn?
 
@@ -76,7 +76,7 @@ Ef þú vilt ekki forrit eins og Obsidian eða LibreOffice eða neitt af öðru 
 
 Keyrðu _Fjarlægja > Pakki_ til að sjá sérhvern pakka sem er uppsettur. Þá geturðu valið sérhvern pakka sem þú vilt fjarlægja með tab og byrjað að fjarlægja allt sem þú hefur valið með return.
 
-Og þú getur notað _Fjarlægja > Vefforrit_ í Omarchy-valmyndinni til að fjarlægja sérhvert af foruppsettum vefforritunum sem þú vilt ekki.
+Og þú getur notað _Fjarlægja > Vefforrit_ í LunaOS-valmyndinni til að fjarlægja sérhvert af foruppsettum vefforritunum sem þú vilt ekki.
 
 Eða keyrðu _Fjarlægja > Foruppsett_ til að sópa út öllum foruppsettum aukahlutunum — vefforritum, TUI-um og valkvæðum forritum — í einum vetvangi. Flýtilyklarnir sem ræstu þau hverfa með þeim, svo þú situr eftir með hreint borð af bindingum til að fylla með þínum eigin í `~/.config/hypr/bindings.lua`.
 

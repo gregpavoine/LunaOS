@@ -9,7 +9,7 @@ const fs = require('fs')
 const bar = requireFromRoot('shell/plugins/bar/BarModel.js')
 const barSource = fs.readFileSync(root + '/shell/plugins/bar/Bar.qml', 'utf8')
 const styleSource = fs.readFileSync(root + '/shell/Commons/Style.qml', 'utf8')
-const shellJson = fs.readFileSync(root + '/config/omarchy/shell.json', 'utf8')
+const shellJson = fs.readFileSync(root + '/config/lunaos/shell.json', 'utf8')
 
 // A platform package's cutout description, as it would ship it.
 const cutouts = bar.parseCutouts(JSON.stringify({ panels: [
@@ -94,7 +94,7 @@ assert(
   'bar reads the description as the shell starts, before its surfaces map, and a removed file describes nothing'
 )
 assert(!/_PACKAGED_PATH|packagedPath/.test(barSource), 'no environment variable moves the cutout description')
-assert(!/omarchy-hw-/.test(barSource), 'bar asks no hardware detector')
+assert(!/lunaos-hw-/.test(barSource), 'bar asks no hardware detector')
 assert(
   /BarModel\.notchFloor\(root\.displayCutouts, root\.position, screen\.name, screen\.width, screen\.height, screen\.devicePixelRatio, root\.panelModeFor\(screen\), Style\.bar\.notchHeight\)/.test(barSource),
   'bar derives the floor from its own screen geometry, its mode and the calibration'
@@ -245,9 +245,9 @@ assertEqual(stateBarSizeFor(copy, 26, 'HDMI-A-1'), 26, 'a plugin falls back to b
 assertEqual(stateBarSizeFor({}, 26, 'eDP-1'), 26, 'a plugin under a bar without per-screen sizes gets barSize')
 
 const parsed = JSON.parse(shellJson)
-assertDeepEqual(parsed.bar.layout.center.map(bar.entryId), ['omarchy.clock'], 'shipped bar layout centers the clock on its own')
+assertDeepEqual(parsed.bar.layout.center.map(bar.entryId), ['lunaos.clock'], 'shipped bar layout centers the clock on its own')
 assert(
-  JSON.stringify(parsed.bar.layout.centerBegin).indexOf('omarchy.indicators') >= 0,
+  JSON.stringify(parsed.bar.layout.centerBegin).indexOf('lunaos.indicators') >= 0,
   'shipped bar layout still keeps the default center widgets'
 )
 JS

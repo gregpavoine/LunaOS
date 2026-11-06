@@ -2,7 +2,7 @@
 
 Obično na Linuxu trebate `Ctrl + Shift + C/V` za kopiranje i lijepljenje u terminalu i `Ctrl + C/V` da to radite posvuda drugdje. Na to se teško naviknuti svakome tko nije rođen i odgojen na Linuxu! Isto vrijedi i za prelazak sa Super na Ctrl ako dolazite s Maca.
 
-Omarchy rješava oba problema jedinstvenim prečacima za međuspremnik koji rade (gotovo) posvuda. Oni su:
+LunaOS rješava oba problema jedinstvenim prečacima za međuspremnik koji rade (gotovo) posvuda. Oni su:
 
 | Prečac | Naredba |
 | ------- | ----------- |
@@ -15,7 +15,7 @@ _Imajte na umu da će većina okvira za agente koristiti `Ctrl + V` za lijepljen
 
 ### Povijest međuspremnika
 
-Povijest međuspremnika pruža Omarchy ljuska i radi i za tekst i za slike. Pokrećete je prečacom `Super + Ctrl + V`, odabirete unos tipkom Enter, a zatim će on biti smješten u međuspremnik spreman za lijepljenje prečacom `Super + V`.
+Povijest međuspremnika pruža LunaOS ljuska i radi i za tekst i za slike. Pokrećete je prečacom `Super + Ctrl + V`, odabirete unos tipkom Enter, a zatim će on biti smješten u međuspremnik spreman za lijepljenje prečacom `Super + V`.
 
  ![clipboard-history](images/clipboard-history.webp)
 

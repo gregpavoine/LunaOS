@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# lunaos:summary=Compatibility wrapper for lunaos-migrate-notify.
+# lunaos:hidden=true
+
+exec lunaos-migrate-notify "$@"

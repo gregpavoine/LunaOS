@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ Lišta automaticky ukáže vaše aktuálne rozloženie klávesnice, keď budete 
 Pravým tlačidlom myši kliknite na hodiny v lište, ak chcete prechádzať bežnými formátmi vrátane 12-hodinových. Formát môžete nastaviť aj priamo:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Tým sa zobrazí Sunday 10:55 AM.
 
 ### Ako zmením svoje časové pásmo?
 
-Spustite _Aktualizovať > Timezone_ v ponuke Omarchy a vyberte zo zoznamu. Ak je časové pásmo správne, ale hodiny samotné sa posunuli, _Aktualizovať > Time_ za vás reštartuje synchronizáciu času.
+Spustite _Aktualizovať > Timezone_ v ponuke LunaOS a vyberte zo zoznamu. Ak je časové pásmo správne, ale hodiny samotné sa posunuli, _Aktualizovať > Time_ za vás reštartuje synchronizáciu času.
 
 ### Ako zmením svoje DNS, zdieľam svoju Wi-Fi alebo skontrolujem rýchlosť pripojenia?
 
@@ -36,11 +36,11 @@ To všetko nájdete v časti [siete](35-networking.md).
 
 ### Ako skontrolujem, ako rýchly je môj disk?
 
-_Akcie > Test rýchlosti > Test rýchlosti disku_ meria aktuálnu rýchlosť čítania a zápisu na vašom disku, alebo `omarchy disk speedtest` z terminálu.
+_Akcie > Test rýchlosti > Test rýchlosti disku_ meria aktuálnu rýchlosť čítania a zápisu na vašom disku, alebo `lunaos disk speedtest` z terminálu.
 
 ### Prečo sa nemôžem prihlásiť do svojho účtu Google v prehliadači Chromium?
 
-Bežná open source zostava Chromium sa nedodáva s prihlasovacími údajmi OAuth, ktoré Google vyžaduje na prihlásenie do účtu. Spustite _Inštalovať > Service > Chromium Account_ v ponuke Omarchy, ak ich chcete pridať, reštartujte prehliadač a prihlásenie prejde.
+Bežná open source zostava Chromium sa nedodáva s prihlasovacími údajmi OAuth, ktoré Google vyžaduje na prihlásenie do účtu. Spustite _Inštalovať > Service > Chromium Account_ v ponuke LunaOS, ak ich chcete pridať, reštartujte prehliadač a prihlásenie prejde.
 
 ### Ako pridám tlačiareň?
 
@@ -60,15 +60,15 @@ Uložené snímky obrazovky predvolene idú do `~/Pictures/Screenshots`. Ak chce
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Rovnako môžete urobiť pre nahrávky obrazovky pomocou `OMARCHY_SCREENRECORD_DIR`.
+Rovnako môžete urobiť pre nahrávky obrazovky pomocou `LUNAOS_SCREENRECORD_DIR`.
 
-Omasnap si adresár snímok obrazovky vytvorí automaticky. Adresár nahrávok obrazovky si vytvorte sami a potom reštartujte Omarchy, aby sa ktorákoľvek zmena prostredia prejavila.
+Omasnap si adresár snímok obrazovky vytvorí automaticky. Adresár nahrávok obrazovky si vytvorte sami a potom reštartujte LunaOS, aby sa ktorákoľvek zmena prostredia prejavila.
 
 ### Ako dosiahnem, aby fungovali reproduktory + webkamera na mojom Apple Studio Display?
 
 Človek by si myslel, že by to všetko malo fungovať len zapojením USB C, ale bohužiaľ to tak nie je. Riešenie, ktoré som našiel, aby to spoľahlivo fungovalo, je použiť [kábel WJESOG DisplayPort + USB-A => USB-C](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/). Potom reproduktory a webkamera fungujú ako hodinky.
 
-Pamätajte, že jas displejov Apple (Studio aj XDR) máte v Omarchy vstavane ovládateľný pomocou bežných tlačidiel jasu na klávesnici.
+Pamätajte, že jas displejov Apple (Studio aj XDR) máte v LunaOS vstavane ovládateľný pomocou bežných tlačidiel jasu na klávesnici.
 
 ### Ako sa zbavím všetkého dodatočného softvéru?
 
@@ -76,7 +76,7 @@ Ak nechcete programy ako Obsidian alebo LibreOffice ani žiadne iné predinštal
 
 Spustite _Odstrániť > Package_, ak chcete vidieť každý nainštalovaný balík. Potom môžete klávesom tab vybrať každý balík, ktorý chcete odstrániť, a klávesom Enter začať odstraňovať všetko, čo ste vybrali.
 
-A z ponuky Omarchy môžete použiť _Odstrániť > Web App_ na odstránenie ľubovoľných predinštalovaných webových aplikácií, ktoré nechcete.
+A z ponuky LunaOS môžete použiť _Odstrániť > Web App_ na odstránenie ľubovoľných predinštalovaných webových aplikácií, ktoré nechcete.
 
 Alebo spustite _Odstrániť > Preinstalls_, ak chcete na jeden raz vymiesť všetky predinštalované doplnky — webové aplikácie, TUI a voliteľné aplikácie. Klávesové skratky, ktoré ich spúšťali, s nimi odídu tiež, takže vám zostane čistý stôl väzieb, ktoré môžete zaplniť vlastnými v `~/.config/hypr/bindings.lua`.
 

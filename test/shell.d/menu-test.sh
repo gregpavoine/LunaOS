@@ -8,21 +8,21 @@ run_node_test <<'JS'
 const fs = require('fs')
 const menu = requireFromRoot('shell/plugins/menu/MenuModel.js')
 const menuQml = fs.readFileSync(path.join(root, 'shell/plugins/menu/Menu.qml'), 'utf8')
-const defaultMenuJsonc = fs.readFileSync(path.join(root, 'default/omarchy/omarchy-menu.jsonc'), 'utf8')
+const defaultMenuJsonc = fs.readFileSync(path.join(root, 'default/lunaos/lunaos-menu.jsonc'), 'utf8')
 
 assertDeepEqual(
-  menu.summonAction("omarchy-shell shell summon omarchy.speedtest"),
-  { id: 'omarchy.speedtest', payload: '{}' },
+  menu.summonAction("lunaos-shell shell summon lunaos.speedtest"),
+  { id: 'lunaos.speedtest', payload: '{}' },
   'menu runs a bare summon action in-process'
 )
 assertDeepEqual(
-  menu.summonAction(`omarchy-shell shell summon omarchy.image-picker '{"source":"themes"}'`),
-  { id: 'omarchy.image-picker', payload: '{"source":"themes"}' },
+  menu.summonAction(`lunaos-shell shell summon lunaos.image-picker '{"source":"themes"}'`),
+  { id: 'lunaos.image-picker', payload: '{"source":"themes"}' },
   'menu keeps a single-quoted summon payload'
 )
-assertEqual(menu.summonAction("omarchy-shell shell summon omarchy.speedtest && echo done"), null, 'menu leaves compound summon commands to bash')
-assertEqual(menu.summonAction(`omarchy-shell shell summon omarchy.x "$(id)"`), null, 'menu leaves shell-expanded payloads to bash')
-assertEqual(menu.summonAction("omarchy-theme-set nord"), null, 'menu leaves ordinary actions to bash')
+assertEqual(menu.summonAction("lunaos-shell shell summon lunaos.speedtest && echo done"), null, 'menu leaves compound summon commands to bash')
+assertEqual(menu.summonAction(`lunaos-shell shell summon lunaos.x "$(id)"`), null, 'menu leaves shell-expanded payloads to bash')
+assertEqual(menu.summonAction("lunaos-theme-set nord"), null, 'menu leaves ordinary actions to bash')
 assert(
   /var summon = MenuModel\.summonAction\(command\)\s*if \(summon && root\.shell && root\.shell\.summon\(summon\.id, summon\.payload\)\) return\s*Util\.execDetached\(command\)/.test(menuQml),
   'menu falls back to bash when an in-process summon is refused'
@@ -38,7 +38,7 @@ const parsed = menu.parseMenuJsonc(`
       "label": "Themes",
       "aliases": "theme",
       "description": "appearance colors",
-      "action": "omarchy-theme-set"
+      "action": "lunaos-theme-set"
     },
   },
 }
@@ -57,7 +57,7 @@ assertDeepEqual(
     title: '',
     target: '',
     description: 'appearance colors',
-    action: 'omarchy-theme-set',
+    action: 'lunaos-theme-set',
     provider: '',
     aliases: ['theme'],
     searchTerms: [],
@@ -70,7 +70,7 @@ assertDeepEqual(
 
 // A watched file read mid-write must keep the rows already there, never
 // replace them with nothing, or the menu opens empty until the shell restarts.
-const shippedMenu = fs.readFileSync(path.join(root, 'default/omarchy/omarchy-menu.jsonc'), 'utf8')
+const shippedMenu = fs.readFileSync(path.join(root, 'default/lunaos/lunaos-menu.jsonc'), 'utf8')
 const goodRows = menu.parseMenuJsonc(shippedMenu)
 assert(goodRows.length > 0, 'menu reads the shipped file')
 assertEqual(menu.keepMenuRows(goodRows, shippedMenu.slice(0, Math.floor(shippedMenu.length / 2)), true), goodRows, 'menu keeps its rows when the shipped file is read half-written')
@@ -116,7 +116,7 @@ assert(menu.isVisible(visibilityItems, visibilityOrder, {}, visibilityItems.dyna
 
 // `disabled:` is the softer guard: the row stays listed and only loses the
 // cursor, which is how an already-installed app keeps its place in Install.
-const installed = menu.normalizeItem('install.browser.zen', { label: 'Zen', disabled: 'omarchy-pkg-present zen-browser-bin', action: 'install-zen' })
+const installed = menu.normalizeItem('install.browser.zen', { label: 'Zen', disabled: 'lunaos-pkg-present zen-browser-bin', action: 'install-zen' })
 assert(menu.isVisible({ 'install.browser.zen': installed }, ['install.browser.zen'], { 'install.browser.zen': false }, installed), 'menu keeps a disabled row visible')
 assert(menu.isDisabled({ 'install.browser.zen': true }, installed), 'menu disables a row whose disabled: succeeded')
 assert(!menu.isDisabled({ 'install.browser.zen': false }, installed), 'menu leaves a row selectable when its disabled: failed')
@@ -222,20 +222,20 @@ assertEqual(menu.resolveRoute(rankBase.items, rankBase.itemOrder, 'toggle'), 'tr
 assertEqual(menu.resolveRoute(rankBase.items, rankBase.itemOrder, 'toggles'), 'trigger.toggle', 'menu routes toggles to the Toggle menu')
 assertEqual(
   defaultById['trigger.emoji'].action,
-  'omarchy-menu-emoji',
+  'lunaos-menu-emoji',
   'menu opens the emoji picker from Trigger'
 )
 assert(
-  defaultById['update.omarchy'].icon === '\ue900',
-  'menu update Omarchy entry uses the Omarchy glyph'
+  defaultById['update.lunaos'].icon === '\ue900',
+  'menu update LunaOS entry uses the LunaOS glyph'
 )
 assert(
-  defaultById['update.omarchy'].iconFont === 'omarchy',
-  'menu update Omarchy entry renders the private glyph with the Omarchy font'
+  defaultById['update.lunaos'].iconFont === 'omarchy',
+  'menu update LunaOS entry renders the private glyph with the LunaOS font'
 )
 assertEqual(
   defaultById['update.themes'].when,
-  'omarchy-theme-extras',
+  'lunaos-theme-extras',
   'menu hides Extra Themes until a theme cloned from git is there to update'
 )
 assert(
@@ -243,11 +243,11 @@ assert(
   'menu keeps Input as a direct config action'
 )
 assert(
-  defaultById['setup.direct-boot'].action.includes('omarchy-setup-direct-boot'),
+  defaultById['setup.direct-boot'].action.includes('lunaos-setup-direct-boot'),
   'menu places Direct Boot directly under Setup'
 )
 assert(
-  defaultById['setup.reset'].action.includes('omarchy-system-factory-reset'),
+  defaultById['setup.reset'].action.includes('lunaos-system-factory-reset'),
   'menu exposes Reset Computer under Setup'
 )
 const setupEntries = defaultItems.filter(item => item.parent === 'setup')
@@ -281,7 +281,7 @@ assert(
       && entry.icon === expected.icon
       && entry.iconFont === (expected.iconFont || '')
       && entry.label === expected.label
-      && entry.action === `omarchy-default-agent ${agent}`
+      && entry.action === `lunaos-default-agent ${agent}`
       && !entry.when
       && entry.checked.includes(`== \"${agent}\"`)
   }),
@@ -310,7 +310,7 @@ assert(
 )
 assert(!defaultById['install.ai.crush'], 'menu removes Crush from Install > AI')
 // Software you already have keeps its place in Install, dimmed rather than
-// dropped, so the list reads as a catalog of what Omarchy can install.
+// dropped, so the list reads as a catalog of what LunaOS can install.
 // Chromium Account is the sole Install row with anything left to hide for. The
 // Windows VM, whose guest can't run elsewhere, and the installers that need
 // x86_64 binaries (vendor builds for x86_64 alone, Windows games under Wine)
@@ -318,7 +318,7 @@ assert(!defaultById['install.ai.crush'], 'menu removes Crush from Install > AI')
 // needs 4K pages, so it hides only where pages are larger. Spotify installs its
 // web player where its client can't run, so it never hides. Any other `when:`
 // here is a row that went back to vanishing once installed.
-const windowsGuard = 'omarchy-hw-x86'
+const windowsGuard = 'lunaos-hw-x86'
 const x86OnlyInstalls = ['install.windows', 'install.browser.edge', 'install.gaming.minecraft', 'install.gaming.heroic', 'install.gaming.geforce-now', 'install.gaming.battlenet', 'install.gaming.lutris']
 const fourKPageGuard = '[[ $(getconf PAGESIZE) == 4096 ]]'
 assertDeepEqual(
@@ -351,7 +351,7 @@ assert(
 )
 assertEqual(
   defaultById['install.browser.zen'].disabled,
-  'omarchy-pkg-present zen-browser-bin',
+  'lunaos-pkg-present zen-browser-bin',
   'menu asks the same presence question it used to hide the row with'
 )
 // A guard can still be about something other than having the software: no
@@ -363,7 +363,7 @@ assert(
 )
 assert(
   defaultItems.filter(item => item.id.startsWith('remove.')).every(item => !item.disabled)
-    && defaultById['remove.browser.zen'].when === 'omarchy-pkg-present zen-browser-bin',
+    && defaultById['remove.browser.zen'].when === 'lunaos-pkg-present zen-browser-bin',
   'menu still hides Remove rows for software that is not installed'
 )
 assertDeepEqual(
@@ -388,7 +388,7 @@ assertDeepEqual(
   'menu keeps the Remove category order'
 )
 assert(
-  defaultById['setup.security.passwordless-sudo'].action.includes('omarchy-sudo-passwordless'),
+  defaultById['setup.security.passwordless-sudo'].action.includes('lunaos-sudo-passwordless'),
   'menu places Passwordless Sudo under Setup > Security'
 )
 assert(
@@ -401,10 +401,10 @@ assertDeepEqual(
   'menu gathers the Menu Bar under Appearance'
 )
 assert(
-  defaultById['appearance.top-bar.hide'].when === '! omarchy-toggle-enabled bar-off'
-    && defaultById['appearance.top-bar.show'].when === 'omarchy-toggle-enabled bar-off'
-    && defaultById['appearance.top-bar.hide'].action === 'omarchy-toggle-bar'
-    && defaultById['appearance.top-bar.show'].action === 'omarchy-toggle-bar',
+  defaultById['appearance.top-bar.hide'].when === '! lunaos-toggle-enabled bar-off'
+    && defaultById['appearance.top-bar.show'].when === 'lunaos-toggle-enabled bar-off'
+    && defaultById['appearance.top-bar.hide'].action === 'lunaos-toggle-bar'
+    && defaultById['appearance.top-bar.show'].action === 'lunaos-toggle-bar',
   'menu offers Hide while the Menu Bar shows and Show while it is hidden'
 )
 assert(
@@ -412,15 +412,15 @@ assert(
   'menu groups Menu Bar positions in a submenu'
 )
 assert(
-  ['top', 'bottom', 'left', 'right'].every(position => defaultById[`appearance.top-bar.position.${position}`].action === `omarchy-bar position ${position}`),
+  ['top', 'bottom', 'left', 'right'].every(position => defaultById[`appearance.top-bar.position.${position}`].action === `lunaos-bar position ${position}`),
   'menu lists all Menu Bar positions under Position'
 )
 assertDeepEqual(
   defaultItems.filter(item => item.parent === 'appearance.top-bar.background').map(item => [item.label, item.action]),
   [
-    ['Opaque Bar', 'omarchy-bar background opaque'],
-    ['Glassy Bar', 'omarchy-bar background glassy'],
-    ['Clear Bar', 'omarchy-bar background none']
+    ['Opaque Bar', 'lunaos-bar background opaque'],
+    ['Glassy Bar', 'lunaos-bar background glassy'],
+    ['Clear Bar', 'lunaos-bar background none']
   ],
   'menu picks the bar background from Menu Bar > Bar Background'
 )
@@ -430,12 +430,12 @@ assertDeepEqual(
   const os = require('os')
   const { execFileSync } = require('child_process')
   const home = fs.mkdtempSync(path.join(os.tmpdir(), 'menu-bar-background-'))
-  fs.mkdirSync(path.join(home, '.config/omarchy'), { recursive: true })
+  fs.mkdirSync(path.join(home, '.config/lunaos'), { recursive: true })
   const checked = bar => {
-    fs.writeFileSync(path.join(home, '.config/omarchy/shell.json'), JSON.stringify({ bar }))
+    fs.writeFileSync(path.join(home, '.config/lunaos/shell.json'), JSON.stringify({ bar }))
     return ['opaque', 'glassy', 'clear'].filter(look => {
       try {
-        execFileSync('bash', ['-c', defaultById[`appearance.top-bar.background.${look}`].checked], { env: { ...process.env, HOME: home, OMARCHY_PATH: root, PATH: `${root}/bin:${process.env.PATH}` } })
+        execFileSync('bash', ['-c', defaultById[`appearance.top-bar.background.${look}`].checked], { env: { ...process.env, HOME: home, LUNAOS_PATH: root, PATH: `${root}/bin:${process.env.PATH}` } })
         return true
       } catch (e) {
         return false
@@ -460,7 +460,7 @@ assertDeepEqual(
   const { execFileSync } = require('child_process')
   const stub = fs.mkdtempSync(path.join(os.tmpdir(), 'menu-dock-layout-'))
   const shown = layout => {
-    fs.writeFileSync(path.join(stub, 'omarchy-hyprland-workspace-layout-current'), `#!/bin/bash\necho ${layout}\n`, { mode: 0o755 })
+    fs.writeFileSync(path.join(stub, 'lunaos-hyprland-workspace-layout-current'), `#!/bin/bash\necho ${layout}\n`, { mode: 0o755 })
     try {
       execFileSync('bash', ['-c', defaultById['appearance.dock'].when], { env: { ...process.env, PATH: `${stub}:${process.env.PATH}` } })
       return true
@@ -478,12 +478,12 @@ assertDeepEqual(
   const os = require('os')
   const { execFileSync } = require('child_process')
   const home = fs.mkdtempSync(path.join(os.tmpdir(), 'menu-dock-autohide-'))
-  fs.mkdirSync(path.join(home, '.config/omarchy'), { recursive: true })
+  fs.mkdirSync(path.join(home, '.config/lunaos'), { recursive: true })
   const shown = dock => {
-    fs.writeFileSync(path.join(home, '.config/omarchy/shell.json'), JSON.stringify({ version: 1, dock }))
+    fs.writeFileSync(path.join(home, '.config/lunaos/shell.json'), JSON.stringify({ version: 1, dock }))
     return ['autohide', 'always-on'].filter(row => {
       try {
-        execFileSync('bash', ['-c', defaultById[`appearance.dock.${row}`].when], { env: { ...process.env, HOME: home, OMARCHY_PATH: root, PATH: `${root}/bin:${process.env.PATH}` } })
+        execFileSync('bash', ['-c', defaultById[`appearance.dock.${row}`].when], { env: { ...process.env, HOME: home, LUNAOS_PATH: root, PATH: `${root}/bin:${process.env.PATH}` } })
         return true
       } catch (e) {
         return false
@@ -493,8 +493,8 @@ assertDeepEqual(
   assertDeepEqual(shown({}), ['autohide'], 'menu offers Auto-hide Dock while the dock stays up')
   assertDeepEqual(shown({ autohide: true }), ['always-on'], 'menu offers Always-on Dock while the dock hides')
   assert(
-    defaultById['appearance.dock.autohide'].action === 'omarchy-dock autohide on'
-      && defaultById['appearance.dock.always-on'].action === 'omarchy-dock autohide off',
+    defaultById['appearance.dock.autohide'].action === 'lunaos-dock autohide on'
+      && defaultById['appearance.dock.always-on'].action === 'lunaos-dock autohide off',
     'menu turns dock auto-hide on and off'
   )
   fs.rmSync(home, { recursive: true, force: true })
@@ -502,10 +502,10 @@ assertDeepEqual(
 assertDeepEqual(
   defaultItems.filter(item => item.parent === 'appearance.dock.position').map(item => [item.label, item.action]),
   [
-    ['Top Dock', 'omarchy-dock position top'],
-    ['Bottom Dock', 'omarchy-dock position bottom'],
-    ['Left Dock', 'omarchy-dock position left'],
-    ['Right Dock', 'omarchy-dock position right']
+    ['Top Dock', 'lunaos-dock position top'],
+    ['Bottom Dock', 'lunaos-dock position bottom'],
+    ['Left Dock', 'lunaos-dock position left'],
+    ['Right Dock', 'lunaos-dock position right']
   ],
   'menu picks the dock position from Appearance > Dock > Dock Position'
 )
@@ -515,12 +515,12 @@ assertDeepEqual(
   const os = require('os')
   const { execFileSync } = require('child_process')
   const home = fs.mkdtempSync(path.join(os.tmpdir(), 'menu-dock-position-'))
-  fs.mkdirSync(path.join(home, '.config/omarchy'), { recursive: true })
+  fs.mkdirSync(path.join(home, '.config/lunaos'), { recursive: true })
   const checked = dock => {
-    fs.writeFileSync(path.join(home, '.config/omarchy/shell.json'), JSON.stringify({ version: 1, dock }))
+    fs.writeFileSync(path.join(home, '.config/lunaos/shell.json'), JSON.stringify({ version: 1, dock }))
     return ['top', 'bottom', 'left', 'right'].filter(position => {
       try {
-        execFileSync('bash', ['-c', defaultById[`appearance.dock.position.${position}`].checked], { env: { ...process.env, HOME: home, OMARCHY_PATH: root, PATH: `${root}/bin:${process.env.PATH}` } })
+        execFileSync('bash', ['-c', defaultById[`appearance.dock.position.${position}`].checked], { env: { ...process.env, HOME: home, LUNAOS_PATH: root, PATH: `${root}/bin:${process.env.PATH}` } })
         return true
       } catch (e) {
         return false
@@ -540,12 +540,12 @@ const clockModel = requireFromRoot('shell/plugins/panels/clock/Model.js')
 const clockRows = defaultItems.filter(item => item.parent === 'appearance.top-bar.indicators.clock')
 // Each row hands bash its format, so ask bash what it hands over.
 const clockRowFormats = key => clockRows
-  .filter(item => item.action.startsWith(`omarchy-bar set omarchy.clock ${key} `))
-  .map(item => require('child_process').execFileSync('bash', ['-c', item.action.replace(`omarchy-bar set omarchy.clock ${key} `, 'printf %s ')], { encoding: 'utf8' }))
+  .filter(item => item.action.startsWith(`lunaos-bar set lunaos.clock ${key} `))
+  .map(item => require('child_process').execFileSync('bash', ['-c', item.action.replace(`lunaos-bar set lunaos.clock ${key} `, 'printf %s ')], { encoding: 'utf8' }))
 assertDeepEqual(clockRowFormats('format'), clockModel.clockFormats(false), 'menu spells out every horizontal clock format')
 assertDeepEqual(clockRowFormats('verticalFormat'), clockModel.clockFormats(true), 'menu spells out every vertical clock format')
 assert(
-  clockRows.every(item => item.checked && item.checked.includes('$(omarchy-bar get omarchy.clock ') && item.when.includes('$(omarchy-bar position)')),
+  clockRows.every(item => item.checked && item.checked.includes('$(lunaos-bar get lunaos.clock ') && item.when.includes('$(lunaos-bar position)')),
   'menu checks the current clock format and offers only the formats for the bar orientation'
 )
 assertDeepEqual(
@@ -555,15 +555,15 @@ assertDeepEqual(
 )
 assertDeepEqual(
   defaultItems.filter(item => item.parent === 'appearance.windows.corners').map(item => [item.label, item.action]),
-  [['Theme Corners', 'omarchy-hyprland-corners theme'], ['Sharp Corners', 'omarchy-hyprland-corners sharp'], ['Rounded Corners', 'omarchy-hyprland-corners rounded']],
+  [['Theme Corners', 'lunaos-hyprland-corners theme'], ['Sharp Corners', 'lunaos-hyprland-corners sharp'], ['Rounded Corners', 'lunaos-hyprland-corners rounded']],
   'menu picks window corners from Appearance > Windows > Window Corners'
 )
 assertDeepEqual(
   defaultItems.filter(item => item.parent === 'appearance.windows.transparency').map(item => [item.label, item.action]),
   [
-    ['Opaque Windows', 'omarchy-hyprland-window-transparency opaque'],
-    ['Transparent Windows', 'omarchy-hyprland-window-transparency transparent'],
-    ['Glassy Windows', 'omarchy-hyprland-window-transparency glassy']
+    ['Opaque Windows', 'lunaos-hyprland-window-transparency opaque'],
+    ['Transparent Windows', 'lunaos-hyprland-window-transparency transparent'],
+    ['Glassy Windows', 'lunaos-hyprland-window-transparency glassy']
   ],
   'menu picks window transparency from Appearance > Windows > Window Opacity'
 )
@@ -593,7 +593,7 @@ assert(
 assertEqual(triggerIds.indexOf('trigger.clipboard-history'), triggerIds.indexOf('trigger.emoji') + 1, 'menu places Clipboard History right after Emoji')
 assert(
   !defaultItems.some(item => item.id.startsWith('appearance.background-intro'))
-    && defaultById['appearance.animations-on'].action === 'omarchy-toggle-animations',
+    && defaultById['appearance.animations-on'].action === 'lunaos-toggle-animations',
   'menu uses the existing animations toggle without separate background intro controls'
 )
 assertDeepEqual(
@@ -603,7 +603,7 @@ assertDeepEqual(
 )
 assert(
   ['enable', 'disable', 'clone', 'remove'].every(
-    verb => defaultById[`setup.plugin.${verb}`].action === `omarchy-menu-plugin ${verb}`
+    verb => defaultById[`setup.plugin.${verb}`].action === `lunaos-menu-plugin ${verb}`
   ),
   'menu picks a plugin the way it already picks a theme or a timezone'
 )
@@ -612,15 +612,15 @@ assert(
   'menu always offers Enable and Disable, which cover the built-in plugins too'
 )
 assert(
-  defaultById['setup.plugin.remove'].when.includes('.config/omarchy/plugins'),
+  defaultById['setup.plugin.remove'].when.includes('.config/lunaos/plugins'),
   'menu hides Remove until a plugin the user installed exists to delete'
 )
 assert(
-  defaultById['setup.plugin.add'].action.includes('omarchy-plugin-add'),
+  defaultById['setup.plugin.add'].action.includes('lunaos-plugin-add'),
   'menu adds a plugin through the CLI, where the trust warning and clone output are visible'
 )
 
-const pluginPicker = fs.readFileSync(path.join(root, 'bin/omarchy-menu-plugin'), 'utf8')
+const pluginPicker = fs.readFileSync(path.join(root, 'bin/lunaos-menu-plugin'), 'utf8')
 assert(
   /enable\).*\(\.enabled \| not\)/.test(pluginPicker) && /disable\).*\.canDisable and \.enabled/.test(pluginPicker),
   'plugin picker offers what each verb can act on'
@@ -632,11 +632,11 @@ assert(
   'plugin picker leaves plugin-kind decisions to its data and the plugin command'
 )
 
-const pluginAdd = fs.readFileSync(path.join(root, 'bin/omarchy-plugin-add'), 'utf8')
-const pluginEnable = fs.readFileSync(path.join(root, 'bin/omarchy-plugin-enable'), 'utf8')
+const pluginAdd = fs.readFileSync(path.join(root, 'bin/lunaos-plugin-add'), 'utf8')
+const pluginEnable = fs.readFileSync(path.join(root, 'bin/lunaos-plugin-enable'), 'utf8')
 assert(
   /Now using \$id as the bar/.test(pluginEnable)
-    && /omarchy-plugin-enable "\$id" "\$\{ENABLE_PLACEMENT\[@\]\}"/.test(pluginAdd),
+    && /lunaos-plugin-enable "\$id" "\$\{ENABLE_PLACEMENT\[@\]\}"/.test(pluginAdd),
   'plugin enable reports a bar as replacing the one in use, whether enabled or freshly added'
 )
 assert(
@@ -646,7 +646,7 @@ assert(
   'interactive plugin add offers every bar section and selects the manifest placement or centerEnd fallback by default'
 )
 assert(
-  /"omarchy-plugin-\$1" "\$id"/.test(pluginPicker),
+  /"lunaos-plugin-\$1" "\$id"/.test(pluginPicker),
   'plugin picker delegates enable and disable without interpreting plugin kinds'
 )
 // Icons ride along as "<glyph>\tlabel\tsubtext"; the menu shows the glyph,
@@ -663,7 +663,7 @@ assert(
   'menu select mode reads a leading icon and a trailing subtext off an option'
 )
 assert(
-  /omarchy-launch-floating-terminal-with-presentation "omarchy-plugin-remove/.test(pluginPicker),
+  /lunaos-launch-floating-terminal-with-presentation "lunaos-plugin-remove/.test(pluginPicker),
   'plugin picker removes where the confirmation and backup path are visible'
 )
 
@@ -697,22 +697,22 @@ assert(
 }
 assertEqual(
   defaultById['trigger.hardware.laptop-display-on'].when,
-  'omarchy-hw-laptop && omarchy-hyprland-toggle-enabled internal-monitor-disable',
+  'lunaos-hw-laptop && lunaos-hyprland-toggle-enabled internal-monitor-disable',
   'menu only shows Laptop Display on laptops'
 )
 assertEqual(
   defaultById['trigger.hardware.mirror-display-on'].when,
-  'omarchy-hw-laptop && ! omarchy-hyprland-toggle-enabled internal-monitor-mirror',
+  'lunaos-hw-laptop && ! lunaos-hyprland-toggle-enabled internal-monitor-mirror',
   'menu only shows Mirror Display on laptops'
 )
 assertEqual(
   defaultById['trigger.capture.screenrecord.webcam'].when,
-  'omarchy-hw-webcam',
+  'lunaos-hw-webcam',
   'menu only shows webcam screen recording when a webcam is available'
 )
 assertEqual(
   defaultById['trigger.capture.screenrecord.stop'].when,
-  'omarchy-capture-screenrecording --status',
+  'lunaos-capture-screenrecording --status',
   'menu shows Stop Screenrecording only when its stop has a recording to end'
 )
 assert(
@@ -942,6 +942,6 @@ assert(
 )
 JS
 
-font_charset=$(fc-query --format='%{charset}' "$ROOT/default/fonts/omarchy/omarchy.ttf")
-[[ $font_charset == *"e900-e90f"* ]] || fail "Omarchy icon font includes every custom menu glyph"
-pass "Omarchy icon font includes the official agent marks"
+font_charset=$(fc-query --format='%{charset}' "$ROOT/default/fonts/lunaos/lunaos.ttf")
+[[ $font_charset == *"e900-e90f"* ]] || fail "LunaOS icon font includes every custom menu glyph"
+pass "LunaOS icon font includes the official agent marks"

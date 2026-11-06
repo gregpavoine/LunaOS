@@ -5,7 +5,7 @@ set -euo pipefail
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
 template="$ROOT/default/snapper/root"
-limine_defaults="$ROOT/etc/limine-entry-tool.d/omarchy-defaults.conf"
+limine_defaults="$ROOT/etc/limine-entry-tool.d/lunaos-defaults.conf"
 limine_notify_autostart="$ROOT/config/autostart/limine-snapper-notify.desktop"
 
 grep -Fx 'NUMBER_CLEANUP="yes"' "$template" >/dev/null
@@ -39,19 +39,19 @@ chmod +x "$fake_bin/systemctl"
 
 TEST_LOG="$test_tmp/calls.log" \
 PATH="$fake_bin:$PATH" \
-OMARCHY_SNAPPER_CONFIGURE_TEST=1 \
-OMARCHY_PATH="$ROOT" \
-OMARCHY_SNAPPER_CONFIG_PATH="$test_tmp/etc/snapper/configs/root" \
-OMARCHY_SNAPPER_CONF_PATH="$test_tmp/etc/conf.d/snapper" \
+LUNAOS_SNAPPER_CONFIGURE_TEST=1 \
+LUNAOS_PATH="$ROOT" \
+LUNAOS_SNAPPER_CONFIG_PATH="$test_tmp/etc/snapper/configs/root" \
+LUNAOS_SNAPPER_CONF_PATH="$test_tmp/etc/conf.d/snapper" \
   bash -euo pipefail "$ROOT/install/config/snapper.sh" >/dev/null
 
-cmp -s "$template" "$test_tmp/etc/snapper/configs/root" || fail "snapshot configure installs the Omarchy Snapper template"
+cmp -s "$template" "$test_tmp/etc/snapper/configs/root" || fail "snapshot configure installs the LunaOS Snapper template"
 grep -Fx 'SNAPPER_CONFIGS="root"' "$test_tmp/etc/conf.d/snapper" >/dev/null || fail "snapshot configure writes /etc/conf.d/snapper"
 grep -Fx 'systemctl disable --now snapper-timeline.timer' "$test_tmp/calls.log" >/dev/null || fail "snapshot configure disables timeline snapshots"
 grep -Fx 'systemctl enable --now snapper-cleanup.timer limine-snapper-sync.service' "$test_tmp/calls.log" >/dev/null || fail "snapshot configure enables cleanup and Limine snapshot sync"
 pass "snapshot configure normalizes Snapper policy and services"
 
-setup_system="$ROOT/bin/omarchy-apply-system"
+setup_system="$ROOT/bin/lunaos-apply-system"
 grep -F 'config/all.sh' "$setup_system" >/dev/null ||
   fail "system setup runs the config phase"
 grep -F 'config/snapper.sh' "$ROOT/install/config/all.sh" >/dev/null ||
@@ -59,36 +59,36 @@ grep -F 'config/snapper.sh' "$ROOT/install/config/all.sh" >/dev/null ||
 pass "system setup normalizes Snapper during fresh installs"
 
 # The PKGBUILDs live in the omarchy-pkgs checkout, wherever this machine keeps it.
-if find_omarchy_pkgs; then
-  pkgs_root=$OMARCHY_PKGS_ROOT
-  settings_pkgbuild="$pkgs_root/omarchy-settings-dev/PKGBUILD"
-  omarchy_pkgbuild="$pkgs_root/omarchy-dev/PKGBUILD"
+if find_lunaos_pkgs; then
+  pkgs_root=$LUNAOS_PKGS_ROOT
+  settings_pkgbuild="$pkgs_root/lunaos-settings-dev/PKGBUILD"
+  lunaos_pkgbuild="$pkgs_root/lunaos-dev/PKGBUILD"
 
-  grep -F 'cp -a default/. "$pkgdir/usr/share/omarchy/default/"' "$settings_pkgbuild" >/dev/null || fail "omarchy-settings package bundles default/"
-  grep -F 'install -Dm644 default/snapper/root \' "$settings_pkgbuild" >/dev/null || fail "omarchy-settings package installs Snapper template source"
-  grep -F '"$pkgdir/etc/snapper/config-templates/omarchy"' "$settings_pkgbuild" >/dev/null || fail "omarchy-settings package installs Snapper template destination"
-  grep -F "'snapper'" "$omarchy_pkgbuild" >/dev/null || fail "omarchy package depends on snapper"
-  grep -F "'limine-snapper-sync'" "$omarchy_pkgbuild" >/dev/null || fail "omarchy package depends on limine-snapper-sync"
-  grep -F 'cp -a install "$pkgdir/usr/share/omarchy/"' "$omarchy_pkgbuild" >/dev/null || fail "omarchy package bundles install scripts"
-  grep -F 'cp -a migrations "$pkgdir/usr/share/omarchy/"' "$omarchy_pkgbuild" >/dev/null || fail "omarchy package bundles migrations"
+  grep -F 'cp -a default/. "$pkgdir/usr/share/lunaos/default/"' "$settings_pkgbuild" >/dev/null || fail "lunaos-settings package bundles default/"
+  grep -F 'install -Dm644 default/snapper/root \' "$settings_pkgbuild" >/dev/null || fail "lunaos-settings package installs Snapper template source"
+  grep -F '"$pkgdir/etc/snapper/config-templates/lunaos"' "$settings_pkgbuild" >/dev/null || fail "lunaos-settings package installs Snapper template destination"
+  grep -F "'snapper'" "$lunaos_pkgbuild" >/dev/null || fail "lunaos package depends on snapper"
+  grep -F "'limine-snapper-sync'" "$lunaos_pkgbuild" >/dev/null || fail "lunaos package depends on limine-snapper-sync"
+  grep -F 'cp -a install "$pkgdir/usr/share/lunaos/"' "$lunaos_pkgbuild" >/dev/null || fail "lunaos package bundles install scripts"
+  grep -F 'cp -a migrations "$pkgdir/usr/share/lunaos/"' "$lunaos_pkgbuild" >/dev/null || fail "lunaos package bundles migrations"
   pass "omarchy-pkgs packages Snapper template, setup, and migration coverage"
 else
-  skip "omarchy-pkgs packages Snapper: needs the omarchy-pkgs checkout; set OMARCHY_PKGS_PATH to it"
+  skip "omarchy-pkgs packages Snapper: needs the omarchy-pkgs checkout; set LUNAOS_PKGS_PATH to it"
 fi
 
 # Same per-machine checkout problem as omarchy-pkgs, with the same rule: an
-# OMARCHY_ISO_PATH override is the only place tried, and one that doesn't
+# LUNAOS_ISO_PATH override is the only place tried, and one that doesn't
 # resolve fails rather than skips.
-find_omarchy_iso_root() {
+find_lunaos_iso_root() {
   local candidate
   local -a candidates
 
-  if [[ -n ${OMARCHY_ISO_PATH:-} ]]; then
-    candidates=("$OMARCHY_ISO_PATH")
+  if [[ -n ${LUNAOS_ISO_PATH:-} ]]; then
+    candidates=("$LUNAOS_ISO_PATH")
   else
     candidates=(
       "$ROOT/../omarchy-iso"
-      "$ROOT/../omarchy/omarchy-iso"
+      "$ROOT/../lunaos/omarchy-iso"
       "$ROOT/../../omarchy-iso"
       "$ROOT/../omacom/omarchy-iso"
       "$ROOT/../../omacom/omarchy-iso"
@@ -98,18 +98,18 @@ find_omarchy_iso_root() {
 
   for candidate in "${candidates[@]}"; do
     if [[ -d $candidate/configs ]]; then
-      OMARCHY_ISO_ROOT=$(CDPATH= cd -- "$candidate" && pwd)
+      LUNAOS_ISO_ROOT=$(CDPATH= cd -- "$candidate" && pwd)
       return 0
     fi
   done
 
-  [[ -z ${OMARCHY_ISO_PATH:-} ]] ||
-    fail "OMARCHY_ISO_PATH names an omarchy-iso checkout" "no configs/ under $OMARCHY_ISO_PATH"
+  [[ -z ${LUNAOS_ISO_PATH:-} ]] ||
+    fail "LUNAOS_ISO_PATH names an omarchy-iso checkout" "no configs/ under $LUNAOS_ISO_PATH"
   return 1
 }
 
-if find_omarchy_iso_root; then
-  iso_root=$OMARCHY_ISO_ROOT
+if find_lunaos_iso_root; then
+  iso_root=$LUNAOS_ISO_ROOT
   configurator="$iso_root/configs/airootfs/root/configurator"
   phases="$iso_root/configs/airootfs/usr/share/omarchy-iso/orchestrator/phases_impl.py"
   manifest="$iso_root/manifests/fresh-4-semantic.json"
@@ -119,12 +119,12 @@ if find_omarchy_iso_root; then
   # The phases/manifest assertions cover the newer ISO orchestrator structure.
   # Skip them when the checkout predates that layout.
   if [[ -f $phases && -f $manifest ]]; then
-    ! grep -F '_configure_snapper_root' "$phases" >/dev/null || fail "ISO does not duplicate Omarchy Snapper setup"
+    ! grep -F '_configure_snapper_root' "$phases" >/dev/null || fail "ISO does not duplicate LunaOS Snapper setup"
     grep -F 'run_system_finalizer' "$phases" >/dev/null || fail "ISO runs packaged system setup"
     grep -F '/etc/systemd/system/timers.target.wants/snapper-cleanup.timer' "$manifest" >/dev/null || fail "fresh ISO manifest has snapper-cleanup timer enabled"
     ! grep -F '/etc/systemd/system/timers.target.wants/snapper-timeline.timer' "$manifest" >/dev/null || fail "fresh ISO manifest does not enable snapper timeline timer"
   fi
   pass "omarchy-iso delegates Snapper setup to packaged system setup"
 else
-  skip "omarchy-iso delegates Snapper setup: needs the omarchy-iso checkout; set OMARCHY_ISO_PATH to it"
+  skip "omarchy-iso delegates Snapper setup: needs the omarchy-iso checkout; set LUNAOS_ISO_PATH to it"
 fi

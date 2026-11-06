@@ -40,7 +40,7 @@ SH
 chmod +x "$stub_bin"/*
 
 connected() {
-  OMARCHY_NET_CLASS_PATH="$net_class" PATH="$stub_bin:$PATH" "$ROOT/bin/omarchy-network-wifi-connected"
+  LUNAOS_NET_CLASS_PATH="$net_class" PATH="$stub_bin:$PATH" "$ROOT/bin/lunaos-network-wifi-connected"
 }
 
 ROUTE_DEV=wlan0 connected || fail "an activated Wi-Fi default route is connected Wi-Fi"
@@ -51,11 +51,11 @@ pass "an activated Wi-Fi default route is connected Wi-Fi"
 pass "Ethernet and no route at all are not Wi-Fi"
 
 # 70 is NM_DEVICE_STATE_IP_CONFIG: associated but not yet activated, which
-# omarchy-network-status reports as disconnected.
+# lunaos-network-status reports as disconnected.
 ! ROUTE_DEV=wlan0 NM_STATE=70 connected || fail "a Wi-Fi device NetworkManager has not activated is not connected"
 ! ROUTE_DEV=wlan0 NM_DOWN=1 connected || fail "Wi-Fi NetworkManager cannot answer for is not connected"
-pass "Wi-Fi counts only once NetworkManager has it activated, as omarchy-network-status does"
+pass "Wi-Fi counts only once NetworkManager has it activated, as lunaos-network-status does"
 
-grep -Fq '"when":"omarchy-network-wifi-connected"' "$ROOT/default/omarchy/omarchy-menu.jsonc" ||
+grep -Fq '"when":"lunaos-network-wifi-connected"' "$ROOT/default/lunaos/lunaos-menu.jsonc" ||
   fail "the menu's Wi-Fi QR Code row asks the cheap predicate"
 pass "the menu's Wi-Fi QR Code row asks the cheap predicate"

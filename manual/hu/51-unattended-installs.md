@@ -1,8 +1,8 @@
 # Felügyelet nélküli telepítések
 
-Az Omarchy ISO a billentyűzetnél lévő személy nélkül is telepítheti önmagát. Ha a telepítő talál egy `cidata` címkéjű második meghajtót, amely a konfigurációs fájljait hordozza, lemásolja őket, teljesen kihagyja a beállításvarázslót, és magától újraindul a kész rendszerbe. Nincs különleges ISO-build, nincs extra rendszerindítási menübejegyzés — ha nincs ilyen meghajtó csatlakoztatva, semmi sem változik, és a normál varázslót kapod.
+Az LunaOS ISO a billentyűzetnél lévő személy nélkül is telepítheti önmagát. Ha a telepítő talál egy `cidata` címkéjű második meghajtót, amely a konfigurációs fájljait hordozza, lemásolja őket, teljesen kihagyja a beállításvarázslót, és magától újraindul a kész rendszerbe. Nincs különleges ISO-build, nincs extra rendszerindítási menübejegyzés — ha nincs ilyen meghajtó csatlakoztatva, semmi sem változik, és a normál varázslót kapod.
 
-Ez nagyszerűvé teszi az Omarchyt eldobható fejlesztői környezetek alapimage-ének: hozz létre egy VM-et Proxmoxban vagy Packerrel, indítsd el, sétálj el, SSH-zz be. A `cidata` a cloud-init `NoCloud` címkéje, így a szokásos virtualizációs eszközök mind tudják már, hogyan csatoljanak ilyen meghajtót.
+Ez nagyszerűvé teszi az LunaOSt eldobható fejlesztői környezetek alapimage-ének: hozz létre egy VM-et Proxmoxban vagy Packerrel, indítsd el, sétálj el, SSH-zz be. A `cidata` a cloud-init `NoCloud` címkéje, így a szokásos virtualizációs eszközök mind tudják már, hogyan csatoljanak ilyen meghajtót.
 
 ## A konfigurációs fájlok
 
@@ -24,7 +24,7 @@ A `user_credentials.json` helyébe egy üres, `defer-provisioning` nevű fájlt 
 
 ## SSH-hozzáférés
 
-Amikor az `authorized_keys` jelen van, a telepítés beállítja a kulcsokat a felhasználó `~/.ssh/authorized_keys` fájljaként, engedélyezi az `sshd` szolgáltatást, és megnyitja hozzá a tűzfalat. (Egy stock Omarchy-telepítés az openssh-val érkezik, a szolgáltatás letiltva és a port lezárva, így egy felügyelet nélküli gép egyébként elérhetetlen lenne.) A telepítés csak hozzáadja a kulcsaidat — nem lazít az SSH-démon semmilyen más hitelesítési beállításán.
+Amikor az `authorized_keys` jelen van, a telepítés beállítja a kulcsokat a felhasználó `~/.ssh/authorized_keys` fájljaként, engedélyezi az `sshd` szolgáltatást, és megnyitja hozzá a tűzfalat. (Egy stock LunaOS-telepítés az openssh-val érkezik, a szolgáltatás letiltva és a port lezárva, így egy felügyelet nélküli gép egyébként elérhetetlen lenne.) A telepítés csak hozzáadja a kulcsaidat — nem lazít az SSH-démon semmilyen más hitelesítési beállításán.
 
 Amikor a `tailscale_authkey` jelen van, a gép ehelyett első indításkor csatlakozik a tailnetedhez: a Tailscale az ISO mellékelt csomagjaiból települ, a tűzfal engedélyezi a tailnet-interfészt, és egy háttérfeladat futtatja a csatlakozást, amint a gépnek tényleg van hálózata, újrapróbálkozva, amíg sikerül. Használj újrafelhasználható, előengedélyezett kulcsot, hogy egy meghajtóimage sok gépet szolgálhasson ki.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Ezután csatold a VM-hez az Omarchy ISO mellé. Íme egy teljes Proxmox-példa:
+Ezután csatold a VM-hez az LunaOS ISO mellé. Íme egy teljes Proxmox-példa:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

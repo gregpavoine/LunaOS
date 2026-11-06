@@ -5,8 +5,8 @@ theme_webp_source() {
   local background="$2"
   local original_name=${background##*/}
   local replacement_name="${original_name%.*}.webp"
-  local user_theme_backgrounds="$HOME/.config/omarchy/themes/$theme/backgrounds"
-  local bundled_theme_backgrounds="$OMARCHY_PATH/themes/$theme/backgrounds"
+  local user_theme_backgrounds="$HOME/.config/lunaos/themes/$theme/backgrounds"
+  local bundled_theme_backgrounds="$LUNAOS_PATH/themes/$theme/backgrounds"
 
   if [[ -f $user_theme_backgrounds/$original_name || -f $bundled_theme_backgrounds/$original_name ]]; then
     return 1
@@ -29,7 +29,7 @@ replacement_webp() {
   *) return 1 ;;
   esac
 
-  if [[ -n $theme && ${background%/*} == "$HOME/.local/state/omarchy/current/theme/backgrounds" ]]; then
+  if [[ -n $theme && ${background%/*} == "$HOME/.local/state/lunaos/current/theme/backgrounds" ]]; then
     theme_webp_source "$theme" "$background" >/dev/null || return 1
     printf '%s\n' "$replacement"
     return 0
@@ -39,7 +39,7 @@ replacement_webp() {
   printf '%s\n' "$replacement"
 }
 
-current_dir="$HOME/.local/state/omarchy/current"
+current_dir="$HOME/.local/state/lunaos/current"
 current_background="$current_dir/background"
 if [[ -L $current_background ]]; then
   active_theme=$(cat "$current_dir/theme.name" 2>/dev/null || true)
@@ -50,11 +50,11 @@ if [[ -L $current_background ]]; then
       cp "$source" "$replacement"
     fi
     ln -sfn "$replacement" "$current_background"
-    omarchy-shell -q background set "$replacement"
+    lunaos-shell -q background set "$replacement"
   fi
 fi
 
-for state_file in "$HOME/.local/state/omarchy/theme-backgrounds/"*; do
+for state_file in "$HOME/.local/state/lunaos/theme-backgrounds/"*; do
   [[ -f $state_file ]] || continue
 
   background=$(<"$state_file")

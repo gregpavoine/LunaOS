@@ -1,6 +1,6 @@
 # Emplenar PDF
 
-Omarchy ve amb un bonic visor bàsic de PDF anomenat Document Viewer. Aquest és el programa que obrirà qualsevol PDF en què facis doble clic.
+LunaOS ve amb un bonic visor bàsic de PDF anomenat Document Viewer. Aquest és el programa que obrirà qualsevol PDF en què facis doble clic.
 
 Però Document Viewer només es pot fer servir per emplenar PDF que s'han configurat com a formularis. Si necessites emplenar PDF que no ho estan, o necessites signar un PDF, fes servir [Signed](https://github.com/omacom/signed). Inicia'l des del llançador d'aplicacions (`Super + Space`), o fes clic amb el botó dret al fitxer, selecciona _Obre amb..._ i tria Signed.
 

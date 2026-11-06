@@ -14,7 +14,7 @@ Kısayol bildirimlerini kullanarak tarihe ve saate, pil durumuna ve geçerli hav
 
  ![notice-weather](images/notice-weather.webp)
 
-Konum IP adresinizden tespit edilir; bu genellikle yeterince yakın olur, ancak her zaman değil. Onu `omarchy weather location --set Malibu` ile sabitleyebilir veya koordinatlar ekleyerek tam belirleyebilirsiniz: `omarchy weather location --set Malibu 34.0259,-118.7798`. Nerede olduğunuzu düşündüğünü görmek için `omarchy weather location` komutunu tek başına, otomatik algılamaya geri dönmek için de `--clear` çalıştırın.
+Konum IP adresinizden tespit edilir; bu genellikle yeterince yakın olur, ancak her zaman değil. Onu `lunaos weather location --set Malibu` ile sabitleyebilir veya koordinatlar ekleyerek tam belirleyebilirsiniz: `lunaos weather location --set Malibu 34.0259,-118.7798`. Nerede olduğunuzu düşündüğünü görmek için `lunaos weather location` komutunu tek başına, otomatik algılamaya geri dönmek için de `--clear` çalıştırın.
 
 ### Pil
 

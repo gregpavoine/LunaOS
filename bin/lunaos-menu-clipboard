@@ -1,0 +1,6 @@
+#!/bin/bash
+# lunaos:summary=Launch the clipboard manager
+# lunaos:group=menu
+# lunaos:examples=lunaos menu clipboard
+
+lunaos-shell shell toggle lunaos.clipboard

@@ -24,7 +24,7 @@ with tempfile.TemporaryDirectory() as directory:
   home.mkdir()
   (stage / "release").write_text("")
   (stage / "bin").mkdir()
-  launcher = stage / "bin/omarchy-theme-bg-boot-intro"
+  launcher = stage / "bin/lunaos-theme-bg-boot-intro"
   launcher.write_text("#!/bin/bash\nexit 0\n")
   launcher.chmod(0o755)
   for name in ("Commons", "services"):
@@ -32,7 +32,7 @@ with tempfile.TemporaryDirectory() as directory:
   fixture = root / "test/shell.d/fixtures/startup-cursor"
   (stage / "shell.qml").write_text((fixture / "shell.qml").read_text())
   env = os.environ.copy()
-  env.update(HOME=str(home), OMARCHY_PATH=str(root), CURSOR_TEST_STAGE=str(stage),
+  env.update(HOME=str(home), LUNAOS_PATH=str(root), CURSOR_TEST_STAGE=str(stage),
          PATH=str(stage / "bin") + ":" + env["PATH"], AQ_BACKEND="wayland",
          HYPRLAND_NO_SD_VARS="1", HYPRLAND_NO_SD_NOTIFY="1", GSETTINGS_BACKEND="memory",
          XCURSOR_THEME="Adwaita", XCURSOR_PATH="/usr/share/icons:/usr/share/pixmaps", XCURSOR_SIZE="24", HYPRCURSOR_SIZE="24")
@@ -71,7 +71,7 @@ with tempfile.TemporaryDirectory() as directory:
 
     wait_phase("holding")
     subprocess.run(["hyprctl", "reload"], env=env, check=True, capture_output=True, timeout=5)
-    subprocess.run(["hyprctl", "eval", "assert(omarchy_startup_cursor_pending, 'reload lost the pending cursor reveal')"],
+    subprocess.run(["hyprctl", "eval", "assert(lunaos_startup_cursor_pending, 'reload lost the pending cursor reveal')"],
              env=env, check=True, capture_output=True, timeout=5)
     (stage / "release").write_text("reveal")
     wait_phase("revealed")
@@ -105,11 +105,11 @@ with tempfile.TemporaryDirectory() as directory:
       # cursor into screencopy frames (the parent renders it), so fall
       # back to the compositor's own restored state: pending cleared,
       # cursor visible again, normal theme back.
-      subprocess.run(["hyprctl", "eval", "assert(not omarchy_startup_cursor_pending, 'cursor reveal still pending')"],
+      subprocess.run(["hyprctl", "eval", "assert(not lunaos_startup_cursor_pending, 'cursor reveal still pending')"],
                env=env, check=True, capture_output=True, timeout=5)
       subprocess.run(["hyprctl", "eval", "assert(hl.get_config('cursor.invisible') == false, 'cursor still invisible')"],
                env=env, check=True, capture_output=True, timeout=5)
-      subprocess.run(["hyprctl", "eval", "assert(os.getenv('XCURSOR_THEME') ~= 'omarchy-startup', 'blank cursor theme still active')"],
+      subprocess.run(["hyprctl", "eval", "assert(os.getenv('XCURSOR_THEME') ~= 'lunaos-startup', 'blank cursor theme still active')"],
                env=env, check=True, capture_output=True, timeout=5)
   except Exception:
     print((stage / "compositor.log").read_text())

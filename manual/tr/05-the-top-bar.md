@@ -1,14 +1,14 @@
 # Üst Çubuk
 
-Ekranınızın üstü boyunca uzanan şerit Omarchy çubuğudur. Sonradan eklenmiş bir durum çubuğu değildir; menüyü, bildirimleri, OSD açılır pencerelerini ve kilit ekranını da çizen tek, uzun ömürlü Quickshell süreci olan Omarchy kabuğunun bir parçasıdır. Bu yüzden her şeyle mükemmel uyum içinde tema uygular ve bir panel yeni bir uygulama başlatmak yerine anında açılır.
+Ekranınızın üstü boyunca uzanan şerit LunaOS çubuğudur. Sonradan eklenmiş bir durum çubuğu değildir; menüyü, bildirimleri, OSD açılır pencerelerini ve kilit ekranını da çizen tek, uzun ömürlü Quickshell süreci olan LunaOS kabuğunun bir parçasıdır. Bu yüzden her şeyle mükemmel uyum içinde tema uygular ve bir panel yeni bir uygulama başlatmak yerine anında açılır.
 
 Aynı zamanda masaüstünde her zaman ekranda olan tek parçadır, bu yüzden o küçük simgelerin ne yaptığını bilmeye değer.
 
 ## Varsayılan olarak üzerinde neler var
 
-Çubuğun üç bölümü vardır. Solda Omarchy logosu (menü başlatıcı) ve çalışma alanı göstergeleri bulunur. Merkezde durum göstergelerini, saati, Elsewhen'i (dünya saati), hava durumunu ve bir Omarchy güncelleme rozetini alırsınız. Sağda: klavye düzeni (birden fazla yapılandırıldığında), sistem tepsisi, ajanlar, bluetooth, ağ, ses, ekran ve güç.
+Çubuğun üç bölümü vardır. Solda LunaOS logosu (menü başlatıcı) ve çalışma alanı göstergeleri bulunur. Merkezde durum göstergelerini, saati, Elsewhen'i (dünya saati), hava durumunu ve bir LunaOS güncelleme rozetini alırsınız. Sağda: klavye düzeni (birden fazla yapılandırıldığında), sistem tepsisi, ajanlar, bluetooth, ağ, ses, ekran ve güç.
 
-Bunlardan birkaçı yalnızca söyleyecek bir şeyleri olduğunda ortaya çıkar. Klavye düzeni, yalnızca birden fazla düzen yapılandırdıysanız görünür. Güncelleme rozeti, yalnızca bekleyen bir Omarchy güncellemesi olduğunda görünür. Ve ajanlar simgesi, Omarchy makinede AI kodlama kullanımını ilk kez bulduğunda görünür (bkz. [AI](17-ai.md)).
+Bunlardan birkaçı yalnızca söyleyecek bir şeyleri olduğunda ortaya çıkar. Klavye düzeni, yalnızca birden fazla düzen yapılandırdıysanız görünür. Güncelleme rozeti, yalnızca bekleyen bir LunaOS güncellemesi olduğunda görünür. Ve ajanlar simgesi, LunaOS makinede AI kodlama kullanımını ilk kez bulduğunda görünür (bkz. [AI](17-ai.md)).
 
 ## Etrafta tıklamak
 
@@ -16,7 +16,7 @@ Hemen hemen her widget sol, sağ ve orta tıklamada bir şey yapar ve birkaç ta
 
 | Widget | Sol | Sağ | Orta / kaydırma |
 | --- | --- | --- | --- |
-| Menü | Omarchy menüsü | Yeni terminal | — |
+| Menü | LunaOS menüsü | Yeni terminal | — |
 | Çalışma alanları | O çalışma alanına odaklan | — | Kaydır: sonraki/önceki çalışma alanı |
 | Saat | Takvim açılır penceresi | Etiket biçimini döndür | Orta: saat dilimi seçici |
 | Hava durumu | Tahmin açılır penceresi | Tam hava durumu bildirim olarak | Orta: yenile |
@@ -29,7 +29,7 @@ Hemen hemen her widget sol, sağ ve orta tıklamada bir şey yapar ve birkaç ta
 | Medya | Oynat/duraklat | Kapak resmi açılır penceresi | Orta: sonraki · kaydır: önceki/sonraki |
 | Ajanlar | Ajanlar paneli | Ajanınızı başlatın | Orta: sonraki abonelik |
 | Tepsi | Çekmeceyi göstermek için üzerine gelin | Yönetmek için köşe işaretine sağ tıklayın | — |
-| Omarchy güncellemesi | Güncellemeyi çalıştır | — | — |
+| LunaOS güncellemesi | Güncellemeyi çalıştır | — | — |
 
 Bu tablodaki her şey kutudan çıktığı haliyle çubuğunuzda değil. Medya widget'ı (kayan parça ve sanatçı ile MPRIS şu anda çalınan) ve mikrofon widget'ı ikisi de yerleşik ancak varsayılan olarak kapalıdır — istiyorsanız aşağıda açıklandığı gibi ekleyin.
 
@@ -65,7 +65,7 @@ Her panel fare kadar klavyeyi de kabul eder: oklar hareket eder, Return etkinle�
 
 İki widget daha, yalnızca eşleşen hizmeti **Kur → Hizmet** seçeneğinden kurduğunuzda çubukta ortaya çıkar ve ikisini de bilmeye değer, çünkü yalnızca durum bildirmekten daha fazlasını yaparlar.
 
-**Tailscale** paneli tailnet'i bağlar ve bağlantısını keser, hesaplar arasında geçiş yapar ve bir çıkış düğümü seçer (kendi makineleriniz ve Mullvad bölgelerinin ikisi de bu listede görünür). Ayrıca makinelerinize göz atar — ve biri seçiliyken, `s` dosyaları Taildrop üzerinden ona gönderir ki bu, bir dosyayı telefonunuza veya başka bir dizüstü bilgisayara taşımanın en hızlı yoludur. `c` makinenin IP'sini kopyalar, `n` adını ve `d` tam DNS adını. Tıklamayı tercih edersiniz diye her makine satırında bir gönder düğmesi de var. Terminalden aynısı `omarchy tailscale send <machine> [file...]` şeklindedir.
+**Tailscale** paneli tailnet'i bağlar ve bağlantısını keser, hesaplar arasında geçiş yapar ve bir çıkış düğümü seçer (kendi makineleriniz ve Mullvad bölgelerinin ikisi de bu listede görünür). Ayrıca makinelerinize göz atar — ve biri seçiliyken, `s` dosyaları Taildrop üzerinden ona gönderir ki bu, bir dosyayı telefonunuza veya başka bir dizüstü bilgisayara taşımanın en hızlı yoludur. `c` makinenin IP'sini kopyalar, `n` adını ve `d` tam DNS adını. Tıklamayı tercih edersiniz diye her makine satırında bir gönder düğmesi de var. Terminalden aynısı `lunaos tailscale send <machine> [file...]` şeklindedir.
 
 **Dropbox** paneli oturum açmayı sağlar, ne kadar depolama kullandığınızı gösterir ve yakın zamanda eşitlenen dosyaları listeler.
 
@@ -90,19 +90,19 @@ Bir menüden seçmeyi tercih ederseniz, **Tetikle → Görünüm → Menü Çubu
 Aynı şeyler komutlara sahiptir; bu bir [dotfiles](31-dotfiles.md) kurulumu için isteyeceğiniz şeydir:
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Bir widget'ı tamamen eklemek veya kaldırmak için eklenti komutlarını kullanın. `omarchy plugin list` kabuğun bildiği her widget'ı kimliğiyle yazar ve ardından:
+Bir widget'ı tamamen eklemek veya kaldırmak için eklenti komutlarını kullanın. `lunaos plugin list` kabuğun bildiği her widget'ı kimliğiyle yazar ve ardından:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Çubuğu gizleme
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Yapılandırma dosyası
 
-Tüm bunlar `~/.config/omarchy/shell.json` içinde, `bar` anahtarının altında saklanır. İşte kısaltılmış bir sürüm:
+Tüm bunlar `~/.config/lunaos/shell.json` içinde, `bar` anahtarının altında saklanır. İşte kısaltılmış bir sürüm:
 
 ```json
 {
@@ -119,20 +119,20 @@ Tüm bunlar `~/.config/omarchy/shell.json` içinde, `bar` anahtarının altında
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Her widget, üç düzen dizisinden birindeki tek bir girdidir ve ayarları o girdinin üzerinde satır içinde oturur — ayrı bir ayar dosyası ve `config` alt nesnesi yoktur. Saatin `format`, `formatAlt` (sağ tıklamanın döndürdüğü şey) ve `verticalFormat` değerlerinin hepsi `{ "id": "omarchy.clock" }` üzerinde tam orada yaşar.
+Her widget, üç düzen dizisinden birindeki tek bir girdidir ve ayarları o girdinin üzerinde satır içinde oturur — ayrı bir ayar dosyası ve `config` alt nesnesi yoktur. Saatin `format`, `formatAlt` (sağ tıklamanın döndürdüğü şey) ve `verticalFormat` değerlerinin hepsi `{ "id": "lunaos.clock" }` üzerinde tam orada yaşar.
 
 `centerAnchor`, ekranın tam merkezine sabitlenecek tek merkez widget'ı adlandırır, diğerleri onun yanlarına dizilir. Saat, hava durumu ve güncelleme rozeti gelip giderken bile tam merkezde böyle kalır. Onu boş bir dizeye ayarlayın, merkez listesi bunun yerine bir grup olarak ortalanır.
 
-İçselleştirmeye değer bir kural: **kendi `shell.json` dosyanıza sahip olduğunuzda, o kanoniktir**. Herhangi bir şeyi özelleştirene kadar, kabuk Omarchy'nin varsayılan dosyasını okur. Bir widget'ı sürüklediğiniz, `omarchy bar` çalıştırdığınız veya dosyayı kendiniz düzenlediğiniz anda, ona sahip olursunuz — derin birleştirme yoktur, bu yüzden gelecekteki Omarchy sürümlerindeki yeni varsayılan widget'lar çubuğunuzda otomatik olarak görünmez. `omarchy bar defaults`, temiz bir sayfa istediğinizde gönderilen düzeni geri koyar.
+İçselleştirmeye değer bir kural: **kendi `shell.json` dosyanıza sahip olduğunuzda, o kanoniktir**. Herhangi bir şeyi özelleştirene kadar, kabuk LunaOS'nin varsayılan dosyasını okur. Bir widget'ı sürüklediğiniz, `lunaos bar` çalıştırdığınız veya dosyayı kendiniz düzenlediğiniz anda, ona sahip olursunuz — derin birleştirme yoktur, bu yüzden gelecekteki LunaOS sürümlerindeki yeni varsayılan widget'lar çubuğunuzda otomatik olarak görünmez. `lunaos bar defaults`, temiz bir sayfa istediğinizde gönderilen düzeni geri koyar.
 
 Aynı dosya, boşta kalma zamanlamalarınızı da üst düzeyde, `bar` anahtarının dışında tutar: `idle.screensaver` ve `idle.lock`, ikisi de boşta kaldığınız andan itibaren saniye cinsindendir. Böylece varsayılan ekran koruyucu 150 saniyede ve kilit 300 saniyede devreye girer.

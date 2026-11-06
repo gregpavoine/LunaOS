@@ -6,7 +6,7 @@ Makikita mo ang lahat ng pangunahing binding ng keyboard gamit ang `Super + K` (
 
 | Hotkey                  | Tungkulin              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Menu ng Omarchy (mga app at lahat ng iba pa)    |
+| `Super + Space`           | Menu ng LunaOS (mga app at lahat ng iba pa)    |
 | `Super + Alt + Space` | Grid ng mga app |
 | `Super + Escape` | Menu ng sistema (suspend, restart, atbp.)  |
 | `Super + Ctrl + L` | I-lock ang computer |
@@ -136,7 +136,7 @@ Baguhin/magdagdag ng mga binding sa `~/.config/hypr/bindings.lua`.
 | `Super + V`           | I-paste    |
 | `Super + Ctrl + V`           | Tagapamahala ng clipboard    |
 
-Karaniwan sa Linux, kailangan mo ng `Ctrl + Shift + C/V` para mag-copy'n'paste sa terminal at `Ctrl + C/V` para gawin ito sa lahat ng iba pang lugar. Gumagana kahit saan ang mga pinag-isang clipboard hotkey ng Omarchy na ito.
+Karaniwan sa Linux, kailangan mo ng `Ctrl + Shift + C/V` para mag-copy'n'paste sa terminal at `Ctrl + C/V` para gawin ito sa lahat ng iba pang lugar. Gumagana kahit saan ang mga pinag-isang clipboard hotkey ng LunaOS na ito.
 
 ## Kuha
 
@@ -156,7 +156,7 @@ Karaniwan sa Linux, kailangan mo ng `Ctrl + Shift + C/V` para mag-copy'n'paste s
 
 Sa mga pag-record ng screen, itatanong muna ng hotkey kung anong audio ang gusto mo, pagkatapos ay sisimulan ang pag-record. Pindutin ito ulit para itigil. Tingnan ang [mga screenshot at pag-record](12-screenshots-recording.md) para sa mga detalye.
 
-Lahat ng opsyon sa kuha ay maa-access din sa ilalim ng _Mag-trigger > Kuha_ sa menu ng Omarchy (`Super + Space`).
+Lahat ng opsyon sa kuha ay maa-access din sa ilalim ng _Mag-trigger > Kuha_ sa menu ng LunaOS (`Super + Space`).
 
 ## Mga Notipikasyon
 
@@ -177,9 +177,9 @@ Lahat ng opsyon sa kuha ay maa-access din sa ilalim ng _Mag-trigger > Kuha_ sa m
 | `Super + Backspace` | I-toggle ang transparency sa isang bintana |
 | `Super + Ctrl + Backspace` | I-toggle ang parisukat na aspect ng solong bintana |
 
-Ang mga dagdag na background image ay nakatira sa `~/.config/omarchy/backgrounds/<theme name>`. Makukuha rin sa pamamagitan ng _I-install > Estilo > Background_ sa menu ng Omarchy.
+Ang mga dagdag na background image ay nakatira sa `~/.config/lunaos/backgrounds/<theme name>`. Makukuha rin sa pamamagitan ng _I-install > Estilo > Background_ sa menu ng LunaOS.
 
-Lahat ng opsyon sa estilo ay maa-access din sa ilalim ng _Estilo_ sa menu ng Omarchy (`Super + Space`).
+Lahat ng opsyon sa estilo ay maa-access din sa ilalim ng _Estilo_ sa menu ng LunaOS (`Super + Space`).
 
 ## Mga Toggle
 
@@ -281,7 +281,7 @@ Ang mga function na ito ay kailangang patakbuhin sa loob ng isang session ng Tmu
 
 ## Terminal ng Ghostty
 
-Ini-install ang terminal ng Ghostty gamit ang _I-install > Terminal_ sa pamamagitan ng menu ng Omarchy.
+Ini-install ang terminal ng Ghostty gamit ang _I-install > Terminal_ sa pamamagitan ng menu ng LunaOS.
 
 | Hotkey                  | Tungkulin              |
 | ----------------------- | --------------------- |
@@ -372,5 +372,5 @@ Maaari mong gamitin ang `Super + Ctrl + E` para ipakita ang isang kumpletong tag
 | `Shift + CapsLock Space N` | Ang iyong pangalan (tulad ng inilagay sa setup)  |
 | `Shift + CapsLock Space E` | Ang iyong email (tulad ng inilagay sa setup)  |
 
-Maaari kang magdagdag ng higit pa ng sarili mo sa pamamagitan ng pag-edit sa `~/.XCompose`, pagkatapos ay patakbuhin ang `omarchy-restart-xcompose` sa terminal para makuha ang mga pagbabago.
+Maaari kang magdagdag ng higit pa ng sarili mo sa pamamagitan ng pag-edit sa `~/.XCompose`, pagkatapos ay patakbuhin ang `lunaos-restart-xcompose` sa terminal para makuha ang mga pagbabago.
 

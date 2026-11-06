@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# lunaos:summary=List available monospace fonts
+# lunaos:examples=lunaos font list | lunaos font set "CaskaydiaMono Nerd Font"
+
+fc-list :spacing=100 -f "%{family[0]}\n" | grep -v -i -E 'emoji|signwriting|omarchy' | sort -u

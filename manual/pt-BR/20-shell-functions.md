@@ -1,6 +1,6 @@
 # Funções de shell
 
-O Omarchy vem com um conjunto de funções de shell para simplificar tarefas comuns e encapsular chamadas de parâmetros complicadas.
+O LunaOS vem com um conjunto de funções de shell para simplificar tarefas comuns e encapsular chamadas de parâmetros complicadas.
 
 ## Compressão
 

@@ -10,8 +10,8 @@ import Quickshell.Io
 ShellRoot {
   id: root
 
-  readonly property string resultPath: Quickshell.env("OMARCHY_QML_TEST_RESULT")
-  readonly property string rootPath: Quickshell.env("OMARCHY_PATH")
+  readonly property string resultPath: Quickshell.env("LUNAOS_QML_TEST_RESULT")
+  readonly property string rootPath: Quickshell.env("LUNAOS_PATH")
   property var failures: []
   property var made: ({})
   property var gone: ({})

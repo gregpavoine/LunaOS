@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# lunaos:summary=Remove Tailscale and its bar plugin.
+# lunaos:requires-sudo=true
+
+tailscale down 2>/dev/null || true
+systemctl --user disable --now lunaos-tailscale-receive.service 2>/dev/null || true
+sudo systemctl disable --now tailscaled.service 2>/dev/null || true
+lunaos-plugin-disable lunaos.tailscale
+lunaos-webapp-remove "Tailscale" 2>/dev/null || true
+lunaos-pkg-drop tailscale
+
+echo ""
+echo "Tailscale has been removed."

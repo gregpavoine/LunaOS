@@ -1,6 +1,6 @@
 # Shell funkcie
 
-Omarchy sa dodáva so sadou shell funkcií, ktoré zjednodušujú bežné úlohy a zapuzdrujú komplikované volania parametrov.
+LunaOS sa dodáva so sadou shell funkcií, ktoré zjednodušujú bežné úlohy a zapuzdrujú komplikované volania parametrov.
 
 ## Kompresia
 

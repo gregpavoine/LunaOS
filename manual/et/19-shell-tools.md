@@ -1,6 +1,6 @@
 # Kesta tööriistad
 
-Lisaks standardsetele Linuxi tööriistadele tuleb Omarchy ka hulga täiustatud kesta tööriistadega. Siin on peamised.
+Lisaks standardsetele Linuxi tööriistadele tuleb LunaOS ka hulga täiustatud kesta tööriistadega. Siin on peamised.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Täieliku juhendi leiad käsuga `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) on cd asendus. See jätab meelde kaustad, kus oled olnud, nii et järgmisel korral saad sinna kergemini hüpata. Ütleme, et teed üks kord `cd ~/.config/omarchy`. Järgmine kord saad lihtsalt teha `cd omarchy` (või isegi ainult `cd oma`) ja Zoxide viib su otse sinna.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) on cd asendus. See jätab meelde kaustad, kus oled olnud, nii et järgmisel korral saad sinna kergemini hüpata. Ütleme, et teed üks kord `cd ~/.config/lunaos`. Järgmine kord saad lihtsalt teha `cd lunaos` (või isegi ainult `cd oma`) ja Zoxide viib su otse sinna.
 
 Täieliku juhendi leiad käsuga `man zoxide`.
 
@@ -58,4 +58,4 @@ Täieliku juhendi leiad käsuga `man yt-dlp`.
 
 [try](https://github.com/tobi/try) teeb programmeerimiskatsetuste haldamise lihtsaks kuupäevatempliga kaustadega. Kõik katsetused elavad kaustas `~/Work/tries` ja saad neile ligi käsuga `try`.
 
-Omarchy ei lisa projekti kausta `bin/` automaatselt `PATH`-i. Käivita usaldusväärseid projektikohaseid tööriistu selgesõnalise suhtelise teega, näiteks `bin/rails` või `./bin/dev`.
+LunaOS ei lisa projekti kausta `bin/` automaatselt `PATH`-i. Käivita usaldusväärseid projektikohaseid tööriistu selgesõnalise suhtelise teega, näiteks `bin/rails` või `./bin/dev`.

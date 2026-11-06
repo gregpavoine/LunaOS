@@ -1,6 +1,6 @@
 echo "Drop saved workspace layouts belonging to named workspaces"
 
-# omarchy-hyprland-workspace-layout-toggle acted on whatever id activeworkspace
+# lunaos-hyprland-workspace-layout-toggle acted on whatever id activeworkspace
 # reported, and a named workspace reports a negative one. Hyprland reads a
 # leading "-" as a selector relative to the current workspace, so a layout saved
 # for one is applied to workspace 1 at every login instead. The command no longer
@@ -11,7 +11,7 @@ removed=0
 for state_home in "$HOME/.local/state" "${XDG_STATE_HOME:-}"; do
   [[ -n $state_home ]] || continue
 
-  layouts_dir="$state_home/omarchy/workspace-layouts"
+  layouts_dir="$state_home/lunaos/workspace-layouts"
   [[ -d $layouts_dir ]] || continue
 
   for saved in "$layouts_dir"/-*.lua; do

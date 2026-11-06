@@ -2,7 +2,7 @@
 
 Genellikle Linux'ta, terminalde kopyalayapıştır için `Ctrl + Shift + C/V` ve her yerde bunu yapmak için `Ctrl + C/V` gerekir. Linux'ta doğup büyümemiş herhangi biri için buna alışmak zordur! Mac'ten geliyorsanız, super'dan ctrl'e geçiş de öyle.
 
-Omarchy, her iki sorunu da (neredeyse) her yerde çalışan birleşik pano kısayollarıyla ele alır. Bunlar:
+LunaOS, her iki sorunu da (neredeyse) her yerde çalışan birleşik pano kısayollarıyla ele alır. Bunlar:
 
 | Kısayol | Komut |
 | ------- | ----------- |
@@ -15,7 +15,7 @@ _Çoğu ajan çerçevesinin görselleri yapıştırmak için `Ctrl + V`, ancak m
 
 ### Pano Geçmişi
 
-Pano geçmişi Omarchy kabuğu tarafından sağlanır ve hem metin hem de görseller için çalışır. Onu `Super + Ctrl + V` ile tetiklersiniz, girdinizi return ile seçersiniz ve ardından bu `Super + V` ile yapıştırmaya hazır şekilde panoya yerleştirilir.
+Pano geçmişi LunaOS kabuğu tarafından sağlanır ve hem metin hem de görseller için çalışır. Onu `Super + Ctrl + V` ile tetiklersiniz, girdinizi return ile seçersiniz ve ardından bu `Super + V` ile yapıştırmaya hazır şekilde panoya yerleştirilir.
 
  ![clipboard-history](images/clipboard-history.webp)
 

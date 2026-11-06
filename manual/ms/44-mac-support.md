@@ -1,16 +1,16 @@
 # Sokongan Mac
 
-Omarchy mempunyai sokongan terbina dalam untuk **Mac Intel**. Terdapat beberapa batasan yang diketahui pada masa ini, tetapi selagi anda sedar dan OK dengannya; anda boleh memberi nafas baharu kepada Mac lama anda dengan memuatkan Omarchy.
+LunaOS mempunyai sokongan terbina dalam untuk **Mac Intel**. Terdapat beberapa batasan yang diketahui pada masa ini, tetapi selagi anda sedar dan OK dengannya; anda boleh memberi nafas baharu kepada Mac lama anda dengan memuatkan LunaOS.
 
-Sila ambil perhatian bahawa pemasangan pada Mac siri M tidak disokong secara langsung pada masa ini. Anda boleh mengetahui lebih lanjut tentang keadaan ini di #omarchy-on-other dalam [Discord](https://discord.gg/tXFUdasqhY) kami.
+Sila ambil perhatian bahawa pemasangan pada Mac siri M tidak disokong secara langsung pada masa ini. Anda boleh mengetahui lebih lanjut tentang keadaan ini di #lunaos-on-other dalam [Discord](https://discord.gg/tXFUdasqhY) kami.
 
-Dalam ujian ringkas, kami dapat mencapai peningkatan prestasi 36% pada MacBook Pro 2019 hanya dengan memasang Omarchy.
+Dalam ujian ringkas, kami dapat mencapai peningkatan prestasi 36% pada MacBook Pro 2019 hanya dengan memasang LunaOS.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Memasang Omarchy pada Mac
+### Memasang LunaOS pada Mac
 
-Omarchy hanya menyokong menjadi **satu-satunya** OS yang dipasang pada masa ini. Semasa pemasangan, pemacu akan dipadamkan dan MacOS tidak lagi boleh dibut.
+LunaOS hanya menyokong menjadi **satu-satunya** OS yang dipasang pada masa ini. Semasa pemasangan, pemacu akan dipadamkan dan MacOS tidak lagi boleh dibut.
 
 Anda masih boleh memulihkannya kemudian melalui Internet Recovery jika anda mahu.
 
@@ -39,7 +39,7 @@ Pemasang mengesan perkakasan Mac dan menggunakan pembetulan yang diperlukan seca
 
 ### Batasan yang Diketahui
 
-Ahli komuniti sentiasa berusaha mencari penyelesaian kepada cabaran ini jadi jika ini bermasalah untuk anda, sertai #omarchy-on-other dalam [Discord](https://discord.gg/tXFUdasqhY) kami dan lihat sama ada terdapat kaedah terkini untuk menyelesaikannya.
+Ahli komuniti sentiasa berusaha mencari penyelesaian kepada cabaran ini jadi jika ini bermasalah untuk anda, sertai #lunaos-on-other dalam [Discord](https://discord.gg/tXFUdasqhY) kami dan lihat sama ada terdapat kaedah terkini untuk menyelesaikannya.
 
 #### Peranti dengan Cip T1
 

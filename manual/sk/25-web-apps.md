@@ -1,10 +1,10 @@
 # Webové aplikácie
 
-Vlastné webové aplikácie môžeš pridať pomocou _Inštalovať > Webová aplikácia_ v menu Omarchy (`Super + Space`). Požiada ťa o názov aplikácie, URL aplikácie a URL ikony, ak ju nedokáže získať prostredníctvom faviconu. Skvelé ikony PNG pre mnoho populárnych webových aplikácií môžeš získať na [Dashboard Icons](https://dashboardicons.com).
+Vlastné webové aplikácie môžeš pridať pomocou _Inštalovať > Webová aplikácia_ v menu LunaOS (`Super + Space`). Požiada ťa o názov aplikácie, URL aplikácie a URL ikony, ak ju nedokáže získať prostredníctvom faviconu. Skvelé ikony PNG pre mnoho populárnych webových aplikácií môžeš získať na [Dashboard Icons](https://dashboardicons.com).
 
 Potom budú dostupné prostredníctvom spúšťača aplikácií (`Super + Space`) a budú používať krásne bezrámové okno webovej aplikácie.
 
-Ak chceš webovú aplikáciu odstrániť, stačí prejsť do časti _Odstrániť > Webová aplikácia_ v menu Omarchy.
+Ak chceš webovú aplikáciu odstrániť, stačí prejsť do časti _Odstrániť > Webová aplikácia_ v menu LunaOS.
 
 Najlepšie je, ak sa do všetkých svojich účtov prihlásiš pomocou bežného prehliadača skôr, než použiješ skratky webových aplikácií. Tenký obalový rám (wrapper) nefunguje dobre s 1password, takže je jednoduchšie byť najprv prihlásený priamo.
 
@@ -12,17 +12,17 @@ Všetky klávesové skratky pre tieto webové aplikácie sa dajú zmeniť v súb
 
 Keď si vo webovej aplikácii, môžeš skopírovať aktuálnu URL do schránky pomocou `Shift + Alt + L`.
 
-Omarchy sa predvolene dodáva už s výberom predvolených aplikácií:
+LunaOS sa predvolene dodáva už s výberom predvolených aplikácií:
 
 ## HEY
 
-[HEY](https://www.hey.com/) je e-mailová a kalendárová služba, ktorá slúži ako skvelá alternatíva pre ľudí unavených z Gmailu, Outlooku alebo Apple Mail. Vyrába ju [37signals](https://37signals.com/), odkiaľ pochádza aj Omarchy.
+[HEY](https://www.hey.com/) je e-mailová a kalendárová služba, ktorá slúži ako skvelá alternatíva pre ľudí unavených z Gmailu, Outlooku alebo Apple Mail. Vyrába ju [37signals](https://37signals.com/), odkiaľ pochádza aj LunaOS.
 
 HEY Email môžeš spustiť pomocou `Super + Shift + E`, preskočiť priamo na písanie nového e-mailu pomocou `Super + Shift + Alt + E` a spustiť HEY Calendar pomocou `Super + Shift + C`.
 
 ## Basecamp
 
-[Basecamp](https://basecamp.com/) je služba na riadenie projektov, ktorá pomáha malým tímom pohybovať sa rýchlejšie a robiť väčší pokrok. Namiesto látania zmesi Trella, Slacku, Asany, Notionu alebo čohokoľvek iného to môžeš mať všetko na jednom mieste s Basecampom. Vyrába ho [37signals](https://37signals.com/), odkiaľ pochádza aj Omarchy.
+[Basecamp](https://basecamp.com/) je služba na riadenie projektov, ktorá pomáha malým tímom pohybovať sa rýchlejšie a robiť väčší pokrok. Namiesto látania zmesi Trella, Slacku, Asany, Notionu alebo čohokoľvek iného to môžeš mať všetko na jednom mieste s Basecampom. Vyrába ho [37signals](https://37signals.com/), odkiaľ pochádza aj LunaOS.
 
 Basecamp môžeš spustiť pomocou spúšťača aplikácií (`Super + Space`)
 
@@ -64,19 +64,19 @@ YouTube môžeš spustiť pomocou `Super + Shift + Y`.
 
 ## Zoom
 
-[Zoom](https://zoom.us/) je najpopulárnejší systém na videochat používaný v USA. Skvelé spojenia po celom svete. A 40-minútové stretnutia sa dajú konať aj bez platiaceho účtu. Omarchy obalí webového klienta Zoomu a odkazy na stretnutia zoom sa otvoria priamo doň.
+[Zoom](https://zoom.us/) je najpopulárnejší systém na videochat používaný v USA. Skvelé spojenia po celom svete. A 40-minútové stretnutia sa dajú konať aj bez platiaceho účtu. LunaOS obalí webového klienta Zoomu a odkazy na stretnutia zoom sa otvoria priamo doň.
 
 Zoom spúšťaš pomocou spúšťača aplikácií (`Super + Space`).
 
 ## Discord
 
-[Discord](https://discord.com/) je miesto, kde sa zdržiava väčšina herných a open-source komunít vrátane [vlastnej komunity Omarchy](https://discord.gg/tXFUdasqhY).
+[Discord](https://discord.com/) je miesto, kde sa zdržiava väčšina herných a open-source komunít vrátane [vlastnej komunity LunaOS](https://discord.gg/tXFUdasqhY).
 
 Discord spúšťaš pomocou spúšťača aplikácií (`Super + Space`).
 
 ## Aplikácie Microsoft
 
-Vyber _Inštalovať > Služba > Microsoft_ a pridaj Outlook, Word, Excel, PowerPoint, Teams a OneDrive ako webové aplikácie. Každá aplikácia má vlastný spúšťač a otvára sa priamo, pričom používa komerčné URL služby Microsoft 365 a tvoj existujúci profil prehliadača. Otvárajú sa v tých istých oknách aplikácií prehliadača ako ostatné webové aplikácie Omarchy; neinštalujú samostatného klienta Teams for Linux.
+Vyber _Inštalovať > Služba > Microsoft_ a pridaj Outlook, Word, Excel, PowerPoint, Teams a OneDrive ako webové aplikácie. Každá aplikácia má vlastný spúšťač a otvára sa priamo, pričom používa komerčné URL služby Microsoft 365 a tvoj existujúci profil prehliadača. Otvárajú sa v tých istých oknách aplikácií prehliadača ako ostatné webové aplikácie LunaOS; neinštalujú samostatného klienta Teams for Linux.
 
 Balík odstrániš pomocou _Odstrániť > Služby > Microsoft_ alebo jednotlivé aplikácie odstrániš pomocou _Odstrániť > Webová aplikácia_. Prostredníctvom _Inštalovať > Webová aplikácia_ môžeš nainštalovať aj len tie aplikácie, ktoré chceš.
 
@@ -85,7 +85,7 @@ V prípade vládneho alebo suverénneho cloudu uprav URL na riadku `Exec=` v pr�
 Ak chceš pracovné prihlásenia udržiavať oddelené, pripoj k riadku `Exec=` každého spúšťača adresár údajov prehliadača:
 
 ```ini
-Exec=omarchy-launch-webapp "https://teams.cloud.microsoft/" --user-data-dir=/absolute/path/to/work-browser-profile
+Exec=lunaos-launch-webapp "https://teams.cloud.microsoft/" --user-data-dir=/absolute/path/to/work-browser-profile
 ```
 
-Nahraď vzorový adresár absolútnou cestou podľa svojho výberu a použi tú istú cestu pre všetkých šesť spúšťačov, aby medzi sebou zdieľali pracovné prihlásenia. Webové aplikácie používajú vybraný podporovaný prehliadač Omarchy a vrátia sa k prehliadaču Chromium, keď predvolený prehliadač nie je podporovaný.
+Nahraď vzorový adresár absolútnou cestou podľa svojho výberu a použi tú istú cestu pre všetkých šesť spúšťačov, aby medzi sebou zdieľali pracovné prihlásenia. Webové aplikácie používajú vybraný podporovaný prehliadač LunaOS a vrátia sa k prehliadaču Chromium, keď predvolený prehliadač nie je podporovaný.

@@ -21,7 +21,7 @@
 
 저장된 스크린샷은 기본적으로 `~/Pictures/Screenshots`에 `screenshot-2026-08-13_14-22-05-firefox.png` 같은 이름으로 저장됩니다. 다른 디렉터리를 사용하려면 `OMASNAP_SCREENSHOT_DIR`을 설정하세요 — 세션 환경 변수를 어디에 두는지는 [FAQ](46-faq.md)를 참조하세요. Omasnap은 첫 번째 스크린샷을 저장할 때 디렉터리를 만듭니다. 자동 저장을 끄려면 `~/.config/omasnap/omasnap.conf`에서 `[output] autosave = false`로 설정하세요.
 
-터미널에서 `omarchy screenshot`은 같은 오버레이를 열고, 시작 모드를 선택할 수 있습니다: `omarchy capture screenshot region`, `windows`, `fullscreen`, 또는 `scroll`. 두 번째 인수 `copy`나 `save`를 주면 미리보기를 건너뛰고 스크린샷을 해당 대상으로 바로 보냅니다. 출력 전에 편집하려면 전체 화면 편집기에 대해 `omarchy screenshot --editor=overlay`를, 별도 창에 대해 `omarchy screenshot --editor=window`를 사용하세요.
+터미널에서 `lunaos screenshot`은 같은 오버레이를 열고, 시작 모드를 선택할 수 있습니다: `lunaos capture screenshot region`, `windows`, `fullscreen`, 또는 `scroll`. 두 번째 인수 `copy`나 `save`를 주면 미리보기를 건너뛰고 스크린샷을 해당 대상으로 바로 보냅니다. 출력 전에 편집하려면 전체 화면 편집기에 대해 `lunaos screenshot --editor=overlay`를, 별도 창에 대해 `lunaos screenshot --editor=window`를 사용하세요.
 
 ### 키보드에서 선택기 조작하기
 
@@ -40,9 +40,9 @@
 
 ## 화면 녹화
 
-`Alt + Print Screen`은 _실행 > 캡처 > 화면 녹화_를 열며, 사운드트랙에 무엇을 원하는지 묻습니다. 오디오 없음, 데스크톱 오디오, 데스크톱 + 마이크, 또는 데스크톱 + 마이크 + 웹캠이 있습니다. 마지막 항목은 카메라가 실제로 연결되어 있을 때만 나타납니다. 하나를 고르면 Omarchy의 녹화 선택기로 영역을 드래그하거나 창이나 모니터를 클릭할 수 있습니다.
+`Alt + Print Screen`은 _실행 > 캡처 > 화면 녹화_를 열며, 사운드트랙에 무엇을 원하는지 묻습니다. 오디오 없음, 데스크톱 오디오, 데스크톱 + 마이크, 또는 데스크톱 + 마이크 + 웹캠이 있습니다. 마지막 항목은 카메라가 실제로 연결되어 있을 때만 나타납니다. 하나를 고르면 LunaOS의 녹화 선택기로 영역을 드래그하거나 창이나 모니터를 클릭할 수 있습니다.
 
-녹화는 gpu-screen-recorder를 이용해 실행되며, 60fps로 GPU에서 인코딩하고 필요하면 CPU로 대체합니다. 결과는 `~/Videos`에 `screenrecording-2026-08-13_14-22-05.mp4`라는 이름의 MP4입니다. `OMARCHY_SCREENRECORD_DIR`을 설정해 변경하세요 — 단, 스크린샷 디렉터리와 달리 이 디렉터리는 이미 존재해야 하며, 그렇지 않으면 녹화를 시작하지 않는다는 점에 유의하세요.
+녹화는 gpu-screen-recorder를 이용해 실행되며, 60fps로 GPU에서 인코딩하고 필요하면 CPU로 대체합니다. 결과는 `~/Videos`에 `screenrecording-2026-08-13_14-22-05.mp4`라는 이름의 MP4입니다. `LUNAOS_SCREENRECORD_DIR`을 설정해 변경하세요 — 단, 스크린샷 디렉터리와 달리 이 디렉터리는 이미 존재해야 하며, 그렇지 않으면 녹화를 시작하지 않는다는 점에 유의하세요.
 
 녹화 중에는 작은 표시기가 바에 나타납니다. 클릭하면 중지됩니다. `Alt + Print Screen`을 다시 눌러 중지하거나, _실행 > 캡처 > 화면 녹화_ 아래에 실제로 녹화 중일 때만 나타나는 _화면 녹화 중지(Stop Screenrecording)_ 항목으로 중지할 수도 있습니다.
 
@@ -59,7 +59,7 @@
 
 크기는 작게, 중간, 크게 세 가지이며 단축키는 그 사이를 이동합니다. 중간이 기본값입니다. 녹화에 비례하므로 1080p 모니터를 녹화하든 6K 모니터를 녹화하든 카메라가 프레임에서 차지하는 비중은 같습니다. 그리고 전체 디스플레이가 아니라 영역을 녹화했다면 오버레이는 모니터 모서리가 아니라 그 영역의 모서리에 고정되므로 화면 안에 남습니다.
 
-`omarchy-capture-webcam-resize small`로 직접 호출하거나, `reset`으로 중간 크기로 돌아갈 수도 있습니다.
+`lunaos-capture-webcam-resize small`로 직접 호출하거나, `reset`으로 중간 크기로 돌아갈 수도 있습니다.
 
 ## 텍스트, QR 코드, 색상
 
@@ -75,7 +75,7 @@ _실행 > 캡처 > QR 코드_는 QR 코드에 대해 같은 기술을 사용합�
 
 사진은 높음, 중간, 낮음으로 jpg나 png가 되며, 너비는 3160, 2160, 1080픽셀에서 최대화됩니다. 동영상은 4k, 1080p, 720p로 mp4나 애니메이션 gif가 됩니다. 변환된 파일은 이름에 해상도가 들어간 채 원본 옆에 쓰이며 — `demo-1080p.mp4` — 경로는 파일 URI로 클립보드에 복사되므로 파일 드롭을 받는 앱에 직접 붙여넣을 수 있습니다.
 
-이미 원하는 것을 안다면 터미널에서도 작동합니다: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. 이미지를 ASCII 아트로 바꾸는 `omarchy transcode ascii`도 있습니다 — 이건 주로 [브랜딩](41-branding.md)을 위한 것입니다.
+이미 원하는 것을 안다면 터미널에서도 작동합니다: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. 이미지를 ASCII 아트로 바꾸는 `lunaos transcode ascii`도 있습니다 — 이건 주로 [브랜딩](41-branding.md)을 위한 것입니다.
 
 ## 어딘가로 보내기
 

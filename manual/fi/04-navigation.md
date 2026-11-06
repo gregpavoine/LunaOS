@@ -1,8 +1,8 @@
 # Navigointi
 
-Kaikki Omarchyssa tapahtuu näppäimistön kautta — _KAIKKI!_ Kun järjestelmä käynnistyy ensimmäisen kerran, et kirjaimellisesti voi tehdä mitään pelkällä hiirellä. Mutta voit painaa `Super + Space` tuodaksesi Omarchy-valikon esiin, ja sieltä käsin voit tehdä lähes kaiken.
+Kaikki LunaOSssa tapahtuu näppäimistön kautta — _KAIKKI!_ Kun järjestelmä käynnistyy ensimmäisen kerran, et kirjaimellisesti voi tehdä mitään pelkällä hiirellä. Mutta voit painaa `Super + Space` tuodaksesi LunaOS-valikon esiin, ja sieltä käsin voit tehdä lähes kaiken.
 
-Mutta Omarchy-valikon ei ole edes tarkoitus olla pääasiallinen tapa käyttää järjestelmää suurimman osan ajasta. Pystymme nopeampaan! Kaikki tärkeimmät sovellukset on sidottu suoraan yksittäisiin pikanäppäimiin. Käynnistät päätteen näppäimillä `Super + Return` ja selaimen näppäimillä `Super + Shift + Return`. Kokeile tehdä ne peräkkäin, niin näet Hyprlandin laatoituksen taian toiminnassa:
+Mutta LunaOS-valikon ei ole edes tarkoitus olla pääasiallinen tapa käyttää järjestelmää suurimman osan ajasta. Pystymme nopeampaan! Kaikki tärkeimmät sovellukset on sidottu suoraan yksittäisiin pikanäppäimiin. Käynnistät päätteen näppäimillä `Super + Return` ja selaimen näppäimillä `Super + Shift + Return`. Kokeile tehdä ne peräkkäin, niin näet Hyprlandin laatoituksen taian toiminnassa:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Voit myös siirtyä koko näyttöön näppäimillä `Super + F` tai jopa vain ko
 
 ### Dwindle vs vierittävä asettelu
 
-Omarchyn oletusasettelun nimi on dwindle. Se pitää kaikki yhdellä työtilalla avaamasi ikkunat näkyvissä koko ajan, vaikka sen pitäisi kutistaa niitä.
+LunaOSn oletusasettelun nimi on dwindle. Se pitää kaikki yhdellä työtilalla avaamasi ikkunat näkyvissä koko ajan, vaikka sen pitäisi kutistaa niitä.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Kelluva työtila toimii kuten perinteinen työpöytä: ikkunat limittyvät, ja siirrät ja mitoitat ne itse. Jokainen ikkuna saa otsikkopalkin teemasi väreissä, jossa on painikkeet pienentämistä, suurentamista ja sulkemista varten. `Super + M` pienentää myös fokusoituna olevan ikkunan. Pienennetty ikkuna odottaa dockissa; klikkaa sen sovellusta tuodaksesi sen takaisin. Klikkaa ikkunaa tuodaksesi sen etualalle. Muuta sen kokoa mistä tahansa reunasta tai kulmasta. Kaksoisklikkaa otsikkopalkkia suurentaaksesi ikkunan pitäen yläpalkin näkyvissä, ja uudelleen saadaksesi sen vanhan koon takaisin.
 
-Kelluvassa työtilassa näkyy myös dock, jossa on kiinnitetyt sovelluksesi, kaikki käynnissä oleva, ja ruudukko kaikista sovelluksista sovelluspainikkeen takana, jonka myös `Super + Alt + Space` ja Omarchy-valikon _Apps_ avaavat. Klikkaa sovellusta ruudukossa hiiren oikealla painikkeella, tai paina `Delete`, poistaaksesi sen asennuksen. Klikkaa sovellusta avataksesi sen, tai tuodaksesi sen ikkunan etualalle; klikkaa uudelleen kierrättääksesi sen ikkunoita. Keskiklikkaus avaa uuden ikkunan. Vedä kuvaketta dockia pitkin siirtääksesi sitä; käynnissä olevan sovelluksen vetäminen muiden joukkoon pitää sen siellä. Klikkaa hiiren oikealla painikkeella pitääksesi sovelluksen dockissa, poistaaksesi sen sieltä tai lopettaaksesi sen. Dock väistyy koko näytön ikkunan tieltä. Klikkaa sovelluspainiketta hiiren oikealla painikkeella siirtääksesi dockin toiselle reunalle tai saadaksesi sen piiloutumaan, kunnes osoitin saavuttaa sen reunan. Sijainti on myös kohdassa _Trigger > Appearance > Dock > Dock Position_, ja `omarchy dock position left` ja `omarchy dock autohide on` asettavat molemmat päätteeltä. Sovellukset, jotka pidät dockissa, ovat haalistuneita, kun ne eivät ole käynnissä.
+Kelluvassa työtilassa näkyy myös dock, jossa on kiinnitetyt sovelluksesi, kaikki käynnissä oleva, ja ruudukko kaikista sovelluksista sovelluspainikkeen takana, jonka myös `Super + Alt + Space` ja LunaOS-valikon _Apps_ avaavat. Klikkaa sovellusta ruudukossa hiiren oikealla painikkeella, tai paina `Delete`, poistaaksesi sen asennuksen. Klikkaa sovellusta avataksesi sen, tai tuodaksesi sen ikkunan etualalle; klikkaa uudelleen kierrättääksesi sen ikkunoita. Keskiklikkaus avaa uuden ikkunan. Vedä kuvaketta dockia pitkin siirtääksesi sitä; käynnissä olevan sovelluksen vetäminen muiden joukkoon pitää sen siellä. Klikkaa hiiren oikealla painikkeella pitääksesi sovelluksen dockissa, poistaaksesi sen sieltä tai lopettaaksesi sen. Dock väistyy koko näytön ikkunan tieltä. Klikkaa sovelluspainiketta hiiren oikealla painikkeella siirtääksesi dockin toiselle reunalle tai saadaksesi sen piiloutumaan, kunnes osoitin saavuttaa sen reunan. Sijainti on myös kohdassa _Trigger > Appearance > Dock > Dock Position_, ja `lunaos dock position left` ja `lunaos dock autohide on` asettavat molemmat päätteeltä. Sovellukset, jotka pidät dockissa, ovat haalistuneita, kun ne eivät ole käynnissä.
 
-Uudet työtilat, ja kaikki, joille et ole antanut omaa asetteluaan näppäimillä `Super + L`, käyttävät oletusasettelua. Oletuksen vaihtaminen palauttaa jokaisen ikkunattoman työtilan siihen, kun taas työtila, jolla on ikkunoita, säilyttää nykyisen asettelunsa. Dockiin pienennetty ikkuna lasketaan edelleen ikkunaksi työtilalla, jolta se lähti. Valitse se kohdasta _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling tai Floating. `omarchy-hyprland-workspace-layout-default scrolling` asettaa sen päätteeltä.
+Uudet työtilat, ja kaikki, joille et ole antanut omaa asetteluaan näppäimillä `Super + L`, käyttävät oletusasettelua. Oletuksen vaihtaminen palauttaa jokaisen ikkunattoman työtilan siihen, kun taas työtila, jolla on ikkunoita, säilyttää nykyisen asettelunsa. Dockiin pienennetty ikkuna lasketaan edelleen ikkunaksi työtilalla, jolta se lähti. Valitse se kohdasta _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling tai Floating. `lunaos-hyprland-workspace-layout-default scrolling` asettaa sen päätteeltä.
 
 ### Ikkunoiden ryhmittely
 

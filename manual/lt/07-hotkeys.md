@@ -6,7 +6,7 @@ Visus pagrindinius klaviatūros susiejimus galite pamatyti su `Super + K` (Tmux 
 
 | Spartusis klavišas                  | Funkcija              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy meniu (programos ir visa kita)    |
+| `Super + Space`           | LunaOS meniu (programos ir visa kita)    |
 | `Super + Alt + Space` | Programų tinklelis |
 | `Super + Escape` | Sistemos meniu (pristabdyti, paleisti iš naujo ir kt.)  |
 | `Super + Ctrl + L` | Užrakinti kompiuterį |
@@ -136,7 +136,7 @@ Keiskite / pridėkite susiejimus `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Įklijuoti    |
 | `Super + Ctrl + V`           | Iškarpinės tvarkyklė    |
 
-Paprastai Linux jums reikia `Ctrl + Shift + C/V`, kad kopijuotumėte ir įklijuotumėte terminale, ir `Ctrl + C/V`, kad tai darytumėte visur kitur. Šie Omarchy vieningos iškarpinės spartieji klavišai veikia visur.
+Paprastai Linux jums reikia `Ctrl + Shift + C/V`, kad kopijuotumėte ir įklijuotumėte terminale, ir `Ctrl + C/V`, kad tai darytumėte visur kitur. Šie LunaOS vieningos iškarpinės spartieji klavišai veikia visur.
 
 ## Fiksuoti
 
@@ -156,7 +156,7 @@ Paprastai Linux jums reikia `Ctrl + Shift + C/V`, kad kopijuotumėte ir įklijuo
 
 Su ekrano įrašais spartusis klavišas pirmiausia paklausia, kokio garso norite, tada pradeda įrašyti. Paspauskite jį dar kartą, kad sustabdytumėte. Išsamią informaciją žr. [ekrano nuotraukos ir įrašymas](12-screenshots-recording.md).
 
-Visos fiksavimo parinktys taip pat pasiekiamos po _Veiksmai > Fiksuoti_ Omarchy meniu (`Super + Space`).
+Visos fiksavimo parinktys taip pat pasiekiamos po _Veiksmai > Fiksuoti_ LunaOS meniu (`Super + Space`).
 
 ## Pranešimai
 
@@ -177,9 +177,9 @@ Visos fiksavimo parinktys taip pat pasiekiamos po _Veiksmai > Fiksuoti_ Omarchy 
 | `Super + Backspace` | Perjungti lango skaidrumą |
 | `Super + Ctrl + Backspace` | Perjungti vieno lango kvadratinį kraštinių santykį |
 
-Papildomi fono paveikslėliai gyvena `~/.config/omarchy/backgrounds/<theme name>`. Taip pat pasiekiama per _Įdiegti > Stilius > Fonas_ Omarchy meniu.
+Papildomi fono paveikslėliai gyvena `~/.config/lunaos/backgrounds/<theme name>`. Taip pat pasiekiama per _Įdiegti > Stilius > Fonas_ LunaOS meniu.
 
-Visos stiliaus parinktys taip pat pasiekiamos po _Stilius_ Omarchy meniu (`Super + Space`).
+Visos stiliaus parinktys taip pat pasiekiamos po _Stilius_ LunaOS meniu (`Super + Space`).
 
 ## Perjungikliai
 
@@ -281,7 +281,7 @@ Prefikso klavišas yra `Ctrl + Space` (`Ctrl + B` taip pat veikia). Šiuos susie
 
 ## Ghostty terminalas
 
-Ghostty terminalas diegiamas naudojant _Įdiegti > Terminalas_ per Omarchy meniu.
+Ghostty terminalas diegiamas naudojant _Įdiegti > Terminalas_ per LunaOS meniu.
 
 | Spartusis klavišas                  | Funkcija              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Galite naudoti `Super + Ctrl + E`, kad parodytumėte visą emoji parinkiklį, ku
 | `Shift + CapsLock Space N` | Jūsų vardas (kaip įvestas sąrankoje)  |
 | `Shift + CapsLock Space E` | Jūsų el. paštas (kaip įvestas sąrankoje)  |
 
-Galite pridėti daugiau savo redaguodami `~/.XCompose`, tada terminale paleisdami `omarchy-restart-xcompose`, kad pakeitimai būtų pritaikyti.
+Galite pridėti daugiau savo redaguodami `~/.XCompose`, tada terminale paleisdami `lunaos-restart-xcompose`, kad pakeitimai būtų pritaikyti.

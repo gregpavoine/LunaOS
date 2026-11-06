@@ -6,7 +6,7 @@
 
 | Flýtilykill                  | Virkni              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy-valmynd (forrit og allt annað)    |
+| `Super + Space`           | LunaOS-valmynd (forrit og allt annað)    |
 | `Super + Alt + Space` | Forritanet |
 | `Super + Escape` | Kerfisvalmynd (svefn, endurræsa o.s.frv.)  |
 | `Super + Ctrl + L` | Læsa tölvu |
@@ -136,7 +136,7 @@ Breyta/bæta við tengingum í `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Líma    |
 | `Super + Ctrl + V`           | Klippiborðsstjóri    |
 
-Venjulega á Linux þarftu `Ctrl + Shift + C/V` til að afrita og líma í terminal og `Ctrl + C/V` til að gera það alls staðar annars staðar. Þessir sameinuðu klippiborðsflýtilyklar Omarchy virka alls staðar.
+Venjulega á Linux þarftu `Ctrl + Shift + C/V` til að afrita og líma í terminal og `Ctrl + C/V` til að gera það alls staðar annars staðar. Þessir sameinuðu klippiborðsflýtilyklar LunaOS virka alls staðar.
 
 ## Fanga
 
@@ -156,7 +156,7 @@ Venjulega á Linux þarftu `Ctrl + Shift + C/V` til að afrita og líma í termi
 
 Með skjáupptökum spyr flýtilykillinn fyrst hvaða hljóð þú vilt og byrjar síðan að taka upp. Ýttu á hann aftur til að stöðva. Sjá [skjámyndir og upptaka](12-screenshots-recording.md) fyrir nánari upplýsingar.
 
-Allir fangvalkostir eru einnig aðgengilegir undir _Kveikja > Fanga_ í Omarchy-valmyndinni (`Super + Space`).
+Allir fangvalkostir eru einnig aðgengilegir undir _Kveikja > Fanga_ í LunaOS-valmyndinni (`Super + Space`).
 
 ## Tilkynningar
 
@@ -177,9 +177,9 @@ Allir fangvalkostir eru einnig aðgengilegir undir _Kveikja > Fanga_ í Omarchy-
 | `Super + Backspace` | Víxla gegnsæi á glugga |
 | `Super + Ctrl + Backspace` | Víxla ferkantaðri hlutfalli eins glugga |
 
-Aukabakgrunnsmyndir búa í `~/.config/omarchy/backgrounds/<theme name>`. Einnig fáanlegt með _Setja upp > Stíll > Bakgrunnur_ í Omarchy-valmyndinni.
+Aukabakgrunnsmyndir búa í `~/.config/lunaos/backgrounds/<theme name>`. Einnig fáanlegt með _Setja upp > Stíll > Bakgrunnur_ í LunaOS-valmyndinni.
 
-Allir stílvalkostir eru einnig aðgengilegir undir _Stíll_ í Omarchy-valmyndinni (`Super + Space`).
+Allir stílvalkostir eru einnig aðgengilegir undir _Stíll_ í LunaOS-valmyndinni (`Super + Space`).
 
 ## Víxlar
 
@@ -281,7 +281,7 @@ Forskeytislykillinn er `Ctrl + Space` (`Ctrl + B` virkar líka). Þú getur brey
 
 ## Ghostty-terminal
 
-Ghostty-terminal er settur upp með _Setja upp > Terminal_ í gegnum Omarchy-valmyndina.
+Ghostty-terminal er settur upp með _Setja upp > Terminal_ í gegnum LunaOS-valmyndina.
 
 | Flýtilykill                  | Virkni              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Ghostty-terminal er settur upp með _Setja upp > Terminal_ í gegnum Omarchy-val
 | `Shift + CapsLock Space N` | Nafnið þitt (eins og það var slegið inn við uppsetningu)  |
 | `Shift + CapsLock Space E` | Netfangið þitt (eins og það var slegið inn við uppsetningu)  |
 
-Þú getur bætt við fleiri þínum eigin með því að breyta `~/.XCompose` og keyra síðan `omarchy-restart-xcompose` í terminal til að breytingarnar taki gildi.
+Þú getur bætt við fleiri þínum eigin með því að breyta `~/.XCompose` og keyra síðan `lunaos-restart-xcompose` í terminal til að breytingarnar taki gildi.

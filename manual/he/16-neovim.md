@@ -6,7 +6,7 @@
 
 עכשיו Neovim ניתן להגדרה כמעט בלי סוף. אם באמת רוצים להשתגע, אפשר ליצור הגדרת Neovim משלכם מאפס. יש קורס נהדר מ-[Typecraft על הגדרת Neovim מאפס](https://www.youtube.com/watch?v=zHTeCSVAFNY). ול-[ThePrimeagen יש גם אחד](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-אבל Omarchy מגיעה עם הגדרת Neovim שלמה — חבילת `omarchy-nvim` — שכווננה באהבה כדי להציג את הטוב ביותר שאפשר מהקופסה. בלי שתצטרכו לכתוב שורת הגדרה אחת! היא בנויה על [LazyVim](https://www.lazyvim.org/), הפצה של תוספי Neovim והגדרות. היא נהדרת.
+אבל LunaOS מגיעה עם הגדרת Neovim שלמה — חבילת `omarchy-nvim` — שכווננה באהבה כדי להציג את הטוב ביותר שאפשר מהקופסה. בלי שתצטרכו לכתוב שורת הגדרה אחת! היא בנויה על [LazyVim](https://www.lazyvim.org/), הפצה של תוספי Neovim והגדרות. היא נהדרת.
 
 ## יסודות LazyVim
 

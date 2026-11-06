@@ -1,6 +1,6 @@
 # Prompt
 
-Omarchy trae por defecto un prompt mínimo de [Starship](https://starship.rs/). Así es como me gusta mantener mi prompt. No necesito saber el usuario, porque siempre soy yo, y no necesito saber la hora, porque siempre está arriba.
+LunaOS trae por defecto un prompt mínimo de [Starship](https://starship.rs/). Así es como me gusta mantener mi prompt. No necesito saber el usuario, porque siempre soy yo, y no necesito saber la hora, porque siempre está arriba.
 
  ![prompt](images/prompt.webp)
 

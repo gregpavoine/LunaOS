@@ -11,13 +11,13 @@ trap 'rm -rf "$TEST_HOME"' EXIT
 # Without credentials the collector must still print a full, hidden-by-default
 # record: the update runner writes whatever valid JSON appears on stdout.
 no_key=$(HOME="$TEST_HOME" KIMI_CODE_HOME="$TEST_HOME/kimi-code" KIMI_API_KEY="" \
-  "$ROOT/bin/omarchy-agent-usage-kimi")
+  "$ROOT/bin/lunaos-agent-usage-kimi")
 
 [[ $(jq -r '.id + ":" + (.ready | tostring) + ":" + (.scope)' <<<"$no_key") == "kimi:false:account" ]] ||
   fail "Kimi collector prints a valid record without credentials" "$no_key"
 pass "Kimi collector prints a valid record without credentials"
 
-result=$(TEST_HOME="$TEST_HOME" python3 - "$ROOT/bin/omarchy-agent-usage-kimi" <<'PY'
+result=$(TEST_HOME="$TEST_HOME" python3 - "$ROOT/bin/lunaos-agent-usage-kimi" <<'PY'
 import importlib.machinery
 import importlib.util
 import io
@@ -112,7 +112,7 @@ summary["limits"] = limits
 
 os.environ["KIMI_API_KEY"] = "kimi_env"
 scanner.quota = lambda key: payload
-sys.argv = ["omarchy-agent-usage-kimi", "--limits-only"]
+sys.argv = ["lunaos-agent-usage-kimi", "--limits-only"]
 out = io.StringIO()
 with redirect_stdout(out):
   scanner.main()

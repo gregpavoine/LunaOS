@@ -6,7 +6,7 @@ Is féidir leat na príomhcheangail méarchláir uile a fheiceáil le `Super + K
 
 | Eochair ghasta                  | Feidhm              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Roghchlár Omarchy (aipeanna agus gach rud eile)    |
+| `Super + Space`           | Roghchlár LunaOS (aipeanna agus gach rud eile)    |
 | `Super + Alt + Space` | Greille aipeanna |
 | `Super + Escape` | Roghchlár córais (cuir ar fionraí, atosaigh, srl)  |
 | `Super + Ctrl + L` | Glasáil ríomhaire |
@@ -136,7 +136,7 @@ Athraigh/cuir ceangail leis i `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Greamaigh    |
 | `Super + Ctrl + V`           | Bainisteoir gearrthaisce    |
 
-De ghnáth ar Linux, teastaíonn `Ctrl + Shift + C/V` uait chun cóipeáil is greamú a dhéanamh sa teirminéal agus `Ctrl + C/V` chun é a dhéanamh i ngach áit eile. Oibríonn na heochracha gasta gearrthaisce aontaithe Omarchy seo i ngach áit.
+De ghnáth ar Linux, teastaíonn `Ctrl + Shift + C/V` uait chun cóipeáil is greamú a dhéanamh sa teirminéal agus `Ctrl + C/V` chun é a dhéanamh i ngach áit eile. Oibríonn na heochracha gasta gearrthaisce aontaithe LunaOS seo i ngach áit.
 
 ## Gabh
 
@@ -156,7 +156,7 @@ De ghnáth ar Linux, teastaíonn `Ctrl + Shift + C/V` uait chun cóipeáil is gr
 
 Le taifeadtaí scáileáin, fiafraíonn an eochair ghasta ar dtús cén fhuaim atá uait, ansin tosaíonn sí ag taifeadadh. Buail arís í chun stopadh. Féach [seatanna scáileáin agus taifeadadh](12-screenshots-recording.md) do na sonraí.
 
-Tá gach rogha gabhála ar fáil freisin faoi _Spreag > Gabh_ i roghchlár Omarchy (`Super + Space`).
+Tá gach rogha gabhála ar fáil freisin faoi _Spreag > Gabh_ i roghchlár LunaOS (`Super + Space`).
 
 ## Fógraí
 
@@ -177,9 +177,9 @@ Tá gach rogha gabhála ar fáil freisin faoi _Spreag > Gabh_ i roghchlár Omarc
 | `Super + Backspace` | Scoránaigh trédhearcacht ar fhuinneog |
 | `Super + Ctrl + Backspace` | Scoránaigh gné chearnógach aon-fhuinneoige |
 
-Tá íomhánna cúlra breise i `~/.config/omarchy/backgrounds/<theme name>`. Ar fáil freisin trí _Suiteáil > Stíl > Cúlra_ i roghchlár Omarchy.
+Tá íomhánna cúlra breise i `~/.config/lunaos/backgrounds/<theme name>`. Ar fáil freisin trí _Suiteáil > Stíl > Cúlra_ i roghchlár LunaOS.
 
-Tá gach rogha stíle ar fáil freisin faoi _Stíl_ i roghchlár Omarchy (`Super + Space`).
+Tá gach rogha stíle ar fáil freisin faoi _Stíl_ i roghchlár LunaOS (`Super + Space`).
 
 ## Scoráin
 
@@ -281,7 +281,7 @@ Caithfear na feidhmeanna seo a rith taobh istigh de sheisiún Tmux.
 
 ## Teirminéal Ghostty
 
-Suiteáiltear teirminéal Ghostty le _Suiteáil > Teirminéal_ trí roghchlár Omarchy.
+Suiteáiltear teirminéal Ghostty le _Suiteáil > Teirminéal_ trí roghchlár LunaOS.
 
 | Eochair ghasta                  | Feidhm              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Is féidir leat `Super + Ctrl + E` a úsáid chun roghnóir emoji iomlán a thai
 | `Shift + CapsLock Space N` | D'ainm (mar a iontráladh ag an socrú)  |
 | `Shift + CapsLock Space E` | Do ríomhphost (mar a iontráladh ag an socrú)  |
 
-Is féidir leat níos mó de do chuid féin a chur leis trí `~/.XCompose` a chur in eagar, ansin `omarchy-restart-xcompose` a rith sa teirminéal chun na hathruithe a thógáil suas.
+Is féidir leat níos mó de do chuid féin a chur leis trí `~/.XCompose` a chur in eagar, ansin `lunaos-restart-xcompose` a rith sa teirminéal chun na hathruithe a thógáil suas.

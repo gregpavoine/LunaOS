@@ -14,11 +14,11 @@ test_tmp=$(mktemp -d)
 trap 'rm -rf "$test_tmp"' EXIT
 mkdir -p "$test_tmp/bin"
 
-cat >"$test_tmp/bin/omarchy-hw-match" <<'SH'
+cat >"$test_tmp/bin/lunaos-hw-match" <<'SH'
 #!/bin/bash
 [[ $TEST_PRODUCT_NAME == *"$1"* ]]
 SH
-cat >"$test_tmp/bin/omarchy-hw-intel-ptl" <<'SH'
+cat >"$test_tmp/bin/lunaos-hw-intel-ptl" <<'SH'
 #!/bin/bash
 [[ $TEST_INTEL_PTL == "1" ]]
 SH
@@ -47,7 +47,7 @@ else
   touch "$TEST_ALIAS_FILE"
 fi
 SH
-cat >"$test_tmp/bin/omarchy-state" <<'SH'
+cat >"$test_tmp/bin/lunaos-state" <<'SH'
 #!/bin/bash
 printf 'state %s\n' "$*" >>"$TEST_LOG"
 SH
@@ -57,7 +57,7 @@ export PATH="$test_tmp/bin:$ROOT/bin:$PATH"
 export TEST_LOG="$test_tmp/calls" TEST_VERSION_FILE="$test_tmp/version" TEST_ALIAS_FILE="$test_tmp/alias-installed"
 export TEST_PRODUCT_NAME="XPS 13 DX13260" TEST_INTEL_PTL=1
 install_call="pacman -S --noconfirm --needed -- linux-firmware-cirrus-dx13260"
-export OMARCHY_PATH="$ROOT"
+export LUNAOS_PATH="$ROOT"
 
 reset_fixture() {
   : >"$TEST_LOG"

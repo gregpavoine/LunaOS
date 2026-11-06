@@ -1,6 +1,6 @@
 # Indicador
 
-Omarchy ve amb un indicador [Starship](https://starship.rs/) minimalista per defecte. Així és com a mi m'agrada mantenir el meu indicador. No necessito saber l'usuari, perquè sempre sóc jo, i no necessito saber l'hora, perquè sempre és a dalt.
+LunaOS ve amb un indicador [Starship](https://starship.rs/) minimalista per defecte. Així és com a mi m'agrada mantenir el meu indicador. No necessito saber l'usuari, perquè sempre sóc jo, i no necessito saber l'hora, perquè sempre és a dalt.
 
  ![prompt](images/prompt.webp)
 

@@ -6,9 +6,9 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
 # Bind mounts need CAP_SYS_ADMIN in a private mount namespace. Keep the
 # caller's uid so the non-root development path is exercised.
-if [[ ${OMARCHY_WINDOWS_TEST_NAMESPACE:-0} != 1 ]]; then
+if [[ ${LUNAOS_WINDOWS_TEST_NAMESPACE:-0} != 1 ]]; then
   if unshare --user --map-current-user --keep-caps --mount true 2>/dev/null; then
-    exec env OMARCHY_WINDOWS_TEST_NAMESPACE=1 \
+    exec env LUNAOS_WINDOWS_TEST_NAMESPACE=1 \
       unshare --user --map-current-user --keep-caps --mount --propagation private bash "$0"
   fi
   skip "unprivileged mount namespaces unavailable; skipping Windows VM mount runtime tests"
@@ -16,22 +16,22 @@ if [[ ${OMARCHY_WINDOWS_TEST_NAMESPACE:-0} != 1 ]]; then
 fi
 
 TMPDIR=$(mktemp -d)
-export OMARCHY_WINDOWS_DIR="$TMPDIR/win"
+export LUNAOS_WINDOWS_DIR="$TMPDIR/win"
 export HOME="$TMPDIR/home"
 mkdir -p "$HOME"
 
 # The command refuses any CPU but x86_64 before defining anything, and sourcing
 # it there would exit this test with it. What is under test is the x86_64 path,
-# so omarchy-hw-x86 answers as one.
+# so lunaos-hw-x86 answers as one.
 STUB_BIN="$TMPDIR/bin"
 mkdir -p "$STUB_BIN"
-printf '#!/bin/bash\nexit 0\n' >"$STUB_BIN/omarchy-hw-x86"
-chmod +x "$STUB_BIN/omarchy-hw-x86"
+printf '#!/bin/bash\nexit 0\n' >"$STUB_BIN/lunaos-hw-x86"
+chmod +x "$STUB_BIN/lunaos-hw-x86"
 PATH="$STUB_BIN:$PATH"
 
 set -- help
-source "$ROOT/bin/omarchy-windows-vm" >/dev/null 2>&1
-COMPOSE="$OMARCHY_WINDOWS_DIR/docker-compose.yml"
+source "$ROOT/bin/lunaos-windows-vm" >/dev/null 2>&1
+COMPOSE="$LUNAOS_WINDOWS_DIR/docker-compose.yml"
 
 unmount_all() {
   local path
@@ -57,7 +57,7 @@ fd_count() { find "/proc/$$/fd" -mindepth 1 -maxdepth 1 -printf x | wc -c; }
 
 reset_case() {
   unmount_all
-  rm -rf "$OMARCHY_WINDOWS_DIR" "$HOME/.windows" "$HOME/Windows"
+  rm -rf "$LUNAOS_WINDOWS_DIR" "$HOME/.windows" "$HOME/Windows"
   mkdir -p "$HOME"
 }
 
@@ -106,10 +106,10 @@ pass "privileged action dispatch is allowlisted"
 # file from priv_target's stat checks to exercise the historical fallback.
 attack_bin="$TMPDIR/attack-bin"
 mkdir -p "$attack_bin"
-ln -s /bin/bash "$attack_bin/omarchy-windows-vm"
+ln -s /bin/bash "$attack_bin/lunaos-windows-vm"
 printf 'printf exploited >"$TMPDIR/exploited"\n' >"$TMPDIR/__priv"
 stat() {
-  [[ ${!#} == /usr/bin/omarchy-windows-vm ]] && return 1
+  [[ ${!#} == /usr/bin/lunaos-windows-vm ]] && return 1
   command stat "$@"
 }
 PATH="$attack_bin:$PATH" priv_target >/dev/null 2>&1 && fail "PATH symlink became a privileged target"

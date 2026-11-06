@@ -1,8 +1,8 @@
 # Terminal
 
-[Foot](https://codeberg.org/dnkl/foot) es la terminal predeterminada de Omarchy. Es rápida, ligera y compatible hasta con computadoras viejas. Sin embargo, no admite pestañas ni divisiones nativas.
+[Foot](https://codeberg.org/dnkl/foot) es la terminal predeterminada de LunaOS. Es rápida, ligera y compatible hasta con computadoras viejas. Sin embargo, no admite pestañas ni divisiones nativas.
 
-Si usas Tmux, quizá no te importe, pero si no, también admitimos por completo _Alacritty_, _Ghostty_ y _Kitty_ como opciones. Elige tu preferencia en _Instalar > Terminal_ en el menú de Omarchy.
+Si usas Tmux, quizá no te importe, pero si no, también admitimos por completo _Alacritty_, _Ghostty_ y _Kitty_ como opciones. Elige tu preferencia en _Instalar > Terminal_ en el menú de LunaOS.
 
 Abres una terminal nueva con `Super + Return`. (Esta asignación apuntará automáticamente a la terminal que hayas instalado en _Instalar > Terminal_, y puedes cambiar entre las terminales instaladas en _Configurar > Predeterminados > Terminal_.)
 
@@ -12,11 +12,11 @@ Tmux ofrece una interfaz consistente y programable para paneles, ventanas (tambi
 
 Inicias una sesión nueva de Tmux en una terminal nueva con `Super + Alt + Return`, y como Tmux es un proceso persistente, puedes reanudar tu sesión aunque cierres esa terminal. Solo presiona `Ctrl + Space` (llamada la tecla prefijo) y luego `s` para ver todas tus sesiones activas.
 
-Omarchy incluye una configuración de Tmux optimizada ergonómicamente, que tiene muchos atajos que aprender, así que ten [la hoja de referencia a la mano](07-hotkeys.md#tmux).
+LunaOS incluye una configuración de Tmux optimizada ergonómicamente, que tiene muchos atajos que aprender, así que ten [la hoja de referencia a la mano](07-hotkeys.md#tmux).
 
 ## Funciones de distribución de Tmux
 
-Como Tmux es programable, podemos usar funciones para crear distribuciones. Omarchy incluye cuatro funciones diferentes para distribuciones comunes de desarrollo.
+Como Tmux es programable, podemos usar funciones para crear distribuciones. LunaOS incluye cuatro funciones diferentes para distribuciones comunes de desarrollo.
 
 `tdl [agent]` inicia una interfaz dividida en tres partes, parecida a un IDE, con el `$EDITOR` a la izquierda, el agente de IA que elijas a la derecha (como `c` para opencode, `cx` para Claude o `codex` para OpenAI) y luego una terminal abajo.
 

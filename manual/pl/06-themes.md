@@ -1,8 +1,8 @@
 # Motywy
 
-Omarchy zawiera dwadzieścia dwa piękne motywy. Możesz wybierać spośród nich przez _Styl > Motyw_ w menu Omarchy (`Super + Space`) albo wskoczyć prosto do wyboru motywu przez `Super + Ctrl + Shift + Space`.
+LunaOS zawiera dwadzieścia dwa piękne motywy. Możesz wybierać spośród nich przez _Styl > Motyw_ w menu LunaOS (`Super + Space`) albo wskoczyć prosto do wyboru motywu przez `Super + Ctrl + Shift + Space`.
 
-Każdy motyw stylizuje pulpit, terminal, neovim, ekran aktywności (btop), Chromium oraz całą powłokę Omarchy: górny pasek, menu, powiadomienia, OSD i ekran blokady. (W przypadku Obsidian musisz ręcznie wybrać motyw Omarchy przez _Appearance > Themes_ wewnątrz aplikacji).
+Każdy motyw stylizuje pulpit, terminal, neovim, ekran aktywności (btop), Chromium oraz całą powłokę LunaOS: górny pasek, menu, powiadomienia, OSD i ekran blokady. (W przypadku Obsidian musisz ręcznie wybrać motyw LunaOS przez _Appearance > Themes_ wewnątrz aplikacji).
 
 Motywy mają zestaw obrazów tła, spośród których możesz wybierać przez `Super + Ctrl + Space`.
 

@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ La barra mostrarà automàticament la teva disposició de teclat actual un cop t
 Fes clic amb el botó dret al rellotge de la barra per anar passant pels formats habituals, inclosos els de 12 hores. També pots definir el format directament:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Això mostrarà Sunday 10:55 AM.
 
 ### Com canvio la zona horària?
 
-Executa _Actualitza > Zona horària_ al menú d'Omarchy i tria de la llista. Si la zona horària és correcta però el rellotge mateix s'ha desviat, _Actualitza > Hora_ reinicia la sincronització horària per tu.
+Executa _Actualitza > Zona horària_ al menú d'LunaOS i tria de la llista. Si la zona horària és correcta però el rellotge mateix s'ha desviat, _Actualitza > Hora_ reinicia la sincronització horària per tu.
 
 ### Com canvio el DNS, comparteixo la Wi-Fi o comprovo la velocitat de la connexió?
 
@@ -36,11 +36,11 @@ Tot això viu a [xarxa](35-networking.md).
 
 ### Com comprovo a quina velocitat va el meu disc?
 
-_Activa > Prova de velocitat > Prova de velocitat de disc_ mesura la velocitat de lectura i escriptura en directe de la teva unitat, o `omarchy disk speedtest` des del terminal.
+_Activa > Prova de velocitat > Prova de velocitat de disc_ mesura la velocitat de lectura i escriptura en directe de la teva unitat, o `lunaos disk speedtest` des del terminal.
 
 ### Per què no puc iniciar sessió al meu compte de Google a Chromium?
 
-La versió de codi obert i a pèl de Chromium no ve amb les credencials OAuth que Google requereix per iniciar sessió en un compte. Executa _Instal·la > Servei > Chromium Account_ al menú d'Omarchy per afegir-les, reinicia el navegador i l'inici de sessió funcionarà.
+La versió de codi obert i a pèl de Chromium no ve amb les credencials OAuth que Google requereix per iniciar sessió en un compte. Executa _Instal·la > Servei > Chromium Account_ al menú d'LunaOS per afegir-les, reinicia el navegador i l'inici de sessió funcionarà.
 
 ### Com afegeixo una impressora?
 
@@ -60,15 +60,15 @@ Les captures de pantalla desades van a `~/Pictures/Screenshots` per defecte. Per
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Pots fer el mateix per als enregistraments de pantalla fent servir `OMARCHY_SCREENRECORD_DIR`.
+Pots fer el mateix per als enregistraments de pantalla fent servir `LUNAOS_SCREENRECORD_DIR`.
 
-Omasnap crea automàticament el seu directori de captures de pantalla. Crea tu mateix el directori d'enregistrament de pantalla i després reinicia Omarchy perquè qualsevol dels dos canvis d'entorn tingui efecte.
+Omasnap crea automàticament el seu directori de captures de pantalla. Crea tu mateix el directori d'enregistrament de pantalla i després reinicia LunaOS perquè qualsevol dels dos canvis d'entorn tingui efecte.
 
 ### Com faig funcionar els altaveus i la càmera web de l'Apple Studio Display?
 
 Et pensaries que tot hauria de funcionar només connectant l'USB C, però malauradament no és el cas. La solució que he trobat perquè funcioni de manera fiable és fer servir [el cable WJESOG DisplayPort + USB-A => USB-C](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/). Aleshores els altaveus i la càmera web funcionen com un encant.
 
-Recorda que a Omarchy tens control de brillantor integrat per a les pantalles Apple (tant la Studio com la XDR) fent servir els botons de brillantor habituals del teclat.
+Recorda que a LunaOS tens control de brillantor integrat per a les pantalles Apple (tant la Studio com la XDR) fent servir els botons de brillantor habituals del teclat.
 
 ### Com em desfaig de tot el programari extra?
 
@@ -76,7 +76,7 @@ Si no vols programes com Obsidian o LibreOffice o qualsevol altra cosa preinstal
 
 Executa _Elimina > Paquet_ per veure tots els paquets que hi ha instal·lats. Aleshores pots seleccionar amb el tabulador qualsevol paquet que vulguis eliminar i començar a eliminar tot el que hagis seleccionat amb retorn.
 
-I pots fer servir _Elimina > Aplicació web_ des del menú d'Omarchy per eliminar qualsevol de les aplicacions web preinstal·lades que no vulguis.
+I pots fer servir _Elimina > Aplicació web_ des del menú d'LunaOS per eliminar qualsevol de les aplicacions web preinstal·lades que no vulguis.
 
 O bé executa _Elimina > Preinstal·la_ per escombrar totes les extres preinstal·lades —aplicacions web, TUIs i aplicacions opcionals— d'una sola passada. Les dreceres que les engegaven se'n van amb elles, de manera que et quedarà una pissarra neta d'enllaços per omplir amb els teus a `~/.config/hypr/bindings.lua`.
 

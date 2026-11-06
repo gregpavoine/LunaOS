@@ -1,16 +1,16 @@
 # Prise en charge Mac
 
-Omarchy prend en charge nativement les **Mac Intel**. Il y a pour le moment quelques limitations connues, mais tant que vous en êtes conscient et que cela vous convient, vous pouvez insuffler une nouvelle vie à vos vieux Mac en chargeant Omarchy.
+LunaOS prend en charge nativement les **Mac Intel**. Il y a pour le moment quelques limitations connues, mais tant que vous en êtes conscient et que cela vous convient, vous pouvez insuffler une nouvelle vie à vos vieux Mac en chargeant LunaOS.
 
-Notez que l'installation sur un Mac à puce M n'est pas directement prise en charge pour le moment. Vous pouvez en savoir plus sur l'état de la chose dans #omarchy-on-other sur notre [Discord](https://discord.gg/tXFUdasqhY).
+Notez que l'installation sur un Mac à puce M n'est pas directement prise en charge pour le moment. Vous pouvez en savoir plus sur l'état de la chose dans #lunaos-on-other sur notre [Discord](https://discord.gg/tXFUdasqhY).
 
-Lors d'un test simple, nous avons réussi à obtenir des gains de performance de 36 % sur un MacBook Pro 2019 rien qu'en installant Omarchy.
+Lors d'un test simple, nous avons réussi à obtenir des gains de performance de 36 % sur un MacBook Pro 2019 rien qu'en installant LunaOS.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Installer Omarchy sur Mac
+### Installer LunaOS sur Mac
 
-Omarchy ne prend en charge pour le moment que le fait d'être le **seul** système d'exploitation installé. Pendant l'installation, le disque sera effacé et MacOS ne sera plus amorçable.
+LunaOS ne prend en charge pour le moment que le fait d'être le **seul** système d'exploitation installé. Pendant l'installation, le disque sera effacé et MacOS ne sera plus amorçable.
 
 Vous pourrez toujours le restaurer plus tard via la Récupération par Internet si vous le souhaitez.
 
@@ -39,7 +39,7 @@ L'installateur détecte le matériel Mac et applique automatiquement les correct
 
 ### Limitations connues
 
-Les membres de la communauté travaillent constamment à des solutions pour ces défis, alors si c'est problématique pour vous, rejoignez #omarchy-on-other sur notre [Discord](https://discord.gg/tXFUdasqhY) et voyez s'il existe des méthodes à jour pour les résoudre.
+Les membres de la communauté travaillent constamment à des solutions pour ces défis, alors si c'est problématique pour vous, rejoignez #lunaos-on-other sur notre [Discord](https://discord.gg/tXFUdasqhY) et voyez s'il existe des méthodes à jour pour les résoudre.
 
 #### Appareils avec puce T1
 

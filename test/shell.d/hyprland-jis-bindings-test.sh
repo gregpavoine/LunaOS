@@ -28,9 +28,9 @@ fire() {
     printf '[Groups/0/Items/0]\nName=keyboard-us\n[Groups/0/Items/1]\nName=mozc\n' > "$home/.config/fcitx5/profile"
   fi
 
-  HOME="$home" XDG_CONFIG_HOME="$home/.config" OMARCHY_PATH="$ROOT" \
+  HOME="$home" XDG_CONFIG_HOME="$home/.config" LUNAOS_PATH="$ROOT" \
     TEST_KEYS="$keys" TEST_CLASS="$class" TEST_TAGS="$tags" TEST_LAYOUT="${TEST_LAYOUT:-jp}" lua <<'LUA'
-package.path = os.getenv("OMARCHY_PATH") .. "/?.lua;" .. package.path
+package.path = os.getenv("LUNAOS_PATH") .. "/?.lua;" .. package.path
 
 local real_open = io.open
 io.open = function(path, mode)
@@ -119,8 +119,8 @@ done
 TEST_KEYBOARD_ONLY=true assert_fires "keyboard-only profiles use the same prefix bind" "$direct" "$prefix" "foot" "terminal"
 
 assert_fires "Super + I cycles configured input independently of custom Fcitx keys" \
-  "exec omarchy-input-method cycle" "SUPER + I" "chromium"
+  "exec lunaos-input-method cycle" "SUPER + I" "chromium"
 assert_fires "Super + Shift + I cycles configured input back" \
-  "exec omarchy-input-method cycle back" "SUPER + SHIFT + I" "chromium"
+  "exec lunaos-input-method cycle back" "SUPER + SHIFT + I" "chromium"
 TEST_KEYBOARD_ONLY=true assert_fires "Super + I cycles keyboard layouts without an input engine" \
-  "exec omarchy-input-method cycle" "SUPER + I" "foot" "terminal"
+  "exec lunaos-input-method cycle" "SUPER + I" "foot" "terminal"

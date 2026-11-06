@@ -1,6 +1,6 @@
 # Mengisi PDF
 
-Omarchy dilengkapi dengan penampil PDF dasar yang bagus bernama Document Viewer. Ini adalah program yang akan membuka PDF apa pun yang kamu klik dua kali.
+LunaOS dilengkapi dengan penampil PDF dasar yang bagus bernama Document Viewer. Ini adalah program yang akan membuka PDF apa pun yang kamu klik dua kali.
 
 Tetapi kamu hanya dapat menggunakan Document Viewer untuk mengisi PDF yang telah disiapkan sebagai formulir. Jika kamu perlu mengisi PDF yang belum, atau kamu perlu menandatangani PDF, gunakan [Signed](https://github.com/omacom/signed). Mulai melalui peluncur aplikasi (`Super + Space`), atau klik kanan berkas, pilih _Open With..._, dan pilih Signed.
 

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# lunaos:summary=Overwrite the user herdr config with the LunaOS default and reload herdr.
+
+lunaos-refresh-config herdr/config.toml
+lunaos-restart-herdr

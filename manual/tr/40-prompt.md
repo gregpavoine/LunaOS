@@ -1,6 +1,6 @@
 # İstem
 
-Omarchy varsayılan olarak en az düzeyde bir [Starship](https://starship.rs/) istemiyle birlikte gelir. İstemimi böyle tutmayı seviyorum. Kullanıcıyı bilmeme gerek yok, çünkü o her zaman benim ve saati bilmeme gerek yok, çünkü o her zaman en tepede.
+LunaOS varsayılan olarak en az düzeyde bir [Starship](https://starship.rs/) istemiyle birlikte gelir. İstemimi böyle tutmayı seviyorum. Kullanıcıyı bilmeme gerek yok, çünkü o her zaman benim ve saati bilmeme gerek yok, çünkü o her zaman en tepede.
 
  ![prompt](images/prompt.webp)
 

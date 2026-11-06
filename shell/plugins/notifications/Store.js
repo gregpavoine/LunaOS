@@ -34,14 +34,14 @@ function snapshot(n, key, urgencyEnum) {
   var id = Markup.identify(raw)
   var found = Detect.scan(id.summary, id.body)
   // The hint may arrive as a list, which normalise() would read as no string.
-  var argv = Security.parseExecArgv(hints["omarchy-exec-argv"])
+  var argv = Security.parseExecArgv(hints["lunaos-exec-argv"])
   return normalise({
     key: key,
     originalId: n.id || 0,
     // A terminal relaying a notification owns a window; its pid says which.
     senderPid: Number(hints["sender-pid"] || 0) || 0,
     execArgv: argv ? JSON.stringify(argv) : "",
-    glyph: hints["omarchy-glyph"],
+    glyph: hints["lunaos-glyph"],
     transient: hints["transient"] === true || hints["transient"] === 1,
     app: raw.app,
     // Else the desktop-entry hint, which names the app's .desktop file and so,
@@ -135,7 +135,7 @@ function restored(entry) {
 
 // ------------------------------------------------------------ persistence
 //
-// Service.qml keeps three files in ~/.local/state/omarchy/notifications/:
+// Service.qml keeps three files in ~/.local/state/lunaos/notifications/:
 // live.json (the rows on screen, oldest first, restored after a restart),
 // history.json (closed rows, newest first) and quiet.json. A row goes through
 // persistable() on the way out and again on the way back in, so one an older

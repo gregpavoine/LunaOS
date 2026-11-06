@@ -1,8 +1,8 @@
-# The setup form: every question Omarchy asks a human to describe their machine
+# The setup form: every question LunaOS asks a human to describe their machine
 # — keyboard, account, hostname, timezone — plus the rules those answers are
 # checked against. Shared by the two places that ask them: the ISO
 # configurator's user step and this package's first-boot owner setup
-# (omarchy-provision-owner). Sourced by both, so the copies cannot drift the way
+# (lunaos-provision-owner). Sourced by both, so the copies cannot drift the way
 # the keyboard list already did.
 #
 # Every prompt reports one of three statuses, and both callers read them the
@@ -22,15 +22,15 @@
 # keyboard_input_method, keyboard_xkb_layout, username,
 # password, password_confirmation, full_name, email_address, hostname, timezone.
 
-OMARCHY_FORM_BACK=1
-OMARCHY_FORM_SIGNAL=130
+LUNAOS_FORM_BACK=1
+LUNAOS_FORM_SIGNAL=130
 
 # The English layouts lead, then everything else alphabetically. gum choose
 # paginates in --height-sized pages and jumps to the page holding --selected,
 # so an alphabetical English (US) landed deep enough to sit alone at the edge
 # of a page of layouts nobody scanning for it reads. Up here the default and
 # its variants are the first thing on screen no matter how the list grows.
-OMARCHY_KEYBOARD_LAYOUTS=$'English (US)|us
+LUNAOS_KEYBOARD_LAYOUTS=$'English (US)|us
 English (UK)|uk
 English (US, Dvorak)|dvorak
 English (US, Colemak)|colemak
@@ -83,14 +83,14 @@ Tajik|tj_alt-UTF8
 Turkish|trq
 Ukrainian|ua'
 
-OMARCHY_USERNAME_PATTERN='^[a-z_][a-z0-9_-]*[$]?$'
-OMARCHY_RESERVED_USERNAMES='^(root|bin|daemon|mail|ftp|http|nobody|dbus|systemd-coredump|systemd-network|systemd-oom|systemd-journal-remote|systemd-resolve|systemd-timesync|tss|uuidd|alpm|git|avahi|cups|cups-browsed|lp|_talkd|polkitd|rtkit|qemu|brltty|gluster|rpc|libvirt-qemu|pcscd|nvidia-persistenced|sddm)$'
-OMARCHY_HOSTNAME_PATTERN='^[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?$'
-OMARCHY_HOSTNAME_DEFAULT='omarchy'
+LUNAOS_USERNAME_PATTERN='^[a-z_][a-z0-9_-]*[$]?$'
+LUNAOS_RESERVED_USERNAMES='^(root|bin|daemon|mail|ftp|http|nobody|dbus|systemd-coredump|systemd-network|systemd-oom|systemd-journal-remote|systemd-resolve|systemd-timesync|tss|uuidd|alpm|git|avahi|cups|cups-browsed|lp|_talkd|polkitd|rtkit|qemu|brltty|gluster|rpc|libvirt-qemu|pcscd|nvidia-persistenced|sddm)$'
+LUNAOS_HOSTNAME_PATTERN='^[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?$'
+LUNAOS_HOSTNAME_DEFAULT='lunaos'
 
 # Installer targets are empty, so any account is fair game; first-boot setup
 # overrides this because its machine already has users.
-omarchy_username_taken() { return 1; }
+lunaos_username_taken() { return 1; }
 
 # `x=$(gum ...) && status=0 || status=$?` rather than a bare assignment followed
 # by `status=$?`: one caller runs under `set -e`, where a cancelled prompt is a
@@ -99,26 +99,26 @@ omarchy_username_taken() { return 1; }
 # Install media for one market can leave its keyboard and timezone choices for
 # a first-boot owner setup: plain KEY=value lines, read as data. The live
 # installer sets the same defaults in its environment instead.
-omarchy_form_defaults=${OMARCHY_FORM_DEFAULTS:-/etc/omarchy/form-defaults}
-if [[ -r $omarchy_form_defaults ]]; then
-  while IFS='=' read -r omarchy_form_key omarchy_form_value; do
-    case "$omarchy_form_key" in
-      KEYBOARD) : "${OMARCHY_FORM_KEYBOARD_DEFAULT:=$omarchy_form_value}" ;;
-      TIMEZONE) : "${OMARCHY_FORM_TIMEZONE_DEFAULT:=$omarchy_form_value}" ;;
+lunaos_form_defaults=${LUNAOS_FORM_DEFAULTS:-/etc/lunaos/form-defaults}
+if [[ -r $lunaos_form_defaults ]]; then
+  while IFS='=' read -r lunaos_form_key lunaos_form_value; do
+    case "$lunaos_form_key" in
+      KEYBOARD) : "${LUNAOS_FORM_KEYBOARD_DEFAULT:=$lunaos_form_value}" ;;
+      TIMEZONE) : "${LUNAOS_FORM_TIMEZONE_DEFAULT:=$lunaos_form_value}" ;;
     esac
-  done <"$omarchy_form_defaults"
-  unset omarchy_form_key omarchy_form_value
+  done <"$lunaos_form_defaults"
+  unset lunaos_form_key lunaos_form_value
 fi
 
-omarchy_prompt_keyboard() {
-  local choice status default=${OMARCHY_FORM_KEYBOARD_DEFAULT:-English (US)}
+lunaos_prompt_keyboard() {
+  local choice status default=${LUNAOS_FORM_KEYBOARD_DEFAULT:-English (US)}
   # gum splits --selected on commas, so "Chinese (Simplified, Pinyin)" needs them escaped.
-  choice=$(printf '%s\n' "$OMARCHY_KEYBOARD_LAYOUTS" | cut -d'|' -f1 |
+  choice=$(printf '%s\n' "$LUNAOS_KEYBOARD_LAYOUTS" | cut -d'|' -f1 |
     gum choose --height 10 --selected "${default//,/\\,}" --header "Select keyboard layout") && status=0 || status=$?
   ((status == 0)) || return $status
 
   local selection
-  selection=$(printf '%s\n' "$OMARCHY_KEYBOARD_LAYOUTS" | awk -F'|' -v c="$choice" '$1==c{print; exit}')
+  selection=$(printf '%s\n' "$LUNAOS_KEYBOARD_LAYOUTS" | awk -F'|' -v c="$choice" '$1==c{print; exit}')
   [[ -n $selection ]] || return 1
   IFS='|' read -r keyboard_label keyboard keyboard_input_method keyboard_xkb_layout <<< "$selection"
   keyboard_input_method=${keyboard_input_method:-none}
@@ -127,24 +127,24 @@ omarchy_prompt_keyboard() {
 
 # Root-side persistence. Console keymaps remain real keymaps; the input
 # preference survives separately for every user of the installed system.
-omarchy_persist_input_selection() {
+lunaos_persist_input_selection() {
   local target_root=${1:-} method=${keyboard_input_method:-none} layout=${keyboard_xkb_layout:-}
   case "$method" in none | mozc | hangul | pinyin | chewing | cangjie5) ;; *) return 1 ;; esac
   case "$layout" in "" | kr | kr:kr104 | la) ;; *) return 1 ;; esac
-  mkdir -p "$target_root/etc/omarchy"
-  printf 'INPUT_METHOD=%s\nXKB_LAYOUT=%s\n' "$method" "$layout" > "$target_root/etc/omarchy/input-method"
+  mkdir -p "$target_root/etc/lunaos"
+  printf 'INPUT_METHOD=%s\nXKB_LAYOUT=%s\n' "$method" "$layout" > "$target_root/etc/lunaos/input-method"
 }
 
-omarchy_prompt_username() {
+lunaos_prompt_username() {
   local status
   while true; do
     username=$(gum input --placeholder "Alphanumeric without spaces (like dhh)" --prompt.foreground="#845DF9" --prompt "Username> ") && status=0 || status=$?
     ((status == 0)) || return $status
 
-    if [[ "$username" =~ $OMARCHY_USERNAME_PATTERN ]]; then
-      if [[ "$username" =~ $OMARCHY_RESERVED_USERNAMES ]]; then
+    if [[ "$username" =~ $LUNAOS_USERNAME_PATTERN ]]; then
+      if [[ "$username" =~ $LUNAOS_RESERVED_USERNAMES ]]; then
         notice "Username is reserved for system" 1
-      elif omarchy_username_taken "$username"; then
+      elif lunaos_username_taken "$username"; then
         notice "That username already exists on this machine" 1
       else
         return 0
@@ -155,7 +155,7 @@ omarchy_prompt_username() {
   done
 }
 
-omarchy_prompt_password() {
+lunaos_prompt_password() {
   local status
   while true; do
     password=$(gum input --placeholder "Used for user + root, and disk encryption when enabled" --prompt.foreground="#845DF9" --password --prompt "Password> ") && status=0 || status=$?
@@ -175,7 +175,7 @@ omarchy_prompt_password() {
 
 # Both fields are skippable with Return, so an empty value is a real answer and
 # only Esc/Ctrl+C end the prompt early.
-omarchy_prompt_identity() {
+lunaos_prompt_identity() {
   local status
   full_name=$(gum input --placeholder "Used for git authentication (hit return to skip)" --prompt.foreground="#845DF9" --prompt "Full name> ") && status=0 || status=$?
   ((status == 0)) || return $status
@@ -183,16 +183,16 @@ omarchy_prompt_identity() {
   return $status
 }
 
-omarchy_prompt_hostname() {
+lunaos_prompt_hostname() {
   local status
   while true; do
-    hostname=$(gum input --placeholder "Letters, digits, and dashes (or return for 'omarchy')" --prompt.foreground="#845DF9" --prompt "Hostname> ") && status=0 || status=$?
+    hostname=$(gum input --placeholder "Letters, digits, and dashes (or return for 'lunaos')" --prompt.foreground="#845DF9" --prompt "Hostname> ") && status=0 || status=$?
     ((status == 0)) || return $status
 
     if [[ -z $hostname ]]; then
-      hostname="$OMARCHY_HOSTNAME_DEFAULT"
+      hostname="$LUNAOS_HOSTNAME_DEFAULT"
       return 0
-    elif [[ "$hostname" =~ $OMARCHY_HOSTNAME_PATTERN ]]; then
+    elif [[ "$hostname" =~ $LUNAOS_HOSTNAME_PATTERN ]]; then
       return 0
     else
       notice "Hostname must be 1-63 letters, digits, or dashes, and cannot start or end with a dash" 1
@@ -202,11 +202,11 @@ omarchy_prompt_hostname() {
 
 # A fresh machine often hasn't joined a network yet, so the geo guess fails
 # often; guard it or a `set -e` caller dies before the filter fallback.
-omarchy_prompt_timezone() {
+lunaos_prompt_timezone() {
   local guess status
   # A preset install media names its timezone; otherwise ask geo.omarchy.org,
-  # Omarchy's own lookup of where this network is.
-  guess=${OMARCHY_FORM_TIMEZONE_DEFAULT:-}
+  # LunaOS's own lookup of where this network is.
+  guess=${LUNAOS_FORM_TIMEZONE_DEFAULT:-}
   [[ -n $guess ]] || guess=$(curl -fsS --max-time 5 https://geo.omarchy.org/ 2>/dev/null | jq -r '.timezone // empty' 2>/dev/null) || guess=""
 
   if [[ -n $guess ]]; then

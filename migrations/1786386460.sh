@@ -1,3 +1,3 @@
 echo "Generate image picker thumbnails with libvips"
 
-omarchy-pkg-add libvips
+lunaos-pkg-add libvips

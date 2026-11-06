@@ -11,12 +11,12 @@ mkdir -p "$tmp_dir/bin" "$tmp_dir/home"
 export TEST_LOG="$tmp_dir/log"
 export PATH="$tmp_dir/bin:$PATH"
 export HOME="$tmp_dir/home"
-export OMARCHY_OPENCLAW_ONBOARD_SETTLE_SECONDS=0
+export LUNAOS_OPENCLAW_ONBOARD_SETTLE_SECONDS=0
 
 # Run a scratch copy of the wrapper with its 2s gateway poll shortened;
 # every scenario otherwise costs at least one full poll interval.
-onboard="$tmp_dir/omarchy-openclaw-onboard"
-sed 's/^  sleep 2$/  sleep 0.1/' "$ROOT/bin/omarchy-openclaw-onboard" >"$onboard"
+onboard="$tmp_dir/lunaos-openclaw-onboard"
+sed 's/^  sleep 2$/  sleep 0.1/' "$ROOT/bin/lunaos-openclaw-onboard" >"$onboard"
 chmod +x "$onboard"
 unit="$HOME/.config/systemd/user/openclaw-gateway.service"
 export unit
@@ -45,7 +45,7 @@ pid=
 exit 0
 SCRIPT
 chmod +x "$tmp_dir/bin/ss"
-export OMARCHY_OPENCLAW_ONBOARD_GATEWAY_TIMEOUT=1
+export LUNAOS_OPENCLAW_ONBOARD_GATEWAY_TIMEOUT=1
 
 # A wizard that configures OpenClaw, prints its outro, and then lingers forever
 # on an open handle: the 2026.9.1 --skip-ui behaviour. It "installs the

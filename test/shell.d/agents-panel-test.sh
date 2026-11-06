@@ -9,7 +9,7 @@ const fs = require('fs')
 const panelSource = fs.readFileSync(root + '/shell/plugins/agents/Panel.qml', 'utf8')
 
 assert(/function launchAgent\(\)/.test(panelSource), 'agents panel launches the default agent')
-assert(/root\.bar\.run\("omarchy-agent --pick"\)/.test(panelSource), 'agents panel uses the desktop agent launcher')
+assert(/root\.bar\.run\("lunaos-agent --pick"\)/.test(panelSource), 'agents panel uses the desktop agent launcher')
 assert(/if \(buttonCode === Qt\.RightButton\) root\.launchAgent\(\)/.test(panelSource), 'agents right click launches the agent')
 assert(/else if \(buttonCode === Qt\.MiddleButton\) root\.refreshNow\(\)/.test(panelSource), 'agents middle click refreshes the limits')
 assert(/else root\.toggle\(\)/.test(panelSource), 'agents left click still toggles the panel')
@@ -36,7 +36,7 @@ assert(/case "Run `codex login` to authenticate\.":\s*return Commons\.I18n\.t\("
 // A reworded collector line would silently fall back to English, so every
 // fixed help line the collectors cache must still be one the panel maps.
 for (const name of ['claude', 'codex', 'grok', 'fireworks']) {
-  const collector = fs.readFileSync(root + '/bin/omarchy-agent-usage-' + name, 'utf8')
+  const collector = fs.readFileSync(root + '/bin/lunaos-agent-usage-' + name, 'utf8')
   const help = collector.match(/^AUTH_HELP = "([^"]+)"$/m)
   assert(help && panelSource.includes('case ' + JSON.stringify(help[1]) + ':'), name + ' auth help is translated in the panel')
 }

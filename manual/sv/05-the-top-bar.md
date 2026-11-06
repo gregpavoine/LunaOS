@@ -1,14 +1,14 @@
 # Menyfältet
 
-Remsan längs överkanten av din skärm är Omarchy-fältet. Det är inte ett påbultat statusfält utan en del av Omarchy-skalet, den enda långvariga Quickshell-processen som också ritar menyn, aviseringarna, OSD-popuparna och låsskärmen. Det är därför den tematiseras perfekt med allt annat och varför en panel öppnas omedelbart i stället för att starta en ny app.
+Remsan längs överkanten av din skärm är LunaOS-fältet. Det är inte ett påbultat statusfält utan en del av LunaOS-skalet, den enda långvariga Quickshell-processen som också ritar menyn, aviseringarna, OSD-popuparna och låsskärmen. Det är därför den tematiseras perfekt med allt annat och varför en panel öppnas omedelbart i stället för att starta en ny app.
 
 Det är också den enda delen av skrivbordet som alltid syns på skärmen, så det är värt att veta vad alla de små symbolerna gör.
 
 ## Vad som finns på det som standard
 
-Fältet har tre sektioner. Till vänster sitter Omarchy-logotypen (menystartaren) och arbetsyteindikatorerna. I mitten får du statusindikatorerna, klockan, Elsewhen (en världsklocka), vädret och ett Omarchy-uppdateringsmärke. Till höger: tangentbordslayouten (när mer än en är konfigurerad), systemfältet, agenter, bluetooth, nätverk, ljud, skärm och ström.
+Fältet har tre sektioner. Till vänster sitter LunaOS-logotypen (menystartaren) och arbetsyteindikatorerna. I mitten får du statusindikatorerna, klockan, Elsewhen (en världsklocka), vädret och ett LunaOS-uppdateringsmärke. Till höger: tangentbordslayouten (när mer än en är konfigurerad), systemfältet, agenter, bluetooth, nätverk, ljud, skärm och ström.
 
-Några av dem visas bara när de har något att säga. Tangentbordslayouten visas bara om du har konfigurerat mer än en layout. Uppdateringsmärket visas bara när en Omarchy-uppdatering väntar. Och agentikonen visas första gången Omarchy hittar AI-kodanvändning på maskinen (se [AI](17-ai.md)).
+Några av dem visas bara när de har något att säga. Tangentbordslayouten visas bara om du har konfigurerat mer än en layout. Uppdateringsmärket visas bara när en LunaOS-uppdatering väntar. Och agentikonen visas första gången LunaOS hittar AI-kodanvändning på maskinen (se [AI](17-ai.md)).
 
 ## Klicka runt
 
@@ -16,7 +16,7 @@ Nästan varje widget gör något vid vänster-, höger- och mittenklick, och fle
 
 | Widget | Vänster | Höger | Mitten / rullning |
 | --- | --- | --- | --- |
-| Menu | Omarchy-menyn | Ny terminal | — |
+| Menu | LunaOS-menyn | Ny terminal | — |
 | Workspaces | Fokusera den arbetsytan | — | Rullning: nästa/föregående arbetsyta |
 | Clock | Kalender-popup | Cykla etikettformatet | Mitten: tidszonsväljare |
 | Weather | Prognos-popup | Fullt väder som avisering | Mitten: uppdatera |
@@ -29,7 +29,7 @@ Nästan varje widget gör något vid vänster-, höger- och mittenklick, och fle
 | Media | Spela/pausa | Omslags-popup | Mitten: nästa · rullning: föreg./nästa |
 | Agents | Agentpanel | Starta din agent | Mitten: nästa prenumeration |
 | Tray | Hovra för att visa lådan | Höger på chevronen för att hantera | — |
-| Omarchy update | Kör uppdateringen | — | — |
+| LunaOS update | Kör uppdateringen | — | — |
 
 Inte allt i den tabellen finns på ditt fält direkt ur lådan. Mediawidgeten (MPRIS nu-spelande, med rullande spår och artist) och mikrofonwidgeten är båda inbyggda men av som standard — lägg till dem om du vill, enligt beskrivningen nedan.
 
@@ -65,7 +65,7 @@ Varje panel tar tangentbordet såväl som musen: pilarna flyttar, Return aktiver
 
 Ytterligare två widgetar visas på fältet först när du installerar matchande tjänst från **Install → Service**, och båda är värda att känna till eftersom de gör mer än att rapportera status.
 
-Panelen **Tailscale** ansluter och kopplar från tailnetet, växlar mellan konton och väljer en exit-nod (dina egna maskiner och Mullvad-regioner visas båda i den listan). Den bläddrar också bland dina maskiner — och med en vald skickar `s` filer till den över Taildrop, vilket är det snabbaste sättet att flytta en fil till din telefon eller en annan bärbar dator. `c` kopierar maskinens IP, `n` dess namn och `d` dess fullständiga DNS-namn. Det finns också en skicka-knapp på varje maskinrad, om du hellre vill klicka. Samma sak från terminalen är `omarchy tailscale send <machine> [file...]`.
+Panelen **Tailscale** ansluter och kopplar från tailnetet, växlar mellan konton och väljer en exit-nod (dina egna maskiner och Mullvad-regioner visas båda i den listan). Den bläddrar också bland dina maskiner — och med en vald skickar `s` filer till den över Taildrop, vilket är det snabbaste sättet att flytta en fil till din telefon eller en annan bärbar dator. `c` kopierar maskinens IP, `n` dess namn och `d` dess fullständiga DNS-namn. Det finns också en skicka-knapp på varje maskinrad, om du hellre vill klicka. Samma sak från terminalen är `lunaos tailscale send <machine> [file...]`.
 
 Panelen **Dropbox** hanterar inloggning, visar hur mycket lagring du har använt och listar nyligen synkroniserade filer.
 
@@ -90,19 +90,19 @@ Om du hellre vill välja från en meny har **Trigger → Appearance → Menu Bar
 Samma saker har kommandon, vilket är vad du vill ha för en [dotfiles](31-dotfiles.md)-konfiguration:
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-För att lägga till eller ta bort en widget helt, använd plugin-kommandona. `omarchy plugin list` skriver ut varje widget skalet känner till med dess id, och sedan:
+För att lägga till eller ta bort en widget helt, använd plugin-kommandona. `lunaos plugin list` skriver ut varje widget skalet känner till med dess id, och sedan:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Dölja fältet
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Konfigurationsfilen
 
-Allt lagras i `~/.config/omarchy/shell.json`, under nyckeln `bar`. Här är en nedklippt version:
+Allt lagras i `~/.config/lunaos/shell.json`, under nyckeln `bar`. Här är en nedklippt version:
 
 ```json
 {
@@ -119,20 +119,20 @@ Allt lagras i `~/.config/omarchy/shell.json`, under nyckeln `bar`. Här är en n
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Varje widget är en post i en av de tre layoutarrayerna, och dess inställningar sitter inline på den posten — det finns ingen separat inställningsfil och inget `config`-underobjekt. Klockans `format`, `formatAlt` (vad högerklick cyklar till) och `verticalFormat` bor alla precis där på `{ "id": "omarchy.clock" }`.
+Varje widget är en post i en av de tre layoutarrayerna, och dess inställningar sitter inline på den posten — det finns ingen separat inställningsfil och inget `config`-underobjekt. Klockans `format`, `formatAlt` (vad högerklick cyklar till) och `verticalFormat` bor alla precis där på `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` namnger den enda mittwidgeten som fästs exakt i skärmens mitt, med de andra flankerande den. Det är så klockan förblir död i mitten även när vädret och uppdateringsmärket kommer och går. Ställ in den på en tom sträng så centreras mittlistan bara som en grupp i stället.
 
-En regel värd att internalisera: **när du väl har din egen `shell.json` är den kanonisk**. Tills du anpassar någonting läser skalet Omarchys standardfil. I samma ögonblick som du drar en widget, kör `omarchy bar` eller redigerar filen själv äger du den — det finns ingen djup sammanslagning, så nya standardwidgetar i framtida Omarchy-versioner dyker inte upp på ditt fält automatiskt. `omarchy bar defaults` sätter tillbaka den levererade layouten när du vill ha ett rent blad.
+En regel värd att internalisera: **när du väl har din egen `shell.json` är den kanonisk**. Tills du anpassar någonting läser skalet LunaOSs standardfil. I samma ögonblick som du drar en widget, kör `lunaos bar` eller redigerar filen själv äger du den — det finns ingen djup sammanslagning, så nya standardwidgetar i framtida LunaOS-versioner dyker inte upp på ditt fält automatiskt. `lunaos bar defaults` sätter tillbaka den levererade layouten när du vill ha ett rent blad.
 
 Samma fil innehåller också dina inaktivitetstider på toppnivå, utanför nyckeln `bar`: `idle.screensaver` och `idle.lock`, båda i sekunder sedan du blev inaktiv. Så standardskärmsläckaren aktiveras vid 150 sekunder och låset vid 300.

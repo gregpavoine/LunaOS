@@ -13,7 +13,7 @@ import configure as setup
 def keyboard_catalog():
   # Read the same choices as the ISO and first-boot form, then convert console
   # keymaps through systemd's mapping, just as localectl does during install.
-  choices = setup.run(["bash", "-c", 'source "$1"; printf "%s\\n" "$OMARCHY_KEYBOARD_LAYOUTS"',
+  choices = setup.run(["bash", "-c", 'source "$1"; printf "%s\\n" "$LUNAOS_KEYBOARD_LAYOUTS"',
                        "bash", str(setup.ROOT / "install/provisioning/setup-form.sh")])
   mappings = {}
   for line in Path("/usr/share/systemd/kbd-model-map").read_text().splitlines():
@@ -24,7 +24,7 @@ def keyboard_catalog():
     variant = fields[3].split(",")[0]
     mappings.setdefault(fields[0], layout + (":" + variant if variant != "-" else ""))
   # The console names systemd's table lacks convert as keyboard_xkb_settings in
-  # omarchy-provision-owner does, so a choice types what it did at install.
+  # lunaos-provision-owner does, so a choice types what it did at install.
   mappings.update({"bg-cp1251": "bg:phonetic", "colemak": "us:colemak", "cz": "cz:qwerty",
                    "kyrgyz": "kg", "de_CH-latin1": "ch", "no-latin1": "no"})
   catalog = {}
@@ -55,7 +55,7 @@ def picker_rows(catalog, selected):
 def choose(title, catalog, selected, kind, overrides=None):
   catalog = {**catalog, **{key: catalog.get(key, key) for key in selected}}
   rows = picker_rows(catalog, selected)
-  args = ["omarchy-menu-select", title] + list(rows.values())
+  args = ["lunaos-menu-select", title] + list(rows.values())
   on_change = ["/usr/bin/python3", str(setup.ROOT / "default/input-methods/typing_setup.py"), "apply", kind, json.dumps({"catalog": catalog, "overrides": overrides or {}})]
   args += ["--", "--multiple", "--width", "620", "--maxheight", "650", "--on-change", json.dumps(on_change), "--change-key", "typing:" + kind]
   for key in selected:
@@ -110,13 +110,13 @@ def configure_inputs():
 def load_engines(names, catalog):
   packages = sorted({package for name in names for package in setup.PRESETS.get(name, {}).get("packages", [])})
   absent = [package for package in packages
-            if subprocess.run(["omarchy-pkg-present", package], capture_output=True).returncode]
+            if subprocess.run(["lunaos-pkg-present", package], capture_output=True).returncode]
   if absent or any(name not in setup.PRESETS for name in names):
     labels = ", ".join(catalog.get(name, name) for name in names)
     raise RuntimeError(f"Install {' '.join(absent) or 'its engine'} to use {labels}")
   # Fcitx discovers engines only at startup, so one installed while it was
   # running (by an update, say) needs a restart before it can be selected.
-  setup.run(["omarchy-restart-xcompose"])
+  setup.run(["lunaos-restart-xcompose"])
   for name in names:
     setup.wait_ready(name)
 
@@ -176,7 +176,7 @@ def keyboard_values(selected):
 def save_keyboard(selected):
   layouts, variants = keyboard_values(selected)
   config_home = Path(os.environ.get("XDG_CONFIG_HOME") or str(Path.home() / ".config"))
-  path = config_home / "omarchy/keyboard-layouts"
+  path = config_home / "lunaos/keyboard-layouts"
   original = setup.read(path) if path.exists() else None
   group, old_layout, before = setup.live_group()
   group_changed = False
@@ -264,7 +264,7 @@ def main():
     else:
       configure_keyboard()
   except (OSError, ValueError, RuntimeError, subprocess.CalledProcessError) as error:
-    subprocess.run(["omarchy-notification-send", title + " could not be updated", str(error)], check=True)
+    subprocess.run(["lunaos-notification-send", title + " could not be updated", str(error)], check=True)
     raise SystemExit(1)
 
 

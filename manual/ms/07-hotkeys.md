@@ -6,7 +6,7 @@ Anda boleh melihat semua ikatan papan kekunci utama dengan `Super + K` (ikatan T
 
 | Kekunci Panas                  | Fungsi              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Menu Omarchy (aplikasi dan segala-galanya yang lain)    |
+| `Super + Space`           | Menu LunaOS (aplikasi dan segala-galanya yang lain)    |
 | `Super + Alt + Space` | Grid aplikasi |
 | `Super + Escape` | Menu sistem (tidur, mulakan semula, dll)  |
 | `Super + Ctrl + L` | Kunci komputer |
@@ -136,7 +136,7 @@ Tukar/tambah ikatan dalam `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Tampal    |
 | `Super + Ctrl + V`           | Pengurus papan keratan    |
 
-Biasanya pada Linux, anda memerlukan `Ctrl + Shift + C/V` untuk salin dan tampal dalam terminal dan `Ctrl + C/V` untuk melakukannya di mana-mana sahaja. Kekunci panas papan keratan bersepadu Omarchy ini berfungsi di mana-mana.
+Biasanya pada Linux, anda memerlukan `Ctrl + Shift + C/V` untuk salin dan tampal dalam terminal dan `Ctrl + C/V` untuk melakukannya di mana-mana sahaja. Kekunci panas papan keratan bersepadu LunaOS ini berfungsi di mana-mana.
 
 ## Tangkap
 
@@ -156,7 +156,7 @@ Biasanya pada Linux, anda memerlukan `Ctrl + Shift + C/V` untuk salin dan tampal
 
 Dengan rakaman skrin, kekunci panas mula-mula bertanya audio mana yang anda mahukan, kemudian mula merakam. Tekannya sekali lagi untuk berhenti. Lihat [tangkap skrin dan rakaman](12-screenshots-recording.md) untuk butirannya.
 
-Semua pilihan tangkap juga boleh diakses di bawah _Pencetus > Tangkap_ dalam menu Omarchy (`Super + Space`).
+Semua pilihan tangkap juga boleh diakses di bawah _Pencetus > Tangkap_ dalam menu LunaOS (`Super + Space`).
 
 ## Pemberitahuan
 
@@ -177,9 +177,9 @@ Semua pilihan tangkap juga boleh diakses di bawah _Pencetus > Tangkap_ dalam men
 | `Super + Backspace` | Togol ketelusan pada tetingkap |
 | `Super + Ctrl + Backspace` | Togol aspek segi empat sama tetingkap tunggal |
 
-Imej latar belakang tambahan berada dalam `~/.config/omarchy/backgrounds/<theme name>`. Juga tersedia melalui _Pasang > Gaya > Latar Belakang_ dalam menu Omarchy.
+Imej latar belakang tambahan berada dalam `~/.config/lunaos/backgrounds/<theme name>`. Juga tersedia melalui _Pasang > Gaya > Latar Belakang_ dalam menu LunaOS.
 
-Semua pilihan gaya juga boleh diakses di bawah _Gaya_ dalam menu Omarchy (`Super + Space`).
+Semua pilihan gaya juga boleh diakses di bawah _Gaya_ dalam menu LunaOS (`Super + Space`).
 
 ## Togol
 
@@ -281,7 +281,7 @@ Fungsi ini mesti dijalankan di dalam sesi Tmux.
 
 ## Terminal Ghostty
 
-Terminal Ghostty dipasang menggunakan _Pasang > Terminal_ melalui menu Omarchy.
+Terminal Ghostty dipasang menggunakan _Pasang > Terminal_ melalui menu LunaOS.
 
 | Kekunci Panas                  | Fungsi              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Anda boleh menggunakan `Super + Ctrl + E` untuk memaparkan pemilih emoji lengkap
 | `Shift + CapsLock Space N` | Nama anda (seperti dimasukkan semasa persediaan)  |
 | `Shift + CapsLock Space E` | E-mel anda (seperti dimasukkan semasa persediaan)  |
 
-Anda boleh menambah lebih banyak milik anda sendiri dengan menyunting `~/.XCompose`, kemudian menjalankan `omarchy-restart-xcompose` dalam terminal untuk mendapatkan perubahan diterima.
+Anda boleh menambah lebih banyak milik anda sendiri dengan menyunting `~/.XCompose`, kemudian menjalankan `lunaos-restart-xcompose` dalam terminal untuk mendapatkan perubahan diterima.

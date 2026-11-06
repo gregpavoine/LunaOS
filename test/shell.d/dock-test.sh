@@ -4,7 +4,7 @@ set -euo pipefail
 
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
-export OMARCHY_PATH="$ROOT"
+export LUNAOS_PATH="$ROOT"
 
 TMPDIR=$(mktemp -d)
 trap 'rm -rf "$TMPDIR"' EXIT
@@ -31,7 +31,7 @@ const items = dock.buildItems(['chromium', 'Alacritty'], [
   app('signal', 1),
   app('chromium', 2),
   app('signal', 3),
-  app('org.omarchy.agent', 4, { hasEntry: false }),
+  app('org.lunaos.agent', 4, { hasEntry: false }),
   app('foot', 5, { workspaceId: -98 })
 ])
 assertDeepEqual(
@@ -85,13 +85,13 @@ assertDeepEqual(
 
 const terminalEntries = [
   { id: 'nvim', execString: 'nvim %F', command: ['nvim', '%F'], runInTerminal: true },
-  { id: 'HEY TUI', execString: 'xdg-terminal-exec --app-id=org.omarchy.hey -e hey tui', command: ['xdg-terminal-exec', '--app-id=org.omarchy.hey', '-e', 'hey', 'tui'], runInTerminal: false },
+  { id: 'HEY TUI', execString: 'xdg-terminal-exec --app-id=org.lunaos.hey -e hey tui', command: ['xdg-terminal-exec', '--app-id=org.lunaos.hey', '-e', 'hey', 'tui'], runInTerminal: false },
   { id: 'btop', execString: '/usr/bin/btop', command: ['/usr/bin/btop'], runInTerminal: true }
 ]
-assertEqual(dock.claimingEntryId('org.omarchy.nvim', terminalEntries), 'nvim', 'dock gives Neovim launched by the TUI launcher its own entry')
-assertEqual(dock.claimingEntryId('org.omarchy.btop', terminalEntries), 'btop', 'dock matches a terminal entry by its program name')
-assertEqual(dock.claimingEntryId('org.omarchy.hey', terminalEntries), 'HEY TUI', 'dock matches an entry that hands the terminal its app id')
-assertEqual(dock.claimingEntryId('org.omarchy.agent', terminalEntries), '', 'dock leaves an app id no entry claims unclaimed')
+assertEqual(dock.claimingEntryId('org.lunaos.nvim', terminalEntries), 'nvim', 'dock gives Neovim launched by the TUI launcher its own entry')
+assertEqual(dock.claimingEntryId('org.lunaos.btop', terminalEntries), 'btop', 'dock matches a terminal entry by its program name')
+assertEqual(dock.claimingEntryId('org.lunaos.hey', terminalEntries), 'HEY TUI', 'dock matches an entry that hands the terminal its app id')
+assertEqual(dock.claimingEntryId('org.lunaos.agent', terminalEntries), '', 'dock leaves an app id no entry claims unclaimed')
 assertEqual(dock.claimingEntryId('Alacritty', terminalEntries), '', 'dock leaves a terminal of its own to its own entry')
 
 assertDeepEqual(
@@ -112,51 +112,51 @@ assertEqual(dock.pickWindow([], 4), -1, 'dock has no window to pick for an app t
 JS
 
 home="$TMPDIR/home"
-mkdir -p "$home/.config/omarchy"
+mkdir -p "$home/.config/lunaos"
 mock_bin="$TMPDIR/bin"
 mkdir -p "$mock_bin"
-printf '#!/bin/bash\nexit 0\n' >"$mock_bin/omarchy-shell"
-chmod +x "$mock_bin/omarchy-shell"
-omarchy_dock() { HOME="$home" PATH="$mock_bin:$ROOT/bin:$PATH" omarchy-dock "$@"; }
+printf '#!/bin/bash\nexit 0\n' >"$mock_bin/lunaos-shell"
+chmod +x "$mock_bin/lunaos-shell"
+lunaos_dock() { HOME="$home" PATH="$mock_bin:$ROOT/bin:$PATH" lunaos-dock "$@"; }
 
-[[ $(omarchy_dock position) == "bottom" ]] || fail "dock position defaults to bottom"
-omarchy_dock position left >/dev/null
-jq -e '.dock.position == "left" and .version == 1' "$home/.config/omarchy/shell.json" >/dev/null ||
-  fail "dock position is saved" "$(cat "$home/.config/omarchy/shell.json")"
-[[ $(omarchy_dock position) == "left" ]] || fail "dock position reads back"
-if omarchy_dock position diagonal 2>/dev/null; then
+[[ $(lunaos_dock position) == "bottom" ]] || fail "dock position defaults to bottom"
+lunaos_dock position left >/dev/null
+jq -e '.dock.position == "left" and .version == 1' "$home/.config/lunaos/shell.json" >/dev/null ||
+  fail "dock position is saved" "$(cat "$home/.config/lunaos/shell.json")"
+[[ $(lunaos_dock position) == "left" ]] || fail "dock position reads back"
+if lunaos_dock position diagonal 2>/dev/null; then
   fail "dock position rejects anything but top, bottom, left, and right"
 fi
-pass "dock position is set and read through omarchy-dock"
+pass "dock position is set and read through lunaos-dock"
 
-[[ $(omarchy_dock pinned | paste -sd " ") == "org.gnome.Nautilus chromium foot omacalc omawrite X YouTube" ]] || fail "dock pins start from the defaults"
-omarchy_dock unpin spotify >/dev/null
-omarchy_dock pin com.example.App.desktop >/dev/null
-omarchy_dock pin com.example.App >/dev/null
+[[ $(lunaos_dock pinned | paste -sd " ") == "org.gnome.Nautilus chromium foot omacalc omawrite X YouTube" ]] || fail "dock pins start from the defaults"
+lunaos_dock unpin spotify >/dev/null
+lunaos_dock pin com.example.App.desktop >/dev/null
+lunaos_dock pin com.example.App >/dev/null
 jq -e '
   .dock.pinned[-1] == "com.example.App" and
   (.dock.pinned | index("spotify")) == null and
   (.dock.pinned | map(select(. == "com.example.App")) | length) == 1 and
   .dock.position == "left"
-' "$home/.config/omarchy/shell.json" >/dev/null ||
-  fail "dock pins and unpins apps once each" "$(cat "$home/.config/omarchy/shell.json")"
-pass "dock pins and unpins apps through omarchy-dock"
+' "$home/.config/lunaos/shell.json" >/dev/null ||
+  fail "dock pins and unpins apps once each" "$(cat "$home/.config/lunaos/shell.json")"
+pass "dock pins and unpins apps through lunaos-dock"
 
-omarchy_dock pinned signal chromium.desktop signal >/dev/null
-[[ $(omarchy_dock pinned | paste -sd ' ') == "signal chromium" ]] ||
-  fail "dock pin order is set in one go" "$(cat "$home/.config/omarchy/shell.json")"
-pass "dock pin order is set through omarchy-dock pinned"
+lunaos_dock pinned signal chromium.desktop signal >/dev/null
+[[ $(lunaos_dock pinned | paste -sd ' ') == "signal chromium" ]] ||
+  fail "dock pin order is set in one go" "$(cat "$home/.config/lunaos/shell.json")"
+pass "dock pin order is set through lunaos-dock pinned"
 
-[[ $(omarchy_dock autohide) == "off" ]] || fail "dock auto-hide starts off"
-omarchy_dock autohide toggle >/dev/null
-jq -e '.dock.autohide == true' "$home/.config/omarchy/shell.json" >/dev/null || fail "dock auto-hide toggles on"
-[[ $(omarchy_dock autohide) == "on" ]] || fail "dock auto-hide reads back"
-omarchy_dock autohide off >/dev/null
-jq -e '.dock.autohide == false' "$home/.config/omarchy/shell.json" >/dev/null || fail "dock auto-hide turns off"
-if omarchy_dock autohide sometimes 2>/dev/null; then
+[[ $(lunaos_dock autohide) == "off" ]] || fail "dock auto-hide starts off"
+lunaos_dock autohide toggle >/dev/null
+jq -e '.dock.autohide == true' "$home/.config/lunaos/shell.json" >/dev/null || fail "dock auto-hide toggles on"
+[[ $(lunaos_dock autohide) == "on" ]] || fail "dock auto-hide reads back"
+lunaos_dock autohide off >/dev/null
+jq -e '.dock.autohide == false' "$home/.config/lunaos/shell.json" >/dev/null || fail "dock auto-hide turns off"
+if lunaos_dock autohide sometimes 2>/dev/null; then
   fail "dock auto-hide takes only on, off, or toggle"
 fi
-pass "dock auto-hide is set through omarchy-dock autohide"
+pass "dock auto-hide is set through lunaos-dock autohide"
 
 # The dock only shows on floating workspaces, and gets out of the way of a
 # fullscreen window; a maximized one only tucks it away.
@@ -176,12 +176,12 @@ case "\$1" in
 esac
 STUB
 chmod +x "$mock_bin/hyprctl"
-printf '#!/bin/bash\n[[ $1 == 9 ]] && echo dwindle || echo floating\n' >"$mock_bin/omarchy-hyprland-workspace-layout-current"
-chmod +x "$mock_bin/omarchy-hyprland-workspace-layout-current"
-minimize() { PATH="$mock_bin:$ROOT/bin:$PATH" omarchy-hyprland-window-minimize "$@"; }
+printf '#!/bin/bash\n[[ $1 == 9 ]] && echo dwindle || echo floating\n' >"$mock_bin/lunaos-hyprland-workspace-layout-current"
+chmod +x "$mock_bin/lunaos-hyprland-workspace-layout-current"
+minimize() { PATH="$mock_bin:$ROOT/bin:$PATH" lunaos-hyprland-window-minimize "$@"; }
 
 minimize 0xabc
-grep -qxF 'hl.dsp.window.tag({ tag = "+omarchy-minimized-from-3", window = "address:0xabc" })' "$TMPDIR/hyprctl.log" ||
+grep -qxF 'hl.dsp.window.tag({ tag = "+lunaos-minimized-from-3", window = "address:0xabc" })' "$TMPDIR/hyprctl.log" ||
   fail "minimize remembers the workspace the window left" "$(cat "$TMPDIR/hyprctl.log")"
 grep -qxF 'hl.dsp.window.move({ workspace = "special:minimized", follow = false, window = "address:0xabc" })' "$TMPDIR/hyprctl.log" ||
   fail "minimize moves the window to the dock's hidden workspace" "$(cat "$TMPDIR/hyprctl.log")"
@@ -189,7 +189,7 @@ grep -qxF 'hl.dsp.window.move({ workspace = "special:minimized", follow = false,
   fail "minimize focuses the workspace the window left" "$(cat "$TMPDIR/hyprctl.log")"
 : >"$TMPDIR/hyprctl.log"
 minimize
-grep -qF 'hl.dsp.window.tag({ tag = "+omarchy-minimized-from-5", window = "address:0xdef" })' "$TMPDIR/hyprctl.log" &&
+grep -qF 'hl.dsp.window.tag({ tag = "+lunaos-minimized-from-5", window = "address:0xdef" })' "$TMPDIR/hyprctl.log" &&
   grep -qF 'address:0xdef' "$TMPDIR/hyprctl.log" && [[ $(tail -1 "$TMPDIR/hyprctl.log") == 'hl.dsp.focus({ workspace = "5" })' ]] ||
   fail "minimize takes the active window when given none" "$(cat "$TMPDIR/hyprctl.log")"
 pass "minimize sends a window to the dock and keeps focus on its workspace"
@@ -197,15 +197,15 @@ pass "minimize sends a window to the dock and keeps focus on its workspace"
 cat >"$mock_bin/hyprctl" <<STUB
 #!/bin/bash
 case "\$1" in
-  clients) printf '[{"address":"0xabc","workspace":{"id":7},"tags":["omarchy-minimized-from-3"]}]\n' ;;
+  clients) printf '[{"address":"0xabc","workspace":{"id":7},"tags":["lunaos-minimized-from-3"]}]\n' ;;
   dispatch) printf '%s\n' "\$2" >>"$TMPDIR/hyprctl.log" ;;
 esac
 STUB
 : >"$TMPDIR/hyprctl.log"
 minimize 0xabc
-grep -qxF 'hl.dsp.window.tag({ tag = "-omarchy-minimized-from-3", window = "address:0xabc" })' "$TMPDIR/hyprctl.log" ||
+grep -qxF 'hl.dsp.window.tag({ tag = "-lunaos-minimized-from-3", window = "address:0xabc" })' "$TMPDIR/hyprctl.log" ||
   fail "minimize forgets the previous workspace" "$(cat "$TMPDIR/hyprctl.log")"
-grep -qxF 'hl.dsp.window.tag({ tag = "+omarchy-minimized-from-7", window = "address:0xabc" })' "$TMPDIR/hyprctl.log" ||
+grep -qxF 'hl.dsp.window.tag({ tag = "+lunaos-minimized-from-7", window = "address:0xabc" })' "$TMPDIR/hyprctl.log" ||
   fail "minimize remembers the workspace it leaves this time" "$(cat "$TMPDIR/hyprctl.log")"
 pass "minimize remembers only the workspace the window is leaving"
 
@@ -223,9 +223,9 @@ minimize
 [[ ! -s $TMPDIR/hyprctl.log ]] || fail "minimize leaves windows on a tiled workspace alone" "$(cat "$TMPDIR/hyprctl.log")"
 pass "minimize leaves windows on a tiled workspace alone"
 
-# Terminal apps launch through Omarchy's TUI launcher from every launcher that
+# Terminal apps launch through LunaOS's TUI launcher from every launcher that
 # uses the app library, so their windows carry an app id of their own.
 grep -qF 'var command = root.terminalCommand(DesktopEntries.byId(id))' "$ROOT/shell/services/AppLibrary.qml" &&
-  grep -qF '"omarchy-launch-tui "' "$ROOT/shell/services/AppLibrary.qml" ||
+  grep -qF '"lunaos-launch-tui "' "$ROOT/shell/services/AppLibrary.qml" ||
   fail "the app library launches terminal apps through the TUI launcher"
 pass "the app library launches terminal apps through the TUI launcher"

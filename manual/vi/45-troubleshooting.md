@@ -2,17 +2,17 @@
 
 ### Tôi đã làm hỏng hệ thống của mình bằng một bản cập nhật!
 
-Trước hết hãy thử [khôi phục hệ thống của bạn](47-system-snapshots.md) về phiên bản trước bản cập nhật gần đây của bạn. Nếu cách đó không hiệu quả, hãy dùng `omarchy-debug` để chia sẻ vấn đề của bạn trên #omarchy-help trong Discord. Và nếu tất cả đều thất bại, bạn có thể cài đặt lại các cấu hình và gói mặc định bằng `omarchy-reinstall`.
+Trước hết hãy thử [khôi phục hệ thống của bạn](47-system-snapshots.md) về phiên bản trước bản cập nhật gần đây của bạn. Nếu cách đó không hiệu quả, hãy dùng `lunaos-debug` để chia sẻ vấn đề của bạn trên #lunaos-help trong Discord. Và nếu tất cả đều thất bại, bạn có thể cài đặt lại các cấu hình và gói mặc định bằng `lunaos-reinstall`.
 
 ### Tại sao một số ứng dụng lại lớn như vậy trên màn hình của tôi?
 
-Omarchy giả định một màn hình độ phân giải cao 2x, điều này yêu cầu đặt `GDK_SCALE` thành 2 trong `~/.config/hypr/monitors.lua`. Nhưng nếu bạn đang dùng màn hình 1x, bạn có thể đổi `local omarchy_gdk_scale = 2` thành 1 (rồi khởi động lại bất kỳ ứng dụng nào đang quá khổ). Xem [tài liệu hướng dẫn về màn hình](33-monitors.md).
+LunaOS giả định một màn hình độ phân giải cao 2x, điều này yêu cầu đặt `GDK_SCALE` thành 2 trong `~/.config/hypr/monitors.lua`. Nhưng nếu bạn đang dùng màn hình 1x, bạn có thể đổi `local lunaos_gdk_scale = 2` thành 1 (rồi khởi động lại bất kỳ ứng dụng nào đang quá khổ). Xem [tài liệu hướng dẫn về màn hình](33-monitors.md).
 
 Đối với Spotify, bạn có thể dùng `Ctrl + Minus` để thu nhỏ giao diện (và `Ctrl + Plus` để làm nó lớn hơn).
 
 ### Wi-Fi, Bluetooth, âm thanh hoặc bàn di chuột của tôi vừa ngừng hoạt động
 
-Trước khi khởi động lại máy, hãy thử khởi động lại riêng hệ thống con đang gây lỗi. _Cập nhật > Phần cứng_ trong menu Omarchy có Wi-Fi, Bluetooth, Âm thanh và Bàn di chuột, và việc tải lại một trong số chúng sẽ giải quyết phần lớn các tình huống "năm phút trước nó còn hoạt động" — một tai nghe Bluetooth không chịu kết nối lại, một bàn di chuột chết sau khi tạm dừng, âm thanh biến mất khi bạn rút một màn hình.
+Trước khi khởi động lại máy, hãy thử khởi động lại riêng hệ thống con đang gây lỗi. _Cập nhật > Phần cứng_ trong menu LunaOS có Wi-Fi, Bluetooth, Âm thanh và Bàn di chuột, và việc tải lại một trong số chúng sẽ giải quyết phần lớn các tình huống "năm phút trước nó còn hoạt động" — một tai nghe Bluetooth không chịu kết nối lại, một bàn di chuột chết sau khi tạm dừng, âm thanh biến mất khi bạn rút một màn hình.
 
 ### Tại sao loa ngoài của tôi không phát?
 
@@ -20,7 +20,7 @@ Có lẽ vì chúng không được đặt làm đầu ra chính. Nhấp vào bi
 
 ### Loa laptop của tôi nghe lạ
 
-Trên một số laptop, Omarchy tự động áp dụng một tinh chỉnh loa để hiệu chỉnh đáp ứng tần số của loa tích hợp. `omarchy audio tuning status` cho bạn biết liệu một tinh chỉnh có đang hoạt động trên máy của bạn không, và `omarchy audio tuning off` sẽ tắt nó nếu bạn muốn nghe loa ở dạng thô hơn.
+Trên một số laptop, LunaOS tự động áp dụng một tinh chỉnh loa để hiệu chỉnh đáp ứng tần số của loa tích hợp. `lunaos audio tuning status` cho bạn biết liệu một tinh chỉnh có đang hoạt động trên máy của bạn không, và `lunaos audio tuning off` sẽ tắt nó nếu bạn muốn nghe loa ở dạng thô hơn.
 
 ### Tại sao tôi không thể đăng nhập hoặc sudo bằng mật khẩu của mình?
 

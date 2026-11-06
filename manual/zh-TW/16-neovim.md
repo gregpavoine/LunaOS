@@ -6,7 +6,7 @@
 
 現在 Neovim 基本上可以無限設定。如果你真的想發瘋，你可以從零開始建立你自己的 Neovim 設定。有一門很棒的課程，是 [Typecraft 講解從零設定 Neovim](https://www.youtube.com/watch?v=zHTeCSVAFNY)。而 [ThePrimeagen 也有一門](https://www.youtube.com/watch?v=w7i4amO_zaE)。
 
-但 Omarchy 內建了一套完整的 Neovim 設定——`omarchy-nvim` 套件——它經過用心的調校，展示開箱即用能做到的最好表現。你不需要寫任何一行設定！它建立在 [LazyVim](https://www.lazyvim.org/) 之上，LazyVim 是一套 Neovim 外掛與設定的發行版。它太棒了。
+但 LunaOS 內建了一套完整的 Neovim 設定——`omarchy-nvim` 套件——它經過用心的調校，展示開箱即用能做到的最好表現。你不需要寫任何一行設定！它建立在 [LazyVim](https://www.lazyvim.org/) 之上，LazyVim 是一套 Neovim 外掛與設定的發行版。它太棒了。
 
 ## LazyVim 基礎
 

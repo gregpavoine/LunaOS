@@ -20,11 +20,11 @@ Obsidian yra nemokama visiems tikslams, įskaitant asmeninį, komercinį ir nepe
 
 Obsidian taip pat siūlo [komercinį priedą sinchronizavimui](https://obsidian.md/sync) su mobiliosiomis programėlėmis iOS ir Android. (https://obsidian.md/pricing).
 
-Obsidian paleidi su `Super + Shift + O`. Kad naudotum temų sinchronizavimą, nuostatose turi pasirinkti temą `Omarchy`.
+Obsidian paleidi su `Super + Shift + O`. Kad naudotum temų sinchronizavimą, nuostatose turi pasirinkti temą `LunaOS`.
 
 ## Omawrite
 
-[Omawrite](https://github.com/omacom-io/omawrite) yra pačios Omarchy nepaprastai paprasta Markdown rašymo programa. Be vaultų, be įskiepių, tiesiog tu ir žodžiai.
+[Omawrite](https://github.com/omacom-io/omawrite) yra pačios LunaOS nepaprastai paprasta Markdown rašymo programa. Be vaultų, be įskiepių, tiesiog tu ir žodžiai.
 
 Omawrite paleidi su `Super + Shift + W`.
 
@@ -44,18 +44,18 @@ Aether paleidi per programų paleidimo priemonę (`Super + Space`).
 
 [LocalSend](https://localsend.org/) leidžia siųsti failus į kitus įrenginius tame pačiame tinkle, kuriuose veikia programa, kaip Apple AirDrop. Tačiau jis yra daugiaplatformis, tad gali siųsti failus į ir iš Windows, macOS, Android, iOS ir, žinoma, Linux.
 
-Share meniu gali atverti su `Super + Ctrl + S` arba Omarchy meniu skiltyje _Veiksmai > Dalytis_. Jis siūlo keturias parinktis:
+Share meniu gali atverti su `Super + Ctrl + S` arba LunaOS meniu skiltyje _Veiksmai > Dalytis_. Jis siūlo keturias parinktis:
 
 - **Iškarpinė** siunčia viską, ką nukopijavai, kaip tekstinį failą. Puikiai tinka norint nusiųsti nuorodą ar fragmentą į savo telefoną nesiunčiant sau el. laiško.
 - **Failas** atverčia failų rinkiklį, kuriame gali pasirinkti kelis vienu metu.
 - **Aplankas** siunčia visą katalogą.
 - **Gauti** atverčia patį LocalSend, kad kitas įrenginys galėtų ką nors atsiųsti tau.
 
-Tas pats veikia iš terminalo su `omarchy share clipboard`, `omarchy share file [path]` ir `omarchy share folder [path]`. Praleisk kelią ir gausi rinkiklį.
+Tas pats veikia iš terminalo su `lunaos share clipboard`, `lunaos share file [path]` ir `lunaos share folder [path]`. Praleisk kelią ir gausi rinkiklį.
 
 Taip pat gali siųsti tiesiai iš failų tvarkytuvės: dešiniuoju pelės klavišu spustelėk bet kurį pasirinkimą Nautilus ir pasirink _Send via LocalSend_.
 
-Omarchy ugniesiena pagal nutylėjimą uždarta, išskyrus LocalSend portą, tad tai veikia iš karto šviežiai įdiegus. Žr. [sauga](48-security.md).
+LunaOS ugniesiena pagal nutylėjimą uždarta, išskyrus LocalSend portą, tad tai veikia iš karto šviežiai įdiegus. Žr. [sauga](48-security.md).
 
 ## LibreOffice
 
@@ -65,19 +65,19 @@ LibreOffice paleidi per programų paleidimo priemonę (`Super + Space`).
 
 ## Hype
 
-[Hype](https://github.com/omacom/hype) yra pačios Omarchy nepaprastai paprasta pristatymų programa. Tavo rinkinys yra vienas Markdown failas su paveikslėliais ir vaizdo įrašais šalia jo: rašyk kiekvieną skaidrę po gyva peržiūra, vilk skaidres į eilę, tada pristatyk per visą ekraną arba eksportuok į PDF ir PowerPoint. Ji netgi perima tavo Omarchy temą.
+[Hype](https://github.com/omacom/hype) yra pačios LunaOS nepaprastai paprasta pristatymų programa. Tavo rinkinys yra vienas Markdown failas su paveikslėliais ir vaizdo įrašais šalia jo: rašyk kiekvieną skaidrę po gyva peržiūra, vilk skaidres į eilę, tada pristatyk per visą ekraną arba eksportuok į PDF ir PowerPoint. Ji netgi perima tavo LunaOS temą.
 
 Hype paleidi per programų paleidimo priemonę (`Super + Space`). Paspausk `?` jo viduje, kad pamatytum visus sparčiuosius klavišus.
 
 ## Signed
 
-[Signed](https://github.com/omacom/signed) yra pačios Omarchy nepaprastai paprastas būdas pasirašyti PDF ir juos užpildyti. Padėk savo išsaugotą parašą, tekstą ir šiandienos datą bet kurioje puslapio vietoje, tada išsaugok pasirašytą kopiją šalia originalo. Žr. [PDF pildymas](27-filling-out-pdfs.md), kaip tai padaryti.
+[Signed](https://github.com/omacom/signed) yra pačios LunaOS nepaprastai paprastas būdas pasirašyti PDF ir juos užpildyti. Padėk savo išsaugotą parašą, tekstą ir šiandienos datą bet kurioje puslapio vietoje, tada išsaugok pasirašytą kopiją šalia originalo. Žr. [PDF pildymas](27-filling-out-pdfs.md), kaip tai padaryti.
 
 Signed paleidi per programų paleidimo priemonę (`Super + Space`) arba atverk su ja PDF iš failų tvarkytuvės.
 
 ## Omacalc
 
-[Omacalc](https://github.com/omacom-io/omacalc) yra pačios Omarchy nepaprastai paprastas skaičiuotuvas, atsidarantis plūduriuojančiame lange.
+[Omacalc](https://github.com/omacom-io/omacalc) yra pačios LunaOS nepaprastai paprastas skaičiuotuvas, atsidarantis plūduriuojančiame lange.
 
 Omacalc paleidi su `Super + Ctrl + Q` (arba skaičiuotuvo klavišu, jei tavo klaviatūra jį turi).
 
@@ -85,7 +85,7 @@ Omacalc paleidi su `Super + Ctrl + Q` (arba skaičiuotuvo klavišu, jei tavo kla
 
 [Signal](https://signal.org/) yra E2E užšifruotų susirašinėjimų pradininkas ir puikus bendravimo pasirinkimas visiems, kurie mieliau neina per vieną iš didžiųjų technologijų konglomeratų.
 
-Signal paleidi su `Super + Shift + G`. Jis nėra bazinio diegimo dalis, tad pirmą kartą tai paspaudus Omarchy pasiūlys jį įdiegti tau (jis taip pat yra Omarchy meniu skiltyje _Įdiegti > Service_).
+Signal paleidi su `Super + Shift + G`. Jis nėra bazinio diegimo dalis, tad pirmą kartą tai paspaudus LunaOS pasiūlys jį įdiegti tau (jis taip pat yra LunaOS meniu skiltyje _Įdiegti > Service_).
 
 ## mpv
 
@@ -95,13 +95,13 @@ mpv paleidi per programų paleidimo priemonę (`Super + Space`) arba tiesiog duk
 
 ## Omacut
 
-[Omacut](https://github.com/omacom-io/omacut) yra pačios Omarchy nepaprastai paprastas vaizdo įrašų apkarpytojas. Kai tereikia nupjauti klipo pradžią ir pabaigą, jis pranoksta pilno vaizdo redaktoriaus paleidimą.
+[Omacut](https://github.com/omacom-io/omacut) yra pačios LunaOS nepaprastai paprastas vaizdo įrašų apkarpytojas. Kai tereikia nupjauti klipo pradžią ir pabaigą, jis pranoksta pilno vaizdo redaktoriaus paleidimą.
 
 Omacut paleidi per programų paleidimo priemonę (`Super + Space`).
 
 ## Monologue
 
-[Monologue](https://github.com/omacom/monologue) yra pačios Omarchy nepaprastai paprastas vaizdo kameros įrašytuvas. Kartą pasirink kamerą ir mikrofoną, tada paspausk `Space`, kad įrašytum, ir dar kartą, kad pristabdytum ir tęstum tą patį kadrą. Jis visada įrašo tavo kameros didžiausia raiška, su gyvu mikrofono matuokliu, kad prieš pradedant galėtum patikrinti lygius.
+[Monologue](https://github.com/omacom/monologue) yra pačios LunaOS nepaprastai paprastas vaizdo kameros įrašytuvas. Kartą pasirink kamerą ir mikrofoną, tada paspausk `Space`, kad įrašytum, ir dar kartą, kad pristabdytum ir tęstum tą patį kadrą. Jis visada įrašo tavo kameros didžiausia raiška, su gyvu mikrofono matuokliu, kad prieš pradedant galėtum patikrinti lygius.
 
 Sustabdyk kadrą ir jis iškart atsidarys įtaisytame redaktoriuje. Dukart spustelėk klipą, kad jį padaly-tum, vilk rankenėles, kad apkarpytum kiekvieną dalį, ir pašalink dalis, kurių nenori. Tada išsaugok jį kaip MP4. Tavo originalus įrašas saugomas, kol jį išmesi, tad visada gali sugrįžti ir sukarpyti jį kitaip.
 

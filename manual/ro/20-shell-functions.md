@@ -1,6 +1,6 @@
 # Funcții de shell
 
-Omarchy vine cu un set de funcții de shell care simplifică sarcinile obișnuite și încapsulează apelurile întortocheate cu parametri.
+LunaOS vine cu un set de funcții de shell care simplifică sarcinile obișnuite și încapsulează apelurile întortocheate cu parametri.
 
 ## Compresie
 

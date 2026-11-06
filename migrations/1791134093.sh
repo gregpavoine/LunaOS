@@ -1,10 +1,10 @@
 echo "Keep the ASUS ProArt P14's USB4 tunnel root ports awake so a dock's Ethernet appears"
 
 # See install/hardware/n1x.sh, which sets up new installs the same way.
-rules="${OMARCHY_N1X_USB4_ROOT_PORT_RULES:-/etc/udev/rules.d/71-omarchy-n1x-usb4-root-ports.rules}"
-pci_devices="${OMARCHY_PCI_DEVICES_PATH:-/sys/bus/pci/devices}"
+rules="${LUNAOS_N1X_USB4_ROOT_PORT_RULES:-/etc/udev/rules.d/71-lunaos-n1x-usb4-root-ports.rules}"
+pci_devices="${LUNAOS_PCI_DEVICES_PATH:-/sys/bus/pci/devices}"
 
-if ! omarchy-hw-aarch64-n1x || ! omarchy-hw-match "H7407BA"; then
+if ! lunaos-hw-aarch64-n1x || ! lunaos-hw-match "H7407BA"; then
   exit 0
 fi
 

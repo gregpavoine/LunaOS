@@ -13,19 +13,19 @@ assert(tray.itemNamed({ tooltipTitle: 'LocalSend' }, 'localsend'), 'tray matches
 assert(!tray.itemNamed({ id: 'nextcloud' }, 'dropbox'), 'tray ignores items named for something else')
 
 const layout = {
-  left: [{ id: 'omarchy.menu' }],
+  left: [{ id: 'lunaos.menu' }],
   center: [],
-  right: [{ id: 'omarchy.dropbox' }, { id: 'omarchy.tray' }]
+  right: [{ id: 'lunaos.dropbox' }, { id: 'lunaos.tray' }]
 }
 
-assert(tray.layoutHasWidget(layout, 'omarchy.dropbox'), 'tray finds dedicated dropbox widget in layout')
-assert(tray.ownedByOmarchy({ id: 'dropbox' }, layout), 'tray suppresses dropbox when dedicated widget is in bar')
-assert(!tray.ownedByOmarchy({ id: 'dropbox' }, { left: [], center: [], right: [] }), 'tray keeps dropbox when dedicated widget is absent')
-assert(tray.ownedByOmarchy({ id: 'qlBCprNUqU', title: 'localsend' }, { left: [], center: [], right: [] }), 'tray suppresses localsend regardless of layout')
-assert(!tray.ownedByOmarchy({ id: 'nextcloud' }, layout), 'tray keeps unrelated tray items')
-assert(tray.ownedByOmarchy({ id: 'superwhisper' }, { left: [], center: [], right: [{ id: 'superwhisper.panel' }] }), 'tray suppresses superwhisper when its panel widget is in bar')
-assert(!tray.ownedByOmarchy({ id: 'superwhisper' }, { left: [], center: [], right: [] }), 'tray keeps superwhisper when its panel widget is absent')
-assert(tray.ownedByOmarchy({ id: 'dropbox' }, { left: [], center: [], right: [{ id: 'omarchy.tray' }], tray: [{ id: 'omarchy.dropbox' }] }), 'tray suppresses dropbox when its widget is in the tray section')
+assert(tray.layoutHasWidget(layout, 'lunaos.dropbox'), 'tray finds dedicated dropbox widget in layout')
+assert(tray.ownedByLunaOS({ id: 'dropbox' }, layout), 'tray suppresses dropbox when dedicated widget is in bar')
+assert(!tray.ownedByLunaOS({ id: 'dropbox' }, { left: [], center: [], right: [] }), 'tray keeps dropbox when dedicated widget is absent')
+assert(tray.ownedByLunaOS({ id: 'qlBCprNUqU', title: 'localsend' }, { left: [], center: [], right: [] }), 'tray suppresses localsend regardless of layout')
+assert(!tray.ownedByLunaOS({ id: 'nextcloud' }, layout), 'tray keeps unrelated tray items')
+assert(tray.ownedByLunaOS({ id: 'superwhisper' }, { left: [], center: [], right: [{ id: 'superwhisper.panel' }] }), 'tray suppresses superwhisper when its panel widget is in bar')
+assert(!tray.ownedByLunaOS({ id: 'superwhisper' }, { left: [], center: [], right: [] }), 'tray keeps superwhisper when its panel widget is absent')
+assert(tray.ownedByLunaOS({ id: 'dropbox' }, { left: [], center: [], right: [{ id: 'lunaos.tray' }], tray: [{ id: 'lunaos.dropbox' }] }), 'tray suppresses dropbox when its widget is in the tray section')
 
 // The bar outlines as much of the tray section as the sliding drawer shows,
 // never past the drawer.

@@ -1,12 +1,12 @@
 # 從 Mac 或 Windows 過來
 
-如果你在 macOS 或 Windows 上待了很多年，你的手指知道一百件你的大腦早就忘了自己學過的事。本章就是那個轉譯層：說明那些直覺在 Omarchy 中該往哪裡去。功能本身在其他地方有深入介紹——這裡只是地圖。
+如果你在 macOS 或 Windows 上待了很多年，你的手指知道一百件你的大腦早就忘了自己學過的事。本章就是那個轉譯層：說明那些直覺在 LunaOS 中該往哪裡去。功能本身在其他地方有深入介紹——這裡只是地圖。
 
 ### Super 是萬事的中心
 
-你圍繞 Cmd 或 Windows 鍵建立起來的所有肌肉記憶，都會轉移到一個鍵上：Super。那就是 PC 鍵盤上的 Windows 鍵，也是 Omarchy 中幾乎每一個快捷鍵的錨點。
+你圍繞 Cmd 或 Windows 鍵建立起來的所有肌肉記憶，都會轉移到一個鍵上：Super。那就是 PC 鍵盤上的 Windows 鍵，也是 LunaOS 中幾乎每一個快捷鍵的錨點。
 
-你對 Spotlight、Raycast 或開始選單的反射動作，會變成 `Super + Space`。那會開啟 Omarchy 選單，它可以啟動應用程式、變更設定、安裝軟體、擷取螢幕——幾乎什麼都行。開始打字即可篩選。`Super + Alt + Space` 會像 Launchpad 那樣，在一個格子上顯示每一個應用程式。見[導覽](04-navigation.md)。
+你對 Spotlight、Raycast 或開始選單的反射動作，會變成 `Super + Space`。那會開啟 LunaOS 選單，它可以啟動應用程式、變更設定、安裝軟體、擷取螢幕——幾乎什麼都行。開始打字即可篩選。`Super + Alt + Space` 會像 Launchpad 那樣，在一個格子上顯示每一個應用程式。見[導覽](04-navigation.md)。
 
 ### 沒有 Dock，也沒有桌面圖示
 
@@ -22,27 +22,27 @@
 
 ### 複製貼上就是能用
 
-在 Mac 上，你到處都用 Cmd + C。在 Windows 上，你到處都用 Ctrl + C——除了終端機，在那裡它會把你的程式殺掉。Omarchy 給你 `Super + C`、`Super + X` 和 `Super + V`，而且它們到處都能用，包括終端機。你不需要為了 shell 再學一套反射動作。
+在 Mac 上，你到處都用 Cmd + C。在 Windows 上，你到處都用 Ctrl + C——除了終端機，在那裡它會把你的程式殺掉。LunaOS 給你 `Super + C`、`Super + X` 和 `Super + V`，而且它們到處都能用，包括終端機。你不需要為了 shell 再學一套反射動作。
 
 Windows 的朋友們：你們的 Win + V 剪貼簿紀錄位在 `Super + Ctrl + V`，而且它同時保存圖片和文字。見[統一剪貼簿與紀錄](08-unified-clipboard-history.md)。
 
 ### 對照表
 
-| 你會想找的 | 在 Omarchy 中 |
+| 你會想找的 | 在 LunaOS 中 |
 | ------------- | ---------- |
-| Spotlight / Raycast / 開始選單 | `Super + Space`——Omarchy 選單 |
+| Spotlight / Raycast / 開始選單 | `Super + Space`——LunaOS 選單 |
 | AirDrop | LocalSend，透過 `Super + Ctrl + S`——見 [GUI 應用程式](22-guis.md) |
 | Cmd + Shift + 4 / Win + Shift + S | `Print Screen`——見[螢幕截圖與錄影](12-screenshots-recording.md) |
 | 通知中心 | 通知紀錄，位在 `Super + Shift + Alt + ,` |
 | Time Machine（針對系統） | 每次更新時自動建立[系統快照](47-system-snapshots.md) |
-| App Store / 下載安裝程式 | 選單中的_安裝_，或 `omarchy pkg add`——見[其他套件](29-other-packages.md) |
+| App Store / 下載安裝程式 | 選單中的_安裝_，或 `lunaos pkg add`——見[其他套件](29-other-packages.md) |
 | 系統設定 / 控制台 | 選單中的_設定_，它編輯的是純文字設定檔——見 [dotfiles](31-dotfiles.md) |
 
 ### 有些事情真的不一樣
 
 很多設定存在你編輯的文字檔案裡，而不是你點來點去的面板裡。這聽起來很原始，直到你意識到這表示每一次微調都看得見、可以複製到你的下一台機器、還能放進版本控制。_設定_選單會直接把你送進正確的檔案，並在你完成後重新啟動需要重新啟動的東西。
 
-更新透過一個指令而來——_更新 > Omarchy_——它會更新 Omarchy 本身以及系統上的每一個套件，並先建立一個快照。沒有每個應用程式各自的更新程式在隨機時刻煩你。見[更新](30-updates.md)。
+更新透過一個指令而來——_更新 > LunaOS_——它會更新 LunaOS 本身以及系統上的每一個套件，並先建立一個快照。沒有每個應用程式各自的更新程式在隨機時刻煩你。見[更新](30-updates.md)。
 
 軟體來自套件管理器，而不是下載下來的安裝程式。
 
@@ -50,7 +50,7 @@ Windows 的朋友們：你們的 Win + V 剪貼簿紀錄位在 `Super + Ctrl + V
 
 ### 在 Mac 硬體上
 
-Omarchy 在 Intel Mac 上運行得很好——見 [Mac 支援](44-mac-support.md)。而且鍵盤對你很友善：Omarchy 不重新對應任何東西，而 Linux 把 Command 鍵視為 Super，所以 Super 就在 Cmd 一直待著的地方。你的拇指不會察覺這次搬家。
+LunaOS 在 Intel Mac 上運行得很好——見 [Mac 支援](44-mac-support.md)。而且鍵盤對你很友善：LunaOS 不重新對應任何東西，而 Linux 把 Command 鍵視為 Super，所以 Super 就在 Cmd 一直待著的地方。你的拇指不會察覺這次搬家。
 
 ### 給它兩週
 

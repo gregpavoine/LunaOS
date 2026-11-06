@@ -20,7 +20,7 @@ awk '
   /^[a-z_]+\(\) \{/ { copying = 1 }
   copying { print }
   /^}/ { copying = 0 }
-' "$ROOT/bin/omarchy-system-factory-reset" >"$test_tmp/functions"
+' "$ROOT/bin/lunaos-system-factory-reset" >"$test_tmp/functions"
 
 cat >"$test_tmp/reset" <<'SH'
 #!/bin/bash
@@ -28,8 +28,8 @@ set -euo pipefail
 source "$1/functions"
 TOP_MNT="$2"
 ESP_MNT="$2/esp-mount"
-NEXT_NAME=@omarchy-reset-next
-PROVISIONING_DIR=/var/lib/omarchy/provisioning
+NEXT_NAME=@lunaos-reset-next
+PROVISIONING_DIR=/var/lib/lunaos/provisioning
 LOG_FILE="$TOP_MNT/reset.log"
 
 log() { printf '%s\n' "$1" >>"$LOG_FILE"; }
@@ -86,11 +86,11 @@ make_fixture() {
   local top="$1" root_hash="${2:-original-root-hash}"
   local factory="$top/@factory"
   mkdir -p "$top/@" "$factory/etc" "$factory/home/seller" \
-    "$factory/usr/bin" "$factory/usr/share/omarchy/install/provisioning"
+    "$factory/usr/bin" "$factory/usr/share/lunaos/install/provisioning"
   touch "$top/@/old-system" "$factory/home/seller/private-file" \
-    "$factory/usr/share/omarchy/install/provisioning/omarchy-provision-owner.service"
-  printf '#!/bin/bash\n' >"$factory/usr/bin/omarchy-provision-owner"
-  chmod +x "$factory/usr/bin/omarchy-provision-owner"
+    "$factory/usr/share/lunaos/install/provisioning/lunaos-provision-owner.service"
+  printf '#!/bin/bash\n' >"$factory/usr/bin/lunaos-provision-owner"
+  chmod +x "$factory/usr/bin/lunaos-provision-owner"
   printf 'true\n' >"$factory/read-only"
   cat >"$factory/etc/passwd" <<'EOF'
 root:x:0:0:root:/root:/bin/bash
@@ -135,7 +135,7 @@ for scenario in normal locked; do
   assert_scrubbed "$top/@factory"
   assert_scrubbed "$top/@"
   [[ $(cat "$top/@factory/read-only") == "true" ]] || fail "baseline returns to read-only"
-  [[ -f $top/@/var/lib/omarchy/provisioning/pending && -f $top/rebuilt ]] ||
+  [[ -f $top/@/var/lib/lunaos/provisioning/pending && -f $top/rebuilt ]] ||
     fail "reset reaches provisioning after cleanup"
 
   bash "$test_tmp/reset" "$test_tmp" "$top" || fail "$scenario reset can be repeated"
@@ -144,7 +144,7 @@ for scenario in normal locked; do
   pass "$scenario reset scrubs both roots, preserves service accounts, and can be repeated"
 done
 
-for target in @omarchy-reset-next @factory; do
+for target in @lunaos-reset-next @factory; do
   for command in userdel usermod rm; do
     top="$test_tmp/fail-$target-$command"
     make_fixture "$top"
@@ -161,19 +161,19 @@ done
 
 top="$test_tmp/fail-activate"
 make_fixture "$top"
-if FAIL_MV="$top/@omarchy-reset-next" bash "$test_tmp/reset" "$test_tmp" "$top"; then
+if FAIL_MV="$top/@lunaos-reset-next" bash "$test_tmp/reset" "$test_tmp" "$top"; then
   fail "reset accepted a failed activation"
 fi
-[[ -f $top/@/old-system ]] && ! compgen -G "$top/@omarchy-old-*" >/dev/null ||
+[[ -f $top/@/old-system ]] && ! compgen -G "$top/@lunaos-old-*" >/dev/null ||
   fail "a failed activation puts the running root back as @"
-[[ ! -e $top/@omarchy-reset-next ]] || fail "a failed activation discards the staged root"
+[[ ! -e $top/@lunaos-reset-next ]] || fail "a failed activation discards the staged root"
 pass "a failed activation puts the running root back"
 
 top="$test_tmp/fail-activate-and-restore"
 make_fixture "$top"
-if FAIL_MV="$top/@omarchy-*" bash "$test_tmp/reset" "$test_tmp" "$top"; then
+if FAIL_MV="$top/@lunaos-*" bash "$test_tmp/reset" "$test_tmp" "$top"; then
   fail "reset accepted a failed activation"
 fi
-[[ ! -e $top/@ && -d $top/@omarchy-reset-next ]] && compgen -G "$top/@omarchy-old-*/old-system" >/dev/null ||
+[[ ! -e $top/@ && -d $top/@lunaos-reset-next ]] && compgen -G "$top/@lunaos-old-*/old-system" >/dev/null ||
   fail "with no @ left, cleanup keeps both the running and the staged root"
 pass "a root switch that cannot be undone keeps both roots for recovery"

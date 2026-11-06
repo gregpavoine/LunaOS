@@ -1,12 +1,12 @@
 # Veniu de Mac o de Windows
 
-Si heu passat anys amb macOS o Windows, els vostres dits saben un centenar de coses que el vostre cervell ha oblidat haver après mai. Aquest capítol és la capa de traducció: on van aquests instints a Omarchy. Les funcions en si es tracten en profunditat en altres llocs — això només és el mapa.
+Si heu passat anys amb macOS o Windows, els vostres dits saben un centenar de coses que el vostre cervell ha oblidat haver après mai. Aquest capítol és la capa de traducció: on van aquests instints a LunaOS. Les funcions en si es tracten en profunditat en altres llocs — això només és el mapa.
 
 ### Super és el centre de tot
 
-Tota la memòria muscular que heu construït al voltant de Cmd o de la tecla Windows es trasllada a una sola tecla: Super. És la tecla Windows d'un teclat de PC, i és l'ancoratge de gairebé totes les dreceres d'Omarchy.
+Tota la memòria muscular que heu construït al voltant de Cmd o de la tecla Windows es trasllada a una sola tecla: Super. És la tecla Windows d'un teclat de PC, i és l'ancoratge de gairebé totes les dreceres d'LunaOS.
 
-El vostre reflex de Spotlight, Raycast o del menú Inici esdevé `Super + Space`. Això obre el menú d'Omarchy, que llança aplicacions, canvia la configuració, instal·la programari, captura la pantalla — pràcticament tot. Comenceu a escriure per filtrar. `Super + Alt + Space` mostra totes les aplicacions en una sola graella, com fa Launchpad. Vegeu [navegació](04-navigation.md).
+El vostre reflex de Spotlight, Raycast o del menú Inici esdevé `Super + Space`. Això obre el menú d'LunaOS, que llança aplicacions, canvia la configuració, instal·la programari, captura la pantalla — pràcticament tot. Comenceu a escriure per filtrar. `Super + Alt + Space` mostra totes les aplicacions en una sola graella, com fa Launchpad. Vegeu [navegació](04-navigation.md).
 
 ### No hi ha dock ni icones d'escriptori
 
@@ -22,27 +22,27 @@ Els espais de treball us resultaran familiars: són els Spaces de macOS o els es
 
 ### Copiar i enganxar simplement funciona
 
-Al Mac teníeu Cmd + C a tot arreu. A Windows teníeu Ctrl + C a tot arreu — excepte al terminal, on mata el vostre programa. Omarchy us dona `Super + C`, `Super + X` i `Super + V`, i funcionen a tot arreu, també al terminal. Cap reflex separat per aprendre per al shell.
+Al Mac teníeu Cmd + C a tot arreu. A Windows teníeu Ctrl + C a tot arreu — excepte al terminal, on mata el vostre programa. LunaOS us dona `Super + C`, `Super + X` i `Super + V`, i funcionen a tot arreu, també al terminal. Cap reflex separat per aprendre per al shell.
 
 Gent de Windows: el vostre historial del porta-retalls de Win + V viu a `Super + Ctrl + V`, i conté imatges a més de text. Vegeu [porta-retalls unificat i historial](08-unified-clipboard-history.md).
 
 ### La taula de traducció
 
-| El que busqueu | A Omarchy |
+| El que busqueu | A LunaOS |
 | ------------- | ---------- |
-| Spotlight / Raycast / menú Inici | `Super + Space` — el menú d'Omarchy |
+| Spotlight / Raycast / menú Inici | `Super + Space` — el menú d'LunaOS |
 | AirDrop | LocalSend, amb `Super + Ctrl + S` — vegeu [interfícies gràfiques](22-guis.md) |
 | Cmd + Shift + 4 / Win + Shift + S | `Print Screen` — vegeu [captures de pantalla i gravació](12-screenshots-recording.md) |
 | Centre de notificacions | Historial de notificacions a `Super + Shift + Alt + ,` |
 | Time Machine (per al sistema) | [Instantànies del sistema](47-system-snapshots.md) automàtiques a cada actualització |
-| App Store / baixar un instal·lador | _Instal·la_ al menú, o `omarchy pkg add` — vegeu [altres paquets](29-other-packages.md) |
+| App Store / baixar un instal·lador | _Instal·la_ al menú, o `lunaos pkg add` — vegeu [altres paquets](29-other-packages.md) |
 | Configuració del sistema / Tauler de control | _Configuració_ al menú, que edita fitxers de configuració plans — vegeu [dotfiles](31-dotfiles.md) |
 
 ### Algunes coses realment són diferents
 
 Molts paràmetres viuen en fitxers de text que editeu, no en panells on feu clic. Això sona primitiu fins que us adoneu que vol dir que cada ajust es pot veure, es pot copiar a la vostra propera màquina i es pot posar sota control de versions. El menú _Configuració_ us porta directament al fitxer correcte i reinicia el que calgui reiniciar quan heu acabat.
 
-Les actualitzacions arriben amb una sola ordre — _Actualitza > Omarchy_ — que actualitza el mateix Omarchy i tots els paquets del sistema, fent primer una instantània. Res d'actualitzadors per aplicació que us molestin a l'atzar. Vegeu [actualitzacions](30-updates.md).
+Les actualitzacions arriben amb una sola ordre — _Actualitza > LunaOS_ — que actualitza el mateix LunaOS i tots els paquets del sistema, fent primer una instantània. Res d'actualitzadors per aplicació que us molestin a l'atzar. Vegeu [actualitzacions](30-updates.md).
 
 El programari ve d'un gestor de paquets, no d'instal·ladors baixats.
 
@@ -50,7 +50,7 @@ I quan tanqueu una finestra, l'aplicació realment es tanca. No hi ha llimbs de 
 
 ### En maquinari Mac
 
-Omarchy funciona bé en Macs Intel — vegeu [compatibilitat amb Mac](44-mac-support.md). I el teclat és amable amb vosaltres: Omarchy no reassigna res, i Linux tracta la tecla Command com a Super, de manera que Super queda exactament on sempre ha estat Cmd. El vostre polze no notarà el canvi.
+LunaOS funciona bé en Macs Intel — vegeu [compatibilitat amb Mac](44-mac-support.md). I el teclat és amable amb vosaltres: LunaOS no reassigna res, i Linux tracta la tecla Command com a Super, de manera que Super queda exactament on sempre ha estat Cmd. El vostre polze no notarà el canvi.
 
 ### Doneu-li dues setmanes
 

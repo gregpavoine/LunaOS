@@ -1,8 +1,8 @@
 # Navigācija
 
-Viss Omarchy notiek ar tastatūru — _VISS!_ Kad sistēma tikko startējusi, ar peli vien tu tiešām nevari izdarīt pilnīgi neko. Taču tu vari nospiest `Super + Space`, lai atvērtu Omarchy Menu, un no šejienes tu vari darīt gandrīz visu.
+Viss LunaOS notiek ar tastatūru — _VISS!_ Kad sistēma tikko startējusi, ar peli vien tu tiešām nevari izdarīt pilnīgi neko. Taču tu vari nospiest `Super + Space`, lai atvērtu LunaOS Menu, un no šejienes tu vari darīt gandrīz visu.
 
-Taču Omarchy menu lielākoties pat nav paredzēta kā galvenais veids, kā darboties ar sistēmu. Mēs varam būt ātrāki! Visas svarīgākās lietotnes ir piesaistītas tieši atsevišķiem karstajiem taustiņiem. Termināli tu startē ar `Super + Return`, bet pārlūku — ar `Super + Shift + Return`. Pamēģini vienu pēc otra, un redzēsi Hyprland mozaīkošanas burvību darbībā:
+Taču LunaOS menu lielākoties pat nav paredzēta kā galvenais veids, kā darboties ar sistēmu. Mēs varam būt ātrāki! Visas svarīgākās lietotnes ir piesaistītas tieši atsevišķiem karstajiem taustiņiem. Termināli tu startē ar `Super + Return`, bet pārlūku — ar `Super + Shift + Return`. Pamēģini vienu pēc otra, un redzēsi Hyprland mozaīkošanas burvību darbībā:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Tu vari arī pāriet pilnekrāna režīmā ar `Super + F` vai pat tikai pilnā p
 
 ### Dwindle pret ritināšanas izkārtojumu
 
-Omarchy noklusējuma izkārtojumu sauc dwindle. Tas visu laiku uztur visus logus, ko atver vienā darba vietā, redzamus, pat ja tos nākas samazināt.
+LunaOS noklusējuma izkārtojumu sauc dwindle. Tas visu laiku uztur visus logus, ko atver vienā darba vietā, redzamus, pat ja tos nākas samazināt.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Peldoša darba vieta darbojas kā tradicionāla darbvirsma: logi pārklājas, un tu pats tos pārvieto un maini to izmērus. Katram logam ir virsrakstjosla tavas tēmas krāsās, ar pogām minimizēšanai, maksimizēšanai un aizvēršanai. `Super + M` arī minimizē fokusēto logu. Minimizēts logs gaida dokā; noklikšķini uz tā lietotnes, lai to atgādātu atpakaļ. Noklikšķini uz loga, lai izceltu to priekšplānā. Maini tā izmēru no jebkuras malas vai stūra. Veic dubultklikšķi uz virsrakstjoslas, lai maksimizētu logu, vienlaikus saglabājot augšējo joslu redzamu, un vēlreiz, lai atgūtu tā veco izmēru.
 
-Peldoša darba vieta rāda arī doku ar tavām piespraustajām lietotnēm, visu, kas darbojas, un visu lietotņu režģi aiz lietotņu pogas, ko atver arī `Super + Alt + Space` un _Apps_ Omarchy menu. Ar labo pogu noklikšķini uz lietotnes režģī vai nospied `Delete`, lai to atinstalētu. Noklikšķini uz lietotnes, lai to atvērtu vai izceltu tās logu priekšplānā; noklikšķini vēlreiz, lai cikli pārslēgtos cauri tās logiem. Klikšķis ar vidējo pogu atver jaunu logu. Velc ikonu gar doku, lai to pārvietotu; ievelkot darboties spējušu lietotni starp pārējām, tā tur paliks. Ar labo pogu vari lietotni paturēt dokā, izņemt to no doka vai aizvērt. Doks netraucē pilnekrāna logam. Ar labo pogu noklikšķini uz lietotņu pogas, lai pārvietotu doku uz citu malu vai liktu tam slēpties, līdz rādītājs sasniedz tā malu. Pozīcija atrodas arī _Trigger > Appearance > Dock > Dock Position_, un `omarchy dock position left` un `omarchy dock autohide on` abus iestata no termināļa. Lietotnes, ko turi dokā, ir izbalējušas, kamēr tās nedarbojas.
+Peldoša darba vieta rāda arī doku ar tavām piespraustajām lietotnēm, visu, kas darbojas, un visu lietotņu režģi aiz lietotņu pogas, ko atver arī `Super + Alt + Space` un _Apps_ LunaOS menu. Ar labo pogu noklikšķini uz lietotnes režģī vai nospied `Delete`, lai to atinstalētu. Noklikšķini uz lietotnes, lai to atvērtu vai izceltu tās logu priekšplānā; noklikšķini vēlreiz, lai cikli pārslēgtos cauri tās logiem. Klikšķis ar vidējo pogu atver jaunu logu. Velc ikonu gar doku, lai to pārvietotu; ievelkot darboties spējušu lietotni starp pārējām, tā tur paliks. Ar labo pogu vari lietotni paturēt dokā, izņemt to no doka vai aizvērt. Doks netraucē pilnekrāna logam. Ar labo pogu noklikšķini uz lietotņu pogas, lai pārvietotu doku uz citu malu vai liktu tam slēpties, līdz rādītājs sasniedz tā malu. Pozīcija atrodas arī _Trigger > Appearance > Dock > Dock Position_, un `lunaos dock position left` un `lunaos dock autohide on` abus iestata no termināļa. Lietotnes, ko turi dokā, ir izbalējušas, kamēr tās nedarbojas.
 
-Jaunas darba vietas un jebkura, kurai neesi piešķīris savu izkārtojumu ar `Super + L`, izmanto noklusējuma izkārtojumu. Mainot noklusējumu, visas darba vietas bez logiem tiek atiestatītas uz to, bet darba vieta ar logiem saglabā to izkārtojumu, kas tai ir. Logs, kas minimizēts dokā, joprojām skaitās kā logs darba vietā, kuru tas pameta. Izvēlies to sadaļā _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling vai Floating. `omarchy-hyprland-workspace-layout-default scrolling` to iestata no termināļa.
+Jaunas darba vietas un jebkura, kurai neesi piešķīris savu izkārtojumu ar `Super + L`, izmanto noklusējuma izkārtojumu. Mainot noklusējumu, visas darba vietas bez logiem tiek atiestatītas uz to, bet darba vieta ar logiem saglabā to izkārtojumu, kas tai ir. Logs, kas minimizēts dokā, joprojām skaitās kā logs darba vietā, kuru tas pameta. Izvēlies to sadaļā _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling vai Floating. `lunaos-hyprland-workspace-layout-default scrolling` to iestata no termināļa.
 
 ### Logu grupēšana
 

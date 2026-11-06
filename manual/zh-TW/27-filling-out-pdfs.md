@@ -1,6 +1,6 @@
 # 填寫 PDF
 
-Omarchy 附帶一個不錯的基本 PDF 檢視器，叫做 Document Viewer。這是當你雙擊任何 PDF 時會開啟的程式。
+LunaOS 附帶一個不錯的基本 PDF 檢視器，叫做 Document Viewer。這是當你雙擊任何 PDF 時會開啟的程式。
 
 但你只能用 Document Viewer 來填寫那些已被設定為表單的 PDF。如果你需要填寫還沒被這樣設定的 PDF，或者你需要簽署 PDF，請使用 [Signed](https://github.com/omacom/signed)。透過應用程式啟動器（`Super + Space`）啟動它，或右鍵按一下檔案、選取 _Open With..._，然後選取 Signed。
 

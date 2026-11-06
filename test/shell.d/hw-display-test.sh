@@ -21,14 +21,14 @@ write_backlights() {
 # unless a case writes one, whatever the machine running the suite has installed.
 platform_root="$tmp_dir/platform"
 mkdir -p "$platform_root" "$tmp_dir/bin"
-platform_root_copy "$ROOT/bin/omarchy-hw-display" "$tmp_dir/bin/omarchy-hw-display" "$platform_root"
+platform_root_copy "$ROOT/bin/lunaos-hw-display" "$tmp_dir/bin/lunaos-hw-display" "$platform_root"
 
 write_displays_conf() {
   printf '%s\n' "$@" >"$platform_root/displays.conf"
 }
 
 hw_display() {
-  OMARCHY_BACKLIGHT_PATH="$tmp_dir/backlight" "$tmp_dir/bin/omarchy-hw-display"
+  LUNAOS_BACKLIGHT_PATH="$tmp_dir/backlight" "$tmp_dir/bin/lunaos-hw-display"
 }
 
 write_backlights intel_backlight

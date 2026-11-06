@@ -52,10 +52,10 @@ SH
 
 chmod +x "$TMPDIR/bin/gliff-server"
 
-OMARCHY_PATH="$ROOT" \
-OMARCHY_QML_TEST_RESULT="$result" \
-OMARCHY_QML_TEST_STUB_PID="$TMPDIR/stub.pid" \
-OMARCHY_QML_TEST_FRAME="$TMPDIR/frame.png" \
+LUNAOS_PATH="$ROOT" \
+LUNAOS_QML_TEST_RESULT="$result" \
+LUNAOS_QML_TEST_STUB_PID="$TMPDIR/stub.pid" \
+LUNAOS_QML_TEST_FRAME="$TMPDIR/frame.png" \
 HOME="$TMPDIR/home" \
 XDG_CONFIG_HOME="$TMPDIR/home/.config" \
 XDG_CACHE_HOME="$TMPDIR/home/.cache" \

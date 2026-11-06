@@ -8,7 +8,7 @@ import "KeyboardLayoutModel.js" as KeyboardLayoutModel
 
 BarWidget {
   id: root
-  moduleName: "omarchy.keyboard-layout"
+  moduleName: "lunaos.keyboard-layout"
 
 
   property string layoutFull: ""

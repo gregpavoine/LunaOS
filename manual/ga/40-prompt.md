@@ -1,6 +1,6 @@
 # Leid
 
-Seoltar Omarchy le leid íostach [Starship](https://starship.rs/) de réir réamhshocraithe. Sin mar is maith liom mo leid a choinneáil. Ní gá dom an t-úsáideoir a bheith ar eolas agam, mar is mise i gcónaí é, agus ní gá dom an t-am a bheith ar eolas agam, mar tá sé i gcónaí ag an mbarr.
+Seoltar LunaOS le leid íostach [Starship](https://starship.rs/) de réir réamhshocraithe. Sin mar is maith liom mo leid a choinneáil. Ní gá dom an t-úsáideoir a bheith ar eolas agam, mar is mise i gcónaí é, agus ní gá dom an t-am a bheith ar eolas agam, mar tá sé i gcónaí ag an mbarr.
 
  ![prompt](images/prompt.webp)
 

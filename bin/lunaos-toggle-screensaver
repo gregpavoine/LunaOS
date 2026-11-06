@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# lunaos:summary=Toggle screensaver availability
+
+lunaos-toggle screensaver-off
+
+if lunaos-toggle-enabled screensaver-off; then
+  lunaos-notification-send -g 󱄄 "$(lunaos-i18n screensaver.disabled)"
+else
+  lunaos-notification-send -g 󱄄 "$(lunaos-i18n screensaver.enabled)"
+fi

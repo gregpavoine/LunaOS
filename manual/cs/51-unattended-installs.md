@@ -1,8 +1,8 @@
 # Bezobslužné instalace
 
-Obraz ISO systému Omarchy se může nainstalovat sám, aniž by kdokoli seděl u klávesnice. Pokud instalátor najde druhou jednotku označenou `cidata` se svými konfiguračními soubory, zkopíruje si je, průvodce prvotním nastavením úplně přeskočí a sám restartuje počítač do hotového systému. Není potřeba žádná zvláštní sestava ISO, žádná další položka spouštěcí nabídky — není-li připojena žádná taková jednotka, nic se nemění a dostanete běžného průvodce.
+Obraz ISO systému LunaOS se může nainstalovat sám, aniž by kdokoli seděl u klávesnice. Pokud instalátor najde druhou jednotku označenou `cidata` se svými konfiguračními soubory, zkopíruje si je, průvodce prvotním nastavením úplně přeskočí a sám restartuje počítač do hotového systému. Není potřeba žádná zvláštní sestava ISO, žádná další položka spouštěcí nabídky — není-li připojena žádná taková jednotka, nic se nemění a dostanete běžného průvodce.
 
-Díky tomu se Omarchy výborně hodí jako základní obraz pro jednorázová vývojová prostředí: vytvoříte virtuální počítač v systému Proxmox nebo pomocí nástroje Packer, spustíte ho, odejdete a přihlásíte se přes SSH. Označení `cidata` je označením `NoCloud` nástrojí cloud-init, takže všechny běžné virtualizační nástroje už takovou jednotku připojit umějí.
+Díky tomu se LunaOS výborně hodí jako základní obraz pro jednorázová vývojová prostředí: vytvoříte virtuální počítač v systému Proxmox nebo pomocí nástroje Packer, spustíte ho, odejdete a přihlásíte se přes SSH. Označení `cidata` je označením `NoCloud` nástrojí cloud-init, takže všechny běžné virtualizační nástroje už takovou jednotku připojit umějí.
 
 ## Konfigurační soubory
 
@@ -24,7 +24,7 @@ Místo souboru `user_credentials.json` můžete také vložit prázdný soubor s
 
 ## Přístup přes SSH
 
-Pokud je soubor `authorized_keys` přítomen, instalace nastaví klíče jako soubor `~/.ssh/authorized_keys` příslušného uživatele, povolí službu `sshd` a otevře pro ni firewall. (U standardní instalace Omarchy se služba openssh dodává vypnutá a port je uzavřený, takže bezobslužný počítač by jinak byl nedostupný.) Při instalaci se přidají pouze vaše klíče — žádná jiná nastavení ověřování démona SSH se neuvolní.
+Pokud je soubor `authorized_keys` přítomen, instalace nastaví klíče jako soubor `~/.ssh/authorized_keys` příslušného uživatele, povolí službu `sshd` a otevře pro ni firewall. (U standardní instalace LunaOS se služba openssh dodává vypnutá a port je uzavřený, takže bezobslužný počítač by jinak byl nedostupný.) Při instalaci se přidají pouze vaše klíče — žádná jiná nastavení ověřování démona SSH se neuvolní.
 
 Pokud je přítomen soubor `tailscale_authkey`, počítač se namísto toho při prvním spuštění připojí k vašemu tailnetu: služba Tailscale se nainstaluje z balíčků přibalených k obrazu ISO, firewall povolí rozhraní tailnetu a úloha na pozadí spustí připojení, jakmile bude počítač skutečně připojený k síti, přičemž se o to bude pokoušet opakovaně, dokud se to nepodaří. Používejte opakovaně použitelný, předem autorizovaný klíč, aby jeden obraz jednotky mohl sloužit mnoha počítačům.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Poté ho připojte k virtuálnímu počítači vedle obrazu ISO systému Omarchy. Zde je úplný příklad pro Proxmox:
+Poté ho připojte k virtuálnímu počítači vedle obrazu ISO systému LunaOS. Zde je úplný příklad pro Proxmox:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

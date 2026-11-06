@@ -1,8 +1,8 @@
 # Gyakori finomhangolások
 
-Ez az Omarchy-beállítás gyakori testreszabásainak gyűjteménye. Tudd, hogy rendszerfrissítések miatt időnként szükségessé válhat bizonyos konfigurációk eredeti állapotukra való visszaállítása. Ha ez történik, a változtatásaid nem vesznek el, hanem egy `.bak` fájlba kerülnek ugyanabban a könyvtárban.
+Ez az LunaOS-beállítás gyakori testreszabásainak gyűjteménye. Tudd, hogy rendszerfrissítések miatt időnként szükségessé válhat bizonyos konfigurációk eredeti állapotukra való visszaállítása. Ha ez történik, a változtatásaid nem vesznek el, hanem egy `.bak` fájlba kerülnek ugyanabban a könyvtárban.
 
-Ha valamit elrontasz, az Omarchy menü _Frissítés > Konfiguráció_ pontjából visszaállíthatod az egyes konfigurációkat eredeti beállításukra. Ha _igazán_ mindent elrontasz, az `omarchy-reinstall` paranccsal minden konfigurációt visszaállíthatsz.
+Ha valamit elrontasz, az LunaOS menü _Frissítés > Konfiguráció_ pontjából visszaállíthatod az egyes konfigurációkat eredeti beállításukra. Ha _igazán_ mindent elrontasz, az `lunaos-reinstall` paranccsal minden konfigurációt visszaállíthatsz.
 
 ### Minden tálcaikon folyamatos megmutatása
 
@@ -10,7 +10,7 @@ Alapértelmezetten a tálcaikonok, mint a Dropbox, az 1password vagy a Steam, a 
 
 ### Lekerekített ablaksarkok
 
-Az Omarchy alapértelmezett dizájnja szögletes sarkokra épül, de ha szeretnéd egy kicsit lágyítani, megváltoztathatod a `~/.config/hypr/looknfeel.lua` fájlt úgy, hogy a lekerekítés ne legyen többé kikommentezve:
+Az LunaOS alapértelmezett dizájnja szögletes sarkokra épül, de ha szeretnéd egy kicsit lágyítani, megváltoztathatod a `~/.config/hypr/looknfeel.lua` fájlt úgy, hogy a lekerekítés ne legyen többé kikommentezve:
 
 ```
 hl.config({

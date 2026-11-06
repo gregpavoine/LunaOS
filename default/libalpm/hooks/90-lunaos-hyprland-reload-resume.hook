@@ -1,0 +1,12 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = lunaos-settings
+Target = lunaos-settings-dev
+
+[Action]
+Description = Reloading Hyprland after LunaOS settings update...
+When = PostTransaction
+Depends = lunaos
+Exec = /usr/bin/lunaos-hyprland-reload-guard resume

@@ -1,8 +1,8 @@
 # Urambazaji
 
-Kila kitu katika Omarchy hufanyika kupitia kibodi — _KILA KITU!_ Mfumo unapoanza kwa mara ya kwanza, kwa kweli huwezi kufanya chochote kwa kipanya pekee. Lakini unaweza kubonyeza `Super + Space` ili kufunua Menyu ya Omarchy na kuanzia hapa unaweza kufanya karibu kila kitu.
+Kila kitu katika LunaOS hufanyika kupitia kibodi — _KILA KITU!_ Mfumo unapoanza kwa mara ya kwanza, kwa kweli huwezi kufanya chochote kwa kipanya pekee. Lakini unaweza kubonyeza `Super + Space` ili kufunua Menyu ya LunaOS na kuanzia hapa unaweza kufanya karibu kila kitu.
 
-Lakini menyu ya Omarchy hata haikukusudiwa kuwa njia kuu ya kuendesha mfumo mara nyingi. Tunaweza kuwa wepesi zaidi ya hivyo! Programu zote muhimu zaidi zimefungwa moja kwa moja kwenye vitufe vya mkato vya kibinafsi. Unaanzisha terminal kwa `Super + Return` na kivinjari kwa `Super + Shift + Return`. Jaribu kufanya moja baada ya nyingine, na utaona uchawi wa kupanga vigae wa Hyprland ukifanya kazi:
+Lakini menyu ya LunaOS hata haikukusudiwa kuwa njia kuu ya kuendesha mfumo mara nyingi. Tunaweza kuwa wepesi zaidi ya hivyo! Programu zote muhimu zaidi zimefungwa moja kwa moja kwenye vitufe vya mkato vya kibinafsi. Unaanzisha terminal kwa `Super + Return` na kivinjari kwa `Super + Shift + Return`. Jaribu kufanya moja baada ya nyingine, na utaona uchawi wa kupanga vigae wa Hyprland ukifanya kazi:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Unaweza pia kwenda skrini nzima kwa `Super + F` au hata upana kamili tu (ukihifa
 
 ### Dwindle dhidi ya mpangilio wa kusogeza
 
-Mpangilio wa chaguo-msingi wa Omarchy unaitwa dwindle. Huweka madirisha yote unayofungua kwenye nafasi moja ya kazi yaonekane wakati wote, hata kama inabidi kuyapunguza ukubwa.
+Mpangilio wa chaguo-msingi wa LunaOS unaitwa dwindle. Huweka madirisha yote unayofungua kwenye nafasi moja ya kazi yaonekane wakati wote, hata kama inabidi kuyapunguza ukubwa.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Nafasi ya kazi inayoelea hufanya kazi kama eneo-kazi la kitamaduni: madirisha huingiliana, na unayasogeza na kubadilisha ukubwa wake mwenyewe. Kila dirisha hupata upau wa kichwa katika rangi za mandhari yako, ukiwa na vitufe vya kupunguza, kupanua, na kufunga. `Super + M` pia hupunguza dirisha lililoelekezwa. Dirisha lililopunguzwa hungoja kwenye dock; bofya programu yake ili kulirudisha. Bofya dirisha ili kulileta mbele. Libadilishe ukubwa kutoka ukingo au kona yoyote. Bofya mara mbili upau wa kichwa ili kupanua dirisha huku ukihifadhi upau wa juu uonekane, na tena ili kupata ukubwa wake wa zamani.
 
-Nafasi ya kazi inayoelea pia huonyesha dock, ikiwa na programu zako zilizobandikwa, kila kitu kinachoendeshwa, na gridi ya kila programu nyuma ya kitufe cha programu, ambacho `Super + Alt + Space` na _Programu_ katika menyu ya Omarchy hufungua pia. Bofya kulia programu kwenye gridi, au bonyeza `Delete`, ili kuiondoa. Bofya programu ili kuifungua, au kuleta dirisha lake mbele; bofya tena ili kuzunguka kupitia madirisha yake. Bofya katikati hufungua dirisha jipya. Buruta ikoni kando ya dock ili kuisogeza; kuburuta programu inayoendeshwa kati ya nyingine huiweka hapo. Bofya kulia ili kuweka programu kwenye dock, kuiondoa, au kuifunga. Dock huondoka njiani mwa dirisha la skrini nzima. Bofya kulia kitufe cha programu ili kusogeza dock kwenye ukingo mwingine au kuifanya ifichike hadi kishale kifike ukingoni mwake. Nafasi pia iko chini ya _Trigger > Mwonekano > Dock > Nafasi ya Dock_, na `omarchy dock position left` na `omarchy dock autohide on` huweka zote mbili kutoka kwenye terminal. Programu unazoweka kwenye dock hufifia zikiwa haziendeshwi.
+Nafasi ya kazi inayoelea pia huonyesha dock, ikiwa na programu zako zilizobandikwa, kila kitu kinachoendeshwa, na gridi ya kila programu nyuma ya kitufe cha programu, ambacho `Super + Alt + Space` na _Programu_ katika menyu ya LunaOS hufungua pia. Bofya kulia programu kwenye gridi, au bonyeza `Delete`, ili kuiondoa. Bofya programu ili kuifungua, au kuleta dirisha lake mbele; bofya tena ili kuzunguka kupitia madirisha yake. Bofya katikati hufungua dirisha jipya. Buruta ikoni kando ya dock ili kuisogeza; kuburuta programu inayoendeshwa kati ya nyingine huiweka hapo. Bofya kulia ili kuweka programu kwenye dock, kuiondoa, au kuifunga. Dock huondoka njiani mwa dirisha la skrini nzima. Bofya kulia kitufe cha programu ili kusogeza dock kwenye ukingo mwingine au kuifanya ifichike hadi kishale kifike ukingoni mwake. Nafasi pia iko chini ya _Trigger > Mwonekano > Dock > Nafasi ya Dock_, na `lunaos dock position left` na `lunaos dock autohide on` huweka zote mbili kutoka kwenye terminal. Programu unazoweka kwenye dock hufifia zikiwa haziendeshwi.
 
-Nafasi mpya za kazi, na yoyote ambayo hujaipa mpangilio wake mwenyewe kwa `Super + L`, hutumia mpangilio wa chaguo-msingi. Kubadilisha chaguo-msingi huweka upya kila nafasi ya kazi isiyo na madirisha kwake, wakati ile iliyo na madirisha juu yake huhifadhi mpangilio ilionao. Dirisha lililopunguzwa kwenye dock bado huhesabika kama dirisha kwenye nafasi ya kazi iliyotoka. Ichague chini ya _Trigger > Mwonekano > Mpangilio wa Nafasi ya Kazi_: Vigae, Kusogeza, au Kuelea. `omarchy-hyprland-workspace-layout-default scrolling` huiweka kutoka kwenye terminal.
+Nafasi mpya za kazi, na yoyote ambayo hujaipa mpangilio wake mwenyewe kwa `Super + L`, hutumia mpangilio wa chaguo-msingi. Kubadilisha chaguo-msingi huweka upya kila nafasi ya kazi isiyo na madirisha kwake, wakati ile iliyo na madirisha juu yake huhifadhi mpangilio ilionao. Dirisha lililopunguzwa kwenye dock bado huhesabika kama dirisha kwenye nafasi ya kazi iliyotoka. Ichague chini ya _Trigger > Mwonekano > Mpangilio wa Nafasi ya Kazi_: Vigae, Kusogeza, au Kuelea. `lunaos-hyprland-workspace-layout-default scrolling` huiweka kutoka kwenye terminal.
 
 ### Kupanga madirisha katika vikundi
 

@@ -1,8 +1,8 @@
 # Mionathruithe coitianta
 
-Is bailiúchán é seo de shaincheapthaí coitianta ar shocrú Omarchy. Bíodh a fhios agat go mb'fhéidir go mbeidh sé riachtanach uaireanta do nuashonruithe córais cumraíochtaí áirithe a chur ar ais ina riocht bunaidh. Má tharlaíonn sé seo, ní chaillfear do chuid athruithe, ach cuirfear iad i gcomhad `.bak` sa chomhadlann chéanna.
+Is bailiúchán é seo de shaincheapthaí coitianta ar shocrú LunaOS. Bíodh a fhios agat go mb'fhéidir go mbeidh sé riachtanach uaireanta do nuashonruithe córais cumraíochtaí áirithe a chur ar ais ina riocht bunaidh. Má tharlaíonn sé seo, ní chaillfear do chuid athruithe, ach cuirfear iad i gcomhad `.bak` sa chomhadlann chéanna.
 
-Má scriosann tú rud éigin, is féidir leat cumraíochtaí aonair a chur ar ais ina socrú bunaidh trí _Nuashonraigh > Config_ sa roghchlár Omarchy. Má scriosann tú _i ndáiríre_ gach rud, is féidir leat na cumraíochtaí go léir a athshocrú trí `omarchy-reinstall`.
+Má scriosann tú rud éigin, is féidir leat cumraíochtaí aonair a chur ar ais ina socrú bunaidh trí _Nuashonraigh > Config_ sa roghchlár LunaOS. Má scriosann tú _i ndáiríre_ gach rud, is féidir leat na cumraíochtaí go léir a athshocrú trí `lunaos-reinstall`.
 
 ### Nocht deilbhíní an tréidire go léir an t-am ar fad
 
@@ -10,7 +10,7 @@ De réir réamhshocraithe, tá deilbhíní an tréidire, cosúil le Dropbox, 1pa
 
 ### Cúinní fuinneoige cruinne
 
-Is dearadh cúinní cearnacha é dearadh réamhshocraithe Omarchy, ach más maith leat é sin a mhaolú beagán, is féidir leat `~/.config/hypr/looknfeel.lua` a athrú ionas nach mbeidh an cruinniú tráchtaireachta as a thuilleadh:
+Is dearadh cúinní cearnacha é dearadh réamhshocraithe LunaOS, ach más maith leat é sin a mhaolú beagán, is féidir leat `~/.config/hypr/looknfeel.lua` a athrú ionas nach mbeidh an cruinniú tráchtaireachta as a thuilleadh:
 
 ```
 hl.config({

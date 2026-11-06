@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ Bilah akan otomatis menunjukkan tata letak keyboardmu saat ini begitu kamu memil
 Klik kanan jam di bilah untuk berputar melalui format umum, termasuk yang 12 jam. Kamu juga bisa mengatur format secara langsung:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Ini akan menampilkan Sunday 10:55 AM.
 
 ### Bagaimana cara mengubah zona waktu saya?
 
-Jalankan _Perbarui > Timezone_ di menu Omarchy dan pilih dari daftar. Jika zona waktunya benar tetapi jam itu sendiri telah bergeser, _Perbarui > Time_ memulai ulang sinkronisasi waktu untukmu.
+Jalankan _Perbarui > Timezone_ di menu LunaOS dan pilih dari daftar. Jika zona waktunya benar tetapi jam itu sendiri telah bergeser, _Perbarui > Time_ memulai ulang sinkronisasi waktu untukmu.
 
 ### Bagaimana cara mengubah DNS saya, berbagi Wi-Fi saya, atau memeriksa kecepatan koneksi saya?
 
@@ -36,11 +36,11 @@ Semua itu ada di [jaringan](35-networking.md).
 
 ### Bagaimana cara memeriksa seberapa cepat disk saya?
 
-_Pemicu > Uji Kecepatan > Uji Kecepatan Disk_ mengukur kecepatan baca dan tulis langsung pada drive kamu, atau `omarchy disk speedtest` dari terminal.
+_Pemicu > Uji Kecepatan > Uji Kecepatan Disk_ mengukur kecepatan baca dan tulis langsung pada drive kamu, atau `lunaos disk speedtest` dari terminal.
 
 ### Mengapa saya tidak bisa masuk ke akun Google saya di Chromium?
 
-Build Chromium sumber terbuka biasa tidak dilengkapi dengan kredensial OAuth yang dibutuhkan Google untuk masuk akun. Jalankan _Pasang > Service > Chromium Account_ di menu Omarchy untuk menambahkannya, mulai ulang browser, dan proses masuk akan berhasil.
+Build Chromium sumber terbuka biasa tidak dilengkapi dengan kredensial OAuth yang dibutuhkan Google untuk masuk akun. Jalankan _Pasang > Service > Chromium Account_ di menu LunaOS untuk menambahkannya, mulai ulang browser, dan proses masuk akan berhasil.
 
 ### Bagaimana cara menambahkan printer?
 
@@ -60,15 +60,15 @@ Tangkapan layar yang disimpan masuk ke `~/Pictures/Screenshots` secara bawaan. U
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Kamu bisa melakukan hal yang sama untuk perekaman layar menggunakan `OMARCHY_SCREENRECORD_DIR`.
+Kamu bisa melakukan hal yang sama untuk perekaman layar menggunakan `LUNAOS_SCREENRECORD_DIR`.
 
-Omasnap membuat direktori tangkapan layarnya secara otomatis. Buat direktori perekaman layar sendiri, lalu mulai ulang Omarchy agar salah satu perubahan lingkungan berlaku.
+Omasnap membuat direktori tangkapan layarnya secara otomatis. Buat direktori perekaman layar sendiri, lalu mulai ulang LunaOS agar salah satu perubahan lingkungan berlaku.
 
 ### Bagaimana cara membuat speaker + webcam berfungsi pada Apple Studio Display saya?
 
 Kamu mungkin berpikir semuanya seharusnya berfungsi hanya dengan mencolokkan USB C, tetapi sayangnya tidak demikian. Solusi yang saya temukan untuk membuatnya berfungsi dengan andal adalah menggunakan [kabel WJESOG DisplayPort + USB-A => USB-C](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/). Lalu speaker dan webcam berfungsi dengan sempurna.
 
-Ingat bahwa kamu memiliki kontrol kecerahan bawaan di Omarchy untuk Apple Displays (baik Studio maupun XDR) menggunakan tombol kecerahan keyboard biasa.
+Ingat bahwa kamu memiliki kontrol kecerahan bawaan di LunaOS untuk Apple Displays (baik Studio maupun XDR) menggunakan tombol kecerahan keyboard biasa.
 
 ### Bagaimana cara menyingkirkan semua perangkat lunak tambahan?
 
@@ -76,7 +76,7 @@ Jika kamu tidak menginginkan program seperti Obsidian atau LibreOffice atau hal-
 
 Jalankan _Hapus > Package_ untuk melihat setiap paket yang terpasang. Lalu kamu bisa memilih paket apa pun yang ingin kamu hapus dengan tab, dan mulai menghapus semua yang telah kamu pilih dengan return.
 
-Dan kamu bisa menggunakan _Hapus > Web App_ dari menu Omarchy untuk menghapus aplikasi web pra-pasang apa pun yang tidak kamu inginkan.
+Dan kamu bisa menggunakan _Hapus > Web App_ dari menu LunaOS untuk menghapus aplikasi web pra-pasang apa pun yang tidak kamu inginkan.
 
 Atau jalankan _Hapus > Preinstalls_ untuk menyapu semua tambahan pra-pasang — aplikasi web, TUI, dan aplikasi opsional — sekaligus. Hotkey yang meluncurkannya ikut hilang bersamanya, jadi kamu ditinggalkan dengan daftar binding yang bersih untuk diisi dengan milikmu sendiri di `~/.config/hypr/bindings.lua`.
 

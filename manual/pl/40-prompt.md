@@ -1,6 +1,6 @@
 # Znak zachęty
 
-Omarchy dostarcza domyślnie minimalistyczny znak zachęty [Starship](https://starship.rs/). Taki właśnie lubię. Nie muszę wiedzieć, jakim jestem użytkownikiem, bo to zawsze ja, i nie muszę wiedzieć, która jest godzina, bo zawsze jest na górze.
+LunaOS dostarcza domyślnie minimalistyczny znak zachęty [Starship](https://starship.rs/). Taki właśnie lubię. Nie muszę wiedzieć, jakim jestem użytkownikiem, bo to zawsze ja, i nie muszę wiedzieć, która jest godzina, bo zawsze jest na górze.
 
  ![prompt](images/prompt.webp)
 

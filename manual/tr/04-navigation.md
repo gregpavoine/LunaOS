@@ -1,8 +1,8 @@
 # Gezinme
 
-Omarchy'de her şey klavyeyle olur — _HER ŞEY!_ Sistem ilk başladığında, yalnızca fareyle kelimenin tam anlamıyla hiçbir şey yapamazsınız. Ama `Super + Space` tuşlarına basarak Omarchy Menüsü'nü açabilirsiniz ve buradan hemen hemen her şeyi yapabilirsiniz.
+LunaOS'de her şey klavyeyle olur — _HER ŞEY!_ Sistem ilk başladığında, yalnızca fareyle kelimenin tam anlamıyla hiçbir şey yapamazsınız. Ama `Super + Space` tuşlarına basarak LunaOS Menüsü'nü açabilirsiniz ve buradan hemen hemen her şeyi yapabilirsiniz.
 
-Ama Omarchy menüsünün çoğu zaman sistemi kullanmanın ana yolu olması bile amaçlanmıyor. Bundan daha hızlı olabiliriz! En önemli uygulamaların hepsi doğrudan tek tek kısayol tuşlarına bağlı. Terminali `Super + Return` ile, bir tarayıcıyı `Super + Shift + Return` ile başlatırsınız. Birini diğerinin ardından açmayı deneyin, Hyprland'in döşeme büyüsünü iş başında göreceksiniz:
+Ama LunaOS menüsünün çoğu zaman sistemi kullanmanın ana yolu olması bile amaçlanmıyor. Bundan daha hızlı olabiliriz! En önemli uygulamaların hepsi doğrudan tek tek kısayol tuşlarına bağlı. Terminali `Super + Return` ile, bir tarayıcıyı `Super + Shift + Return` ile başlatırsınız. Birini diğerinin ardından açmayı deneyin, Hyprland'in döşeme büyüsünü iş başında göreceksiniz:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Ayrıca `Super + F` ile tam ekrana veya `Super + Alt + F` ile yalnızca tam geni
 
 ### Dwindle ile kayan düzen
 
-Omarchy'nin varsayılan düzenine dwindle denir. Bir çalışma alanında açtığınız tüm pencereleri, onları küçültmek zorunda kalsa bile her zaman görünür tutar.
+LunaOS'nin varsayılan düzenine dwindle denir. Bir çalışma alanında açtığınız tüm pencereleri, onları küçültmek zorunda kalsa bile her zaman görünür tutar.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Yüzen bir çalışma alanı geleneksel bir masaüstü gibi çalışır: pencereler üst üste biner ve onları kendiniz taşır ve boyutlandırırsınız. Her pencere, temanızın renklerinde, simge durumuna küçültme, büyütme ve kapatma düğmeleri olan bir başlık çubuğu alır. `Super + M` de odaklanılan pencereyi simge durumuna küçültür. Simge durumuna küçültülmüş bir pencere dock'ta bekler; geri getirmek için uygulamasına tıklayın. Bir pencereyi öne getirmek için tıklayın. Herhangi bir kenarından veya köşesinden yeniden boyutlandırın. Üst çubuğu görünürde tutarken pencereyi büyütmek için başlık çubuğuna çift tıklayın, eski boyutu geri almak için tekrar çift tıklayın.
 
-Yüzen bir çalışma alanı ayrıca bir dock gösterir; burada sabitlenmiş uygulamalarınız, çalışan her şey ve uygulamalar düğmesinin arkasında, `Super + Alt + Space` ile ve Omarchy menüsündeki _Uygulamalar_ ile de açılan, her uygulamanın bir ızgarası bulunur. Bir uygulamayı kaldırmak için ızgarada ona sağ tıklayın veya `Delete` tuşuna basın. Bir uygulamayı açmak veya penceresini öne getirmek için ona tıklayın; pencereleri arasında geçiş yapmak için tekrar tıklayın. Orta tıklama yeni bir pencere açar. Bir simgeyi taşımak için dock boyunca sürükleyin; çalışan bir uygulamayı diğerlerinin arasına sürüklemek onu orada tutar. Bir uygulamayı dock'ta tutmak, çıkarmak veya kapatmak için sağ tıklayın. Dock, tam ekran bir pencerenin yolundan çekilir. Dock'u başka bir kenara taşımak veya imleç kenarına ulaşana kadar gizlenmesini sağlamak için uygulamalar düğmesine sağ tıklayın. Konum ayrıca _Tetikleyici > Görünüm > Dock > Dock Konumu_ altındadır ve `omarchy dock position left` ile `omarchy dock autohide on` ikisini de bir terminalden ayarlar. Dock'ta tuttuğunuz uygulamalar çalışmıyorken soluk görünür.
+Yüzen bir çalışma alanı ayrıca bir dock gösterir; burada sabitlenmiş uygulamalarınız, çalışan her şey ve uygulamalar düğmesinin arkasında, `Super + Alt + Space` ile ve LunaOS menüsündeki _Uygulamalar_ ile de açılan, her uygulamanın bir ızgarası bulunur. Bir uygulamayı kaldırmak için ızgarada ona sağ tıklayın veya `Delete` tuşuna basın. Bir uygulamayı açmak veya penceresini öne getirmek için ona tıklayın; pencereleri arasında geçiş yapmak için tekrar tıklayın. Orta tıklama yeni bir pencere açar. Bir simgeyi taşımak için dock boyunca sürükleyin; çalışan bir uygulamayı diğerlerinin arasına sürüklemek onu orada tutar. Bir uygulamayı dock'ta tutmak, çıkarmak veya kapatmak için sağ tıklayın. Dock, tam ekran bir pencerenin yolundan çekilir. Dock'u başka bir kenara taşımak veya imleç kenarına ulaşana kadar gizlenmesini sağlamak için uygulamalar düğmesine sağ tıklayın. Konum ayrıca _Tetikleyici > Görünüm > Dock > Dock Konumu_ altındadır ve `lunaos dock position left` ile `lunaos dock autohide on` ikisini de bir terminalden ayarlar. Dock'ta tuttuğunuz uygulamalar çalışmıyorken soluk görünür.
 
-Yeni çalışma alanları ve `Super + L` ile kendi düzenini vermedikleriniz varsayılan düzeni kullanır. Varsayılanı değiştirmek, penceresi olmayan her çalışma alanını ona sıfırlar; üzerinde pencereleri olan biri ise sahip olduğu düzeni korur. Dock'a simge durumuna küçültülmüş bir pencere yine de ayrıldığı çalışma alanındaki bir pencere sayılır. Bunu _Tetikleyici > Görünüm > Çalışma Alanı Düzeni_ altından seçin: Döşeme, Kayan veya Yüzen. `omarchy-hyprland-workspace-layout-default scrolling` bunu bir terminalden ayarlar.
+Yeni çalışma alanları ve `Super + L` ile kendi düzenini vermedikleriniz varsayılan düzeni kullanır. Varsayılanı değiştirmek, penceresi olmayan her çalışma alanını ona sıfırlar; üzerinde pencereleri olan biri ise sahip olduğu düzeni korur. Dock'a simge durumuna küçültülmüş bir pencere yine de ayrıldığı çalışma alanındaki bir pencere sayılır. Bunu _Tetikleyici > Görünüm > Çalışma Alanı Düzeni_ altından seçin: Döşeme, Kayan veya Yüzen. `lunaos-hyprland-workspace-layout-default scrolling` bunu bir terminalden ayarlar.
 
 ### Pencereleri gruplama
 

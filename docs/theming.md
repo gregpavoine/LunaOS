@@ -1,66 +1,66 @@
-# Omarchy theming
+# LunaOS theming
 
-Omarchy themes live under `themes/<name>/` in the source tree (installed at
-`/usr/share/omarchy/themes/<name>/`), with optional user themes under
-`~/.config/omarchy/themes/<name>/`. A theme normally starts with a
-`colors.toml`; Omarchy generates the active theme files from
-`default/themed/*.tpl` when `omarchy-theme-set <name>` runs.
+LunaOS themes live under `themes/<name>/` in the source tree (installed at
+`/usr/share/lunaos/themes/<name>/`), with optional user themes under
+`~/.config/lunaos/themes/<name>/`. A theme normally starts with a
+`colors.toml`; LunaOS generates the active theme files from
+`default/themed/*.tpl` when `lunaos-theme-set <name>` runs.
 
-Beyond `colors.toml` and hand-written config overrides, a first-party theme can ship `backgrounds/` (users overlay their own via `~/.config/omarchy/backgrounds/<name>/`; the active image is the `~/.local/state/omarchy/current/background` symlink), `preview.png` and `preview-unlock.png` for the theme switcher, `icons.theme`, `keyboard.rgb`, `unlock.png`, and a `light.mode` marker file.
+Beyond `colors.toml` and hand-written config overrides, a first-party theme can ship `backgrounds/` (users overlay their own via `~/.config/lunaos/backgrounds/<name>/`; the active image is the `~/.local/state/lunaos/current/background` symlink), `preview.png` and `preview-unlock.png` for the theme switcher, `icons.theme`, `keyboard.rgb`, `unlock.png`, and a `light.mode` marker file.
 
 A theme can pair a still background with a silent intro video using matching filenames: `backgrounds/0-winding-road.webp` and `backgrounds/intros/0-winding-road.mp4`. The video plays automatically at login and when switching to that theme with this background selected. No registration, checksum file or manual setting is needed. Supported video extensions are `mp4`, `m4v`, `mov`, `webm`, `mkv` and `avi`. Intro videos stay inside the nested `intros/` directory so the background picker does not list them as looping wallpapers. An image selected from another directory looks for its intro in that directory's own `intros/`, so a same-named custom image cannot inherit a theme's video.
 
-Aim for a video between five and seven seconds long that opens on its scene setup and ends on the matching still. The shell provides the opening crossfade, so an added fade from black is unnecessary. OWE owns decoding, mute and the handoff back to that image. The theme picker prepares the highlighted theme's remembered intro offscreen, paused at its opening frame. OWE keeps one prepared clip and an idle renderer for up to one minute, then releases them. A theme switch also starts preparation while its templates render; OWE compares the selected video with the prepared clip before resuming it. Older OWE versions use the ordinary startup path. Hyprland and the SDDM greeter use a black compositor background. On a fresh login, the persistent shell host keeps an opaque black cover above the bar and wallpaper until the bar has loaded and OWE has a moving video frame, then fades both in together over 420 ms. Hyprland initializes with a transparent cursor so its visibility polling cannot expose a pointer in the first frames. The temporary Xcursor theme stays private to the compositor; applications inherit the normal cursor environment. The opening fade restores the selected cursor and settings. Shell restarts and a fifteen-second compositor timeout recover a cursor left hidden by an interrupted startup. With intros disabled or unavailable, it waits for the still to be ready instead. A ten-second deadline releases the cover if a missing wallpaper or failed plugin never becomes ready. Ordinary shell restarts preload the selected still alongside the bar without mapping that login cover. Login intros use the Hyprland instance signature, so logging out and back in plays the intro again. The launcher consumes the current session before waiting up to five seconds for OWE. Shell restarts and a daemon starting after that window cannot play a delayed intro. Theme switches synchronize OWE with the selected image and use its first-frame start mode. An interrupted video supplies its currently playing frame as the outgoing snapshot. Rapid selections wait for the previous opening fade to finish before capturing it. Theme replacement and playback wait for the outgoing cover to decode and reach the compositor on every screen. A persistent layer holds that outgoing wallpaper until OWE hides the shell background and reports a ready video with an advancing playback position and no outgoing still transition, then crossfades it over 420 ms while applying the new bar palette. The shell retains its background service and decoded wallpaper while it is hidden, so handing the still back does not recreate them. App retints wait until the opening crossfade completes, with a three-second bound, so they do not compete with its first frames. The compositor reload waits until playback finishes because reloading Hyprland pauses video presentation. A superseded intro skips that reload. Failed playback releases the pending palette, and a newer theme invalidates the older handoff. Refreshing a theme, headless setup, and cycling backgrounds within the same theme do not trigger intros. Appearance > Animations suppresses playback along with the other animations. The `omarchy theme bg intro toggle` command can toggle intros separately.
+Aim for a video between five and seven seconds long that opens on its scene setup and ends on the matching still. The shell provides the opening crossfade, so an added fade from black is unnecessary. OWE owns decoding, mute and the handoff back to that image. The theme picker prepares the highlighted theme's remembered intro offscreen, paused at its opening frame. OWE keeps one prepared clip and an idle renderer for up to one minute, then releases them. A theme switch also starts preparation while its templates render; OWE compares the selected video with the prepared clip before resuming it. Older OWE versions use the ordinary startup path. Hyprland and the SDDM greeter use a black compositor background. On a fresh login, the persistent shell host keeps an opaque black cover above the bar and wallpaper until the bar has loaded and OWE has a moving video frame, then fades both in together over 420 ms. Hyprland initializes with a transparent cursor so its visibility polling cannot expose a pointer in the first frames. The temporary Xcursor theme stays private to the compositor; applications inherit the normal cursor environment. The opening fade restores the selected cursor and settings. Shell restarts and a fifteen-second compositor timeout recover a cursor left hidden by an interrupted startup. With intros disabled or unavailable, it waits for the still to be ready instead. A ten-second deadline releases the cover if a missing wallpaper or failed plugin never becomes ready. Ordinary shell restarts preload the selected still alongside the bar without mapping that login cover. Login intros use the Hyprland instance signature, so logging out and back in plays the intro again. The launcher consumes the current session before waiting up to five seconds for OWE. Shell restarts and a daemon starting after that window cannot play a delayed intro. Theme switches synchronize OWE with the selected image and use its first-frame start mode. An interrupted video supplies its currently playing frame as the outgoing snapshot. Rapid selections wait for the previous opening fade to finish before capturing it. Theme replacement and playback wait for the outgoing cover to decode and reach the compositor on every screen. A persistent layer holds that outgoing wallpaper until OWE hides the shell background and reports a ready video with an advancing playback position and no outgoing still transition, then crossfades it over 420 ms while applying the new bar palette. The shell retains its background service and decoded wallpaper while it is hidden, so handing the still back does not recreate them. App retints wait until the opening crossfade completes, with a three-second bound, so they do not compete with its first frames. The compositor reload waits until playback finishes because reloading Hyprland pauses video presentation. A superseded intro skips that reload. Failed playback releases the pending palette, and a newer theme invalidates the older handoff. Refreshing a theme, headless setup, and cycling backgrounds within the same theme do not trigger intros. Appearance > Animations suppresses playback along with the other animations. The `lunaos theme bg intro toggle` command can toggle intros separately.
 
 A theme installed from a git repo is held to a much shorter list; see [What an installed theme may not ship](#what-an-installed-theme-may-not-ship).
 
 ## Theme activation flow
 
-`omarchy-theme-set <name>` builds a clean staging directory at
-`~/.local/state/omarchy/current/next-theme`:
+`lunaos-theme-set <name>` builds a clean staging directory at
+`~/.local/state/lunaos/current/next-theme`:
 
 1. Copy the first-party theme from `themes/<name>/`.
-2. Overlay `~/.config/omarchy/themes/<name>/`, in full when the user wrote it and filtered when it came from a git repo, naming anything it dropped on stderr.
+2. Overlay `~/.config/lunaos/themes/<name>/`, in full when the user wrote it and filtered when it came from a git repo, naming anything it dropped on stderr.
 3. If needed, generate `colors.toml` from `alacritty.toml`.
-4. Run `omarchy-theme-set-templates` to render templates into the staging
+4. Run `lunaos-theme-set-templates` to render templates into the staging
    theme.
-5. Move the staging theme into `~/.local/state/omarchy/current/theme`, write
-   `~/.local/state/omarchy/current/theme.name`, and notify the running shell.
+5. Move the staging theme into `~/.local/state/lunaos/current/theme`, write
+   `~/.local/state/lunaos/current/theme.name`, and notify the running shell.
 
 Template rendering only happens when the staged theme has `colors.toml`.
 Existing files are never overwritten by a template, so a hand-written
 `themes/<name>/shell.toml` or `hyprland.lua` wins over
 `default/themed/shell.toml.tpl` or `hyprland.lua.tpl`.
 
-User templates in `~/.config/omarchy/themed/*.tpl` are processed before the
+User templates in `~/.config/lunaos/themed/*.tpl` are processed before the
 built-in templates. If a user template has the same output filename as a
 built-in template, the built-in output is skipped.
 
-After activation, `omarchy-theme-set` retints what is on screen first: the terminals and the programs inside them (`visible_theme_commands`), plus the Hyprland reload when no background intro is playing (an intro reloads after playback). Those run in parallel and the command waits for them. The rest of the apps — GTK, the browser policy, editors, agents, the keyboard backlight (`other_theme_commands`) — then retint in parallel, followed by the `theme-set` hook (`~/.config/omarchy/hooks/theme-set*`, theme name in `$1`). During an intro they wait for its reveal first.
+After activation, `lunaos-theme-set` retints what is on screen first: the terminals and the programs inside them (`visible_theme_commands`), plus the Hyprland reload when no background intro is playing (an intro reloads after playback). Those run in parallel and the command waits for them. The rest of the apps — GTK, the browser policy, editors, agents, the keyboard backlight (`other_theme_commands`) — then retint in parallel, followed by the `theme-set` hook (`~/.config/lunaos/hooks/theme-set*`, theme name in `$1`). During an intro they wait for its reveal first.
 
-A switch from the theme picker, the menu or a script does not wait for that second group: the command returns and the group finishes in the background, writing its output to `~/.local/state/omarchy/theme-set.log` and naming any retint that failed in a notification. Run in a terminal, or with `OMARCHY_THEME_WAIT=1`, it waits for everything and reports failures on stderr, so a browser policy update can ask for a sudo password there. A systemd service or timer that sets the theme should set `OMARCHY_THEME_WAIT=1` as well: when a oneshot unit finishes, systemd stops whatever is left in its cgroup, and the background group with it. A failed retint never changes the exit status. Batches from quick successive switches run one at a time, and a batch whose theme was replaced before it got its turn skips the retints (its hook still runs), so an older theme's slow write can't land after a newer one. Making a new app follow theme changes means adding its restart/retint command to one of the two lists in `bin/omarchy-theme-set`. Runs serialize on a `flock`, so scripted theme changes queue instead of racing.
+A switch from the theme picker, the menu or a script does not wait for that second group: the command returns and the group finishes in the background, writing its output to `~/.local/state/lunaos/theme-set.log` and naming any retint that failed in a notification. Run in a terminal, or with `LUNAOS_THEME_WAIT=1`, it waits for everything and reports failures on stderr, so a browser policy update can ask for a sudo password there. A systemd service or timer that sets the theme should set `LUNAOS_THEME_WAIT=1` as well: when a oneshot unit finishes, systemd stops whatever is left in its cgroup, and the background group with it. A failed retint never changes the exit status. Batches from quick successive switches run one at a time, and a batch whose theme was replaced before it got its turn skips the retints (its hook still runs), so an older theme's slow write can't land after a newer one. Making a new app follow theme changes means adding its restart/retint command to one of the two lists in `bin/lunaos-theme-set`. Runs serialize on a `flock`, so scripted theme changes queue instead of racing.
 
-Last, it starts `omarchy-theme-set-herdr-machines` detached. That command sets the same theme on every enabled `herdr machine list` target that runs Omarchy, over SSH inside the remote's live Hyprland session, and logs each machine's result to `~/.local/state/omarchy/theme-set-herdr-machines.log`. Sync is off by default. The `herdr-theme-sync` toggle turns it on, and a machine only sends and accepts themes while it is on. A mirrored change carries `OMARCHY_THEME_SYNC_FROM`, so the receiving machine never sends it on.
+Last, it starts `lunaos-theme-set-herdr-machines` detached. That command sets the same theme on every enabled `herdr machine list` target that runs LunaOS, over SSH inside the remote's live Hyprland session, and logs each machine's result to `~/.local/state/lunaos/theme-set-herdr-machines.log`. Sync is off by default. The `herdr-theme-sync` toggle turns it on, and a machine only sends and accepts themes while it is on. A mirrored change carries `LUNAOS_THEME_SYNC_FROM`, so the receiving machine never sends it on.
 
 ## What an installed theme may not ship
 
-`themes/<name>/` in this repo is Omarchy's own code and is trusted. So is a theme the user wrote by hand in `~/.config/omarchy/themes/<name>/`: it is their machine and their file, and both stage in full.
+`themes/<name>/` in this repo is LunaOS's own code and is trusted. So is a theme the user wrote by hand in `~/.config/lunaos/themes/<name>/`: it is their machine and their file, and both stage in full.
 
-`omarchy theme install <url>` is different. It clones a stranger's git repo straight into that same directory, so the contents are whatever the theme author pushed. `omarchy-theme-set` tells the two apart the way `omarchy-theme-extras` already does — a `.git` directory means it was cloned, while a plain directory or a symlink to a working copy is the user's own — and from a cloned one it drops only what can run code:
+`lunaos theme install <url>` is different. It clones a stranger's git repo straight into that same directory, so the contents are whatever the theme author pushed. `lunaos-theme-set` tells the two apart the way `lunaos-theme-extras` already does — a `.git` directory means it was cloned, while a plain directory or a symlink to a working copy is the user's own — and from a cloned one it drops only what can run code:
 
 - any `*.lua` — Hyprland `require`s a theme's `hyprland.lua` and `gum_env.lua` at login, and Neovim loads its `neovim.lua` at startup
 - `alacritty.toml`, `foot.ini`, `ghostty.conf`, `kitty.conf` — each names the program the terminal launches
-- `vscode.json` — names the extension `omarchy-theme-set-vscode` installs, and a VS Code extension is arbitrary JavaScript
+- `vscode.json` — names the extension `lunaos-theme-set-vscode` installs, and a VS Code extension is arbitrary JavaScript
 
-Symlinks are dropped with them, at any depth; in a cloned theme they point wherever the theme author chose. Everything a cloned theme ships that is colour is kept, including files Omarchy would otherwise have generated — `btop.theme`, `chromium.theme`, `helix.toml`, `shell.toml`, `icons.theme`, `keyboard.rgb` and the rest — so a theme can still say exactly how it wants each app to look. What is dropped gets generated from `default/themed/*.tpl` instead, and is named on stderr.
+Symlinks are dropped with them, at any depth; in a cloned theme they point wherever the theme author chose. Everything a cloned theme ships that is colour is kept, including files LunaOS would otherwise have generated — `btop.theme`, `chromium.theme`, `helix.toml`, `shell.toml`, `icons.theme`, `keyboard.rgb` and the rest — so a theme can still say exactly how it wants each app to look. What is dropped gets generated from `default/themed/*.tpl` instead, and is named on stderr.
 
-A denylist is only right while it is maintained. Adding a template for another terminal, or for another editor that loads Lua, means adding it to `INSTALLED_THEME_DENIED` in `bin/omarchy-theme-set`; `test/shell.d/theme-staging-test.sh` fails on any `default/themed/*.tpl` whose output is recorded as neither code nor colour, so a new template cannot be added without that decision being made.
+A denylist is only right while it is maintained. Adding a template for another terminal, or for another editor that loads Lua, means adding it to `INSTALLED_THEME_DENIED` in `bin/lunaos-theme-set`; `test/shell.d/theme-staging-test.sh` fails on any `default/themed/*.tpl` whose output is recorded as neither code nor colour, so a new template cannot be added without that decision being made.
 
-A theme predating `colors.toml` is not left without a palette: its `alacritty.toml` is read through `omarchy-theme-colors-from-alacritty` into a scratch directory and only the resulting `colors.toml` is staged, so the colors survive and the terminal config does not.
+A theme predating `colors.toml` is not left without a palette: its `alacritty.toml` is read through `lunaos-theme-colors-from-alacritty` into a scratch directory and only the resulting `colors.toml` is staged, so the colors survive and the terminal config does not.
 
-The restriction lives in `omarchy-theme-set` rather than in `omarchy-theme-install` on purpose. Filtering at staging also covers themes installed before the rule existed and files a theme gains later through `omarchy theme update`.
+The restriction lives in `lunaos-theme-set` rather than in `lunaos-theme-install` on purpose. Filtering at staging also covers themes installed before the rule existed and files a theme gains later through `lunaos theme update`.
 
-What this does not cover: a theme distributed as an archive rather than a git repo, extracted into `~/.config/omarchy/themes/` by hand, is indistinguishable from one the user wrote and stages in full. `omarchy theme install` only takes git URLs, so the supported path is always filtered, but the check is a statement about where a theme came from and not a sandbox.
+What this does not cover: a theme distributed as an archive rather than a git repo, extracted into `~/.config/lunaos/themes/` by hand, is indistinguishable from one the user wrote and stages in full. `lunaos theme install` only takes git URLs, so the supported path is always filtered, but the check is a statement about where a theme came from and not a sandbox.
 
 ## `colors.toml`
 
@@ -120,14 +120,14 @@ The neutral ramp is centered on `background -> bright_foreground`. Dark themes
 should read from darkest to lightest; light themes should read from lightest to
 darkest. Terminal and editor cursors use `bright_foreground`; there is no
 separate cursor palette key. `selection` is the text-selection background stop
-in that ramp; Omarchy derives `selection_background = selection` and
+in that ramp; LunaOS derives `selection_background = selection` and
 `selection_foreground = bright_foreground`. Use
-`omarchy dev theme-preview [theme]` to inspect that ramp, including
+`lunaos dev theme-preview [theme]` to inspect that ramp, including
 `dark_background`, `darker_background`, and a selected-text sample.
 
 ## Template placeholders
 
-Templates are plain files ending in `.tpl`. `omarchy-theme-set-templates`
+Templates are plain files ending in `.tpl`. `lunaos-theme-set-templates`
 replaces placeholders with values from `colors.toml`.
 
 ### Color placeholders
@@ -371,7 +371,7 @@ local active_border_color = { colors = { "rgba(33ccffee)", "rgba(00ff99ee)" }, a
 
 ## Fcitx candidate window
 
-The input method's candidate window is drawn by Fcitx's classicui, from `default/themed/fcitx5-theme.conf.tpl`. `omarchy-theme-set-fcitx5` copies the rendered file to `~/.local/share/fcitx5/themes/omarchy/theme.conf`, links fcitx5's neutral grey page and menu glyphs beside it, and asks a running Fcitx to reload classicui without starting one. Setup and the migration run it with `--activate`, which also points `Theme` and `DarkTheme` in `~/.config/fcitx5/conf/classicui.conf` at `omarchy`, writing through a symlinked file. It replaces only fcitx5's stock `default` and `default-dark`, which a configtool save writes even when only the font changed, so a theme the user installed is kept. Theme switches never reselect it, so choosing fcitx5's own theme afterwards sticks.
+The input method's candidate window is drawn by Fcitx's classicui, from `default/themed/fcitx5-theme.conf.tpl`. `lunaos-theme-set-fcitx5` copies the rendered file to `~/.local/share/fcitx5/themes/lunaos/theme.conf`, links fcitx5's neutral grey page and menu glyphs beside it, and asks a running Fcitx to reload classicui without starting one. Setup and the migration run it with `--activate`, which also points `Theme` and `DarkTheme` in `~/.config/fcitx5/conf/classicui.conf` at `lunaos`, writing through a symlinked file. It replaces only fcitx5's stock `default` and `default-dark`, which a configtool save writes even when only the font changed, so a theme the user installed is kept. Theme switches never reselect it, so choosing fcitx5's own theme afterwards sticks.
 
 ## Adding or overriding theme files
 
@@ -382,7 +382,7 @@ The input method's candidate window is drawn by Fcitx's classicui, from `default
   override the generated output entirely.
 - Add a new built-in template under `default/themed/<file>.tpl` when every
   theme should generate that file.
-- Add a user-wide template under `~/.config/omarchy/themed/<file>.tpl` when a
+- Add a user-wide template under `~/.config/lunaos/themed/<file>.tpl` when a
   local customization should apply across themes.
 
 When changing templates or theme helpers, run focused tests such as:

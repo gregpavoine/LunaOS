@@ -6,7 +6,7 @@
 
 Zdaj, Neovim je v bistvu neskončno konfigurabilen. Če res želite podivjati, lahko ustvarite lastno konfiguracijo Neovima od nič. Obstaja odličen tečaj Typecrafta o [nastavitvi Neovima od nič](https://www.youtube.com/watch?v=zHTeCSVAFNY). In [ThePrimeagen ga ima tudi](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Ampak Omarchy je dobavljen s celovito namestitvijo Neovima — paketom `omarchy-nvim` — ki je bila z ljubeznijo uglašena, da pokaže najboljše, kar je mogoče že takoj po namestitvi. Brez da bi vam bilo treba napisati eno samo vrstico konfiguracije! Zgrajena je na [LazyVimu](https://www.lazyvim.org/), distribuciji vtičnikov in konfiguracij Neovima. Je izvrstna.
+Ampak LunaOS je dobavljen s celovito namestitvijo Neovima — paketom `omarchy-nvim` — ki je bila z ljubeznijo uglašena, da pokaže najboljše, kar je mogoče že takoj po namestitvi. Brez da bi vam bilo treba napisati eno samo vrstico konfiguracije! Zgrajena je na [LazyVimu](https://www.lazyvim.org/), distribuciji vtičnikov in konfiguracij Neovima. Je izvrstna.
 
 ## Osnove LazyVima
 

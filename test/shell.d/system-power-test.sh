@@ -8,9 +8,9 @@ trap 'rm -rf "$test_tmp"' EXIT
 mock_bin="$test_tmp/bin"
 call_log="$test_tmp/calls.log"
 mkdir -p "$mock_bin"
-export PATH="$mock_bin:$PATH" CALL_LOG="$call_log" OMARCHY_PATH="$ROOT"
+export PATH="$mock_bin:$PATH" CALL_LOG="$call_log" LUNAOS_PATH="$ROOT"
 export HYPRLAND_INSTANCE_SIGNATURE="test-session"
-export EXPECTED_PATH="$PATH" EXPECTED_OMARCHY_PATH="$OMARCHY_PATH"
+export EXPECTED_PATH="$PATH" EXPECTED_LUNAOS_PATH="$LUNAOS_PATH"
 
 cat >"$mock_bin/systemd-run" <<'SH'
 #!/bin/bash
@@ -40,23 +40,23 @@ trap 'rm -f "$CALL_LOG.inhibited"' EXIT
 "$@"
 SH
 
-for command in uwsm omarchy-state omarchy-hyprland-window-close-all omarchy-osd omarchy-notification-send sleep timeout systemctl; do
+for command in uwsm lunaos-state lunaos-hyprland-window-close-all lunaos-osd lunaos-notification-send sleep timeout systemctl; do
   cat >"$mock_bin/$command" <<'SH'
 #!/bin/bash
 
 command=${0##*/}
 printf '%s %s\n' "$command" "$*" >>"$CALL_LOG"
 case $command in
-  omarchy-osd)
-    [[ $PATH == "$EXPECTED_PATH" && $OMARCHY_PATH == "$EXPECTED_OMARCHY_PATH" && $HYPRLAND_INSTANCE_SIGNATURE == "test-session" ]] || exit 38
+  lunaos-osd)
+    [[ $PATH == "$EXPECTED_PATH" && $LUNAOS_PATH == "$EXPECTED_LUNAOS_PATH" && $HYPRLAND_INSTANCE_SIGNATURE == "test-session" ]] || exit 38
     touch "$CALL_LOG.environment"
     ;;
-  omarchy-hyprland-window-close-all)
+  lunaos-hyprland-window-close-all)
     if [[ ${BLOCK_WINDOW_CLOSE:-false} == "true" ]]; then
       /usr/bin/sleep 10
     fi
     ;;
-  omarchy-notification-send)
+  lunaos-notification-send)
     [[ ${FAIL_NOTIFICATION:-false} != "true" ]] || exit 42
     ;;
   timeout)
@@ -85,7 +85,7 @@ run_power_command() {
 
   : >"$call_log"
   rm -f "$CALL_LOG.grace" "$CALL_LOG.worker" "$CALL_LOG.environment"
-  "$ROOT/bin/omarchy-system" "$action"
+  "$ROOT/bin/lunaos-system" "$action"
 }
 
 for action in reboot logout; do
@@ -93,56 +93,56 @@ for action in reboot logout; do
   (( $(wc -l <"$call_log") == 1 )) || fail "$action preparation runs outside the launching terminal"
   [[ -s $CALL_LOG.worker ]] || fail "$action schedules its worker"
   grep -q -- '--property=RuntimeMaxSec=30s' "$CALL_LOG" || fail "$action bounds the worker lifetime"
-  PATH=/stale/bin OMARCHY_PATH=/stale/checkout HYPRLAND_INSTANCE_SIGNATURE=stale /bin/bash "$CALL_LOG.worker" || fail "$action worker succeeds"
+  PATH=/stale/bin LUNAOS_PATH=/stale/checkout HYPRLAND_INSTANCE_SIGNATURE=stale /bin/bash "$CALL_LOG.worker" || fail "$action worker succeeds"
   [[ -f $CALL_LOG.environment ]] || fail "$action forwards the caller environment over stale manager values"
-  grep -q '^timeout 2s omarchy-hyprland-window-close-all --wait$' "$CALL_LOG" || fail "$action waits for application exit with a deadline"
+  grep -q '^timeout 2s lunaos-hyprland-window-close-all --wait$' "$CALL_LOG" || fail "$action waits for application exit with a deadline"
   ! grep -q '^sleep ' "$CALL_LOG" || fail "$action has no fixed sleep"
   rm -f "$CALL_LOG.grace"
   BLOCK_WINDOW_CLOSE=true bash "$CALL_LOG.worker" || fail "$action proceeds after the close deadline"
-  ! grep -q '^omarchy-notification-send ' "$CALL_LOG" || fail "$action does not report a close timeout as failure"
+  ! grep -q '^lunaos-notification-send ' "$CALL_LOG" || fail "$action does not report a close timeout as failure"
   rm -f "$CALL_LOG.grace"
   if FAIL_EXIT=true bash "$CALL_LOG.worker"; then
     fail "$action propagates a rejected exit request"
   fi
-  grep -q "^omarchy-notification-send -u critical ${action^} failed " "$CALL_LOG" || fail "$action reports a rejected exit request"
+  grep -q "^lunaos-notification-send -u critical ${action^} failed " "$CALL_LOG" || fail "$action reports a rejected exit request"
   pass "$action waits outside the launching terminal without a fixed delay"
 done
 
 run_power_command shutdown || fail "shutdown service is scheduled"
 grep -q '^systemd-run --user --collect --quiet --property=Type=exec --property=RuntimeMaxSec=30s .* shutdown --execute$' "$CALL_LOG" || fail "shutdown uses a bounded service outside the launching terminal"
-PATH=/stale/bin OMARCHY_PATH=/stale/checkout HYPRLAND_INSTANCE_SIGNATURE=stale /bin/bash "$CALL_LOG.worker" || fail "protected shutdown succeeds"
+PATH=/stale/bin LUNAOS_PATH=/stale/checkout HYPRLAND_INSTANCE_SIGNATURE=stale /bin/bash "$CALL_LOG.worker" || fail "protected shutdown succeeds"
 [[ -f $CALL_LOG.environment ]] || fail "shutdown forwards the caller environment over stale manager values"
 grep -q '^systemd-inhibit --what=sleep:idle:handle-lid-switch .* --mode=block .* --inhibited$' "$CALL_LOG" || fail "shutdown blocks sleep and lid handling"
 inhibit_line=$(grep -n '^systemd-inhibit ' "$CALL_LOG" | cut -d: -f1)
-osd_line=$(grep -n '^omarchy-osd ' "$CALL_LOG" | cut -d: -f1)
+osd_line=$(grep -n '^lunaos-osd ' "$CALL_LOG" | cut -d: -f1)
 (( inhibit_line < osd_line )) || fail "inhibition precedes preparation"
-grep -q '^omarchy-state clear re\*-required$' "$CALL_LOG" || fail "shutdown clears restart state"
-grep -q '^timeout 2s omarchy-hyprland-window-close-all --wait$' "$CALL_LOG" || fail "shutdown waits for applications with a deadline"
+grep -q '^lunaos-state clear re\*-required$' "$CALL_LOG" || fail "shutdown clears restart state"
+grep -q '^timeout 2s lunaos-hyprland-window-close-all --wait$' "$CALL_LOG" || fail "shutdown waits for applications with a deadline"
 ! grep -q '^sleep ' "$CALL_LOG" || fail "shutdown has no fixed sleep"
 grep -q '^systemctl poweroff --no-wall$' "$CALL_LOG" || fail "poweroff runs after the grace period while inhibited"
 [[ ! -f $CALL_LOG.inhibited ]] || fail "accepted poweroff releases inhibition"
-! grep -q '^omarchy-notification-send ' "$CALL_LOG" || fail "successful shutdown sends no failure notification"
+! grep -q '^lunaos-notification-send ' "$CALL_LOG" || fail "successful shutdown sends no failure notification"
 pass "shutdown stays inhibited through preparation and the poweroff request"
 
 : >"$call_log"
 rm -f "$CALL_LOG.grace" "$CALL_LOG.poweroff"
 # Dev link/unlink can leave the user manager pointing at a removed checkout.
-OMARCHY_PATH="$test_tmp/removed-checkout" bash "$CALL_LOG.worker" || fail "shutdown uses its own script when the service environment is stale"
+LUNAOS_PATH="$test_tmp/removed-checkout" bash "$CALL_LOG.worker" || fail "shutdown uses its own script when the service environment is stale"
 [[ -f $CALL_LOG.poweroff ]] || fail "shutdown reaches poweroff with a stale service environment"
 [[ ! -f $CALL_LOG.inhibited ]] || fail "shutdown releases inhibition with a stale service environment"
-! grep -q '^omarchy-notification-send ' "$CALL_LOG" || fail "stale service environment sends no failure notification"
+! grep -q '^lunaos-notification-send ' "$CALL_LOG" || fail "stale service environment sends no failure notification"
 pass "shutdown uses its own script when the service environment is stale"
 
 : >"$call_log"
 rm -f "$CALL_LOG.grace" "$CALL_LOG.poweroff"
 BLOCK_WINDOW_CLOSE=true bash "$CALL_LOG.worker" || fail "shutdown proceeds while window closing is blocked"
 [[ -f $CALL_LOG.poweroff ]] || fail "poweroff follows the window-close deadline"
-! grep -q '^omarchy-notification-send ' "$CALL_LOG" || fail "shutdown does not report a close timeout as failure"
+! grep -q '^lunaos-notification-send ' "$CALL_LOG" || fail "shutdown does not report a close timeout as failure"
 pass "blocked window closing cannot prevent poweroff"
 
 for action in reboot shutdown logout; do
   : >"$call_log"
-  if FAIL_SYSTEMD_RUN=true "$ROOT/bin/omarchy-system" "$action"; then
+  if FAIL_SYSTEMD_RUN=true "$ROOT/bin/lunaos-system" "$action"; then
     fail "$action aborts when scheduling fails"
   fi
 
@@ -162,7 +162,7 @@ for failure in FAIL_INHIBIT FAIL_POWEROFF; do
   if (( status != expected_status )); then
     fail "$failure propagates to the service"
   fi
-  grep -q '^omarchy-notification-send -u critical Shutdown failed Could not complete shutdown. Please try again.$' "$CALL_LOG" || fail "$failure notifies the user"
+  grep -q '^lunaos-notification-send -u critical Shutdown failed Could not complete shutdown. Please try again.$' "$CALL_LOG" || fail "$failure notifies the user"
   [[ ! -f $CALL_LOG.inhibited ]] || fail "$failure releases inhibition"
   if [[ $failure == "FAIL_INHIBIT" ]]; then
     (( $(wc -l <"$call_log") == 2 )) || fail "inhibitor failure leaves applications alone"
@@ -181,10 +181,10 @@ for action in logout reboot shutdown; do
   for route in "$action" "system $action"; do
     : >"$call_log"
     read -ra args <<<"$route"
-    "$ROOT/bin/omarchy" "${args[@]}" || fail "$route dispatches"
-    grep -q "omarchy-system $action --execute$" "$call_log" || fail "$route forwards the action"
+    "$ROOT/bin/lunaos" "${args[@]}" || fail "$route dispatches"
+    grep -q "lunaos-system $action --execute$" "$call_log" || fail "$route forwards the action"
     : >"$call_log"
-    "$ROOT/bin/omarchy" "${args[@]}" --help >/dev/null || fail "$route help succeeds"
+    "$ROOT/bin/lunaos" "${args[@]}" --help >/dev/null || fail "$route help succeeds"
     [[ ! -s $call_log ]] || fail "$route help never schedules a session exit"
   done
   pass "$action aliases and system routes forward the action safely"
@@ -192,15 +192,15 @@ done
 
 for action in logout reboot shutdown; do
   : >"$call_log"
-  "$ROOT/bin/omarchy-system" "$action" --help >/dev/null || fail "direct $action help succeeds"
-  if "$ROOT/bin/omarchy-system" "$action" --typo >/dev/null 2>&1; then
+  "$ROOT/bin/lunaos-system" "$action" --help >/dev/null || fail "direct $action help succeeds"
+  if "$ROOT/bin/lunaos-system" "$action" --typo >/dev/null 2>&1; then
     fail "direct $action rejects an unknown mode"
   fi
-  if "$ROOT/bin/omarchy-system" "$action" --execute unexpected >/dev/null 2>&1; then
+  if "$ROOT/bin/lunaos-system" "$action" --execute unexpected >/dev/null 2>&1; then
     fail "direct $action rejects extra arguments"
   fi
   [[ ! -s $call_log ]] || fail "direct $action help and invalid arguments never schedule an exit"
   pass "direct $action help and invalid arguments are safe"
 done
-"$ROOT/bin/omarchy" system lock --help | grep -q 'omarchy-system-lock' || fail "system lock remains routed to its own command"
+"$ROOT/bin/lunaos" system lock --help | grep -q 'lunaos-system-lock' || fail "system lock remains routed to its own command"
 pass "existing system subcommands keep their routes"

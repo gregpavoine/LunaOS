@@ -1,8 +1,8 @@
 # Ajustări obișnuite
 
-Aceasta este o colecție de personalizări obișnuite ale configurației Omarchy. Să știi că ocazional ar putea fi necesar ca actualizările de sistem să restabilească anumite configurații la starea lor originală. Dacă se întâmplă asta, schimbările tale nu se vor pierde, ci vor fi puse într-un fișier `.bak` în același director.
+Aceasta este o colecție de personalizări obișnuite ale configurației LunaOS. Să știi că ocazional ar putea fi necesar ca actualizările de sistem să restabilească anumite configurații la starea lor originală. Dacă se întâmplă asta, schimbările tale nu se vor pierde, ci vor fi puse într-un fișier `.bak` în același director.
 
-Dacă strici ceva, poți restabili configurații individuale la configurația lor originală prin _Actualizează > Configurare_ în meniul Omarchy. Dacă strici _cu adevărat_ totul, poți reseta toate configurațiile prin `omarchy-reinstall`.
+Dacă strici ceva, poți restabili configurații individuale la configurația lor originală prin _Actualizează > Configurare_ în meniul LunaOS. Dacă strici _cu adevărat_ totul, poți reseta toate configurațiile prin `lunaos-reinstall`.
 
 ### Dezvăluirea permanentă a tuturor pictogramelor din tavă
 
@@ -10,7 +10,7 @@ Implicit, pictogramele din tavă, precum Dropbox, 1password sau Steam, sunt ascu
 
 ### Colțuri rotunjite ale ferestrelor
 
-Designul implicit al Omarchy este unul cu colțuri pătrate, dar dacă îți place să îndulcești puțin asta, poți schimba `~/.config/hypr/looknfeel.lua` astfel încât rotunjirea să nu mai fie comentată:
+Designul implicit al LunaOS este unul cu colțuri pătrate, dar dacă îți place să îndulcești puțin asta, poți schimba `~/.config/hypr/looknfeel.lua` astfel încât rotunjirea să nu mai fie comentată:
 
 ```
 hl.config({

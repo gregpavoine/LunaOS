@@ -1,35 +1,35 @@
 # Comutări, inactivitatea și economizorul de ecran
 
-Multe dintre lucrurile pe care le schimbi zi de zi nu sunt cu adevărat setări. Sunt moduri pe care le activezi pentru o oră și le dezactivezi iar: lumina de noapte cât lucrezi târziu, nu deranja cât prezinți, rămâi treaz cât vizionezi ceva. Omarchy le numește comutări și toate funcționează la fel — o scurtătură, o intrare în meniu și o comandă, toate atingând același întrerupător.
+Multe dintre lucrurile pe care le schimbi zi de zi nu sunt cu adevărat setări. Sunt moduri pe care le activezi pentru o oră și le dezactivezi iar: lumina de noapte cât lucrezi târziu, nu deranja cât prezinți, rămâi treaz cât vizionezi ceva. LunaOS le numește comutări și toate funcționează la fel — o scurtătură, o intrare în meniu și o comandă, toate atingând același întrerupător.
 
 ### Meniul de comutare
 
-`Super + Ctrl + O` deschide direct _Declanșator > Comută_ sau poți merge acolo din meniul Omarchy (`Super + Space`). Tot ce e în acea listă este un întrerupător pe care îl poți acționa fără să te gândești unde trăiește starea. Întrerupătoarele pentru aspectul desktopului stau lângă el, sub _Declanșator > Aspect_.
+`Super + Ctrl + O` deschide direct _Declanșator > Comută_ sau poți merge acolo din meniul LunaOS (`Super + Space`). Tot ce e în acea listă este un întrerupător pe care îl poți acționa fără să te gândești unde trăiește starea. Întrerupătoarele pentru aspectul desktopului stau lângă el, sub _Declanșator > Aspect_.
 
-Din terminal, aceleași întrerupătoare sunt `omarchy toggle <thing>`. Rulează `omarchy toggle` singur ca să vezi întregul grup.
+Din terminal, aceleași întrerupătoare sunt `lunaos toggle <thing>`. Rulează `lunaos toggle` singur ca să vezi întregul grup.
 
 | Comutare | Scurtătură | Comandă |
 | ------ | ------ | ------- |
-| Lumina de noapte | `Super + Ctrl + N` | `omarchy toggle nightlight` |
-| Oprește sunetul notificărilor | `Super + Ctrl + ,` | `omarchy toggle notification silencing` |
-| Rămâi treaz (fără blocare la inactivitate) | `Super + Ctrl + I` | `omarchy toggle idle` |
-| Captură erori | — | `omarchy toggle crash-capture` |
-| Economizor ecran | — | `omarchy toggle screensaver` |
-| Sincronizarea temei [Herdr](https://herdr.dev) | — | `omarchy toggle theme sync` |
-| Bara de meniu | `Super + Shift + Space` | `omarchy toggle bar` |
-| Touchpad | `XF86TouchpadToggle` | `omarchy toggle touchpad` |
-| Ecran tactil | — | `omarchy toggle touchscreen` |
-| Suspendă | — | `omarchy toggle suspend` |
-| Hybrid GPU | — | `omarchy toggle hybrid gpu` |
+| Lumina de noapte | `Super + Ctrl + N` | `lunaos toggle nightlight` |
+| Oprește sunetul notificărilor | `Super + Ctrl + ,` | `lunaos toggle notification silencing` |
+| Rămâi treaz (fără blocare la inactivitate) | `Super + Ctrl + I` | `lunaos toggle idle` |
+| Captură erori | — | `lunaos toggle crash-capture` |
+| Economizor ecran | — | `lunaos toggle screensaver` |
+| Sincronizarea temei [Herdr](https://herdr.dev) | — | `lunaos toggle theme sync` |
+| Bara de meniu | `Super + Shift + Space` | `lunaos toggle bar` |
+| Touchpad | `XF86TouchpadToggle` | `lunaos toggle touchpad` |
+| Ecran tactil | — | `lunaos toggle touchscreen` |
+| Suspendă | — | `lunaos toggle suspend` |
+| Hybrid GPU | — | `lunaos toggle hybrid gpu` |
 
 Întrerupătoarele pentru touchpad, ecran tactil și GPU hibrid trăiesc sub _Declanșator > Hardware_ (`Super + Ctrl + H`), mai degrabă decât sub Comută, deoarece apar doar atunci când ai cu adevărat acel hardware. Cele pentru touchpad și ecran tactil supraviețuiesc unei reîncărcări Hyprland — numele dispozitivului dezactivat este salvat într-un mic fișier de stare pe care Hyprland îl citește la pornire ca să-l dezactiveze din nou.
 
-_Declanșator > Aspect_ ține bara de meniu și animațiile, plus câteva lucruri care nu sunt comenzi `omarchy toggle`, dar se comportă la fel: procentul bateriei în bară, aranjarea implicită a spațiilor de lucru, spațiile dintre ferestre (`Super + Shift + Backspace`) și aspectul pătrat pentru 1 fereastră (`Super + Ctrl + Backspace`).
+_Declanșator > Aspect_ ține bara de meniu și animațiile, plus câteva lucruri care nu sunt comenzi `lunaos toggle`, dar se comportă la fel: procentul bateriei în bară, aranjarea implicită a spațiilor de lucru, spațiile dintre ferestre (`Super + Shift + Backspace`) și aspectul pătrat pentru 1 fereastră (`Super + Ctrl + Backspace`).
 
-Majoritatea acestora sunt doar un fișier indicator sub `~/.local/state/omarchy/toggles/`. Dacă vrei să te ramifici după unul într-un script, `omarchy-toggle-enabled` îți dă un cod de ieșire, în loc să te facă să mergi să cauți:
+Majoritatea acestora sunt doar un fișier indicator sub `~/.local/state/lunaos/toggles/`. Dacă vrei să te ramifici după unul într-un script, `lunaos-toggle-enabled` îți dă un cod de ieșire, în loc să te facă să mergi să cauți:
 
 ```bash
-omarchy-toggle-enabled screensaver-off && echo "screensaver is off"
+lunaos-toggle-enabled screensaver-off && echo "screensaver is off"
 ```
 
 Indicatoarele sunt numite după starea dezactivată — `screensaver-off`, `suspend-off`, `bar-off` — astfel încât prezența lor înseamnă că funcția este dezactivată.
@@ -38,7 +38,7 @@ Indicatoarele sunt numite după starea dezactivată — `screensaver-off`, `susp
 
 Atunci când un mod este activat, primești o mică glifă în mijlocul barei de sus, lângă ceas. Acesta este widgetul de indicatori și poartă dictarea, înregistrarea ecranului, memento-urile în așteptare, lumina de noapte, nu deranja și rămâi treaz.
 
-Indicatorii inactivi sunt ascunși. Trece cu indicatorul peste zona din jurul lor și apar estompați, astfel încât să poți face clic pe unul ca să-l activezi fără să-i știi scurtătura. Clicul pe unul activ îl dezactivează din nou. Dacă preferi să le vezi pe toate tot timpul, setează `alwaysShow` la `true` pe intrarea `omarchy.indicators` din `~/.config/omarchy/shell.json` — vezi [bara de sus](05-the-top-bar.md) pentru modul în care sunt configurate widgeturile barei.
+Indicatorii inactivi sunt ascunși. Trece cu indicatorul peste zona din jurul lor și apar estompați, astfel încât să poți face clic pe unul ca să-l activezi fără să-i știi scurtătura. Clicul pe unul activ îl dezactivează din nou. Dacă preferi să le vezi pe toate tot timpul, setează `alwaysShow` la `true` pe intrarea `lunaos.indicators` din `~/.config/lunaos/shell.json` — vezi [bara de sus](05-the-top-bar.md) pentru modul în care sunt configurate widgeturile barei.
 
 ### Lumina de noapte
 
@@ -61,11 +61,11 @@ Apoi pornește hyprsunset la autentificare adăugând `o.launch_on_start("hyprsu
 
 Totuși, nimic nu se pierde. O notificare fără sunet este scrisă direct în istoricul tău de notificări, care este exact înregistrarea pe care o vrei atunci când te întorci și te întrebi ce ai ratat. Deschide-l cu `Super + Shift + Alt + ,`. Vezi [notificările rapide](10-notices.md) pentru restul poveștii notificărilor.
 
-Două feluri de mesaje trec în continuare: toasturile de confirmare ale Omarchy pentru ceva ce tocmai ai făcut („Theme changed”, „Screenshot saved”) și alertele critice trimise din linia de comandă. Aplicațiile de chat care marchează totul critic ca să-și forțeze drumul în fața ta nu se califică.
+Două feluri de mesaje trec în continuare: toasturile de confirmare ale LunaOS pentru ceva ce tocmai ai făcut („Theme changed”, „Screenshot saved”) și alertele critice trimise din linia de comandă. Aplicațiile de chat care marchează totul critic ca să-și forțeze drumul în fața ta nu se califică.
 
 ### Inactivitatea
 
-Shellul Omarchy deține comportamentul la inactivitate, iar timpii sunt un bloc `idle` de nivel superior în `~/.config/omarchy/shell.json`:
+Shellul LunaOS deține comportamentul la inactivitate, iar timpii sunt un bloc `idle` de nivel superior în `~/.config/lunaos/shell.json`:
 
 ```json
 {
@@ -81,22 +81,22 @@ Ambele numere sunt secunde numărate din momentul în care ai devenit inactiv �
 
 Dacă închizi economizorul de ecran înainte de termenul de blocare, aceasta contează ca activitate, iar blocarea în așteptare este anulată. Nu te blochezi afară pentru că ai aruncat o privire la mașina ta.
 
-Ca să oprești complet blocarea la inactivitate, `Super + Ctrl + I` — sau `omarchy toggle idle` — activează „rămâi treaz”, iar indicatorul ceștii de cafea apare în bară. Acesta este cel de apăsat înainte de o prezentare lungă sau de o compilare pe care vrei s-o urmărești. Apasă-l din nou ca să revii la normal. `omarchy toggle idle status` tipărește starea curentă ca JSON dacă ai nevoie de ea dintr-un script.
+Ca să oprești complet blocarea la inactivitate, `Super + Ctrl + I` — sau `lunaos toggle idle` — activează „rămâi treaz”, iar indicatorul ceștii de cafea apare în bară. Acesta este cel de apăsat înainte de o prezentare lungă sau de o compilare pe care vrei s-o urmărești. Apasă-l din nou ca să revii la normal. `lunaos toggle idle status` tipărește starea curentă ca JSON dacă ai nevoie de ea dintr-un script.
 
 Asta ține de blocare și de economizorul de ecran, nu de alimentare. Suspendarea și hibernarea au propria lor configurare în [suspendarea sistemului](36-system-sleep.md).
 
 ### Economizorul de ecran
 
-Economizorul de ecran al Omarchy este artă ASCII care trece prin efecte text aleatorii, câte o instanță per monitor. Orice tastă sau mișcare a mouse-ului iese din el.
+Economizorul de ecran al LunaOS este artă ASCII care trece prin efecte text aleatorii, câte o instanță per monitor. Orice tastă sau mișcare a mouse-ului iese din el.
 
 Îl poți porni la cerere din _System > Economizor ecran_ (`Super + Esc`), ceea ce îl forțează să apară chiar dacă ai dezactivat economizorul de ecran la inactivitate. Nu există nicio scurtătură legată de el implicit.
 
-`omarchy toggle screensaver` este cel care îl dezactivează pe cel de la inactivitate, dacă preferi să mergi direct de la lucru la blocat. Are nevoie de un terminal pe care știe cum să-l configureze — Alacritty, Foot, Ghostty sau Kitty — și îți va spune asta dacă terminalul tău implicit este altceva.
+`lunaos toggle screensaver` este cel care îl dezactivează pe cel de la inactivitate, dacă preferi să mergi direct de la lucru la blocat. Are nevoie de un terminal pe care știe cum să-l configureze — Alacritty, Foot, Ghostty sau Kitty — și îți va spune asta dacă terminalul tău implicit este altceva.
 
-Logo-ul pe care îl desenează este al tău să-l schimbi, sub _Stil > Economizor ecran_. Încarcă un png sau un svg și Omarchy îl convertește în ASCII. Vezi [brandingul](41-branding.md).
+Logo-ul pe care îl desenează este al tău să-l schimbi, sub _Stil > Economizor ecran_. Încarcă un png sau un svg și LunaOS îl convertește în ASCII. Vezi [brandingul](41-branding.md).
 
 ### Ecranul de blocare
 
-`Super + Ctrl + L` blochează mașina. Aceasta rulează ecranul de blocare din shellul Omarchy, înnegrește afișajul, resetează aranjarea tastaturii la prima, astfel încât să nu-ți tastezi parola în alfabetul greșit, și — dacă îl ai în funcțiune — blochează 1Password la ieșire.
+`Super + Ctrl + L` blochează mașina. Aceasta rulează ecranul de blocare din shellul LunaOS, înnegrește afișajul, resetează aranjarea tastaturii la prima, astfel încât să nu-ți tastezi parola în alfabetul greșit, și — dacă îl ai în funcțiune — blochează 1Password la ieșire.
 
 Ecranul de blocare acceptă o parolă și va accepta și o amprentă odată ce ai configurat una. Aceasta și celelalte moduri de autentificare sunt tratate în [autentificarea hardware](37-hardware-authentication.md).

@@ -20,11 +20,11 @@ Obsidian je bezplatný na všetky účely vrátane osobného, komerčného a nez
 
 Obsidian ponúka aj [komerčný doplnok na synchronizáciu](https://obsidian.md/sync) s mobilnými aplikáciami pre iOS a Android. (https://obsidian.md/pricing).
 
-Obsidian spúšťaš pomocou `Super + Shift + O`. Ak chceš používať synchronizáciu témy, musíš v nastaveniach vybrať tému `Omarchy`.
+Obsidian spúšťaš pomocou `Super + Shift + O`. Ak chceš používať synchronizáciu témy, musíš v nastaveniach vybrať tému `LunaOS`.
 
 ## Omawrite
 
-[Omawrite](https://github.com/omacom-io/omawrite) je vlastná, úplne jednoduchá aplikácia Omarchy na písanie v Markdowne. Žiadne sejfy, žiadne pluginy, len ty a slová.
+[Omawrite](https://github.com/omacom-io/omawrite) je vlastná, úplne jednoduchá aplikácia LunaOS na písanie v Markdowne. Žiadne sejfy, žiadne pluginy, len ty a slová.
 
 Omawrite spúšťaš pomocou `Super + Shift + W`.
 
@@ -44,18 +44,18 @@ Aether spúšťaš prostredníctvom spúšťača aplikácií (`Super + Space`).
 
 [LocalSend](https://localsend.org/) ti umožňuje odosielať súbory do iných zariadení v tej istej sieti, na ktorých beží táto aplikácia, podobne ako AirDrop od Apple. Je však multiplatformový, takže súbory môžeš odosielať do systému Windows, macOS, Android, iOS a samozrejme Linuxu a z nich.
 
-Menu Zdieľať môžeš otvoriť pomocou `Super + Ctrl + S` alebo v časti _Akcie > Zdieľať_ v menu Omarchy. Poskytuje ti štyri možnosti:
+Menu Zdieľať môžeš otvoriť pomocou `Super + Ctrl + S` alebo v časti _Akcie > Zdieľať_ v menu LunaOS. Poskytuje ti štyri možnosti:
 
 - **Schránka** odošle všetko, čo si skopíroval, ako textový súbor. Skvelé na to, ako dostať odkaz alebo útržok do telefónu bez toho, aby si si posielal e-mail.
 - **Súbor** otvorí výber súborov, kde ich môžeš vybrať niekoľko naraz.
 - **Priečinok** odošle celý adresár.
 - **Prijať** otvorí samotný LocalSend, aby ti iné zariadenie mohlo niečo poslať.
 
-Rovnaká vec funguje z terminálu pomocou `omarchy share clipboard`, `omarchy share file [path]` a `omarchy share folder [path]`. Ak cestu vynecháš, dostaneš výber.
+Rovnaká vec funguje z terminálu pomocou `lunaos share clipboard`, `lunaos share file [path]` a `lunaos share folder [path]`. Ak cestu vynecháš, dostaneš výber.
 
 Odosielať môžeš aj priamo zo správcu súborov: klikni pravým tlačidlom myši na ľubovoľný výber v programe Nautilus a vyber _Send via LocalSend_.
 
-Brána firewall v Omarchy je predvolene zatvorená s výnimkou portu LocalSend, takže to funguje hneď po čerstvej inštalácii. Pozri si časť [zabezpečenie](48-security.md).
+Brána firewall v LunaOS je predvolene zatvorená s výnimkou portu LocalSend, takže to funguje hneď po čerstvej inštalácii. Pozri si časť [zabezpečenie](48-security.md).
 
 ## LibreOffice
 
@@ -65,19 +65,19 @@ LibreOffice spúšťaš prostredníctvom spúšťača aplikácií (`Super + Spac
 
 ## Hype
 
-[Hype](https://github.com/omacom/hype) je vlastná, úplne jednoduchá prezentačná aplikácia Omarchy. Tvoja prezentácia je jediný súbor Markdown s obrázkami a videami vedľa neho: každú snímku píšeš pod živým náhľadom, snímky presúvaš do poradia a potom prezentuješ na celú obrazovku alebo exportuješ do PDF a PowerPointu. Dokonca preberie aj tvoju tému Omarchy.
+[Hype](https://github.com/omacom/hype) je vlastná, úplne jednoduchá prezentačná aplikácia LunaOS. Tvoja prezentácia je jediný súbor Markdown s obrázkami a videami vedľa neho: každú snímku píšeš pod živým náhľadom, snímky presúvaš do poradia a potom prezentuješ na celú obrazovku alebo exportuješ do PDF a PowerPointu. Dokonca preberie aj tvoju tému LunaOS.
 
 Hype spúšťaš prostredníctvom spúšťača aplikácií (`Super + Space`). Stlačením `?` v ňom zobrazíš každú skratku.
 
 ## Signed
 
-[Signed](https://github.com/omacom/signed) je vlastný, úplne jednoduchý spôsob Omarchy, ako podpisovať PDF a vypĺňať ich. Umiestni svoj uložený podpis, text a dnešný dátum kdekoľvek na stránku a potom ulož podpísanú kópiu vedľa originálu. Ako na to, nájdeš v časti [Vypĺňanie PDF](27-filling-out-pdfs.md).
+[Signed](https://github.com/omacom/signed) je vlastný, úplne jednoduchý spôsob LunaOS, ako podpisovať PDF a vypĺňať ich. Umiestni svoj uložený podpis, text a dnešný dátum kdekoľvek na stránku a potom ulož podpísanú kópiu vedľa originálu. Ako na to, nájdeš v časti [Vypĺňanie PDF](27-filling-out-pdfs.md).
 
 Signed spúšťaš prostredníctvom spúšťača aplikácií (`Super + Space`) alebo pomocou neho otvoríš PDF zo správcu súborov.
 
 ## Omacalc
 
-[Omacalc](https://github.com/omacom-io/omacalc) je vlastná, úplne jednoduchá kalkulačka Omarchy, ktorá sa otvára v plávajúcom okne.
+[Omacalc](https://github.com/omacom-io/omacalc) je vlastná, úplne jednoduchá kalkulačka LunaOS, ktorá sa otvára v plávajúcom okne.
 
 Omacalc spúšťaš pomocou `Super + Ctrl + Q` (alebo klávesu kalkulačky, ak ho tvoja klávesnica má).
 
@@ -85,7 +85,7 @@ Omacalc spúšťaš pomocou `Super + Ctrl + Q` (alebo klávesu kalkulačky, ak h
 
 [Signal](https://signal.org/) je priekopníkom správ so šifrovaním E2E a skvelou možnosťou komunikácie pre každého, kto by radšej nešiel cez niektorý z veľkých technologických konglomerátov.
 
-Signal spúšťaš pomocou `Super + Shift + G`. Nie je súčasťou základnej inštalácie, takže keď to stlačíš prvýkrát, Omarchy ti ponúkne jeho inštaláciu (je aj v časti _Inštalovať > Služba_ v menu Omarchy).
+Signal spúšťaš pomocou `Super + Shift + G`. Nie je súčasťou základnej inštalácie, takže keď to stlačíš prvýkrát, LunaOS ti ponúkne jeho inštaláciu (je aj v časti _Inštalovať > Služba_ v menu LunaOS).
 
 ## mpv
 
@@ -95,13 +95,13 @@ mpv spúšťaš prostredníctvom spúšťača aplikácií (`Super + Space`) aleb
 
 ## Omacut
 
-[Omacut](https://github.com/omacom-io/omacut) je vlastný, úplne jednoduchý strihač videa od Omarchy. Keď potrebuješ len odrezať začiatok a koniec klipu, poráža spúšťanie plnohodnotného editora videa.
+[Omacut](https://github.com/omacom-io/omacut) je vlastný, úplne jednoduchý strihač videa od LunaOS. Keď potrebuješ len odrezať začiatok a koniec klipu, poráža spúšťanie plnohodnotného editora videa.
 
 Omacut spúšťaš prostredníctvom spúšťača aplikácií (`Super + Space`).
 
 ## Monologue
 
-[Monologue](https://github.com/omacom/monologue) je vlastný, úplne jednoduchý rekordér webkamery od Omarchy. Raz si vyber kameru a mikrofón, potom stlač `Space`, aby si nahrával, a znova, aby si ten istý záber pozastavil a obnovil. Vždy nahráva v najvyššom rozlíšení tvojej kamery, so živým meračom mikrofónu, aby si si pred začatím mohol skontrolovať úrovne.
+[Monologue](https://github.com/omacom/monologue) je vlastný, úplne jednoduchý rekordér webkamery od LunaOS. Raz si vyber kameru a mikrofón, potom stlač `Space`, aby si nahrával, a znova, aby si ten istý záber pozastavil a obnovil. Vždy nahráva v najvyššom rozlíšení tvojej kamery, so živým meračom mikrofónu, aby si si pred začatím mohol skontrolovať úrovne.
 
 Zastav záber a okamžite sa otvorí vo vstavanom editore. Dvojitým kliknutím na klip ho rozdelíš, potiahnutím rukovätí orežeš každý kúsok a odstrániš časti, ktoré nechceš. Potom ho ulož ako MP4. Tvoja pôvodná nahrávka sa uchováva, kým ju nezahodíš, takže sa k nej môžeš vždy vrátiť a zostrihať ju inak.
 

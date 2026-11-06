@@ -1,8 +1,8 @@
 # Navigacija
 
-Sve se u Omarchyju odvija putem tipkovnice — _SVE!_ Kad se sustav prvi put pokrene, doslovno ne možete učiniti ništa samo mišem. Ali možete pritisnuti `Super + Space` da prikažete Omarchy Menu i odavde možete učiniti gotovo sve.
+Sve se u LunaOSju odvija putem tipkovnice — _SVE!_ Kad se sustav prvi put pokrene, doslovno ne možete učiniti ništa samo mišem. Ali možete pritisnuti `Super + Space` da prikažete LunaOS Menu i odavde možete učiniti gotovo sve.
 
-Ali Omarchy izbornik većinu vremena čak ni nije zamišljen kao glavni način upravljanja sustavom. Možemo biti brži od toga! Sve najvažnije aplikacije izravno su vezane uz pojedinačne prečace. Terminal pokrećete sa `Super + Return`, a preglednik sa `Super + Shift + Return`. Pokušajte to učiniti jedno za drugim i vidjet ćete čaroliju Hyprlandova popločavanja na djelu:
+Ali LunaOS izbornik većinu vremena čak ni nije zamišljen kao glavni način upravljanja sustavom. Možemo biti brži od toga! Sve najvažnije aplikacije izravno su vezane uz pojedinačne prečace. Terminal pokrećete sa `Super + Return`, a preglednik sa `Super + Shift + Return`. Pokušajte to učiniti jedno za drugim i vidjet ćete čaroliju Hyprlandova popločavanja na djelu:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Možete ići i na cijeli zaslon sa `Super + F` ili čak samo na cijelu širinu (
 
 ### Raspored dwindle u odnosu na raspored scrolling
 
-Zadani raspored u Omarchyju zove se dwindle. On drži sve prozore koje otvorite na jednom radnom prostoru vidljivima cijelo vrijeme, čak i ako ih mora smanjiti.
+Zadani raspored u LunaOSju zove se dwindle. On drži sve prozore koje otvorite na jednom radnom prostoru vidljivima cijelo vrijeme, čak i ako ih mora smanjiti.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Plutajući radni prostor radi poput tradicionalne radne površine: prozori se preklapaju, a vi ih sami premještate i prilagođavate njihovu veličinu. Svaki prozor dobiva naslovnu traku u bojama vaše teme, s gumbima za minimiziranje, maksimiziranje i zatvaranje. `Super + M` također minimizira fokusirani prozor. Minimizirani prozor čeka u docku; kliknite njegovu aplikaciju da ga vratite. Kliknite prozor da ga dovedete u prvi plan. Promijenite mu veličinu s bilo kojeg ruba ili kuta. Dvokliknite naslovnu traku da maksimizirate prozor i pritom zadržite gornju traku u vidokrugu, i ponovno da vratite njegovu staru veličinu.
 
-Plutajući radni prostor također prikazuje dock, s vašim prikvačenim aplikacijama, svime što je pokrenuto i mrežom svake aplikacije iza gumba za aplikacije, koju također otvaraju `Super + Alt + Space` i _Apps_ u Omarchy izborniku. Kliknite desnom tipkom aplikaciju na mreži ili pritisnite `Delete` da je deinstalirate. Kliknite aplikaciju da je otvorite ili da njezin prozor dovedete u prvi plan; kliknite ponovno da ciklički prolazite kroz njezine prozore. Srednji klik otvara novi prozor. Povucite ikonu duž docka da je premjestite; povlačenje pokrenute aplikacije među ostale zadržava je ondje. Kliknite desnom tipkom da zadržite aplikaciju u docku, uklonite je ili je zatvorite. Dock se miče s puta prozoru na cijelom zaslonu. Kliknite desnom tipkom gumb za aplikacije da premjestite dock na drugi rub ili ga postavite da se skriva dok pokazivač ne dosegne njegov rub. Položaj se nalazi i pod _Trigger > Appearance > Dock > Dock Position_, a `omarchy dock position left` i `omarchy dock autohide on` postavljaju oboje iz terminala. Aplikacije koje držite u docku izblijedjele su dok nisu pokrenute.
+Plutajući radni prostor također prikazuje dock, s vašim prikvačenim aplikacijama, svime što je pokrenuto i mrežom svake aplikacije iza gumba za aplikacije, koju također otvaraju `Super + Alt + Space` i _Apps_ u LunaOS izborniku. Kliknite desnom tipkom aplikaciju na mreži ili pritisnite `Delete` da je deinstalirate. Kliknite aplikaciju da je otvorite ili da njezin prozor dovedete u prvi plan; kliknite ponovno da ciklički prolazite kroz njezine prozore. Srednji klik otvara novi prozor. Povucite ikonu duž docka da je premjestite; povlačenje pokrenute aplikacije među ostale zadržava je ondje. Kliknite desnom tipkom da zadržite aplikaciju u docku, uklonite je ili je zatvorite. Dock se miče s puta prozoru na cijelom zaslonu. Kliknite desnom tipkom gumb za aplikacije da premjestite dock na drugi rub ili ga postavite da se skriva dok pokazivač ne dosegne njegov rub. Položaj se nalazi i pod _Trigger > Appearance > Dock > Dock Position_, a `lunaos dock position left` i `lunaos dock autohide on` postavljaju oboje iz terminala. Aplikacije koje držite u docku izblijedjele su dok nisu pokrenute.
 
-Novi radni prostori, i svi kojima niste dali vlastiti raspored pomoću `Super + L`, koriste zadani raspored. Promjena zadanog rasporeda vraća na njega svaki radni prostor bez prozora, dok onaj s prozorima zadržava raspored koji ima. Prozor minimiziran u dock i dalje se ubraja kao prozor na radnom prostoru koji je napustio. Odaberite ga pod _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling ili Floating. `omarchy-hyprland-workspace-layout-default scrolling` postavlja ga iz terminala.
+Novi radni prostori, i svi kojima niste dali vlastiti raspored pomoću `Super + L`, koriste zadani raspored. Promjena zadanog rasporeda vraća na njega svaki radni prostor bez prozora, dok onaj s prozorima zadržava raspored koji ima. Prozor minimiziran u dock i dalje se ubraja kao prozor na radnom prostoru koji je napustio. Odaberite ga pod _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling ili Floating. `lunaos-hyprland-workspace-layout-default scrolling` postavlja ga iz terminala.
 
 ### Grupiranje prozora
 

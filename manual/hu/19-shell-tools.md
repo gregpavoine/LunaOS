@@ -1,6 +1,6 @@
 # Shell-eszközök
 
-A szokásos Linux-eszközökön felül az Omarchy számos továbbfejlesztett shell-eszközzel is érkezik. Íme a legfontosabbak.
+A szokásos Linux-eszközökön felül az LunaOS számos továbbfejlesztett shell-eszközzel is érkezik. Íme a legfontosabbak.
 
 ## fzf
 
@@ -14,7 +14,7 @@ A teljes kézikönyv a `man fzf` paranccsal érhető el.
 
 ## Zoxide
 
-A [Zoxide](https://github.com/ajeetdsouza/zoxide) a cd helyettesítője. Megjegyzi a könyvtárakat, amelyekben jártál, így legközelebb könnyebben ugorhatsz vissza beléjük. Tegyük fel, hogy egyszer kiadod a `cd ~/.config/omarchy` parancsot. Legközelebb elég a `cd omarchy` (vagy akár csak a `cd oma`), és a Zoxide közvetlenül odavisz.
+A [Zoxide](https://github.com/ajeetdsouza/zoxide) a cd helyettesítője. Megjegyzi a könyvtárakat, amelyekben jártál, így legközelebb könnyebben ugorhatsz vissza beléjük. Tegyük fel, hogy egyszer kiadod a `cd ~/.config/lunaos` parancsot. Legközelebb elég a `cd lunaos` (vagy akár csak a `cd oma`), és a Zoxide közvetlenül odavisz.
 
 A teljes kézikönyv a `man zoxide` paranccsal érhető el.
 
@@ -58,4 +58,4 @@ A teljes kézikönyv a `man yt-dlp` paranccsal érhető el.
 
 A [try](https://github.com/tobi/try) megkönnyíti a programozási kísérletek kezelését dátumbélyeges könyvtárakkal. Minden kísérlet a `~/Work/tries` alatt él, és a `try` paranccsal érheted el őket.
 
-Az Omarchy nem adja hozzá automatikusan egy projekt `bin/` könyvtárát a `PATH`-hez. A megbízható, projektbeli eszközöket futtasd explicit relatív útvonallal, például `bin/rails` vagy `./bin/dev` formában.
+Az LunaOS nem adja hozzá automatikusan egy projekt `bin/` könyvtárát a `PATH`-hez. A megbízható, projektbeli eszközöket futtasd explicit relatív útvonallal, például `bin/rails` vagy `./bin/dev` formában.

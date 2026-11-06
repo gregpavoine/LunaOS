@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ Thanh sẽ tự động hiển thị bố cục bàn phím hiện tại của b�
 Nhấp chuột phải vào đồng hồ trên thanh để duyệt qua các định dạng phổ biến, bao gồm cả các định dạng 12 giờ. Bạn cũng có thể đặt định dạng trực tiếp:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Việc này sẽ hiển thị Sunday 10:55 AM.
 
 ### Làm thế nào để đổi múi giờ của tôi?
 
-Chạy _Cập nhật > Múi giờ_ trong menu Omarchy và chọn từ danh sách. Nếu múi giờ đúng nhưng chính đồng hồ đã bị lệch, _Cập nhật > Thời gian_ sẽ khởi động lại việc đồng bộ thời gian cho bạn.
+Chạy _Cập nhật > Múi giờ_ trong menu LunaOS và chọn từ danh sách. Nếu múi giờ đúng nhưng chính đồng hồ đã bị lệch, _Cập nhật > Thời gian_ sẽ khởi động lại việc đồng bộ thời gian cho bạn.
 
 ### Làm thế nào để đổi DNS, chia sẻ Wi-Fi hoặc kiểm tra tốc độ kết nối của tôi?
 
@@ -36,11 +36,11 @@ Tất cả những thứ đó đều nằm trong [mạng](35-networking.md).
 
 ### Làm thế nào để kiểm tra đĩa của tôi nhanh đến mức nào?
 
-_Kích hoạt > Kiểm tra tốc độ > Kiểm tra tốc độ đĩa_ đo tốc độ đọc và ghi trực tiếp trên ổ đĩa của bạn, hoặc `omarchy disk speedtest` từ terminal.
+_Kích hoạt > Kiểm tra tốc độ > Kiểm tra tốc độ đĩa_ đo tốc độ đọc và ghi trực tiếp trên ổ đĩa của bạn, hoặc `lunaos disk speedtest` từ terminal.
 
 ### Tại sao tôi không thể đăng nhập vào tài khoản Google của mình trong Chromium?
 
-Bản dựng Chromium mã nguồn mở thuần túy không đi kèm thông tin xác thực OAuth mà Google yêu cầu để đăng nhập tài khoản. Chạy _Cài đặt > Dịch vụ > Tài khoản Chromium_ trong menu Omarchy để thêm chúng, khởi động lại trình duyệt, và việc đăng nhập sẽ thành công.
+Bản dựng Chromium mã nguồn mở thuần túy không đi kèm thông tin xác thực OAuth mà Google yêu cầu để đăng nhập tài khoản. Chạy _Cài đặt > Dịch vụ > Tài khoản Chromium_ trong menu LunaOS để thêm chúng, khởi động lại trình duyệt, và việc đăng nhập sẽ thành công.
 
 ### Làm thế nào để thêm một máy in?
 
@@ -60,15 +60,15 @@ Việc tự động phát hiện, nơi các máy in trên mạng xuất hiện m
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Bạn có thể làm tương tự cho các bản ghi màn hình bằng `OMARCHY_SCREENRECORD_DIR`.
+Bạn có thể làm tương tự cho các bản ghi màn hình bằng `LUNAOS_SCREENRECORD_DIR`.
 
-Omasnap tự động tạo thư mục ảnh chụp màn hình của nó. Hãy tự tạo thư mục ghi màn hình, rồi khởi động lại Omarchy để bất kỳ thay đổi môi trường nào cũng có hiệu lực.
+Omasnap tự động tạo thư mục ảnh chụp màn hình của nó. Hãy tự tạo thư mục ghi màn hình, rồi khởi động lại LunaOS để bất kỳ thay đổi môi trường nào cũng có hiệu lực.
 
 ### Làm thế nào để loa + webcam hoạt động trên Apple Studio Display của tôi?
 
 Bạn sẽ nghĩ rằng mọi thứ chỉ cần cắm USB C vào là hoạt động, nhưng tiếc là không phải vậy. Giải pháp tôi tìm thấy để làm nó hoạt động ổn định là dùng [cáp WJESOG DisplayPort + USB-A => USB-C](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/). Sau đó loa và webcam hoạt động hoàn hảo.
 
-Hãy nhớ rằng bạn có điều khiển độ sáng tích hợp sẵn trong Omarchy cho các Màn hình Apple (cả Studio và XDR) bằng các nút độ sáng bàn phím thông thường.
+Hãy nhớ rằng bạn có điều khiển độ sáng tích hợp sẵn trong LunaOS cho các Màn hình Apple (cả Studio và XDR) bằng các nút độ sáng bàn phím thông thường.
 
 ### Làm thế nào để loại bỏ mọi phần mềm bổ sung?
 
@@ -76,7 +76,7 @@ Nếu bạn không muốn các chương trình như Obsidian hoặc LibreOffice 
 
 Chạy _Gỡ bỏ > Gói_ để xem mọi gói đã được cài đặt. Sau đó bạn có thể chọn bất kỳ gói nào bạn muốn gỡ bỏ bằng tab, và bắt đầu gỡ bỏ mọi thứ bạn đã chọn bằng return.
 
-Và bạn có thể dùng _Gỡ bỏ > Ứng dụng web_ từ menu Omarchy để gỡ bỏ bất kỳ ứng dụng web cài sẵn nào bạn không muốn.
+Và bạn có thể dùng _Gỡ bỏ > Ứng dụng web_ từ menu LunaOS để gỡ bỏ bất kỳ ứng dụng web cài sẵn nào bạn không muốn.
 
 Hoặc chạy _Gỡ bỏ > Cài sẵn_ để quét sạch mọi thứ bổ sung đã cài sẵn — ứng dụng web, TUI và các ứng dụng tùy chọn — trong một lần. Các phím tắt đã mở chúng sẽ biến mất cùng với chúng, vậy là bạn còn lại một bảng gán phím sạch để lấp đầy bằng phím của riêng mình trong `~/.config/hypr/bindings.lua`.
 

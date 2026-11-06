@@ -6,7 +6,7 @@ Si vous êtes totalement nouveau à l'édition de style vim, je vous recommande 
 
 Neovim est pratiquement infiniment configurable. Si vous voulez vraiment y aller à fond, vous pouvez créer votre propre configuration Neovim à partir de zéro. Il existe un excellent cours de [Typecraft sur la configuration de Neovim à partir de zéro](https://www.youtube.com/watch?v=zHTeCSVAFNY). Et [ThePrimeagen en a un aussi](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Mais Omarchy est livré avec une configuration Neovim complète — le paquet `omarchy-nvim` — qui a été amoureusement réglée pour montrer le meilleur de ce qui est possible dès l'installation. Sans que vous ayez à écrire une seule ligne de configuration ! Elle est construite sur [LazyVim](https://www.lazyvim.org/), une distribution de plugins et de configurations Neovim. Elle est géniale.
+Mais LunaOS est livré avec une configuration Neovim complète — le paquet `omarchy-nvim` — qui a été amoureusement réglée pour montrer le meilleur de ce qui est possible dès l'installation. Sans que vous ayez à écrire une seule ligne de configuration ! Elle est construite sur [LazyVim](https://www.lazyvim.org/), une distribution de plugins et de configurations Neovim. Elle est géniale.
 
 ## Bases de LazyVim
 

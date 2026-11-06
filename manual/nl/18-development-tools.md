@@ -2,7 +2,7 @@
 
 ## Alternatieve editors
 
-Omarchy wordt standaard geleverd met [Neovim](https://neovim.io/), maar als je iets gangbaarders en vertrouwders wilt, open je het Omarchy-menu (`Super + Space`) en bekijk je de opties onder _Installeren > Editor_. Daar staan VSCode, Cursor, Zed, Sublime Text, Helix, Vim en Emacs vermeld. Als je niet vindt wat je zoekt, kijk dan bij _Installeren > Pakket_ en controleer of het niet in een Arch-pakket zit (en zo niet, probeer dan _Installeren > AUR_ om de AUR te controleren).
+LunaOS wordt standaard geleverd met [Neovim](https://neovim.io/), maar als je iets gangbaarders en vertrouwders wilt, open je het LunaOS-menu (`Super + Space`) en bekijk je de opties onder _Installeren > Editor_. Daar staan VSCode, Cursor, Zed, Sublime Text, Helix, Vim en Emacs vermeld. Als je niet vindt wat je zoekt, kijk dan bij _Installeren > Pakket_ en controleer of het niet in een Arch-pakket zit (en zo niet, probeer dan _Installeren > AUR_ om de AUR te controleren).
 
 De originele `vi`-editor is ook direct beschikbaar. Voer `vi filename` uit om een bestand in de terminal te bewerken.
 
@@ -12,7 +12,7 @@ Je kunt de systeemwijde standaardeditor instellen onder `Instellen > Standaardwa
 
 ## Omgeving
 
-Omarchy ondersteunt het opzetten van een hele reeks ontwikkelomgevingen via de sectie _Installeren > Ontwikkeling_ van het Omarchy-menu (`Super + Space`). Je vindt daar natuurlijk _Ruby on Rails_, maar ook alle drie de grote runtimes voor JavaScript (Node.js, Bun, Deno), evenals populaire PHP-frameworks zoals Laravel en Symfony. Oh, en er zijn ook Go, Rust, Python, Java, Elixir (met Phoenix), .NET, OCaml, Zig, Clojure en Scala. Het is een zeer brede selectie!
+LunaOS ondersteunt het opzetten van een hele reeks ontwikkelomgevingen via de sectie _Installeren > Ontwikkeling_ van het LunaOS-menu (`Super + Space`). Je vindt daar natuurlijk _Ruby on Rails_, maar ook alle drie de grote runtimes voor JavaScript (Node.js, Bun, Deno), evenals populaire PHP-frameworks zoals Laravel en Symfony. Oh, en er zijn ook Go, Rust, Python, Java, Elixir (met Phoenix), .NET, OCaml, Zig, Clojure en Scala. Het is een zeer brede selectie!
 
 De meeste van deze omgevingen worden beheerd door [Mise](https://mise.jdx.dev/). Het is een tool waarmee je meerdere versies van een programmeertaal op dezelfde machine kunt installeren en uitvoeren. Het is als rbenv of rvm voor Ruby of virtualenv voor Python, maar het werkt voor een heleboel verschillende omgevingen.
 
@@ -20,11 +20,11 @@ Om bijvoorbeeld Ruby te installeren, voer je `mise use -g ruby` uit, waarmee Rub
 
 ## Docker
 
-[Docker](https://www.docker.com/) behoeft nauwelijks introductie. Hiermee kun je geïsoleerde containers uitvoeren, en Omarchy installeert alles wat nodig is om het goed te laten draaien, inclusief Docker zelf en [Docker Compose](https://docs.docker.com/compose/).
+[Docker](https://www.docker.com/) behoeft nauwelijks introductie. Hiermee kun je geïsoleerde containers uitvoeren, en LunaOS installeert alles wat nodig is om het goed te laten draaien, inclusief Docker zelf en [Docker Compose](https://docs.docker.com/compose/).
 
-Standaard zit je gebruiker *niet* in de `docker`-groep. Die groep is in feite root zonder wachtwoord — alles daarin kan `docker run -v /:/host` uitvoeren en de machine overnemen — dus een enkel malafide script of een malafide afhankelijkheid die als jou draait, zou anders één commando verwijderd zijn van root. Dus op de commandoregel voer je Docker uit met `sudo` (`sudo docker ps`, `sudo docker compose up`), en de grafische tools die met de daemon praten — de Windows-VM — vragen om autorisatie wanneer ze dat nodig hebben. Als je het gemak van een groeploze opstelling terug wilt en de afweging begrijpt, schakel het dan in via **Instellen > Beveiliging > Docker zonder sudo** (of voer `omarchy-setup-security-sudoless-docker` uit), waarmee je na een waarschuwing aan de `docker`-groep wordt toegevoegd; dan werken gewone `docker` en de `d`-alias weer zonder `sudo`.
+Standaard zit je gebruiker *niet* in de `docker`-groep. Die groep is in feite root zonder wachtwoord — alles daarin kan `docker run -v /:/host` uitvoeren en de machine overnemen — dus een enkel malafide script of een malafide afhankelijkheid die als jou draait, zou anders één commando verwijderd zijn van root. Dus op de commandoregel voer je Docker uit met `sudo` (`sudo docker ps`, `sudo docker compose up`), en de grafische tools die met de daemon praten — de Windows-VM — vragen om autorisatie wanneer ze dat nodig hebben. Als je het gemak van een groeploze opstelling terug wilt en de afweging begrijpt, schakel het dan in via **Instellen > Beveiliging > Docker zonder sudo** (of voer `lunaos-setup-security-sudoless-docker` uit), waarmee je na een waarschuwing aan de `docker`-groep wordt toegevoegd; dan werken gewone `docker` en de `d`-alias weer zonder `sudo`.
 
-Je kunt de gangbare databases voor lokale ontwikkeling in Docker opzetten via _Installeren > Ontwikkeling > Docker DB_ in het Omarchy-menu.
+Je kunt de gangbare databases voor lokale ontwikkeling in Docker opzetten via _Installeren > Ontwikkeling > Docker DB_ in het LunaOS-menu.
 
 ## GitHub CLI
 

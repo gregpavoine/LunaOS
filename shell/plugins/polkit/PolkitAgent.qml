@@ -169,14 +169,14 @@ Item {
 
   Process {
     id: laptopClosedProc
-    command: ["bash", "-c", "omarchy-hw-laptop-closed && echo closed || echo open"]
+    command: ["bash", "-c", "lunaos-hw-laptop-closed && echo closed || echo open"]
     stdout: StdioCollector { id: laptopClosedOut; waitForEnd: true }
     onExited: root.laptopClosed = String(laptopClosedOut.text || "").trim() === "closed"
   }
 
   PolkitAgent {
     id: polkitAgent
-    path: "/org/omarchy/PolkitAgent"
+    path: "/org/lunaos/PolkitAgent"
 
     onAuthenticationRequestStarted: root.beginFlow()
     onIsActiveChanged: {
@@ -184,8 +184,8 @@ Item {
       else if (!root.closing) root.resetSnapshot()
     }
     onIsRegisteredChanged: {
-      if (isRegistered) console.log("omarchy polkit agent registered")
-      else console.warn("omarchy polkit agent is not registered; another agent may be running")
+      if (isRegistered) console.log("lunaos polkit agent registered")
+      else console.warn("lunaos polkit agent is not registered; another agent may be running")
     }
   }
 
@@ -228,7 +228,7 @@ Item {
     visible: root.dialogVisible
     anchors { top: true; bottom: true; left: true; right: true }
     color: "transparent"
-    WlrLayershell.namespace: "omarchy-polkit"
+    WlrLayershell.namespace: "lunaos-polkit"
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
     exclusionMode: ExclusionMode.Ignore

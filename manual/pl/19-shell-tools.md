@@ -1,6 +1,6 @@
 # Narzędzia powłoki
 
-Oprócz standardowych narzędzi Linuksa, Omarchy dostarcza również zestaw ulepszonych narzędzi powłoki. Oto najważniejsze z nich.
+Oprócz standardowych narzędzi Linuksa, LunaOS dostarcza również zestaw ulepszonych narzędzi powłoki. Oto najważniejsze z nich.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Pełny podręcznik można znaleźć za pomocą `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) jest zamiennikiem cd. Pamięta katalogi, w których byłeś, dzięki czemu możesz łatwiej do nich przeskoczyć następnym razem. Załóżmy, że raz wykonasz `cd ~/.config/omarchy`. Następnym razem możesz po prostu wykonać `cd omarchy` (lub nawet tylko `cd oma`), a Zoxide zabierze cię bezpośrednio tam.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) jest zamiennikiem cd. Pamięta katalogi, w których byłeś, dzięki czemu możesz łatwiej do nich przeskoczyć następnym razem. Załóżmy, że raz wykonasz `cd ~/.config/lunaos`. Następnym razem możesz po prostu wykonać `cd lunaos` (lub nawet tylko `cd oma`), a Zoxide zabierze cię bezpośrednio tam.
 
 Pełny podręcznik można znaleźć za pomocą `man zoxide`.
 
@@ -58,4 +58,4 @@ Pełny podręcznik można znaleźć za pomocą `man yt-dlp`.
 
 [try](https://github.com/tobi/try) ułatwia zarządzanie eksperymentami programistycznymi w katalogach opatrzonych datą. Wszystkie eksperymenty żyją w `~/Work/tries` i możesz uzyskać do nich dostęp za pomocą `try`.
 
-Omarchy nie dodaje automatycznie katalogu `bin/` projektu do `PATH`. Uruchamiaj zaufane narzędzia lokalne dla projektu z jawną ścieżką względną, taką jak `bin/rails` lub `./bin/dev`.
+LunaOS nie dodaje automatycznie katalogu `bin/` projektu do `PATH`. Uruchamiaj zaufane narzędzia lokalne dla projektu z jawną ścieżką względną, taką jak `bin/rails` lub `./bin/dev`.

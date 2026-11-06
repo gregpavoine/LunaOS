@@ -1,8 +1,8 @@
 # Mga karaniwang tweak
 
-Ito ay isang koleksyon ng mga karaniwang pagsasaayos sa setup ng Omarchy. Alamin na kung minsan ay maaaring kailanganin ng mga update ng sistema na ibalik ang ilang config sa kanilang orihinal na kondisyon. Kung mangyari ito, hindi mawawala ang mga pagbabago mo, kundi ilalagay ang mga ito sa isang file na `.bak` sa parehong direktoryo.
+Ito ay isang koleksyon ng mga karaniwang pagsasaayos sa setup ng LunaOS. Alamin na kung minsan ay maaaring kailanganin ng mga update ng sistema na ibalik ang ilang config sa kanilang orihinal na kondisyon. Kung mangyari ito, hindi mawawala ang mga pagbabago mo, kundi ilalagay ang mga ito sa isang file na `.bak` sa parehong direktoryo.
 
-Kung may masira ka, maaari mong ibalik ang mga indibidwal na config sa kanilang orihinal na setup sa pamamagitan ng _I-update > Konfig_ sa menu ng Omarchy. Kung _talagang_ masira mo ang lahat, maaari mong i-reset ang lahat ng config sa pamamagitan ng `omarchy-reinstall`.
+Kung may masira ka, maaari mong ibalik ang mga indibidwal na config sa kanilang orihinal na setup sa pamamagitan ng _I-update > Konfig_ sa menu ng LunaOS. Kung _talagang_ masira mo ang lahat, maaari mong i-reset ang lahat ng config sa pamamagitan ng `lunaos-reinstall`.
 
 ### Ilantad ang lahat ng icon sa tray sa lahat ng oras
 
@@ -10,7 +10,7 @@ Bilang default, ang mga icon sa tray, tulad ng Dropbox, 1password, o Steam, ay n
 
 ### Mga bilugan na sulok ng bintana
 
-Ang default na disenyo ng Omarchy ay mga parisukat na sulok, pero kung gusto mong palambutin iyon nang kaunti, maaari mong baguhin ang `~/.config/hypr/looknfeel.lua` para hindi na naka-comment out ang rounding:
+Ang default na disenyo ng LunaOS ay mga parisukat na sulok, pero kung gusto mong palambutin iyon nang kaunti, maaari mong baguhin ang `~/.config/hypr/looknfeel.lua` para hindi na naka-comment out ang rounding:
 
 ```
 hl.config({

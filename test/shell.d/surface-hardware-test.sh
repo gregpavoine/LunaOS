@@ -22,9 +22,9 @@ run_surface_setup() (
   machine=$1
   script=$2
   loaded_modules=${3:-}
-  omarchy-hw-surface() { return 0; }
-  omarchy-hw-x86() { [[ $machine == "x86_64" ]]; }
-  omarchy-pkg-add() { printf '%s\n' "$*" >>"$scratch/packages"; }
+  lunaos-hw-surface() { return 0; }
+  lunaos-hw-x86() { [[ $machine == "x86_64" ]]; }
+  lunaos-pkg-add() { printf '%s\n' "$*" >>"$scratch/packages"; }
   lsmod() {
     printf 'lsmod\n' >>"$scratch/probes"
     printf '%s\n' "$loaded_modules"
@@ -39,7 +39,7 @@ run_surface_setup() (
       command cat "$@"
     fi
   }
-  OMARCHY_SURFACE_MKINITCPIO_DIR="$mkinitcpio_dir" source "$script"
+  LUNAOS_SURFACE_MKINITCPIO_DIR="$mkinitcpio_dir" source "$script"
 )
 
 rm -f "$scratch/packages" "$scratch/probes"

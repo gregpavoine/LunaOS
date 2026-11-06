@@ -21,7 +21,7 @@ Editor anotasi dapat menggambar panah, garis, bentuk, sorotan, penanda bernomor,
 
 Tangkapan layar yang disimpan mendarat di `~/Pictures/Screenshots` secara bawaan, dengan nama seperti `screenshot-2026-08-13_14-22-05-firefox.png`. Atur `OMASNAP_SCREENSHOT_DIR` untuk menggunakan direktori lain — lihat [FAQ](46-faq.md) untuk tempat meletakkan variabel lingkungan sesi. Omasnap membuat direktori ketika menyimpan tangkapan pertama. Atur `[output] autosave = false` dalam `~/.config/omasnap/omasnap.conf` untuk menonaktifkan penyimpanan otomatis.
 
-Dari terminal, `omarchy screenshot` membuka overlay yang sama, dan Anda dapat memilih mode awalnya: `omarchy capture screenshot region`, `windows`, `fullscreen`, atau `scroll`. Argumen kedua `copy` atau `save` melewati pratinjau dan langsung mengirim tangkapan ke tujuan itu. Untuk mengedit sebelum keluaran, gunakan `omarchy screenshot --editor=overlay` untuk editor layar penuh atau `omarchy screenshot --editor=window` untuk jendela terpisah.
+Dari terminal, `lunaos screenshot` membuka overlay yang sama, dan Anda dapat memilih mode awalnya: `lunaos capture screenshot region`, `windows`, `fullscreen`, atau `scroll`. Argumen kedua `copy` atau `save` melewati pratinjau dan langsung mengirim tangkapan ke tujuan itu. Untuk mengedit sebelum keluaran, gunakan `lunaos screenshot --editor=overlay` untuk editor layar penuh atau `lunaos screenshot --editor=window` untuk jendela terpisah.
 
 ### Mengemudikan pemilih dari keyboard
 
@@ -40,9 +40,9 @@ Binding ini hanya ada saat Omasnap terbuka, sehingga tidak dapat bertabrakan den
 
 ## Perekaman layar
 
-`Alt + Print Screen` membuka _Pemicu > Tangkap > Rekam Layar_, yang menanyakan apa yang Anda inginkan pada soundtrack: tanpa audio, audio desktop, desktop plus mikrofon, atau desktop plus mikrofon plus webcam. Yang terakhir hanya muncul jika Anda benar-benar memiliki kamera yang terpasang. Pilih salah satu dan pemilih perekaman Omarchy memungkinkan Anda menyeret wilayah atau mengklik jendela atau monitor.
+`Alt + Print Screen` membuka _Pemicu > Tangkap > Rekam Layar_, yang menanyakan apa yang Anda inginkan pada soundtrack: tanpa audio, audio desktop, desktop plus mikrofon, atau desktop plus mikrofon plus webcam. Yang terakhir hanya muncul jika Anda benar-benar memiliki kamera yang terpasang. Pilih salah satu dan pemilih perekaman LunaOS memungkinkan Anda menyeret wilayah atau mengklik jendela atau monitor.
 
-Perekaman berjalan pada gpu-screen-recorder, yang mengenkode pada GPU pada 60fps dan kembali ke CPU jika harus. Hasilnya adalah MP4 di `~/Videos`, bernama `screenrecording-2026-08-13_14-22-05.mp4`. Atur `OMARCHY_SCREENRECORD_DIR` untuk mengubahnya — tetapi perlu dicatat bahwa tidak seperti direktori tangkapan layar, yang ini harus sudah ada, atau perekaman menolak untuk memulai.
+Perekaman berjalan pada gpu-screen-recorder, yang mengenkode pada GPU pada 60fps dan kembali ke CPU jika harus. Hasilnya adalah MP4 di `~/Videos`, bernama `screenrecording-2026-08-13_14-22-05.mp4`. Atur `LUNAOS_SCREENRECORD_DIR` untuk mengubahnya — tetapi perlu dicatat bahwa tidak seperti direktori tangkapan layar, yang ini harus sudah ada, atau perekaman menolak untuk memulai.
 
 Saat Anda merekam, indikator kecil muncul di bilah. Klik untuk berhenti. Anda juga dapat berhenti dengan `Alt + Print Screen` lagi, atau dengan entri _Hentikan Rekam Layar_ di bawah _Pemicu > Tangkap > Rekam Layar_, yang hanya muncul saat ada sesuatu yang benar-benar direkam.
 
@@ -59,7 +59,7 @@ Ketika Anda merekam dengan webcam, kamera muncul sebagai jendela potret terpangk
 
 Ada tiga ukuran — kecil, sedang, dan besar — dan hotkey melangkah di antara mereka. Sedang adalah bawaannya. Mereka proporsional terhadap perekaman, sehingga kamera mengambil bagian bingkai yang sama apakah Anda merekam monitor 1080p atau 6K. Dan jika Anda merekam wilayah alih-alih seluruh tampilan, overlay menjangkar ke sudut wilayah itu alih-alih sudut monitor, sehingga ia tetap di dalam tangkapan.
 
-Anda juga dapat memanggilnya langsung dengan `omarchy-capture-webcam-resize small`, atau `reset` untuk kembali ke sedang.
+Anda juga dapat memanggilnya langsung dengan `lunaos-capture-webcam-resize small`, atau `reset` untuk kembali ke sedang.
 
 ## Teks, kode QR, dan warna
 
@@ -75,7 +75,7 @@ Rekaman layar 4K atau HEIC mentah dari ponsel Anda sering kali terlalu besar unt
 
 Gambar pergi ke jpg atau png pada tinggi, sedang, atau rendah, yang membatasi lebar pada 3160, 2160, dan 1080 piksel. Video pergi ke mp4 atau gif animasi pada 4k, 1080p, atau 720p. Berkas yang dikonversi ditulis di samping yang asli dengan resolusi dalam namanya — `demo-1080p.mp4` — dan jalur disalin ke papan klip sebagai URI berkas, sehingga Anda dapat menempelnya langsung ke aplikasi yang menerima penurunan berkas.
 
-Ia juga berfungsi dari terminal, jika Anda sudah tahu apa yang Anda inginkan: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Ada juga `omarchy transcode ascii`, yang mengubah gambar menjadi seni ASCII — yang itu sebagian besar untuk [branding](41-branding.md).
+Ia juga berfungsi dari terminal, jika Anda sudah tahu apa yang Anda inginkan: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Ada juga `lunaos transcode ascii`, yang mengubah gambar menjadi seni ASCII — yang itu sebagian besar untuk [branding](41-branding.md).
 
 ## Mengirimnya ke suatu tempat
 

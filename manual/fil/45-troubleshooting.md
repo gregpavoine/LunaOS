@@ -2,17 +2,17 @@
 
 ### Nasira ko ang sistema ko dahil sa isang update!
 
-Subukan mo munang [i-rollback ang sistema mo](47-system-snapshots.md) sa bersyon bago ang iyong kamakailang update. Kung hindi iyon gumana, gamitin ang `omarchy-debug` para ibahagi ang problema mo sa #omarchy-help sa Discord. At kung mabigo ang lahat ng iyon, maaari mong muling i-install ang mga default na config at pakete gamit ang `omarchy-reinstall`.
+Subukan mo munang [i-rollback ang sistema mo](47-system-snapshots.md) sa bersyon bago ang iyong kamakailang update. Kung hindi iyon gumana, gamitin ang `lunaos-debug` para ibahagi ang problema mo sa #lunaos-help sa Discord. At kung mabigo ang lahat ng iyon, maaari mong muling i-install ang mga default na config at pakete gamit ang `lunaos-reinstall`.
 
 ### Bakit napakalaki ng ilang app sa display ko?
 
-Ipinagpapalagay ng Omarchy ang isang 2x na display na may mataas na resolusyon, na nangangailangan ng pagtakda ng `GDK_SCALE` sa 2 sa `~/.config/hypr/monitors.lua`. Pero kung nasa isang 1x na display ka, maaari mong baguhin ang `local omarchy_gdk_scale = 2` patungong 1 (at pagkatapos ay i-restart ang anumang app na napakalaki). Tingnan ang [manwal tungkol sa mga monitor](33-monitors.md).
+Ipinagpapalagay ng LunaOS ang isang 2x na display na may mataas na resolusyon, na nangangailangan ng pagtakda ng `GDK_SCALE` sa 2 sa `~/.config/hypr/monitors.lua`. Pero kung nasa isang 1x na display ka, maaari mong baguhin ang `local lunaos_gdk_scale = 2` patungong 1 (at pagkatapos ay i-restart ang anumang app na napakalaki). Tingnan ang [manwal tungkol sa mga monitor](33-monitors.md).
 
 Para sa Spotify, maaari mong gamitin ang `Ctrl + Minus` para paliitin ang UI (at ang `Ctrl + Plus` para palakihin ito).
 
 ### Bigla na lang tumigil sa paggana ang Wi-Fi, Bluetooth, audio, o trackpad ko
 
-Bago ka mag-reboot, subukang i-restart nang mag-isa ang subsistemang may sala. Ang _I-update > Hardware_ sa menu ng Omarchy ay may Wi-Fi, Bluetooth, Audio, at Trackpad, at ang pag-reload ng isa sa mga iyon ay nag-aayos ng karamihan ng mga sitwasyong "gumana pa ito limang minuto ang nakalipas" — isang Bluetooth headset na ayaw muling kumonekta, isang trackpad na namatay pagkatapos ng suspend, tunog na nawala nang bunutin mo ang isang monitor.
+Bago ka mag-reboot, subukang i-restart nang mag-isa ang subsistemang may sala. Ang _I-update > Hardware_ sa menu ng LunaOS ay may Wi-Fi, Bluetooth, Audio, at Trackpad, at ang pag-reload ng isa sa mga iyon ay nag-aayos ng karamihan ng mga sitwasyong "gumana pa ito limang minuto ang nakalipas" — isang Bluetooth headset na ayaw muling kumonekta, isang trackpad na namatay pagkatapos ng suspend, tunog na nawala nang bunutin mo ang isang monitor.
 
 ### Bakit hindi tumutugtog ang mga panlabas kong speaker?
 
@@ -20,7 +20,7 @@ Marahil dahil hindi sila nakatakda bilang pangunahing output. I-click ang icon n
 
 ### Kakaiba ang tunog ng mga speaker ng laptop ko
 
-Sa ilang laptop, awtomatikong inilalapat ng Omarchy ang isang pag-tune ng speaker na nagwawasto sa frequency response ng mga built-in na speaker. Sinasabi sa iyo ng `omarchy audio tuning status` kung may aktibong pag-tune sa makina mo, at ino-off ito ng `omarchy audio tuning off` kung mas gusto mong marinig ang mga speaker nang hilaw.
+Sa ilang laptop, awtomatikong inilalapat ng LunaOS ang isang pag-tune ng speaker na nagwawasto sa frequency response ng mga built-in na speaker. Sinasabi sa iyo ng `lunaos audio tuning status` kung may aktibong pag-tune sa makina mo, at ino-off ito ng `lunaos audio tuning off` kung mas gusto mong marinig ang mga speaker nang hilaw.
 
 ### Bakit hindi ako makapag-login o makapag-sudo gamit ang password ko?
 

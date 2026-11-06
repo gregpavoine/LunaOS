@@ -1,14 +1,14 @@
 # Yläpalkki
 
-Ruudun yläreunassa kulkeva kaista on Omarchy-palkki. Se ei ole päälle pultattu tilapalkki, vaan osa Omarchyn kuorta, yhtä pitkään pyörivää Quickshell-prosessia, joka piirtää myös valikon, ilmoitukset, OSD-ilmaisinponnahdusikkunat ja lukitusruudun. Siksi se teemoitetaan täydellisesti kaiken muun kanssa ja siksi paneeli avautuu heti sen sijaan, että käynnistäisi uuden sovelluksen.
+Ruudun yläreunassa kulkeva kaista on LunaOS-palkki. Se ei ole päälle pultattu tilapalkki, vaan osa LunaOSn kuorta, yhtä pitkään pyörivää Quickshell-prosessia, joka piirtää myös valikon, ilmoitukset, OSD-ilmaisinponnahdusikkunat ja lukitusruudun. Siksi se teemoitetaan täydellisesti kaiken muun kanssa ja siksi paneeli avautuu heti sen sijaan, että käynnistäisi uuden sovelluksen.
 
 Se on myös ainoa työpöydän osa, joka on aina ruudulla, joten kannattaa tietää, mitä kaikki nuo pienet merkit tekevät.
 
 ## Mitä siinä on oletuksena
 
-Palkissa on kolme osaa. Vasemmalla on Omarchy-logo (valikon käynnistin) ja työtilojen ilmaisimet. Keskellä on tilailmaisimet, kello, Elsewhen (maailmankello), sää ja Omarchy-päivitysmerkki. Oikealla: näppäimistöasettelu (kun niitä on määritetty useampi kuin yksi), järjestelmärivi, agentit, bluetooth, verkko, ääni, näyttö ja virta.
+Palkissa on kolme osaa. Vasemmalla on LunaOS-logo (valikon käynnistin) ja työtilojen ilmaisimet. Keskellä on tilailmaisimet, kello, Elsewhen (maailmankello), sää ja LunaOS-päivitysmerkki. Oikealla: näppäimistöasettelu (kun niitä on määritetty useampi kuin yksi), järjestelmärivi, agentit, bluetooth, verkko, ääni, näyttö ja virta.
 
-Muutama niistä näkyy vain, kun niillä on jotain sanottavaa. Näppäimistöasettelu näkyy vain, jos olet määrittänyt useamman kuin yhden asettelun. Päivitysmerkki näkyy vain, kun Omarchy-päivitys odottaa. Ja agenttien kuvake näkyy ensimmäisellä kerralla, kun Omarchy löytää koneelta tekoälykoodauskäyttöä (katso [AI](17-ai.md)).
+Muutama niistä näkyy vain, kun niillä on jotain sanottavaa. Näppäimistöasettelu näkyy vain, jos olet määrittänyt useamman kuin yhden asettelun. Päivitysmerkki näkyy vain, kun LunaOS-päivitys odottaa. Ja agenttien kuvake näkyy ensimmäisellä kerralla, kun LunaOS löytää koneelta tekoälykoodauskäyttöä (katso [AI](17-ai.md)).
 
 ## Napsautteleminen ympäriinsä
 
@@ -16,7 +16,7 @@ Lähes jokainen widget tekee jotain vasemmalla, oikealla ja keskimmäisellä nap
 
 | Widget | Vasen | Oikea | Keskimmäinen / vieritys |
 | --- | --- | --- | --- |
-| Valikko | Omarchy-valikko | Uusi pääte | — |
+| Valikko | LunaOS-valikko | Uusi pääte | — |
 | Työtilat | Kohdista kyseiseen työtilaan | — | Vieritys: seuraava/edellinen työtila |
 | Kello | Kalenteriponnahdusikkuna | Kierrä merkinnän muotoa | Keskimmäinen: aikavyöhykkeen valitsin |
 | Sää | Ennusteponnahdusikkuna | Koko sää ilmoituksena | Keskimmäinen: päivitä |
@@ -29,7 +29,7 @@ Lähes jokainen widget tekee jotain vasemmalla, oikealla ja keskimmäisellä nap
 | Media | Toista/keskeytä | Kansikuvaponnahdusikkuna | Keskimmäinen: seuraava · vieritys: edel./seuraava |
 | Agentit | Agenttipaneeli | Käynnistä agenttisi | Keskimmäinen: seuraava tilaus |
 | Järjestelmärivi | Vie osoitin laatikon paljastamiseksi | Oikealla nuolinappulassa hallinnointiin | — |
-| Omarchy-päivitys | Aja päivitys | — | — |
+| LunaOS-päivitys | Aja päivitys | — | — |
 
 Kaikki tuossa taulukossa ei ole palkissasi heti käyttövalmiina. Media-widget (MPRIS-soitossa, jossa on vierivä kappale ja artisti) ja mikrofoni-widget ovat molemmat sisäänrakennettuja, mutta oletuksena pois päältä — lisää ne, jos haluat, kuten alla kuvataan.
 
@@ -65,7 +65,7 @@ Jokainen paneeli hyväksyy näppäimistön sekä hiiren: nuolet liikkuvat, Retur
 
 Kaksi widgetiä lisää ilmestyy palkkiin vasta, kun asennat vastaavan palvelun kohdasta **Asenna → Palvelu**, ja molemmista kannattaa tietää, koska ne tekevät muutakin kuin raportoivat tilaa.
 
-**Tailscale**-paneeli yhdistää ja katkaisee tailnetin, vaihtaa tilien välillä ja valitsee poistumissolmun (omat koneesi ja Mullvad-alueet näkyvät molemmat siinä listassa). Se myös selaa koneitasi — ja kun yksi on valittu, `s` lähettää tiedostoja sille Taildropin kautta, mikä on nopein tapa siirtää tiedosto puhelimeesi tai toiselle kannettavalle. `c` kopioi koneen IP:n, `n` sen nimen ja `d` sen täyden DNS-nimen. Jokaisella konerivillä on myös lähetyspainike, jos mieluummin napsautat. Sama asia pääätteestä on `omarchy tailscale send <machine> [file...]`.
+**Tailscale**-paneeli yhdistää ja katkaisee tailnetin, vaihtaa tilien välillä ja valitsee poistumissolmun (omat koneesi ja Mullvad-alueet näkyvät molemmat siinä listassa). Se myös selaa koneitasi — ja kun yksi on valittu, `s` lähettää tiedostoja sille Taildropin kautta, mikä on nopein tapa siirtää tiedosto puhelimeesi tai toiselle kannettavalle. `c` kopioi koneen IP:n, `n` sen nimen ja `d` sen täyden DNS-nimen. Jokaisella konerivillä on myös lähetyspainike, jos mieluummin napsautat. Sama asia pääätteestä on `lunaos tailscale send <machine> [file...]`.
 
 **Dropbox**-paneeli hoitaa kirjautumisen, näyttää, kuinka paljon tallennustilaa olet käyttänyt, ja luetteloi äskettäin synkronoidut tiedostot.
 
@@ -90,19 +90,19 @@ Jos mieluummin valitset valikosta, kohdassa **Käynnistä → Ulkoasu → Valikk
 Samoihin asioihin on komentoja, mikä on se, mitä haluat [dotfiles](31-dotfiles.md)-kokoonpanolle:
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Lisätäksesi tai poistaaksesi widgetin kokonaan käytä lisäosakomentoja. `omarchy plugin list` tulostaa jokaisen widgetin, jonka kuori tuntee, sen tunnisteella, ja sitten:
+Lisätäksesi tai poistaaksesi widgetin kokonaan käytä lisäosakomentoja. `lunaos plugin list` tulostaa jokaisen widgetin, jonka kuori tuntee, sen tunnisteella, ja sitten:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Palkin piilottaminen
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Määritystiedosto
 
-Kaikki se on tallennettu tiedostoon `~/.config/omarchy/shell.json`, avaimen `bar` alle. Tässä on lyhennetty versio:
+Kaikki se on tallennettu tiedostoon `~/.config/lunaos/shell.json`, avaimen `bar` alle. Tässä on lyhennetty versio:
 
 ```json
 {
@@ -119,20 +119,20 @@ Kaikki se on tallennettu tiedostoon `~/.config/omarchy/shell.json`, avaimen `bar
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Jokainen widget on yksi merkintä yhdessä kolmesta asettelu-taulukosta, ja sen asetukset ovat rivissä kyseisessä merkinnässä — ei ole erillistä asetustiedostoa eikä `config`-aliobjektia. Kellon `format`, `formatAlt` (mihin oikean painikkeen napsautus kiertää) ja `verticalFormat` elävät kaikki juuri siinä kohdassa `{ "id": "omarchy.clock" }`.
+Jokainen widget on yksi merkintä yhdessä kolmesta asettelu-taulukosta, ja sen asetukset ovat rivissä kyseisessä merkinnässä — ei ole erillistä asetustiedostoa eikä `config`-aliobjektia. Kellon `format`, `formatAlt` (mihin oikean painikkeen napsautus kiertää) ja `verticalFormat` elävät kaikki juuri siinä kohdassa `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` nimeää sen yhden keskimmäisen widgetin, joka kiinnitetään ruudun tarkkaan keskikohtaan, muiden reunustaessa sitä. Näin kello pysyy aivan keskellä, vaikka sää ja päivitysmerkki tulevat ja menevät. Aseta se tyhjäksi merkkijonoksi, ja keskimmäinen lista vain keskitetään ryhmänä sen sijaan.
 
-Yksi sääntö, joka kannattaa sisäistää: **kun sinulla on oma `shell.json`, se on määräävä**. Kunnes mukautat mitään, kuori lukee Omarchyn oletustiedostoa. Heti kun vedät widgetiä, ajat komennon `omarchy bar` tai muokkaat tiedostoa itse, omistat sen — syvää yhdistämistä ei ole, joten tulevissa Omarchy-julkaisuissa uudet oletuswidgetit eivät ilmesty palkkiisi automaattisesti. `omarchy bar defaults` palauttaa mukana toimitetun asettelun aina, kun haluat puhtaan pöydän.
+Yksi sääntö, joka kannattaa sisäistää: **kun sinulla on oma `shell.json`, se on määräävä**. Kunnes mukautat mitään, kuori lukee LunaOSn oletustiedostoa. Heti kun vedät widgetiä, ajat komennon `lunaos bar` tai muokkaat tiedostoa itse, omistat sen — syvää yhdistämistä ei ole, joten tulevissa LunaOS-julkaisuissa uudet oletuswidgetit eivät ilmesty palkkiisi automaattisesti. `lunaos bar defaults` palauttaa mukana toimitetun asettelun aina, kun haluat puhtaan pöydän.
 
 Sama tiedosto sisältää myös joutilaana olemisen ajoituksesi ylätasolla, `bar`-avaimen ulkopuolella: `idle.screensaver` ja `idle.lock`, molemmat sekunteina siitä, kun jäit joutilaaksi. Joten oletusnäytönsäästäjä iskee 150 sekunnin kohdalla ja lukitus 300 sekunnin kohdalla.

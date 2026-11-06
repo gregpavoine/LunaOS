@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# lunaos:summary=Select input methods for Japanese, Korean, or Chinese typing
+# lunaos:args=[mozc|hangul|pinyin|chewing|cangjie5]
+# lunaos:examples=lunaos setup input | lunaos setup input mozc
+# lunaos:requires-sudo=true
+
+set -euo pipefail
+
+if (( $# > 1 )); then
+  echo "Usage: lunaos setup input [mozc|hangul|pinyin|chewing|cangjie5]" >&2
+  exit 1
+fi
+
+method=${1:-}
+if [[ -z $method ]]; then
+  /usr/bin/python3 "$LUNAOS_PATH/default/input-methods/typing_setup.py" input
+  exit
+fi
+
+case "$method" in
+  mozc | hangul | pinyin | chewing | cangjie5) ;;
+  *) echo "Unknown input method: $method" >&2; exit 1 ;;
+esac
+
+mapfile -t packages < <(jq -r --arg method "$method" '.[$method].packages[]' "$LUNAOS_PATH/default/input-methods/presets.json")
+lunaos-pkg-add "${packages[@]}"
+/usr/bin/python3 "$LUNAOS_PATH/default/input-methods/typing_setup.py" add "$method"
+echo "Input method added. Use Super+I or the Japanese/Korean input key to switch; existing custom Fcitx keys are preserved."

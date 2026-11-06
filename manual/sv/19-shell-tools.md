@@ -1,6 +1,6 @@
 # Shellverktyg
 
-Utöver de vanliga Linux-verktygen levereras Omarchy också med en massa förbättrade shellverktyg. Här är de viktigaste.
+Utöver de vanliga Linux-verktygen levereras LunaOS också med en massa förbättrade shellverktyg. Här är de viktigaste.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Den fullständiga manualen finns via `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) är en ersättning för cd. Det kommer ihåg vilka kataloger du har varit i, så att du lättare kan hoppa till dem nästa gång. Säg att du kör `cd ~/.config/omarchy` en gång. Nästa gång kan du bara köra `cd omarchy` (eller till och med bara `cd oma`), så tar Zoxide dig direkt dit.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) är en ersättning för cd. Det kommer ihåg vilka kataloger du har varit i, så att du lättare kan hoppa till dem nästa gång. Säg att du kör `cd ~/.config/lunaos` en gång. Nästa gång kan du bara köra `cd lunaos` (eller till och med bara `cd oma`), så tar Zoxide dig direkt dit.
 
 Den fullständiga manualen finns via `man zoxide`.
 
@@ -58,4 +58,4 @@ Den fullständiga manualen finns via `man yt-dlp`.
 
 [try](https://github.com/tobi/try) gör det enkelt att hantera programmeringsexperiment med datumstämplade kataloger. Alla experiment bor i `~/Work/tries` och du når dem via `try`.
 
-Omarchy lägger inte till ett projekts `bin/`-katalog i `PATH` automatiskt. Kör betrodda projektlokala verktyg med en explicit relativ sökväg, som `bin/rails` eller `./bin/dev`.
+LunaOS lägger inte till ett projekts `bin/`-katalog i `PATH` automatiskt. Kör betrodda projektlokala verktyg med en explicit relativ sökväg, som `bin/rails` eller `./bin/dev`.

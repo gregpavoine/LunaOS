@@ -36,7 +36,7 @@ compose() {
   for conf in "${conf_files[@]}"; do
     cat -- "$tmp/conf.d/$conf" >>"$config"
   done
-  OMARCHY_PROC_ROOT="$tmp/platform/proc" PATH="$tmp/platform/bin:$ROOT/bin:$PATH" "$BASH" -c '
+  LUNAOS_PROC_ROOT="$tmp/platform/proc" PATH="$tmp/platform/bin:$ROOT/bin:$PATH" "$BASH" -c '
     . "$1" || exit 1
     printf "HOOKS=%s\nFILES=%s\n" "${HOOKS[*]}" "${FILES[*]}"
   ' -- "$config"

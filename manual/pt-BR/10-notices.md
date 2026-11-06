@@ -14,7 +14,7 @@ Você pode acessar rapidamente a data e a hora, o status da bateria e o clima at
 
  ![notice-weather](images/notice-weather.webp)
 
-A localização é detectada a partir do seu endereço IP, o que geralmente é próximo o suficiente, mas nem sempre. Você pode fixá-la com `omarchy weather location --set Malibu`, ou ser exato adicionando coordenadas: `omarchy weather location --set Malibu 34.0259,-118.7798`. Execute `omarchy weather location` sozinho para ver onde ele acha que você está, e `--clear` para voltar à detecção automática.
+A localização é detectada a partir do seu endereço IP, o que geralmente é próximo o suficiente, mas nem sempre. Você pode fixá-la com `lunaos weather location --set Malibu`, ou ser exato adicionando coordenadas: `lunaos weather location --set Malibu 34.0259,-118.7798`. Execute `lunaos weather location` sozinho para ver onde ele acha que você está, e `--clear` para voltar à detecção automática.
 
 ### Bateria
 

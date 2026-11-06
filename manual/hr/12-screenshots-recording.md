@@ -21,7 +21,7 @@ Uređivač za označavanje može crtati strelice, crte, oblike, isticanja, numer
 
 Spremljene snimke zaslona prema zadanim postavkama završavaju u `~/Pictures/Screenshots`, s nazivom poput `screenshot-2026-08-13_14-22-05-firefox.png`. Postavite `OMASNAP_SCREENSHOT_DIR` da koristite drugi direktorij — pogledajte [FAQ](46-faq.md) za to gdje staviti varijable okruženja sesije. Omasnap stvara direktorij kada sprema prvu snimku. Postavite `[output] autosave = false` u `~/.config/omasnap/omasnap.conf` da onemogućite automatsko spremanje.
 
-Iz terminala `omarchy screenshot` otvara isti sloj, a možete odabrati njegov početni način: `omarchy capture screenshot region`, `windows`, `fullscreen` ili `scroll`. Drugi argument `copy` ili `save` preskače pregled i šalje snimku ravno na to odredište. Za uređivanje prije izlaza koristite `omarchy screenshot --editor=overlay` za uređivač na cijelom zaslonu ili `omarchy screenshot --editor=window` za zasebni prozor.
+Iz terminala `lunaos screenshot` otvara isti sloj, a možete odabrati njegov početni način: `lunaos capture screenshot region`, `windows`, `fullscreen` ili `scroll`. Drugi argument `copy` ili `save` preskače pregled i šalje snimku ravno na to odredište. Za uređivanje prije izlaza koristite `lunaos screenshot --editor=overlay` za uređivač na cijelom zaslonu ili `lunaos screenshot --editor=window` za zasebni prozor.
 
 ### Upravljanje biračem tipkovnicom
 
@@ -40,9 +40,9 @@ Te poveznice postoje samo dok je Omasnap otvoren, pa se ne mogu sukobiti s bilo 
 
 ## Snimanje zaslona
 
-`Alt + Print Screen` otvara _Pokreni > Snimaj > Snimanje zaslona_, što vas pita što želite na zvučnome zapisu: bez zvuka, zvuk radne površine, radna površina plus mikrofon ili radna površina plus mikrofon plus web-kamera. To posljednje pojavljuje se samo ako doista imate uključenu kameru. Odaberite jedno i Omarchyjev birač snimanja omogućuje vam da povučete područje ili kliknete prozor ili monitor.
+`Alt + Print Screen` otvara _Pokreni > Snimaj > Snimanje zaslona_, što vas pita što želite na zvučnome zapisu: bez zvuka, zvuk radne površine, radna površina plus mikrofon ili radna površina plus mikrofon plus web-kamera. To posljednje pojavljuje se samo ako doista imate uključenu kameru. Odaberite jedno i LunaOSjev birač snimanja omogućuje vam da povučete područje ili kliknete prozor ili monitor.
 
-Snimanje se izvodi na gpu-screen-recorderu, koji kodira na GPU-u pri 60 fps i vraća se na CPU ako mora. Rezultat je MP4 u `~/Videos`, nazvan `screenrecording-2026-08-13_14-22-05.mp4`. Postavite `OMARCHY_SCREENRECORD_DIR` da to promijenite — ali imajte na umu da, za razliku od direktorija snimki zaslona, ovaj mora već postojati, inače snimanje odbija započeti.
+Snimanje se izvodi na gpu-screen-recorderu, koji kodira na GPU-u pri 60 fps i vraća se na CPU ako mora. Rezultat je MP4 u `~/Videos`, nazvan `screenrecording-2026-08-13_14-22-05.mp4`. Postavite `LUNAOS_SCREENRECORD_DIR` da to promijenite — ali imajte na umu da, za razliku od direktorija snimki zaslona, ovaj mora već postojati, inače snimanje odbija započeti.
 
 Dok snimate, u traci se pojavljuje maleni pokazatelj. Kliknite ga da zaustavite. Zaustaviti možete i ponovnim prečacom `Alt + Print Screen` ili unosom _Zaustavi snimanje zaslona_ pod _Pokreni > Snimaj > Snimanje zaslona_, koji se pojavljuje samo dok se nešto doista snima.
 
@@ -59,7 +59,7 @@ Kada snimate s web-kamerom, kamera se pojavljuje kao prikvačen, obrezan portret
 
 Postoje tri veličine — mala, srednja i velika — a prečaci koračaju između njih. Srednja je zadana. Proporcionalne su snimci, pa kamera zauzima isti udio kadra snimali vi 1080p monitor ili 6K monitor. A ako ste snimili područje umjesto cijeloga zaslona, sloj se sidri uz kut toga područja umjesto kut monitora, pa ostaje unutar snimke.
 
-Možete ga pozvati i izravno s `omarchy-capture-webcam-resize small` ili `reset` za povratak na srednju.
+Možete ga pozvati i izravno s `lunaos-capture-webcam-resize small` ili `reset` za povratak na srednju.
 
 ## Tekst, QR kodovi i boje
 
@@ -75,7 +75,7 @@ _Pokreni > Snimaj > QR kod_ radi isti trik za QR kodove. Odaberite područje s k
 
 Slike idu u jpg ili png pri visokoj, srednjoj ili niskoj, što širinu ograničava na 3160, 2160 i 1080 piksela. Videozapisi idu u mp4 ili animirani gif pri 4k, 1080p ili 720p. Pretvorena datoteka zapisuje se pokraj izvornika s razlučivosti u nazivu — `demo-1080p.mp4` — a put se kopira u međuspremnik kao URI datoteke, pa je možete zalijepiti izravno u aplikaciju koja prima ispuštanja datoteka.
 
-Radi i iz terminala, ako već znate što želite: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Tu je i `omarchy transcode ascii`, koji sliku pretvara u ASCII umjetnost — taj je uglavnom za [branding](41-branding.md).
+Radi i iz terminala, ako već znate što želite: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Tu je i `lunaos transcode ascii`, koji sliku pretvara u ASCII umjetnost — taj je uglavnom za [branding](41-branding.md).
 
 ## Slanje negdje
 

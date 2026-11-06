@@ -11,7 +11,7 @@
 
 set -euo pipefail
 
-omarchy-input-method configure --defaults || echo "Input method defaults deferred; run omarchy setup input after login." >&2
+lunaos-input-method configure --defaults || echo "Input method defaults deferred; run lunaos setup input after login." >&2
 
 systemctl --user daemon-reload
 
@@ -21,13 +21,13 @@ failed=0
 for unit in \
   bt-agent.service \
   owed.service \
-  omarchy-recover-internal-monitor.service \
-  omarchy-sleep-lock.service \
-  omarchy-migrate-notify.service \
-  omarchy-fcitx5.service \
-  omarchy-crash-watch.service; do
+  lunaos-recover-internal-monitor.service \
+  lunaos-sleep-lock.service \
+  lunaos-migrate-notify.service \
+  lunaos-fcitx5.service \
+  lunaos-crash-watch.service; do
   systemctl --user enable --now "$unit" || failed=1
 done
 
-omarchy-hook-install theme-set /usr/share/owe/10-owe-sync
+lunaos-hook-install theme-set /usr/share/owe/10-owe-sync
 exit "$failed"

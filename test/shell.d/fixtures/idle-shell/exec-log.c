@@ -62,7 +62,7 @@ __attribute__((constructor)) static void init(void) {
   real_pidfd_spawnp = (pidfd_spawn_fn)dlsym(RTLD_NEXT, "pidfd_spawnp");
   real_pidfd_getpid = (pidfd_getpid_fn)dlsym(RTLD_NEXT, "pidfd_getpid");
 
-  const char *path = getenv("OMARCHY_EXEC_LOG");
+  const char *path = getenv("LUNAOS_EXEC_LOG");
   if (path && strlen(path) < sizeof(log_path)) strcpy(log_path, path);
 }
 

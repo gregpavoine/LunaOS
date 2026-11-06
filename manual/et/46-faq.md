@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ Riba näitab automaatselt sinu praegust klaviatuuripaigutust, kui sul on mitu pa
 Tee ribal kellal paremklõps, et levinud vormingute, sealhulgas 12-tunniste vahel liikuda. Vormingu saad seada ka otse:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 See kuvab Pühapäev 10:55 AM.
 
 ### Kuidas ma oma ajavööndit muudan?
 
-Käivita Omarchy menüüs _Uuenda > Ajavöönd_ ja vali loendist. Kui ajavöönd on õige, aga kell ise on triivinud, taaskäivitab _Uuenda > Aeg_ sinu eest aja sünkroonimise.
+Käivita LunaOS menüüs _Uuenda > Ajavöönd_ ja vali loendist. Kui ajavöönd on õige, aga kell ise on triivinud, taaskäivitab _Uuenda > Aeg_ sinu eest aja sünkroonimise.
 
 ### Kuidas ma muudan oma DNS-i, jagan oma Wi-Fit või kontrollin ühenduse kiirust?
 
@@ -36,11 +36,11 @@ Need kõik elavad jaotises [võrk](35-networking.md).
 
 ### Kuidas ma kontrollin, kui kiire mu ketas on?
 
-_Käivita > Kiirustest > Kettakiiruse test_ mõõdab sinu ketta reaalajas lugemis- ja kirjutamiskiirust või terminalist `omarchy disk speedtest`.
+_Käivita > Kiirustest > Kettakiiruse test_ mõõdab sinu ketta reaalajas lugemis- ja kirjutamiskiirust või terminalist `lunaos disk speedtest`.
 
 ### Miks ma ei saa Chromiumis oma Google'i kontole sisse logida?
 
-Lihtne avatud lähtekoodiga Chromiumi järk ei sisalda OAuth mandaate, mida Google kontole sisselogimiseks nõuab. Käivita Omarchy menüüs _Paigalda > Teenus > Chromiumi konto_, et need lisada, taaskäivita brauser ja sisselogimine õnnestub.
+Lihtne avatud lähtekoodiga Chromiumi järk ei sisalda OAuth mandaate, mida Google kontole sisselogimiseks nõuab. Käivita LunaOS menüüs _Paigalda > Teenus > Chromiumi konto_, et need lisada, taaskäivita brauser ja sisselogimine õnnestub.
 
 ### Kuidas ma printerit lisan?
 
@@ -60,15 +60,15 @@ Salvestatud ekraanitõmmised lähevad vaikimisi kausta `~/Pictures/Screenshots`.
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Sama saad teha ekraanisalvestuste puhul, kasutades muutujat `OMARCHY_SCREENRECORD_DIR`.
+Sama saad teha ekraanisalvestuste puhul, kasutades muutujat `LUNAOS_SCREENRECORD_DIR`.
 
-Omasnap loob oma ekraanitõmmiste kausta automaatselt. Loo ekraanisalvestuste kaust ise ja taaskäivita seejärel Omarchy, et kumbki keskkonnamuudatus jõustuks.
+Omasnap loob oma ekraanitõmmiste kausta automaatselt. Loo ekraanisalvestuste kaust ise ja taaskäivita seejärel LunaOS, et kumbki keskkonnamuudatus jõustuks.
 
 ### Kuidas ma saan oma Apple Studio Displayl kõlarid + veebikaamera tööle?
 
 Arvaks, et kõik peaks töötama lihtsalt USB C ühendamisega, aga kahjuks pole see nii. Lahendus, mille olen leidnud, et see usaldusväärselt töötaks, on [WJESOG DisplayPort + USB-A => USB-C kaabli](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/) kasutamine. Siis töötavad kõlarid ja veebikaamera nagu võluväel.
 
-Pea meeles, et sul on Omarchys sisseehitatud heleduse juhtimine Apple'i ekraanidele (nii Studio kui ka XDR), kasutades tavalisi klaviatuuri heleduse nuppe.
+Pea meeles, et sul on LunaOSs sisseehitatud heleduse juhtimine Apple'i ekraanidele (nii Studio kui ka XDR), kasutades tavalisi klaviatuuri heleduse nuppe.
 
 ### Kuidas ma kõigest lisatarkvarast lahti saan?
 
@@ -76,7 +76,7 @@ Kui sa ei taha programme nagu Obsidian või LibreOffice või muud eelpaigaldatud
 
 Käivita _Eemalda > Pakett_, et näha iga paigaldatud paketti. Seejärel saad tab-klahviga valida iga paketi, mida tahad eemaldada, ja alustada kõige valitu eemaldamist sisestusklahviga.
 
-Ja sa saad kasutada Omarchy menüüs jaotist _Eemalda > Veebirakendus_, et eemaldada kõik eelpaigaldatud veebirakendused, mida sa ei taha.
+Ja sa saad kasutada LunaOS menüüs jaotist _Eemalda > Veebirakendus_, et eemaldada kõik eelpaigaldatud veebirakendused, mida sa ei taha.
 
 Või käivita _Eemalda > Eelpaigaldused_, et kõik eelpaigaldatud lisad — veebirakendused, TUI-d ja valikulised rakendused — ühe korraga välja pühkida. Kiirklahvid, mis neid käivitasid, kaovad koos nendega, nii et sulle jääb puhas leht klahviseoseid, mida failis `~/.config/hypr/bindings.lua` omadega täita.
 

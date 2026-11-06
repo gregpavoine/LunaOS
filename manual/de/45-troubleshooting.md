@@ -2,17 +2,17 @@
 
 ### Ich habe mein System mit einem Update kaputt gemacht!
 
-Versuche zuerst, [dein System auf die Version zurückzusetzen](47-system-snapshots.md), die vor deinem letzten Update lief. Wenn das nicht funktioniert, teile dein Problem mit `omarchy-debug` unter #omarchy-help im Discord. Und wenn alles fehlschlägt, kannst du die Standard-Konfigurationen und -Pakete mit `omarchy-reinstall` neu installieren.
+Versuche zuerst, [dein System auf die Version zurückzusetzen](47-system-snapshots.md), die vor deinem letzten Update lief. Wenn das nicht funktioniert, teile dein Problem mit `lunaos-debug` unter #lunaos-help im Discord. Und wenn alles fehlschlägt, kannst du die Standard-Konfigurationen und -Pakete mit `lunaos-reinstall` neu installieren.
 
 ### Warum sind manche Apps auf meinem Display so groß?
 
-Omarchy geht von einem 2x-Display mit hoher Auflösung aus, wofür `GDK_SCALE` in `~/.config/hypr/monitors.lua` auf 2 gesetzt werden muss. Aber wenn du ein 1x-Display hast, kannst du `local omarchy_gdk_scale = 2` in 1 ändern (und dann jede übergroße App neu starten). Siehe [das Handbuch zu Monitoren](33-monitors.md).
+LunaOS geht von einem 2x-Display mit hoher Auflösung aus, wofür `GDK_SCALE` in `~/.config/hypr/monitors.lua` auf 2 gesetzt werden muss. Aber wenn du ein 1x-Display hast, kannst du `local lunaos_gdk_scale = 2` in 1 ändern (und dann jede übergroße App neu starten). Siehe [das Handbuch zu Monitoren](33-monitors.md).
 
 Bei Spotify kannst du die Oberfläche mit `Ctrl + Minus` verkleinern (und mit `Ctrl + Plus` vergrößern).
 
 ### Mein WLAN, Bluetooth, Audio oder Trackpad hat einfach aufgehört zu funktionieren
 
-Versuche vor einem Neustart, das betroffene Subsystem für sich neu zu starten. Unter _Aktualisieren > Hardware_ im Omarchy-Menü findest du Wi-Fi, Bluetooth, Audio und Trackpad, und eines davon neu zu laden löst die meisten Situationen der Art „vor fünf Minuten ging es noch“ — ein Bluetooth-Headset, das sich nicht wieder verbindet, ein Trackpad, das nach einem Standby tot ist, Ton, der verschwunden ist, als du einen Monitor ausgesteckt hast.
+Versuche vor einem Neustart, das betroffene Subsystem für sich neu zu starten. Unter _Aktualisieren > Hardware_ im LunaOS-Menü findest du Wi-Fi, Bluetooth, Audio und Trackpad, und eines davon neu zu laden löst die meisten Situationen der Art „vor fünf Minuten ging es noch“ — ein Bluetooth-Headset, das sich nicht wieder verbindet, ein Trackpad, das nach einem Standby tot ist, Ton, der verschwunden ist, als du einen Monitor ausgesteckt hast.
 
 ### Warum spielen meine externen Lautsprecher nicht?
 
@@ -20,7 +20,7 @@ Wahrscheinlich, weil sie nicht als primäre Ausgabe gesetzt sind. Klicke auf das
 
 ### Meine Laptop-Lautsprecher klingen komisch
 
-Auf manchen Laptops wendet Omarchy automatisch eine Lautsprecher-Abstimmung an, die den Frequenzgang der eingebauten Lautsprecher korrigiert. `omarchy audio tuning status` sagt dir, ob auf deinem Rechner eine aktiv ist, und `omarchy audio tuning off` schaltet sie aus, wenn du die Lautsprecher lieber roh hören willst.
+Auf manchen Laptops wendet LunaOS automatisch eine Lautsprecher-Abstimmung an, die den Frequenzgang der eingebauten Lautsprecher korrigiert. `lunaos audio tuning status` sagt dir, ob auf deinem Rechner eine aktiv ist, und `lunaos audio tuning off` schaltet sie aus, wenn du die Lautsprecher lieber roh hören willst.
 
 ### Warum kann ich mich mit meinem Passwort nicht anmelden oder sudo nutzen?
 

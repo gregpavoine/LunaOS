@@ -1,8 +1,8 @@
 # Teme
 
-Omarchy vine cu douăzeci și două de teme frumoase. Poți selecta dintre ele prin _Stil > Temă_ în meniul Omarchy (`Super + Space`) sau poți sări direct la selectorul de teme folosind `Super + Ctrl + Shift + Space`.
+LunaOS vine cu douăzeci și două de teme frumoase. Poți selecta dintre ele prin _Stil > Temă_ în meniul LunaOS (`Super + Space`) sau poți sări direct la selectorul de teme folosind `Super + Ctrl + Shift + Space`.
 
-Fiecare temă stilizează desktopul, terminalul, neovim, ecranul de activitate (btop), Chromium și întregul shell Omarchy: bara de sus, meniul, notificările, OSD-ul și ecranul de blocare. (Pentru Obsidian, trebuie să selectezi manual tema Omarchy prin _Appearance > Themes_ în interiorul aplicației).
+Fiecare temă stilizează desktopul, terminalul, neovim, ecranul de activitate (btop), Chromium și întregul shell LunaOS: bara de sus, meniul, notificările, OSD-ul și ecranul de blocare. (Pentru Obsidian, trebuie să selectezi manual tema LunaOS prin _Appearance > Themes_ în interiorul aplicației).
 
 Temele au un set de imagini de fundal dintre care poți alege folosind `Super + Ctrl + Space`.
 

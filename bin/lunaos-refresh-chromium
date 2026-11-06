@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# lunaos:summary=Refresh the ~/.config/chromium-flags.conf file from the LunaOS defaults.
+
+CONFIG_FILE="$HOME/.config/chromium-flags.conf"
+INSTALL_GOOGLE_ACCOUNTS=false
+
+# Check if google accounts were installed
+if [[ -f $CONFIG_FILE ]] && \
+  grep -q -- "--oauth2-client-id" "$CONFIG_FILE" && \
+  grep -q -- "--oauth2-client-secret" "$CONFIG_FILE"; then
+  INSTALL_GOOGLE_ACCOUNTS=true
+fi
+
+# Refresh the Chromium configuration
+lunaos-refresh-config chromium-flags.conf
+
+# Install/refresh the native messaging hosts used by the bundled extensions
+lunaos-install-chromium-copy-url
+lunaos-install-chromium-ytdlp
+
+# Re-install Google accounts if previously configured
+if [[ $INSTALL_GOOGLE_ACCOUNTS == "true" ]]; then
+  lunaos-install-chromium-google-account
+fi
+
+# Put the Snapdragon video decoding settings back. Last, so a failure here is
+# the command's result.
+lunaos-install-video-decode

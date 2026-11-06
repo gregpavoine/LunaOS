@@ -1,14 +1,14 @@
 # 菜单栏
 
-屏幕顶部那条横栏就是 Omarchy 菜单栏。它不是外加的状态栏，而是 Omarchy shell 的一部分——后者是那个长期运行的 Quickshell 进程，也负责绘制菜单、通知、OSD 弹出框和锁屏。这就是为什么它与其他一切完美契合主题，以及为什么面板能立刻打开而无需启动新应用。
+屏幕顶部那条横栏就是 LunaOS 菜单栏。它不是外加的状态栏，而是 LunaOS shell 的一部分——后者是那个长期运行的 Quickshell 进程，也负责绘制菜单、通知、OSD 弹出框和锁屏。这就是为什么它与其他一切完美契合主题，以及为什么面板能立刻打开而无需启动新应用。
 
 它也是桌面上唯一始终在屏幕上的部分，所以值得了解那些小字形都做什么。
 
 ## 默认包含什么
 
-该栏有三个部分。左侧是 Omarchy 徽标（菜单启动器）和工作区指示器。中间有状态指示器、时钟、Elsewhen（世界时钟）、天气和 Omarchy 更新徽章。右侧有：键盘布局（当配置了多个时）、系统托盘、智能体、蓝牙、网络、音频、显示和电源。
+该栏有三个部分。左侧是 LunaOS 徽标（菜单启动器）和工作区指示器。中间有状态指示器、时钟、Elsewhen（世界时钟）、天气和 LunaOS 更新徽章。右侧有：键盘布局（当配置了多个时）、系统托盘、智能体、蓝牙、网络、音频、显示和电源。
 
-其中一些只在有内容要说时才出现。键盘布局仅在你配置了多个布局时出现。更新徽章仅在有 Omarchy 更新等待时出现。智能体图标在 Omarchy 首次在机器上发现 AI 编程使用情况时出现（参见 [AI](17-ai.md)）。
+其中一些只在有内容要说时才出现。键盘布局仅在你配置了多个布局时出现。更新徽章仅在有 LunaOS 更新等待时出现。智能体图标在 LunaOS 首次在机器上发现 AI 编程使用情况时出现（参见 [AI](17-ai.md)）。
 
 ## 点击操作
 
@@ -16,7 +16,7 @@
 
 | 小组件 | 左键 | 右键 | 中键 / 滚动 |
 | --- | --- | --- | --- |
-| 菜单 | Omarchy 菜单 | 新终端 | — |
+| 菜单 | LunaOS 菜单 | 新终端 | — |
 | 工作区 | 聚焦该工作区 | — | 滚动：下一个/上一个工作区 |
 | 时钟 | 日历弹出框 | 循环标签格式 | 中键：时区选择器 |
 | 天气 | 天气预报弹出框 | 以通知形式显示完整天气 | 中键：刷新 |
@@ -29,7 +29,7 @@
 | 媒体 | 播放/暂停 | 封面弹出框 | 中键：下一首 · 滚动：上一首/下一首 |
 | 智能体 | 智能体面板 | 启动你的智能体 | 中键：下一个订阅 |
 | 托盘 | 悬停以显示抽屉 | 在 V 形标记上右键单击进行管理 | — |
-| Omarchy 更新 | 运行更新 | — | — |
+| LunaOS 更新 | 运行更新 | — | — |
 
 并非表格中的所有内容都开箱即在你的栏中。媒体小组件（MPRIS 正在播放，带有滚动的曲目和艺术家）和麦克风小组件都是内置的，但默认关闭——如果你想要它们，请按如下所述添加。
 
@@ -65,7 +65,7 @@
 
 只有当你从**安装 → 服务**安装匹配的服务后，栏上才会出现另外两个小组件，两者都值得了解，因为它们做的不止是报告状态。
 
-**Tailscale** 面板连接和断开 tailnet，在帐户之间切换，并选择退出节点（你自己的机器和 Mullvad 区域都会显示在该列表中）。它还浏览你的机器——选中一台后，`s` 通过 Taildrop 将文件发送到它，这是将文件移动到手机或另一台笔记本电脑的最快方式。`c` 复制机器的 IP，`n` 复制其名称，`d` 复制其完整 DNS 名称。如果你更喜欢点击，每行机器上也有一个发送按钮。从终端做同样的事情是 `omarchy tailscale send <machine> [file...]`。
+**Tailscale** 面板连接和断开 tailnet，在帐户之间切换，并选择退出节点（你自己的机器和 Mullvad 区域都会显示在该列表中）。它还浏览你的机器——选中一台后，`s` 通过 Taildrop 将文件发送到它，这是将文件移动到手机或另一台笔记本电脑的最快方式。`c` 复制机器的 IP，`n` 复制其名称，`d` 复制其完整 DNS 名称。如果你更喜欢点击，每行机器上也有一个发送按钮。从终端做同样的事情是 `lunaos tailscale send <machine> [file...]`。
 
 **Dropbox** 面板处理登录，显示你已使用的存储空间，并列出最近同步的文件。
 
@@ -90,19 +90,19 @@
 同样的事情也有命令，这正是你在 [dotfiles](31-dotfiles.md) 设置中想要的：
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-要完全添加或删除小组件，请使用插件命令。`omarchy plugin list` 打印 shell 知道的所有小组件及其 ID，然后：
+要完全添加或删除小组件，请使用插件命令。`lunaos plugin list` 打印 shell 知道的所有小组件及其 ID，然后：
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## 隐藏栏
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## 配置文件
 
-所有这些都存储在 `~/.config/omarchy/shell.json` 中，位于 `bar` 键下。这是一个精简版：
+所有这些都存储在 `~/.config/lunaos/shell.json` 中，位于 `bar` 键下。这是一个精简版：
 
 ```json
 {
@@ -119,20 +119,20 @@ omarchy plugin disable omarchy.weather
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-每个小组件都是三个布局数组之一中的一个条目，其设置内联在该条目上——没有单独的设置文件，也没有 `config` 子对象。时钟的 `format`、`formatAlt`（右键单击循环到的内容）和 `verticalFormat` 都位于 `{ "id": "omarchy.clock" }` 上。
+每个小组件都是三个布局数组之一中的一个条目，其设置内联在该条目上——没有单独的设置文件，也没有 `config` 子对象。时钟的 `format`、`formatAlt`（右键单击循环到的内容）和 `verticalFormat` 都位于 `{ "id": "lunaos.clock" }` 上。
 
 `centerAnchor` 命名一个被固定到屏幕正中央的中间小组件，其他小组件位于其两侧。这就是为什么即使天气和更新徽章来来去去，时钟也能保持在正中央。将其设置为空字符串，中心列表就只会作为一个组居中。
 
-有一条规则值得内化：**一旦你有了自己的 `shell.json`，它就是规范的**。在你自定义任何东西之前，shell 读取 Omarchy 的默认文件。一旦你拖动小组件、运行 `omarchy bar` 或自己编辑文件，你就拥有它了——没有深度合并，所以未来 Omarchy 版本中的新默认小组件不会自动出现在你的栏上。`omarchy bar defaults` 可在你想要干净状态时恢复出厂布局。
+有一条规则值得内化：**一旦你有了自己的 `shell.json`，它就是规范的**。在你自定义任何东西之前，shell 读取 LunaOS 的默认文件。一旦你拖动小组件、运行 `lunaos bar` 或自己编辑文件，你就拥有它了——没有深度合并，所以未来 LunaOS 版本中的新默认小组件不会自动出现在你的栏上。`lunaos bar defaults` 可在你想要干净状态时恢复出厂布局。
 
 同一个文件也在顶层、`bar` 键之外保存你的空闲计时：`idle.screensaver` 和 `idle.lock`，都是自你空闲以来的秒数。所以默认屏保在 150 秒时启动，锁屏在 300 秒时启动。

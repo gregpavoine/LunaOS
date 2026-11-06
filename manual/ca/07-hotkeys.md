@@ -6,7 +6,7 @@ Podeu veure totes les assignacions principals de teclat amb `Super + K` (les de 
 
 | Drecera                  | Funció              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Menú d'Omarchy (aplicacions i tota la resta)    |
+| `Super + Space`           | Menú d'LunaOS (aplicacions i tota la resta)    |
 | `Super + Alt + Space` | Graella d'aplicacions |
 | `Super + Escape` | Menú del sistema (suspèn, reinicia, etc.)  |
 | `Super + Ctrl + L` | Bloqueja l'ordinador |
@@ -136,7 +136,7 @@ Canvieu/afegiu assignacions a `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Enganxa    |
 | `Super + Ctrl + V`           | Gestor del porta-retalls    |
 
-Normalment a Linux necessiteu `Ctrl + Shift + C/V` per copiar i enganxar al terminal i `Ctrl + C/V` per fer-ho a tot arreu. Aquestes dreceres unificades de porta-retalls d'Omarchy funcionen a tot arreu.
+Normalment a Linux necessiteu `Ctrl + Shift + C/V` per copiar i enganxar al terminal i `Ctrl + C/V` per fer-ho a tot arreu. Aquestes dreceres unificades de porta-retalls d'LunaOS funcionen a tot arreu.
 
 ## Captura
 
@@ -156,7 +156,7 @@ Normalment a Linux necessiteu `Ctrl + Shift + C/V` per copiar i enganxar al term
 
 Amb les gravacions de pantalla, la drecera primer pregunta quin àudio voleu i després comença a gravar. Torneu-la a prémer per aturar-ho. Vegeu [captures de pantalla i gravació](12-screenshots-recording.md) per als detalls.
 
-Totes les opcions de captura també són accessibles a _Activa > Captura_ al menú d'Omarchy (`Super + Space`).
+Totes les opcions de captura també són accessibles a _Activa > Captura_ al menú d'LunaOS (`Super + Space`).
 
 ## Notificacions
 
@@ -177,9 +177,9 @@ Totes les opcions de captura també són accessibles a _Activa > Captura_ al men
 | `Super + Backspace` | Commuta la transparència d'una finestra |
 | `Super + Ctrl + Backspace` | Commuta l'aspecte quadrat d'una sola finestra |
 
-Les imatges de fons addicionals viuen a `~/.config/omarchy/backgrounds/<theme name>`. També disponible mitjançant _Instal·la > Estil > Fons_ al menú d'Omarchy.
+Les imatges de fons addicionals viuen a `~/.config/lunaos/backgrounds/<theme name>`. També disponible mitjançant _Instal·la > Estil > Fons_ al menú d'LunaOS.
 
-Totes les opcions d'estil també són accessibles a _Estil_ al menú d'Omarchy (`Super + Space`).
+Totes les opcions d'estil també són accessibles a _Estil_ al menú d'LunaOS (`Super + Space`).
 
 ## Commutadors
 
@@ -281,7 +281,7 @@ Aquestes funcions s'han d'executar dins d'una sessió de Tmux.
 
 ## Terminal Ghostty
 
-El terminal Ghostty s'instal·la mitjançant _Instal·la > Terminal_ al menú d'Omarchy.
+El terminal Ghostty s'instal·la mitjançant _Instal·la > Terminal_ al menú d'LunaOS.
 
 | Drecera                  | Funció              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Podeu fer servir `Super + Ctrl + E` per mostrar un selector d'emojis complet que
 | `Shift + CapsLock Space N` | El vostre nom (tal com s'ha introduït a la configuració)  |
 | `Shift + CapsLock Space E` | El vostre correu (tal com s'ha introduït a la configuració)  |
 
-En podeu afegir més de propis editant `~/.XCompose` i executant després `omarchy-restart-xcompose` al terminal perquè els canvis es recullin.
+En podeu afegir més de propis editant `~/.XCompose` i executant després `lunaos-restart-xcompose` al terminal perquè els canvis es recullin.

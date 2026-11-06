@@ -56,10 +56,10 @@ vm.runInContext(
   store
 )
 const service = { destroy() {} }
-store.put('omarchy.lock', service)
-store.destroy('omarchy.lock')
+store.put('lunaos.lock', service)
+store.destroy('lunaos.lock')
 assert(
-  !store.has('omarchy.lock') && store.isTrusted('omarchy.lock'),
+  !store.has('lunaos.lock') && store.isTrusted('lunaos.lock'),
   'authentication classification survives service teardown'
 )
 JS
@@ -139,9 +139,9 @@ tr '\n\r\t' '   ' <<<"$bar_entry_shell" |
   fail "built-in clones in replacement bars cannot summon their existing auxiliary UI"
 qml_matches "$shell_qml" 'shell\.pluginCloneMaySummon\( *currentManifest\( *\), *requestedId *\)' ||
   fail "built-in clones cannot summon their existing auxiliary UI"
-qml_matches "$shell_qml" '"omarchy\.media": *\["omarchy\.osd"\]' ||
+qml_matches "$shell_qml" '"lunaos\.media": *\["lunaos\.osd"\]' ||
   fail "media clones cannot summon their existing OSD target"
-qml_matches "$shell_qml" '"omarchy\.network": *\["omarchy\.speedtest", *"omarchy\.wifiqr"\]' ||
+qml_matches "$shell_qml" '"lunaos\.network": *\["lunaos\.speedtest", *"lunaos\.wifiqr"\]' ||
   fail "network clones cannot summon their existing auxiliary panels"
 pass "built-in service and widget clones retain narrow configuration and UI integration"
 
@@ -170,7 +170,7 @@ mkdir -p "$config_dir" "$TMPDIR/home"
 cp "$SHELL_TEST_DIR/fixtures/plugin-auth-boundary/"*.qml "$config_dir/"
 ln -s "$ROOT/shell/services" "$config_dir/services"
 
-OMARCHY_QML_TEST_RESULT="$result" \
+LUNAOS_QML_TEST_RESULT="$result" \
 HOME="$TMPDIR/home" \
 XDG_CONFIG_HOME="$TMPDIR/home/.config" \
 XDG_CACHE_HOME="$TMPDIR/home/.cache" \

@@ -10,7 +10,7 @@ import "EmojiSearch.js" as EmojiSearch
 Item {
   id: root
 
-  property string omarchyPath: Quickshell.env("OMARCHY_PATH")
+  property string lunaosPath: Quickshell.env("LUNAOS_PATH")
   property var shell: null
   property var manifest: null
 
@@ -59,7 +59,7 @@ Item {
   function dismiss() {
     root.opened = false
     if (root.shell && typeof root.shell.hide === "function")
-      root.shell.hide((root.manifest && root.manifest.id) || "omarchy.emojis")
+      root.shell.hide((root.manifest && root.manifest.id) || "lunaos.emojis")
   }
 
   function toggle() {
@@ -149,19 +149,19 @@ Item {
   function applySelected(emoji) {
     if (!emoji) return
     root.dismiss()
-    Quickshell.execDetached([root.omarchyPath + "/bin/omarchy-menu-emoji-insert", emoji])
+    Quickshell.execDetached([root.lunaosPath + "/bin/lunaos-menu-emoji-insert", emoji])
   }
 
   ListModel { id: displayModel }
 
   FileView {
-    path: root.omarchyPath + "/shell/plugins/emojis/emojis.json"
+    path: root.lunaosPath + "/shell/plugins/emojis/emojis.json"
     onLoaded: root.loadEmojis(text())
   }
   OverlayWindow {
     id: panel
     shown: root.opened
-    WlrLayershell.namespace: "omarchy-emojis"
+    WlrLayershell.namespace: "lunaos-emojis"
 
     Rectangle {
       anchors.fill: parent

@@ -13,7 +13,7 @@ else
   /usr/bin/cat "$@"
 fi
 STUB
-cat >"$work/bin/omarchy-pkg-add" <<'STUB'
+cat >"$work/bin/lunaos-pkg-add" <<'STUB'
 #!/bin/bash
 echo "$*" >>"$SPI_CALLS"
 STUB

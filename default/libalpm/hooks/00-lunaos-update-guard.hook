@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = *
+
+[Action]
+Description = Checking LunaOS update entrypoint...
+When = PreTransaction
+Depends = lunaos
+Exec = /usr/bin/lunaos-update-pacman-guard
+AbortOnFail

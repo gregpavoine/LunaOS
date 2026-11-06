@@ -1,19 +1,19 @@
 # Mga Monitor
 
-Ipinapalagay ng Omarchy na tumatakbo ka sa isang 2x-capable na retina-class display bilang default. Ito ang kailangan mo para makuha ang maganda at malutong na mga programmer font. Ito ang ino-optimize ng halos lahat ng bagong premium laptop na may high-resolution screen. Ito ang gusto mong patakbuhin sa isang 27" 5K [Apple Studio Display](https://www.apple.com/studio-display/)/[ProArt PA27JCV](https://www.asus.com/us/displays-desktops/monitors/proart/proart-display-5k-pa27jcv/)/[Samsung S9](https://www.samsung.com/us/computing/monitors/5k/27-viewfinity-s9-5k-monitor-with-thunderbolt-4-matte-display-and-smart-features-ls27c900panxza/)/[Kuycon G27P](https://kuycon.us/monitors/G27P/) o 32" 6K [Apple XDR](https://www.apple.com/pro-display-xdr/)/[ProArt PA32QCV](https://www.asus.com/displays-desktops/monitors/proart/proart-display-6k-pa32qcv/)/[Kuycon G32P](https://kuycon.us/monitors/G32P/).
+Ipinapalagay ng LunaOS na tumatakbo ka sa isang 2x-capable na retina-class display bilang default. Ito ang kailangan mo para makuha ang maganda at malutong na mga programmer font. Ito ang ino-optimize ng halos lahat ng bagong premium laptop na may high-resolution screen. Ito ang gusto mong patakbuhin sa isang 27" 5K [Apple Studio Display](https://www.apple.com/studio-display/)/[ProArt PA27JCV](https://www.asus.com/us/displays-desktops/monitors/proart/proart-display-5k-pa27jcv/)/[Samsung S9](https://www.samsung.com/us/computing/monitors/5k/27-viewfinity-s9-5k-monitor-with-thunderbolt-4-matte-display-and-smart-features-ls27c900panxza/)/[Kuycon G27P](https://kuycon.us/monitors/G27P/) o 32" 6K [Apple XDR](https://www.apple.com/pro-display-xdr/)/[ProArt PA32QCV](https://www.asus.com/displays-desktops/monitors/proart/proart-display-6k-pa32qcv/)/[Kuycon G32P](https://kuycon.us/monitors/G32P/).
 
-Pero kung hindi ka nagpapatakbo ng display na may PPI na 218 o higit pa, gugustuhin mong baguhin ang mga setting ng monitor. Halimbawa, kung mayroon kang 27" o 32" 4K, maaari kang gumamit ng fractional scaling sa pamamagitan ng pagbubukas ng `~/.config/hypr/monitors.lua` (sa pamamagitan ng _Setup > Monitors_ sa Omarchy menu) at paglipat sa rekomendasyon para sa combo na iyon:
+Pero kung hindi ka nagpapatakbo ng display na may PPI na 218 o higit pa, gugustuhin mong baguhin ang mga setting ng monitor. Halimbawa, kung mayroon kang 27" o 32" 4K, maaari kang gumamit ng fractional scaling sa pamamagitan ng pagbubukas ng `~/.config/hypr/monitors.lua` (sa pamamagitan ng _Setup > Monitors_ sa LunaOS menu) at paglipat sa rekomendasyon para sa combo na iyon:
 
 ```lua
-local omarchy_gdk_scale = 2
-local omarchy_monitor_scale = 1.6
+local lunaos_gdk_scale = 2
+local lunaos_monitor_scale = 1.6
 ```
 
 Kung gumagamit ka ng 1080p o 1440p display, malamang gusto mo lang gumamit ng 1x scaling, kaya maaari mong gamitin:
 
 ```lua
-local omarchy_gdk_scale = 1
-local omarchy_monitor_scale = 1
+local lunaos_gdk_scale = 1
+local lunaos_monitor_scale = 1
 ```
 
 Nalalapat ang mga pagbabago sa `GDK_SCALE` sa mga application na sinimulan pagkatapos ng pagbabago (at tumatanggap lang ang GTK ng mga buong numero, kaya panatilihin ito sa pinakamalapit na integer ng sukat ng monitor mo). Kaya tiyakin na isara mo ang mga window na mayroon ka na masyadong malaki pagkatapos ng pagbabago (o isara ang lahat ng window gamit ang `Ctrl + Alt + Del`!).
@@ -25,20 +25,20 @@ Maaari ka ring mabilis na humakbang sa mga pangunahing ratio ng scaling ng monit
 Binabago ng scaling ng monitor ang laki ng lahat. Kung ang gusto mo lang ay mas malaki o mas maliit na _teksto_, mayroong iisang knob para doon:
 
 ```
-omarchy display text size 14
+lunaos display text size 14
 ```
 
-Kumukuha iyon ng pixel size sa pagitan ng 9 at 20, at inililipat ang Omarchy shell, mga GTK application, at ang terminal mo nang magkakasama, kaya nananatiling proporsyonal ang buong desktop. Patakbuhin ito nang walang argumento para makita kung nasaan ka, at ang `omarchy display text size reset` para bumalik sa default. Ang Foot ang nag-iisang nahuhuli: wala itong paraan para i-reload ang config nito, kaya pinapanatili ng mga tumatakbong terminal ang kanilang lumang laki hanggang sa magbukas ka ng bago.
+Kumukuha iyon ng pixel size sa pagitan ng 9 at 20, at inililipat ang LunaOS shell, mga GTK application, at ang terminal mo nang magkakasama, kaya nananatiling proporsyonal ang buong desktop. Patakbuhin ito nang walang argumento para makita kung nasaan ka, at ang `lunaos display text size reset` para bumalik sa default. Ang Foot ang nag-iisang nahuhuli: wala itong paraan para i-reload ang config nito, kaya pinapanatili ng mga tumatakbong terminal ang kanilang lumang laki hanggang sa magbukas ka ng bago.
 
 ### Pagpapalawak at pag-mirror ng mga display ng laptop
 
-Kapag ikinonekta mo ang isang panlabas na screen sa laptop mo, awtomatikong pinapalawak ang display. Pero maaari mong baguhin iyon sa mirroring sa halip gamit ang _Trigger > Hardware_ sa Omarchy menu o ang `Super + Ctrl + Alt + Delete`. Lalo itong nakakatulong kung ang panlabas na screen na iyon ay isang projector, at gusto mong magpakita ng isang bagay habang nagtatrabaho.
+Kapag ikinonekta mo ang isang panlabas na screen sa laptop mo, awtomatikong pinapalawak ang display. Pero maaari mong baguhin iyon sa mirroring sa halip gamit ang _Trigger > Hardware_ sa LunaOS menu o ang `Super + Ctrl + Alt + Delete`. Lalo itong nakakatulong kung ang panlabas na screen na iyon ay isang projector, at gusto mong magpakita ng isang bagay habang nagtatrabaho.
 
-Kapag nagpapalawak ka, ang pagsara ng takip ng laptop ay awtomatikong papatayin ang internal screen. Ang pagbubukas ng takip ay ibabalik ito. Maaari mo rin itong kontrolin nang mano-mano gamit ang _Trigger > Hardware_ sa Omarchy menu o ang `Super + Ctrl + Delete`.
+Kapag nagpapalawak ka, ang pagsara ng takip ng laptop ay awtomatikong papatayin ang internal screen. Ang pagbubukas ng takip ay ibabalik ito. Maaari mo rin itong kontrolin nang mano-mano gamit ang _Trigger > Hardware_ sa LunaOS menu o ang `Super + Ctrl + Delete`.
 
 ### Pag-aayos ng maraming screen
 
-Gumagana nang mahusay ang Hyprland sa maraming screen. Magbasa pa tungkol sa kung paano ila-layout ang mga ito sa [dokumentasyon ng monitor ng Hyprland](https://wiki.hypr.land/Configuring/Basics/Monitors/). Maaari mo ring [i-bind ang mga partikular na workspace sa mga partikular na monitor](https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/). Sa Omarchy, ang mga panuntunang ito ay napupunta sa `~/.config/hypr/monitors.lua` bilang mga `hl.monitor` entry — may kasama ang file na mga halimbawang naka-komento para sa pag-pin ng isang partikular na monitor sa isang resolution, posisyon, at rotation.
+Gumagana nang mahusay ang Hyprland sa maraming screen. Magbasa pa tungkol sa kung paano ila-layout ang mga ito sa [dokumentasyon ng monitor ng Hyprland](https://wiki.hypr.land/Configuring/Basics/Monitors/). Maaari mo ring [i-bind ang mga partikular na workspace sa mga partikular na monitor](https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/). Sa LunaOS, ang mga panuntunang ito ay napupunta sa `~/.config/hypr/monitors.lua` bilang mga `hl.monitor` entry — may kasama ang file na mga halimbawang naka-komento para sa pag-pin ng isang partikular na monitor sa isang resolution, posisyon, at rotation.
 
 Maaari mo ring tingnan ang [Hyprmon](https://github.com/erans/hyprmon/), kung gusto mo ng TUI para tulungan ka sa pagpoposisyon ng maraming screen.
 

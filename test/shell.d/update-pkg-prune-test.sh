@@ -22,7 +22,7 @@ SH
 }
 
 run_pkg_prune() {
-  PATH="$stub_bin:$PATH" "$ROOT/bin/omarchy-update-pkg-prune"
+  PATH="$stub_bin:$PATH" "$ROOT/bin/lunaos-update-pkg-prune"
 }
 
 # Pin the keep count above one.
@@ -45,14 +45,14 @@ pass "cache prune warns but does not abort the update"
 # Ordering is the whole guarantee: rollback before the packages update, space
 # before the snapshot.
 line_of() {
-  grep -n "^[[:space:]]*$1\b" "$ROOT/bin/omarchy-update" | head -1 | cut -d: -f1
+  grep -n "^[[:space:]]*$1\b" "$ROOT/bin/lunaos-update" | head -1 | cut -d: -f1
 }
 
-prune_line=$(line_of omarchy-update-pkg-prune)
-snapshot_line=$(line_of omarchy-snapshot)
-pkgs_line=$(line_of omarchy-update-system-pkgs)
+prune_line=$(line_of lunaos-update-pkg-prune)
+snapshot_line=$(line_of lunaos-snapshot)
+pkgs_line=$(line_of lunaos-update-system-pkgs)
 [[ -n $prune_line && -n $snapshot_line && -n $pkgs_line ]] ||
-  fail "omarchy-update runs the cache prune, the snapshot, and the packages update"
+  fail "lunaos-update runs the cache prune, the snapshot, and the packages update"
 
 (( prune_line < pkgs_line )) ||
   fail "cache prune runs before the packages update" "prune: $prune_line, packages: $pkgs_line"

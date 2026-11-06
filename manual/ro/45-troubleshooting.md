@@ -2,17 +2,17 @@
 
 ### Mi-am stricat sistemul cu o actualizare!
 
-Mai întâi încearcă să [revii la versiunea anterioară a sistemului](47-system-snapshots.md) dinaintea actualizării recente. Dacă asta nu funcționează, folosește `omarchy-debug` ca să împărtășești problema ta pe #omarchy-help în Discord. Și dacă toate astea eșuează, poți reinstala configurațiile și pachetele implicite folosind `omarchy-reinstall`.
+Mai întâi încearcă să [revii la versiunea anterioară a sistemului](47-system-snapshots.md) dinaintea actualizării recente. Dacă asta nu funcționează, folosește `lunaos-debug` ca să împărtășești problema ta pe #lunaos-help în Discord. Și dacă toate astea eșuează, poți reinstala configurațiile și pachetele implicite folosind `lunaos-reinstall`.
 
 ### De ce sunt unele aplicații atât de mari pe afișajul meu?
 
-Omarchy presupune un afișaj de înaltă rezoluție 2x, ceea ce necesită setarea `GDK_SCALE` la 2 în `~/.config/hypr/monitors.lua`. Dar dacă ești pe un afișaj 1x, poți schimba `local omarchy_gdk_scale = 2` la 1 (și apoi să repornești orice aplicație supradimensionată). Vezi [manualul despre monitoare](33-monitors.md).
+LunaOS presupune un afișaj de înaltă rezoluție 2x, ceea ce necesită setarea `GDK_SCALE` la 2 în `~/.config/hypr/monitors.lua`. Dar dacă ești pe un afișaj 1x, poți schimba `local lunaos_gdk_scale = 2` la 1 (și apoi să repornești orice aplicație supradimensionată). Vezi [manualul despre monitoare](33-monitors.md).
 
 Pentru Spotify, poți folosi `Ctrl + Minus` ca să micșorezi interfața (și `Ctrl + Plus` ca să o mărești).
 
 ### Wi-Fi-ul, Bluetooth-ul, sunetul sau trackpadul meu tocmai au încetat să funcționeze
 
-Înainte să repornești, încearcă să repornești separat subsistemul vinovat. _Actualizează > Hardware_ în meniul Omarchy are Wi-Fi, Bluetooth, Audio și Trackpad, iar reîncărcarea unuia dintre acestea rezolvă majoritatea situațiilor de tipul „funcționa acum cinci minute” — o pereche de căști Bluetooth care nu se reconectează, un trackpad care a murit după o suspendare, sunet care a dispărut când ai deconectat un monitor.
+Înainte să repornești, încearcă să repornești separat subsistemul vinovat. _Actualizează > Hardware_ în meniul LunaOS are Wi-Fi, Bluetooth, Audio și Trackpad, iar reîncărcarea unuia dintre acestea rezolvă majoritatea situațiilor de tipul „funcționa acum cinci minute” — o pereche de căști Bluetooth care nu se reconectează, un trackpad care a murit după o suspendare, sunet care a dispărut când ai deconectat un monitor.
 
 ### De ce nu redau nimic difuzoarele mele externe?
 
@@ -20,7 +20,7 @@ Probabil pentru că nu sunt setate ca ieșire principală. Fă clic pe pictogram
 
 ### Difuzoarele laptopului meu sună ciudat
 
-Pe unele laptopuri, Omarchy aplică automat o reglare a difuzoarelor care corectează răspunsul în frecvență al difuzoarelor integrate. `omarchy audio tuning status` îți spune dacă una este activă pe mașina ta, iar `omarchy audio tuning off` o dezactivează dacă preferi să auzi difuzoarele în stare brută.
+Pe unele laptopuri, LunaOS aplică automat o reglare a difuzoarelor care corectează răspunsul în frecvență al difuzoarelor integrate. `lunaos audio tuning status` îți spune dacă una este activă pe mașina ta, iar `lunaos audio tuning off` o dezactivează dacă preferi să auzi difuzoarele în stare brută.
 
 ### De ce nu mă pot autentifica sau folosi sudo cu parola mea?
 

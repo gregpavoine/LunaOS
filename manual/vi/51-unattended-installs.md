@@ -1,8 +1,8 @@
 # Cài đặt không giám sát
 
-ISO Omarchy có thể tự cài đặt mà không cần ai ở bàn phím. Nếu trình cài đặt tìm thấy một ổ đĩa thứ hai có nhãn `cidata` mang các tệp cấu hình của nó, nó sẽ sao chép chúng ra, bỏ qua hoàn toàn trình hướng dẫn thiết lập và tự khởi động lại vào hệ thống đã hoàn thiện. Không cần bản dựng ISO đặc biệt, không cần mục menu khởi động bổ sung — khi không có ổ đĩa như vậy được gắn, không có gì thay đổi và bạn nhận được trình hướng dẫn thông thường.
+ISO LunaOS có thể tự cài đặt mà không cần ai ở bàn phím. Nếu trình cài đặt tìm thấy một ổ đĩa thứ hai có nhãn `cidata` mang các tệp cấu hình của nó, nó sẽ sao chép chúng ra, bỏ qua hoàn toàn trình hướng dẫn thiết lập và tự khởi động lại vào hệ thống đã hoàn thiện. Không cần bản dựng ISO đặc biệt, không cần mục menu khởi động bổ sung — khi không có ổ đĩa như vậy được gắn, không có gì thay đổi và bạn nhận được trình hướng dẫn thông thường.
 
-Điều này khiến Omarchy tuyệt vời như một image cơ sở cho các môi trường phát triển dùng một lần: tạo một VM trong Proxmox hoặc bằng Packer, khởi động nó, bỏ đi, SSH vào. `cidata` là nhãn `NoCloud` của cloud-init, nên mọi công cụ ảo hóa phổ biến đều đã biết cách gắn một ổ đĩa như vậy.
+Điều này khiến LunaOS tuyệt vời như một image cơ sở cho các môi trường phát triển dùng một lần: tạo một VM trong Proxmox hoặc bằng Packer, khởi động nó, bỏ đi, SSH vào. `cidata` là nhãn `NoCloud` của cloud-init, nên mọi công cụ ảo hóa phổ biến đều đã biết cách gắn một ổ đĩa như vậy.
 
 ## Các tệp cấu hình
 
@@ -24,7 +24,7 @@ Bạn cũng có thể thả vào một tệp trống có tên `defer-provisionin
 
 ## Truy cập SSH
 
-Khi `authorized_keys` hiện diện, quá trình cài đặt sẽ thiết lập các khóa làm `~/.ssh/authorized_keys` của người dùng, bật `sshd` và mở tường lửa cho nó. (Một bản cài đặt Omarchy gốc đi kèm openssh với dịch vụ bị tắt và cổng bị đóng, nên một máy không giám sát nếu không sẽ không thể truy cập được.) Quá trình cài đặt chỉ thêm các khóa của bạn — nó không nới lỏng bất kỳ cài đặt xác thực nào khác của daemon SSH.
+Khi `authorized_keys` hiện diện, quá trình cài đặt sẽ thiết lập các khóa làm `~/.ssh/authorized_keys` của người dùng, bật `sshd` và mở tường lửa cho nó. (Một bản cài đặt LunaOS gốc đi kèm openssh với dịch vụ bị tắt và cổng bị đóng, nên một máy không giám sát nếu không sẽ không thể truy cập được.) Quá trình cài đặt chỉ thêm các khóa của bạn — nó không nới lỏng bất kỳ cài đặt xác thực nào khác của daemon SSH.
 
 Khi `tailscale_authkey` hiện diện, thay vào đó máy sẽ tham gia tailnet của bạn trong lần khởi động đầu tiên: Tailscale được cài đặt từ các gói đi kèm của ISO, tường lửa cho phép giao diện tailnet, và một tác vụ nền chạy việc tham gia ngay khi máy thực sự có mạng, thử lại cho đến khi thành công. Hãy dùng một khóa có thể tái sử dụng, đã được cấp quyền trước để một image ổ đĩa có thể phục vụ nhiều máy.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Sau đó gắn nó vào VM bên cạnh ISO Omarchy. Đây là một ví dụ Proxmox đầy đủ:
+Sau đó gắn nó vào VM bên cạnh ISO LunaOS. Đây là một ví dụ Proxmox đầy đủ:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

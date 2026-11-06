@@ -1,8 +1,8 @@
 # Motivy
 
-Omarchy přichází s dvaadvaceti krásnými motivy. Můžete si mezi nimi vybírat přes _Styl > Motiv_ v nabídce Omarchy (`Super + Space`) nebo skočit přímo do výběru motivu pomocí `Super + Ctrl + Shift + Space`.
+LunaOS přichází s dvaadvaceti krásnými motivy. Můžete si mezi nimi vybírat přes _Styl > Motiv_ v nabídce LunaOS (`Super + Space`) nebo skočit přímo do výběru motivu pomocí `Super + Ctrl + Shift + Space`.
 
-Každý motiv stylizuje plochu, terminál, neovim, obrazovku aktivity (btop), Chromium a celý shell Omarchy: horní panel, nabídku, oznámení, OSD a zamykací obrazovku. (Pro Obsidian musíte motiv Omarchy vybrat ručně přes _Appearance > Themes_ uvnitř aplikace).
+Každý motiv stylizuje plochu, terminál, neovim, obrazovku aktivity (btop), Chromium a celý shell LunaOS: horní panel, nabídku, oznámení, OSD a zamykací obrazovku. (Pro Obsidian musíte motiv LunaOS vybrat ručně přes _Appearance > Themes_ uvnitř aplikace).
 
 Motivy mají sadu obrázků na pozadí, mezi kterými si můžete vybírat pomocí `Super + Ctrl + Space`.
 

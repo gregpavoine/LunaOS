@@ -6,7 +6,7 @@ Podes ver todos os principais atalhos de teclado com `Super + K` (os atalhos do 
 
 | Atalho                  | Função              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Menu do Omarchy (aplicações e tudo o resto)    |
+| `Super + Space`           | Menu do LunaOS (aplicações e tudo o resto)    |
 | `Super + Alt + Space` | Grelha de aplicações |
 | `Super + Escape` | Menu do sistema (suspender, reiniciar, etc.)  |
 | `Super + Ctrl + L` | Bloquear computador |
@@ -135,7 +135,7 @@ Altera/adiciona associações em `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Colar    |
 | `Super + Ctrl + V`           | Gestor da área de transferência    |
 
-Normalmente, no Linux, precisas de `Ctrl + Shift + C/V` para copiar e colar no terminal e de `Ctrl + C/V` para fazeres isso em todo o resto. Estes atalhos de área de transferência unificados do Omarchy funcionam em todo o lado.
+Normalmente, no Linux, precisas de `Ctrl + Shift + C/V` para copiar e colar no terminal e de `Ctrl + C/V` para fazeres isso em todo o resto. Estes atalhos de área de transferência unificados do LunaOS funcionam em todo o lado.
 
 ## Capturar
 
@@ -155,7 +155,7 @@ Normalmente, no Linux, precisas de `Ctrl + Shift + C/V` para copiar e colar no t
 
 Nas gravações de ecrã, o atalho pergunta primeiro que áudio queres e depois inicia a gravação. Prime-o outra vez para parar. Vê [capturas de ecrã e gravação](12-screenshots-recording.md) para os detalhes.
 
-Todas as opções de captura também estão acessíveis em _Acionar > Capturar_ no menu do Omarchy (`Super + Space`).
+Todas as opções de captura também estão acessíveis em _Acionar > Capturar_ no menu do LunaOS (`Super + Space`).
 
 ## Notificações
 
@@ -176,9 +176,9 @@ Todas as opções de captura também estão acessíveis em _Acionar > Capturar_ 
 | `Super + Backspace` | Alternar transparência numa janela |
 | `Super + Ctrl + Backspace` | Alternar proporção quadrada de janela única |
 
-Imagens de fundo extra vivem em `~/.config/omarchy/backgrounds/<nome do tema>`. Também disponíveis através de _Instalar > Estilo > Fundo_ no menu do Omarchy.
+Imagens de fundo extra vivem em `~/.config/lunaos/backgrounds/<nome do tema>`. Também disponíveis através de _Instalar > Estilo > Fundo_ no menu do LunaOS.
 
-Todas as opções de estilo também estão acessíveis em _Estilo_ no menu do Omarchy (`Super + Space`).
+Todas as opções de estilo também estão acessíveis em _Estilo_ no menu do LunaOS (`Super + Space`).
 
 ## Alternâncias
 
@@ -279,7 +279,7 @@ Estas funções têm de ser executadas dentro de uma sessão do Tmux.
 
 ## Terminal Ghostty
 
-O terminal Ghostty instala-se através de _Instalar > Terminal_ no menu do Omarchy.
+O terminal Ghostty instala-se através de _Instalar > Terminal_ no menu do LunaOS.
 
 | Atalho                  | Função              |
 | ----------------------- | --------------------- |
@@ -370,5 +370,5 @@ Podes usar `Super + Ctrl + E` para mostrar um seletor de emoji completo que colo
 | `Shift + CapsLock Space N` | O teu nome (tal como introduzido na configuração)  |
 | `Shift + CapsLock Space E` | O teu e-mail (tal como introduzido na configuração)  |
 
-Podes adicionar mais da tua parte editando `~/.XCompose` e executando depois `omarchy-restart-xcompose` no terminal para que as alterações sejam apanhadas.
+Podes adicionar mais da tua parte editando `~/.XCompose` e executando depois `lunaos-restart-xcompose` no terminal para que as alterações sejam apanhadas.
 

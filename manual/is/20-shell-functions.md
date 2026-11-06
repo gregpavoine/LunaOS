@@ -1,6 +1,6 @@
 # Shell-föll
 
-Omarchy kemur með safni af shell-föllum til að einfalda algeng verkefni og fela flókin færibreytuköll.
+LunaOS kemur með safni af shell-föllum til að einfalda algeng verkefni og fela flókin færibreytuköll.
 
 ## Þjöppun
 

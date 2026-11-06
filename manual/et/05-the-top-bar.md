@@ -1,14 +1,14 @@
 # Menüüriba
 
-Riba piki ekraani ülaosa on Omarchy riba. See pole külge poltidega kinnitatud olekuriba, vaid osa Omarchy kestast, ühest kauakestvast Quickshelli protsessist, mis joonistab ka menüü, teavitused, OSD hüpikaknad ja lukuekraani. Seepärast teemastub see kõike muud täiuslikult ja seepärast avaneb paneel hetkega, mitte ei käivita uut rakendust.
+Riba piki ekraani ülaosa on LunaOS riba. See pole külge poltidega kinnitatud olekuriba, vaid osa LunaOS kestast, ühest kauakestvast Quickshelli protsessist, mis joonistab ka menüü, teavitused, OSD hüpikaknad ja lukuekraani. Seepärast teemastub see kõike muud täiuslikult ja seepärast avaneb paneel hetkega, mitte ei käivita uut rakendust.
 
 See on ka ainus töölaua osa, mis on alati ekraanil, nii et tasub teada, mida kõik need väikesed glüüfid teevad.
 
 ## Mis sellel vaikimisi on
 
-Ribal on kolm sektsiooni. Vasakul asub Omarchy logo (menüü käivitaja) ja tööalanäidikud. Keskel saad olekunäidikud, kella, Elsewheni (maailmakella), ilma ja Omarchy uuendusmärgi. Paremal: klaviatuuripaigutus (kui rohkem kui üks on seadistatud), süsteemialus, agendid, bluetooth, võrk, heli, ekraan ja toide.
+Ribal on kolm sektsiooni. Vasakul asub LunaOS logo (menüü käivitaja) ja tööalanäidikud. Keskel saad olekunäidikud, kella, Elsewheni (maailmakella), ilma ja LunaOS uuendusmärgi. Paremal: klaviatuuripaigutus (kui rohkem kui üks on seadistatud), süsteemialus, agendid, bluetooth, võrk, heli, ekraan ja toide.
 
-Mõned neist ilmuvad ainult siis, kui neil on midagi öelda. Klaviatuuripaigutus ilmub ainult siis, kui oled seadistanud rohkem kui ühe paigutuse. Uuendusmärk ilmub ainult siis, kui Omarchy uuendus ootab. Ja agentide ikoon ilmub esimest korda, kui Omarchy masinast AI programmeerimiskasutust leiab (vt [AI](17-ai.md)).
+Mõned neist ilmuvad ainult siis, kui neil on midagi öelda. Klaviatuuripaigutus ilmub ainult siis, kui oled seadistanud rohkem kui ühe paigutuse. Uuendusmärk ilmub ainult siis, kui LunaOS uuendus ootab. Ja agentide ikoon ilmub esimest korda, kui LunaOS masinast AI programmeerimiskasutust leiab (vt [AI](17-ai.md)).
 
 ## Ringi klõpsamine
 
@@ -16,7 +16,7 @@ Peaaegu iga vidin teeb midagi vasaku, parema ja keskmise klõpsuga ning mitmed r
 
 | Vidin | Vasak | Parem | Keskmine / kerimine |
 | --- | --- | --- | --- |
-| Menüü | Omarchy menüü | Uus terminal | — |
+| Menüü | LunaOS menüü | Uus terminal | — |
 | Tööalad | Fokuseeri see tööala | — | Kerimine: järgmine/eelmine tööala |
 | Kell | Kalendri hüpik | Vaheta sildi vormingut | Keskmine: ajavööndi valija |
 | Ilm | Prognoosi hüpik | Täielik ilm teavitusena | Keskmine: värskenda |
@@ -29,7 +29,7 @@ Peaaegu iga vidin teeb midagi vasaku, parema ja keskmise klõpsuga ning mitmed r
 | Meedia | Esita/peata | Kaanepildi hüpik | Keskmine: järgmine · kerimine: eelmine/järgmine |
 | Agendid | Agentide paneel | Käivita oma agent | Keskmine: järgmine tellimus |
 | Alus | Hõlju, et sahtel avada | Paremklõps noolel haldamiseks | — |
-| Omarchy uuendus | Käivita uuendus | — | — |
+| LunaOS uuendus | Käivita uuendus | — | — |
 
 Kõik selles tabelis pole su ribal karbist välja võttes. Meediavidin (MPRIS praegu mängiv, keriva loo ja artistiga) ja mikrofonividin on mõlemad sisse ehitatud, kuid vaikimisi välja lülitatud — lisa need, kui soovid, nagu allpool kirjeldatud.
 
@@ -65,7 +65,7 @@ Iga paneel võtab vastu nii klaviatuuri kui ka hiire: nooled liiguvad, Return ak
 
 Kaks vidinat ilmuvad ribale alles siis, kui paigaldad vastava teenuse **Paigalda → Teenus** alt, ja mõlema kohta tasub teada, sest need teevad rohkem kui pelgalt olekut raporteerivad.
 
-**Tailscale'i** paneel ühendab ja lahutab tailneti, vahetab kontode vahel ja valib väljumissõlme (su oma masinad ja Mullvadi piirkonnad ilmuvad mõlemad selles loendis). See sirbib ka su masinaid — ja ühega valitud, `s` saadab sellele failid Taildropi kaudu, mis on kiireim viis fail telefoni või teisele sülearvutile liigutada. `c` kopeerib masina IP, `n` selle nime ja `d` selle täieliku DNS-nime. Igal masinareal on ka saatmisnupp, kui eelistad klõpsata. Sama terminalist on `omarchy tailscale send <machine> [file...]`.
+**Tailscale'i** paneel ühendab ja lahutab tailneti, vahetab kontode vahel ja valib väljumissõlme (su oma masinad ja Mullvadi piirkonnad ilmuvad mõlemad selles loendis). See sirbib ka su masinaid — ja ühega valitud, `s` saadab sellele failid Taildropi kaudu, mis on kiireim viis fail telefoni või teisele sülearvutile liigutada. `c` kopeerib masina IP, `n` selle nime ja `d` selle täieliku DNS-nime. Igal masinareal on ka saatmisnupp, kui eelistad klõpsata. Sama terminalist on `lunaos tailscale send <machine> [file...]`.
 
 **Dropboxi** paneel tegeleb sisselogimisega, näitab, kui palju salvestusruumi oled kasutanud, ja loetleb hiljuti sünkroniseeritud failid.
 
@@ -90,19 +90,19 @@ Kui eelistad menüüst valida, on **Käivita → Välimus → Menüüriba** all 
 Samadel asjadel on käsud, mida soovid [dotfiles](31-dotfiles.md) seadistuse jaoks:
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Vidina täielikuks lisamiseks või eemaldamiseks kasuta pluginakäske. `omarchy plugin list` prindib iga vidina, mida kest teab, koos selle id-ga, ja seejärel:
+Vidina täielikuks lisamiseks või eemaldamiseks kasuta pluginakäske. `lunaos plugin list` prindib iga vidina, mida kest teab, koos selle id-ga, ja seejärel:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Riba peitmine
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Seadistusfail
 
-Kõik see on salvestatud `~/.config/omarchy/shell.json`-i, `bar` võtme alla. Siin on kärbitud versioon:
+Kõik see on salvestatud `~/.config/lunaos/shell.json`-i, `bar` võtme alla. Siin on kärbitud versioon:
 
 ```json
 {
@@ -119,20 +119,20 @@ Kõik see on salvestatud `~/.config/omarchy/shell.json`-i, `bar` võtme alla. Si
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Iga vidin on üks kirje ühes kolmest paigutusmassiivist ja selle seaded asuvad sellel kirjel teksti sees — pole eraldi seadetefaili ega `config` alamobjekti. Kella `format`, `formatAlt` (millele paremklõps ringi käib) ja `verticalFormat` asuvad kõik täpselt seal kirjel `{ "id": "omarchy.clock" }`.
+Iga vidin on üks kirje ühes kolmest paigutusmassiivist ja selle seaded asuvad sellel kirjel teksti sees — pole eraldi seadetefaili ega `config` alamobjekti. Kella `format`, `formatAlt` (millele paremklõps ringi käib) ja `verticalFormat` asuvad kõik täpselt seal kirjel `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` nimetab selle ühe keskmise vidina, mis kinnitatakse täpselt ekraani keskele, nii et ülejäänud külgnevad sellega. Nii püsib kell täpselt keskel ka siis, kui ilm ja uuendusmärk tulevad ja lähevad. Sea selleks tühi string ja keskmine loend tsentreeritakse lihtsalt rühmana.
 
-Üks reegel, mida tasub pähe õppida: **kui sul on oma `shell.json`, on see lõplik**. Kuni sa midagi ei kohanda, loeb kest Omarchy vaikefaili. Kohe kui lohistad vidinat, käivitad `omarchy bar` või muudad faili ise, kuulub see sulle — sügavat liitmist pole, nii et tulevaste Omarchy väljaannete uued vaikevidinad ei ilmu su ribale automaatselt. `omarchy bar defaults` paneb tarnitud paigutuse tagasi, millal iganes soovid puhast lehte.
+Üks reegel, mida tasub pähe õppida: **kui sul on oma `shell.json`, on see lõplik**. Kuni sa midagi ei kohanda, loeb kest LunaOS vaikefaili. Kohe kui lohistad vidinat, käivitad `lunaos bar` või muudad faili ise, kuulub see sulle — sügavat liitmist pole, nii et tulevaste LunaOS väljaannete uued vaikevidinad ei ilmu su ribale automaatselt. `lunaos bar defaults` paneb tarnitud paigutuse tagasi, millal iganes soovid puhast lehte.
 
 Sama fail hoiab ka su jõudeaegu ülemisel tasemel, väljaspool `bar` võtit: `idle.screensaver` ja `idle.lock`, mõlemad sekundites sellest ajast, kui jõude jäid. Nii et vaikeekraanisäästja käivitub 150 sekundi ja lukk 300 sekundi kohal.

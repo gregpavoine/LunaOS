@@ -13,8 +13,8 @@ trap 'rm -rf "$SCRATCH"' EXIT
 
 # Run a scratch copy of the collector with its 8s RPC timeout shortened to
 # 0.5s; the stall scenarios only need it to give up, not wait the full bound.
-collector="$SCRATCH/omarchy-agent-usage-codex"
-sed 's/timeout=8/timeout=0.5/g' "$ROOT/bin/omarchy-agent-usage-codex" >"$collector"
+collector="$SCRATCH/lunaos-agent-usage-codex"
+sed 's/timeout=8/timeout=0.5/g' "$ROOT/bin/lunaos-agent-usage-codex" >"$collector"
 chmod +x "$collector"
 TEST_HOME=$(mktemp -d "$SCRATCH/home.XXXXXX")
 
@@ -260,7 +260,7 @@ result=$(HOME="$CACHE_HOME" CODEX_HOME="$CACHE_HOME/.codex" XDG_CACHE_HOME="$CAC
 
 [[ $(jq -r '.todayTotalTokens' <<<"$result") == "5" ]] ||
   fail "Codex collector writes a fresh local-stats cache on first scan" "$result"
-cache_file=$(ls "$CACHE_HOME/.cache/omarchy/agent-usage/"/codex-scan-*.json 2>/dev/null | head -n 1)
+cache_file=$(ls "$CACHE_HOME/.cache/lunaos/agent-usage/"/codex-scan-*.json 2>/dev/null | head -n 1)
 [[ -n $cache_file && -s $cache_file ]] ||
   fail "Codex collector leaves a cache file behind" "$result"
 [[ $(stat -c %a "$cache_file") == "644" ]] ||
@@ -647,7 +647,7 @@ result=$(HOME="$INTERRUPTED_HOME" CODEX_HOME="$INTERRUPTED_HOME/.codex" XDG_CACH
 
 [[ $(jq -r '.todayTotalTokens' <<<"$result") == "0" ]] ||
   fail "Codex collector reports what it could read from a broken database" "$result"
-[[ -z $(ls "$INTERRUPTED_HOME/.cache/omarchy/agent-usage/"codex-scan-*.json 2>/dev/null) ]] ||
+[[ -z $(ls "$INTERRUPTED_HOME/.cache/lunaos/agent-usage/"codex-scan-*.json 2>/dev/null) ]] ||
   fail "Codex collector must not cache an interrupted scan" "$result"
 
 # Once the database is whole again, the very next --limits-only run scans it
@@ -1193,7 +1193,7 @@ run_incremental() {
 # rescan underneath that this covers.
 expire_scan_cache() {
   local cache
-  for cache in "$INCREMENTAL_HOME/.cache/omarchy/agent-usage/"codex-scan-*.json; do
+  for cache in "$INCREMENTAL_HOME/.cache/lunaos/agent-usage/"codex-scan-*.json; do
     [[ -e $cache ]] && touch -d "2 hours ago" "$cache"
   done
 }
@@ -1202,7 +1202,7 @@ result=$(run_incremental)
 [[ $(jq -r '.todayTotalTokens' <<<"$result") == "20" ]] ||
   fail "Codex collector counts both session sources on a first scan" "$result"
 
-file_cache=$(ls "$INCREMENTAL_HOME/.cache/omarchy/agent-usage/"codex-files-*.json 2>/dev/null | head -n 1)
+file_cache=$(ls "$INCREMENTAL_HOME/.cache/lunaos/agent-usage/"codex-files-*.json 2>/dev/null | head -n 1)
 [[ -n $file_cache && -s $file_cache ]] ||
   fail "Codex collector writes a per-file cache on first scan"
 [[ $(jq --arg path "$incremental_session" -r '.files[$path].days | length' "$file_cache") == "1" ]] ||
@@ -1252,7 +1252,7 @@ expire_scan_cache
 TZ=UTC run_incremental >/dev/null
 expire_scan_cache
 TZ=America/Los_Angeles run_incremental >/dev/null
-file_cache=$(ls "$INCREMENTAL_HOME/.cache/omarchy/agent-usage/"codex-files-*.json | head -n 1)
+file_cache=$(ls "$INCREMENTAL_HOME/.cache/lunaos/agent-usage/"codex-files-*.json | head -n 1)
 [[ $(jq --arg path "$zone_session" -r '.files[$path].days | keys[0]' "$file_cache") == "$(TZ=America/Los_Angeles date -d "$zone_timestamp" +%Y-%m-%d)" ]] ||
   fail "Codex collector keeps the old timezone's days after a timezone change" "$(cat "$file_cache")"
 pass "Codex collector re-reads per-file records after a timezone change"

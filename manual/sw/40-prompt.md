@@ -1,6 +1,6 @@
 # Kidokezo (Prompt)
 
-Omarchy huja na kidokezo cha [Starship](https://starship.rs/) chepesi kwa chaguomsingi. Hivyo ndivyo napenda kutunza kidokezo changu. Sihitaji kujua mtumiaji, kwa sababu daima ni mimi, na sihitaji kujua muda, kwa sababu daima uko juu.
+LunaOS huja na kidokezo cha [Starship](https://starship.rs/) chepesi kwa chaguomsingi. Hivyo ndivyo napenda kutunza kidokezo changu. Sihitaji kujua mtumiaji, kwa sababu daima ni mimi, na sihitaji kujua muda, kwa sababu daima uko juu.
 
  ![prompt](images/prompt.webp)
 

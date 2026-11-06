@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# lunaos:summary=Returns true when clamshell mode is active
+# lunaos:hidden=true
+
+# Clamshell = lid closed while driving one or more external monitors.
+lunaos-hw-laptop-closed && lunaos-hw-external-monitors

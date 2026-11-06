@@ -6,7 +6,7 @@ Jeśli jesteś zupełnie nowy w edycji w stylu vim, polecam serię [ThePrimeagen
 
 Neovim jest właściwie nieskończenie konfigurowalny. Jeśli naprawdę chcesz pójść w gwizdek, możesz stworzyć własną konfigurację Neovima od zera. Jest świetny kurs od [Typecraft o konfiguraniu Neovima od zera](https://www.youtube.com/watch?v=zHTeCSVAFNY). A [ThePrimeagen też ma taki](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Ale Omarchy dostarcza kompletny zestaw Neovim — pakiet `omarchy-nvim` — który został z miłością dostrojony tak, aby od razu pokazywał to, co najlepsze z możliwego. Bez konieczności pisania ani jednej linijki konfiguracji! Zbudowany jest na [LazyVim](https://www.lazyvim.org/), dystrybucji wtyczek i konfiguracji Neovima. Jest świetny.
+Ale LunaOS dostarcza kompletny zestaw Neovim — pakiet `omarchy-nvim` — który został z miłością dostrojony tak, aby od razu pokazywał to, co najlepsze z możliwego. Bez konieczności pisania ani jednej linijki konfiguracji! Zbudowany jest na [LazyVim](https://www.lazyvim.org/), dystrybucji wtyczek i konfiguracji Neovima. Jest świetny.
 
 ## Podstawy LazyVim
 

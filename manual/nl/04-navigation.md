@@ -1,8 +1,8 @@
 # Navigatie
 
-Alles in Omarchy gebeurt via het toetsenbord — _ALLES!_ Wanneer het systeem voor het eerst opstart, kun je letterlijk niets doen met alleen de muis. Maar je kunt op `Super + Space` drukken om het Omarchy Menu tevoorschijn te halen en van daaruit kun je vrijwel alles doen.
+Alles in LunaOS gebeurt via het toetsenbord — _ALLES!_ Wanneer het systeem voor het eerst opstart, kun je letterlijk niets doen met alleen de muis. Maar je kunt op `Super + Space` drukken om het LunaOS Menu tevoorschijn te halen en van daaruit kun je vrijwel alles doen.
 
-Maar het Omarchy-menu is niet eens bedoeld als de belangrijkste manier om het systeem meestal te bedienen. We kunnen sneller dan dat! Alle belangrijkste applicaties zijn direct gekoppeld aan afzonderlijke sneltoetsen. Je start de terminal met `Super + Return` en een browser met `Super + Shift + Return`. Probeer ze achter elkaar te doen, en je zult de magie van Hyprlands tiling in actie zien:
+Maar het LunaOS-menu is niet eens bedoeld als de belangrijkste manier om het systeem meestal te bedienen. We kunnen sneller dan dat! Alle belangrijkste applicaties zijn direct gekoppeld aan afzonderlijke sneltoetsen. Je start de terminal met `Super + Return` en een browser met `Super + Shift + Return`. Probeer ze achter elkaar te doen, en je zult de magie van Hyprlands tiling in actie zien:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Je kunt ook naar volledig scherm gaan met `Super + F` of zelfs gewoon naar volle
 
 ### Dwindle vs scrollende layout
 
-De standaardlayout van Omarchy heet dwindle. Die houdt alle vensters die je op een enkel werkblad opent te allen tijde zichtbaar, zelfs als hij ze daarvoor moet verkleinen.
+De standaardlayout van LunaOS heet dwindle. Die houdt alle vensters die je op een enkel werkblad opent te allen tijde zichtbaar, zelfs als hij ze daarvoor moet verkleinen.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Een zwevend werkblad werkt als een traditioneel bureaublad: vensters overlappen, en je verplaatst en vergroot of verkleint ze zelf. Elk venster krijgt een titelbalk in de kleuren van je thema, met knoppen om te minimaliseren, maximaliseren en sluiten. `Super + M` minimaliseert het gefocuste venster ook. Een geminimaliseerd venster wacht in het dock; klik op de bijbehorende app om het terug te halen. Klik op een venster om het naar voren te halen. Verander de grootte vanaf elke rand of hoek. Dubbelklik op een titelbalk om het venster te maximaliseren terwijl de bovenbalk in beeld blijft, en nogmaals om de oude grootte terug te krijgen.
 
-Een zwevend werkblad toont ook een dock, met je vastgezette apps, alles wat draait, en een raster van elke app achter de apps-knop, die `Super + Alt + Space` en _Apps_ in het Omarchy-menu ook openen. Klik met rechts op een app in het raster, of druk op `Delete`, om hem te deïnstalleren. Klik op een app om hem te openen, of om zijn venster naar voren te halen; klik nogmaals om door zijn vensters te bladeren. Middelklik opent een nieuw venster. Sleep een pictogram langs het dock om het te verplaatsen; een draaiende app tussen de anderen slepen houdt hem daar. Klik met rechts om een app in het dock te houden, hem eruit te halen, of hem af te sluiten. Het dock gaat uit de weg voor een venster op volledig scherm. Klik met rechts op de apps-knop om het dock naar een andere rand te verplaatsen of het te laten verbergen totdat de aanwijzer zijn rand bereikt. De positie staat ook onder _Trigger > Appearance > Dock > Dock Position_, en `omarchy dock position left` en `omarchy dock autohide on` stellen beide in vanaf een terminal. Apps die je in het dock houdt, zijn vervaagd zolang ze niet draaien.
+Een zwevend werkblad toont ook een dock, met je vastgezette apps, alles wat draait, en een raster van elke app achter de apps-knop, die `Super + Alt + Space` en _Apps_ in het LunaOS-menu ook openen. Klik met rechts op een app in het raster, of druk op `Delete`, om hem te deïnstalleren. Klik op een app om hem te openen, of om zijn venster naar voren te halen; klik nogmaals om door zijn vensters te bladeren. Middelklik opent een nieuw venster. Sleep een pictogram langs het dock om het te verplaatsen; een draaiende app tussen de anderen slepen houdt hem daar. Klik met rechts om een app in het dock te houden, hem eruit te halen, of hem af te sluiten. Het dock gaat uit de weg voor een venster op volledig scherm. Klik met rechts op de apps-knop om het dock naar een andere rand te verplaatsen of het te laten verbergen totdat de aanwijzer zijn rand bereikt. De positie staat ook onder _Trigger > Appearance > Dock > Dock Position_, en `lunaos dock position left` en `lunaos dock autohide on` stellen beide in vanaf een terminal. Apps die je in het dock houdt, zijn vervaagd zolang ze niet draaien.
 
-Nieuwe werkbladen, en elk werkblad dat je met `Super + L` geen eigen layout hebt gegeven, gebruiken de standaardlayout. De standaard veranderen reset elk werkblad zonder vensters daarnaar, terwijl een werkblad met vensters erop de layout behoudt die het heeft. Een venster dat naar het dock is geminimaliseerd telt nog steeds als een venster op het werkblad dat het verliet. Kies hem onder _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling, of Floating. `omarchy-hyprland-workspace-layout-default scrolling` stelt hem in vanaf een terminal.
+Nieuwe werkbladen, en elk werkblad dat je met `Super + L` geen eigen layout hebt gegeven, gebruiken de standaardlayout. De standaard veranderen reset elk werkblad zonder vensters daarnaar, terwijl een werkblad met vensters erop de layout behoudt die het heeft. Een venster dat naar het dock is geminimaliseerd telt nog steeds als een venster op het werkblad dat het verliet. Kies hem onder _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling, of Floating. `lunaos-hyprland-workspace-layout-default scrolling` stelt hem in vanaf een terminal.
 
 ### Vensters groeperen
 

@@ -1,6 +1,6 @@
 # Herramientas de shell
 
-Además de las herramientas estándar de Linux, Omarchy también viene con un montón de herramientas de shell mejoradas. Estas son las principales.
+Además de las herramientas estándar de Linux, LunaOS también viene con un montón de herramientas de shell mejoradas. Estas son las principales.
 
 ## fzf
 
@@ -14,7 +14,7 @@ El manual completo se puede consultar con `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) es un reemplazo de cd. Recuerda los directorios en los que has estado, para que puedas saltar a ellos más fácilmente la próxima vez. Digamos que haces `cd ~/.config/omarchy` una vez. La próxima vez, puedes simplemente hacer `cd omarchy` (o incluso solo `cd oma`), y Zoxide te llevará directo ahí.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) es un reemplazo de cd. Recuerda los directorios en los que has estado, para que puedas saltar a ellos más fácilmente la próxima vez. Digamos que haces `cd ~/.config/lunaos` una vez. La próxima vez, puedes simplemente hacer `cd lunaos` (o incluso solo `cd oma`), y Zoxide te llevará directo ahí.
 
 El manual completo se puede consultar con `man zoxide`.
 
@@ -58,4 +58,4 @@ El manual completo se puede consultar con `man yt-dlp`.
 
 [try](https://github.com/tobi/try) facilita gestionar experimentos de programación con directorios con fecha. Todos los experimentos viven en `~/Work/tries` y puedes acceder a ellos con `try`.
 
-Omarchy no agrega el directorio `bin/` de un proyecto a `PATH` automáticamente. Ejecuta las herramientas locales de confianza de un proyecto con una ruta relativa explícita, como `bin/rails` o `./bin/dev`.
+LunaOS no agrega el directorio `bin/` de un proyecto a `PATH` automáticamente. Ejecuta las herramientas locales de confianza de un proyecto con una ruta relativa explícita, como `bin/rails` o `./bin/dev`.

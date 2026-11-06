@@ -62,7 +62,7 @@ ShellRoot {
 
   FileView {
     id: pluginDirectory
-    path: Quickshell.env("OMARCHY_TEST_PLUGIN_DIRECTORY")
+    path: Quickshell.env("LUNAOS_TEST_PLUGIN_DIRECTORY")
     blockLoading: true
     watchChanges: true
     onFileChanged: reload()
@@ -70,7 +70,7 @@ ShellRoot {
 
   FileView {
     id: result
-    path: Quickshell.env("OMARCHY_TEST_RESULT")
+    path: Quickshell.env("LUNAOS_TEST_RESULT")
     preload: false
     printErrors: false
     blockWrites: true

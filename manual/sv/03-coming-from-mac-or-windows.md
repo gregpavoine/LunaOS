@@ -1,12 +1,12 @@
 # Kommer från Mac eller Windows
 
-Om du har tillbringat år på macOS eller Windows känner dina fingrar till hundra saker som din hjärna har glömt att den någonsin lärt sig. Det här kapitlet är översättningslagret: vart de instinkterna tar vägen i Omarchy. Funktionerna i sig behandlas på djupet på andra ställen — det här är bara kartan.
+Om du har tillbringat år på macOS eller Windows känner dina fingrar till hundra saker som din hjärna har glömt att den någonsin lärt sig. Det här kapitlet är översättningslagret: vart de instinkterna tar vägen i LunaOS. Funktionerna i sig behandlas på djupet på andra ställen — det här är bara kartan.
 
 ### Super är centrum för allt
 
-All muskelminne du har byggt upp kring Cmd eller Windows-tangenten överförs till en tangent: Super. Det är Windows-tangenten på ett PC-tangentbord, och den är ankaret för nästan varje snabbtangent i Omarchy.
+All muskelminne du har byggt upp kring Cmd eller Windows-tangenten överförs till en tangent: Super. Det är Windows-tangenten på ett PC-tangentbord, och den är ankaret för nästan varje snabbtangent i LunaOS.
 
-Din Spotlight- eller Raycast- eller Start-menyreflex blir `Super + Space`. Det öppnar Omarchy-menyn, som startar appar, ändrar inställningar, installerar programvara, fångar skärmen — i stort sett allt. Börja skriva för att filtrera. `Super + Alt + Space` visar varje app på ett rutnät, så som Launchpad gör. Se [navigering](04-navigation.md).
+Din Spotlight- eller Raycast- eller Start-menyreflex blir `Super + Space`. Det öppnar LunaOS-menyn, som startar appar, ändrar inställningar, installerar programvara, fångar skärmen — i stort sett allt. Börja skriva för att filtrera. `Super + Alt + Space` visar varje app på ett rutnät, så som Launchpad gör. Se [navigering](04-navigation.md).
 
 ### Det finns ingen docka och inga skrivbordsikoner
 
@@ -22,27 +22,27 @@ Arbetsytor kommer att kännas bekanta: de är macOS Spaces eller Windows virtuel
 
 ### Kopiera och klistra in fungerar bara
 
-På Macen hade du Cmd + C överallt. På Windows hade du Ctrl + C överallt — förutom i terminalen, där det dödar ditt program. Omarchy ger dig `Super + C`, `Super + X` och `Super + V`, och de fungerar överallt, inklusive i terminalen. Ingen separat reflex att lära sig för skalet.
+På Macen hade du Cmd + C överallt. På Windows hade du Ctrl + C överallt — förutom i terminalen, där det dödar ditt program. LunaOS ger dig `Super + C`, `Super + X` och `Super + V`, och de fungerar överallt, inklusive i terminalen. Ingen separat reflex att lära sig för skalet.
 
 Windows-användare: din Win + V-urklippshistorik bor på `Super + Ctrl + V`, och den innehåller bilder såväl som text. Se [enhetligt urklipp & historik](08-unified-clipboard-history.md).
 
 ### Översättningstabellen
 
-| Du sträcker dig efter | I Omarchy |
+| Du sträcker dig efter | I LunaOS |
 | ------------- | ---------- |
-| Spotlight / Raycast / Start-menyn | `Super + Space` — Omarchy-menyn |
+| Spotlight / Raycast / Start-menyn | `Super + Space` — LunaOS-menyn |
 | AirDrop | LocalSend, via `Super + Ctrl + S` — se [GUI:er](22-guis.md) |
 | Cmd + Shift + 4 / Win + Shift + S | `Print Screen` — se [skärmbilder & inspelning](12-screenshots-recording.md) |
 | Notiscenter | Aviseringshistorik på `Super + Shift + Alt + ,` |
 | Time Machine (för systemet) | Automatiska [systemsnapshot](47-system-snapshots.md) vid varje uppdatering |
-| App Store / ladda ner en installatör | _Install_ i menyn, eller `omarchy pkg add` — se [andra paket](29-other-packages.md) |
+| App Store / ladda ner en installatör | _Install_ i menyn, eller `lunaos pkg add` — se [andra paket](29-other-packages.md) |
 | Systeminställningar / Kontrollpanelen | _Setup_ i menyn, som redigerar enkla konfigurationsfiler — se [dotfiles](31-dotfiles.md) |
 
 ### Vissa saker är verkligen annorlunda
 
 Många inställningar bor i textfiler du redigerar, inte paneler du klickar dig igenom. Det låter primitivt tills du inser att det betyder att varje justering kan ses, kopieras till din nästa maskin och läggas i versionskontroll. Menyn _Setup_ släpper dig rakt in i rätt fil och startar om vad som än behöver startas om när du är klar.
 
-Uppdateringar kommer genom ett kommando — _Update > Omarchy_ — som uppdaterar Omarchy själv och varje paket på systemet, och tar ett snapshot först. Inga uppdaterare per app som tjatar på dig slumpmässigt. Se [uppdateringar](30-updates.md).
+Uppdateringar kommer genom ett kommando — _Update > LunaOS_ — som uppdaterar LunaOS själv och varje paket på systemet, och tar ett snapshot först. Inga uppdaterare per app som tjatar på dig slumpmässigt. Se [uppdateringar](30-updates.md).
 
 Programvara kommer från en pakethanterare, inte från nedladdade installatörer.
 
@@ -50,7 +50,7 @@ Och när du stänger ett fönster avslutas appen faktiskt. Det finns inget macOS
 
 ### På Mac-hårdvara
 
-Omarchy körs bra på Intel-Macar — se [Mac-stöd](44-mac-support.md). Och tangentbordet är snällt mot dig: Omarchy mappar inte om någonting, och Linux behandlar Command-tangenten som Super, så Super sitter precis där Cmd alltid var. Din tumme kommer inte att märka flytten.
+LunaOS körs bra på Intel-Macar — se [Mac-stöd](44-mac-support.md). Och tangentbordet är snällt mot dig: LunaOS mappar inte om någonting, och Linux behandlar Command-tangenten som Super, så Super sitter precis där Cmd alltid var. Din tumme kommer inte att märka flytten.
 
 ### Ge det två veckor
 

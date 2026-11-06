@@ -1,14 +1,14 @@
 # Menijska vrstica
 
-Trak vzdolž vrha vašega zaslona je vrstica Omarchy. To ni privita vrstica stanja, ampak del lupine Omarchy, enega samega dolgo delujočega procesa Quickshell, ki riše tudi meni, obvestila, pojavna okna OSD in zaklenjeni zaslon. Zato se odlično ujema s temo vsega drugega in zato se plošča odpre v hipu, namesto da bi pognala novo aplikacijo.
+Trak vzdolž vrha vašega zaslona je vrstica LunaOS. To ni privita vrstica stanja, ampak del lupine LunaOS, enega samega dolgo delujočega procesa Quickshell, ki riše tudi meni, obvestila, pojavna okna OSD in zaklenjeni zaslon. Zato se odlično ujema s temo vsega drugega in zato se plošča odpre v hipu, namesto da bi pognala novo aplikacijo.
 
 To je tudi edini del namizja, ki je vedno na zaslonu, zato je vredno vedeti, kaj počnejo vsi tisti majhni glifi.
 
 ## Kaj je na njej privzeto
 
-Vrstica ima tri odseke. Na levi sedita logotip Omarchy (zaganjalnik menija) in kazalniki delovnih prostorov. Na sredini dobite kazalnike stanja, uro, Elsewhen (svetovno uro), vreme in značko za posodobitev Omarchyja. Na desni: razpored tipkovnice (ko je konfiguriranih več), sistemski pladenj, agenti, bluetooth, omrežje, zvok, zaslon in napajanje.
+Vrstica ima tri odseke. Na levi sedita logotip LunaOS (zaganjalnik menija) in kazalniki delovnih prostorov. Na sredini dobite kazalnike stanja, uro, Elsewhen (svetovno uro), vreme in značko za posodobitev LunaOSja. Na desni: razpored tipkovnice (ko je konfiguriranih več), sistemski pladenj, agenti, bluetooth, omrežje, zvok, zaslon in napajanje.
 
-Nekaj od teh se prikaže le, ko imajo kaj za povedati. Razpored tipkovnice se pojavi le, če ste konfigurirali več kot en razpored. Značka za posodobitev se pojavi le, ko čaka posodobitev Omarchyja. Ikona agentov pa se pojavi prvič, ko Omarchy najde uporabo kodiranja z AI na računalniku (glejte [AI](17-ai.md)).
+Nekaj od teh se prikaže le, ko imajo kaj za povedati. Razpored tipkovnice se pojavi le, če ste konfigurirali več kot en razpored. Značka za posodobitev se pojavi le, ko čaka posodobitev LunaOSja. Ikona agentov pa se pojavi prvič, ko LunaOS najde uporabo kodiranja z AI na računalniku (glejte [AI](17-ai.md)).
 
 ## Klikanje naokoli
 
@@ -16,7 +16,7 @@ Skoraj vsak gradnik naredi nekaj ob levem, desnem in srednjem kliku, več pa se 
 
 | Gradnik | Levi | Desni | Srednji / drsenje |
 | --- | --- | --- | --- |
-| Meni | Meni Omarchy | Nov terminal | — |
+| Meni | Meni LunaOS | Nov terminal | — |
 | Delovni prostori | Osredotoči ta delovni prostor | — | Drsenje: naslednji/prejšnji delovni prostor |
 | Ura | Pojavno okno koledarja | Kroženje med formati zapisa | Srednji: izbirnik časovnega pasu |
 | Vreme | Pojavno okno napovedi | Celotno vreme kot obvestilo | Srednji: osveži |
@@ -29,7 +29,7 @@ Skoraj vsak gradnik naredi nekaj ob levem, desnem in srednjem kliku, več pa se 
 | Mediji | Predvajaj/premor | Pojavno okno z naslovnico | Srednji: naprej · drsenje: nazaj/naprej |
 | Agenti | Plošča agentov | Zaženi svojega agenta | Srednji: naslednja naročnina |
 | Pladenj | Lebdenje razkrije predal | Desni klik na ševron za upravljanje | — |
-| Posodobitev Omarchy | Zaženi posodobitev | — | — |
+| Posodobitev LunaOS | Zaženi posodobitev | — | — |
 
 Vse v tej tabeli ni na vaši vrstici takoj po namestitvi. Gradnik za medije (MPRIS trenutno predvaja z drsečim zapisom skladbe in izvajalca) in gradnik za mikrofon sta vgrajena, vendar privzeto izklopljena — dodajte ju, če ju želite, kot je opisano spodaj.
 
@@ -65,7 +65,7 @@ Vsaka plošča sprejme tipkovnico prav tako kot miško: puščice se premikajo, 
 
 Še dva gradnika se pojavita v vrstici šele, ko ustrezno storitev namestite iz **Install → Service**, in oba sta vredna poznavanja, saj počneta več kot poročata o stanju.
 
-Plošča **Tailscale** povezuje in prekinja tailnet, preklaplja med računi in izbere izhodno vozlišče (v tem seznamu se pojavijo tako vaši lastni stroji kot regije Mullvad). Preiskuje tudi vaše stroje — in ko je en izbran, `s` mu pošlje datoteke prek Taildropa, kar je najhitrejši način, da datoteko premaknete v telefon ali drug prenosnik. `c` kopira IP stroja, `n` njegovo ime in `d` njegovo polno ime DNS. Na vsaki vrstici stroja je tudi gumb za pošiljanje, če raje klikate. Enako iz terminala je `omarchy tailscale send <machine> [file...]`.
+Plošča **Tailscale** povezuje in prekinja tailnet, preklaplja med računi in izbere izhodno vozlišče (v tem seznamu se pojavijo tako vaši lastni stroji kot regije Mullvad). Preiskuje tudi vaše stroje — in ko je en izbran, `s` mu pošlje datoteke prek Taildropa, kar je najhitrejši način, da datoteko premaknete v telefon ali drug prenosnik. `c` kopira IP stroja, `n` njegovo ime in `d` njegovo polno ime DNS. Na vsaki vrstici stroja je tudi gumb za pošiljanje, če raje klikate. Enako iz terminala je `lunaos tailscale send <machine> [file...]`.
 
 Plošča **Dropbox** obravnava prijavo, prikazuje, koliko prostora za shranjevanje ste porabili, in navede nedavno sinhronizirane datoteke.
 
@@ -90,19 +90,19 @@ Gradnik, ki ga želite imeti pri roki, a ne vedno na očeh, lahko spravite v pre
 Enake stvari imajo ukaze, kar je tisto, kar želite za namestitev z [dotfiles](31-dotfiles.md):
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Za dodajanje ali odstranjevanje gradnika v celoti uporabite ukaze za vtičnike. `omarchy plugin list` izpiše vsak gradnik, ki ga lupina pozna, z njegovim id-jem, nato pa:
+Za dodajanje ali odstranjevanje gradnika v celoti uporabite ukaze za vtičnike. `lunaos plugin list` izpiše vsak gradnik, ki ga lupina pozna, z njegovim id-jem, nato pa:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Skrivanje vrstice
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Konfiguracijska datoteka
 
-Vse se shrani v `~/.config/omarchy/shell.json` pod tipko `bar`. Tu je okrajšana različica:
+Vse se shrani v `~/.config/lunaos/shell.json` pod tipko `bar`. Tu je okrajšana različica:
 
 ```json
 {
@@ -119,20 +119,20 @@ Vse se shrani v `~/.config/omarchy/shell.json` pod tipko `bar`. Tu je okrajšana
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Vsak gradnik je en vnos v eni od treh tabel postavitve, njegove nastavitve pa sedijo vdelano na tem vnosu — ni ločene datoteke z nastavitvami in ni podobiekta `config`. Ure `format`, `formatAlt` (v kar kroži desni klik) in `verticalFormat` vsi živijo prav tam na `{ "id": "omarchy.clock" }`.
+Vsak gradnik je en vnos v eni od treh tabel postavitve, njegove nastavitve pa sedijo vdelano na tem vnosu — ni ločene datoteke z nastavitvami in ni podobiekta `config`. Ure `format`, `formatAlt` (v kar kroži desni klik) in `verticalFormat` vsi živijo prav tam na `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` imenuje edini sredinski gradnik, ki se pripne na natančno sredino zaslona, drugi pa ga obdajo. Tako ura ostane točno na sredini, tudi ko vreme in značka za posodobitev prihajata in odhajata. Če ga nastavite na prazen niz, je seznam na sredini samo usredinjen kot skupina.
 
-Eno pravilo, ki si ga je vredno zapomniti: **ko imate svoj `shell.json`, je kanoničen**. Dokler ničesar ne prilagodite, lupina bere Omarchyjevo privzeto datoteko. Trenutek, ko povlečete gradnik, zaženete `omarchy bar` ali datoteko uredite sami, postane vaša — ni globokega združevanja, zato novi privzeti gradniki v prihodnjih izdajah Omarchyja ne bodo samodejno prikazani v vaši vrstici. `omarchy bar defaults` dobavljeno postavitev vrne, kadar koli želite čist list.
+Eno pravilo, ki si ga je vredno zapomniti: **ko imate svoj `shell.json`, je kanoničen**. Dokler ničesar ne prilagodite, lupina bere LunaOSjevo privzeto datoteko. Trenutek, ko povlečete gradnik, zaženete `lunaos bar` ali datoteko uredite sami, postane vaša — ni globokega združevanja, zato novi privzeti gradniki v prihodnjih izdajah LunaOSja ne bodo samodejno prikazani v vaši vrstici. `lunaos bar defaults` dobavljeno postavitev vrne, kadar koli želite čist list.
 
 Ista datoteka hrani tudi vaše timingse nedejavnosti na zgornji ravni, zunaj tipke `bar`: `idle.screensaver` in `idle.lock`, oba v sekundah od tistega, ko ste postali nedejavni. Privzeti ohranjevalnik torej začne pri 150 sekundah, zaklepanje pa pri 300.

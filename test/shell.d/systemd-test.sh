@@ -12,53 +12,53 @@ pass "bt-agent skips when bluetooth.service is inactive"
 grep -Fx 'Restart=on-failure' "$service" >/dev/null
 pass "bt-agent still restarts after runtime failures"
 
-sleep_service="$ROOT/default/systemd/user/omarchy-sleep-lock.service"
-grep -Fx 'ExecStart=/usr/bin/omarchy-system-sleep-monitor' "$sleep_service" >/dev/null
+sleep_service="$ROOT/default/systemd/user/lunaos-sleep-lock.service"
+grep -Fx 'ExecStart=/usr/bin/lunaos-system-sleep-monitor' "$sleep_service" >/dev/null
 pass "sleep lock service uses the package-backed monitor path"
 
 grep -Fx 'After=dbus.socket wayland-session-waitenv.service' "$sleep_service" >/dev/null ||
   fail "sleep lock monitor starts before UWSM imports the graphical session environment"
 grep -Fx 'PartOf=graphical-session.target' "$sleep_service" >/dev/null ||
   fail "sleep lock monitor survives logout with a stale Wayland environment"
-grep -Fx 'ConditionEnvironment=OMARCHY_PATH' "$sleep_service" >/dev/null ||
-  fail "sleep lock monitor can start without the Omarchy shell path"
+grep -Fx 'ConditionEnvironment=LUNAOS_PATH' "$sleep_service" >/dev/null ||
+  fail "sleep lock monitor can start without the LunaOS shell path"
 grep -Fx 'ConditionEnvironment=WAYLAND_DISPLAY' "$sleep_service" >/dev/null ||
   fail "sleep lock monitor can start without a Wayland display"
 pass "sleep lock service follows the initialized graphical session"
 
 first_run_units="$ROOT/install/user/first-run/enable-user-units.sh"
 grep -Fx 'systemctl --user daemon-reload' "$first_run_units" >/dev/null
-grep -F 'omarchy-sleep-lock.service' "$first_run_units" >/dev/null
+grep -F 'lunaos-sleep-lock.service' "$first_run_units" >/dev/null
 pass "first-run reloads and enables the sleep lock service"
 
-upgrade_to_quattro="$ROOT/bin/omarchy-upgrade-to-quattro"
+upgrade_to_quattro="$ROOT/bin/lunaos-upgrade-to-quattro"
 grep -F '6870b232a6c0474b59187882e6d25ae771bba735098bcbedef8a2b73b97e2b6a' "$upgrade_to_quattro" >/dev/null
 grep -F 'bcd1a76cb5c63514922bc5e11af22ae480fc6d06a99863364e02bdf3c7bdceaf' "$upgrade_to_quattro" >/dev/null
-grep -F 'ExecStart=%h/.local/share/omarchy/bin/omarchy-system-sleep-monitor' "$upgrade_to_quattro" >/dev/null
-grep -F 'ExecStart=/usr/bin/omarchy-system-sleep-monitor' "$upgrade_to_quattro" >/dev/null
-grep -F 'reset-failed omarchy-sleep-lock.service' "$upgrade_to_quattro" >/dev/null
-pass "Omarchy 4 upgrade repairs the legacy sleep lock unit path"
+grep -F 'ExecStart=%h/.local/share/lunaos/bin/lunaos-system-sleep-monitor' "$upgrade_to_quattro" >/dev/null
+grep -F 'ExecStart=/usr/bin/lunaos-system-sleep-monitor' "$upgrade_to_quattro" >/dev/null
+grep -F 'reset-failed lunaos-sleep-lock.service' "$upgrade_to_quattro" >/dev/null
+pass "LunaOS 4 upgrade repairs the legacy sleep lock unit path"
 
-[[ -e $ROOT/default/systemd/user/omarchy-update-user-notify.path ]] &&
-  fail "the retired migration watcher is back; pacman writing the migration directory during omarchy update would notify about migrations that update is already applying"
-grep -rlE '^(Path[A-Za-z]+|DirectoryNotEmpty)=.*/usr/share/omarchy/migrations' "$ROOT/default/systemd/user" >/dev/null 2>&1 &&
+[[ -e $ROOT/default/systemd/user/lunaos-update-user-notify.path ]] &&
+  fail "the retired migration watcher is back; pacman writing the migration directory during lunaos update would notify about migrations that update is already applying"
+grep -rlE '^(Path[A-Za-z]+|DirectoryNotEmpty)=.*/usr/share/lunaos/migrations' "$ROOT/default/systemd/user" >/dev/null 2>&1 &&
   fail "a user unit watches the migration directory again; the notifier must stay login-only"
 pass "no unit watches the migration directory, so package updates cannot trigger the notifier"
 
-notify_service="$ROOT/default/systemd/user/omarchy-migrate-notify.service"
-grep -Fx 'ExecStart=/usr/bin/omarchy-migrate-notify' "$notify_service" >/dev/null
+notify_service="$ROOT/default/systemd/user/lunaos-migrate-notify.service"
+grep -Fx 'ExecStart=/usr/bin/lunaos-migrate-notify' "$notify_service" >/dev/null
 grep -Fx 'WantedBy=graphical-session.target' "$notify_service" >/dev/null
 grep -Fx 'After=graphical-session.target' "$notify_service" >/dev/null ||
   fail "migration notifier can deadlock UWSM by blocking graphical-session.target"
 pass "migration notifier checks once per login after the graphical session is ready"
 
-grep -F 'omarchy-migrate-notify.service' "$first_run_units" >/dev/null ||
+grep -F 'lunaos-migrate-notify.service' "$first_run_units" >/dev/null ||
   fail "first-run does not enable the login migration notifier"
-grep -F 'omarchy-update-user-notify' "$first_run_units" >/dev/null &&
+grep -F 'lunaos-update-user-notify' "$first_run_units" >/dev/null &&
   fail "first-run still enables the retired notifier units"
 pass "first-run enables the login-only migration notifier"
 
-fcitx_service="$ROOT/default/systemd/user/omarchy-fcitx5.service"
+fcitx_service="$ROOT/default/systemd/user/lunaos-fcitx5.service"
 grep -Fx 'ExecStart=/usr/bin/fcitx5 --replace --disable notificationitem' "$fcitx_service" >/dev/null ||
   fail "without --replace, a fcitx5 started outside the unit holds the bus name and every restart exits on arrival"
 grep -Fx 'Restart=always' "$fcitx_service" >/dev/null ||
@@ -74,10 +74,10 @@ grep -Fx 'ConditionEnvironment=WAYLAND_DISPLAY' "$fcitx_service" >/dev/null ||
 grep -Fx 'ConditionPathExists=/usr/bin/fcitx5' "$fcitx_service" >/dev/null ||
   fail "without fcitx5 installed, Restart=always retries the enabled unit at 203/EXEC for the whole session"
 
-grep -F 'pkill -u "$UID" -x fcitx5' "$ROOT/bin/omarchy-restart-xcompose" >/dev/null ||
+grep -F 'pkill -u "$UID" -x fcitx5' "$ROOT/bin/lunaos-restart-xcompose" >/dev/null ||
   fail "restart-xcompose cannot reload a fcitx5 running outside the unit, so it silently keeps serving the old table"
 
-grep -F 'omarchy-fcitx5.service' "$first_run_units" >/dev/null ||
+grep -F 'lunaos-fcitx5.service' "$first_run_units" >/dev/null ||
   fail "first-run does not enable the input method, so ~/.XCompose sequences never resolve"
 grep -F 'fcitx5' "$ROOT/default/hypr/autostart.lua" >/dev/null &&
   fail "fcitx5 is autostarted from Hyprland; an unsupervised launch dies silently and takes every compose sequence with it"
@@ -97,7 +97,7 @@ candidates=$(grep -rlE '^ManagedOOM(MemoryPressure|Swap)=kill' "$ROOT/default/sy
   fail "systemd-oomd kill candidacy is set outside app.slice, which can select the compositor: $candidates"
 pass "only user app scopes are systemd-oomd kill candidates"
 
-oomd_conf="$ROOT/etc/systemd/oomd.conf.d/10-omarchy.conf"
+oomd_conf="$ROOT/etc/systemd/oomd.conf.d/10-lunaos.conf"
 grep -Fx 'DefaultMemoryPressureLimit=50%' "$oomd_conf" >/dev/null ||
   fail "no pressure limit; the 60% default rides thrashing longer than a desktop stays usable"
 grep -Fx 'DefaultMemoryPressureDurationSec=20s' "$oomd_conf" >/dev/null ||

@@ -180,7 +180,7 @@ Item {
 
     // A failed load is not taken for a thin strip, and does not keep retrying.
     function test_a_missing_file_is_tried_a_few_times_then_left() {
-      var missing = Qt.createQmlObject('import "../../../../shell/Ui"; SizedImage { width: 40; height: 40; url: "file:///nonexistent/omarchy-sized-image.png" }', root)
+      var missing = Qt.createQmlObject('import "../../../../shell/Ui"; SizedImage { width: 40; height: 40; url: "file:///nonexistent/lunaos-sized-image.png" }', root)
       var spy = Qt.createQmlObject('import QtTest; SignalSpy { signalName: "statusChanged" }', root)
       spy.target = missing
       tryCompare(missing, "status", Image.Error)

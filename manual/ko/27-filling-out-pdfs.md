@@ -1,6 +1,6 @@
 # PDF 작성하기
 
-Omarchy에는 Document Viewer라는 멋지고 기본적인 PDF 뷰어가 함께 제공됩니다. 더블클릭한 모든 PDF를 여는 프로그램입니다.
+LunaOS에는 Document Viewer라는 멋지고 기본적인 PDF 뷰어가 함께 제공됩니다. 더블클릭한 모든 PDF를 여는 프로그램입니다.
 
 하지만 Document Viewer로는 양식으로 설정된 PDF만 작성할 수 있습니다. 양식으로 설정되지 않은 PDF를 작성해야 하거나 PDF에 서명해야 한다면 [Signed](https://github.com/omacom/signed)를 사용하세요. 애플리케이션 실행 프로그램(`Super + Space`)에서 시작하거나, 파일을 마우스 오른쪽 버튼으로 클릭하고 _Open With..._를 선택한 뒤 Signed를 고르세요.
 

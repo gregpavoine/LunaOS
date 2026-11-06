@@ -10,7 +10,7 @@ QS_PID=""
 # Quickshell leaves some of its children running when it is stopped, among them
 # the inotifywait watching the plugin directory, which then holds whatever it
 # inherited open (a flock around the run, say) indefinitely. Once the shell is
-# stopped, stop whatever still runs with this test's scratch OMARCHY_PATH: every
+# stopped, stop whatever still runs with this test's scratch LUNAOS_PATH: every
 # child inherits it, and it finds the ones a shell that already died left
 # reparented. The environment is read afresh before every signal, so a pid
 # that has since been reused by something else is never sent one.
@@ -21,7 +21,7 @@ leftover_pids() {
   while IFS= read -r environ; do
     pid=${environ#/proc/}
     echo "${pid%/environ}"
-  done < <(grep -lzxF -- "OMARCHY_PATH=$test_root" /proc/[0-9]*/environ 2>/dev/null || true)
+  done < <(grep -lzxF -- "LUNAOS_PATH=$test_root" /proc/[0-9]*/environ 2>/dev/null || true)
 }
 
 signal_leftovers() {
@@ -74,11 +74,11 @@ fi
 require_command jq
 
 shell_ipc() {
-  OMARCHY_PATH="$test_root" "$ROOT/bin/omarchy-shell" "$@"
+  LUNAOS_PATH="$test_root" "$ROOT/bin/lunaos-shell" "$@"
 }
 
 shell_ipc_quiet() {
-  OMARCHY_PATH="$test_root" "$ROOT/bin/omarchy-shell" -q "$@"
+  LUNAOS_PATH="$test_root" "$ROOT/bin/lunaos-shell" -q "$@"
 }
 
 fail_with_log() {
@@ -88,7 +88,7 @@ fail_with_log() {
 }
 
 TMPDIR=$(mktemp -d)
-test_root="$TMPDIR/omarchy"
+test_root="$TMPDIR/lunaos"
 test_home="$TMPDIR/home"
 stub_bin="$TMPDIR/bin"
 log="$TMPDIR/quickshell.log"
@@ -97,9 +97,9 @@ cp -a "$ROOT/shell" "$test_root/shell"
 ln -s "$ROOT/config" "$test_root/config"
 ln -s "$ROOT/bin" "$test_root/bin"
 
-# Every plugin under ~/.config/omarchy/plugins hot-reloads, whoever wrote it.
+# Every plugin under ~/.config/lunaos/plugins hot-reloads, whoever wrote it.
 hot_reload_id="acme.hot-reload"
-hot_reload_dir="$test_home/.config/omarchy/plugins/$hot_reload_id"
+hot_reload_dir="$test_home/.config/lunaos/plugins/$hot_reload_id"
 mkdir -p "$hot_reload_dir"
 cat >"$hot_reload_dir/manifest.json" <<JSON
 {
@@ -109,7 +109,7 @@ cat >"$hot_reload_dir/manifest.json" <<JSON
   "version": "1.0.0",
   "kinds": ["overlay"],
   "entryPoints": {"overlay": "Overlay.qml"},
-  "omarchy": {"clonedFrom": "omarchy.emojis"}
+  "lunaos": {"clonedFrom": "lunaos.emojis"}
 }
 JSON
 cat >"$hot_reload_dir/Overlay.qml" <<'QML'
@@ -124,7 +124,7 @@ QML
 # A keepLoaded service must keep its instance (and in-memory state) across a
 # plugin rescan. The marker below can only survive if the object does.
 keep_service_id="acme.keep-service"
-keep_service_dir="$test_home/.config/omarchy/plugins/$keep_service_id"
+keep_service_dir="$test_home/.config/lunaos/plugins/$keep_service_id"
 mkdir -p "$keep_service_dir"
 cat >"$keep_service_dir/manifest.json" <<JSON
 {
@@ -163,7 +163,7 @@ QML
 # live service, and its barConfig must be a detached snapshot on both initial
 # injection and later host-config updates.
 victim_service_id="acme.victim-service"
-victim_service_dir="$test_home/.config/omarchy/plugins/$victim_service_id"
+victim_service_dir="$test_home/.config/lunaos/plugins/$victim_service_id"
 mkdir -p "$victim_service_dir"
 cat >"$victim_service_dir/manifest.json" <<JSON
 {
@@ -187,7 +187,7 @@ QML
 # its own widget receives the raw companion service under the trusted bar, while
 # a replacement bar receives only the narrow media proxy resolved to the clone.
 media_clone_id="acme.media-clone"
-media_clone_dir="$test_home/.config/omarchy/plugins/$media_clone_id"
+media_clone_dir="$test_home/.config/lunaos/plugins/$media_clone_id"
 mkdir -p "$media_clone_dir"
 cat >"$media_clone_dir/manifest.json" <<JSON
 {
@@ -198,7 +198,7 @@ cat >"$media_clone_dir/manifest.json" <<JSON
   "kinds": ["service", "bar-widget"],
   "entryPoints": {"service": "Service.qml", "barWidget": "BarWidget.qml"},
   "barWidget": {"defaultSection": "center"},
-  "omarchy": {"clonedFrom": "omarchy.media"}
+  "lunaos": {"clonedFrom": "lunaos.media"}
 }
 JSON
 cat >"$media_clone_dir/Service.qml" <<'QML'
@@ -221,7 +221,7 @@ Item {
     target: "acme-media-clone-service"
     function ping(): string { return marker }
     function summonOsd(): string {
-      return root.shell && root.shell.summon("omarchy.osd", "{}") ? "true" : "false"
+      return root.shell && root.shell.summon("lunaos.osd", "{}") ? "true" : "false"
     }
   }
 }
@@ -238,7 +238,7 @@ Item {
     target: "acme-media-clone-widget"
     function probeOwnService(): string {
       var service = root.bar && root.bar.shell
-        ? root.bar.shell.firstPartyServiceFor("omarchy.media") : null
+        ? root.bar.shell.firstPartyServiceFor("lunaos.media") : null
       return JSON.stringify({
         reachable: !!service,
         marker: service ? String(service.marker || "") : ""
@@ -249,7 +249,7 @@ Item {
 QML
 
 review_bar_id="acme.review-bar"
-review_bar_dir="$test_home/.config/omarchy/plugins/$review_bar_id"
+review_bar_dir="$test_home/.config/lunaos/plugins/$review_bar_id"
 mkdir -p "$review_bar_dir"
 cat >"$review_bar_dir/manifest.json" <<JSON
 {
@@ -296,7 +296,7 @@ Item {
 
     function probeMediaProxy(): string {
       var service = root.shell
-        ? root.shell.firstPartyServiceFor("omarchy.media") : null
+        ? root.shell.firstPartyServiceFor("lunaos.media") : null
       return JSON.stringify({ reachable: !!service, enabled: service ? service.enabled === true : false })
     }
 
@@ -306,8 +306,8 @@ Item {
         ? root.shell.pluginShellForBarEntry("probe-media", "acme.media-clone") : null
       return JSON.stringify({
         entryFacade: !!entryFacade,
-        osdSummoned: entryFacade ? entryFacade.summon("omarchy.osd", "{}") : false,
-        foreignSummoned: entryFacade ? entryFacade.summon("omarchy.lock", "{}") : false
+        osdSummoned: entryFacade ? entryFacade.summon("lunaos.osd", "{}") : false,
+        foreignSummoned: entryFacade ? entryFacade.summon("lunaos.lock", "{}") : false
       })
     }
 
@@ -353,12 +353,12 @@ Item {
 }
 QML
 
-cat >"$stub_bin/omarchy-update-available" <<'SH'
+cat >"$stub_bin/lunaos-update-available" <<'SH'
 #!/bin/bash
-echo "Omarchy update available (test)"
+echo "LunaOS update available (test)"
 exit 0
 SH
-chmod +x "$stub_bin/omarchy-update-available"
+chmod +x "$stub_bin/lunaos-update-available"
 
 cat >"$stub_bin/curl" <<'SH'
 #!/bin/bash
@@ -377,7 +377,7 @@ esac
 SH
 chmod +x "$stub_bin/curl"
 
-OMARCHY_PATH="$test_root" \
+LUNAOS_PATH="$test_root" \
 HOME="$test_home" \
 XDG_CONFIG_HOME="$test_home/.config" \
 XDG_CACHE_HOME="$test_home/.cache" \
@@ -410,7 +410,7 @@ done
 
 jq -e '
   map(.id) as $ids |
-  all(["omarchy.menu", "omarchy.notifications", "omarchy.clock", "omarchy.osd"][]; $ids | index(.)) and
+  all(["lunaos.menu", "lunaos.notifications", "lunaos.clock", "lunaos.osd"][]; $ids | index(.)) and
   all(.[]; (.kinds | type == "array") and (.enabled | type == "boolean") and (.canDisable | type == "boolean") and (.firstParty | type == "boolean") and (.clonedFrom | type == "string")) and
   ([.[].name] == ([.[].name] | sort))
 ' <<<"$plugins" >/dev/null || {
@@ -438,9 +438,9 @@ pass "installed plugin changes reload without an explicit rescan"
 
 [[ $(shell_ipc shell setPluginEnabled "$hot_reload_id" true) == "ok" ]] ||
   fail_with_log "installed plugin could not be enabled"
-[[ $(shell_ipc shell summon omarchy.emojis "{}") == "ok" ]] ||
+[[ $(shell_ipc shell summon lunaos.emojis "{}") == "ok" ]] ||
   fail_with_log "calls to a cloned source id do not reach its enabled clone"
-shell_ipc_quiet shell hide omarchy.emojis >/dev/null
+shell_ipc_quiet shell hide lunaos.emojis >/dev/null
 shell_ipc_quiet shell setPluginEnabled "$hot_reload_id" false >/dev/null
 pass "shell IPC routes built-in ids to enabled clones"
 
@@ -456,8 +456,8 @@ jq -e '
 }
 pass "shell IPC returns effective shell config"
 
-[[ $(shell_ipc shell summon omarchy.menu '{"menu":"apps"}') == "ok" ]] || fail_with_log "shell IPC summons menu apps overlay"
-shell_ipc_quiet shell hide omarchy.menu >/dev/null
+[[ $(shell_ipc shell summon lunaos.menu '{"menu":"apps"}') == "ok" ]] || fail_with_log "shell IPC summons menu apps overlay"
+shell_ipc_quiet shell hide lunaos.menu >/dev/null
 [[ $(shell_ipc shell summon missing.plugin "{}") == "unknown" ]] || fail_with_log "shell IPC rejects unknown plugin"
 pass "shell IPC summon and hide contract works"
 
@@ -528,19 +528,19 @@ done
   fail_with_log "kept service is dropped when its plugin stops declaring a service"
 pass "kept service is dropped when its plugin stops declaring a service"
 
-shell_ipc_quiet omarchy.system-update refresh >/dev/null 2>&1 || true
+shell_ipc_quiet lunaos.system-update refresh >/dev/null 2>&1 || true
 sleep 0.8
 
-default_ids=$(jq -c '[.bar.layout[]] | add | map(.id // .)' "$ROOT/config/omarchy/shell.json")
+default_ids=$(jq -c '[.bar.layout[]] | add | map(.id // .)' "$ROOT/config/lunaos/shell.json")
 visible_default_ids='[
-  "omarchy.menu",
-  "omarchy.workspaces",
-  "omarchy.clock",
-  "omarchy.weather",
-  "omarchy.system-update",
-  "omarchy.network",
-  "omarchy.audio",
-  "omarchy.monitor"
+  "lunaos.menu",
+  "lunaos.workspaces",
+  "lunaos.clock",
+  "lunaos.weather",
+  "lunaos.system-update",
+  "lunaos.network",
+  "lunaos.audio",
+  "lunaos.monitor"
 ]'
 
 geometry=""
@@ -575,11 +575,11 @@ pass "default bar layout renders expected module slots"
 jq -e '
   def ids($section): map(select(.section == $section) | .id);
   ids("centerBegin") as $begin | ids("center") as $box | ids("centerEnd") as $end |
-  ($begin | index("omarchy.indicators")) != null and
-  ($box | index("omarchy.clock")) != null and
-  ($end | index("omarchy.weather")) != null and
-  ($end | index("omarchy.system-update")) != null and
-  (($end | index("omarchy.weather")) < ($end | index("omarchy.system-update")))
+  ($begin | index("lunaos.indicators")) != null and
+  ($box | index("lunaos.clock")) != null and
+  ($end | index("lunaos.weather")) != null and
+  ($end | index("lunaos.system-update")) != null and
+  (($end | index("lunaos.weather")) < ($end | index("lunaos.system-update")))
 ' <<<"$geometry" >/dev/null || {
   printf 'Geometry:\n' >&2
   jq . <<<"$geometry" >&2
@@ -588,7 +588,7 @@ jq -e '
 
 pass "runtime geometry hangs indicators and update off the clock's box"
 
-for panel_id in omarchy.audio omarchy.bluetooth omarchy.monitor omarchy.network omarchy.power; do
+for panel_id in lunaos.audio lunaos.bluetooth lunaos.monitor lunaos.network lunaos.power; do
   shell_ipc "$panel_id" open >/dev/null || fail_with_log "direct panel IPC opens $panel_id"
   shell_ipc "$panel_id" close >/dev/null || fail_with_log "direct panel IPC closes $panel_id"
 done
@@ -631,13 +631,13 @@ if grep -q 'Binding loop detected for property "hints"\|Binding loop detected fo
 fi
 pass "shell start has no platform FileView binding loops"
 
-HOME="$test_home" OMARCHY_PATH="$test_root" PATH="$ROOT/bin:$PATH" "$ROOT/bin/omarchy-plugin-disable" omarchy.audio
+HOME="$test_home" LUNAOS_PATH="$test_root" PATH="$ROOT/bin:$PATH" "$ROOT/bin/lunaos-plugin-disable" lunaos.audio
 
 for _ in {1..80}; do
   shell_config=$(shell_ipc shell listShellConfig 2>/dev/null || true)
   geometry=$(shell_ipc shell debugBarGeometry 2>/dev/null || true)
-  if jq -e 'all(.bar.layout.right[]; (.id // .) != "omarchy.audio")' <<<"$shell_config" >/dev/null 2>&1 && \
-     jq -e 'all(.[]; .id != "omarchy.audio")' <<<"$geometry" >/dev/null 2>&1; then
+  if jq -e 'all(.bar.layout.right[]; (.id // .) != "lunaos.audio")' <<<"$shell_config" >/dev/null 2>&1 && \
+     jq -e 'all(.[]; .id != "lunaos.audio")' <<<"$geometry" >/dev/null 2>&1; then
     break
   fi
   if ! kill -0 "$QS_PID" 2>/dev/null; then
@@ -646,12 +646,12 @@ for _ in {1..80}; do
   sleep 0.1
 done
 
-jq -e 'all(.bar.layout.right[]; (.id // .) != "omarchy.audio")' <<<"$shell_config" >/dev/null || {
+jq -e 'all(.bar.layout.right[]; (.id // .) != "lunaos.audio")' <<<"$shell_config" >/dev/null || {
   printf 'Shell config after reload:\n%s\n' "$shell_config" | jq . >&2
   fail_with_log "plugin disable reloads shell config"
 }
 
-jq -e 'all(.[]; .id != "omarchy.audio")' <<<"$geometry" >/dev/null || {
+jq -e 'all(.[]; .id != "lunaos.audio")' <<<"$geometry" >/dev/null || {
   printf 'Geometry after reload:\n' >&2
   jq . <<<"$geometry" >&2
   fail_with_log "runtime bar layout updates after shell config reload"
@@ -662,39 +662,39 @@ pass "bar remove reloads shell config and updates bar layout"
 # 'bar put' is what migrations use to place a newly shipped widget, so it has
 # to place one that is missing and leave one that is already there alone,
 # however often it runs. The widget it puts must be missing from the default
-# bar (omarchy.microphone is): 'put' leaves a widget that is already on the
+# bar (lunaos.microphone is): 'put' leaves a widget that is already on the
 # bar where it is, so putting one the defaults already carry (as
-# omarchy.keyboard-layout is, in right) can never move it into center.
+# lunaos.keyboard-layout is, in right) can never move it into center.
 bar_put() {
-  HOME="$test_home" OMARCHY_PATH="$test_root" PATH="$ROOT/bin:$PATH" "$ROOT/bin/omarchy-bar" put "$@"
+  HOME="$test_home" LUNAOS_PATH="$test_root" PATH="$ROOT/bin:$PATH" "$ROOT/bin/lunaos-bar" put "$@"
 }
 
 center_ids() {
   jq -c '[.bar.layout.center[] | .id // .]' <<<"$(shell_ipc shell listShellConfig)"
 }
 
-bar_put omarchy.microphone --after omarchy.clock >/dev/null
+bar_put lunaos.microphone --after lunaos.clock >/dev/null
 for _ in {1..80}; do
-  [[ $(center_ids) == *omarchy.microphone* ]] && break
+  [[ $(center_ids) == *lunaos.microphone* ]] && break
   kill -0 "$QS_PID" 2>/dev/null || fail_with_log "test shell exited while putting a bar widget"
   sleep 0.1
 done
 
 jq -e '
   [.bar.layout.center[] | .id // .] as $ids
-  | ($ids | index("omarchy.clock")) as $clock
-  | ($ids | index("omarchy.microphone")) as $widget
+  | ($ids | index("lunaos.clock")) as $clock
+  | ($ids | index("lunaos.microphone")) as $widget
   | $clock != null and $widget == $clock + 1
 ' <<<"$(shell_ipc shell listShellConfig)" >/dev/null ||
   fail_with_log "bar put places a widget after the one it names ($(center_ids))"
 pass "bar put places a widget after the one it names"
 
 placed=$(center_ids)
-bar_put omarchy.microphone --section right >/dev/null
+bar_put lunaos.microphone --section right >/dev/null
 sleep 0.5
 [[ $(center_ids) == "$placed" ]] ||
   fail_with_log "bar put left a widget already on the bar alone (was $placed, now $(center_ids))"
-jq -e 'all(.bar.layout.right[]; (.id // .) != "omarchy.microphone")' \
+jq -e 'all(.bar.layout.right[]; (.id // .) != "lunaos.microphone")' \
   <<<"$(shell_ipc shell listShellConfig)" >/dev/null ||
   fail_with_log "bar put added a second copy of a widget already on the bar"
 pass "bar put leaves a widget already on the bar alone"
@@ -766,18 +766,18 @@ bar_config_after=$(shell_ipc shell listShellConfig | jq -c '.bar')
 [[ $bar_config_after == "$bar_config_before" ]] ||
   fail_with_log "replacement bar mutated the initially injected host configuration"
 
-[[ $(shell_ipc shell setBarWidget omarchy.clock format '"HH:mm:ss"' '{}') == "ok" ]] ||
+[[ $(shell_ipc shell setBarWidget lunaos.clock format '"HH:mm:ss"' '{}') == "ok" ]] ||
   fail_with_log "host bar configuration could not be updated for snapshot testing"
 updated_snapshot=""
 for _ in {1..80}; do
   updated_snapshot=$(shell_ipc acme-review-bar snapshot 2>/dev/null || true)
-  if jq -e 'any(.layout.center[]; (.id // .) == "omarchy.clock" and .format == "HH:mm:ss")' \
+  if jq -e 'any(.layout.center[]; (.id // .) == "lunaos.clock" and .format == "HH:mm:ss")' \
     <<<"$updated_snapshot" >/dev/null 2>&1; then
     break
   fi
   sleep 0.1
 done
-jq -e 'any(.layout.center[]; (.id // .) == "omarchy.clock" and .format == "HH:mm:ss")' \
+jq -e 'any(.layout.center[]; (.id // .) == "lunaos.clock" and .format == "HH:mm:ss")' \
   <<<"$updated_snapshot" >/dev/null ||
   fail_with_log "replacement bar did not receive the refreshed configuration snapshot"
 bar_config_before=$(shell_ipc shell listShellConfig | jq -c '.bar')

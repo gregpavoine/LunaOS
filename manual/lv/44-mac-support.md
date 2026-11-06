@@ -1,16 +1,16 @@
 # Mac atbalsts
 
-Omarchy ir iebūvēts atbalsts **Intel Mac** datoriem. Šobrīd ir pāris zināmu ierobežojumu, bet, kamēr par tiem zināt un piekrītat, varat iedot saviem vecajiem Mac jaunu elpu, ielādējot Omarchy.
+LunaOS ir iebūvēts atbalsts **Intel Mac** datoriem. Šobrīd ir pāris zināmu ierobežojumu, bet, kamēr par tiem zināt un piekrītat, varat iedot saviem vecajiem Mac jaunu elpu, ielādējot LunaOS.
 
-Ņemiet vērā, ka instalēšana M sērijas Mac šobrīd tieši netiek atbalstīta. Vairāk par tā stāvokli varat uzzināt kanālā #omarchy-on-other mūsu [Discord](https://discord.gg/tXFUdasqhY).
+Ņemiet vērā, ka instalēšana M sērijas Mac šobrīd tieši netiek atbalstīta. Vairāk par tā stāvokli varat uzzināt kanālā #lunaos-on-other mūsu [Discord](https://discord.gg/tXFUdasqhY).
 
-Vienkāršā testā 2019. gada MacBook Pro mums izdevās panākt 36% veiktspējas pieaugumu, vienkārši instalējot Omarchy.
+Vienkāršā testā 2019. gada MacBook Pro mums izdevās panākt 36% veiktspējas pieaugumu, vienkārši instalējot LunaOS.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Omarchy instalēšana Mac datorā
+### LunaOS instalēšana Mac datorā
 
-Omarchy šobrīd atbalsta tikai to, ka tā ir **vienīgā** instalētā OS. Instalēšanas laikā disks tiks notīrīts, un MacOS vairs nebūs sāknējama.
+LunaOS šobrīd atbalsta tikai to, ka tā ir **vienīgā** instalētā OS. Instalēšanas laikā disks tiks notīrīts, un MacOS vairs nebūs sāknējama.
 
 Vēlāk to joprojām varat atjaunot ar Internet Recovery, ja vēlaties.
 
@@ -39,7 +39,7 @@ Instalētājs atpazīst Mac aparatūru un automātiski lieto vajadzīgos labojum
 
 ### Zināmie ierobežojumi
 
-Kopienas locekļi pastāvīgi strādā pie šo izaicinājumu risinājumiem, tāpēc, ja tie jums sagādā problēmas, pievienojieties kanālam #omarchy-on-other mūsu [Discord](https://discord.gg/tXFUdasqhY) un pārbaudiet, vai ir kādas aktuālas to risināšanas metodes.
+Kopienas locekļi pastāvīgi strādā pie šo izaicinājumu risinājumiem, tāpēc, ja tie jums sagādā problēmas, pievienojieties kanālam #lunaos-on-other mūsu [Discord](https://discord.gg/tXFUdasqhY) un pārbaudiet, vai ir kādas aktuālas to risināšanas metodes.
 
 #### Ierīces ar T1 mikroshēmu
 

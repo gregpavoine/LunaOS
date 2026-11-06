@@ -25,16 +25,16 @@ service="$ROOT/shell/plugins/notifications/Service.qml"
 # shell writes private.
 prepare=$(node -e '
   const source = require("node:fs").readFileSync(process.argv[1], "utf8")
-  const m = source.match(/id: storePrepare\s+command: \["bash", "-c",([^]*?),\s*"omarchy-notifications-state"/)
+  const m = source.match(/id: storePrepare\s+command: \["bash", "-c",([^]*?),\s*"lunaos-notifications-state"/)
   process.stdout.write(require("node:vm").runInNewContext(m[1]))
 ' "$service")
-state="$tmp/.local/state/omarchy/notifications"
+state="$tmp/.local/state/lunaos/notifications"
 mkdir -p "$state" "$tmp/outside"
 touch "$tmp/outside/keep.json"
 echo '[{"key":"n2"}]' >"$state/history.json"
 chmod 644 "$state/history.json"
 ln -s "$tmp/outside/keep.json" "$state/quiet.json"
-bash -c "$prepare" omarchy-notifications-state "$state" || fail "the state directory is prepared"
+bash -c "$prepare" lunaos-notifications-state "$state" || fail "the state directory is prepared"
 left=$(cd "$state" && find . | sort | tr '\n' ' ')
 [[ $left == ". ./history.json ./live.json ./quiet.json " ]] || fail "the state files are made" "$left"
 [[ -f $tmp/outside/keep.json && $(cat "$state/history.json") == '[{"key":"n2"}]' && ! -L $state/quiet.json && ! -s $state/quiet.json ]] ||
@@ -47,12 +47,12 @@ pass "the state directory is prepared"
 # symlink, and its Do Not Disturb carried into quiet.json.
 migration=$(grep -l "the 4.0 notification engine left behind" "$ROOT"/migrations/*.sh)
 old="$tmp/old"
-state="$old/.local/state/omarchy/notifications"
+state="$old/.local/state/lunaos/notifications"
 mkdir -p "$state/history" "$state/images" "$old/outside"
 touch "$state/history/1-n1.json" "$state/1776000000000-7.json" "$old/outside/keep.json" "$old/outside/1-2.json"
 echo '[{"key":"n2"}]' >"$state/history.json"
 : >"$state/quiet.json"
-echo '{"version":3,"dnd":true}' >"$old/.local/state/omarchy/notifications.json"
+echo '{"version":3,"dnd":true}' >"$old/.local/state/lunaos/notifications.json"
 ln -s "$old/outside" "$state/1-linked.json"
 ln -s "$old/outside" "$state/images/outside"
 for run in first again; do
@@ -63,7 +63,7 @@ left=$(cd "$state" && find . | sort | tr '\n' ' ')
   fail "4.0's leftovers are cleared and nothing else" "$left"
 [[ -f $old/outside/keep.json && -f $old/outside/1-2.json ]] ||
   fail "leftover cleanup never reaches through a symlink"
-[[ $(jq -c '[.dnd, .codesBypassQuiet]' "$state/quiet.json") == "[true,true]" && ! -e $old/.local/state/omarchy/notifications.json ]] ||
+[[ $(jq -c '[.dnd, .codesBypassQuiet]' "$state/quiet.json") == "[true,true]" && ! -e $old/.local/state/lunaos/notifications.json ]] ||
   fail "4.0's Do Not Disturb carries over" "$(cat "$state/quiet.json")"
 pass "a migration clears 4.0's leftovers and carries its Do Not Disturb"
 
@@ -73,9 +73,9 @@ pass "a migration clears 4.0's leftovers and carries its Do Not Disturb"
 declared=$(sed -n '/target: "notifications"/,/^  }/p' "$service" | grep -oE '^    function [A-Za-z]+' | awk '{print $2}' | sort -u)
 used=$(
   {
-    sed -nE 's/^ipc notifications\.([A-Za-z]+)$/\1/p' "$ROOT/default/omarchy/shortcuts"
+    sed -nE 's/^ipc notifications\.([A-Za-z]+)$/\1/p' "$ROOT/default/lunaos/shortcuts"
     grep -rhoE 'ipc = "notifications\.[A-Za-z]+"' "$ROOT/default/hypr" | sed -E 's/.*notifications\.([A-Za-z]+)"/\1/'
-    grep -rhoE 'omarchy-shell( -q)? notifications [A-Za-z]+' "$ROOT/bin" "$ROOT/install" "$ROOT/migrations" | awk '{print $NF}'
+    grep -rhoE 'lunaos-shell( -q)? notifications [A-Za-z]+' "$ROOT/bin" "$ROOT/install" "$ROOT/migrations" | awk '{print $NF}'
   } | sort -u
 )
 missing=$(comm -13 <(echo "$declared") <(echo "$used"))
@@ -83,8 +83,8 @@ missing=$(comm -13 <(echo "$declared") <(echo "$used"))
 pass "every notifications IPC method callers use is declared"
 
 # The surface keeps the namespace the glassy-window layer rule matches.
-grep -q 'WlrLayershell.namespace: "omarchy-notifications"' "$service" ||
-  fail "notification surface keeps the omarchy-notifications layer namespace"
-grep -q 'omarchy-notifications' "$ROOT/default/hypr/toggles/window-glassy.lua" ||
+grep -q 'WlrLayershell.namespace: "lunaos-notifications"' "$service" ||
+  fail "notification surface keeps the lunaos-notifications layer namespace"
+grep -q 'lunaos-notifications' "$ROOT/default/hypr/toggles/window-glassy.lua" ||
   fail "glassy toggle still matches the notification layer namespace"
-pass "notification surface keeps the omarchy-notifications layer namespace"
+pass "notification surface keeps the lunaos-notifications layer namespace"

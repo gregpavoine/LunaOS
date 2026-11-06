@@ -31,7 +31,7 @@ bindl
 	keycode: 0
 	description: Keyboard brightness up
 	dispatcher: exec
-	arg: omarchy-brightness-keyboard up
+	arg: lunaos-brightness-keyboard up
 
 bindl
 	modmask: 1
@@ -39,7 +39,7 @@ bindl
 	keycode: 0
 	description: Keyboard brightness down
 	dispatcher: exec
-	arg: omarchy-brightness-keyboard down
+	arg: lunaos-brightness-keyboard down
 
 bindi
 	modmask: 8
@@ -47,7 +47,7 @@ bindi
 	keycode: 0
 	description: Brightness up precise
 	dispatcher: exec
-	arg: omarchy-brightness-display +1%
+	arg: lunaos-brightness-display +1%
 
 bind
 	modmask: 64
@@ -82,32 +82,32 @@ KEYMAP
 SH
 chmod +x "$mock_bin/xkbcli"
 
-cat >"$mock_bin/omarchy-cmd-present" <<'SH'
+cat >"$mock_bin/lunaos-cmd-present" <<'SH'
 #!/bin/bash
 exit 1
 SH
-chmod +x "$mock_bin/omarchy-cmd-present"
+chmod +x "$mock_bin/lunaos-cmd-present"
 
 # The menu reads key names from the fixed platform root; copies of it read a
 # fixture root with key names, and one without.
 mkdir -p "$platform/root" "$platform/bin"
 printf '%s\n' 'XF86MonBrightnessUp F2' 'XF86MonBrightnessDown F1' 'not a line' 'Bad-Sym F3' >"$platform/root/key-names"
-platform_root_copy "$ROOT/bin/omarchy-menu-keybindings" "$platform/bin/with-names" "$platform/root"
-platform_root_copy "$ROOT/bin/omarchy-menu-keybindings" "$platform/bin/without-names" "$platform/none"
+platform_root_copy "$ROOT/bin/lunaos-menu-keybindings" "$platform/bin/with-names" "$platform/root"
+platform_root_copy "$ROOT/bin/lunaos-menu-keybindings" "$platform/bin/without-names" "$platform/none"
 
 # Pre-seed the exact cache file that v13, which knew no key names, would read
 # for these mocked inputs. Cached records use the rendered row as field 1, followed by
 # the dispatcher and argument fields.
-mkdir -p "$cache_dir/omarchy"
+mkdir -p "$cache_dir/lunaos"
 v13_key=$({
   printf 'v13\n'
   "$mock_bin/hyprctl" devices 2>/dev/null | grep -F 'active keymap:'
   "$mock_bin/hyprctl" binds 2>/dev/null
 } | sha256sum | awk '{ print $1 }')
-cat >"$cache_dir/omarchy/keybindings-$v13_key.records" <<'EOF'
-SHIFT + XF86MonBrightnessUp → Keyboard brightness up	exec	omarchy-brightness-keyboard up
-SHIFT + XF86MonBrightnessDown → Keyboard brightness down	exec	omarchy-brightness-keyboard down
-ALT + XF86MonBrightnessUp → Brightness up precise	exec	omarchy-brightness-display +1%
+cat >"$cache_dir/lunaos/keybindings-$v13_key.records" <<'EOF'
+SHIFT + XF86MonBrightnessUp → Keyboard brightness up	exec	lunaos-brightness-keyboard up
+SHIFT + XF86MonBrightnessDown → Keyboard brightness down	exec	lunaos-brightness-keyboard down
+ALT + XF86MonBrightnessUp → Brightness up precise	exec	lunaos-brightness-display +1%
 SUPER + Q → Close window	killactive
 EOF
 
@@ -130,7 +130,7 @@ tr -s ' ' <<<"$output" | grep -qF 'SUPER + Q → Close window' || \
 
 # The menu runs a chosen row from its cached record, which carries what the
 # binding runs.
-records=$(cat "$cache_dir"/omarchy/keybindings-*.records)
+records=$(cat "$cache_dir"/lunaos/keybindings-*.records)
 grep -qF 'wtype -k XF86MonBrightnessUp' <<<"$records" && ! grep -qF 'wtype -k F2' <<<"$records" ||
   fail "a key name never changes what a binding runs" "$records"
 
@@ -140,7 +140,7 @@ pass "keybindings menu shows a platform's key names (F1/F2), stale caches ignore
 # reads the same, as displays.conf does.
 mkdir -p "$platform/crlf"
 printf '%s\r\n' 'XF86MonBrightnessUp F2' '  XF86MonBrightnessDown	F1 ' >"$platform/crlf/key-names"
-platform_root_copy "$ROOT/bin/omarchy-menu-keybindings" "$platform/bin/crlf-names" "$platform/crlf"
+platform_root_copy "$ROOT/bin/lunaos-menu-keybindings" "$platform/bin/crlf-names" "$platform/crlf"
 output=$(PATH="$mock_bin:$PATH" XDG_CACHE_HOME="$cache_dir" "$platform/bin/crlf-names" --print)
 tr -s ' ' <<<"$output" | grep -qF 'SHIFT + F2 → Keyboard brightness up' && tr -s ' ' <<<"$output" | grep -qF 'SHIFT + F1 → Keyboard brightness down' ||
   fail "key names saved with CRLF line ends and blanks around them still apply" "$output"

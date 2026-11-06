@@ -5,7 +5,7 @@ import qs.Commons as Commons
 ShellRoot {
   id: root
 
-  property string resultPath: Quickshell.env("OMARCHY_QML_TEST_RESULT")
+  property string resultPath: Quickshell.env("LUNAOS_QML_TEST_RESULT")
   property var failures: []
   property var commands: []
 
@@ -55,10 +55,10 @@ ShellRoot {
   QtObject {
     id: mockShell
     function firstPartyServiceFor(id) {
-      if (id === "omarchy.notifications") return notificationService
-      if (id === "omarchy.idle") return idleService
-      if (id === "omarchy.nightlight") return nightlightService
-      if (id === "omarchy.remote-session") return remoteSessionService
+      if (id === "lunaos.notifications") return notificationService
+      if (id === "lunaos.idle") return idleService
+      if (id === "lunaos.nightlight") return nightlightService
+      if (id === "lunaos.remote-session") return remoteSessionService
       return null
     }
   }
@@ -234,7 +234,7 @@ ShellRoot {
     }
     tray.fixedEdge = "end"
     tray.bar = mockBar
-    tray.moduleName = "omarchy.indicators"
+    tray.moduleName = "lunaos.indicators"
     tray.settings = { items: ids }
 
     function slots() {
@@ -301,7 +301,7 @@ ShellRoot {
     // what sets the indicators that are already active reporting in.
     tray.fixedEdge = edge
     tray.bar = mockBar
-    tray.moduleName = "omarchy.indicators"
+    tray.moduleName = "lunaos.indicators"
     tray.settings = { items: ["NightLight", "StayAwake"] }
 
     function extent() {
@@ -377,7 +377,7 @@ ShellRoot {
     return "'" + String(value).replace(/'/g, "'\\''") + "'"
   }
 
-  readonly property string rootPath: Quickshell.env("OMARCHY_PATH")
+  readonly property string rootPath: Quickshell.env("LUNAOS_PATH")
 
   // Indicator text comes from the catalogs, which load just after the
   // shell starts; check once they have.
@@ -408,10 +408,10 @@ ShellRoot {
         screenRecording.moduleName = "ScreenRecording"
         root.injectBar(screenRecording)
         screenRecording.triggerPress(Qt.LeftButton)
-        root.assertTrue(root.commandCount("omarchy-menu toggle trigger.capture.screenrecord") === 1, "Screen Recording left click opens capture menu when idle")
+        root.assertTrue(root.commandCount("lunaos-menu toggle trigger.capture.screenrecord") === 1, "Screen Recording left click opens capture menu when idle")
         screenRecording.recording = true
         screenRecording.triggerPress(Qt.LeftButton)
-        root.assertTrue(root.commandCount("omarchy-capture-screenrecording --stop-recording") === 1, "Screen Recording left click stops active recording")
+        root.assertTrue(root.commandCount("lunaos-capture-screenrecording --stop-recording") === 1, "Screen Recording left click stops active recording")
       }
 
       var remoteSession = root.createIndicator("RemoteSession")

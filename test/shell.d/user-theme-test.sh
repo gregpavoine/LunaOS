@@ -6,15 +6,15 @@ test_tmp=$(mktemp -d)
 trap 'rm -rf "$test_tmp"' EXIT
 
 mock_bin="$test_tmp/bin"
-mkdir -p "$mock_bin" "$test_tmp/home/.config/chromium" "$test_tmp/home/.local/state/omarchy/current"
+mkdir -p "$mock_bin" "$test_tmp/home/.config/chromium" "$test_tmp/home/.local/state/lunaos/current"
 
-cat >"$mock_bin/omarchy-theme-set" <<'SH'
+cat >"$mock_bin/lunaos-theme-set" <<'SH'
 #!/bin/bash
-printf '%s\n' "$*" >>"$OMARCHY_TEST_THEME_CALLS"
+printf '%s\n' "$*" >>"$LUNAOS_TEST_THEME_CALLS"
 SH
-chmod +x "$mock_bin/omarchy-theme-set"
+chmod +x "$mock_bin/lunaos-theme-set"
 
-for command in omarchy-theme-set-pi omarchy-theme-set-fcitx5; do
+for command in lunaos-theme-set-pi lunaos-theme-set-fcitx5; do
   cat >"$mock_bin/$command" <<'SH'
 #!/bin/bash
 exit 0
@@ -24,14 +24,14 @@ done
 
 calls="$test_tmp/theme-calls"
 touch "$test_tmp/home/.config/chromium/SingletonLock"
-HOME="$test_tmp/home" PATH="$mock_bin:$PATH" OMARCHY_TEST_THEME_CALLS="$calls" \
+HOME="$test_tmp/home" PATH="$mock_bin:$PATH" LUNAOS_TEST_THEME_CALLS="$calls" \
   bash "$ROOT/install/user/theme.sh"
 grep -Fx 'Tokyo Night' "$calls" >/dev/null || fail "user theme setup seeds Tokyo Night when no theme exists"
 [[ -f $test_tmp/home/.config/chromium/SingletonLock ]] || fail "runtime user theme setup preserves Chromium's singleton lock"
 
 : >"$calls"
-printf 'Solitude\n' >"$test_tmp/home/.local/state/omarchy/current/theme.name"
-HOME="$test_tmp/home" PATH="$mock_bin:$PATH" OMARCHY_TEST_THEME_CALLS="$calls" \
+printf 'Solitude\n' >"$test_tmp/home/.local/state/lunaos/current/theme.name"
+HOME="$test_tmp/home" PATH="$mock_bin:$PATH" LUNAOS_TEST_THEME_CALLS="$calls" \
   bash "$ROOT/install/user/theme.sh"
 [[ ! -s $calls ]] || fail "user theme setup preserves an existing theme"
 

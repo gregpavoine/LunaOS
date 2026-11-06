@@ -1,8 +1,8 @@
 # Penyesuaian umum
 
-Ini adalah kumpulan penyesuaian umum untuk pengaturan Omarchy. Ketahuilah bahwa terkadang pembaruan sistem mungkin perlu memulihkan konfigurasi tertentu ke kondisi aslinya. Jika ini terjadi, perubahanmu tidak akan hilang, tetapi dimasukkan ke berkas `.bak` di direktori yang sama.
+Ini adalah kumpulan penyesuaian umum untuk pengaturan LunaOS. Ketahuilah bahwa terkadang pembaruan sistem mungkin perlu memulihkan konfigurasi tertentu ke kondisi aslinya. Jika ini terjadi, perubahanmu tidak akan hilang, tetapi dimasukkan ke berkas `.bak` di direktori yang sama.
 
-Jika kamu mengacaukan sesuatu, kamu bisa memulihkan konfigurasi individual ke pengaturan aslinya melalui _Perbarui > Config_ di menu Omarchy. Jika kamu _benar-benar_ mengacaukan segalanya, kamu bisa mengatur ulang semua konfigurasi melalui `omarchy-reinstall`.
+Jika kamu mengacaukan sesuatu, kamu bisa memulihkan konfigurasi individual ke pengaturan aslinya melalui _Perbarui > Config_ di menu LunaOS. Jika kamu _benar-benar_ mengacaukan segalanya, kamu bisa mengatur ulang semua konfigurasi melalui `lunaos-reinstall`.
 
 ### Perlihatkan semua ikon baki sepanjang waktu
 
@@ -10,7 +10,7 @@ Secara bawaan, ikon baki, seperti Dropbox, 1password, atau Steam, tersembunyi di
 
 ### Sudut jendela melengkung
 
-Desain bawaan Omarchy adalah sudut persegi, tetapi jika kamu suka melunakkannya sedikit, kamu bisa mengubah `~/.config/hypr/looknfeel.lua` sehingga pembulatan tidak lagi dikomentari:
+Desain bawaan LunaOS adalah sudut persegi, tetapi jika kamu suka melunakkannya sedikit, kamu bisa mengubah `~/.config/hypr/looknfeel.lua` sehingga pembulatan tidak lagi dikomentari:
 
 ```
 hl.config({

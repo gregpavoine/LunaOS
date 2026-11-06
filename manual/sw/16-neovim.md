@@ -6,7 +6,7 @@ Ikiwa mpya kabisa katika uhariri wa mtindo wa vim, ninapendekeza utazame [mfulul
 
 Sasa Neovim kimsingi inaweza kusanidiwa bila mwisho. Ikiwa unataka kweli kuchachamaa, unaweza kuunda usanidi wako mwenyewe wa Neovim kutoka mwanzo. Kuna kozi bora kutoka [Typecraft ya kusanidi Neovim kutoka mwanzo](https://www.youtube.com/watch?v=zHTeCSVAFNY). Na [ThePrimeagen ina moja pia](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Lakini Omarchy hutumwa na usanidi kamili wa Neovim — kifurushi cha `omarchy-nvim` — ambacho kimepangwa kwa upendo kuonyesha bora zaidi ya kile kinachowezekana mara moja. Bila wewe kuandika mstari mmoja wa usanidi! Imejengwa juu ya [LazyVim](https://www.lazyvim.org/), usambazaji wa programu-jalizi na usanidi wa Neovim. Ni nzuri sana.
+Lakini LunaOS hutumwa na usanidi kamili wa Neovim — kifurushi cha `omarchy-nvim` — ambacho kimepangwa kwa upendo kuonyesha bora zaidi ya kile kinachowezekana mara moja. Bila wewe kuandika mstari mmoja wa usanidi! Imejengwa juu ya [LazyVim](https://www.lazyvim.org/), usambazaji wa programu-jalizi na usanidi wa Neovim. Ni nzuri sana.
 
 ## Misingi ya LazyVim
 

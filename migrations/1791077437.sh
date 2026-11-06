@@ -1,20 +1,20 @@
 echo "Move NVIDIA N1x laptops to linux-omarchy-n1x and drop the bring-up scaffolding"
 
 # See install/hardware/n1x.sh, which sets up new installs the same way.
-limine_conf_dir="${OMARCHY_LIMINE_ENTRY_TOOL_DIR:-/etc/limine-entry-tool.d}"
-mkinitcpio_conf_dir="${OMARCHY_MKINITCPIO_CONF_DIR:-/etc/mkinitcpio.conf.d}"
-modules_dir="${OMARCHY_MODULES_DIR:-/usr/lib/modules}"
-kernel_cmdline="${OMARCHY_KERNEL_CMDLINE:-/etc/kernel/cmdline}"
-probe_unit="${OMARCHY_N1X_PROBE_UNIT:-/etc/systemd/system/omarchy-n1x-probe.service}"
-rebuild_marker="${OMARCHY_LIMINE_REBUILD_MARKER:-/var/lib/omarchy/migrations/1791077437}"
+limine_conf_dir="${LUNAOS_LIMINE_ENTRY_TOOL_DIR:-/etc/limine-entry-tool.d}"
+mkinitcpio_conf_dir="${LUNAOS_MKINITCPIO_CONF_DIR:-/etc/mkinitcpio.conf.d}"
+modules_dir="${LUNAOS_MODULES_DIR:-/usr/lib/modules}"
+kernel_cmdline="${LUNAOS_KERNEL_CMDLINE:-/etc/kernel/cmdline}"
+probe_unit="${LUNAOS_N1X_PROBE_UNIT:-/etc/systemd/system/lunaos-n1x-probe.service}"
+rebuild_marker="${LUNAOS_LIMINE_REBUILD_MARKER:-/var/lib/lunaos/migrations/1791077437}"
 
-omarchy-hw-aarch64-n1x || exit 0
+lunaos-hw-aarch64-n1x || exit 0
 
 # Everything below is machine-wide. The marker lets another user's run skip it,
 # while a missing marker still retries an interrupted run.
 [[ ! -e $rebuild_marker ]] || exit 0
 
-omarchy-pkg-add linux-omarchy-n1x linux-omarchy-n1x-headers
+lunaos-pkg-add linux-omarchy-n1x linux-omarchy-n1x-headers
 
 mapfile -t pkgbase_files < <(grep -lFx linux-omarchy-n1x "$modules_dir"/*/pkgbase 2>/dev/null || true)
 if (( ${#pkgbase_files[@]} != 1 )); then
@@ -28,7 +28,7 @@ kernel_version=${kernel_version%/pkgbase}
 # until DKMS has built every one of them for the new kernel.
 if [[ -f $mkinitcpio_conf_dir/nvidia.conf ]] &&
   ! modinfo -k "$kernel_version" nvidia nvidia_modeset nvidia_uvm nvidia_drm &>/dev/null; then
-  echo "Error: no NVIDIA DKMS modules for $kernel_version yet; run 'omarchy update' again once they build" >&2
+  echo "Error: no NVIDIA DKMS modules for $kernel_version yet; run 'lunaos update' again once they build" >&2
   exit 1
 fi
 
@@ -38,19 +38,19 @@ if [[ $root_cmdline != *root=* ]]; then
   exit 1
 fi
 
-sudo install -Dm644 /dev/stdin "$mkinitcpio_conf_dir/omarchy-n1x-input.conf" <<'EOF'
+sudo install -Dm644 /dev/stdin "$mkinitcpio_conf_dir/lunaos-n1x-input.conf" <<'EOF'
 # N1x: the internal keyboard is I2C-HID behind the MediaTek I2C controllers;
 # see install/hardware/n1x.sh.
 MODULES+=(i2c_mt65xx i2c_hid_acpi)
 EOF
 
-sudo install -Dm644 /dev/stdin "$limine_conf_dir/00-omarchy-n1x-sleep.conf" <<'EOF'
+sudo install -Dm644 /dev/stdin "$limine_conf_dir/00-lunaos-n1x-sleep.conf" <<'EOF'
 # N1x: the firmware's deep sleep returns at once; suspend to idle instead.
 KERNEL_CMDLINE[default]+=" mem_sleep_default=s2idle"
 EOF
 
-if omarchy-hw-match "H7407BA"; then
-  sudo install -Dm644 /dev/stdin "$limine_conf_dir/00-omarchy-n1x-usb4.conf" <<'EOF'
+if lunaos-hw-match "H7407BA"; then
+  sudo install -Dm644 /dev/stdin "$limine_conf_dir/00-lunaos-n1x-usb4.conf" <<'EOF'
 # N1x: keep the USB4 host routers powered and leave room for docks behind them;
 # see install/hardware/n1x.sh.
 KERNEL_CMDLINE[default]+=" power_wrap_drv.usb4_release=0 pci=hpbussize=0x80,hpmmiosize=32M,hpmmioprefsize=32G"
@@ -64,7 +64,7 @@ printf '%s\n' \
   "KERNEL_CMDLINE[fallback]=\"$rescue_cmdline\"" \
   'EXCLUDE_SNAPSHOT_ENTRIES="Windows*, windows*, *fallback"' \
   'BOOT_ORDER="linux-omarchy-n1x, linux-omarchy-n1x-fallback, *, Snapshots"' |
-  sudo install -Dm644 /dev/stdin "$limine_conf_dir/zz-omarchy-n1x-boot-order.conf"
+  sudo install -Dm644 /dev/stdin "$limine_conf_dir/zz-lunaos-n1x-boot-order.conf"
 
 # The probe now runs on demand.
 if [[ -f $probe_unit ]]; then
@@ -77,9 +77,9 @@ fi
 # and so does linux-n1x unless this boot is still running it.
 sudo limine-entry-tool --remove-uki linux-n1x-rescue --quiet 2>/dev/null || true
 if [[ $(cat "$modules_dir/$(uname -r)/pkgbase" 2>/dev/null) != "linux-n1x" ]]; then
-  omarchy-pkg-drop linux-n1x linux-n1x-headers
+  lunaos-pkg-drop linux-n1x linux-n1x-headers
 else
-  echo "linux-n1x stays installed until this machine has booted linux-omarchy-n1x; remove it then with: omarchy-pkg-drop linux-n1x linux-n1x-headers"
+  echo "linux-n1x stays installed until this machine has booted linux-omarchy-n1x; remove it then with: lunaos-pkg-drop linux-n1x linux-n1x-headers"
 fi
 
 sudo limine-mkinitcpio

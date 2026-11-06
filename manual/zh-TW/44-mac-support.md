@@ -1,16 +1,16 @@
 # Mac 支援
 
-Omarchy 內建支援 **Intel Mac**。目前有幾個已知的限制，但只要你了解並能接受這些限制，就可以把 Omarchy 裝上你的舊 Mac，讓它重獲新生。
+LunaOS 內建支援 **Intel Mac**。目前有幾個已知的限制，但只要你了解並能接受這些限制，就可以把 LunaOS 裝上你的舊 Mac，讓它重獲新生。
 
-請注意，目前並不直接支援在 M 系列 Mac 上安裝。你可以在我們的 [Discord](https://discord.gg/tXFUdasqhY) 的 #omarchy-on-other 頻道中了解這方面的最新狀態。
+請注意，目前並不直接支援在 M 系列 Mac 上安裝。你可以在我們的 [Discord](https://discord.gg/tXFUdasqhY) 的 #lunaos-on-other 頻道中了解這方面的最新狀態。
 
-在一次簡單的測試中，我們光是安裝 Omarchy，就在一台 2019 MacBook Pro 上獲得了 36% 的效能提升。
+在一次簡單的測試中，我們光是安裝 LunaOS，就在一台 2019 MacBook Pro 上獲得了 36% 的效能提升。
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### 在 Mac 上安裝 Omarchy
+### 在 Mac 上安裝 LunaOS
 
-目前 Omarchy 只支援作為唯一安裝的作業系統。在安裝過程中，磁碟將被抹除，MacOS 將不再能開機。
+目前 LunaOS 只支援作為唯一安裝的作業系統。在安裝過程中，磁碟將被抹除，MacOS 將不再能開機。
 
 如果你之後想還原它，仍然可以透過 Internet Recovery 來做。
 
@@ -39,7 +39,7 @@ Omarchy 內建支援 **Intel Mac**。目前有幾個已知的限制，但只要�
 
 ### 已知限制
 
-社群成員持續在為這些挑戰尋找解決方案，所以如果這些問題對你造成困擾，請加入我們 [Discord](https://discord.gg/tXFUdasqhY) 的 #omarchy-on-other 頻道，看看有沒有最新的解決方法。
+社群成員持續在為這些挑戰尋找解決方案，所以如果這些問題對你造成困擾，請加入我們 [Discord](https://discord.gg/tXFUdasqhY) 的 #lunaos-on-other 頻道，看看有沒有最新的解決方法。
 
 #### 搭載 T1 晶片的裝置
 

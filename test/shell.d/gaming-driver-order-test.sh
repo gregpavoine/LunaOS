@@ -14,15 +14,15 @@ mkdir -p "$stub_bin" "$launcher_dir"
 # An existing launcher avoids the download and partial-prefix prompt.
 touch "$launcher_dir/Battle.net Launcher.exe"
 
-cat >"$stub_bin/omarchy-install-gaming-gpu-lib32" <<'SH'
+cat >"$stub_bin/lunaos-install-gaming-gpu-lib32" <<'SH'
 #!/bin/bash
-printf 'drivers\n' >>"$OMARCHY_TEST_CALLS"
-exit "${OMARCHY_TEST_DRIVER_STATUS:-0}"
+printf 'drivers\n' >>"$LUNAOS_TEST_CALLS"
+exit "${LUNAOS_TEST_DRIVER_STATUS:-0}"
 SH
 
-cat >"$stub_bin/omarchy-pkg-add" <<'SH'
+cat >"$stub_bin/lunaos-pkg-add" <<'SH'
 #!/bin/bash
-printf 'packages %s\n' "$*" >>"$OMARCHY_TEST_CALLS"
+printf 'packages %s\n' "$*" >>"$LUNAOS_TEST_CALLS"
 SH
 
 # Never change system files, launch a game, or update the host's desktop cache.
@@ -39,12 +39,12 @@ run_installer() {
   local installer="$1" driver_status="$2"
 
   : >"$test_tmp/calls"
-  HOME="$test_home" OMARCHY_PATH="$ROOT" PATH="$stub_bin:$PATH" \
-    OMARCHY_TEST_CALLS="$test_tmp/calls" OMARCHY_TEST_DRIVER_STATUS="$driver_status" \
+  HOME="$test_home" LUNAOS_PATH="$ROOT" PATH="$stub_bin:$PATH" \
+    LUNAOS_TEST_CALLS="$test_tmp/calls" LUNAOS_TEST_DRIVER_STATUS="$driver_status" \
     bash "$ROOT/bin/$installer" >"$test_tmp/output" 2>&1
 }
 
-for installer in omarchy-install-gaming-lutris omarchy-install-gaming-battlenet; do
+for installer in lunaos-install-gaming-lutris lunaos-install-gaming-battlenet; do
   run_installer "$installer" 0 || fail "$installer completes with stubbed dependencies" "$(<"$test_tmp/output")"
   mapfile -t calls <"$test_tmp/calls"
   [[ ${calls[0]:-} == "drivers" && ${calls[1]:-} == "packages "* ]] ||

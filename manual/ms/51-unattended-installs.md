@@ -1,8 +1,8 @@
 # Pemasangan Tanpa Pengawasan
 
-ISO Omarchy boleh memasang dirinya sendiri tanpa sesiapa di papan kekunci. Jika pemasang menemui pemacu kedua berlabel `cidata` yang membawa fail konfigurasinya, ia menyalinnya, melangkau wizard persediaan sepenuhnya, dan but semula ke dalam sistem yang siap dengan sendirinya. Tiada binaan ISO khas, tiada entri menu but tambahan — tanpa pemacu sedemikian dipasang, tiada apa yang berubah dan anda mendapat wizard biasa.
+ISO LunaOS boleh memasang dirinya sendiri tanpa sesiapa di papan kekunci. Jika pemasang menemui pemacu kedua berlabel `cidata` yang membawa fail konfigurasinya, ia menyalinnya, melangkau wizard persediaan sepenuhnya, dan but semula ke dalam sistem yang siap dengan sendirinya. Tiada binaan ISO khas, tiada entri menu but tambahan — tanpa pemacu sedemikian dipasang, tiada apa yang berubah dan anda mendapat wizard biasa.
 
-Ini menjadikan Omarchy hebat sebagai imej asas untuk persekitaran dev boleh buang: cipta VM dalam Proxmox atau dengan Packer, butkannya, tinggalkan, SSH masuk. `cidata` ialah label `NoCloud` cloud-init, jadi semua alat virtualisasi biasa sudah tahu cara memasang pemacu sedemikian.
+Ini menjadikan LunaOS hebat sebagai imej asas untuk persekitaran dev boleh buang: cipta VM dalam Proxmox atau dengan Packer, butkannya, tinggalkan, SSH masuk. `cidata` ialah label `NoCloud` cloud-init, jadi semua alat virtualisasi biasa sudah tahu cara memasang pemacu sedemikian.
 
 ## Fail konfigurasi
 
@@ -24,7 +24,7 @@ Anda juga boleh meletakkan fail kosong bernama `defer-provisioning` menggantikan
 
 ## Akses SSH
 
-Apabila `authorized_keys` hadir, pemasangan menyediakan kekunci sebagai `~/.ssh/authorized_keys` pengguna, membolehkan `sshd`, dan membuka tembok api untuknya. (Pemasangan Omarchy stok membekalkan openssh dengan perkhidmatan dilumpuhkan dan port ditutup, jadi mesin tanpa pengawasan sebaliknya tidak dapat dicapai.) Pemasangan hanya menambah kekunci anda — ia tidak melonggarkan mana-mana tetapan pengesahan lain daemon SSH.
+Apabila `authorized_keys` hadir, pemasangan menyediakan kekunci sebagai `~/.ssh/authorized_keys` pengguna, membolehkan `sshd`, dan membuka tembok api untuknya. (Pemasangan LunaOS stok membekalkan openssh dengan perkhidmatan dilumpuhkan dan port ditutup, jadi mesin tanpa pengawasan sebaliknya tidak dapat dicapai.) Pemasangan hanya menambah kekunci anda — ia tidak melonggarkan mana-mana tetapan pengesahan lain daemon SSH.
 
 Apabila `tailscale_authkey` hadir, mesin menyertai tailnet anda semasa but pertama sebaliknya: Tailscale dipasang dari pakej ikatan ISO, tembok api membenarkan antara muka tailnet, dan kerja latar belakang menjalankan penyertaan sebaik sahaja mesin benar-benar mempunyai rangkaian, mencuba semula sehingga berjaya. Gunakan kekunci boleh guna semula, yang dibenarkan terlebih dahulu supaya satu imej pemacu boleh melayani banyak mesin.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Kemudian pasangkannya pada VM di samping ISO Omarchy. Berikut ialah contoh Proxmox penuh:
+Kemudian pasangkannya pada VM di samping ISO LunaOS. Berikut ialah contoh Proxmox penuh:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

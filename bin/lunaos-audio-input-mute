@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# lunaos:summary=Toggle microphone mute. Drives the hardware mic-mute LED on laptops that expose one.
+
+wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle >/dev/null
+
+if wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | grep -q MUTED; then
+  lunaos-brightness-keyboard-mute on
+  lunaos-osd -i microphone-muted -m "$(lunaos-i18n audio.micMuted)"
+else
+  lunaos-brightness-keyboard-mute off
+  lunaos-osd -i microphone -m "$(lunaos-i18n audio.micOn)"
+fi

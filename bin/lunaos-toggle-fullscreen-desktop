@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# lunaos:summary=Toggle a full screen desktop: hide the top bar and remove the window gaps together
+# lunaos:args=[toggle|on|off]
+# lunaos:examples=lunaos toggle fullscreen desktop | lunaos toggle fullscreen desktop off | lunaos toggle fullscreen desktop on
+
+ACTION="${1:-toggle}"
+
+case $ACTION in
+  toggle|"")
+    # Only leave full screen when both halves are already in it, so a lone bar
+    # or a lone gap toggle is pulled into line rather than flipped away.
+    if lunaos-toggle-enabled bar-off && lunaos-hyprland-toggle-enabled window-no-gaps; then
+      ACTION="off"
+    else
+      ACTION="on"
+    fi
+    ;;
+  on|off) ;;
+  *)
+    echo "Usage: lunaos-toggle-fullscreen-desktop [toggle|on|off]" >&2
+    exit 1
+    ;;
+esac
+
+lunaos-toggle-bar "$ACTION"
+lunaos-hyprland-toggle window-no-gaps "$ACTION"

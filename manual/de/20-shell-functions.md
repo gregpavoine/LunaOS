@@ -1,6 +1,6 @@
 # Shell-Funktionen
 
-Omarchy bringt eine Reihe von Shell-Funktionen mit, um häufige Aufgaben zu vereinfachen und umständliche Parameteraufrufe zu kapseln.
+LunaOS bringt eine Reihe von Shell-Funktionen mit, um häufige Aufgaben zu vereinfachen und umständliche Parameteraufrufe zu kapseln.
 
 ## Kompression
 

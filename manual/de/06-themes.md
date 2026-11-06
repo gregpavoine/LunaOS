@@ -1,8 +1,8 @@
 # Designs
 
-Omarchy kommt mit zweiundzwanzig wunderschönen Designs. Du kannst zwischen ihnen über _Stil > Design_ im Omarchy-Menü (`Super + Space`) wählen oder direkt mit `Super + Ctrl + Shift + Space` zur Design-Auswahl springen.
+LunaOS kommt mit zweiundzwanzig wunderschönen Designs. Du kannst zwischen ihnen über _Stil > Design_ im LunaOS-Menü (`Super + Space`) wählen oder direkt mit `Super + Ctrl + Shift + Space` zur Design-Auswahl springen.
 
-Jedes Design gestaltet den Desktop, das Terminal, Neovim, den Aktivitätsbildschirm (btop), Chromium und die gesamte Omarchy-Shell: Menüleiste, Menü, Benachrichtigungen, OSD und den Sperrbildschirm. (Für Obsidian musst du das Omarchy-Design manuell über _Appearance > Themes_ in der App auswählen.)
+Jedes Design gestaltet den Desktop, das Terminal, Neovim, den Aktivitätsbildschirm (btop), Chromium und die gesamte LunaOS-Shell: Menüleiste, Menü, Benachrichtigungen, OSD und den Sperrbildschirm. (Für Obsidian musst du das LunaOS-Design manuell über _Appearance > Themes_ in der App auswählen.)
 
 Designs haben eine Reihe von Hintergrundbildern, zwischen denen du mit `Super + Ctrl + Space` wählen kannst.
 

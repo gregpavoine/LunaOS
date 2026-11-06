@@ -21,7 +21,7 @@ De annotatie-editor kan pijlen, lijnen, vormen, markeringen, genummerde markers,
 
 Opgeslagen schermafbeeldingen landen standaard in `~/Pictures/Screenshots`, met een naam zoals `screenshot-2026-08-13_14-22-05-firefox.png`. Stel `OMASNAP_SCREENSHOT_DIR` in om een andere map te gebruiken — zie [de FAQ](46-faq.md) voor waar je sessie-omgevingsvariabelen plaatst. Omasnap maakt de map aan wanneer hij de eerste foto opslaat. Stel `[output] autosave = false` in in `~/.config/omasnap/omasnap.conf` om automatisch opslaan uit te schakelen.
 
-Vanaf de terminal opent `omarchy screenshot` dezelfde overlay, en je kunt zijn startmodus kiezen: `omarchy capture screenshot region`, `windows`, `fullscreen` of `scroll`. Een tweede argument van `copy` of `save` slaat de preview over en stuurt de foto rechtstreeks naar die bestemming. Om te bewerken vóór uitvoer gebruik je `omarchy screenshot --editor=overlay` voor een editor op volledig scherm of `omarchy screenshot --editor=window` voor een apart venster.
+Vanaf de terminal opent `lunaos screenshot` dezelfde overlay, en je kunt zijn startmodus kiezen: `lunaos capture screenshot region`, `windows`, `fullscreen` of `scroll`. Een tweede argument van `copy` of `save` slaat de preview over en stuurt de foto rechtstreeks naar die bestemming. Om te bewerken vóór uitvoer gebruik je `lunaos screenshot --editor=overlay` voor een editor op volledig scherm of `lunaos screenshot --editor=window` voor een apart venster.
 
 ### De kiezer bedienen vanaf het toetsenbord
 
@@ -40,9 +40,9 @@ Deze bindingen bestaan alleen terwijl Omasnap open is, dus ze kunnen niet botsen
 
 ## Schermopname
 
-`Alt + Print Screen` opent _Activeren > Vastleggen > Schermopname_, dat vraagt wat je op de soundtrack wilt: geen audio, desktopaudio, desktop plus microfoon, of desktop plus microfoon plus webcam. Die laatste verschijnt alleen als je daadwerkelijk een camera hebt aangesloten. Kies er een en Omarchy's opnamekiezer laat je een gebied slepen of op een venster of monitor klikken.
+`Alt + Print Screen` opent _Activeren > Vastleggen > Schermopname_, dat vraagt wat je op de soundtrack wilt: geen audio, desktopaudio, desktop plus microfoon, of desktop plus microfoon plus webcam. Die laatste verschijnt alleen als je daadwerkelijk een camera hebt aangesloten. Kies er een en LunaOS's opnamekiezer laat je een gebied slepen of op een venster of monitor klikken.
 
-Opname draait op gpu-screen-recorder, dat op de GPU encodeert met 60fps en terugvalt op de CPU als het moet. Het resultaat is een MP4 in `~/Videos`, met de naam `screenrecording-2026-08-13_14-22-05.mp4`. Stel `OMARCHY_SCREENRECORD_DIR` in om dat te veranderen — maar merk op dat deze map, in tegenstelling tot de schermafbeeldingenmap, al moet bestaan, anders weigert de opname te starten.
+Opname draait op gpu-screen-recorder, dat op de GPU encodeert met 60fps en terugvalt op de CPU als het moet. Het resultaat is een MP4 in `~/Videos`, met de naam `screenrecording-2026-08-13_14-22-05.mp4`. Stel `LUNAOS_SCREENRECORD_DIR` in om dat te veranderen — maar merk op dat deze map, in tegenstelling tot de schermafbeeldingenmap, al moet bestaan, anders weigert de opname te starten.
 
 Terwijl je opneemt, verschijnt er een kleine indicator in de balk. Klik erop om te stoppen. Je kunt ook stoppen met opnieuw `Alt + Print Screen`, of met het item _Schermopname stoppen_ onder _Activeren > Vastleggen > Schermopname_, dat alleen verschijnt terwijl er daadwerkelijk iets opneemt.
 
@@ -59,7 +59,7 @@ Wanneer je opneemt met een webcam, verschijnt de camera als een vastgepind, bijg
 
 Er zijn drie maten — klein, medium en groot — en de sneltoetsen stappen ertussen. Medium is de standaard. Ze zijn proportioneel aan de opname, dus de camera neemt hetzelfde deel van het frame in of je nu een 1080p-monitor of een 6K-monitor opneemt. En als je een gebied hebt opgenomen in plaats van een heel scherm, verankert de overlay aan de hoek van dat gebied in plaats van die van de monitor, zodat hij binnen de opname blijft.
 
-Je kunt het ook direct aanroepen met `omarchy-capture-webcam-resize small`, of `reset` om terug te gaan naar medium.
+Je kunt het ook direct aanroepen met `lunaos-capture-webcam-resize small`, of `reset` om terug te gaan naar medium.
 
 ## Tekst, QR-codes en kleuren
 
@@ -75,7 +75,7 @@ Een 4K-schermopname of een rauwe HEIC van je telefoon is vaak te groot om zomaar
 
 Afbeeldingen gaan naar jpg of png op hoog, medium of laag, die de breedte begrenzen op 3160, 2160 en 1080 pixels. Video's gaan naar mp4 of een geanimeerde gif op 4k, 1080p of 720p. Het geconverteerde bestand wordt naast het origineel geschreven met de resolutie in de naam — `demo-1080p.mp4` — en het pad wordt gekopieerd naar het klembord als een bestands-URI, zodat je het direct kunt plakken in een app die bestandsdrops accepteert.
 
-Het werkt ook vanaf de terminal, als je al weet wat je wilt: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Er is ook `omarchy transcode ascii`, dat een afbeelding omzet in ASCII-art — die is vooral voor [branding](41-branding.md).
+Het werkt ook vanaf de terminal, als je al weet wat je wilt: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Er is ook `lunaos transcode ascii`, dat een afbeelding omzet in ASCII-art — die is vooral voor [branding](41-branding.md).
 
 ## Het ergens heen sturen
 

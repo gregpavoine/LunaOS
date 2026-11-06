@@ -1,8 +1,8 @@
 # Temes
 
-Omarchy ve amb vint-i-dos temes preciosos. Podeu seleccionar entre ells mitjançant _Estil > Tema_ al menú d'Omarchy (`Super + Space`) o saltar directament al selector de temes amb `Super + Ctrl + Shift + Space`.
+LunaOS ve amb vint-i-dos temes preciosos. Podeu seleccionar entre ells mitjançant _Estil > Tema_ al menú d'LunaOS (`Super + Space`) o saltar directament al selector de temes amb `Super + Ctrl + Shift + Space`.
 
-Cada tema dona estil a l'escriptori, el terminal, neovim, la pantalla d'activitat (btop), Chromium i tot el shell d'Omarchy: barra superior, menú, notificacions, OSD i pantalla de bloqueig. (Per a Obsidian, heu de seleccionar manualment el tema d'Omarchy mitjançant _Aparença > Temes_ dins de l'aplicació).
+Cada tema dona estil a l'escriptori, el terminal, neovim, la pantalla d'activitat (btop), Chromium i tot el shell d'LunaOS: barra superior, menú, notificacions, OSD i pantalla de bloqueig. (Per a Obsidian, heu de seleccionar manualment el tema d'LunaOS mitjançant _Aparença > Temes_ dins de l'aplicació).
 
 Els temes tenen un conjunt d'imatges de fons entre les quals podeu triar amb `Super + Ctrl + Space`.
 

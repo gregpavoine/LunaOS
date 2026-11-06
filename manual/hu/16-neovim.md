@@ -6,7 +6,7 @@ Ha teljesen új vagy a vim-stílusú szerkesztésben, javaslom, hogy nézd meg [
 
 Nos, a Neovim alapvetően végtelenül konfigurálható. Ha igazán bele akarsz merülni, saját Neovim-konfigurációt készíthetsz a nulláról. Van egy nagyszerű kurzus [Typecrafttól a Neovim nulláról történő beállításáról](https://www.youtube.com/watch?v=zHTeCSVAFNY). És [ThePrimeagennél is van egy](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-De az Omarchy teljes Neovim-beállítással érkezik — az `omarchy-nvim` csomaggal —, amelyet szeretettel hangoltak, hogy bemutassa a legjobbakat, amelyek azonnal használhatók. Anélkül, hogy egyetlen sor konfigurációt kellene írnod! A [LazyVimre](https://www.lazyvim.org/) épül, egy Neovim-pluginokból és konfigurációkból álló disztribúcióra. Zseniális.
+De az LunaOS teljes Neovim-beállítással érkezik — az `omarchy-nvim` csomaggal —, amelyet szeretettel hangoltak, hogy bemutassa a legjobbakat, amelyek azonnal használhatók. Anélkül, hogy egyetlen sor konfigurációt kellene írnod! A [LazyVimre](https://www.lazyvim.org/) épül, egy Neovim-pluginokból és konfigurációkból álló disztribúcióra. Zseniális.
 
 ## LazyVim-alapok
 

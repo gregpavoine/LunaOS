@@ -1,4 +1,4 @@
-echo "Stop browsers asking to be the default behind Omarchy's link routing"
+echo "Stop browsers asking to be the default behind LunaOS's link routing"
 
 for flags_file in "$HOME"/.config/{chromium,chrome,microsoft-edge-stable,brave,brave-origin}-flags.conf; do
   [[ -f $flags_file ]] || continue
@@ -8,7 +8,7 @@ for flags_file in "$HOME"/.config/{chromium,chrome,microsoft-edge-stable,brave,b
   echo '--no-default-browser-check' >>"$flags_file"
 done
 
-source "$OMARCHY_PATH/install/helpers/browser-policy.sh"
+source "$LUNAOS_PATH/install/helpers/browser-policy.sh"
 
 for dir in "${BROWSER_POLICY_FIREFOX_DIRS[@]}"; do
   if browser_policy_firefox_hardened "$dir"; then

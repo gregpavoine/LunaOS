@@ -1,14 +1,14 @@
 # Augšējā josla
 
-Josla gar tava ekrāna augšpusi ir Omarchy josla. Tā nav pieskrūvēta statusa josla, bet Omarchy čaulas daļa — viens ilgstoši strādājošs Quickshell process, kas zīmē arī izvēlni, paziņojumus, OSD uznirstošos logus un bloķēšanas ekrānu. Tāpēc tā lieliski saskan ar visu pārējo un tāpēc panelis atveras uzreiz, nevis palaiž jaunu lietotni.
+Josla gar tava ekrāna augšpusi ir LunaOS josla. Tā nav pieskrūvēta statusa josla, bet LunaOS čaulas daļa — viens ilgstoši strādājošs Quickshell process, kas zīmē arī izvēlni, paziņojumus, OSD uznirstošos logus un bloķēšanas ekrānu. Tāpēc tā lieliski saskan ar visu pārējo un tāpēc panelis atveras uzreiz, nevis palaiž jaunu lietotni.
 
 Tā ir arī vienīgā darbvirsmas daļa, kas vienmēr ir ekrānā, tāpēc ir vērts zināt, ko dara visas tās mazās zīmes.
 
 ## Kas tajā ir pēc noklusējuma
 
-Joslai ir trīs sadaļas. Kreisajā pusē sēž Omarchy logo (izvēlnes palaidējs) un darbvietu rādītāji. Centrā tu iegūsti statusa rādītājus, pulksteni, Elsewhen (pasaules pulksteni), laikapstākļus un Omarchy atjauninājuma nozīmīti. Labajā pusē: tastatūras izkārtojums (kad konfigurēts vairāk nekā viens), sistēmas tekne, aģenti, bluetooth, tīkls, audio, displejs un barošana.
+Joslai ir trīs sadaļas. Kreisajā pusē sēž LunaOS logo (izvēlnes palaidējs) un darbvietu rādītāji. Centrā tu iegūsti statusa rādītājus, pulksteni, Elsewhen (pasaules pulksteni), laikapstākļus un LunaOS atjauninājuma nozīmīti. Labajā pusē: tastatūras izkārtojums (kad konfigurēts vairāk nekā viens), sistēmas tekne, aģenti, bluetooth, tīkls, audio, displejs un barošana.
 
-Daži no tiem parādās tikai tad, kad tiem ir ko teikt. Tastatūras izkārtojums parādās tikai tad, ja esi konfigurējis vairāk nekā vienu izkārtojumu. Atjauninājuma nozīmīte parādās tikai tad, kad gaida Omarchy atjauninājums. Un aģentu ikona parādās pirmo reizi, kad Omarchy iekārtā atrod AI kodēšanas lietojumu (skat. [AI](17-ai.md)).
+Daži no tiem parādās tikai tad, kad tiem ir ko teikt. Tastatūras izkārtojums parādās tikai tad, ja esi konfigurējis vairāk nekā vienu izkārtojumu. Atjauninājuma nozīmīte parādās tikai tad, kad gaida LunaOS atjauninājums. Un aģentu ikona parādās pirmo reizi, kad LunaOS iekārtā atrod AI kodēšanas lietojumu (skat. [AI](17-ai.md)).
 
 ## Klikšķināšana apkārt
 
@@ -16,7 +16,7 @@ Gandrīz katrs logrīks kaut ko dara ar kreiso, labo un vidējo klikšķi, un va
 
 | Logrīks | Kreisi | Labi | Vidus / ritināšana |
 | --- | --- | --- | --- |
-| Izvēlne | Omarchy izvēlne | Jauns terminālis | — |
+| Izvēlne | LunaOS izvēlne | Jauns terminālis | — |
 | Darbvietas | Fokusēt šo darbvietu | — | Ritināšana: nākamā/iepriekšējā darbvieta |
 | Pulkstenis | Kalendāra uznirstošais logs | Ciklēt etiķetes formātu | Vidus: laika joslas atlasītājs |
 | Laikapstākļi | Prognozes uznirstošais logs | Pilni laikapstākļi kā paziņojums | Vidus: atsvaidzināt |
@@ -29,7 +29,7 @@ Gandrīz katrs logrīks kaut ko dara ar kreiso, labo un vidējo klikšķi, un va
 | Multivide | Atskaņot/pauzēt | Vāka noformējuma uznirstošais logs | Vidus: nākamais · ritināšana: iepriekšējais/nākamais |
 | Aģenti | Aģentu panelis | Palaist savu aģentu | Vidus: nākamais abonements |
 | Tekne | Novieto kursoru, lai atklātu atvilktni | Labais klikšķis uz ševrona, lai pārvaldītu | — |
-| Omarchy atjauninājums | Palaist atjauninājumu | — | — |
+| LunaOS atjauninājums | Palaist atjauninājumu | — | — |
 
 Ne viss šajā tabulā pēc noklusējuma ir tavā joslā. Multivides logrīks (MPRIS pašlaik atskaņotais ar ritinošu ierakstu un izpildītāju) un mikrofona logrīks abi ir iebūvēti, bet pēc noklusējuma izslēgti — pievieno tos, ja vēlies, kā aprakstīts zemāk.
 
@@ -65,7 +65,7 @@ Katrs panelis pieņem gan tastatūru, gan peli: bultiņas pārvieto, Return akti
 
 Divus papildu logrīkus joslā parādās tikai tad, kad instalē atbilstošo pakalpojumu no **Instalēt → Pakalpojums**, un abus ir vērts zināt, jo tie dara vairāk nekā ziņo statusu.
 
-**Tailscale** panelis savieno un atvieno tailnet, pārslēdzas starp kontiem un izvēlas izejas mezglu (tavas ierīces un Mullvad reģioni abi parādās šajā sarakstā). Tas arī pārlūko tavas ierīces — un ar vienu atlasītu `s` nosūta tai failus, izmantojot Taildrop, kas ir ātrākais veids, kā pārvietot failu uz tavu tālruni vai citu klēpjdatoru. `c` kopē ierīces IP, `n` tās nosaukumu un `d` tās pilnu DNS nosaukumu. Katrā ierīces rindā ir arī sūtīšanas poga, ja tev labāk patīk klikšķināt. Tas pats no termināla ir `omarchy tailscale send <machine> [file...]`.
+**Tailscale** panelis savieno un atvieno tailnet, pārslēdzas starp kontiem un izvēlas izejas mezglu (tavas ierīces un Mullvad reģioni abi parādās šajā sarakstā). Tas arī pārlūko tavas ierīces — un ar vienu atlasītu `s` nosūta tai failus, izmantojot Taildrop, kas ir ātrākais veids, kā pārvietot failu uz tavu tālruni vai citu klēpjdatoru. `c` kopē ierīces IP, `n` tās nosaukumu un `d` tās pilnu DNS nosaukumu. Katrā ierīces rindā ir arī sūtīšanas poga, ja tev labāk patīk klikšķināt. Tas pats no termināla ir `lunaos tailscale send <machine> [file...]`.
 
 **Dropbox** panelis apstrādā pieteikšanos, rāda, cik daudz krātuves esi izmantojis, un uzskaita nesen sinhronizētos failus.
 
@@ -90,19 +90,19 @@ Ja tu labāk izvēlētos no izvēlnes, **Palaist → Izskats → Izvēlņu josla
 Tām pašām lietām ir komandas, kas ir tas, ko tu vēlies [dotfailu](31-dotfiles.md) iestatīšanai:
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Lai logrīku pievienotu vai noņemtu pilnībā, izmanto spraudņu komandas. `omarchy plugin list` izdrukā katru logrīku, ko čaula zina, ar tā id, un pēc tam:
+Lai logrīku pievienotu vai noņemtu pilnībā, izmanto spraudņu komandas. `lunaos plugin list` izdrukā katru logrīku, ko čaula zina, ar tā id, un pēc tam:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Joslas paslēpšana
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Konfigurācijas fails
 
-Viss tas tiek glabāts `~/.config/omarchy/shell.json` zem atslēgas `bar`. Šeit ir saīsināta versija:
+Viss tas tiek glabāts `~/.config/lunaos/shell.json` zem atslēgas `bar`. Šeit ir saīsināta versija:
 
 ```json
 {
@@ -119,20 +119,20 @@ Viss tas tiek glabāts `~/.config/omarchy/shell.json` zem atslēgas `bar`. Šeit
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Katrs logrīks ir viens ieraksts vienā no trim izkārtojuma masīviem, un tā iestatījumi atrodas tieši šajā ierakstā — nav atsevišķa iestatījumu faila un nav `config` apakšobjekta. Pulksteņa `format`, `formatAlt` (uz ko ciklē labais klikšķis) un `verticalFormat` visi dzīvo tieši tur uz `{ "id": "omarchy.clock" }`.
+Katrs logrīks ir viens ieraksts vienā no trim izkārtojuma masīviem, un tā iestatījumi atrodas tieši šajā ierakstā — nav atsevišķa iestatījumu faila un nav `config` apakšobjekta. Pulksteņa `format`, `formatAlt` (uz ko ciklē labais klikšķis) un `verticalFormat` visi dzīvo tieši tur uz `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` nosauc vienu centra logrīku, kas tiek piesprausts precīzā ekrāna centrā, ar pārējiem tam blakus. Tā pulkstenis paliek pašā centrā pat tad, kad laikapstākļi un atjauninājuma nozīmīte nāk un iet. Iestati to uz tukšu virkni, un centra saraksts tā vietā vienkārši tiek centrēts kā grupa.
 
-Viens noteikums, ko ir vērts internalizēt: **kad tev ir savs `shell.json`, tas ir kanonisks**. Kamēr tu neko nepielāgo, čaula lasa Omarchy noklusējuma failu. Tiklīdz tu velc logrīku, palaiž `omarchy bar` vai rediģē failu pats, tas pieder tev — nav dziļas sapludināšanas, tāpēc jauni noklusējuma logrīki nākotnes Omarchy laidienos tavā joslā automātiski neparādīsies. `omarchy bar defaults` atjauno piegādāto izkārtojumu, kad vien vēlies tīru lapu.
+Viens noteikums, ko ir vērts internalizēt: **kad tev ir savs `shell.json`, tas ir kanonisks**. Kamēr tu neko nepielāgo, čaula lasa LunaOS noklusējuma failu. Tiklīdz tu velc logrīku, palaiž `lunaos bar` vai rediģē failu pats, tas pieder tev — nav dziļas sapludināšanas, tāpēc jauni noklusējuma logrīki nākotnes LunaOS laidienos tavā joslā automātiski neparādīsies. `lunaos bar defaults` atjauno piegādāto izkārtojumu, kad vien vēlies tīru lapu.
 
 Tajā pašā failā augstākajā līmenī, ārpus atslēgas `bar`, atrodas arī tavi dīkstāves laiki: `idle.screensaver` un `idle.lock`, abi sekundēs kopš tu kļuvi dīkstāvē. Tāpēc noklusējuma ekrānsaudzētājs ieslēdzas pēc 150 sekundēm un bloķēšana pēc 300.

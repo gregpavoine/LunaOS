@@ -1,16 +1,16 @@
 # Mac-ondersteuning
 
-Omarchy heeft ingebouwde ondersteuning voor **Intel-Macs**. Er zijn op dit moment een paar bekende beperkingen, maar zolang je daarvan op de hoogte bent en ermee kunt leven, kun je je oude Macs nieuw leven inblazen door Omarchy te installeren.
+LunaOS heeft ingebouwde ondersteuning voor **Intel-Macs**. Er zijn op dit moment een paar bekende beperkingen, maar zolang je daarvan op de hoogte bent en ermee kunt leven, kun je je oude Macs nieuw leven inblazen door LunaOS te installeren.
 
-Let op: installeren op een Mac uit de M-serie wordt op dit moment niet direct ondersteund. Je kunt meer te weten komen over de stand van zaken in #omarchy-on-other in onze [Discord](https://discord.gg/tXFUdasqhY).
+Let op: installeren op een Mac uit de M-serie wordt op dit moment niet direct ondersteund. Je kunt meer te weten komen over de stand van zaken in #lunaos-on-other in onze [Discord](https://discord.gg/tXFUdasqhY).
 
-In een eenvoudige test konden we 36% prestatiewinst behalen op een MacBook Pro uit 2019 door simpelweg Omarchy te installeren.
+In een eenvoudige test konden we 36% prestatiewinst behalen op een MacBook Pro uit 2019 door simpelweg LunaOS te installeren.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Omarchy installeren op een Mac
+### LunaOS installeren op een Mac
 
-Omarchy ondersteunt op dit moment alleen dat het het **enige** geïnstalleerde besturingssysteem is. Tijdens de installatie wordt de schijf gewist en is MacOS niet langer opstartbaar.
+LunaOS ondersteunt op dit moment alleen dat het het **enige** geïnstalleerde besturingssysteem is. Tijdens de installatie wordt de schijf gewist en is MacOS niet langer opstartbaar.
 
 Je kunt het later alsnog herstellen via Internet Recovery als je dat wilt.
 
@@ -39,7 +39,7 @@ Het installatieprogramma detecteert Mac-hardware en past de benodigde oplossinge
 
 ### Bekende beperkingen
 
-Leden van de community werken voortdurend aan oplossingen voor deze uitdagingen, dus als deze voor jou problematisch zijn, word dan lid van #omarchy-on-other in onze [Discord](https://discord.gg/tXFUdasqhY) en kijk of er actuele methoden zijn om ze op te lossen.
+Leden van de community werken voortdurend aan oplossingen voor deze uitdagingen, dus als deze voor jou problematisch zijn, word dan lid van #lunaos-on-other in onze [Discord](https://discord.gg/tXFUdasqhY) en kijk of er actuele methoden zijn om ze op te lossen.
 
 #### Apparaten met T1-chip
 

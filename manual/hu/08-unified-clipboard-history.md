@@ -2,7 +2,7 @@
 
 Linuxon általában `Ctrl + Shift + C/V` kell a másoláshoz-beillesztéshez terminálban és `Ctrl + C/V` mindenhol máshol. Ezt nehéz megszokni bárkinek, aki nem Linuxon született és nevelkedett! Ugyanígy a super→ctrl váltást is, ha Macről érkezel.
 
-Az Omarchy mindkét problémát olyan egységes vágólap-billentyűparancsokkal kezeli, amelyek (szinte) mindenhol működnek. Ezek:
+Az LunaOS mindkét problémát olyan egységes vágólap-billentyűparancsokkal kezeli, amelyek (szinte) mindenhol működnek. Ezek:
 
 | Billentyűparancs | Parancs |
 | ------- | ----------- |
@@ -15,7 +15,7 @@ _Figyelj arra, hogy a legtöbb agent-harness a `Ctrl + V` kombinációt használ
 
 ### Vágólap-előzmények
 
-A vágólap-előzményeket az Omarchy shell biztosítja, és szöveggel és képekkel egyaránt működnek. A `Super + Ctrl + V` kombinációval indítod, a Return billentyűvel kiválasztod a bejegyzésedet, és az ezután a vágólapra kerül, készen arra, hogy a `Super + V` kombinációval beilleszd.
+A vágólap-előzményeket az LunaOS shell biztosítja, és szöveggel és képekkel egyaránt működnek. A `Super + Ctrl + V` kombinációval indítod, a Return billentyűvel kiválasztod a bejegyzésedet, és az ezután a vágólapra kerül, készen arra, hogy a `Super + V` kombinációval beilleszd.
 
  ![clipboard-history](images/clipboard-history.webp)
 

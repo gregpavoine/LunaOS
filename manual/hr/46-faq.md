@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ Traka će automatski prikazati vaš trenutačni raspored tipkovnice kad jednom i
 Desnim gumbom kliknite sat u traci za kruženje kroz uobičajene formate, uključujući 12-satne. Format možete postaviti i izravno:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Time će se prikazati Sunday 10:55 AM.
 
 ### Kako promijeniti vremensku zonu?
 
-Pokrenite _Ažuriraj > Timezone_ u Omarchy izborniku i odaberite s popisa. Ako je vremenska zona ispravna, ali je sam sat odlutao, _Ažuriraj > Time_ za vas ponovno pokreće sinkronizaciju vremena.
+Pokrenite _Ažuriraj > Timezone_ u LunaOS izborniku i odaberite s popisa. Ako je vremenska zona ispravna, ali je sam sat odlutao, _Ažuriraj > Time_ za vas ponovno pokreće sinkronizaciju vremena.
 
 ### Kako promijeniti DNS, podijeliti Wi-Fi ili provjeriti brzinu veze?
 
@@ -36,11 +36,11 @@ Sve to živi u [umrežavanju](35-networking.md).
 
 ### Kako provjeriti koliko je brz moj disk?
 
-_Pokreni > Speed Test > Disk Speed Test_ mjeri živu brzinu čitanja i pisanja na vašem pogonu ili `omarchy disk speedtest` iz terminala.
+_Pokreni > Speed Test > Disk Speed Test_ mjeri živu brzinu čitanja i pisanja na vašem pogonu ili `lunaos disk speedtest` iz terminala.
 
 ### Zašto se ne mogu prijaviti u svoj Google račun u Chromiumu?
 
-Obična inačica Chromiuma otvorenog koda ne dolazi s OAuth vjerodajnicama koje Google zahtijeva za prijavu u račun. Pokrenite _Instaliraj > Service > Chromium Account_ u Omarchy izborniku da ih dodate, ponovno pokrenite preglednik i prijava će proći.
+Obična inačica Chromiuma otvorenog koda ne dolazi s OAuth vjerodajnicama koje Google zahtijeva za prijavu u račun. Pokrenite _Instaliraj > Service > Chromium Account_ u LunaOS izborniku da ih dodate, ponovno pokrenite preglednik i prijava će proći.
 
 ### Kako dodati pisač?
 
@@ -60,15 +60,15 @@ Spremljene snimke zaslona prema zadanim postavkama idu u `~/Pictures/Screenshots
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Isto možete učiniti za snimke zaslona u pokretu koristeći `OMARCHY_SCREENRECORD_DIR`.
+Isto možete učiniti za snimke zaslona u pokretu koristeći `LUNAOS_SCREENRECORD_DIR`.
 
-Omasnap automatski stvara svoj direktorij za snimke zaslona. Direktorij za snimke zaslona u pokretu stvorite sami, a zatim ponovno pokrenite Omarchy da bilo koja promjena okruženja stupi na snagu.
+Omasnap automatski stvara svoj direktorij za snimke zaslona. Direktorij za snimke zaslona u pokretu stvorite sami, a zatim ponovno pokrenite LunaOS da bilo koja promjena okruženja stupi na snagu.
 
 ### Kako natjerati zvučnike i web-kameru na mojem Apple Studio Displayju da rade?
 
 Pomislili biste da bi sve trebalo raditi samim priključivanjem USB C, ali nažalost to nije slučaj. Rješenje za koje sam utvrdio da pouzdano radi jest korištenje [WJESOG DisplayPort + USB-A => USB-C kabela](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/). Zatim zvučnici i web-kamera rade kao iz šala.
 
-Ne zaboravite da u Omarchyju imate ugrađenu kontrolu svjetline za Appleove zaslone (i Studio i XDR) pomoću uobičajenih tipki tipkovnice za svjetlinu.
+Ne zaboravite da u LunaOSju imate ugrađenu kontrolu svjetline za Appleove zaslone (i Studio i XDR) pomoću uobičajenih tipki tipkovnice za svjetlinu.
 
 ### Kako se riješiti svog dodatnog softvera?
 
@@ -76,7 +76,7 @@ Ako ne želite programe poput Obsidiana ili LibreOfficea ili bilo što drugo una
 
 Pokrenite _Ukloni > Package_ da biste vidjeli svaki paket koji je instaliran. Zatim možete tipkom tab odabrati svaki paket koji želite ukloniti i tipkom return započeti uklanjanje svega što ste odabrali.
 
-A možete koristiti _Ukloni > Web App_ iz Omarchy izbornika za uklanjanje bilo koje unaprijed instalirane web-aplikacije koju ne želite.
+A možete koristiti _Ukloni > Web App_ iz LunaOS izbornika za uklanjanje bilo koje unaprijed instalirane web-aplikacije koju ne želite.
 
 Ili pokrenite _Ukloni > Preinstalls_ da u jednom potezu pometete sve unaprijed instalirane dodatke — web-aplikacije, TUI-je i opcionalne aplikacije. Prečaci koji su ih pokretali odlaze s njima, pa vam ostaje čist list povezivanja koji ćete ispuniti svojima u `~/.config/hypr/bindings.lua`.
 

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# lunaos:summary=Rename a Claude, Codex, or Grok subscription account
+# lunaos:args=[claude|codex|grok] <account> <name>
+# lunaos:examples=lunaos agent account rename primary Hey | lunaos agent account rename codex side Side project
+
+set -uo pipefail
+
+# The provider can be left out when it's your default agent:
+# `lunaos agent account rename primary Hey`.
+if [[ ${1:-} != "claude" && ${1:-} != "codex" && ${1:-} != "grok" ]]; then
+  default=$(lunaos-default-agent)
+  [[ $default == "claude" || $default == "codex" || $default == "grok" ]] && set -- "$default" "$@"
+fi
+
+if [[ ${1:-} != "claude" && ${1:-} != "codex" && ${1:-} != "grok" ]] || (( $# < 3 )); then
+  echo "Usage: lunaos-agent-account-rename [claude|codex|grok] <account> <name>" >&2
+  exit 1
+fi
+
+account=$(lunaos-agent-account-state rename "$@") || exit 1
+echo "Renamed to $(jq -r .label <<<"$account"). Switch to it with: lunaos agent account use $(jq -r .id <<<"$account")"
+# The panel reads account names from the usage record.
+lunaos-agent-usage-update --limits-only "$1" >/dev/null 2>&1 &

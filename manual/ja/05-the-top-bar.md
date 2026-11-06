@@ -1,14 +1,14 @@
 # トップバー
 
-画面上部の帯が Omarchy バーです。これは後付けのステータスバーではなく、Omarchy シェルの一部であり、メニュー、通知、OSD ポップアップ、ロック画面も描画する、単一の長時間実行される Quickshell プロセスです。だからこそ他のすべてと完璧にテーマが合い、新しいアプリを起動するのではなく、パネルが瞬時に開くのです。
+画面上部の帯が LunaOS バーです。これは後付けのステータスバーではなく、LunaOS シェルの一部であり、メニュー、通知、OSD ポップアップ、ロック画面も描画する、単一の長時間実行される Quickshell プロセスです。だからこそ他のすべてと完璧にテーマが合い、新しいアプリを起動するのではなく、パネルが瞬時に開くのです。
 
 また、常に画面にある唯一のデスクトップ要素でもあるので、あの小さなグリフがすべて何をするのか知っておく価値があります。
 
 ## デフォルトで何が載っているか
 
-バーには 3 つのセクションがあります。左には Omarchy ロゴ（メニューランチャー）とワークスペースインジケーターがあります。中央にはステータスインジケーター、時計、Elsewhen（世界時計）、天気、Omarchy の更新バッジがあります。右にはキーボードレイアウト（複数設定されている場合）、システムトレイ、エージェント、bluetooth、ネットワーク、オーディオ、ディスプレイ、電源があります。
+バーには 3 つのセクションがあります。左には LunaOS ロゴ（メニューランチャー）とワークスペースインジケーターがあります。中央にはステータスインジケーター、時計、Elsewhen（世界時計）、天気、LunaOS の更新バッジがあります。右にはキーボードレイアウト（複数設定されている場合）、システムトレイ、エージェント、bluetooth、ネットワーク、オーディオ、ディスプレイ、電源があります。
 
-そのいくつかは、伝えることがあるときだけ表示されます。キーボードレイアウトは、複数のレイアウトを設定した場合にのみ表示されます。更新バッジは、Omarchy の更新が待っているときだけ表示されます。そしてエージェントアイコンは、Omarchy がマシン上で AI コーディングの使用を初めて検出したときに表示されます（[AI](17-ai.md) を参照）。
+そのいくつかは、伝えることがあるときだけ表示されます。キーボードレイアウトは、複数のレイアウトを設定した場合にのみ表示されます。更新バッジは、LunaOS の更新が待っているときだけ表示されます。そしてエージェントアイコンは、LunaOS がマシン上で AI コーディングの使用を初めて検出したときに表示されます（[AI](17-ai.md) を参照）。
 
 ## クリックして回る
 
@@ -16,7 +16,7 @@
 
 | ウィジェット | 左 | 右 | 中 / スクロール |
 | --- | --- | --- | --- |
-| メニュー | Omarchy メニュー | 新しいターミナル | — |
+| メニュー | LunaOS メニュー | 新しいターミナル | — |
 | ワークスペース | そのワークスペースにフォーカス | — | スクロール：次/前のワークスペース |
 | 時計 | カレンダーポップアップ | ラベル形式を切り替える | 中：タイムゾーンピッカー |
 | 天気 | 予報ポップアップ | 完全な天気を通知として | 中：更新 |
@@ -29,7 +29,7 @@
 | メディア | 再生/一時停止 | カバーアートポップアップ | 中：次へ · スクロール：前/次へ |
 | エージェント | エージェントパネル | エージェントを起動 | 中：次のサブスクリプション |
 | トレイ | ホバーでドロワーを表示 | 管理するにはシェブロンを右クリック | — |
-| Omarchy の更新 | 更新を実行 | — | — |
+| LunaOS の更新 | 更新を実行 | — | — |
 
 その表のものがすべて、最初からバーにあるわけではありません。メディアウィジェット（スクロールするトラックとアーティスト付きの MPRIS 再生中表示）とマイクウィジェットはどちらも組み込みですが、デフォルトではオフです。以下で説明するように、必要なら追加してください。
 
@@ -65,7 +65,7 @@
 
 もう 2 つのウィジェットは、**インストール → サービス** から対応するサービスをインストールしたときだけバーに表示され、どちらもステータスを報告する以上のことをするので知っておく価値があります。
 
-**Tailscale** パネルは tailnet への接続と切断、アカウントの切り替え、exit node の選択を行います（自分のマシンと Mullvad リージョンの両方がそのリストに表示されます）。マシンも閲覧できます。1 つを選択した状態で `s` を押すと Taildrop でファイルを送信します。これは携帯電話や別のノートパソコンへファイルを移動する最速の方法です。`c` はマシンの IP、`n` は名前、`d` は完全な DNS 名をコピーします。各マシンの行にも送信ボタンがあるので、クリックしたい場合はそちらも使えます。ターミナルからは同じことを `omarchy tailscale send <machine> [file...]` で行います。
+**Tailscale** パネルは tailnet への接続と切断、アカウントの切り替え、exit node の選択を行います（自分のマシンと Mullvad リージョンの両方がそのリストに表示されます）。マシンも閲覧できます。1 つを選択した状態で `s` を押すと Taildrop でファイルを送信します。これは携帯電話や別のノートパソコンへファイルを移動する最速の方法です。`c` はマシンの IP、`n` は名前、`d` は完全な DNS 名をコピーします。各マシンの行にも送信ボタンがあるので、クリックしたい場合はそちらも使えます。ターミナルからは同じことを `lunaos tailscale send <machine> [file...]` で行います。
 
 **Dropbox** パネルはログインを処理し、使用したストレージ量を表示し、最近同期されたファイルを一覧表示します。
 
@@ -90,19 +90,19 @@
 同じことにはコマンドもあり、それが [dotfiles](31-dotfiles.md) セットアップで欲しいものです：
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-ウィジェットを完全に追加または削除するには、プラグインコマンドを使います。`omarchy plugin list` はシェルが知っているすべてのウィジェットをその ID とともに表示します。その後：
+ウィジェットを完全に追加または削除するには、プラグインコマンドを使います。`lunaos plugin list` はシェルが知っているすべてのウィジェットをその ID とともに表示します。その後：
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## バーを隠す
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## 設定ファイル
 
-すべては `~/.config/omarchy/shell.json` の `bar` キーの下に保存されます。トリミングした版がこちらです：
+すべては `~/.config/lunaos/shell.json` の `bar` キーの下に保存されます。トリミングした版がこちらです：
 
 ```json
 {
@@ -119,20 +119,20 @@ omarchy plugin disable omarchy.weather
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-すべてのウィジェットは 3 つのレイアウト配列のいずれかの 1 エントリであり、その設定はそのエントリにインラインであります。別の設定ファイルも、`config` サブオブジェクトもありません。時計の `format`、`formatAlt`（右クリックで切り替わる先）、`verticalFormat` はすべて `{ "id": "omarchy.clock" }` の上にあります。
+すべてのウィジェットは 3 つのレイアウト配列のいずれかの 1 エントリであり、その設定はそのエントリにインラインであります。別の設定ファイルも、`config` サブオブジェクトもありません。時計の `format`、`formatAlt`（右クリックで切り替わる先）、`verticalFormat` はすべて `{ "id": "lunaos.clock" }` の上にあります。
 
 `centerAnchor` は、画面のちょうど中央に固定され、他がその両側に配置される 1 つの中央ウィジェットを指定します。そうやって、天気や更新バッジが出たり消えたりしても時計が真ん中に留まります。空文字列に設定すると、中央リストはグループとして中央揃えになるだけです。
 
-内面化しておく価値のあるルールが 1 つ：**自分の `shell.json` を持ったら、それが正準です**。何もカスタマイズしていない間は、シェルは Omarchy のデフォルトファイルを読みます。ウィジェットをドラッグしたり、`omarchy bar` を実行したり、自分でファイルを編集したりした瞬間、それはあなたのものになります。深いマージはないので、将来の Omarchy リリースの新しいデフォルトウィジェットは自動的にはバーに表示されません。`omarchy bar defaults` で、きれいな状態が欲しいときにいつでも出荷時のレイアウトに戻せます。
+内面化しておく価値のあるルールが 1 つ：**自分の `shell.json` を持ったら、それが正準です**。何もカスタマイズしていない間は、シェルは LunaOS のデフォルトファイルを読みます。ウィジェットをドラッグしたり、`lunaos bar` を実行したり、自分でファイルを編集したりした瞬間、それはあなたのものになります。深いマージはないので、将来の LunaOS リリースの新しいデフォルトウィジェットは自動的にはバーに表示されません。`lunaos bar defaults` で、きれいな状態が欲しいときにいつでも出荷時のレイアウトに戻せます。
 
 同じファイルには、`bar` キーの外側、トップレベルにアイドルタイミングも保持されています：`idle.screensaver` と `idle.lock` で、どちらもアイドルになってからの秒数です。だからデフォルトのスクリーンセーバーは 150 秒で、ロックは 300 秒で作動します。

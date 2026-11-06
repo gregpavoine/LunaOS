@@ -1,6 +1,6 @@
 # Mga Tool ng Shell
 
-Bukod sa mga standard na tool ng Linux, may kasama ring maraming pinahusay na tool ng shell ang Omarchy. Narito ang mga pangunahing iyon.
+Bukod sa mga standard na tool ng Linux, may kasama ring maraming pinahusay na tool ng shell ang LunaOS. Narito ang mga pangunahing iyon.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Makikita ang buong manual sa pamamagitan ng `man fzf`.
 
 ## Zoxide
 
-Ang [Zoxide](https://github.com/ajeetdsouza/zoxide) ay kapalit ng cd. Naaalala nito ang mga direktoryong pinuntahan mo na, kaya mas madali kang makalukso sa mga ito sa susunod. Halimbawa, gawin mo ang `cd ~/.config/omarchy` nang isang beses. Sa susunod, maaari mo na lang gawin ang `cd omarchy` (o kahit `cd oma` lang), at dadalhin ka ng Zoxide nang direkta roon.
+Ang [Zoxide](https://github.com/ajeetdsouza/zoxide) ay kapalit ng cd. Naaalala nito ang mga direktoryong pinuntahan mo na, kaya mas madali kang makalukso sa mga ito sa susunod. Halimbawa, gawin mo ang `cd ~/.config/lunaos` nang isang beses. Sa susunod, maaari mo na lang gawin ang `cd lunaos` (o kahit `cd oma` lang), at dadalhin ka ng Zoxide nang direkta roon.
 
 Makikita ang buong manual sa pamamagitan ng `man zoxide`.
 
@@ -58,4 +58,4 @@ Makikita ang buong manual sa pamamagitan ng `man yt-dlp`.
 
 Pinapadali ng [try](https://github.com/tobi/try) ang pamamahala ng mga eksperimento sa programming gamit ang mga direktoryong may date stamp. Nakatira ang lahat ng eksperimento sa `~/Work/tries` at maa-access mo ang mga ito sa pamamagitan ng `try`.
 
-Hindi awtomatikong idinaragdag ng Omarchy ang `bin/` directory ng isang proyekto sa `PATH`. Patakbuhin ang mga pinagkakatiwalaang project-local tool gamit ang tahasang relative path, tulad ng `bin/rails` o `./bin/dev`.
+Hindi awtomatikong idinaragdag ng LunaOS ang `bin/` directory ng isang proyekto sa `PATH`. Patakbuhin ang mga pinagkakatiwalaang project-local tool gamit ang tahasang relative path, tulad ng `bin/rails` o `./bin/dev`.

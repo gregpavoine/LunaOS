@@ -1,6 +1,6 @@
 # PDFs ausfüllen
 
-Omarchy wird mit einem netten, einfachen PDF-Viewer namens Document Viewer ausgeliefert. Das ist das Programm, das alle PDFs öffnet, auf die du einfach doppelklickst.
+LunaOS wird mit einem netten, einfachen PDF-Viewer namens Document Viewer ausgeliefert. Das ist das Programm, das alle PDFs öffnet, auf die du einfach doppelklickst.
 
 Aber mit Document Viewer kannst du nur PDFs ausfüllen, die als Formulare eingerichtet wurden. Wenn du PDFs ausfüllen musst, bei denen das nicht der Fall ist, oder ein PDF unterschreiben musst, verwende [Signed](https://github.com/omacom/signed). Starte es über den App-Launcher (`Super + Space`) oder klicke mit der rechten Maustaste auf die Datei, wähle _Öffnen mit..._ und wähle Signed.
 

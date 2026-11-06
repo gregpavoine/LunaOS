@@ -1,8 +1,8 @@
 # Algengar lagfæringar
 
-Þetta er safn algengra sérsníðninga á Omarchy-uppsetningunni. Hafðu í huga að það gæti stöku sinnum verið nauðsynlegt fyrir kerfisuppfærslur að endurheimta ákveðnar stillingar í upprunalegt ástand. Ef það gerist týnast breytingarnar þínar ekki, heldur fara í `.bak` skrá í sömu möppu.
+Þetta er safn algengra sérsníðninga á LunaOS-uppsetningunni. Hafðu í huga að það gæti stöku sinnum verið nauðsynlegt fyrir kerfisuppfærslur að endurheimta ákveðnar stillingar í upprunalegt ástand. Ef það gerist týnast breytingarnar þínar ekki, heldur fara í `.bak` skrá í sömu möppu.
 
-Ef þú klúðrar einhverju geturðu endurheimt einstakar stillingar í upprunalega uppsetningu með _Uppfæra > Stillingar_ í Omarchy-valmyndinni. Ef þú _virkilega_ klúðrar öllu geturðu endurstillt allar stillingar með `omarchy-reinstall`.
+Ef þú klúðrar einhverju geturðu endurheimt einstakar stillingar í upprunalega uppsetningu með _Uppfæra > Stillingar_ í LunaOS-valmyndinni. Ef þú _virkilega_ klúðrar öllu geturðu endurstillt allar stillingar með `lunaos-reinstall`.
 
 ### Sýna öll bakkatákn alltaf
 
@@ -10,7 +10,7 @@ Sjálfgefið eru bakkatákn, eins og Dropbox, 1password eða Steam, falin á bak
 
 ### Rúnnuð gluggahorn
 
-Sjálfgefin hönnun Omarchy er ferköntuð horn, en ef þér finnst gott að mýkja það aðeins geturðu breytt `~/.config/hypr/looknfeel.lua` svo rúnun sé ekki lengur athugasemd:
+Sjálfgefin hönnun LunaOS er ferköntuð horn, en ef þér finnst gott að mýkja það aðeins geturðu breytt `~/.config/hypr/looknfeel.lua` svo rúnun sé ekki lengur athugasemd:
 
 ```
 hl.config({

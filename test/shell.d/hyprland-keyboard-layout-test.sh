@@ -7,14 +7,14 @@ require_command xkbcli
 
 resolved_input_for() {
   local module="$1"
-  OMARCHY_PATH="$ROOT" OMARCHY_MODULE="$module" OMARCHY_VCONSOLE="${2-}" lua <<'LUA'
-package.path = os.getenv("OMARCHY_PATH") .. "/?.lua;" .. package.path
+  LUNAOS_PATH="$ROOT" LUNAOS_MODULE="$module" LUNAOS_VCONSOLE="${2-}" lua <<'LUA'
+package.path = os.getenv("LUNAOS_PATH") .. "/?.lua;" .. package.path
 
-local vconsole = os.getenv("OMARCHY_VCONSOLE")
+local vconsole = os.getenv("LUNAOS_VCONSOLE")
 local real_open = io.open
 
 io.open = function(path, mode)
-  if path:match("/omarchy/keyboard%-layouts$") then
+  if path:match("/lunaos/keyboard%-layouts$") then
     local selected = os.getenv("TEST_KEYBOARD_SELECTION")
     if not selected then return nil end
     local file = io.tmpfile()
@@ -23,7 +23,7 @@ io.open = function(path, mode)
     return file
   end
 
-  if path == "/etc/omarchy/input-method" then
+  if path == "/etc/lunaos/input-method" then
     local preference = os.getenv("TEST_INPUT_PREFERENCE")
     if not preference then return nil end
     local file = io.tmpfile()
@@ -36,7 +36,7 @@ io.open = function(path, mode)
     return real_open(path, mode)
   end
 
-  -- An unset OMARCHY_VCONSOLE reaches Lua as "", never nil, so the cases that
+  -- An unset LUNAOS_VCONSOLE reaches Lua as "", never nil, so the cases that
   -- ask for a missing /etc/vconsole.conf need the empty string to fail the open.
   if not vconsole or vconsole == "" then
     return nil
@@ -57,7 +57,7 @@ hl = {
 
 o = { window = function() end }
 
-require(os.getenv("OMARCHY_MODULE"))
+require(os.getenv("LUNAOS_MODULE"))
 LUA
 }
 
@@ -95,7 +95,7 @@ assert_greeter_input() {
   assert_resolved_input resolved_greeter_input "$@"
 }
 
-base_options="omarchy:shift_caps_compose"
+base_options="lunaos:shift_caps_compose"
 toggle_options="$base_options,grp:alts_toggle"
 
 assert_input "missing vconsole.conf falls back to us" "[us] [] [$base_options]"
@@ -128,7 +128,7 @@ assert_input "a us variant that can't type latin still gets a plain us in front"
 XKBVARIANT=,rus
 '
 
-caps=$(xkbcli compile-keymap --include "$ROOT/etc/xkb" --include-defaults --layout us,ru --options omarchy:shift_caps_compose | grep -A5 'key <CAPS>')
+caps=$(xkbcli compile-keymap --include "$ROOT/etc/xkb" --include-defaults --layout us,ru --options lunaos:shift_caps_compose | grep -A5 'key <CAPS>')
 [[ $caps == *"Caps_Lock,"*"Multi_key ]"* && $caps == *"LockMods(modifiers=Lock),"*"NoAction() ]"* ]] ||
   fail "Shift + Caps Lock composes without toggling Caps Lock" "$caps"
 pass "Shift + Caps Lock composes without toggling Caps Lock"
@@ -156,13 +156,13 @@ assert_greeter_input "greeter keeps a plain us in front of a cherokee us" "[us,r
 XKBVARIANT=,chr
 '
 
-hooks_conf="$ROOT/etc/mkinitcpio.conf.d/omarchy_hooks.conf"
+hooks_conf="$ROOT/etc/mkinitcpio.conf.d/lunaos_hooks.conf"
 input_lua="$ROOT/default/hypr/input.lua"
 
 hooks_layouts=$(awk -F')' '/\) ;;$/ { gsub(/[[:space:]|]+/, "\n", $1); print $1 }' "$hooks_conf" | grep '^[a-z]\+$' | sort)
 lua_layouts=$(sed -n '/^local non_latin_layouts =/,+1p' "$input_lua" | grep -o '"[^"]*"' | tr -d '"' | tr ' ' '\n' | grep '^[a-z]\+$' | sort)
 
-[[ -n $hooks_layouts ]] || fail "non-latin layout list is readable from omarchy_hooks.conf"
+[[ -n $hooks_layouts ]] || fail "non-latin layout list is readable from lunaos_hooks.conf"
 
 [[ $hooks_layouts == "$lua_layouts" ]] ||
   fail "non-latin layout lists stay in sync" "$(diff <(echo "$hooks_layouts") <(echo "$lua_layouts"))"

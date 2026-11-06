@@ -6,7 +6,7 @@ vim スタイルの編集がまったく初めてなら、YouTube の [ThePrimea
 
 さて Neovim は基本的に無限に設定可能です。本当に熱中したいなら、自分の Neovim 設定をゼロから作れます。[Typecraft の Neovim をゼロから設定する素晴らしいコース](https://www.youtube.com/watch?v=zHTeCSVAFNY) があります。そして [ThePrimeagen にもコースがあります](https://www.youtube.com/watch?v=w7i4amO_zaE)。
 
-しかし Omarchy には完成した Neovim セットアップ、`omarchy-nvim` パッケージが同梱されており、箱から出してすぐに可能な最良のものを見せられるよう愛情を込めて調整されています。設定を 1 行も書く必要はありません！ [LazyVim](https://www.lazyvim.org/)、Neovim プラグインと設定のディストリビューションをベースにしています。素晴らしいです。
+しかし LunaOS には完成した Neovim セットアップ、`omarchy-nvim` パッケージが同梱されており、箱から出してすぐに可能な最良のものを見せられるよう愛情を込めて調整されています。設定を 1 行も書く必要はありません！ [LazyVim](https://www.lazyvim.org/)、Neovim プラグインと設定のディストリビューションをベースにしています。素晴らしいです。
 
 ## LazyVim の基本
 

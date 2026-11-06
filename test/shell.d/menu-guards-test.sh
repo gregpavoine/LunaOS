@@ -8,16 +8,16 @@ run_node_test <<'JS'
 const menu = requireFromRoot('shell/plugins/menu/MenuModel.js')
 
 const items = {
-  'setup.default.browser.brave': { id: 'setup.default.browser.brave', when: 'omarchy-pkg-present brave-bin', checked: '[[ "$(omarchy-default-browser)" == "brave" ]]' },
-  'setup.default.browser.zen': { id: 'setup.default.browser.zen', when: 'omarchy-pkg-present zen-browser-bin', checked: '[[ "$(omarchy-default-browser)" == "zen" ]]' },
-  'install.browser.zen': { id: 'install.browser.zen', disabled: 'omarchy-pkg-present zen-browser-bin' },
+  'setup.default.browser.brave': { id: 'setup.default.browser.brave', when: 'lunaos-pkg-present brave-bin', checked: '[[ "$(lunaos-default-browser)" == "brave" ]]' },
+  'setup.default.browser.zen': { id: 'setup.default.browser.zen', when: 'lunaos-pkg-present zen-browser-bin', checked: '[[ "$(lunaos-default-browser)" == "zen" ]]' },
+  'install.browser.zen': { id: 'install.browser.zen', disabled: 'lunaos-pkg-present zen-browser-bin' },
   'plain': { id: 'plain', label: 'No guards' }
 }
 const script = menu.guardScript(items)
-const browserSlot = `\${__omarchy_read_${menu.guardReaders.indexOf('omarchy-default-browser')}}`
+const browserSlot = `\${__lunaos_read_${menu.guardReaders.indexOf('lunaos-default-browser')}}`
 
 assert(
-  script.includes('if { omarchy-pkg-present brave-bin; } >/dev/null 2>&1; then echo setup.default.browser.brave:w:1; else echo setup.default.browser.brave:w:0; fi'),
+  script.includes('if { lunaos-pkg-present brave-bin; } >/dev/null 2>&1; then echo setup.default.browser.brave:w:1; else echo setup.default.browser.brave:w:0; fi'),
   'guard script reports a when: as <id>:w:<0|1>'
 )
 assert(
@@ -25,7 +25,7 @@ assert(
   'guard script reports a checked: as <id>:c:<0|1>'
 )
 assert(
-  script.includes('if { omarchy-pkg-present zen-browser-bin; } >/dev/null 2>&1; then echo install.browser.zen:d:1; else echo install.browser.zen:d:0; fi'),
+  script.includes('if { lunaos-pkg-present zen-browser-bin; } >/dev/null 2>&1; then echo install.browser.zen:d:1; else echo install.browser.zen:d:0; fi'),
   'guard script reports a disabled: as <id>:d:<0|1>'
 )
 assert(!/\bplain:[wcd]:/.test(script), 'guard script skips items with nothing to evaluate')
@@ -34,44 +34,44 @@ assertEqual(menu.guardScript({ plain: items.plain }), '', 'guard script is empty
 // The cost the menu is paying is per fork, not per expression, so what makes
 // the batch fast is asking each command once however many rows want it.
 assertEqual(
-  (script.match(/^exec \{__omarchy_read_fd_\d+\}< <\(omarchy-default-browser /gm) || []).length,
+  (script.match(/^exec \{__lunaos_read_fd_\d+\}< <\(lunaos-default-browser /gm) || []).length,
   1,
   'guard script reads a value command once for the whole batch'
 )
 assert(
-  script.includes(`[[ "${browserSlot}" == "brave" ]]`) && !script.includes('"$(omarchy-default-browser)"'),
+  script.includes(`[[ "${browserSlot}" == "brave" ]]`) && !script.includes('"$(lunaos-default-browser)"'),
   'guard script substitutes the captured answer into the expression'
 )
 assert(
-  script.indexOf('__omarchy_read_') < script.indexOf('if { omarchy-pkg-present'),
+  script.indexOf('__lunaos_read_') < script.indexOf('if { lunaos-pkg-present'),
   'guard script captures readers before any guard runs, since $() would trap a lazy memo in its subshell'
 )
 
 // Substitution is confined to the plain `$(reader)` form on purpose. A
 // function shadowing the name would also catch these, and answer them wrong.
 const untouched = menu.guardScript({
-  a: { id: 'a', when: 'command -v omarchy-dns' },
-  b: { id: 'b', when: '[[ "$(OMARCHY_PATH=/usr/share/omarchy omarchy-channel-current)" == "stable" ]]' },
-  c: { id: 'c', when: '(( $(omarchy-default-browser | wc -l) == 1 ))' }
+  a: { id: 'a', when: 'command -v lunaos-dns' },
+  b: { id: 'b', when: '[[ "$(LUNAOS_PATH=/usr/share/lunaos lunaos-channel-current)" == "stable" ]]' },
+  c: { id: 'c', when: '(( $(lunaos-default-browser | wc -l) == 1 ))' }
 })
 assert(
-  untouched.includes('command -v omarchy-dns')
-    && untouched.includes('$(OMARCHY_PATH=/usr/share/omarchy omarchy-channel-current)')
-    && untouched.includes('$(omarchy-default-browser | wc -l)'),
+  untouched.includes('command -v lunaos-dns')
+    && untouched.includes('$(LUNAOS_PATH=/usr/share/lunaos lunaos-channel-current)')
+    && untouched.includes('$(lunaos-default-browser | wc -l)'),
   'guard script leaves every form but the plain substitution to run the real command'
 )
 assert(
-  !/^__omarchy_read_/m.test(untouched),
+  !/^__lunaos_read_/m.test(untouched),
   'guard script captures nothing when no guard uses the plain substitution'
 )
 
 // Every reader named in the shipped menu has to be listed, or it silently
 // keeps forking once per row that reads it.
 const fs = require('fs')
-const defaultItems = menu.parseMenuJsonc(fs.readFileSync(path.join(root, 'default/omarchy/omarchy-menu.jsonc'), 'utf8'))
+const defaultItems = menu.parseMenuJsonc(fs.readFileSync(path.join(root, 'default/lunaos/lunaos-menu.jsonc'), 'utf8'))
 const guardText = defaultItems.map(item => `${item.when}\n${item.checked}\n${item.disabled}`).join('\n')
 const repeated = [...new Set(
-  (guardText.match(/\$\((omarchy-[a-z0-9-]+(?: [a-z0-9-]+)*)\)/g) || []).map(match => match.slice(2, -1))
+  (guardText.match(/\$\((lunaos-[a-z0-9-]+(?: [a-z0-9-]+)*)\)/g) || []).map(match => match.slice(2, -1))
 )].filter(command => guardText.split(`$(${command})`).length > 2)
 assertDeepEqual(
   repeated.filter(command => !menu.guardReaders.includes(command)),
@@ -85,7 +85,7 @@ prelude() {
     const path = require("path")
     const menu = require(path.join(process.env.ROOT, "shell/plugins/menu/MenuModel.js"))
     process.stdout.write(menu.guardScript({ probe: { id: "probe", when: "true" } }))
-  ' | command sed '/^__omarchy_groups=()$/,$d'
+  ' | command sed '/^__lunaos_groups=()$/,$d'
 }
 
 # The prelude shadows the real commands for the length of the batch, so it has
@@ -154,7 +154,7 @@ assert_helper_agrees() {
 # vim, sh and xxd are provided rather than installed, and xxd only appears on a
 # wrapped continuation line; bash>=1 is a version constraint no set can answer.
 pkg_cases=("bash" "vim" "sh" "xxd" "absent" "bash vim" "bash absent" "bash>=1" "vim>=1" "")
-for helper in omarchy-pkg-present omarchy-pkg-missing; do
+for helper in lunaos-pkg-present lunaos-pkg-missing; do
   for case in "${pkg_cases[@]}"; do
     read -r -a argv <<<"$case"
     assert_helper_agrees "guard prelude resolves packages as pacman does" "$helper" "${argv[@]}"
@@ -164,13 +164,13 @@ pass "guard prelude resolves packages through provides, wrapping, and constraint
 
 # cd is a shell builtin `command -v` finds and a PATH search does not.
 cmd_cases=("gvim" "cd" "absent" "gvim absent" "gvim cd" "")
-for helper in omarchy-cmd-present omarchy-cmd-missing; do
+for helper in lunaos-cmd-present lunaos-cmd-missing; do
   for case in "${cmd_cases[@]}"; do
     read -r -a argv <<<"$case"
     assert_helper_agrees "guard prelude resolves commands as the real helper does" "$helper" "${argv[@]}"
   done
 done
-pass "guard prelude resolves commands as omarchy-cmd-present and omarchy-cmd-missing do"
+pass "guard prelude resolves commands as lunaos-cmd-present and lunaos-cmd-missing do"
 
 # A reader is replaced by what it printed, which has to compare identically to
 # the substitution it stood in for -- including the trailing newline $() drops.
@@ -178,13 +178,13 @@ reader_script=$(node -e '
   const path = require("path")
   const menu = require(path.join(process.env.ROOT, "shell/plugins/menu/MenuModel.js"))
   process.stdout.write(menu.guardScript({
-    hit: { id: "hit", checked: "[[ \"$(omarchy-dns)\" == \"Cloudflare\" ]]" },
-    miss: { id: "miss", checked: "[[ \"$(omarchy-dns)\" == \"Google\" ]]" }
+    hit: { id: "hit", checked: "[[ \"$(lunaos-dns)\" == \"Cloudflare\" ]]" },
+    miss: { id: "miss", checked: "[[ \"$(lunaos-dns)\" == \"Google\" ]]" }
   }))
 ')
 reader_result=$(XDG_RUNTIME_DIR="" bash -c '
-omarchy-dns() { printf "Cloudflare\n"; }
-export -f omarchy-dns
+lunaos-dns() { printf "Cloudflare\n"; }
+export -f lunaos-dns
 '"$reader_script" | sort)
 [[ $reader_result == $'hit:c:1\nmiss:c:0' ]] ||
   fail "guard prelude compares a captured reader as the substitution did" "got: $reader_result"
@@ -193,8 +193,8 @@ pass "guard prelude compares a captured reader exactly as the substitution it re
 # The batch inherits whatever a login shell left set. A reader that exits
 # nonzero must not take the rest of the menu's rows down with it.
 errexit_result=$(XDG_RUNTIME_DIR="" bash -e -c '
-omarchy-dns() { printf "Cloudflare\n"; return 3; }
-export -f omarchy-dns
+lunaos-dns() { printf "Cloudflare\n"; return 3; }
+export -f lunaos-dns
 '"$reader_script"'
 printf "survived\n"' 2>/dev/null)
 # Rows arrive in any order, but only once every group is done.
@@ -202,17 +202,17 @@ printf "survived\n"' 2>/dev/null)
   fail "guard batch survives a failing reader under errexit" "got: $errexit_result"
 pass "guard batch survives a reader that exits nonzero under errexit"
 
-# Update > Extra Themes runs omarchy-theme-update, which pulls the themes that
+# Update > Extra Themes runs lunaos-theme-update, which pulls the themes that
 # came from a git clone and skips everything else, so the guard has to answer
 # for the same set: a row that appears over a symlinked theme or a worktree's
 # `.git` file opens a terminal that prints nothing and closes. Both sides ask
-# omarchy-theme-extras today; the shapes below are what would tell us if one
+# lunaos-theme-extras today; the shapes below are what would tell us if one
 # of them stopped.
 themes_guard=$(node -e '
   const fs = require("fs")
   const path = require("path")
   const menu = require(path.join(process.env.ROOT, "shell/plugins/menu/MenuModel.js"))
-  const items = menu.parseMenuJsonc(fs.readFileSync(path.join(process.env.ROOT, "default/omarchy/omarchy-menu.jsonc"), "utf8"))
+  const items = menu.parseMenuJsonc(fs.readFileSync(path.join(process.env.ROOT, "default/lunaos/lunaos-menu.jsonc"), "utf8"))
   process.stdout.write(items.find(item => item.id === "update.themes").when)
 ')
 
@@ -233,7 +233,7 @@ assert_themes_guard_agrees() {
   local guarded=0 updated=0
 
   HOME="$home" PATH="$ROOT/bin:$PATH" bash -e -c "{ $themes_guard; } >/dev/null 2>&1" || guarded=$?
-  [[ -n $(HOME="$home" PATH="$ROOT/bin:$stub_dir:$PATH" "$ROOT/bin/omarchy-theme-update" 2>/dev/null) ]] || updated=1
+  [[ -n $(HOME="$home" PATH="$ROOT/bin:$stub_dir:$PATH" "$ROOT/bin/lunaos-theme-update" 2>/dev/null) ]] || updated=1
   ((guarded == expected)) || fail "$description" "$home: guard=$guarded expected=$expected"
   ((updated == expected)) || fail "$description" "$home: update=$updated expected=$expected"
 }
@@ -244,42 +244,42 @@ trap 'rm -rf "$stub_dir" "$themes_home"' EXIT
 # A theme copied by hand has nothing to pull, a symlinked one is someone's
 # working copy, and a `.git` file is a worktree living elsewhere.
 mkdir -p "$themes_home/missing"
-mkdir -p "$themes_home/empty/.config/omarchy/themes"
-mkdir -p "$themes_home/copied/.config/omarchy/themes/handmade"
-mkdir -p "$themes_home/cloned/.config/omarchy/themes/tokyo-night/.git"
-mkdir -p "$themes_home/linked/.config/omarchy/themes" "$themes_home/checkout/.git"
-ln -s "$themes_home/checkout" "$themes_home/linked/.config/omarchy/themes/in-progress"
-mkdir -p "$themes_home/worktree/.config/omarchy/themes/branch"
-printf 'gitdir: /elsewhere\n' >"$themes_home/worktree/.config/omarchy/themes/branch/.git"
+mkdir -p "$themes_home/empty/.config/lunaos/themes"
+mkdir -p "$themes_home/copied/.config/lunaos/themes/handmade"
+mkdir -p "$themes_home/cloned/.config/lunaos/themes/tokyo-night/.git"
+mkdir -p "$themes_home/linked/.config/lunaos/themes" "$themes_home/checkout/.git"
+ln -s "$themes_home/checkout" "$themes_home/linked/.config/lunaos/themes/in-progress"
+mkdir -p "$themes_home/worktree/.config/lunaos/themes/branch"
+printf 'gitdir: /elsewhere\n' >"$themes_home/worktree/.config/lunaos/themes/branch/.git"
 
 for shape in missing:1 empty:1 copied:1 cloned:0 linked:1 worktree:1; do
   assert_themes_guard_agrees \
-    "Extra Themes shows exactly when omarchy-theme-update has something to pull" \
+    "Extra Themes shows exactly when lunaos-theme-update has something to pull" \
     "$themes_home/${shape%:*}" "${shape#*:}"
 done
-pass "Extra Themes shows exactly when omarchy-theme-update has something to pull"
+pass "Extra Themes shows exactly when lunaos-theme-update has something to pull"
 
 # Which themes get pulled, not just that something did: a name with a space in
 # it is the one that goes missing the moment a path is split rather than passed
 # whole, and it would still print an Updating: line on its way to the wrong
 # directory.
-many="$themes_home/many/.config/omarchy/themes"
+many="$themes_home/many/.config/lunaos/themes"
 mkdir -p "$many/tokyo night/.git" "$many/zen/.git" "$many/handmade"
 ln -s "$themes_home/checkout" "$many/in-progress"
 
-listed=$(HOME="$themes_home/many" LC_ALL=C "$ROOT/bin/omarchy-theme-extras")
+listed=$(HOME="$themes_home/many" LC_ALL=C "$ROOT/bin/lunaos-theme-extras")
 [[ $listed == "$many/tokyo night"$'\n'"$many/zen" ]] ||
-  fail "omarchy-theme-extras lists every clone and nothing else" "got: $listed"
-pass "omarchy-theme-extras lists every clone and nothing else"
+  fail "lunaos-theme-extras lists every clone and nothing else" "got: $listed"
+pass "lunaos-theme-extras lists every clone and nothing else"
 
 git_calls=$(mktemp)
 trap 'rm -rf "$stub_dir" "$themes_home" "$git_calls"' EXIT
 HOME="$themes_home/many" LC_ALL=C GIT_CALLS="$git_calls" PATH="$ROOT/bin:$stub_dir:$PATH" \
-  "$ROOT/bin/omarchy-theme-update" >/dev/null 2>&1
+  "$ROOT/bin/lunaos-theme-update" >/dev/null 2>&1
 pulled=$(<"$git_calls")
 [[ $pulled == "<-C><$many/tokyo night><pull>"$'\n'"<-C><$many/zen><pull>" ]] ||
-  fail "omarchy-theme-update pulls each clone by its whole path" "got: $pulled"
-pass "omarchy-theme-update pulls each clone by its whole path"
+  fail "lunaos-theme-update pulls each clone by its whole path" "got: $pulled"
+pass "lunaos-theme-update pulls each clone by its whole path"
 
 # The package set is cached across batches, keyed on the local database
 # directory. Each case gets its own runtime dir and database, and a pacman
@@ -325,9 +325,9 @@ cache_script=$(node -e '
   const path = require("path")
   const menu = require(path.join(process.env.ROOT, "shell/plugins/menu/MenuModel.js"))
   process.stdout.write(menu.guardScript({
-    bash: { id: "bash", when: "omarchy-pkg-present bash" },
-    vim: { id: "vim", when: "omarchy-pkg-present vim" },
-    zen: { id: "zen", when: "omarchy-pkg-present zen-browser-bin" }
+    bash: { id: "bash", when: "lunaos-pkg-present bash" },
+    vim: { id: "vim", when: "lunaos-pkg-present vim" },
+    zen: { id: "zen", when: "lunaos-pkg-present zen-browser-bin" }
   }))
 ')
 
@@ -343,7 +343,7 @@ batch() {
   local dir=$1
   shift
   : >"$dir/pacman.log"
-  env PATH="$cache_bin:$PATH" PACMAN_LOG="$dir/pacman.log" FIXTURE_DB="$dir/db" OMARCHY_PACMAN_DB_PATH="$dir/db" \
+  env PATH="$cache_bin:$PATH" PACMAN_LOG="$dir/pacman.log" FIXTURE_DB="$dir/db" LUNAOS_PACMAN_DB_PATH="$dir/db" \
     XDG_RUNTIME_DIR="$dir/runtime" "$@" bash -e -c "$cache_script" | sort | tr '\n' ' '
 }
 
@@ -354,7 +354,7 @@ queried() {
 dir=$(cache_case reuse)
 [[ $(batch "$dir") == "bash:w:1 vim:w:1 zen:w:0 " ]] || fail "a first batch answers from pacman" "$(batch "$dir")"
 queried "$dir" || fail "a first batch asks pacman"
-[[ -f $dir/runtime/omarchy-menu-packages ]] || fail "a first batch stores the package set"
+[[ -f $dir/runtime/lunaos-menu-packages ]] || fail "a first batch stores the package set"
 [[ $(batch "$dir") == "bash:w:1 vim:w:1 zen:w:0 " ]] || fail "a cached batch answers as pacman did, provides included"
 ! queried "$dir" || fail "a batch over an unchanged database does not ask pacman" "$(<"$dir/pacman.log")"
 pass "a batch over an unchanged package database answers from the stored set without asking pacman"
@@ -374,11 +374,11 @@ pass "installs, removals and upgrades reach the very next batch"
 # Without the test seam the database is wherever pacman.conf puts it, so a
 # DBPath away from /var/lib/pacman still moves the stamp the batch reads.
 dir=$(cache_case dbpath)
-batch "$dir" OMARCHY_PACMAN_DB_PATH= >/dev/null
-[[ -f $dir/runtime/omarchy-menu-packages ]] || fail "the database pacman-conf names is cached"
+batch "$dir" LUNAOS_PACMAN_DB_PATH= >/dev/null
+[[ -f $dir/runtime/lunaos-menu-packages ]] || fail "the database pacman-conf names is cached"
 mkdir "$dir/db/local/zen-browser-bin-1.0-1"
-[[ $(batch "$dir" OMARCHY_PACMAN_DB_PATH=) == "bash:w:1 vim:w:1 zen:w:1 " ]] ||
-  fail "an install in the database pacman-conf names reaches the next batch" "$(batch "$dir" OMARCHY_PACMAN_DB_PATH=)"
+[[ $(batch "$dir" LUNAOS_PACMAN_DB_PATH=) == "bash:w:1 vim:w:1 zen:w:1 " ]] ||
+  fail "an install in the database pacman-conf names reaches the next batch" "$(batch "$dir" LUNAOS_PACMAN_DB_PATH=)"
 queried "$dir" || fail "an install in the database pacman-conf names makes the next batch ask pacman"
 pass "the stamp follows the database pacman.conf's DBPath names"
 
@@ -387,11 +387,11 @@ pass "the stamp follows the database pacman.conf's DBPath names"
 dir=$(cache_case locked)
 touch "$dir/db/db.lck"
 [[ $(batch "$dir") == "bash:w:1 vim:w:1 zen:w:0 " ]] || fail "a batch during a transaction still answers" "$(batch "$dir")"
-[[ ! -e $dir/runtime/omarchy-menu-packages ]] || fail "a batch during a transaction stores nothing"
+[[ ! -e $dir/runtime/lunaos-menu-packages ]] || fail "a batch during a transaction stores nothing"
 rm "$dir/db/db.lck"
 batch "$dir" >/dev/null
 queried "$dir" || fail "the batch after a transaction asks pacman"
-[[ -f $dir/runtime/omarchy-menu-packages ]] || fail "the batch after a transaction stores the set"
+[[ -f $dir/runtime/lunaos-menu-packages ]] || fail "the batch after a transaction stores the set"
 pass "a set read while pacman holds its lock is used once and never stored"
 
 # A transaction that starts or finishes while the set is read leaves a set
@@ -400,7 +400,7 @@ for during in install lock; do
   dir=$(cache_case "during-$during")
   batch "$dir" PACMAN_DURING_QI="$during" >/dev/null
   queried "$dir" || fail "a batch asks pacman before a transaction lands mid-read ($during)"
-  [[ ! -e $dir/runtime/omarchy-menu-packages ]] || fail "a set read across a transaction is never stored ($during)"
+  [[ ! -e $dir/runtime/lunaos-menu-packages ]] || fail "a set read across a transaction is never stored ($during)"
   rm -f "$dir/db/db.lck"
   [[ $(batch "$dir") == "bash:w:1 vim:w:1 zen:w:$([[ $during == "install" ]] && echo 1 || echo 0) " ]] ||
     fail "the batch after a mid-read transaction answers from a fresh set ($during)" "$(batch "$dir")"
@@ -412,13 +412,13 @@ pass "a set read across a transaction that lands mid-read is used once and never
 # provide-less set stored now would hide rows until the next transaction.
 dir=$(cache_case failed)
 [[ $(batch "$dir" PACMAN_QI_FAILS=1) == "bash:w:1 vim:w:0 zen:w:0 " ]] || fail "a failed query answers for its own batch" "$(batch "$dir" PACMAN_QI_FAILS=1)"
-[[ ! -e $dir/runtime/omarchy-menu-packages ]] || fail "a failed query is never stored"
+[[ ! -e $dir/runtime/lunaos-menu-packages ]] || fail "a failed query is never stored"
 [[ $(batch "$dir") == "bash:w:1 vim:w:1 zen:w:0 " ]] || fail "the batch after a failed query asks again" "$(batch "$dir")"
 pass "a set from a failed pacman query is never stored"
 
 # A set stored under another stamp is never believed.
 dir=$(cache_case stale)
-printf '%s\n' "0:0:0:0" bash gvim vim zen-browser-bin >"$dir/runtime/omarchy-menu-packages"
+printf '%s\n' "0:0:0:0" bash gvim vim zen-browser-bin >"$dir/runtime/lunaos-menu-packages"
 [[ $(batch "$dir") == "bash:w:1 vim:w:1 zen:w:0 " ]] || fail "a set stored under another stamp is ignored" "$(batch "$dir")"
 queried "$dir" || fail "a set stored under another stamp makes the batch ask pacman"
 pass "a set stored under another database stamp is ignored and replaced"

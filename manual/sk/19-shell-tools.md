@@ -1,6 +1,6 @@
 # Shell nástroje
 
-Okrem štandardných linuxových nástrojov sa Omarchy dodáva aj s množstvom vylepšených shell nástrojov. Tu sú tie hlavné.
+Okrem štandardných linuxových nástrojov sa LunaOS dodáva aj s množstvom vylepšených shell nástrojov. Tu sú tie hlavné.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Tento nástroj používa aj Neovim, keď napíšeš `Space Space`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) je náhrada za cd. Pamätá si adresáre, v ktorých si bol, takže nabudúce do nich môžeš ľahšie preskočiť. Povedzme, že raz urobíš `cd ~/.config/omarchy`. Nabudúce stačí urobiť `cd omarchy` (alebo dokonca len `cd oma`) a Zoxide ťa tam prenesie priamo.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) je náhrada za cd. Pamätá si adresáre, v ktorých si bol, takže nabudúce do nich môžeš ľahšie preskočiť. Povedzme, že raz urobíš `cd ~/.config/lunaos`. Nabudúce stačí urobiť `cd lunaos` (alebo dokonca len `cd oma`) a Zoxide ťa tam prenesie priamo.
 
 Úplný manuál nájdeš pomocou `man zoxide`.
 
@@ -58,4 +58,4 @@ Tento nástroj používa aj Neovim, keď napíšeš `Space S G`.
 
 [try](https://github.com/tobi/try) uľahčuje správu programátorských experimentov pomocou adresárov s dátumovou pečiatkou. Všetky experimenty žijú v `~/Work/tries` a máš k nim prístup prostredníctvom `try`.
 
-Omarchy nepridáva adresár `bin/` projektu do `PATH` automaticky. Dôveryhodné nástroje lokálne pre projekt spúšťaj s explicitnou relatívnou cestou, napríklad `bin/rails` alebo `./bin/dev`.
+LunaOS nepridáva adresár `bin/` projektu do `PATH` automaticky. Dôveryhodné nástroje lokálne pre projekt spúšťaj s explicitnou relatívnou cestou, napríklad `bin/rails` alebo `./bin/dev`.

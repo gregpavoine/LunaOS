@@ -1,6 +1,6 @@
 # Inštalácia s duálnym zavádzaním
 
-Omarchy môžete nainštalovať na jeden oddiel vedľa Windowsu alebo iných inštalácií.
+LunaOS môžete nainštalovať na jeden oddiel vedľa Windowsu alebo iných inštalácií.
 
 Táto metóda inštalácie predvolene stále prináša šifrovanie LUKS pre daný oddiel, takže sa v skutočnosti nelíši od inštalácie na celý disk a jednoducho si vyžaduje dostupné voľné miesto na disku.
 
@@ -14,17 +14,17 @@ Nájdite príslušný oddiel, kliknite naň pravým tlačidlom a vyberte **Shrin
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- Zadajte množstvo, o ktoré chcete zväzok zmenšiť. Upozorňujeme, že toto bude veľkosť vašej budúcej inštalácie Omarchy vrátane zavádzacieho oddielu.
+ Zadajte množstvo, o ktoré chcete zväzok zmenšiť. Upozorňujeme, že toto bude veľkosť vašej budúcej inštalácie LunaOS vrátane zavádzacieho oddielu.
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-Keď skončíte, mali by ste vidieť niečo takéto, kde 50GB časť je v tomto príklade miestom, kam nainštalujeme Omarchy.
+Keď skončíte, mali by ste vidieť niečo takéto, kde 50GB časť je v tomto príklade miestom, kam nainštalujeme LunaOS.
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## Inštalácia Omarchy
+## Inštalácia LunaOS
 
-Proces inštalácie Omarchy je v skutočnosti rovnaký ako zvyčajne. Po výbere disku dostanete možnosť **Free space install**. Vyberte túto možnosť, ak chcete zabrániť vymazaniu celého disku.
+Proces inštalácie LunaOS je v skutočnosti rovnaký ako zvyčajne. Po výbere disku dostanete možnosť **Free space install**. Vyberte túto možnosť, ak chcete zabrániť vymazaniu celého disku.
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Potvrďte, že všetko vyzerá dobre, a počkajte, kým sa inštalácia dokonč�
 
 ## Pridanie ďalších inštalácií do zavádzača
 
-Keď dokončíte inštaláciu Omarchy, všimnete si, že zavádzač Limine je teraz predvolený. S ním môžete do Limine pridať aj možnosti pre ďalšie inštalácie, napríklad Windows.
+Keď dokončíte inštaláciu LunaOS, všimnete si, že zavádzač Limine je teraz predvolený. S ním môžete do Limine pridať aj možnosti pre ďalšie inštalácie, napríklad Windows.
 
-Aby ste to urobili, spustite `limine-scan` a postupujte podľa výziev a pridajte do konfigurácie Limine položky, ktoré chcete. Potom, keď budete zavádzať systém, uvidíte svoje bežné možnosti pre Omarchy, ako aj Windows Boot Manager alebo iné.
+Aby ste to urobili, spustite `limine-scan` a postupujte podľa výziev a pridajte do konfigurácie Limine položky, ktoré chcete. Potom, keď budete zavádzať systém, uvidíte svoje bežné možnosti pre LunaOS, ako aj Windows Boot Manager alebo iné.
 
 ## Bitlocker
 

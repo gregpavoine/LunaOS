@@ -36,11 +36,11 @@ cp "$SHELL_TEST_DIR/fixtures/bar-drag/shell.qml" "$config_dir/shell.qml"
 ln -s "$ROOT/shell/Ui" "$config_dir/Ui"
 ln -s "$ROOT/shell/Commons" "$config_dir/Commons"
 # The bar syncs the compositor's blur to its background as it starts.
-printf '#!/bin/bash\nexit 0\n' >"$TMPDIR/bin/omarchy-bar"
-chmod +x "$TMPDIR/bin/omarchy-bar"
+printf '#!/bin/bash\nexit 0\n' >"$TMPDIR/bin/lunaos-bar"
+chmod +x "$TMPDIR/bin/lunaos-bar"
 
-OMARCHY_PATH="$ROOT" \
-OMARCHY_QML_TEST_RESULT="$result" \
+LUNAOS_PATH="$ROOT" \
+LUNAOS_QML_TEST_RESULT="$result" \
 HOME="$TMPDIR/home" \
 XDG_CONFIG_HOME="$TMPDIR/home/.config" \
 XDG_CACHE_HOME="$TMPDIR/home/.cache" \

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "omarchy.audio",
+  "id": "lunaos.audio",
   "name": "Audio",
   "version": "1.0.0",
-  "author": "Omarchy",
+  "author": "LunaOS",
   "description": "Volume slider, output picker, per-app mixer",
   "kinds": [
     "bar-widget"

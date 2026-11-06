@@ -11,14 +11,14 @@ lib_path="$test_tmp/lib/voxtype"
 calls="$test_tmp/calls.log"
 mkdir -p "$stub_bin" "$lib_path"
 
-for command in gum omarchy-pkg-drop omarchy-pkg-add hyprctl omarchy-restart-shell omarchy-notification-send systemctl; do
+for command in gum lunaos-pkg-drop lunaos-pkg-add hyprctl lunaos-restart-shell lunaos-notification-send systemctl; do
   printf '#!/bin/bash\nexit 0\n' >"$stub_bin/$command"
 done
-printf '#!/bin/bash\nexit 1\n' >"$stub_bin/omarchy-pkg-present"
+printf '#!/bin/bash\nexit 1\n' >"$stub_bin/lunaos-pkg-present"
 # Voxtype is already installed, so the install asks nothing and only sets it up.
-printf '#!/bin/bash\nexit 1\n' >"$stub_bin/omarchy-cmd-missing"
-printf '#!/bin/bash\nexit 0\n' >"$stub_bin/omarchy-dictation-use"
-cat >"$stub_bin/omarchy-hw-vulkan" <<'SH'
+printf '#!/bin/bash\nexit 1\n' >"$stub_bin/lunaos-cmd-missing"
+printf '#!/bin/bash\nexit 0\n' >"$stub_bin/lunaos-dictation-use"
+cat >"$stub_bin/lunaos-hw-vulkan" <<'SH'
 #!/bin/bash
 (( ${VULKAN:-1} == 1 ))
 SH
@@ -44,9 +44,9 @@ run_install() {
     ;;
   esac
 
-  HOME="$test_tmp/home" OMARCHY_PATH="$ROOT" OMARCHY_VOXTYPE_LIB_PATH="$lib_path" \
+  HOME="$test_tmp/home" LUNAOS_PATH="$ROOT" LUNAOS_VOXTYPE_LIB_PATH="$lib_path" \
     VULKAN="$vulkan" TEST_LOG="$calls" PATH="$stub_bin:$PATH" \
-    XDG_CONFIG_HOME="$test_tmp/home/.config" bash "$ROOT/bin/omarchy-install-dictation-voxtype" >/dev/null ||
+    XDG_CONFIG_HOME="$test_tmp/home/.config" bash "$ROOT/bin/lunaos-install-dictation-voxtype" >/dev/null ||
     fail "Voxtype install completes (vulkan=$vulkan backend=$backend)"
 
   grep -Fx 'voxtype setup systemd' "$calls" >/dev/null ||

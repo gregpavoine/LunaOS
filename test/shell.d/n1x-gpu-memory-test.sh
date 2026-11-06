@@ -7,10 +7,10 @@ tmp_dir=$(mktemp -d)
 trap 'rm -rf "$tmp_dir"' EXIT
 mkdir -p "$tmp_dir/bin" "$tmp_dir/efivars"
 export CALL_LOG="$tmp_dir/calls" N1X="$tmp_dir/n1x"
-export OMARCHY_EFIVARS="$tmp_dir/efivars"
+export LUNAOS_EFIVARS="$tmp_dir/efivars"
 export PATH="$tmp_dir/bin:$ROOT/bin:$PATH"
 
-cat > "$tmp_dir/bin/omarchy-hw-aarch64-n1x" <<'SH'
+cat > "$tmp_dir/bin/lunaos-hw-aarch64-n1x" <<'SH'
 #!/bin/bash
 [[ -e $N1X ]]
 SH
@@ -22,11 +22,11 @@ SH
 done
 chmod +x "$tmp_dir/bin/"*
 
-var="$OMARCHY_EFIVARS/EXPOSED_DISP_FRM-4b086294-0740-4f71-a7b5-85a329c7ec5f"
+var="$LUNAOS_EFIVARS/EXPOSED_DISP_FRM-4b086294-0740-4f71-a7b5-85a329c7ec5f"
 shipped='\x07\x00\x00\x00\x00\xfa\x00\x00\x00\x00\x00\x20\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00'
 four_gib='\x07\x00\x00\x00\x00\x10\x00\x00\x00\x00\x00\x20\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x01'
 
-apply() { : > "$CALL_LOG"; omarchy-apply-n1x-gpu-memory >/dev/null 2>&1; }
+apply() { : > "$CALL_LOG"; lunaos-apply-n1x-gpu-memory >/dev/null 2>&1; }
 holds() { cmp -s <(printf "$1") "$var"; }
 
 printf "$shipped" > "$var"

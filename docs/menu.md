@@ -1,9 +1,9 @@
-# The Omarchy menu
+# The LunaOS menu
 
-The menu is the `omarchy.menu` plugin of the Quickshell desktop, with its
-content defined as data in `default/omarchy/omarchy-menu.jsonc` (read at
-runtime from `$OMARCHY_PATH`) and overlaid by the user's
-`~/.config/omarchy/extensions/omarchy-menu.jsonc`. The shell parses both files
+The menu is the `lunaos.menu` plugin of the Quickshell desktop, with its
+content defined as data in `default/lunaos/lunaos-menu.jsonc` (read at
+runtime from `$LUNAOS_PATH`) and overlaid by the user's
+`~/.config/lunaos/extensions/lunaos-menu.jsonc`. The shell parses both files
 at startup and watches them for changes, so the keybind → IPC → visible path
 never shells out to parse anything, and edits to either file take effect
 without restarting the shell. Rendering and behavior live in
@@ -39,7 +39,7 @@ submenu. The fields:
 | `action` | Shell command to run, detached, when selected |
 | `target` | Existing submenu id to open; makes the row a link |
 | `provider` | Runtime row source for this submenu (see Providers) |
-| `aliases` | Alternate `omarchy menu summon <name>` routes; also searchable |
+| `aliases` | Alternate `lunaos menu summon <name>` routes; also searchable |
 | `description` | Subtitle shown while searching, and extra search text matched by whole word |
 | `when` / `checked` / `disabled` | Shell conditions (see Guards) |
 
@@ -56,7 +56,7 @@ or re-icon a row without re-declaring its action, and an overridden entry
 keeps its original position in the list. New ids append. A `root` entry is
 injected if neither file declares one.
 
-The sample extension at `config/omarchy/extensions/omarchy-menu.jsonc`
+The sample extension at `config/lunaos/extensions/lunaos-menu.jsonc`
 (refreshed into `~/.config/`) documents the format in its header and ships
 only comments, so the default state adds nothing.
 
@@ -69,18 +69,18 @@ lines. The menu opens immediately on the previous evaluation's answers, so
 the batch's runtime is exactly how long a row can contradict the state it
 describes — which is why the batch works hard to be fast:
 
-- Package and command presence (`omarchy-pkg-present` and friends) are
+- Package and command presence (`lunaos-pkg-present` and friends) are
   answered in-process from one `pacman -Q` snapshot instead of a fork per
   row. The snapshot resolves provides too, so gvim answers for vim. It is
-  stored in `$XDG_RUNTIME_DIR/omarchy-menu-packages`, stamped with the
+  stored in `$XDG_RUNTIME_DIR/lunaos-menu-packages`, stamped with the
   pacman local database directory (under `pacman-conf DBPath`), and rebuilt by the first batch after any
   install, removal, or upgrade moves that stamp; a build that overlapped a
   transaction (`db.lck`) or whose queries failed is used once and never
   stored.
 - Commands that several rows read a value from — every Defaults > Browser row
-  compares against `$(omarchy-default-browser)` — run once, with the captured
+  compares against `$(lunaos-default-browser)` — run once, with the captured
   answer substituted into each expression. The reader list is
-  `GUARD_READERS` in `MenuModel.js`; a new `$(omarchy-...)` reader used by
+  `GUARD_READERS` in `MenuModel.js`; a new `$(lunaos-...)` reader used by
   more than one row must be added there, and `menu-guards-test.sh` fails the
   build if it is not. The readers all start at once, before the package
   snapshot is built.
@@ -100,7 +100,7 @@ The three guards differ in what failure means:
   unselectable: cursor, pointer, and Enter all step over it, and search omits
   it. The Install submenus use it so software already on the machine reads as
   installed rather than vanishing from the list it was installed from — the
-  list stays a catalog of what Omarchy can install. Since a dimmed row means
+  list stays a catalog of what LunaOS can install. Since a dimmed row means
   "you already have this", it earns the same ✓ as `checked` does elsewhere.
 
 Install rows should therefore carry `disabled:` with the presence check, not
@@ -144,15 +144,15 @@ it with `provider:`.
 
 ## Driving the menu from the CLI
 
-`bin/omarchy-menu` is a thin wrapper over the standard plugin IPC surface:
+`bin/lunaos-menu` is a thin wrapper over the standard plugin IPC surface:
 
 ```bash
-omarchy menu                    # toggle the root menu
-omarchy menu toggle system      # open at a route, or close if already open
-omarchy menu summon appearance.theme # always open (no close-if-visible)
-omarchy menu close
-omarchy menu refresh            # re-parse the JSONC files
-omarchy menu ping
+lunaos menu                    # toggle the root menu
+lunaos menu toggle system      # open at a route, or close if already open
+lunaos menu summon appearance.theme # always open (no close-if-visible)
+lunaos menu close
+lunaos menu refresh            # re-parse the JSONC files
+lunaos menu ping
 ```
 
 A route is an item id or a declared alias, case-insensitive, with
@@ -167,19 +167,19 @@ link is followed to its target. The default Hyprland bindings in
 
 ## Select and input modes
 
-The same plugin doubles as the system's dmenu. `omarchy-menu-select` and
-`omarchy-menu-input` summon it with a `mode: select` or `mode: input`
+The same plugin doubles as the system's dmenu. `lunaos-menu-select` and
+`lunaos-menu-input` summon it with a `mode: select` or `mode: input`
 payload, then block on a tempfile handshake: the shell writes the selection
 to `selectionFile` and touches `doneFile`, and cancellation (empty
 selection) exits 1. A select option is `label`, `glyph\tlabel`, or
 `glyph\tlabel\tsubtext` — the glyph shows but never returns, the subtext
 renders under the label, filters with it, and comes back as
 `label\tsubtext` so callers with same-named rows get a stable key. This is
-how the pickers behind menu actions (`omarchy-menu-plugin`,
-`omarchy-menu-timezone`, ...) present lists without owning any UI.
+how the pickers behind menu actions (`lunaos-menu-plugin`,
+`lunaos-menu-timezone`, ...) present lists without owning any UI.
 
 
-Pass `-- --multiple` to `omarchy-menu-select` for a multi-select request. Repeat `--selected <value>` to preselect returned values (labels plus any subtext, without icons). Clicking or pressing Enter toggles an option without closing the menu; Apply returns a JSON array in option order, including `[]` when all choices are deselected. Cancellation still exits 1. Selections survive filtering.
+Pass `-- --multiple` to `lunaos-menu-select` for a multi-select request. Repeat `--selected <value>` to preselect returned values (labels plus any subtext, without icons). Clicking or pressing Enter toggles an option without closing the menu; Apply returns a JSON array in option order, including `[]` when all choices are deselected. Cancellation still exits 1. Selections survive filtering.
 
 With `--on-change <JSON command array>`, each toggle runs that command with the proposed selection JSON appended as its final argument, and no Apply row is shown. The checkbox changes only after the command succeeds; a failed command retains the previous selection. Changes persist when the menu closes. The typing selectors use this mode.
 

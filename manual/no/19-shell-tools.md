@@ -1,6 +1,6 @@
 # Skallverktøy
 
-I tillegg til standard Linux-verktøyene leveres Omarchy også med en gjeng forbedrede skallverktøy. Her er de viktigste.
+I tillegg til standard Linux-verktøyene leveres LunaOS også med en gjeng forbedrede skallverktøy. Her er de viktigste.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Hele manualen finner du via `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) er en erstatning for cd. Den husker mappene du har vært i, så du lettere kan hoppe til dem neste gang. Si du kjører `cd ~/.config/omarchy` én gang. Neste gang kan du bare kjøre `cd omarchy` (eller til og med bare `cd oma`), så tar Zoxide deg rett dit.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) er en erstatning for cd. Den husker mappene du har vært i, så du lettere kan hoppe til dem neste gang. Si du kjører `cd ~/.config/lunaos` én gang. Neste gang kan du bare kjøre `cd lunaos` (eller til og med bare `cd oma`), så tar Zoxide deg rett dit.
 
 Hele manualen finner du via `man zoxide`.
 
@@ -58,4 +58,4 @@ Hele manualen finner du via `man yt-dlp`.
 
 [try](https://github.com/tobi/try) gjør det enkelt å håndtere programmeringseksperimenter med datostemplede mapper. Alle eksperimenter bor i `~/Work/tries`, og du får tilgang til dem via `try`.
 
-Omarchy legger ikke til et prosjekts `bin/`-mappe i `PATH` automatisk. Kjør klarerte prosjektlokale verktøy med en eksplisitt relativ sti, som `bin/rails` eller `./bin/dev`.
+LunaOS legger ikke til et prosjekts `bin/`-mappe i `PATH` automatisk. Kjør klarerte prosjektlokale verktøy med en eksplisitt relativ sti, som `bin/rails` eller `./bin/dev`.

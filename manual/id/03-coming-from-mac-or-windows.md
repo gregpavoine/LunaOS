@@ -1,12 +1,12 @@
 # Berasal Dari Mac atau Windows
 
-Jika Anda telah menghabiskan bertahun-tahun di macOS atau Windows, jari-jari Anda tahu ratusan hal yang telah dilupakan otak Anda pernah pelajari. Bab ini adalah lapisan penerjemahannya: ke mana insting-insting itu pergi di Omarchy. Fitur-fiturnya sendiri dibahas secara mendalam di tempat lain — ini hanyalah petanya.
+Jika Anda telah menghabiskan bertahun-tahun di macOS atau Windows, jari-jari Anda tahu ratusan hal yang telah dilupakan otak Anda pernah pelajari. Bab ini adalah lapisan penerjemahannya: ke mana insting-insting itu pergi di LunaOS. Fitur-fiturnya sendiri dibahas secara mendalam di tempat lain — ini hanyalah petanya.
 
 ### Super adalah pusat dari segalanya
 
-Semua memori otot yang telah Anda bangun di sekitar Cmd atau tombol Windows beralih ke satu tombol: Super. Itu adalah tombol Windows pada keyboard PC, dan itu adalah jangkar untuk hampir setiap hotkey di Omarchy.
+Semua memori otot yang telah Anda bangun di sekitar Cmd atau tombol Windows beralih ke satu tombol: Super. Itu adalah tombol Windows pada keyboard PC, dan itu adalah jangkar untuk hampir setiap hotkey di LunaOS.
 
-Refleks Spotlight atau Raycast atau menu Start Anda menjadi `Super + Space`. Itu membuka menu Omarchy, yang meluncurkan aplikasi, mengubah pengaturan, memasang perangkat lunak, menangkap layar — hampir semuanya. Mulai mengetik untuk menyaring. `Super + Alt + Space` menunjukkan setiap aplikasi dalam satu kisi, seperti yang dilakukan Launchpad. Lihat [navigasi](04-navigation.md).
+Refleks Spotlight atau Raycast atau menu Start Anda menjadi `Super + Space`. Itu membuka menu LunaOS, yang meluncurkan aplikasi, mengubah pengaturan, memasang perangkat lunak, menangkap layar — hampir semuanya. Mulai mengetik untuk menyaring. `Super + Alt + Space` menunjukkan setiap aplikasi dalam satu kisi, seperti yang dilakukan Launchpad. Lihat [navigasi](04-navigation.md).
 
 ### Tidak ada dock dan tidak ada ikon desktop
 
@@ -22,27 +22,27 @@ Ruang kerja akan terasa familier: mereka adalah macOS Spaces atau desktop virtua
 
 ### Salin dan tempel langsung berfungsi
 
-Di Mac Anda memiliki Cmd + C di mana-mana. Di Windows Anda memiliki Ctrl + C di mana-mana — kecuali terminal, di mana itu mematikan program Anda. Omarchy memberi Anda `Super + C`, `Super + X`, dan `Super + V`, dan ketiganya berfungsi di mana-mana, termasuk terminal. Tidak ada refleks terpisah yang perlu dipelajari untuk shell.
+Di Mac Anda memiliki Cmd + C di mana-mana. Di Windows Anda memiliki Ctrl + C di mana-mana — kecuali terminal, di mana itu mematikan program Anda. LunaOS memberi Anda `Super + C`, `Super + X`, dan `Super + V`, dan ketiganya berfungsi di mana-mana, termasuk terminal. Tidak ada refleks terpisah yang perlu dipelajari untuk shell.
 
 Teman-teman Windows: riwayat papan klip Win + V Anda ada di `Super + Ctrl + V`, dan ia menampung gambar maupun teks. Lihat [papan klip & riwayat terpadu](08-unified-clipboard-history.md).
 
 ### Tabel penerjemahan
 
-| Yang Anda cari | Di Omarchy |
+| Yang Anda cari | Di LunaOS |
 | ------------- | ---------- |
-| Spotlight / Raycast / menu Start | `Super + Space` — menu Omarchy |
+| Spotlight / Raycast / menu Start | `Super + Space` — menu LunaOS |
 | AirDrop | LocalSend, via `Super + Ctrl + S` — lihat [GUI](22-guis.md) |
 | Cmd + Shift + 4 / Win + Shift + S | `Print Screen` — lihat [tangkapan layar & perekaman](12-screenshots-recording.md) |
 | Pusat Notifikasi | Riwayat notifikasi di `Super + Shift + Alt + ,` |
 | Time Machine (untuk sistem) | [Snapshot sistem](47-system-snapshots.md) otomatis pada setiap pembaruan |
-| App Store / mengunduh pemasang | _Pasang_ di menu, atau `omarchy pkg add` — lihat [paket lain](29-other-packages.md) |
+| App Store / mengunduh pemasang | _Pasang_ di menu, atau `lunaos pkg add` — lihat [paket lain](29-other-packages.md) |
 | Pengaturan Sistem / Control Panel | _Pengaturan_ di menu, yang mengedit berkas konfigurasi biasa — lihat [dotfiles](31-dotfiles.md) |
 
 ### Beberapa hal memang benar-benar berbeda
 
 Banyak pengaturan hidup dalam berkas teks yang Anda edit, bukan panel yang Anda klik. Itu terdengar primitif sampai Anda menyadari itu berarti setiap penyesuaian dapat dilihat, disalin ke mesin Anda berikutnya, dan dimasukkan ke kontrol versi. Menu _Pengaturan_ langsung membawa Anda ke berkas yang tepat dan memulai ulang apa pun yang perlu dimulai ulang ketika Anda selesai.
 
-Pembaruan datang melalui satu perintah — _Perbarui > Omarchy_ — yang memperbarui Omarchy itu sendiri dan setiap paket pada sistem, dengan mengambil snapshot terlebih dahulu. Tidak ada pembaru per aplikasi yang mengganggu Anda secara acak. Lihat [pembaruan](30-updates.md).
+Pembaruan datang melalui satu perintah — _Perbarui > LunaOS_ — yang memperbarui LunaOS itu sendiri dan setiap paket pada sistem, dengan mengambil snapshot terlebih dahulu. Tidak ada pembaru per aplikasi yang mengganggu Anda secara acak. Lihat [pembaruan](30-updates.md).
 
 Perangkat lunak berasal dari manajer paket, bukan dari pemasang yang diunduh.
 
@@ -50,7 +50,7 @@ Dan ketika Anda menutup sebuah jendela, aplikasi benar-benar keluar. Tidak ada l
 
 ### Di perangkat keras Mac
 
-Omarchy berjalan dengan baik di Intel Mac — lihat [dukungan Mac](44-mac-support.md). Dan keyboardnya ramah terhadap Anda: Omarchy tidak memetakan ulang apa pun, dan Linux memperlakukan tombol Command sebagai Super, sehingga Super berada tepat di tempat Cmd selalu berada. Ibu jari Anda tidak akan menyadari perpindahan itu.
+LunaOS berjalan dengan baik di Intel Mac — lihat [dukungan Mac](44-mac-support.md). Dan keyboardnya ramah terhadap Anda: LunaOS tidak memetakan ulang apa pun, dan Linux memperlakukan tombol Command sebagai Super, sehingga Super berada tepat di tempat Cmd selalu berada. Ibu jari Anda tidak akan menyadari perpindahan itu.
 
 ### Beri waktu dua minggu
 

@@ -1,8 +1,8 @@
 # Instalări nesupravegheate
 
-ISO-ul Omarchy se poate instala singur fără nimeni la tastatură. Dacă programul de instalare găsește o a doua unitate etichetată `cidata` care conține fișierele sale de configurare, le copiază, omite complet asistentul de configurare și repornește singur în sistemul terminat. Nicio construcție specială ISO, nicio intrare suplimentară în meniul de pornire — fără o astfel de unitate atașată, nimic nu se schimbă și primești asistentul normal.
+ISO-ul LunaOS se poate instala singur fără nimeni la tastatură. Dacă programul de instalare găsește o a doua unitate etichetată `cidata` care conține fișierele sale de configurare, le copiază, omite complet asistentul de configurare și repornește singur în sistemul terminat. Nicio construcție specială ISO, nicio intrare suplimentară în meniul de pornire — fără o astfel de unitate atașată, nimic nu se schimbă și primești asistentul normal.
 
-Asta face Omarchy grozav ca imagine de bază pentru medii de dezvoltare de unică folosință: creează o mașină virtuală în Proxmox sau cu Packer, pornește-o, pleacă, intră prin SSH. `cidata` este eticheta cloud-init `NoCloud`, așa că toate instrumentele obișnuite de virtualizare știu deja cum să atașeze o astfel de unitate.
+Asta face LunaOS grozav ca imagine de bază pentru medii de dezvoltare de unică folosință: creează o mașină virtuală în Proxmox sau cu Packer, pornește-o, pleacă, intră prin SSH. `cidata` este eticheta cloud-init `NoCloud`, așa că toate instrumentele obișnuite de virtualizare știu deja cum să atașeze o astfel de unitate.
 
 ## Fișierele de configurare
 
@@ -24,7 +24,7 @@ Poți pune și un fișier gol numit `defer-provisioning` în locul `user_credent
 
 ## Acces SSH
 
-Când `authorized_keys` este prezent, instalarea configurează cheile ca `~/.ssh/authorized_keys` al utilizatorului, activează `sshd` și deschide firewallul pentru acesta. (O instalare Omarchy standard livrează openssh cu serviciul dezactivat și portul închis, așa că o mașină nesupravegheată ar fi altfel de neatins.) Instalarea adaugă doar cheile tale — nu relaxează niciuna dintre celelalte setări de autentificare ale daemonului SSH.
+Când `authorized_keys` este prezent, instalarea configurează cheile ca `~/.ssh/authorized_keys` al utilizatorului, activează `sshd` și deschide firewallul pentru acesta. (O instalare LunaOS standard livrează openssh cu serviciul dezactivat și portul închis, așa că o mașină nesupravegheată ar fi altfel de neatins.) Instalarea adaugă doar cheile tale — nu relaxează niciuna dintre celelalte setări de autentificare ale daemonului SSH.
 
 Când `tailscale_authkey` este prezent, mașina se alătură în schimb tailnetului tău la prima pornire: Tailscale este instalat din pachetele incluse în ISO, firewallul permite interfața tailnet, iar o sarcină în fundal rulează alăturarea imediat ce mașina are cu adevărat rețea, reîncercând până reușește. Folosește o cheie reutilizabilă, preautorizată, astfel încât o singură imagine de unitate să poată servi multe mașini.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Apoi atașează-l la mașina virtuală alături de ISO-ul Omarchy. Iată un exemplu complet Proxmox:
+Apoi atașează-l la mașina virtuală alături de ISO-ul LunaOS. Iată un exemplu complet Proxmox:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

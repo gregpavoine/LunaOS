@@ -1,6 +1,6 @@
 # 提示符
 
-Omarchy 默认附带一个极简的 [Starship](https://starship.rs/) 提示符。我喜欢保持提示符就是这样。我不需要知道当前用户，因为那永远是我，我也不需要知道时间，因为它永远在顶部。
+LunaOS 默认附带一个极简的 [Starship](https://starship.rs/) 提示符。我喜欢保持提示符就是这样。我不需要知道当前用户，因为那永远是我，我也不需要知道时间，因为它永远在顶部。
 
  ![prompt](images/prompt.webp)
 

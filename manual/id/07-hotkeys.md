@@ -6,7 +6,7 @@ Anda dapat melihat semua binding keyboard utama dengan `Super + K` (binding Tmux
 
 | Hotkey                  | Fungsi              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Menu Omarchy (aplikasi dan segala hal lain)    |
+| `Super + Space`           | Menu LunaOS (aplikasi dan segala hal lain)    |
 | `Super + Alt + Space` | Kisi aplikasi |
 | `Super + Escape` | Menu sistem (tangguhkan, mulai ulang, dll)  |
 | `Super + Ctrl + L` | Kunci komputer |
@@ -136,7 +136,7 @@ Ubah/tambah binding dalam `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Tempel    |
 | `Super + Ctrl + V`           | Manajer papan klip    |
 
-Biasanya di Linux, Anda memerlukan `Ctrl + Shift + C/V` untuk salin-tempel di terminal dan `Ctrl + C/V` untuk melakukannya di mana-mana. Hotkey papan klip terpadu Omarchy ini berfungsi di mana-mana.
+Biasanya di Linux, Anda memerlukan `Ctrl + Shift + C/V` untuk salin-tempel di terminal dan `Ctrl + C/V` untuk melakukannya di mana-mana. Hotkey papan klip terpadu LunaOS ini berfungsi di mana-mana.
 
 ## Tangkap
 
@@ -156,7 +156,7 @@ Biasanya di Linux, Anda memerlukan `Ctrl + Shift + C/V` untuk salin-tempel di te
 
 Dengan perekaman layar, hotkey terlebih dahulu menanyakan audio mana yang Anda inginkan, lalu memulai perekaman. Tekan lagi untuk berhenti. Lihat [tangkapan layar dan perekaman](12-screenshots-recording.md) untuk detailnya.
 
-Semua opsi tangkap juga dapat diakses di bawah _Pemicu > Tangkap_ dalam menu Omarchy (`Super + Space`).
+Semua opsi tangkap juga dapat diakses di bawah _Pemicu > Tangkap_ dalam menu LunaOS (`Super + Space`).
 
 ## Notifikasi
 
@@ -177,9 +177,9 @@ Semua opsi tangkap juga dapat diakses di bawah _Pemicu > Tangkap_ dalam menu Oma
 | `Super + Backspace` | Alihkan transparansi pada jendela |
 | `Super + Ctrl + Backspace` | Alihkan aspek kotak satu jendela |
 
-Gambar latar belakang tambahan tinggal dalam `~/.config/omarchy/backgrounds/<theme name>`. Juga tersedia melalui _Pasang > Gaya > Latar Belakang_ dalam menu Omarchy.
+Gambar latar belakang tambahan tinggal dalam `~/.config/lunaos/backgrounds/<theme name>`. Juga tersedia melalui _Pasang > Gaya > Latar Belakang_ dalam menu LunaOS.
 
-Semua opsi gaya juga dapat diakses di bawah _Gaya_ dalam menu Omarchy (`Super + Space`).
+Semua opsi gaya juga dapat diakses di bawah _Gaya_ dalam menu LunaOS (`Super + Space`).
 
 ## Pengalihan
 
@@ -281,7 +281,7 @@ Fungsi-fungsi ini harus dijalankan di dalam sesi Tmux.
 
 ## Terminal Ghostty
 
-Terminal Ghostty dipasang menggunakan _Pasang > Terminal_ melalui menu Omarchy.
+Terminal Ghostty dipasang menggunakan _Pasang > Terminal_ melalui menu LunaOS.
 
 | Hotkey                  | Fungsi              |
 | ----------------------- | --------------------- |
@@ -372,6 +372,6 @@ Anda dapat menggunakan `Super + Ctrl + E` untuk menampilkan pemilih emoji lengka
 | `Shift + CapsLock Space N` | Nama Anda (seperti dimasukkan saat penyiapan)  |
 | `Shift + CapsLock Space E` | Email Anda (seperti dimasukkan saat penyiapan)  |
 
-Anda dapat menambahkan milik Anda sendiri dengan mengedit `~/.XCompose`, lalu menjalankan `omarchy-restart-xcompose` di terminal agar perubahan diambil.
+Anda dapat menambahkan milik Anda sendiri dengan mengedit `~/.XCompose`, lalu menjalankan `lunaos-restart-xcompose` di terminal agar perubahan diambil.
 
 

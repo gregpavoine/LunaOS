@@ -1,8 +1,8 @@
 # Terminal
 
-[Foot](https://codeberg.org/dnkl/foot) ist das Standardterminal für Omarchy. Es ist schnell, leichtgewichtig und sogar mit alten Computern kompatibel. Es unterstützt jedoch keine nativen Tabs oder Splits.
+[Foot](https://codeberg.org/dnkl/foot) ist das Standardterminal für LunaOS. Es ist schnell, leichtgewichtig und sogar mit alten Computern kompatibel. Es unterstützt jedoch keine nativen Tabs oder Splits.
 
-Wenn du Tmux verwendest, stört dich das vielleicht nicht, aber wenn nicht, unterstützen wir auch _Alacritty_, _Ghostty_ und _Kitty_ vollständig als Optionen. Wähle deine Präferenz unter _Installieren > Terminal_ im Omarchy-Menü.
+Wenn du Tmux verwendest, stört dich das vielleicht nicht, aber wenn nicht, unterstützen wir auch _Alacritty_, _Ghostty_ und _Kitty_ vollständig als Optionen. Wähle deine Präferenz unter _Installieren > Terminal_ im LunaOS-Menü.
 
 Du startest ein neues Terminal mit `Super + Return`. (Diese Zuordnung zeigt automatisch auf das Terminal, das du über _Installieren > Terminal_ installiert hast, und du kannst unter _Einrichtung > Standards > Terminal_ zwischen installierten Terminals wechseln.)
 
@@ -12,11 +12,11 @@ Tmux bietet eine konsistente, programmierbare Oberfläche für Panes, Fenster (a
 
 Du startest eine neue Tmux-Sitzung in einem frischen Terminal mit `Super + Alt + Return`, und weil Tmux ein persistenter Prozess ist, kannst du deine Sitzung wieder aufnehmen, selbst wenn du dieses Terminal schließt. Drücke einfach `Ctrl + Space` (die Präfix-Taste genannt) und dann `s`, um alle deine aktiven Sitzungen zu sehen.
 
-Omarchy liefert eine ergonomisch optimierte Tmux-Konfiguration mit, die viele Tastenzuordnungen zum Lernen hat, also halte [den Spickzettel griffbereit](07-hotkeys.md#tmux).
+LunaOS liefert eine ergonomisch optimierte Tmux-Konfiguration mit, die viele Tastenzuordnungen zum Lernen hat, also halte [den Spickzettel griffbereit](07-hotkeys.md#tmux).
 
 ## Tmux-Layoutfunktionen
 
-Weil Tmux programmierbar ist, können wir Funktionen verwenden, um Layouts zu erstellen. Omarchy liefert vier verschiedene Funktionen für gängige Entwickler-Layouts mit.
+Weil Tmux programmierbar ist, können wir Funktionen verwenden, um Layouts zu erstellen. LunaOS liefert vier verschiedene Funktionen für gängige Entwickler-Layouts mit.
 
 `tdl [agent]` startet eine dreigeteilte IDE-ähnliche Oberfläche mit dem `$EDITOR` auf der linken Seite, deinem gewählten KI-Agenten auf der rechten Seite (wie `c` für opencode oder `cx` für Claude oder `codex` für OpenAI) und dann einem Terminal unten.
 

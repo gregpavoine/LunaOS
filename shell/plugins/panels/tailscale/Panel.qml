@@ -9,8 +9,8 @@ import qs.Ui
 
 Panel {
   id: root
-  moduleName: "omarchy.tailscale"
-  ipcTarget: "omarchy.tailscale"
+  moduleName: "lunaos.tailscale"
+  ipcTarget: "lunaos.tailscale"
   manageIpc: false
 
   // Items inside the panel's lazily built content, null until it first

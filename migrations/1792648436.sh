@@ -2,8 +2,8 @@ echo "Remove the files the 4.0 notification engine left behind"
 
 # They hold old message content: its per-popup files, history and images.
 # rm and find never follow a symlink they are given.
-dir="$HOME/.local/state/omarchy/notifications"
-legacy="$HOME/.local/state/omarchy/notifications.json"
+dir="$HOME/.local/state/lunaos/notifications"
+legacy="$HOME/.local/state/lunaos/notifications.json"
 
 # 4.0 kept Do Not Disturb on its own. It carries over unless the shell has
 # already written quiet state of its own.

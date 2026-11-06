@@ -1,6 +1,6 @@
 # Instrumente de shell
 
-Pe lângă instrumentele Linux standard, Omarchy vine și cu o mulțime de instrumente de shell îmbunătățite. Iată-le pe cele mai importante.
+Pe lângă instrumentele Linux standard, LunaOS vine și cu o mulțime de instrumente de shell îmbunătățite. Iată-le pe cele mai importante.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Manualul complet poate fi găsit prin `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) este un înlocuitor pentru cd. Ține minte directoarele în care ai fost, așa că data viitoare poți sări mai ușor la ele. Să zicem că faci o dată `cd ~/.config/omarchy`. Data viitoare poți face pur și simplu `cd omarchy` (sau chiar doar `cd oma`), iar Zoxide te va duce direct acolo.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) este un înlocuitor pentru cd. Ține minte directoarele în care ai fost, așa că data viitoare poți sări mai ușor la ele. Să zicem că faci o dată `cd ~/.config/lunaos`. Data viitoare poți face pur și simplu `cd lunaos` (sau chiar doar `cd oma`), iar Zoxide te va duce direct acolo.
 
 Manualul complet poate fi găsit prin `man zoxide`.
 
@@ -58,4 +58,4 @@ Manualul complet poate fi găsit prin `man yt-dlp`.
 
 [try](https://github.com/tobi/try) face ușoară gestionarea experimentelor de programare cu directoare ștampilate cu data. Toate experimentele trăiesc în `~/Work/tries` și le poți accesa prin `try`.
 
-Omarchy nu adaugă automat directorul `bin/` al unui proiect la `PATH`. Rulează instrumentele locale ale proiectului în care ai încredere cu o cale relativă explicită, cum ar fi `bin/rails` sau `./bin/dev`.
+LunaOS nu adaugă automat directorul `bin/` al unui proiect la `PATH`. Rulează instrumentele locale ale proiectului în care ai încredere cu o cale relativă explicită, cum ar fi `bin/rails` sau `./bin/dev`.

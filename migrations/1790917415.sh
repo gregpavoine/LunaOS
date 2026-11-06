@@ -3,7 +3,7 @@ echo "Make the ASUS ProArt P14 (NVIDIA N1x) touchpad register touches"
 # See install/hardware/asus/fix-asus-proart-p14-touchpad.sh: the haptic pad's
 # pressure axis never reaches libinput's default touch threshold. The quirk
 # takes effect at the next login, when the compositor reloads libinput.
-if ! omarchy-hw-match "H7407BA"; then
+if ! lunaos-hw-match "H7407BA"; then
   exit 0
 fi
 

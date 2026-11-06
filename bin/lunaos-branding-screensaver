@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# lunaos:summary=Edit, set, or reset screensaver branding
+# lunaos:group=branding
+# lunaos:name=screensaver
+# lunaos:args=<image|text|reset>
+# lunaos:examples=lunaos branding screensaver image | lunaos branding screensaver text | lunaos branding screensaver reset
+
+set -euo pipefail
+
+case "${1:-}" in
+image)
+  image=$(lunaos-file-select --title "$(lunaos-i18n branding.pickScreensaverImage)" --extensions "png svg")
+  if lunaos-transcode-ascii "$image" ~/.config/lunaos/branding/screensaver.txt; then
+    lunaos-launch-screensaver force >/dev/null 2>&1
+  fi
+  ;;
+text)
+  lunaos-launch-editor ~/.config/lunaos/branding/screensaver.txt >/dev/null 2>&1 && lunaos-launch-screensaver force >/dev/null 2>&1
+  ;;
+reset)
+  cp "$LUNAOS_PATH/logo.txt" ~/.config/lunaos/branding/screensaver.txt && lunaos-launch-screensaver force >/dev/null 2>&1
+  ;;
+*)
+  echo "Usage: lunaos-branding-screensaver <image|text|reset>" >&2
+  exit 1
+  ;;
+esac

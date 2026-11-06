@@ -1,8 +1,8 @@
 # Biežākie pielāgojumi
 
-Šī ir biežāko Omarchy iestatījumu pielāgojumu kolekcija. Ziniet, ka sistēmas atjauninājumiem reizēm var būt nepieciešams atjaunot noteiktas konfigurācijas to sākotnējā stāvoklī. Ja tā notiek, jūsu izmaiņas netiks zaudētas, bet ieliktas `.bak` failā tajā pašā direktorijā.
+Šī ir biežāko LunaOS iestatījumu pielāgojumu kolekcija. Ziniet, ka sistēmas atjauninājumiem reizēm var būt nepieciešams atjaunot noteiktas konfigurācijas to sākotnējā stāvoklī. Ja tā notiek, jūsu izmaiņas netiks zaudētas, bet ieliktas `.bak` failā tajā pašā direktorijā.
 
-Ja kaut ko sabojājat, atsevišķas konfigurācijas to sākotnējā iestatījumā varat atjaunot Omarchy izvēlnē sadaļā _Atjaunināt > Konfigurācija_. Ja _patiešām_ sabojājat visu, visas konfigurācijas varat atiestatīt ar `omarchy-reinstall`.
+Ja kaut ko sabojājat, atsevišķas konfigurācijas to sākotnējā iestatījumā varat atjaunot LunaOS izvēlnē sadaļā _Atjaunināt > Konfigurācija_. Ja _patiešām_ sabojājat visu, visas konfigurācijas varat atiestatīt ar `lunaos-reinstall`.
 
 ### Rādīt visas teknes ikonas vienmēr
 
@@ -10,7 +10,7 @@ Pēc noklusējuma teknes ikonas, piemēram, Dropbox, 1password vai Steam, ir pas
 
 ### Noapaļoti logu stūri
 
-Omarchy noklusējuma dizains ir kvadrātveida stūri, bet, ja vēlaties to nedaudz mīkstināt, varat mainīt failu `~/.config/hypr/looknfeel.lua`, lai noapaļošana vairs nebūtu komentēta:
+LunaOS noklusējuma dizains ir kvadrātveida stūri, bet, ja vēlaties to nedaudz mīkstināt, varat mainīt failu `~/.config/hypr/looknfeel.lua`, lai noapaļošana vairs nebūtu komentēta:
 
 ```
 hl.config({

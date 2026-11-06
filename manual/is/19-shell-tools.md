@@ -1,6 +1,6 @@
 # Shell-tól
 
-Til viðbótar við stöðluðu Linux-tólin kemur Omarchy líka með fullt af endurbættum shell-tólum. Hér eru þau helstu.
+Til viðbótar við stöðluðu Linux-tólin kemur LunaOS líka með fullt af endurbættum shell-tólum. Hér eru þau helstu.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Heildarhandbókina er að finna með `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) er staðgengill fyrir cd. Það man möppurnar sem þú hefur verið í, þannig að þú getur auðveldlega stokkið í þær næst. Segjum að þú gerir `cd ~/.config/omarchy` einu sinni. Næst geturðu bara gert `cd omarchy` (eða jafnvel bara `cd oma`), og Zoxide fer með þig beint þangað.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) er staðgengill fyrir cd. Það man möppurnar sem þú hefur verið í, þannig að þú getur auðveldlega stokkið í þær næst. Segjum að þú gerir `cd ~/.config/lunaos` einu sinni. Næst geturðu bara gert `cd lunaos` (eða jafnvel bara `cd oma`), og Zoxide fer með þig beint þangað.
 
 Heildarhandbókina er að finna með `man zoxide`.
 
@@ -58,4 +58,4 @@ Heildarhandbókina er að finna með `man yt-dlp`.
 
 [try](https://github.com/tobi/try) gerir það auðvelt að stjórna forritunartilraunum með dagsetningarstimpluðum möppum. Allar tilraunir búa í `~/Work/tries` og þú getur nálgast þær með `try`.
 
-Omarchy bætir `bin/`-möppu verkefnis ekki sjálfkrafa við `PATH`. Keyrðu traust verkefnatól með skýrri afstæðri slóð, svo sem `bin/rails` eða `./bin/dev`.
+LunaOS bætir `bin/`-möppu verkefnis ekki sjálfkrafa við `PATH`. Keyrðu traust verkefnatól með skýrri afstæðri slóð, svo sem `bin/rails` eða `./bin/dev`.

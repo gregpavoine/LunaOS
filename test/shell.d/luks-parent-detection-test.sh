@@ -27,7 +27,7 @@ lsblk() {
   fi
 }
 
-for script in omarchy-provision-owner omarchy-system-factory-reset; do
+for script in lunaos-provision-owner lunaos-system-factory-reset; do
   # Load only this read-only helper, never the provisioning/reset entrypoint.
   sed -n '/^luks_device() {/,/^}/p' "$ROOT/bin/$script" |
     sed "s|/proc/cmdline|$test_tmp/cmdline|g" >"$test_tmp/helper"

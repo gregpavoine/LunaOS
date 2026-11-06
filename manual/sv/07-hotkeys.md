@@ -6,7 +6,7 @@ Du kan se alla huvudsakliga tangentbindningar med `Super + K` (Tmux-bindningar m
 
 | Snabbtangent                  | Funktion              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy-menyn (appar och allt annat)    |
+| `Super + Space`           | LunaOS-menyn (appar och allt annat)    |
 | `Super + Alt + Space` | Apprutnät |
 | `Super + Escape` | Systemmeny (viloläge, omstart, etc)  |
 | `Super + Ctrl + L` | Lås datorn |
@@ -136,7 +136,7 @@ Du kan se alla huvudsakliga tangentbindningar med `Super + K` (Tmux-bindningar m
 | `Super + V`           | Klistra in    |
 | `Super + Ctrl + V`           | Urklippshanterare    |
 
-Vanligtvis på Linux behöver du `Ctrl + Shift + C/V` för att kopiera och klistra in i terminalen och `Ctrl + C/V` för att göra det överallt annars. Dessa enhetliga Omarchy-urklippssnabbtangenter fungerar överallt.
+Vanligtvis på Linux behöver du `Ctrl + Shift + C/V` för att kopiera och klistra in i terminalen och `Ctrl + C/V` för att göra det överallt annars. Dessa enhetliga LunaOS-urklippssnabbtangenter fungerar överallt.
 
 ## Fångst
 
@@ -156,7 +156,7 @@ Vanligtvis på Linux behöver du `Ctrl + Shift + C/V` för att kopiera och klist
 
 Med skärminspelningar frågar snabbtangenten först vilket ljud du vill ha, och startar sedan inspelningen. Tryck på den igen för att stoppa. Se [skärmbilder och inspelning](12-screenshots-recording.md) för detaljerna.
 
-Alla fångstalternativ är också tillgängliga under _Trigger > Capture_ i Omarchy-menyn (`Super + Space`).
+Alla fångstalternativ är också tillgängliga under _Trigger > Capture_ i LunaOS-menyn (`Super + Space`).
 
 ## Aviseringar
 
@@ -177,9 +177,9 @@ Alla fångstalternativ är också tillgängliga under _Trigger > Capture_ i Omar
 | `Super + Backspace` | Växla genomskinlighet på ett fönster |
 | `Super + Ctrl + Backspace` | Växla kvadratisk aspekt för enskilt fönster |
 
-Extra bakgrundsbilder bor i `~/.config/omarchy/backgrounds/<theme name>`. Också tillgängliga via _Install > Style > Background_ i Omarchy-menyn.
+Extra bakgrundsbilder bor i `~/.config/lunaos/backgrounds/<theme name>`. Också tillgängliga via _Install > Style > Background_ i LunaOS-menyn.
 
-Alla stilalternativ är också tillgängliga under _Style_ i Omarchy-menyn (`Super + Space`).
+Alla stilalternativ är också tillgängliga under _Style_ i LunaOS-menyn (`Super + Space`).
 
 ## Växlingar
 
@@ -281,7 +281,7 @@ Dessa funktioner måste köras inuti en Tmux-session.
 
 ## Ghostty Terminal
 
-Ghostty-terminalen installeras med _Install > Terminal_ via Omarchy-menyn.
+Ghostty-terminalen installeras med _Install > Terminal_ via LunaOS-menyn.
 
 | Snabbtangent                  | Funktion              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Du kan använda `Super + Ctrl + E` för att visa en komplett emoji-väljare som 
 | `Shift + CapsLock Space N` | Ditt namn (som angett vid konfiguration)  |
 | `Shift + CapsLock Space E` | Din e-post (som angett vid konfiguration)  |
 
-Du kan lägga till fler av dina egna genom att redigera `~/.XCompose` och sedan köra `omarchy-restart-xcompose` i terminalen för att få ändringarna plockade upp.
+Du kan lägga till fler av dina egna genom att redigera `~/.XCompose` och sedan köra `lunaos-restart-xcompose` i terminalen för att få ändringarna plockade upp.

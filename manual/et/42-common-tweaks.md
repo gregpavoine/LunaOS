@@ -1,8 +1,8 @@
 # Levinud kohandused
 
-See on kogu levinud kohandustest Omarchy seadistusele. Tea, et süsteemivärskendused võivad aeg-ajalt teatud seadistused nende algsele kujule taastada. Kui see juhtub, ei lähe sinu muudatused kaduma, vaid pannakse samasse kausta `.bak` faili.
+See on kogu levinud kohandustest LunaOS seadistusele. Tea, et süsteemivärskendused võivad aeg-ajalt teatud seadistused nende algsele kujule taastada. Kui see juhtub, ei lähe sinu muudatused kaduma, vaid pannakse samasse kausta `.bak` faili.
 
-Kui midagi ära rikud, saad üksikud seadistused nende algsele kujule taastada Omarchy menüüs jaotise _Uuenda > Seadistus_ kaudu. Kui rikud _tõesti_ kõik ära, saad kõik seadistused lähtestada käsuga `omarchy-reinstall`.
+Kui midagi ära rikud, saad üksikud seadistused nende algsele kujule taastada LunaOS menüüs jaotise _Uuenda > Seadistus_ kaudu. Kui rikud _tõesti_ kõik ära, saad kõik seadistused lähtestada käsuga `lunaos-reinstall`.
 
 ### Näita kõiki salveikoone kogu aeg
 
@@ -10,7 +10,7 @@ Vaikimisi on salveikoonid, nagu Dropbox, 1Password või Steam, peidetud salve la
 
 ### Ümarad aknanurgad
 
-Omarchy vaikimisi kujundus on kandiliste nurkadega, aga kui tahad seda veidi pehmendada, saad muuta faili `~/.config/hypr/looknfeel.lua` nii, et ümardamine pole enam välja kommenteeritud:
+LunaOS vaikimisi kujundus on kandiliste nurkadega, aga kui tahad seda veidi pehmendada, saad muuta faili `~/.config/hypr/looknfeel.lua` nii, et ümardamine pole enam välja kommenteeritud:
 
 ```
 hl.config({

@@ -1,8 +1,8 @@
 # Instalacje nienadzorowane
 
-Obraz ISO Omarchy potrafi zainstalować się sam, gdy nikogo nie ma przy klawiaturze. Jeśli instalator znajdzie drugi dysk o etykiecie `cidata` niosący jego pliki konfiguracyjne, kopiuje je stamtąd, całkowicie pomija kreatora konfiguracji i sam restartuje się do gotowego systemu. Żadnej specjalnej kompilacji ISO, żadnej dodatkowej pozycji w menu rozruchowym — gdy taki dysk nie jest podłączony, nic się nie zmienia i dostajesz zwykłego kreatora.
+Obraz ISO LunaOS potrafi zainstalować się sam, gdy nikogo nie ma przy klawiaturze. Jeśli instalator znajdzie drugi dysk o etykiecie `cidata` niosący jego pliki konfiguracyjne, kopiuje je stamtąd, całkowicie pomija kreatora konfiguracji i sam restartuje się do gotowego systemu. Żadnej specjalnej kompilacji ISO, żadnej dodatkowej pozycji w menu rozruchowym — gdy taki dysk nie jest podłączony, nic się nie zmienia i dostajesz zwykłego kreatora.
 
-Dzięki temu Omarchy świetnie nadaje się na obraz bazowy dla jednorazowych środowisk programistycznych: utwórz maszynę wirtualną w Proxmoksie albo Packerem, uruchom ją, odejdź, zaloguj się przez SSH. `cidata` to etykieta `NoCloud` z cloud-init, więc wszystkie popularne narzędzia do wirtualizacji już wiedzą, jak podłączyć taki dysk.
+Dzięki temu LunaOS świetnie nadaje się na obraz bazowy dla jednorazowych środowisk programistycznych: utwórz maszynę wirtualną w Proxmoksie albo Packerem, uruchom ją, odejdź, zaloguj się przez SSH. `cidata` to etykieta `NoCloud` z cloud-init, więc wszystkie popularne narzędzia do wirtualizacji już wiedzą, jak podłączyć taki dysk.
 
 ## Pliki konfiguracyjne
 
@@ -24,7 +24,7 @@ Zamiast `user_credentials.json` możesz też umieścić pusty plik o nazwie `def
 
 ## Dostęp przez SSH
 
-Gdy `authorized_keys` jest obecny, instalacja ustawia te klucze jako `~/.ssh/authorized_keys` użytkownika, włącza `sshd` i otwiera dla niego zaporę. (Standardowa instalacja Omarchy dostarcza openssh z wyłączoną usługą i zamkniętym portem, więc nienadzorowany komputer byłby w przeciwnym razie nieosiągalny). Instalacja tylko dodaje twoje klucze — nie osłabia żadnych innych ustawień uwierzytelniania demona SSH.
+Gdy `authorized_keys` jest obecny, instalacja ustawia te klucze jako `~/.ssh/authorized_keys` użytkownika, włącza `sshd` i otwiera dla niego zaporę. (Standardowa instalacja LunaOS dostarcza openssh z wyłączoną usługą i zamkniętym portem, więc nienadzorowany komputer byłby w przeciwnym razie nieosiągalny). Instalacja tylko dodaje twoje klucze — nie osłabia żadnych innych ustawień uwierzytelniania demona SSH.
 
 Gdy `tailscale_authkey` jest obecny, komputer przy pierwszym rozruchu dołącza za to do twojego tailnetu: Tailscale jest instalowany z pakietów dołączonych do ISO, zapora przepuszcza interfejs tailnetu, a zadanie w tle uruchamia dołączanie, gdy tylko komputer faktycznie ma sieć, ponawiając próby, aż się uda. Używaj klucza wielokrotnego użytku i wstępnie autoryzowanego, aby jeden obraz dysku mógł obsłużyć wiele komputerów.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Potem podłącz je do maszyny wirtualnej obok obrazu ISO Omarchy. Oto pełny przykład dla Proxmoxa:
+Potem podłącz je do maszyny wirtualnej obok obrazu ISO LunaOS. Oto pełny przykład dla Proxmoxa:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

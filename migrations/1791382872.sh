@@ -50,15 +50,15 @@ remove_legacy_wrapper() {
 
 # The settings package ships the tool declarations. Until it has, stay pending
 # and leave the old wrappers working.
-if [[ ! -f ${OMARCHY_MISE_CONFIG_PATH:-/etc/mise/conf.d/omarchy-tools.toml} ]]; then
-  echo "Waiting for the omarchy-settings package that declares the default mise tools" >&2
+if [[ ! -f ${LUNAOS_MISE_CONFIG_PATH:-/etc/mise/conf.d/lunaos-tools.toml} ]]; then
+  echo "Waiting for the lunaos-settings package that declares the default mise tools" >&2
   exit 1
 fi
 
 # The declarations reach every user, so keep them out for a user who removed the
 # preinstalls. Either way, create the replacement shims before removing a wrapper.
-if [[ -f $HOME/.local/state/omarchy/preinstalls-removed ]]; then
-  "$OMARCHY_PATH/bin/omarchy-mise-default-tools" disable
+if [[ -f $HOME/.local/state/lunaos/preinstalls-removed ]]; then
+  "$LUNAOS_PATH/bin/lunaos-mise-default-tools" disable
 else
   mise reshim --system
 fi
@@ -85,10 +85,10 @@ remove_legacy_wrapper basecamp basecamp github:basecamp/basecamp-cli
 remove_legacy_wrapper muse muse 'http:muse[url=https://api.meta.ai/muse-launcher.sh,bin=muse,version_list_url=https://api.meta.ai/muse-code/channels/muse-stable,version_json_path=.version]'
 
 # Every wrapper ran `mise use -g`, which left `tool = "latest"` in the user's
-# config. That entry outranks Omarchy's declaration, so the tool would never be
+# config. That entry outranks LunaOS's declaration, so the tool would never be
 # lazy or update itself. Drop only exact latest requests, since a pinned version
 # is the user's choice, and keep the installs for the declarations to reuse.
 # After an opt-out those entries are what still provides the tools, so they stay.
-if [[ ! -f $HOME/.local/state/omarchy/preinstalls-removed ]]; then
+if [[ ! -f $HOME/.local/state/lunaos/preinstalls-removed ]]; then
   mise unuse -g --no-prune "${wrapper_packages[@]/%/@latest}"
 fi

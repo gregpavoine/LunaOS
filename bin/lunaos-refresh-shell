@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# lunaos:summary=Reset shell.json to LunaOS defaults
+# lunaos:examples=lunaos refresh shell
+
+set -euo pipefail
+
+lunaos-refresh-config lunaos/shell.json
+lunaos-bar defaults
+
+lunaos-restart-shell

@@ -1,6 +1,6 @@
 # Pagpuno ng mga PDF
 
-May kasamang mahusay at basic na PDF viewer ang Omarchy na tinatawag na Document Viewer. Ito ang program na magbubukas ng anumang PDF na i-double-click mo lang.
+May kasamang mahusay at basic na PDF viewer ang LunaOS na tinatawag na Document Viewer. Ito ang program na magbubukas ng anumang PDF na i-double-click mo lang.
 
 Pero maaari mo lang gamitin ang Document Viewer para punan ang mga PDF na na-setup bilang mga form. Kung kailangan mong punan ang mga PDF na hindi pa, o kailangan mong pirmahan ang isang PDF, gamitin ang [Signed](https://github.com/omacom/signed). Simulan ito sa pamamagitan ng application launcher (`Super + Space`), o i-right-click ang file, piliin ang _Open With..._, at piliin ang Signed.
 

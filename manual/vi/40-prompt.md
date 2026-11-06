@@ -1,6 +1,6 @@
 # Dấu nhắc
 
-Omarchy đi kèm một dấu nhắc [Starship](https://starship.rs/) tối giản theo mặc định. Đó là cách tôi thích giữ dấu nhắc của mình. Tôi không cần biết người dùng là ai, vì đó luôn là tôi, và tôi không cần biết thời gian, vì nó luôn ở trên cùng.
+LunaOS đi kèm một dấu nhắc [Starship](https://starship.rs/) tối giản theo mặc định. Đó là cách tôi thích giữ dấu nhắc của mình. Tôi không cần biết người dùng là ai, vì đó luôn là tôi, và tôi không cần biết thời gian, vì nó luôn ở trên cùng.
 
  ![prompt](images/prompt.webp)
 

@@ -6,7 +6,7 @@ Agar vim uslubidagi tahrirlashda mutlaqo yangi boʻlsangiz, YouTubeda [ThePrimea
 
 Endi Neovim asosan cheksiz sozlanishi mumkin. Agar haqiqatan ham haddan oshmoqchi boʻlsangiz, oʻz Neovim konfiguratsiyangizni noldan yaratishingiz mumkin. [Typecraftdan Neovimni noldan sozlash haqida](https://www.youtube.com/watch?v=zHTeCSVAFNY) ajoyib kurs bor. Va [ThePrimeagendan ham bor](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Lekin Omarchy toʻliq Neovim sozlamasi — `omarchy-nvim` paketi — bilan keladi, u qutidan chiqiboq mumkin boʻlganlarning eng yaxshisini koʻrsatish uchun mehr bilan sozlangan. Bir qator konfiguratsiya yozishingizga toʻgʻri kelmasdan! U Neovim plaginlari va konfiguratsiyalarining distributivi boʻlgan [LazyVim](https://www.lazyvim.org/) ga qurilgan. Bu ajoyib.
+Lekin LunaOS toʻliq Neovim sozlamasi — `omarchy-nvim` paketi — bilan keladi, u qutidan chiqiboq mumkin boʻlganlarning eng yaxshisini koʻrsatish uchun mehr bilan sozlangan. Bir qator konfiguratsiya yozishingizga toʻgʻri kelmasdan! U Neovim plaginlari va konfiguratsiyalarining distributivi boʻlgan [LazyVim](https://www.lazyvim.org/) ga qurilgan. Bu ajoyib.
 
 ## LazyVim asoslari
 

@@ -1,8 +1,8 @@
 # 테마
 
-Omarchy에는 아름다운 테마가 스물두 가지 들어 있습니다. Omarchy 메뉴(`Super + Space`)의 _스타일 > 테마_를 통해 선택하거나, `Super + Ctrl + Shift + Space`로 테마 선택기로 바로 이동할 수 있습니다.
+LunaOS에는 아름다운 테마가 스물두 가지 들어 있습니다. LunaOS 메뉴(`Super + Space`)의 _스타일 > 테마_를 통해 선택하거나, `Super + Ctrl + Shift + Space`로 테마 선택기로 바로 이동할 수 있습니다.
 
-각 테마는 데스크톱, 터미널, neovim, 활동 화면(btop), Chromium, 그리고 Omarchy 셸 전체 — 상단 바, 메뉴, 알림, OSD, 잠금 화면 — 의 스타일을 지정합니다. (Obsidian에서는 앱 안에서 _모양 > 테마_를 통해 Omarchy 테마를 수동으로 선택해야 합니다).
+각 테마는 데스크톱, 터미널, neovim, 활동 화면(btop), Chromium, 그리고 LunaOS 셸 전체 — 상단 바, 메뉴, 알림, OSD, 잠금 화면 — 의 스타일을 지정합니다. (Obsidian에서는 앱 안에서 _모양 > 테마_를 통해 LunaOS 테마를 수동으로 선택해야 합니다).
 
 테마에는 `Super + Ctrl + Space`로 고를 수 있는 배경 이미지 세트가 있습니다.
 

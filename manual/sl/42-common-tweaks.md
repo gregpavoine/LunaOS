@@ -1,8 +1,8 @@
 # Pogoste prilagoditve
 
-To je zbirka pogostih prilagoditev nastavitve Omarchy. Vedite, da bo sistemskim posodobitvam občasno morda treba obnoviti določene konfiguracije v njihovo prvotno stanje. Če se to zgodi, vaše spremembe ne bodo izgubljene, ampak bodo postavljene v datoteko `.bak` v istem imeniku.
+To je zbirka pogostih prilagoditev nastavitve LunaOS. Vedite, da bo sistemskim posodobitvam občasno morda treba obnoviti določene konfiguracije v njihovo prvotno stanje. Če se to zgodi, vaše spremembe ne bodo izgubljene, ampak bodo postavljene v datoteko `.bak` v istem imeniku.
 
-Če kaj pokvarite, lahko posamezne konfiguracije obnovite v njihovo prvotno nastavitev prek _Posodobi > Config_ v meniju Omarchy. Če _resnično_ vse pokvarite, lahko vse konfiguracije ponastavite prek `omarchy-reinstall`.
+Če kaj pokvarite, lahko posamezne konfiguracije obnovite v njihovo prvotno nastavitev prek _Posodobi > Config_ v meniju LunaOS. Če _resnično_ vse pokvarite, lahko vse konfiguracije ponastavite prek `lunaos-reinstall`.
 
 ### Vedno razkrij vse ikone pladnja
 
@@ -10,7 +10,7 @@ Privzeto so ikone pladnja, kot so Dropbox, 1password ali Steam, skrite za pušč
 
 ### Zaobljeni vogali oken
 
-Privzeta zasnova Omarchyja je zasnova kvadratnih vogalov, če pa želite to nekoliko omiliti, lahko spremenite `~/.config/hypr/looknfeel.lua`, tako da zaobljenje ni več zakomentirano:
+Privzeta zasnova LunaOSja je zasnova kvadratnih vogalov, če pa želite to nekoliko omiliti, lahko spremenite `~/.config/hypr/looknfeel.lua`, tako da zaobljenje ni več zakomentirano:
 
 ```
 hl.config({

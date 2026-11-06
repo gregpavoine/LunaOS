@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# lunaos:summary=Set the default editor used by lunaos-launch-editor
+# lunaos:args=[code|cursor|zed|sublime_text|helix|vim|emacs|nvim]
+# lunaos:examples=lunaos default editor | lunaos default editor code | lunaos default editor helix
+
+installing=false
+if [[ ${1:-} == "--install" ]]; then
+  installing=true
+  shift
+fi
+
+editor_file="$HOME/.local/state/lunaos/defaults/editor"
+
+if (($# == 0)); then
+  if [[ -f $editor_file ]]; then
+    read -r editor <"$editor_file"
+  fi
+
+  # sublime-text-4 ships `subl`; older defaults stored `sublime_text`.
+  [[ $editor == sublime_text ]] && editor=subl
+
+  [[ -n $editor ]] && echo "$editor" || echo "nvim"
+  exit 0
+fi
+
+case "$1" in
+code) selection="code"; editor="code"; name="VSCode"; glyph= ;;
+cursor) selection="cursor"; editor="cursor"; name="Cursor"; glyph= ;;
+zed | zeditor) selection="zed"; editor="zeditor"; name="Zed"; glyph= ;;
+sublime_text | subl) selection="sublime_text"; editor="subl"; name="Sublime Text"; glyph= ;;
+helix) selection="helix"; editor="helix"; name="Helix"; glyph= ;;
+vim) selection="vim"; editor="vim"; name="Vim"; glyph= ;;
+emacs) selection="emacs"; editor="emacs"; name="Emacs"; glyph= ;;
+nvim) selection="nvim"; editor="nvim"; name="Neovim"; glyph= ;;
+*)
+  echo "Usage: lunaos-default-editor <code|cursor|zed|sublime_text|helix|vim|emacs|nvim>"
+  exit 1
+  ;;
+esac
+
+if lunaos-cmd-missing "$editor"; then
+  if [[ $installing == "false" ]]; then
+    exec lunaos-launch-floating-terminal-with-presentation lunaos-default-editor --install "$selection"
+  else
+    case "$selection" in
+    code) lunaos-install-editor-vscode ;;
+    cursor) lunaos-pkg-add cursor-bin ;;
+    zed) lunaos-install-editor-zed ;;
+    sublime_text) lunaos-pkg-add sublime-text-4 ;;
+    helix) lunaos-install-editor-helix ;;
+    vim) lunaos-pkg-add vim ;;
+    emacs) lunaos-install-editor-emacs ;;
+    nvim) lunaos-pkg-add neovim ;;
+    esac || exit 1
+  fi
+fi
+
+mkdir -p "$(dirname "$editor_file")"
+printf '%s\n' "$editor" >"$editor_file"
+
+lunaos-notification-send -g $glyph "$(lunaos-i18n default.editorSet "$name")"

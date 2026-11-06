@@ -27,7 +27,7 @@ end
 
 function keyboard.selected()
   local paths = require("default.hypr.paths")
-  local values = read_values(paths.config_home .. "/omarchy/keyboard-layouts")
+  local values = read_values(paths.config_home .. "/lunaos/keyboard-layouts")
   if values.XKBLAYOUT then return values end
   return keyboard.installed()
 end
@@ -44,7 +44,7 @@ local desktop_overrides = { kr = true, ["kr:kr104"] = true, la = true }
 
 function keyboard.installed()
   local values = keyboard.vconsole()
-  local override = read_values("/etc/omarchy/input-method").XKB_LAYOUT
+  local override = read_values("/etc/lunaos/input-method").XKB_LAYOUT
   if desktop_overrides[override]
     and (values.XKBLAYOUT or "us") == "us"
     and (values.XKBVARIANT or "") == "" then

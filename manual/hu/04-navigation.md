@@ -1,8 +1,8 @@
 # Navigáció
 
-Az Omarchyban minden billentyűzetről történik — _MINDEN!_ Amikor a rendszer először elindul, szó szerint semmit nem tudsz csinálni csak az egérrel. De megnyomhatod a `Super + Space` billentyűket, hogy előhívd az Omarchy menüt, és innen szinte mindent meg tudsz csinálni.
+Az LunaOSban minden billentyűzetről történik — _MINDEN!_ Amikor a rendszer először elindul, szó szerint semmit nem tudsz csinálni csak az egérrel. De megnyomhatod a `Super + Space` billentyűket, hogy előhívd az LunaOS menüt, és innen szinte mindent meg tudsz csinálni.
 
-De az Omarchy menü nem is arra van szánva, hogy legtöbbször ezen keresztül működd a rendszert. Ennél gyorsabbak is tudunk lenni! Az összes legfontosabb alkalmazás közvetlenül egyes billentyűkombinációkhoz van kötve. A terminált a `Super + Return`, a böngészőt a `Super + Shift + Return` billentyűkkel indítod. Próbáld ki az egyiket a másik után, és meglátod a Hyprland csempézésének varázsát működés közben:
+De az LunaOS menü nem is arra van szánva, hogy legtöbbször ezen keresztül működd a rendszert. Ennél gyorsabbak is tudunk lenni! Az összes legfontosabb alkalmazás közvetlenül egyes billentyűkombinációkhoz van kötve. A terminált a `Super + Return`, a böngészőt a `Super + Shift + Return` billentyűkkel indítod. Próbáld ki az egyiket a másik után, és meglátod a Hyprland csempézésének varázsát működés közben:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Teljes képernyőre is válthatsz a `Super + F` billentyűkkel, vagy akár csak 
 
 ### Dwindle vagy scrolling elrendezés
 
-Az Omarchy alapértelmezett elrendezését dwindle-nek hívják. Minden ablakot, amit egyetlen munkaterületen megnyitottál, mindig láthatóan tart, még akkor is, ha össze kell zsugorítania őket.
+Az LunaOS alapértelmezett elrendezését dwindle-nek hívják. Minden ablakot, amit egyetlen munkaterületen megnyitottál, mindig láthatóan tart, még akkor is, ha össze kell zsugorítania őket.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Egy lebegő munkaterület úgy működik, mint egy hagyományos asztal: az ablakok átfedik egymást, és magad mozgatod és méretezed őket. Minden ablak kap egy címsort a témád színeivel, gombokkal a minimalizáláshoz, maximalizáláshoz és bezáráshoz. A `Super + M` a fókuszált ablakot is minimalizálja. Egy minimalizált ablak a dockban várakozik; kattints az alkalmazására, hogy visszahozd. Kattints egy ablakra, hogy előtérbe hozd. Bármelyik szélétől vagy sarkától átméretezheted. Kattints duplán egy címsorra, hogy maximalizáld az ablakot, miközben a felső sáv látható marad, és még egyszer, hogy visszakapd a régi méretét.
 
-Egy lebegő munkaterület egy dockot is mutat, a kitűzött alkalmazásaiddal, mindennel, ami fut, és minden alkalmazás rácsával az alkalmazások gomb mögött, amelyet a `Super + Alt + Space` és az Omarchy menüben az _Apps_ is megnyit. Kattints jobb gombbal egy alkalmazásra a rácson, vagy nyomd meg a `Delete` billentyűt, hogy eltávolítsd. Kattints egy alkalmazásra, hogy megnyisd, vagy előtérbe hozd az ablakát; kattints újra, hogy végiglépegess az ablakain. A középső gombbal való kattintás új ablakot nyit. Húzz egy ikont a dock mentén, hogy áthelyezd; egy futó alkalmazás behúzása a többiek közé ott tartja azt. Kattints jobb gombbal, hogy egy alkalmazást megtarts a dockban, kivegyél belőle, vagy kilépj belőle. A dock kitér egy teljes képernyős ablak útjából. Kattints jobb gombbal az alkalmazások gombra, hogy a dockot egy másik szélre helyezd, vagy elrejtsd, amíg a mutató el nem éri a szélét. A pozíció a _Trigger > Appearance > Dock > Dock Position_ alatt is megtalálható, és az `omarchy dock position left` és az `omarchy dock autohide on` mindkettőt beállítja terminálból. Az alkalmazások, amelyeket a dockban tartasz, halványak, amíg nem futnak.
+Egy lebegő munkaterület egy dockot is mutat, a kitűzött alkalmazásaiddal, mindennel, ami fut, és minden alkalmazás rácsával az alkalmazások gomb mögött, amelyet a `Super + Alt + Space` és az LunaOS menüben az _Apps_ is megnyit. Kattints jobb gombbal egy alkalmazásra a rácson, vagy nyomd meg a `Delete` billentyűt, hogy eltávolítsd. Kattints egy alkalmazásra, hogy megnyisd, vagy előtérbe hozd az ablakát; kattints újra, hogy végiglépegess az ablakain. A középső gombbal való kattintás új ablakot nyit. Húzz egy ikont a dock mentén, hogy áthelyezd; egy futó alkalmazás behúzása a többiek közé ott tartja azt. Kattints jobb gombbal, hogy egy alkalmazást megtarts a dockban, kivegyél belőle, vagy kilépj belőle. A dock kitér egy teljes képernyős ablak útjából. Kattints jobb gombbal az alkalmazások gombra, hogy a dockot egy másik szélre helyezd, vagy elrejtsd, amíg a mutató el nem éri a szélét. A pozíció a _Trigger > Appearance > Dock > Dock Position_ alatt is megtalálható, és az `lunaos dock position left` és az `lunaos dock autohide on` mindkettőt beállítja terminálból. Az alkalmazások, amelyeket a dockban tartasz, halványak, amíg nem futnak.
 
-Az új munkaterületek, és azok, amelyeknek nem adtál saját elrendezést a `Super + L` billentyűkkel, az alapértelmezett elrendezést használják. Az alapértelmezett megváltoztatása minden ablak nélküli munkaterületet visszaállít arra, míg egy ablakokkal rendelkező megtartja a meglévő elrendezését. Egy dockba minimalizált ablak továbbra is ablaknak számít azon a munkaterületen, amelyet elhagyott. A _Trigger > Appearance > Workspace Layout_ alatt válaszd ki: Tiling, Scrolling vagy Floating. Az `omarchy-hyprland-workspace-layout-default scrolling` terminálból állítja be.
+Az új munkaterületek, és azok, amelyeknek nem adtál saját elrendezést a `Super + L` billentyűkkel, az alapértelmezett elrendezést használják. Az alapértelmezett megváltoztatása minden ablak nélküli munkaterületet visszaállít arra, míg egy ablakokkal rendelkező megtartja a meglévő elrendezését. Egy dockba minimalizált ablak továbbra is ablaknak számít azon a munkaterületen, amelyet elhagyott. A _Trigger > Appearance > Workspace Layout_ alatt válaszd ki: Tiling, Scrolling vagy Floating. Az `lunaos-hyprland-workspace-layout-default scrolling` terminálból állítja be.
 
 ### Ablakok csoportosítása
 

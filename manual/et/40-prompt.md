@@ -1,6 +1,6 @@
 # Viip
 
-Omarchyga tuleb vaikimisi kaasa minimaalne [Starship](https://starship.rs/) viip. Nii mulle meeldib oma viipa hoida. Ma ei pea teadma kasutajat, sest see olen alati mina, ja ma ei pea teadma kellaaega, sest see on alati ülal.
+LunaOSga tuleb vaikimisi kaasa minimaalne [Starship](https://starship.rs/) viip. Nii mulle meeldib oma viipa hoida. Ma ei pea teadma kasutajat, sest see olen alati mina, ja ma ei pea teadma kellaaega, sest see on alati ülal.
 
  ![prompt](images/prompt.webp)
 

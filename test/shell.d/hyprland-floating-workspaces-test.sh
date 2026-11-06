@@ -15,7 +15,7 @@ fake="$tmpdir/hyprland"
 home_dir="$tmpdir/home"
 state_home="$home_dir/.local/state"
 runtime_dir="$tmpdir/runtime"
-modes_dir="$state_home/omarchy/workspace-layouts"
+modes_dir="$state_home/lunaos/workspace-layouts"
 mkdir -p "$stub_dir" "$fake" "$home_dir" "$runtime_dir"
 
 # Answers come from files the cases write, and everything else is logged.
@@ -34,7 +34,7 @@ case "$1" in
 esac
 EOF
 
-for command in omarchy-notification-send omarchy-bar omarchy-shell; do
+for command in lunaos-notification-send lunaos-bar lunaos-shell; do
   printf '#!/bin/bash\nprintf "%%s\\n" "%s $*" >>"$FAKE/commands.log"\n' "$command" >"$stub_dir/$command"
 done
 chmod +x "$stub_dir"/*
@@ -63,45 +63,45 @@ reset_logs
 
 # --- Which layout a workspace is in -------------------------------------------
 
-[[ $(run omarchy-hyprland-workspace-layout-current) == "dwindle" ]] ||
+[[ $(run lunaos-hyprland-workspace-layout-current) == "dwindle" ]] ||
   fail "a workspace with nothing saved reports Hyprland's tiled layout"
-[[ $(run omarchy-hyprland-workspace-layout-current 4) == "scrolling" ]] ||
+[[ $(run lunaos-hyprland-workspace-layout-current 4) == "scrolling" ]] ||
   fail "another workspace reports its own tiled layout"
 
 mkdir -p "$modes_dir"
 printf 'o.workspace_mode({ workspace = "4", mode = "floating" })\n' >"$modes_dir/4.lua"
-[[ $(run omarchy-hyprland-workspace-layout-current 4) == "floating" ]] ||
+[[ $(run lunaos-hyprland-workspace-layout-current 4) == "floating" ]] ||
   fail "a saved floating mode is reported, though Hyprland cannot report it"
 pass "the layout of a workspace comes from its saved mode before Hyprland's"
 
 # --- The default layout -------------------------------------------------------
 
-[[ $(run omarchy-hyprland-workspace-layout-default) == "dwindle" ]] || fail "the default layout starts as tiling"
-[[ $(HYPRCTL_LAYOUT=scrolling run omarchy-hyprland-workspace-layout-default) == "scrolling" ]] ||
+[[ $(run lunaos-hyprland-workspace-layout-default) == "dwindle" ]] || fail "the default layout starts as tiling"
+[[ $(HYPRCTL_LAYOUT=scrolling run lunaos-hyprland-workspace-layout-default) == "scrolling" ]] ||
   fail "without a saved default, Hyprland's own layout is the default"
-run omarchy-hyprland-workspace-layout-default scrolling
+run lunaos-hyprland-workspace-layout-default scrolling
 grep -qxF 'o.workspace_mode({ default = "scrolling" })' "$modes_dir/default.lua" ||
   fail "the default layout is saved" "$(cat "$modes_dir/default.lua" 2>&1)"
-[[ $(run omarchy-hyprland-workspace-layout-default) == "scrolling" ]] || fail "the saved default is reported"
+[[ $(run lunaos-hyprland-workspace-layout-default) == "scrolling" ]] || fail "the saved default is reported"
 grep -qx 'reload' "$fake/hyprctl.log" || fail "a new default reloads Hyprland"
-grep -qF 'omarchy-shell -q omarchy.workspaces refresh' "$fake/commands.log" || fail "a new default refreshes the bar"
-grep -qF 'omarchy-shell -q omarchy.dock refresh' "$fake/commands.log" || fail "a new default refreshes the dock"
+grep -qF 'lunaos-shell -q lunaos.workspaces refresh' "$fake/commands.log" || fail "a new default refreshes the bar"
+grep -qF 'lunaos-shell -q lunaos.dock refresh' "$fake/commands.log" || fail "a new default refreshes the dock"
 pass "the default layout is saved, applied, and shown"
 
-run omarchy-hyprland-workspace-layout-default floating
-[[ $(run omarchy-hyprland-workspace-layout-current 2) == "floating" ]] ||
+run lunaos-hyprland-workspace-layout-default floating
+[[ $(run lunaos-hyprland-workspace-layout-current 2) == "floating" ]] ||
   fail "a workspace without a layout of its own follows the default"
-[[ $(run omarchy-hyprland-workspace-layout-current 4) == "floating" ]] ||
+[[ $(run lunaos-hyprland-workspace-layout-current 4) == "floating" ]] ||
   fail "a saved floating workspace still reports floating"
 printf 'o.workspace_mode({ workspace = "4", mode = "dwindle" })\n' >"$modes_dir/4.lua"
-[[ $(run omarchy-hyprland-workspace-layout-current 4) == "dwindle" ]] ||
+[[ $(run lunaos-hyprland-workspace-layout-current 4) == "dwindle" ]] ||
   fail "a workspace given its own layout keeps it under a floating default"
 pass "workspaces without a layout of their own follow the default, others keep theirs"
 
-if run omarchy-hyprland-workspace-layout-default sideways 2>/dev/null; then
+if run lunaos-hyprland-workspace-layout-default sideways 2>/dev/null; then
   fail "an unknown default layout is refused"
 fi
-[[ $(run omarchy-hyprland-workspace-layout-default) == "floating" ]] || fail "a refused default leaves the saved one alone"
+[[ $(run lunaos-hyprland-workspace-layout-default) == "floating" ]] || fail "a refused default leaves the saved one alone"
 pass "an unknown default layout is refused"
 rm -f "$modes_dir"/*.lua
 
@@ -111,10 +111,10 @@ printf '[{ "id": 2, "name": "2", "tiledLayout": "dwindle", "windows": 3 }, { "id
 printf 'o.workspace_mode({ workspace = "6", mode = "floating" })\n' >"$modes_dir/6.lua"
 printf 'o.workspace_mode({ workspace = "4", mode = "dwindle" })\n' >"$modes_dir/4.lua"
 printf 'o.workspace_mode({ workspace = "9", mode = "scrolling" })\n' >"$modes_dir/9.lua"
-run omarchy-hyprland-workspace-layout-default floating
+run lunaos-hyprland-workspace-layout-default floating
 grep -qxF 'o.workspace_mode({ workspace = "2", mode = "dwindle" })' "$modes_dir/2.lua" ||
   fail "a workspace with windows kept the layout it had" "$(cat "$modes_dir/2.lua" 2>&1)"
-[[ ! -e $modes_dir/4.lua && $(run omarchy-hyprland-workspace-layout-current 4) == "floating" ]] ||
+[[ ! -e $modes_dir/4.lua && $(run lunaos-hyprland-workspace-layout-current 4) == "floating" ]] ||
   fail "an empty workspace takes the new default, even with a layout of its own"
 [[ ! -e $modes_dir/9.lua ]] || fail "a workspace not opened yet takes the new default"
 grep -qxF 'o.workspace_mode({ workspace = "6", mode = "floating" })' "$modes_dir/6.lua" ||
@@ -131,35 +131,35 @@ cat >"$fake/clients.json" <<'EOF'
   {
     "address": "0xabc",
     "workspace": { "name": "special:minimized", "type": "special" },
-    "tags": ["omarchy-minimized-from-4"]
+    "tags": ["lunaos-minimized-from-4"]
   },
   {
     "address": "0xdef",
     "workspace": { "name": "special:scratchpad", "type": "special" },
-    "tags": ["omarchy-minimized-from-8"]
+    "tags": ["lunaos-minimized-from-8"]
   }
 ]
 EOF
-run omarchy-hyprland-workspace-layout-default dwindle
+run lunaos-hyprland-workspace-layout-default dwindle
 grep -qxF 'o.workspace_mode({ workspace = "4", mode = "floating" })' "$modes_dir/4.lua" ||
   fail "a workspace with a minimized window keeps its floating layout" "$(cat "$modes_dir/4.lua" 2>&1)"
 [[ ! -e $modes_dir/8.lua ]] || fail "a scratchpad window does not keep another workspace's layout"
-[[ $(run omarchy-hyprland-workspace-layout-current 4) == "floating" ]] ||
+[[ $(run lunaos-hyprland-workspace-layout-current 4) == "floating" ]] ||
   fail "the minimized window's workspace still reports floating"
-[[ $(run omarchy-hyprland-workspace-layout-current 8) == "dwindle" ]] ||
+[[ $(run lunaos-hyprland-workspace-layout-current 8) == "dwindle" ]] ||
   fail "an empty workspace takes the new default"
 pass "a minimized window keeps its workspace floating, and an empty one does not"
 
 rm -f "$modes_dir"/*.lua
 printf 'o.workspace_mode({ default = "floating" })\n' >"$modes_dir/default.lua"
 printf '[{ "id": 2, "name": "2", "windows": 0 }]\n' >"$fake/workspaces.json"
-printf '[{ "address": "0xabc", "workspace": { "name": "special:minimized" }, "tags": ["omarchy-minimized-from-2"] }]\n' >"$fake/clients.json"
-run omarchy-hyprland-workspace-layout-default scrolling
+printf '[{ "address": "0xabc", "workspace": { "name": "special:minimized" }, "tags": ["lunaos-minimized-from-2"] }]\n' >"$fake/clients.json"
+run lunaos-hyprland-workspace-layout-default scrolling
 grep -qxF 'o.workspace_mode({ workspace = "2", mode = "floating" })' "$modes_dir/2.lua" ||
   fail "a minimized window's workspace keeps floating when the default changes" "$(ls "$modes_dir"; echo '---'; cat "$modes_dir"/*.lua)"
 grep -qxF 'o.workspace_mode({ default = "scrolling" })' "$modes_dir/default.lua" ||
   fail "the new default is still saved"
-[[ $(run omarchy-hyprland-workspace-layout-current 2) == "floating" ]] ||
+[[ $(run lunaos-hyprland-workspace-layout-current 2) == "floating" ]] ||
   fail "the minimized window's workspace stays floating"
 pass "a minimized window pins the floating layout the default used to give its workspace"
 
@@ -167,8 +167,8 @@ rm -f "$modes_dir"/*.lua
 printf 'o.workspace_mode({ default = "floating" })\n' >"$modes_dir/default.lua"
 printf '[{ "id": 2, "name": "2", "windows": 0 }]\n' >"$fake/workspaces.json"
 jq -n '[range(200) | { address: "0x\(.)", workspace: { name: "3" }, title: ("x" * 1000) }] +
-  [{ address: "0xabc", workspace: { name: "special:minimized" }, tags: ["omarchy-minimized-from-2"] }]' >"$fake/clients.json"
-run omarchy-hyprland-workspace-layout-default scrolling ||
+  [{ address: "0xabc", workspace: { name: "special:minimized" }, tags: ["lunaos-minimized-from-2"] }]' >"$fake/clients.json"
+run lunaos-hyprland-workspace-layout-default scrolling ||
   fail "a new default is set however long the client list"
 grep -qxF 'o.workspace_mode({ workspace = "2", mode = "floating" })' "$modes_dir/2.lua" ||
   fail "a long client list still keeps a minimized window's workspace floating"
@@ -180,7 +180,7 @@ printf 'o.workspace_mode({ workspace = "2", mode = "floating" })\n' >"$modes_dir
 cp "$modes_dir/default.lua" "$tmpdir/default.before"
 printf '[{ "id": 2, "name": "2", "windows": 0 }]\n' >"$fake/workspaces.json"
 printf 'not json\n' >"$fake/clients.json"
-if run omarchy-hyprland-workspace-layout-default scrolling 2>/dev/null; then
+if run lunaos-hyprland-workspace-layout-default scrolling 2>/dev/null; then
   fail "a new default is refused when minimized windows cannot be read"
 fi
 [[ -f $modes_dir/2.lua ]] || fail "an unreadable client list keeps the saved layouts"
@@ -193,7 +193,7 @@ printf '[]\n' >"$fake/clients.json"
 printf 'o.workspace_mode({ workspace = "2", mode = "dwindle" })\n' >"$modes_dir/2.lua"
 cp "$modes_dir/default.lua" "$tmpdir/default.before"
 printf 'not json\n' >"$fake/workspaces.json"
-if run omarchy-hyprland-workspace-layout-default scrolling 2>/dev/null; then
+if run lunaos-hyprland-workspace-layout-default scrolling 2>/dev/null; then
   fail "a new default is refused when the workspaces cannot be read"
 fi
 [[ -f $modes_dir/2.lua ]] || fail "a failed workspace query keeps the saved layouts"
@@ -204,8 +204,8 @@ printf '[{ "id": 2, "name": "2", "tiledLayout": "dwindle" }, { "id": 4, "name": 
 
 # --- The workspace mode in Hyprland --------------------------------------------
 
-mkdir -p "$state_home/omarchy/current/theme"
-cat >"$state_home/omarchy/current/theme/colors.toml" <<'EOF'
+mkdir -p "$state_home/lunaos/current/theme"
+cat >"$state_home/lunaos/current/theme/colors.toml" <<'EOF'
 background = "#112233"
 lighter_background = "#223344"
 selection = "#334455"
@@ -367,14 +367,14 @@ end
 function latest_open_rule(index)
   local found
   for _, rule in ipairs(rules) do
-    if rule.name == "omarchy-floating-open-" .. tostring(index or 1) then
+    if rule.name == "lunaos-floating-open-" .. tostring(index or 1) then
       found = rule
     end
   end
   return found
 end
 
-dofile(os.getenv("OMARCHY_PATH") .. "/default/hypr/bootstrap.lua")
+dofile(os.getenv("LUNAOS_PATH") .. "/default/hypr/bootstrap.lua")
 require("default.hypr.helpers")
 LUA
 
@@ -382,7 +382,7 @@ run_lua() {
   local script=$1
   shift
   printf 'dofile("%s")\n%s\n' "$lua_harness" "$script" >"$tmpdir/case.lua"
-  env HOME="$home_dir" XDG_STATE_HOME="$state_home" OMARCHY_PATH="$ROOT" "$@" lua "$tmpdir/case.lua"
+  env HOME="$home_dir" XDG_STATE_HOME="$state_home" LUNAOS_PATH="$ROOT" "$@" lua "$tmpdir/case.lua"
 }
 
 rm -rf "$modes_dir"
@@ -415,17 +415,17 @@ local fullscreen = window("0x5", 3, { fullscreen = 1 })
 require("default.hypr.workspace-layouts")
 local s = state()
 
-assert(first.floating and has_tag(first, "omarchy-mode-floated"), "a window on an unsaved workspace was not floated")
+assert(first.floating and has_tag(first, "lunaos-mode-floated"), "a window on an unsaved workspace was not floated")
 assert(s.placed["0x1"], "a window the mode floated was not given a place")
-assert(has_tag(first, "omarchy-floating-workspace"), "a floated window got no titlebar tag")
-assert(has_tag(dialog, "omarchy-floating-workspace"), "a window floating already got no titlebar tag")
-assert(not has_tag(dialog, "omarchy-mode-floated"), "a window floating already was claimed")
+assert(has_tag(first, "lunaos-floating-workspace"), "a floated window got no titlebar tag")
+assert(has_tag(dialog, "lunaos-floating-workspace"), "a window floating already got no titlebar tag")
+assert(not has_tag(dialog, "lunaos-mode-floated"), "a window floating already was claimed")
 assert(not s.placed["0x2"], "a window floating already was moved")
 assert(not own_layout.floating, "a workspace with its own layout was floated")
-assert(not has_tag(own_layout, "omarchy-floating-workspace"), "a tiled window got a titlebar tag")
+assert(not has_tag(own_layout, "lunaos-floating-workspace"), "a tiled window got a titlebar tag")
 assert(not scratch.floating and #scratch.tags == 0, "a window on a special workspace was touched")
 assert(not fullscreen.floating, "a fullscreen window was floated")
-assert(has_tag(fullscreen, "omarchy-floating-workspace"), "a fullscreen window on a floating workspace got no titlebar tag")
+assert(has_tag(fullscreen, "lunaos-floating-workspace"), "a fullscreen window on a floating workspace got no titlebar tag")
 
 -- Pointer focus follows the active workspace.
 assert(s.config["input.follow_mouse"] == 0, "a floating workspace focused on hover")
@@ -457,16 +457,16 @@ pass "a scrolling default is Hyprland's default layout"
 # no workspace given a layout of its own, no saved mode is left to start the mode.
 rm -f "$modes_dir"/*.lua
 if ! run_lua '
-local floated = window("0x1", 1, { floating = true, tags = { "omarchy-mode-floated", "omarchy-floating-workspace" } })
-local dialog = window("0x2", 1, { floating = true, tags = { "omarchy-floating-workspace" } })
-local scratch = window("0x3", -98, { floating = true, tags = { "omarchy-mode-floated" } })
+local floated = window("0x1", 1, { floating = true, tags = { "lunaos-mode-floated", "lunaos-floating-workspace" } })
+local dialog = window("0x2", 1, { floating = true, tags = { "lunaos-floating-workspace" } })
+local scratch = window("0x3", -98, { floating = true, tags = { "lunaos-mode-floated" } })
 require("default.hypr.workspace-layouts")
 assert(not floated.floating, "a window the mode floated stayed floating once floating was off")
-assert(not has_tag(floated, "omarchy-mode-floated"), "a window given back is still claimed")
-assert(not has_tag(floated, "omarchy-floating-workspace"), "a tiled window kept its titlebar tag")
+assert(not has_tag(floated, "lunaos-mode-floated"), "a window given back is still claimed")
+assert(not has_tag(floated, "lunaos-floating-workspace"), "a tiled window kept its titlebar tag")
 assert(dialog.floating, "a dialog was tiled when floating was turned off")
-assert(not has_tag(dialog, "omarchy-floating-workspace"), "a dialog on a tiled workspace kept its titlebar tag")
-assert(scratch.floating and has_tag(scratch, "omarchy-mode-floated"), "a window on the scratchpad was tiled")
+assert(not has_tag(dialog, "lunaos-floating-workspace"), "a dialog on a tiled workspace kept its titlebar tag")
+assert(scratch.floating and has_tag(scratch, "lunaos-mode-floated"), "a window on the scratchpad was tiled")
 '; then
   fail "turning floating off gives back what it floated, but not what is on the scratchpad"
 fi
@@ -481,7 +481,7 @@ require("default.hypr.workspace-layouts")
 assert(not video.floating, "a fullscreen window was floated")
 video.fullscreen = 0
 state().subscriptions["window.fullscreen"][1](video)
-assert(video.floating and has_tag(video, "omarchy-mode-floated"), "a window leaving fullscreen on a floating workspace stayed tiled")
+assert(video.floating and has_tag(video, "lunaos-mode-floated"), "a window leaving fullscreen on a floating workspace stayed tiled")
 '; then
   fail "a window leaving fullscreen on a floating workspace floats"
 fi
@@ -497,16 +497,16 @@ require("default.hypr.workspace-layouts")
 local function open_rule()
   local found
   for _, candidate in ipairs(state().rules) do
-    if candidate.name == "omarchy-floating-open-1" then found = candidate end
+    if candidate.name == "lunaos-floating-open-1" then found = candidate end
   end
   return found
 end
 local rule = open_rule()
 assert(rule and rule.float and rule.enabled and rule.match.workspace == "r[1-1]", "no open rule floats windows on the floating workspace")
 local first_position = rule.move
-local opened = window("0x1", 1, { floating = true, tags = { "omarchy-mode-opened*" } })
+local opened = window("0x1", 1, { floating = true, tags = { "lunaos-mode-opened*" } })
 state().subscriptions["window.open"][1](opened)
-assert(has_tag(opened, "omarchy-mode-floated"), "a window the open rule floated was not claimed by the mode")
+assert(has_tag(opened, "lunaos-mode-floated"), "a window the open rule floated was not claimed by the mode")
 assert(open_rule().move ~= first_position, "the next window opens exactly on top of the last")
 o.workspace_mode({ workspace = "1", mode = "dwindle" })
 assert(not opened.floating, "a window the open rule floated kept floating once the workspace tiled")
@@ -545,7 +545,7 @@ o.window("^tile-me$", { opacity = "0.9" })
 require("default.hypr.workspace-layouts")
 local rule
 for _, candidate in ipairs(state().rules) do
-  if candidate.name == "omarchy-floating-open-1" then rule = candidate end
+  if candidate.name == "lunaos-floating-open-1" then rule = candidate end
 end
 assert(rule.match.class == "negative:(?:^float-me$)", "the open rule does not pass over an app that floats on its own: " .. tostring(rule.match.class))
 assert(rule.match.title == "negative:(?:^Picker$)", "the open rule does not pass over a window titled to float: " .. tostring(rule.match.title))
@@ -566,7 +566,7 @@ o.window({ tag = "chromium-based-browser", title = "^Meet - .+" }, { float = tru
 require("default.hypr.workspace-layouts")
 local rule
 for _, candidate in ipairs(state().rules) do
-  if candidate.name == "omarchy-floating-open-1" then rule = candidate end
+  if candidate.name == "lunaos-floating-open-1" then rule = candidate end
 end
 assert(rule.match.class == "negative:(?:^1password$)", "the open rule does not pass over an app tagged to float: " .. tostring(rule.match.class))
 assert(rule.match.title == "negative:(?:^Meet - .+)", "the open rule does not pass over just the title a tag rule floats: " .. tostring(rule.match.title))
@@ -658,7 +658,7 @@ local moved = state().subscriptions["window.move_to_workspace"][1]
 assert(moving.floating, "the window was not floated to begin with")
 
 moved(moving, { id = -98 })
-assert(moving.floating and has_tag(moving, "omarchy-mode-floated"), "a window was tiled on its way to the scratchpad")
+assert(moving.floating and has_tag(moving, "lunaos-mode-floated"), "a window was tiled on its way to the scratchpad")
 
 moved(moving, { id = 2 })
 assert(not moving.floating, "a window carried to a tiled workspace kept floating")
@@ -683,7 +683,7 @@ local s = state()
 assert(s.plugin_loads == 1, "the titlebar plugin was not loaded with a workspace floating")
 local bar = s.titlebar_config
 assert(bar, "the titlebars were not configured once loaded")
-assert(bar.workspace_tag == "omarchy-floating-workspace", "titlebars are not limited to floating workspaces")
+assert(bar.workspace_tag == "lunaos-floating-workspace", "titlebars are not limited to floating workspaces")
 assert(bar.bar_color == "rgb(223344)", "titlebars do not stand out from the window background: " .. tostring(bar.bar_color))
 assert(bar.inactive_button_color == "rgb(223344)", "titlebar buttons do not match the titlebar")
 for _, button in ipairs(s.buttons) do
@@ -695,7 +695,7 @@ assert(#s.buttons == 3, "the titlebars do not have exactly close, maximize, and 
 local actions = s.buttons[1].action .. s.buttons[2].action .. s.buttons[3].action
 assert(actions:find("window.close", 1, true), "no button closes the window")
 assert(actions:find("maximized", 1, true), "no button maximizes the window")
-assert(actions:find("omarchy-hyprland-window-minimize", 1, true), "no button minimizes the window to the dock")
+assert(actions:find("lunaos-hyprland-window-minimize", 1, true), "no button minimizes the window to the dock")
 assert(bar.on_double_click:find("maximized", 1, true), "double-clicking a titlebar does not maximize")
 ' TITLEBARS_INSTALLED=1 TITLEBARS_LOADED=1; then
   fail "titlebars load when a workspace floats and follow the theme"
@@ -725,7 +725,7 @@ printf 'o.workspace_mode({ workspace = "1", mode = "floating" })\n' >"$modes_dir
 
 # A theme whose raised surface is its background would hide the titlebar again,
 # so it takes the selection color instead.
-theme="$state_home/omarchy/current/theme/colors.toml"
+theme="$state_home/lunaos/current/theme/colors.toml"
 cp "$theme" "$theme.saved"
 sed -i 's/^lighter_background = .*/lighter_background = "#112233"/' "$theme"
 if ! run_lua '
@@ -739,11 +739,11 @@ fi
 mv "$theme.saved" "$theme"
 pass "titlebars stand out on a theme whose raised surface is its background"
 
-# omarchy-theme-set writes the current theme under ~/.local/state even when
+# lunaos-theme-set writes the current theme under ~/.local/state even when
 # XDG_STATE_HOME points elsewhere, so that is where the titlebars find it.
 other_state="$tmpdir/other-state"
-mkdir -p "$other_state/omarchy/workspace-layouts"
-cp "$modes_dir/1.lua" "$other_state/omarchy/workspace-layouts/"
+mkdir -p "$other_state/lunaos/workspace-layouts"
+cp "$modes_dir/1.lua" "$other_state/lunaos/workspace-layouts/"
 if ! run_lua '
 window("0x1", 1)
 require("default.hypr.workspace-layouts")

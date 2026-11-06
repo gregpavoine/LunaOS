@@ -1,6 +1,6 @@
 # Ledetekst
 
-Omarchy leveres med en minimal [Starship](https://starship.rs/)-ledetekst som standard. Sånn liker jeg å holde ledeteksten min. Jeg trenger ikke å vite brukeren, for det er alltid meg, og jeg trenger ikke å vite klokken, for den er alltid øverst.
+LunaOS leveres med en minimal [Starship](https://starship.rs/)-ledetekst som standard. Sånn liker jeg å holde ledeteksten min. Jeg trenger ikke å vite brukeren, for det er alltid meg, og jeg trenger ikke å vite klokken, for den er alltid øverst.
 
  ![prompt](images/prompt.webp)
 

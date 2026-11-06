@@ -1,35 +1,35 @@
 # トグル、アイドル、スクリーンセーバー
 
-日々変更することの多くは、実は設定ではありません。1 時間オンにしてまたオフにするモードです：深夜まで作業している間のナイトライト、プレゼン中のおやすみモード、何かを見ている間のスリープ抑制。Omarchy はそれらをトグルと呼び、すべて同じように動作します。ホットキー、メニューエントリ、コマンドがすべて同じスイッチを叩きます。
+日々変更することの多くは、実は設定ではありません。1 時間オンにしてまたオフにするモードです：深夜まで作業している間のナイトライト、プレゼン中のおやすみモード、何かを見ている間のスリープ抑制。LunaOS はそれらをトグルと呼び、すべて同じように動作します。ホットキー、メニューエントリ、コマンドがすべて同じスイッチを叩きます。
 
 ### トグルメニュー
 
-`Super + Ctrl + O` で _実行 > トグル_ が直接開くか、Omarchy メニュー（`Super + Space`）から歩いて行けます。そのリストのすべては、状態がどこにあるか考えずに切り替えられるスイッチです。デスクトップの見た目に関するスイッチは、その隣の _実行 > 外観_ の下にあります。
+`Super + Ctrl + O` で _実行 > トグル_ が直接開くか、LunaOS メニュー（`Super + Space`）から歩いて行けます。そのリストのすべては、状態がどこにあるか考えずに切り替えられるスイッチです。デスクトップの見た目に関するスイッチは、その隣の _実行 > 外観_ の下にあります。
 
-ターミナルからは、同じスイッチが `omarchy toggle <thing>` です。`omarchy toggle` を単独で実行するとグループ全体が見えます。
+ターミナルからは、同じスイッチが `lunaos toggle <thing>` です。`lunaos toggle` を単独で実行するとグループ全体が見えます。
 
 | トグル | ホットキー | コマンド |
 | ------ | ------ | ------- |
-| ナイトライト | `Super + Ctrl + N` | `omarchy toggle nightlight` |
-| 通知をサイレンス | `Super + Ctrl + ,` | `omarchy toggle notification silencing` |
-| スリープ抑制（アイドルロックなし） | `Super + Ctrl + I` | `omarchy toggle idle` |
-| クラッシュキャプチャ | — | `omarchy toggle crash-capture` |
-| スクリーンセーバー | — | `omarchy toggle screensaver` |
-| [Herdr](https://herdr.dev) のテーマ同期 | — | `omarchy toggle theme sync` |
-| メニューバー | `Super + Shift + Space` | `omarchy toggle bar` |
-| タッチパッド | `XF86TouchpadToggle` | `omarchy toggle touchpad` |
-| タッチスクリーン | — | `omarchy toggle touchscreen` |
-| サスペンド | — | `omarchy toggle suspend` |
-| ハイブリッド GPU | — | `omarchy toggle hybrid gpu` |
+| ナイトライト | `Super + Ctrl + N` | `lunaos toggle nightlight` |
+| 通知をサイレンス | `Super + Ctrl + ,` | `lunaos toggle notification silencing` |
+| スリープ抑制（アイドルロックなし） | `Super + Ctrl + I` | `lunaos toggle idle` |
+| クラッシュキャプチャ | — | `lunaos toggle crash-capture` |
+| スクリーンセーバー | — | `lunaos toggle screensaver` |
+| [Herdr](https://herdr.dev) のテーマ同期 | — | `lunaos toggle theme sync` |
+| メニューバー | `Super + Shift + Space` | `lunaos toggle bar` |
+| タッチパッド | `XF86TouchpadToggle` | `lunaos toggle touchpad` |
+| タッチスクリーン | — | `lunaos toggle touchscreen` |
+| サスペンド | — | `lunaos toggle suspend` |
+| ハイブリッド GPU | — | `lunaos toggle hybrid gpu` |
 
 タッチパッド、タッチスクリーン、ハイブリッド GPU のスイッチは、Toggle の下ではなく _実行 > ハードウェア_（`Super + Ctrl + H`）の下にあります。実際にそのハードウェアを持っている場合にのみ表示されるからです。タッチパッドとタッチスクリーンのものは Hyprland のリロードを生き延びます。無効にしたデバイスの名前が小さな状態ファイルに保存され、Hyprland が起動時にそれを読んで再び無効にします。
 
-_実行 > 外観_ にはメニューバーとアニメーションがあり、さらに `omarchy toggle` コマンドではないが同じように振る舞うものがいくつかあります：バーのバッテリー残量表示、デフォルトのワークスペースレイアウト、ウィンドウギャップ（`Super + Shift + Backspace`）、1 ウィンドウ正方形アスペクト（`Super + Ctrl + Backspace`）です。
+_実行 > 外観_ にはメニューバーとアニメーションがあり、さらに `lunaos toggle` コマンドではないが同じように振る舞うものがいくつかあります：バーのバッテリー残量表示、デフォルトのワークスペースレイアウト、ウィンドウギャップ（`Super + Shift + Backspace`）、1 ウィンドウ正方形アスペクト（`Super + Ctrl + Backspace`）です。
 
-これらのほとんどは単に `~/.local/state/omarchy/toggles/` の下のフラグファイルです。スクリプトで分岐したい場合、`omarchy-toggle-enabled` が探し回らせる代わりに終了コードを返します：
+これらのほとんどは単に `~/.local/state/lunaos/toggles/` の下のフラグファイルです。スクリプトで分岐したい場合、`lunaos-toggle-enabled` が探し回らせる代わりに終了コードを返します：
 
 ```bash
-omarchy-toggle-enabled screensaver-off && echo "screensaver is off"
+lunaos-toggle-enabled screensaver-off && echo "screensaver is off"
 ```
 
 フラグはオフの状態で名付けられています。`screensaver-off`、`suspend-off`、`bar-off` です。だからその存在は機能が無効になっていることを意味します。
@@ -38,7 +38,7 @@ omarchy-toggle-enabled screensaver-off && echo "screensaver is off"
 
 モードがオンのときは、トップバーの中央、時計の隣に小さなグリフが表示されます。それがインジケーターウィジェットで、ディクテーション、画面録画、保留中のリマインダー、ナイトライト、おやすみモード、スリープ抑制を運びます。
 
-非アクティブなインジケーターは隠れています。その周辺にホバーすると薄くフェードインするので、ホットキーを知らなくてもクリックしてオンにできます。アクティブなものをクリックするとオフに戻ります。すべてを常に表示しておきたい場合は、`~/.config/omarchy/shell.json` の `omarchy.indicators` エントリで `alwaysShow` を `true` に設定してください。バーウィジェットの設定方法については [トップバー](05-the-top-bar.md) を参照してください。
+非アクティブなインジケーターは隠れています。その周辺にホバーすると薄くフェードインするので、ホットキーを知らなくてもクリックしてオンにできます。アクティブなものをクリックするとオフに戻ります。すべてを常に表示しておきたい場合は、`~/.config/lunaos/shell.json` の `lunaos.indicators` エントリで `alwaysShow` を `true` に設定してください。バーウィジェットの設定方法については [トップバー](05-the-top-bar.md) を参照してください。
 
 ### ナイトライト
 
@@ -61,11 +61,11 @@ profile {
 
 とはいえ、何も失われません。サイレンスされた通知は通知履歴に直接書き込まれます。これは戻ってきて何を見逃したか気にするときにまさに欲しい記録です。`Super + Shift + Alt + ,` で開いてください。通知の残りの話については [通知表示](10-notices.md) を参照してください。
 
-2 種類のメッセージは引き続き届きます：あなたが今したことへの Omarchy 自身の確認トースト（「Theme changed」「Screenshot saved」）、そしてコマンドラインから送信された重要なアラートです。すべてを重要としてマークして前に押し入ろうとするチャットアプリは該当しません。
+2 種類のメッセージは引き続き届きます：あなたが今したことへの LunaOS 自身の確認トースト（「Theme changed」「Screenshot saved」）、そしてコマンドラインから送信された重要なアラートです。すべてを重要としてマークして前に押し入ろうとするチャットアプリは該当しません。
 
 ### アイドル
 
-Omarchy シェルがアイドル動作を所有し、タイミングは `~/.config/omarchy/shell.json` のトップレベルの `idle` ブロックです：
+LunaOS シェルがアイドル動作を所有し、タイミングは `~/.config/lunaos/shell.json` のトップレベルの `idle` ブロックです：
 
 ```json
 {
@@ -81,22 +81,22 @@ Omarchy シェルがアイドル動作を所有し、タイミングは `~/.conf
 
 ロックの期限前にスクリーンセーバーを閉じると、それはアクティビティとして数えられ、保留中のロックがキャンセルされます。マシンを一目見ただけで締め出されることはありません。
 
-アイドル時のロックを完全に止めたい場合は、`Super + Ctrl + I`（または `omarchy toggle idle`）でスリープ抑制をオンにし、コーヒーカップインジケーターがバーに表示されます。それは長いプレゼンや見守りたいビルドの前に押すべきものです。もう一度押すと通常に戻ります。スクリプトから必要な場合は、`omarchy toggle idle status` で現在の状態を JSON として表示します。
+アイドル時のロックを完全に止めたい場合は、`Super + Ctrl + I`（または `lunaos toggle idle`）でスリープ抑制をオンにし、コーヒーカップインジケーターがバーに表示されます。それは長いプレゼンや見守りたいビルドの前に押すべきものです。もう一度押すと通常に戻ります。スクリプトから必要な場合は、`lunaos toggle idle status` で現在の状態を JSON として表示します。
 
 これはロックとスクリーンセーバーの話で、電源の話ではありません。サスペンドとハイバネーションには [システムスリープ](36-system-sleep.md) に独自のセットアップがあります。
 
 ### スクリーンセーバー
 
-Omarchy のスクリーンセーバーは、モニターごとに 1 つのインスタンスで、ランダムなテキストエフェクトで流れる ASCII アートです。任意のキーやマウスの動きで終了します。
+LunaOS のスクリーンセーバーは、モニターごとに 1 つのインスタンスで、ランダムなテキストエフェクトで流れる ASCII アートです。任意のキーやマウスの動きで終了します。
 
 _システム > スクリーンセーバー_（`Super + Esc`）からオンデマンドで起動でき、アイドルスクリーンセーバーをオフにしていても強制的に起動します。デフォルトではホットキーはバインドされていません。
 
-`omarchy toggle screensaver` がアイドルの方をオフにします。作業状態からロックへ直接行きたい場合です。設定方法を知っているターミナル（Alacritty、Foot、Ghostty、Kitty）が必要で、デフォルトターミナルが別のものであればそう伝えます。
+`lunaos toggle screensaver` がアイドルの方をオフにします。作業状態からロックへ直接行きたい場合です。設定方法を知っているターミナル（Alacritty、Foot、Ghostty、Kitty）が必要で、デフォルトターミナルが別のものであればそう伝えます。
 
-描画するロゴは _スタイル > スクリーンセーバー_ の下で変更できます。png または svg をアップロードすると Omarchy が ASCII に変換します。[ブランディング](41-branding.md) を参照してください。
+描画するロゴは _スタイル > スクリーンセーバー_ の下で変更できます。png または svg をアップロードすると LunaOS が ASCII に変換します。[ブランディング](41-branding.md) を参照してください。
 
 ### ロック画面
 
-`Super + Ctrl + L` はマシンをロックします。これは Omarchy シェルからロック画面を実行し、ディスプレイを消し、間違ったアルファベットでパスワードを打たないようキーボードレイアウトを最初のものにリセットし、実行している場合は出がけに 1Password をロックします。
+`Super + Ctrl + L` はマシンをロックします。これは LunaOS シェルからロック画面を実行し、ディスプレイを消し、間違ったアルファベットでパスワードを打たないようキーボードレイアウトを最初のものにリセットし、実行している場合は出がけに 1Password をロックします。
 
 ロック画面はパスワードを受け付け、セットアップすれば指紋も受け付けます。それと他の認証方法は [ハードウェア認証](37-hardware-authentication.md) で扱います。

@@ -3,7 +3,7 @@
 # The fingerprint setup installs libfprint-git in place of stock libfprint. The
 # two conflict, so the swap has to happen inside one --ask 4 transaction, and a
 # rerun with everything installed must not touch pacman at all. The real
-# omarchy-pkg-missing runs; pacman and the privileged calls are stubbed.
+# lunaos-pkg-missing runs; pacman and the privileged calls are stubbed.
 
 set -euo pipefail
 
@@ -15,7 +15,7 @@ mkdir -p "$scratch/bin"
 export CALL_LOG="$scratch/calls"
 export PATH="$scratch/bin:$ROOT/bin:$PATH"
 
-cat > "$scratch/bin/omarchy-hw-fingerprint" <<'STUB'
+cat > "$scratch/bin/lunaos-hw-fingerprint" <<'STUB'
 #!/bin/bash
 exit "${HARDWARE_STATUS:-0}"
 STUB
@@ -25,7 +25,7 @@ case "$1" in
   -n) exit "${SUDO_CACHED:-1}" ;;
   -v) echo "sudo authenticated" >> "$CALL_LOG"; exit "${SUDO_V_STATUS:-0}" ;;
   pacman | fprintd-enroll) exec "$@" ;;
-  omarchy-lifecycle-dispatch) echo "dispatch ${*:2}" >> "$CALL_LOG"; exit "${ENABLE_STATUS:-0}" ;;
+  lunaos-lifecycle-dispatch) echo "dispatch ${*:2}" >> "$CALL_LOG"; exit "${ENABLE_STATUS:-0}" ;;
   sed) printf 'pam %s\n' "$*" >> "$CALL_LOG" ;;
   tee) printf 'pam %s\n' "$*" >> "$CALL_LOG"; cat >/dev/null ;;
   *) echo "Unexpected privileged call: $*" >> "$CALL_LOG"; exit 99 ;;
@@ -77,7 +77,7 @@ esac
 STUB
 # The dispatcher as the user: ENABLE_HOOK is what enable-fingerprint resolves
 # to (empty on a platform without one) and RESOLVE_STATUS its exit status.
-cat > "$scratch/bin/omarchy-lifecycle-dispatch" <<'STUB'
+cat > "$scratch/bin/lunaos-lifecycle-dispatch" <<'STUB'
 #!/bin/bash
 echo "resolve ${*:2}" >> "$CALL_LOG"
 [[ ${RESOLVE_STATUS:-0} == 0 ]] || exit "$RESOLVE_STATUS"
@@ -85,23 +85,23 @@ printf '%s\n' "${ENABLE_HOOK-/usr/lib/omarchy/mac/enable-fingerprint}"
 STUB
 chmod +x "$scratch/bin/"*
 
-cat > "$scratch/bin/omarchy-apply-lock" <<'STUB'
+cat > "$scratch/bin/lunaos-apply-lock" <<'STUB'
 #!/bin/bash
 echo apply-lock >> "$CALL_LOG"
 if [[ ${LOCK_SETUP_UNKNOWN:-0} != "1" ]]; then
   touch "$TEST_LOCK_PAM"
 fi
 STUB
-chmod +x "$scratch/bin/omarchy-apply-lock"
+chmod +x "$scratch/bin/lunaos-apply-lock"
 
-export TEST_LOCK_PAM="$scratch/omarchy-lock-fingerprint"
-setup_script="$scratch/omarchy-setup-security-fingerprint"
-sed "s|/etc/pam.d/omarchy-lock-fingerprint|$TEST_LOCK_PAM|g" "$ROOT/bin/omarchy-setup-security-fingerprint" > "$setup_script"
+export TEST_LOCK_PAM="$scratch/lunaos-lock-fingerprint"
+setup_script="$scratch/lunaos-setup-security-fingerprint"
+sed "s|/etc/pam.d/lunaos-lock-fingerprint|$TEST_LOCK_PAM|g" "$ROOT/bin/lunaos-setup-security-fingerprint" > "$setup_script"
 chmod +x "$setup_script"
 
 run_setup() {
   : > "$CALL_LOG"
-  if OMARCHY_PATH="$scratch" "$setup_script" > "$scratch/output" 2>&1; then
+  if LUNAOS_PATH="$scratch" "$setup_script" > "$scratch/output" 2>&1; then
     fail "setup stops on the simulated enrollment or installation failure"
   fi
   if grep -Eq '^(pam |apply-lock$|Unexpected privileged call)' "$CALL_LOG"; then
@@ -142,7 +142,7 @@ pass "missing hardware performs no package operations"
 
 # Successful setup must reuse the same lock/recovery installer as updates.
 : > "$CALL_LOG"
-OMARCHY_PATH="$scratch" ENROLL_STATUS=0 VERIFY_STATUS=0 \
+LUNAOS_PATH="$scratch" ENROLL_STATUS=0 VERIFY_STATUS=0 \
   "$setup_script" > "$scratch/output" 2>&1 || fail "successful enrollment configures authentication"
 [[ $(grep -E '^(enroll|verify|apply-lock)$' "$CALL_LOG") == $'enroll\nverify\napply-lock' ]] ||
   fail "setup configures lock recovery once, after enrollment and verification"
@@ -154,7 +154,7 @@ pass "setup reuses apply-lock after enrollment and verification"
   fail "the platform turns its reader on before enrollment, resolved as the user first" "$(cat "$CALL_LOG")"
 : > "$CALL_LOG"
 if INSTALLED=$'libfprint-git\nfprintd\nusbutils' ENABLE_STATUS=1 ENROLL_STATUS=0 VERIFY_STATUS=0 \
-  OMARCHY_PATH="$scratch" "$setup_script" > "$scratch/output" 2>&1; then
+  LUNAOS_PATH="$scratch" "$setup_script" > "$scratch/output" 2>&1; then
   fail "a reader the owner doesn't turn on stops setup"
 fi
 ! grep -Eq '^(enroll|verify|apply-lock|pam .*)$' "$CALL_LOG" && grep -q 'was not turned on, so nothing was enrolled' "$scratch/output" ||
@@ -162,7 +162,7 @@ fi
 # The owner may read past sudo's timeout, so sudo is checked again after the hook.
 : > "$CALL_LOG"
 INSTALLED=$'libfprint-git\nfprintd\nusbutils' ENROLL_STATUS=0 VERIFY_STATUS=0 \
-  OMARCHY_PATH="$scratch" "$setup_script" > "$scratch/output" 2>&1 || fail "setup with a platform hook succeeds"
+  LUNAOS_PATH="$scratch" "$setup_script" > "$scratch/output" 2>&1 || fail "setup with a platform hook succeeds"
 [[ $(grep -E '^(dispatch .*|sudo authenticated|enroll)$' "$CALL_LOG") == $'sudo authenticated\ndispatch enable-fingerprint\nsudo authenticated\nenroll' ]] &&
   grep -qF "Confirm it's you again." "$scratch/output" ||
   fail "sudo is checked again after the platform hook, before enrolling" "$(cat "$CALL_LOG")"
@@ -173,18 +173,18 @@ pass "the platform turns its reader on before enrollment, and setup stops if it 
 # stays off, and any other reader enrolls as on every platform.
 : > "$CALL_LOG"
 INSTALLED=$'libfprint-git\nfprintd\nusbutils' ENABLE_HOOK= ENROLL_STATUS=0 VERIFY_STATUS=0 \
-  OMARCHY_PATH="$scratch" "$setup_script" > "$scratch/output" 2>&1 || fail "a platform without the hook sets up as before"
+  LUNAOS_PATH="$scratch" "$setup_script" > "$scratch/output" 2>&1 || fail "a platform without the hook sets up as before"
 ! grep -q '^dispatch ' "$CALL_LOG" && grep -qx enroll "$CALL_LOG" ||
   fail "a platform without the hook enrolls without a privileged dispatch" "$(cat "$CALL_LOG")"
 : > "$CALL_LOG"
 INSTALLED=$'libfprint-git\nfprintd\nusbutils' RESOLVE_STATUS=2 ENROLL_STATUS=0 VERIFY_STATUS=0 \
-  OMARCHY_PATH="$scratch" "$setup_script" > "$scratch/output" 2>&1 || fail "a hook that can't be resolved doesn't stop setup" "$(cat "$scratch/output")"
+  LUNAOS_PATH="$scratch" "$setup_script" > "$scratch/output" 2>&1 || fail "a hook that can't be resolved doesn't stop setup" "$(cat "$scratch/output")"
 ! grep -q '^dispatch ' "$CALL_LOG" && grep -qx enroll "$CALL_LOG" && grep -q "couldn't be checked, so a reader the platform keeps off stays off" "$scratch/output" ||
   fail "a hook that can't be resolved runs nothing as root, enrolls as before and says so" "$(cat "$CALL_LOG"; cat "$scratch/output")"
 pass "a platform without the hook runs nothing as root for it, and one that can't be told sets up as before"
 
 rm -f "$TEST_LOCK_PAM"
-if OMARCHY_PATH="$scratch" ENROLL_STATUS=0 VERIFY_STATUS=0 LOCK_SETUP_UNKNOWN=1 \
+if LUNAOS_PATH="$scratch" ENROLL_STATUS=0 VERIFY_STATUS=0 LOCK_SETUP_UNKNOWN=1 \
   "$setup_script" > "$scratch/output" 2>&1; then
   fail "an inconclusive lock installer cannot report successful lock setup"
 fi
@@ -222,7 +222,7 @@ pass "each scan type gets its own instruction, and an unnamed one is told to tou
 check_verify_prompt() {
   : > "$CALL_LOG"
   INSTALLED=$'libfprint-git\nfprintd\nusbutils' SCAN_TYPE=$1 ENROLL_STATUS=0 VERIFY_STATUS=1 \
-    OMARCHY_PATH="$scratch" "$setup_script" > "$scratch/output" 2>&1 || true
+    LUNAOS_PATH="$scratch" "$setup_script" > "$scratch/output" 2>&1 || true
   grep -qF "Now let's verify that it's working correctly. $2" "$scratch/output" ||
     fail "a ${1:-unnamed} sensor is asked to verify with: $2" "$(cat "$scratch/output")"
 }
@@ -254,7 +254,7 @@ pass "enrollment results read as instructions, and a failed enrollment still fai
 # success path's order is checked above.
 : > "$CALL_LOG"
 if INSTALLED=$'libfprint-git\nfprintd\nusbutils' SCAN_TYPE=press ENROLL_STATUS=0 VERIFY_STATUS=1 \
-  OMARCHY_PATH="$scratch" "$setup_script" > "$scratch/output" 2>&1; then
+  LUNAOS_PATH="$scratch" "$setup_script" > "$scratch/output" 2>&1; then
   fail "a failed verify fails setup" "$(cat "$scratch/output")"
 fi
 grep -qx verify "$CALL_LOG" && ! grep -Eq '^(pam |apply-lock$|Unexpected privileged call)' "$CALL_LOG" ||
@@ -264,7 +264,7 @@ pass "a failed verify fails setup, leaving PAM and the lock screen alone"
 # The verify step's results, in fprintd-verify's own format (each with " (done)"
 # or " (not done)"), through the functions setup uses.
 source <(sed -n '/^fprintd_chatter()/,/^}/p;/^enroll_progress()/,/^}/p;/^verify_progress()/,/^}/p' \
-  "$ROOT/bin/omarchy-setup-security-fingerprint")
+  "$ROOT/bin/lunaos-setup-security-fingerprint")
 [[ $(printf '%s\n' 'Using device /net/reactivated/Fprint/Device/0' 'Listing enrolled fingers:' ' - #0: right-index-finger' \
   'Verify started!' 'Verifying: right-index-finger' 'Verify result: verify-retry-scan (not done)' \
   'Verify result: verify-finger-not-centered (not done)' 'Verify result: verify-match (done)' |

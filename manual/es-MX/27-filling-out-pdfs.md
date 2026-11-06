@@ -1,6 +1,6 @@
 # Llenar PDF
 
-Omarchy viene con un visor de PDF agradable y básico llamado Document Viewer. Este es el programa que abrirá cualquier PDF en el que simplemente hagas doble clic.
+LunaOS viene con un visor de PDF agradable y básico llamado Document Viewer. Este es el programa que abrirá cualquier PDF en el que simplemente hagas doble clic.
 
 Pero solo puedes usar Document Viewer para llenar PDF que hayan sido configurados como formularios. Si necesitas llenar PDF que no lo han sido, o necesitas firmar un PDF, usa [Signed](https://github.com/omacom/signed). Inícialo desde el lanzador de aplicaciones (`Super + Space`), o haz clic derecho en el archivo, selecciona _Open With..._ y elige Signed.
 

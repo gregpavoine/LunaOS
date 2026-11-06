@@ -2,17 +2,17 @@
 
 ### Nilivunja mfumo wangu kwa sasisho!
 
-Kwanza jaribu [kurudisha mfumo wako](47-system-snapshots.md) toleo kabla ya sasisho lako la hivi karibuni. Kama hiyo haifanyi kazi, tumia `omarchy-debug` kushiriki tatizo lako kwenye #omarchy-help katika Discord. Na kama yote hayo yanashindwa, unaweza kusakinisha upya usanidi na vifurushi chaguomsingi kwa kutumia `omarchy-reinstall`.
+Kwanza jaribu [kurudisha mfumo wako](47-system-snapshots.md) toleo kabla ya sasisho lako la hivi karibuni. Kama hiyo haifanyi kazi, tumia `lunaos-debug` kushiriki tatizo lako kwenye #lunaos-help katika Discord. Na kama yote hayo yanashindwa, unaweza kusakinisha upya usanidi na vifurushi chaguomsingi kwa kutumia `lunaos-reinstall`.
 
 ### Kwa nini programu nyingine ni kubwa sana kwenye skrini yangu?
 
-Omarchy hudhani skrini ya ubora wa juu ya 2x, ambayo inahitaji kuweka `GDK_SCALE` kuwa 2 katika `~/.config/hypr/monitors.lua`. Lakini kama uko kwenye skrini ya 1x, unaweza kubadilisha `local omarchy_gdk_scale = 2` kuwa 1 (na kisha uwashe upya programu yoyote iliyokua kubwa kupita kiasi). Tazama [mwongozo kuhusu skrini](33-monitors.md).
+LunaOS hudhani skrini ya ubora wa juu ya 2x, ambayo inahitaji kuweka `GDK_SCALE` kuwa 2 katika `~/.config/hypr/monitors.lua`. Lakini kama uko kwenye skrini ya 1x, unaweza kubadilisha `local lunaos_gdk_scale = 2` kuwa 1 (na kisha uwashe upya programu yoyote iliyokua kubwa kupita kiasi). Tazama [mwongozo kuhusu skrini](33-monitors.md).
 
 Kwa Spotify, unaweza kutumia `Ctrl + Minus` kupunguza UI (na `Ctrl + Plus` kuikuza).
 
 ### Wi-Fi, Bluetooth, sauti, au kiguso changu kimesita kufanya kazi ghafla
 
-Kabla ya kuwasha upya, jaribu kuwasha upya mfumo mdogo wenye tatizo wenyewe. _Sasisha > Vifaa_ katika menyu ya Omarchy ina Wi-Fi, Bluetooth, Sauti, na Kiguso, na kupakia upya moja ya hizo humaliza hali nyingi za "ilifanya kazi dakika tano zilizopita" — kisikika cha Bluetooth kisichotaka kuunganika tena, kiguso kilichokufa baada ya kusitisha, sauti iliyopotea ulipotoa skrini.
+Kabla ya kuwasha upya, jaribu kuwasha upya mfumo mdogo wenye tatizo wenyewe. _Sasisha > Vifaa_ katika menyu ya LunaOS ina Wi-Fi, Bluetooth, Sauti, na Kiguso, na kupakia upya moja ya hizo humaliza hali nyingi za "ilifanya kazi dakika tano zilizopita" — kisikika cha Bluetooth kisichotaka kuunganika tena, kiguso kilichokufa baada ya kusitisha, sauti iliyopotea ulipotoa skrini.
 
 ### Kwa nini spika zangu za nje hazichezi?
 
@@ -20,7 +20,7 @@ Pengine kwa sababu hazijachaguliwa kama tokeo la msingi. Bofya aikoni ya spika m
 
 ### Spika za kompyuta yangu mpakato zinasikika vibaya
 
-Kwenye kompyuta mpakato nyingine, Omarchy hutumia kiotomatiki upangaji wa spika unaorekebisha mwitikio wa masafa ya spika zilizojengwa ndani. `omarchy audio tuning status` hukuambia kama moja inatumika kwenye mashine yako, na `omarchy audio tuning off` huizima kama unapendelea kusikia spika mbichi.
+Kwenye kompyuta mpakato nyingine, LunaOS hutumia kiotomatiki upangaji wa spika unaorekebisha mwitikio wa masafa ya spika zilizojengwa ndani. `lunaos audio tuning status` hukuambia kama moja inatumika kwenye mashine yako, na `lunaos audio tuning off` huizima kama unapendelea kusikia spika mbichi.
 
 ### Kwa nini siwezi kuingia au sudo kwa nenosiri langu?
 

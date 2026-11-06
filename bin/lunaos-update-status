@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# lunaos:summary=Clear the shell update indicator after an update
+# lunaos:hidden=true
+
+# lunaos-update now clears the indicator itself. This stays for an update
+# started by an older lunaos-update: its pipeline was parsed before the
+# upgrade replaced it, and still calls this right after a full upgrade that
+# went through, so there is nothing left for the indicator to show.
+lunaos-shell -q lunaos.system-update clear

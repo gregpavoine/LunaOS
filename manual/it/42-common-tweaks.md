@@ -1,8 +1,8 @@
 # Ritocchi comuni
 
-Questa è una raccolta di personalizzazioni comuni alla configurazione di Omarchy. Sappi che occasionalmente potrebbe essere necessario che gli aggiornamenti di sistema ripristinino certe configurazioni alla loro condizione originale. Se succede, le tue modifiche non andranno perse, ma finiranno in un file `.bak` nella stessa directory.
+Questa è una raccolta di personalizzazioni comuni alla configurazione di LunaOS. Sappi che occasionalmente potrebbe essere necessario che gli aggiornamenti di sistema ripristinino certe configurazioni alla loro condizione originale. Se succede, le tue modifiche non andranno perse, ma finiranno in un file `.bak` nella stessa directory.
 
-Se combini qualche pasticcio, puoi ripristinare le singole configurazioni alla loro impostazione originale tramite _Aggiorna > Configurazione_ nel menu di Omarchy. Se combini _davvero_ un pasticcio completo, puoi reimpostare tutte le configurazioni con `omarchy-reinstall`.
+Se combini qualche pasticcio, puoi ripristinare le singole configurazioni alla loro impostazione originale tramite _Aggiorna > Configurazione_ nel menu di LunaOS. Se combini _davvero_ un pasticcio completo, puoi reimpostare tutte le configurazioni con `lunaos-reinstall`.
 
 ### Mostra sempre tutte le icone della barra di sistema
 
@@ -10,7 +10,7 @@ Per impostazione predefinita, le icone della barra di sistema, come Dropbox, 1Pa
 
 ### Angoli delle finestre arrotondati
 
-Il design predefinito di Omarchy è fatto di angoli squadrati, ma se vuoi ammorbidirlo un po', puoi modificare `~/.config/hypr/looknfeel.lua` in modo che l'arrotondamento non sia più commentato:
+Il design predefinito di LunaOS è fatto di angoli squadrati, ma se vuoi ammorbidirlo un po', puoi modificare `~/.config/hypr/looknfeel.lua` in modo che l'arrotondamento non sia più commentato:
 
 ```
 hl.config({

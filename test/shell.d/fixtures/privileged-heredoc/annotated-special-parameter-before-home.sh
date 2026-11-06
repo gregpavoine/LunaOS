@@ -1,5 +1,5 @@
-# omarchy:heredoc-expands paths=none -- the positional argument is a scalar
-sudo tee /etc/omarchy/example.conf <<EOF
+# lunaos:heredoc-expands paths=none -- the positional argument is a scalar
+sudo tee /etc/lunaos/example.conf <<EOF
 argument=$1
-command=$HOME/.local/share/omarchy/bin/example
+command=$HOME/.local/share/lunaos/bin/example
 EOF

@@ -1,6 +1,6 @@
 # Kabuk İşlevleri
 
-Omarchy, yaygın görevleri basitleştirmek ve karmaşık parametre çağrılarını kapsüllemek için bir dizi kabuk işleviyle birlikte gelir.
+LunaOS, yaygın görevleri basitleştirmek ve karmaşık parametre çağrılarını kapsüllemek için bir dizi kabuk işleviyle birlikte gelir.
 
 ## Sıkıştırma
 

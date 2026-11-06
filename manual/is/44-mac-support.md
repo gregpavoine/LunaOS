@@ -1,16 +1,16 @@
 # Mac stuðningur
 
-Omarchy hefur innbyggðan stuðning fyrir **Intel Mac**. Það eru nokkrar þekktar takmarkanir í augnablikinu, en svo framarlega sem þú ert meðvitaður um þær og sættir þig við þær geturðu blásið nýju lífi í gömlu Mac-tölvurnar þínar með því að hlaða inn Omarchy.
+LunaOS hefur innbyggðan stuðning fyrir **Intel Mac**. Það eru nokkrar þekktar takmarkanir í augnablikinu, en svo framarlega sem þú ert meðvitaður um þær og sættir þig við þær geturðu blásið nýju lífi í gömlu Mac-tölvurnar þínar með því að hlaða inn LunaOS.
 
-Athugaðu að uppsetning á M-röð Mac er ekki studd beint eins og er. Þú getur fengið meira að vita um stöðu þess í #omarchy-on-other á [Discord](https://discord.gg/tXFUdasqhY) okkar.
+Athugaðu að uppsetning á M-röð Mac er ekki studd beint eins og er. Þú getur fengið meira að vita um stöðu þess í #lunaos-on-other á [Discord](https://discord.gg/tXFUdasqhY) okkar.
 
-Í einföldu prófi náðum við 36% afkastaaukningu á 2019 MacBook Pro eingöngu með því að setja upp Omarchy.
+Í einföldu prófi náðum við 36% afkastaaukningu á 2019 MacBook Pro eingöngu með því að setja upp LunaOS.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Að setja upp Omarchy á Mac
+### Að setja upp LunaOS á Mac
 
-Omarchy styður aðeins að vera **eina** uppsetta stýrikerfið í augnablikinu. Við uppsetningu verður drifinu þurrkað út og MacOS verður ekki lengur ræsanlegt.
+LunaOS styður aðeins að vera **eina** uppsetta stýrikerfið í augnablikinu. Við uppsetningu verður drifinu þurrkað út og MacOS verður ekki lengur ræsanlegt.
 
 Þú getur samt endurheimt það síðar með Internet Recovery ef þú vilt.
 
@@ -39,7 +39,7 @@ Uppsetningarforritið greinir Mac-vélbúnað og beitir nauðsynlegum lagfæring
 
 ### Þekktar takmarkanir
 
-Meðlimir samfélagsins vinna stöðugt að lausnum á þessum áskorunum, svo ef þetta er vandamál fyrir þig skaltu ganga til liðs við #omarchy-on-other á [Discord](https://discord.gg/tXFUdasqhY) okkar og sjá hvort til eru einhverjar nýlegar aðferðir til að leysa þau.
+Meðlimir samfélagsins vinna stöðugt að lausnum á þessum áskorunum, svo ef þetta er vandamál fyrir þig skaltu ganga til liðs við #lunaos-on-other á [Discord](https://discord.gg/tXFUdasqhY) okkar og sjá hvort til eru einhverjar nýlegar aðferðir til að leysa þau.
 
 #### Tæki með T1 kubb
 

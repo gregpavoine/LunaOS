@@ -1,6 +1,6 @@
 # Suiteáil Tosaithe Dé
 
-Tá tú in ann Omarchy a shuiteáil ar dheighilt amháin taobh le Windows nó suiteálacha eile.
+Tá tú in ann LunaOS a shuiteáil ar dheighilt amháin taobh le Windows nó suiteálacha eile.
 
 Tagann an modh suiteála seo fós le criptiú LUKS don dheighilt de réir réamhshocraithe mar sin go héifeachtach níl aon difríocht idir é agus an tiomáint iomlán agus ní theastaíonn ach spás saor a bheith ar fáil ar an diosca.
 
@@ -14,17 +14,17 @@ Aimsigh an dheighilt chuí, cliceáil ar dheis, agus roghnaigh **Shrink Volume**
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- Iontráil an méid ar mian leat an t-imleabhar a chrapadh faoi. Tabhair faoi deara gurb é seo méid do shuiteála Omarchy amach anseo lena n-áirítear an deighilt tosaithe.
+ Iontráil an méid ar mian leat an t-imleabhar a chrapadh faoi. Tabhair faoi deara gurb é seo méid do shuiteála LunaOS amach anseo lena n-áirítear an deighilt tosaithe.
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-Nuair atá tú críochnaithe, ba chóir duit rud éigin mar seo a fheiceáil áit a bhfuil an chuid 50GB mar a shuiteálfaimid Omarchy sa sampla seo.
+Nuair atá tú críochnaithe, ba chóir duit rud éigin mar seo a fheiceáil áit a bhfuil an chuid 50GB mar a shuiteálfaimid LunaOS sa sampla seo.
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## Omarchy a Shuiteáil
+## LunaOS a Shuiteáil
 
-Go héifeachtach is é próiseas suiteála Omarchy mar a chéile leis an ngnáthcheann. Tar éis duit do dhiosca a roghnú, tabharfar an rogha **Free space install** duit. Roghnaigh an rogha sin chun cosc a chur ar an diosca iomlán a ghlanadh.
+Go héifeachtach is é próiseas suiteála LunaOS mar a chéile leis an ngnáthcheann. Tar éis duit do dhiosca a roghnú, tabharfar an rogha **Free space install** duit. Roghnaigh an rogha sin chun cosc a chur ar an diosca iomlán a ghlanadh.
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Deimhnigh go bhfuil cuma mhaith ar gach rud agus fan go gcríochnóidh an tsuite
 
 ## Suiteálacha Eile a Chur leis an Luchtóir Tosaithe
 
-Nuair a chríochnaíonn tú do shuiteáil Omarchy, tabharfaidh tú faoi deara gurb é an luchtóir tosaithe Limine an réamhshocrú anois. Leis seo, is féidir leat roghanna a chur le Limine freisin do do shuiteálacha eile cosúil le Windows.
+Nuair a chríochnaíonn tú do shuiteáil LunaOS, tabharfaidh tú faoi deara gurb é an luchtóir tosaithe Limine an réamhshocrú anois. Leis seo, is féidir leat roghanna a chur le Limine freisin do do shuiteálacha eile cosúil le Windows.
 
-Chun é sin a dhéanamh, rith `limine-scan` agus lean na leideanna chun cibé míreanna is mian leat a chur le do chumraíocht limine. Ansin nuair a thosaíonn tú, feicfidh tú do ghnáthro ghanna do Omarchy, chomh maith le Windows Boot Manager nó daoine eile.
+Chun é sin a dhéanamh, rith `limine-scan` agus lean na leideanna chun cibé míreanna is mian leat a chur le do chumraíocht limine. Ansin nuair a thosaíonn tú, feicfidh tú do ghnáthro ghanna do LunaOS, chomh maith le Windows Boot Manager nó daoine eile.
 
 ## Bitlocker
 

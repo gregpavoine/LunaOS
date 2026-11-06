@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ A sáv automatikusan megmutatja az aktuális billentyűzetkiosztásod, amint tö
 Kattints jobb gombbal a sávban lévő órára, hogy végiglapozd a gyakori formátumokat, köztük a 12 órásakat is. A formátumot közvetlenül is beállíthatod:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Ez Sunday 10:55 AM formátumot mutat.
 
 ### Hogyan változtathatom meg az időzónám?
 
-Futtasd az Omarchy menü _Frissítés > Időzóna_ pontját, és válassz a listából. Ha az időzóna jó, de maga az óra elcsúszott, a _Frissítés > Idő_ újraindítja számodra az időszinkronizálást.
+Futtasd az LunaOS menü _Frissítés > Időzóna_ pontját, és válassz a listából. Ha az időzóna jó, de maga az óra elcsúszott, a _Frissítés > Idő_ újraindítja számodra az időszinkronizálást.
 
 ### Hogyan változtathatom meg a DNS-em, oszthatom meg a Wi-Fi-met, vagy ellenőrizhetem a kapcsolatsebességem?
 
@@ -36,11 +36,11 @@ Ezek mind a [hálózatkezelésben](35-networking.md) vannak.
 
 ### Hogyan ellenőrizhetem, milyen gyors a lemezem?
 
-Az _Indító > Sebességteszt > Lemez sebességteszt_ élő olvasási és írási sebességet mér a meghajtódon, vagy az `omarchy disk speedtest` a terminálból.
+Az _Indító > Sebességteszt > Lemez sebességteszt_ élő olvasási és írási sebességet mér a meghajtódon, vagy az `lunaos disk speedtest` a terminálból.
 
 ### Miért nem tudok bejelentkezni a Google-fiókomba Chromiumban?
 
-A sima nyílt forráskódú Chromium build nem szállítja azokat az OAuth-hitelesítőadatokat, amelyeket a Google a fiókba való bejelentkezéshez megkövetel. Futtasd az Omarchy menü _Telepítés > Szolgáltatás > Chromium-fiók_ pontját ezek hozzáadásához, indítsd újra a böngészőt, és a bejelentkezés végigmegy.
+A sima nyílt forráskódú Chromium build nem szállítja azokat az OAuth-hitelesítőadatokat, amelyeket a Google a fiókba való bejelentkezéshez megkövetel. Futtasd az LunaOS menü _Telepítés > Szolgáltatás > Chromium-fiók_ pontját ezek hozzáadásához, indítsd újra a böngészőt, és a bejelentkezés végigmegy.
 
 ### Hogyan adhatok hozzá nyomtatót?
 
@@ -60,15 +60,15 @@ A mentett képernyőképek alapértelmezetten a `~/Pictures/Screenshots` mappáb
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Ugyanezt megteheted a képernyőfelvételekhez az `OMARCHY_SCREENRECORD_DIR` használatával.
+Ugyanezt megteheted a képernyőfelvételekhez az `LUNAOS_SCREENRECORD_DIR` használatával.
 
-Az Omasnap automatikusan létrehozza a képernyőkép-könyvtárát. Hozd létre a képernyőfelvételi könyvtárat saját kézzel, majd indítsd újra az Omarchyt, hogy bármelyik környezeti változás életbe lépjen.
+Az Omasnap automatikusan létrehozza a képernyőkép-könyvtárát. Hozd létre a képernyőfelvételi könyvtárat saját kézzel, majd indítsd újra az LunaOSt, hogy bármelyik környezeti változás életbe lépjen.
 
 ### Hogyan működtethetem a hangszórókat + webkamerát az Apple Studio Displayemen?
 
 Azt hinné az ember, hogy mindennek működnie kell az USB C bedugásával, de sajnos ez nem így van. Az a megoldás, amelyet találtam, és megbízhatóan működik, [a WJESOG DisplayPort + USB-A => USB-C kábel](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/) használata. Akkor a hangszórók és a webkamera úgy működnek, mint a karikacsapás.
 
-Ne feledd, hogy az Omarchyban beépített fényerőszabályozás van az Apple kijelzőkhöz (mind a Studio, mind az XDR) a szokásos billentyűzetes fényerőgombokkal.
+Ne feledd, hogy az LunaOSban beépített fényerőszabályozás van az Apple kijelzőkhöz (mind a Studio, mind az XDR) a szokásos billentyűzetes fényerőgombokkal.
 
 ### Hogyan szabadulhatok meg az összes extra szoftvertől?
 
@@ -76,7 +76,7 @@ Ha nem akarsz olyan programokat, mint az Obsidian vagy a LibreOffice, vagy bárm
 
 Futtasd az _Eltávolítás > Csomag_ pontot, hogy megnézd minden telepített csomagot. Ezután a tabulátorral kiválaszthatsz minden eltávolítandó csomagot, és a return billentyűvel elindíthatod minden kiválasztott dolog eltávolítását.
 
-És az Omarchy menü _Eltávolítás > Webalkalmazás_ pontját is használhatod bármely előre telepített webalkalmazás eltávolítására, amelyet nem akarsz.
+És az LunaOS menü _Eltávolítás > Webalkalmazás_ pontját is használhatod bármely előre telepített webalkalmazás eltávolítására, amelyet nem akarsz.
 
 Vagy futtasd az _Eltávolítás > Előtelepített elemek_ pontot, hogy minden előre telepített extrát — webalkalmazásokat, TUI-kat és opcionális alkalmazásokat — egy menetben kitakaríts. Az őket indító gyorsbillentyűk velük együtt eltűnnek, így tiszta billentyűkiosztási lappal maradsz, amelyet a sajátjaiddal tölthetsz fel a `~/.config/hypr/bindings.lua` fájlban.
 

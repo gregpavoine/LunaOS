@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# lunaos:summary=List available themes
+# lunaos:examples=lunaos theme list | lunaos theme set "Tokyo Night"
+
+{
+  find ~/.config/lunaos/themes/ -mindepth 1 -maxdepth 1 \( -type d -o -type l \) -printf '%f\n'
+  find "$LUNAOS_PATH/themes/" -mindepth 1 -maxdepth 1 -type d -printf '%f\n'
+} | sort -u | sed -E 's/(^|-)([a-z])/\1\u\2/g; s/-/ /g'

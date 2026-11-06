@@ -1,1 +1,1 @@
-omarchy-input-method configure --seed
+lunaos-input-method configure --seed

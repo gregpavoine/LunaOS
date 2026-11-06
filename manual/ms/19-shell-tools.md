@@ -1,6 +1,6 @@
 # Alatan Shell
 
-Selain alatan Linux standard, Omarchy juga dilengkapi dengan banyak alatan shell yang dipertingkat. Berikut ialah yang utama.
+Selain alatan Linux standard, LunaOS juga dilengkapi dengan banyak alatan shell yang dipertingkat. Berikut ialah yang utama.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Manual penuh boleh didapati melalui `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) ialah pengganti untuk cd. Ia mengingati direktori yang pernah anda masuki, jadi anda boleh melompat ke sana dengan lebih mudah pada kali seterusnya. Katakan anda buat `cd ~/.config/omarchy` sekali. Lain kali, anda boleh buat `cd omarchy` sahaja (atau `cd oma` sahaja), dan Zoxide akan membawa anda terus ke sana.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) ialah pengganti untuk cd. Ia mengingati direktori yang pernah anda masuki, jadi anda boleh melompat ke sana dengan lebih mudah pada kali seterusnya. Katakan anda buat `cd ~/.config/lunaos` sekali. Lain kali, anda boleh buat `cd lunaos` sahaja (atau `cd oma` sahaja), dan Zoxide akan membawa anda terus ke sana.
 
 Manual penuh boleh didapati melalui `man zoxide`.
 
@@ -58,4 +58,4 @@ Manual penuh boleh didapati melalui `man yt-dlp`.
 
 [try](https://github.com/tobi/try) memudahkan pengurusan eksperimen pengaturcaraan dengan direktori bercop tarikh. Semua eksperimen berada dalam `~/Work/tries` dan anda boleh mengaksesnya melalui `try`.
 
-Omarchy tidak menambah direktori `bin/` projek ke `PATH` secara automatik. Jalankan alatan tempatan projek yang dipercayai dengan laluan relatif yang eksplisit, seperti `bin/rails` atau `./bin/dev`.
+LunaOS tidak menambah direktori `bin/` projek ke `PATH` secara automatik. Jalankan alatan tempatan projek yang dipercayai dengan laluan relatif yang eksplisit, seperti `bin/rails` atau `./bin/dev`.

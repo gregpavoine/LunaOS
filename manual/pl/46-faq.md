@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ Pasek będzie automatycznie pokazywał twój bieżący układ klawiatury, gdy ty
 Kliknij zegar na pasku prawym przyciskiem myszy, aby przełączać się między typowymi formatami, w tym 12-godzinnymi. Możesz też ustawić format wprost:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Wyświetli to Sunday 10:55 AM.
 
 ### Jak zmienić strefę czasową?
 
-Uruchom _Aktualizuj > Strefa czasowa_ w menu Omarchy i wybierz z listy. Jeśli strefa czasowa jest dobra, ale sam zegar się rozregulował, _Aktualizuj > Czas_ zrestartuje za ciebie synchronizację czasu.
+Uruchom _Aktualizuj > Strefa czasowa_ w menu LunaOS i wybierz z listy. Jeśli strefa czasowa jest dobra, ale sam zegar się rozregulował, _Aktualizuj > Czas_ zrestartuje za ciebie synchronizację czasu.
 
 ### Jak zmienić DNS, udostępnić Wi-Fi albo sprawdzić prędkość połączenia?
 
@@ -36,11 +36,11 @@ Wszystko to mieszka w rozdziale [o sieci](35-networking.md).
 
 ### Jak sprawdzić, jak szybki jest mój dysk?
 
-_Akcje > Test prędkości > Test prędkości dysku_ mierzy bieżącą prędkość odczytu i zapisu na twoim dysku, albo `omarchy disk speedtest` z terminala.
+_Akcje > Test prędkości > Test prędkości dysku_ mierzy bieżącą prędkość odczytu i zapisu na twoim dysku, albo `lunaos disk speedtest` z terminala.
 
 ### Dlaczego nie mogę zalogować się na konto Google w Chromium?
 
-Zwykła, otwarta kompilacja Chromium nie dostarcza danych uwierzytelniających OAuth, których Google wymaga do logowania na konto. Uruchom _Instaluj > Usługa > Konto Chromium_ w menu Omarchy, aby je dodać, zrestartuj przeglądarkę i logowanie przejdzie.
+Zwykła, otwarta kompilacja Chromium nie dostarcza danych uwierzytelniających OAuth, których Google wymaga do logowania na konto. Uruchom _Instaluj > Usługa > Konto Chromium_ w menu LunaOS, aby je dodać, zrestartuj przeglądarkę i logowanie przejdzie.
 
 ### Jak dodać drukarkę?
 
@@ -60,15 +60,15 @@ Zapisywane zrzuty ekranu trafiają domyślnie do `~/Pictures/Screenshots`. Aby u
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-To samo możesz zrobić dla nagrań ekranu, używając `OMARCHY_SCREENRECORD_DIR`.
+To samo możesz zrobić dla nagrań ekranu, używając `LUNAOS_SCREENRECORD_DIR`.
 
-Omasnap tworzy swój katalog zrzutów ekranu automatycznie. Katalog nagrań ekranu utwórz sam, a potem zrestartuj Omarchy, aby którakolwiek zmiana środowiska zaczęła obowiązywać.
+Omasnap tworzy swój katalog zrzutów ekranu automatycznie. Katalog nagrań ekranu utwórz sam, a potem zrestartuj LunaOS, aby którakolwiek zmiana środowiska zaczęła obowiązywać.
 
 ### Jak sprawić, by głośniki i kamera internetowa działały na moim Apple Studio Display?
 
 Można by pomyśleć, że wszystko powinno działać po samym podłączeniu USB C, ale niestety tak nie jest. Rozwiązaniem, które u mnie działa niezawodnie, jest użycie [kabla WJESOG DisplayPort + USB-A => USB-C](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/). Wtedy głośniki i kamera internetowa działają jak marzenie.
 
-Pamiętaj, że masz wbudowaną w Omarchy regulację jasności dla wyświetlaczy Apple (zarówno Studio, jak i XDR) zwykłymi klawiszami jasności na klawiaturze.
+Pamiętaj, że masz wbudowaną w LunaOS regulację jasności dla wyświetlaczy Apple (zarówno Studio, jak i XDR) zwykłymi klawiszami jasności na klawiaturze.
 
 ### Jak pozbyć się całego dodatkowego oprogramowania?
 
@@ -76,7 +76,7 @@ Jeśli nie chcesz programów takich jak Obsidian, LibreOffice ani żadnej innej 
 
 Uruchom _Usuń > Pakiet_, aby zobaczyć każdy zainstalowany pakiet. Potem możesz klawiszem Tab zaznaczać pakiety, które chcesz usunąć, i rozpocząć usuwanie wszystkiego, co zaznaczyłeś, klawiszem Return.
 
-Możesz też użyć _Usuń > Aplikacja webowa_ z menu Omarchy, aby usunąć preinstalowane aplikacje webowe, których nie chcesz.
+Możesz też użyć _Usuń > Aplikacja webowa_ z menu LunaOS, aby usunąć preinstalowane aplikacje webowe, których nie chcesz.
 
 Albo uruchom _Usuń > Preinstalowane_, aby jednym ruchem wymieść wszystkie preinstalowane dodatki — aplikacje webowe, aplikacje TUI i aplikacje opcjonalne. Skróty, które je uruchamiały, znikają razem z nimi, więc zostaje ci czysta karta skrótów, które możesz wypełnić własnymi w `~/.config/hypr/bindings.lua`.
 

@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ Siz bir nechta tartiblarni sozlaganingizdan keyin panel avtomatik sizning joriy 
 12 soatliklar ham ichida umumiy formatlarni aylanib chiqish uchun paneldagi soatni oʻng tugma bilan bosing. Formatni toʻgʻridan-toʻgʻri ham oʻrnatishingiz mumkin:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Bu Sunday 10:55 AM ni koʻrsatadi.
 
 ### Vaqt mintaqamni qanday oʻzgartiraman?
 
-Omarchy menyusida _Yangilash > Vaqt mintaqasi_ ni ishga tushiring va roʻyxatdan tanlang. Agar vaqt mintaqasi toʻgʻri boʻlsa-yu, lekin soatning oʻzi surilib ketgan boʻlsa, _Yangilash > Vaqt_ siz uchun vaqt sinxronlashini qayta ishga tushiradi.
+LunaOS menyusida _Yangilash > Vaqt mintaqasi_ ni ishga tushiring va roʻyxatdan tanlang. Agar vaqt mintaqasi toʻgʻri boʻlsa-yu, lekin soatning oʻzi surilib ketgan boʻlsa, _Yangilash > Vaqt_ siz uchun vaqt sinxronlashini qayta ishga tushiradi.
 
 ### DNS imni qanday oʻzgartiraman, Wi-Fiimni qanday ulashaman yoki ulanish tezligini qanday tekshiraman?
 
@@ -36,11 +36,11 @@ Ularning hammasi [tarmoqda](35-networking.md) yashaydi.
 
 ### Diskim qanchalik tezligini qanday tekshiraman?
 
-_Ishga tushirish > Tezlik testi > Disk tezligi testi_ drayvingizda jonli oʻqish va yozish tezligini oʻlchaydi yoki terminaldan `omarchy disk speedtest`.
+_Ishga tushirish > Tezlik testi > Disk tezligi testi_ drayvingizda jonli oʻqish va yozish tezligini oʻlchaydi yoki terminaldan `lunaos disk speedtest`.
 
 ### Nega Chromium-da Google hisobimga kira olmayman?
 
-Oddiy ochiq manbali Chromium qurilmasi Google hisobga kirish uchun talab qiladigan OAuth maʼlumotlari bilan kelmaydi. Ularni qoʻshish uchun Omarchy menyusida _Oʻrnatish > Xizmat > Chromium hisob_ ni ishga tushiring, brauzerni qayta ishga tushiring va kirish oʻtadi.
+Oddiy ochiq manbali Chromium qurilmasi Google hisobga kirish uchun talab qiladigan OAuth maʼlumotlari bilan kelmaydi. Ularni qoʻshish uchun LunaOS menyusida _Oʻrnatish > Xizmat > Chromium hisob_ ni ishga tushiring, brauzerni qayta ishga tushiring va kirish oʻtadi.
 
 ### Printerni qanday qoʻshaman?
 
@@ -60,15 +60,15 @@ Saqlangan skrinshotlar standart holatda `~/Pictures/Screenshots` ga ketadi. Bosh
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Siz `OMARCHY_SCREENRECORD_DIR` yordamida ekran yozuvlari uchun ham xuddi shunday qilishingiz mumkin.
+Siz `LUNAOS_SCREENRECORD_DIR` yordamida ekran yozuvlari uchun ham xuddi shunday qilishingiz mumkin.
 
-Omasnap oʻzining skrinshot katalogini avtomatik yaratadi. Ekran yozish katalogini oʻzingiz yarating, keyin har qanday muhit oʻzgarishi kuchga kirishi uchun Omarchy ni qayta ishga tushiring.
+Omasnap oʻzining skrinshot katalogini avtomatik yaratadi. Ekran yozish katalogini oʻzingiz yarating, keyin har qanday muhit oʻzgarishi kuchga kirishi uchun LunaOS ni qayta ishga tushiring.
 
 ### Apple Studio Display imdagi karnaylar + vebkamerani qanday ishlataman?
 
 Siz USB C ni shunchaki ulaganda hammasi ishlashi kerak deb oʻylasangiz ham, afsuski bunday emas. Uni ishonchli ishlatish uchun topgan yechimim [WJESOG DisplayPort + USB-A => USB-C kabelidan](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/) foydalanish. Keyin karnaylar va vebkamera joduday ishlaydi.
 
-Apple Displays (Studio ham, XDR ham) uchun odatdagi klaviatura yorugʻlik tugmalaridan foydalangan holda Omarchy-da ichki yorqinlik boshqaruviga ega ekanligingizni unutmang.
+Apple Displays (Studio ham, XDR ham) uchun odatdagi klaviatura yorugʻlik tugmalaridan foydalangan holda LunaOS-da ichki yorqinlik boshqaruviga ega ekanligingizni unutmang.
 
 ### Ortiqcha dasturiy taʼminotni qanday yoʻqotaman?
 
@@ -76,7 +76,7 @@ Agar Obsidian yoki LibreOffice yoki oldindan oʻrnatilgan boshqa narsalar kabi d
 
 Oʻrnatilgan har bir paketni koʻrish uchun _Olib tashlash > Paket_ ni ishga tushiring. Keyin siz tab bilan olib tashlamoqchi boʻlgan har qanday paketni tanlashingiz va return bilan tanlagan hamma narsangizni olib tashlashni boshlashingiz mumkin.
 
-Va oldindan oʻrnatilgan veb-ilovalardan istamaydiganlarini olib tashlash uchun Omarchy menyusidan _Olib tashlash > Veb-ilova_ dan foydalanishingiz mumkin.
+Va oldindan oʻrnatilgan veb-ilovalardan istamaydiganlarini olib tashlash uchun LunaOS menyusidan _Olib tashlash > Veb-ilova_ dan foydalanishingiz mumkin.
 
 Yoki bir urinishda barcha oldindan oʻrnatilgan qoʻshimchalarni — veb-ilovalar, TUI lar va ixtiyoriy ilovalarni tozalash uchun _Olib tashlash > Oldindan oʻrnatilganlar_ ni ishga tushiring. Ularga boshlagan hotkeylar ular bilan yoʻqoladi, shuning uchun siz `~/.config/hypr/bindings.lua` da oʻzingizniki bilan toʻldirish uchun toza bindings lavhasi bilan qolasiz.
 

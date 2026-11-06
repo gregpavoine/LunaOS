@@ -56,7 +56,7 @@ source "$ROOT/install/provisioning/setup-form.sh"
 notice() { printf '%s\n' "$1" >>"$NOTICES"; }
 
 if [[ -n ${TAKEN_USERS:-} ]]; then
-  omarchy_username_taken() { [[ " $TAKEN_USERS " == *" $1 "* ]]; }
+  lunaos_username_taken() { [[ " $TAKEN_USERS " == *" $1 "* ]]; }
 fi
 
 trap 'if [[ ${FUNCNAME[0]:-} == "$PROMPT_FN" ]]; then printf "returned\n" >>"$MARKER"; fi' RETURN
@@ -85,7 +85,7 @@ status=0
 
 # run_prompt <function> <status:output>... — each response answers one gum screen
 # The machine's own form defaults never reach these tests.
-export OMARCHY_FORM_DEFAULTS="$tmp_dir/no-form-defaults"
+export LUNAOS_FORM_DEFAULTS="$tmp_dir/no-form-defaults"
 
 run_prompt() {
   local prompt=$1
@@ -124,15 +124,15 @@ actual notices:   $actual"
 # The contract both callers read, and the ordering the shared list exists to keep
 source "$ROOT/install/provisioning/setup-form.sh"
 
-((OMARCHY_FORM_BACK == 1)) || fail "Esc reports status 1"
-((OMARCHY_FORM_SIGNAL == 130)) || fail "Ctrl+C reports status 130"
-[[ $(printf '%s\n' "$OMARCHY_KEYBOARD_LAYOUTS" | head -n 1) == "English (US)|us" ]] ||
+((LUNAOS_FORM_BACK == 1)) || fail "Esc reports status 1"
+((LUNAOS_FORM_SIGNAL == 130)) || fail "Ctrl+C reports status 130"
+[[ $(printf '%s\n' "$LUNAOS_KEYBOARD_LAYOUTS" | head -n 1) == "English (US)|us" ]] ||
   fail "English (US) leads the keyboard layouts so gum choose opens on the default"
 pass "the form publishes the 0/1/130 status contract and leads with English (US)"
 
 # Keyboard
 
-run_prompt omarchy_prompt_keyboard "0:German"
+run_prompt lunaos_prompt_keyboard "0:German"
 assert_status 0 "keyboard prompt succeeds"
 [[ $(field keyboard) == "de" ]] || fail "keyboard prompt resolves the label to a keymap"
 [[ $(field keyboard_label) == "German" ]] || fail "keyboard prompt keeps the label for the summary"
@@ -140,7 +140,7 @@ assert_status 0 "keyboard prompt succeeds"
 grep -qF -- '--selected English (US)' "$GUM_ARGS" || fail "keyboard prompt preselects English (US)"
 pass "keyboard prompt maps the chosen label to its keymap"
 
-OMARCHY_FORM_KEYBOARD_DEFAULT="Chinese (Simplified, Pinyin)" run_prompt omarchy_prompt_keyboard "0:Chinese (Simplified, Pinyin)"
+LUNAOS_FORM_KEYBOARD_DEFAULT="Chinese (Simplified, Pinyin)" run_prompt lunaos_prompt_keyboard "0:Chinese (Simplified, Pinyin)"
 assert_status 0 "a preset keyboard prompt succeeds"
 grep -qF -- '--selected Chinese (Simplified\, Pinyin)' "$GUM_ARGS" || fail "install media can preset the keyboard choice" "$(cat "$GUM_ARGS")"
 [[ $(head -n 1 "$tmp_dir/stdin.1") == "English (US)" ]] || fail "a preset keeps the list in its usual order"
@@ -148,43 +148,43 @@ grep -qF -- '--selected Chinese (Simplified\, Pinyin)' "$GUM_ARGS" || fail "inst
 pass "install media can preselect the keyboard, which stays a choice"
 
 printf 'KEYBOARD=Chinese (Simplified, Pinyin)\nTIMEZONE=Asia/Shanghai\nOTHER=$(touch %s/NEVER)\n' "$tmp_dir" >"$tmp_dir/form-defaults"
-OMARCHY_FORM_DEFAULTS="$tmp_dir/form-defaults" run_prompt omarchy_prompt_keyboard "0:Chinese (Simplified, Pinyin)"
+LUNAOS_FORM_DEFAULTS="$tmp_dir/form-defaults" run_prompt lunaos_prompt_keyboard "0:Chinese (Simplified, Pinyin)"
 grep -qF -- '--selected Chinese (Simplified\, Pinyin)' "$GUM_ARGS" || fail "a first-boot owner setup takes the media's keyboard default" "$(cat "$GUM_ARGS")"
-OMARCHY_FORM_DEFAULTS="$tmp_dir/form-defaults" TZ_GUESS=Europe/Copenhagen run_prompt omarchy_prompt_timezone "0:Asia/Shanghai"
+LUNAOS_FORM_DEFAULTS="$tmp_dir/form-defaults" TZ_GUESS=Europe/Copenhagen run_prompt lunaos_prompt_timezone "0:Asia/Shanghai"
 grep -qF -- '--selected Asia/Shanghai' "$GUM_ARGS" || fail "a first-boot owner setup takes the media's timezone default" "$(cat "$GUM_ARGS")"
 [[ ! -e $tmp_dir/NEVER ]] || fail "form defaults are read as data"
-OMARCHY_FORM_DEFAULTS="$tmp_dir/form-defaults" OMARCHY_FORM_KEYBOARD_DEFAULT=Japanese run_prompt omarchy_prompt_keyboard "0:Japanese"
+LUNAOS_FORM_DEFAULTS="$tmp_dir/form-defaults" LUNAOS_FORM_KEYBOARD_DEFAULT=Japanese run_prompt lunaos_prompt_keyboard "0:Japanese"
 grep -qF -- '--selected Japanese' "$GUM_ARGS" || fail "the live installer's environment wins over the file"
 pass "a first-boot owner setup reads the media's defaults as data"
 
 for selection in 'Japanese|jp106|mozc|' 'Japanese (US keyboard)|us|mozc|' 'Korean|us|hangul|kr:kr104' 'Lao|us|none|la' 'Chinese (Simplified, Pinyin)|us|pinyin|' 'Taiwan (Zhuyin)|us|chewing|' 'Hong Kong (Cangjie)|us|cangjie5|'; do
   IFS='|' read -r label keymap method layout <<< "$selection"
-  run_prompt omarchy_prompt_keyboard "0:$label"
+  run_prompt lunaos_prompt_keyboard "0:$label"
   assert_status 0 "$label can be selected at install"
   [[ $(field keyboard) == "$keymap" && $(field keyboard_input_method) == "$method" && $(field keyboard_xkb_layout) == "$layout" ]] ||
     fail "$label carries a real console keymap and a separate input preference"
 done
 pass "language keyboard choices carry their keymap, input method, and desktop override"
 
-keyboard_input_method=hangul keyboard_xkb_layout=kr omarchy_persist_input_selection "$tmp_dir/target"
-[[ $(<"$tmp_dir/target/etc/omarchy/input-method") == $'INPUT_METHOD=hangul\nXKB_LAYOUT=kr' ]] || fail "first-boot setup persists the selection for user finalization"
-keyboard_input_method=hangul keyboard_xkb_layout=kr:kr104 omarchy_persist_input_selection "$tmp_dir/target"
-[[ $(<"$tmp_dir/target/etc/omarchy/input-method") == $'INPUT_METHOD=hangul\nXKB_LAYOUT=kr:kr104' ]] || fail "first-boot setup persists the Korean Right Alt variant"
-keyboard_input_method=hangul keyboard_xkb_layout=kr:dvorak omarchy_persist_input_selection "$tmp_dir/target" && fail "an unknown desktop variant is refused"
+keyboard_input_method=hangul keyboard_xkb_layout=kr lunaos_persist_input_selection "$tmp_dir/target"
+[[ $(<"$tmp_dir/target/etc/lunaos/input-method") == $'INPUT_METHOD=hangul\nXKB_LAYOUT=kr' ]] || fail "first-boot setup persists the selection for user finalization"
+keyboard_input_method=hangul keyboard_xkb_layout=kr:kr104 lunaos_persist_input_selection "$tmp_dir/target"
+[[ $(<"$tmp_dir/target/etc/lunaos/input-method") == $'INPUT_METHOD=hangul\nXKB_LAYOUT=kr:kr104' ]] || fail "first-boot setup persists the Korean Right Alt variant"
+keyboard_input_method=hangul keyboard_xkb_layout=kr:dvorak lunaos_persist_input_selection "$tmp_dir/target" && fail "an unknown desktop variant is refused"
 pass "first-boot setup persists the selection for user finalization"
 
-run_prompt omarchy_prompt_keyboard "1:"
-assert_status "$OMARCHY_FORM_BACK" "keyboard prompt reports Esc as back"
+run_prompt lunaos_prompt_keyboard "1:"
+assert_status "$LUNAOS_FORM_BACK" "keyboard prompt reports Esc as back"
 assert_returned "keyboard prompt survives Esc under set -e"
 
-run_prompt omarchy_prompt_keyboard "130:"
-assert_status "$OMARCHY_FORM_SIGNAL" "keyboard prompt reports Ctrl+C as the caller's signal"
+run_prompt lunaos_prompt_keyboard "130:"
+assert_status "$LUNAOS_FORM_SIGNAL" "keyboard prompt reports Ctrl+C as the caller's signal"
 assert_returned "keyboard prompt survives Ctrl+C under set -e"
 pass "keyboard prompt propagates Esc and Ctrl+C without dying under set -e"
 
 # Username
 
-TAKEN_USERS=dhh run_prompt omarchy_prompt_username "0:Not A Username" "0:root" "0:cups-browsed" "0:dhh" "0:david"
+TAKEN_USERS=dhh run_prompt lunaos_prompt_username "0:Not A Username" "0:root" "0:cups-browsed" "0:dhh" "0:david"
 assert_status 0 "username prompt accepts a valid name"
 [[ $(field username) == "david" ]] || fail "username prompt keeps re-asking until the name is valid"
 assert_notices "username prompt explains each rejection" "Username must be alphanumeric with no spaces
@@ -193,65 +193,65 @@ Username is reserved for system
 That username already exists on this machine"
 pass "username prompt rejects malformed, reserved, and taken names"
 
-run_prompt omarchy_prompt_username "1:"
-assert_status "$OMARCHY_FORM_BACK" "username prompt reports Esc as back"
+run_prompt lunaos_prompt_username "1:"
+assert_status "$LUNAOS_FORM_BACK" "username prompt reports Esc as back"
 assert_returned "username prompt survives Esc under set -e"
 
-run_prompt omarchy_prompt_username "130:"
-assert_status "$OMARCHY_FORM_SIGNAL" "username prompt reports Ctrl+C as the caller's signal"
+run_prompt lunaos_prompt_username "130:"
+assert_status "$LUNAOS_FORM_SIGNAL" "username prompt reports Ctrl+C as the caller's signal"
 assert_returned "username prompt survives Ctrl+C under set -e"
 pass "username prompt propagates Esc and Ctrl+C without dying under set -e"
 
 # Password
 
-run_prompt omarchy_prompt_password "0:one" "0:two" "0:" "0:" "0:s3cret" "0:s3cret"
+run_prompt lunaos_prompt_password "0:one" "0:two" "0:" "0:" "0:s3cret" "0:s3cret"
 assert_status 0 "password prompt accepts a confirmed password"
 [[ $(field password) == "s3cret" ]] || fail "password prompt keeps the confirmed password"
 assert_notices "password prompt explains each rejection" "Passwords didn't match!
 Your password can't be blank!"
 pass "password prompt rejects mismatched and blank passwords"
 
-run_prompt omarchy_prompt_password "0:s3cret" "1:"
-assert_status "$OMARCHY_FORM_BACK" "password prompt reports Esc on the confirmation as back"
+run_prompt lunaos_prompt_password "0:s3cret" "1:"
+assert_status "$LUNAOS_FORM_BACK" "password prompt reports Esc on the confirmation as back"
 assert_returned "password confirmation survives Esc under set -e"
 
-run_prompt omarchy_prompt_password "0:s3cret" "130:"
-assert_status "$OMARCHY_FORM_SIGNAL" "password prompt reports Ctrl+C on the confirmation as the caller's signal"
+run_prompt lunaos_prompt_password "0:s3cret" "130:"
+assert_status "$LUNAOS_FORM_SIGNAL" "password prompt reports Ctrl+C on the confirmation as the caller's signal"
 assert_returned "password confirmation survives Ctrl+C under set -e"
 pass "password confirmation propagates Esc and Ctrl+C without dying under set -e"
 
 # Identity — both fields are skippable, so empty is an answer and not a cancel
 
-run_prompt omarchy_prompt_identity "0:" "0:"
+run_prompt lunaos_prompt_identity "0:" "0:"
 assert_status 0 "identity prompt treats empty fields as answers"
 [[ -z $(field full_name) && -z $(field email_address) ]] || fail "identity prompt leaves skipped fields empty"
 pass "identity prompt accepts skipped fields"
 
-run_prompt omarchy_prompt_identity "0:David" "1:"
-assert_status "$OMARCHY_FORM_BACK" "identity prompt reports Esc on the email as back"
+run_prompt lunaos_prompt_identity "0:David" "1:"
+assert_status "$LUNAOS_FORM_BACK" "identity prompt reports Esc on the email as back"
 assert_returned "identity prompt survives Esc under set -e"
 pass "identity prompt propagates Esc from its second field"
 
 # Hostname
 
-run_prompt omarchy_prompt_hostname "0:-nope-" "0:workshop"
+run_prompt lunaos_prompt_hostname "0:-nope-" "0:workshop"
 assert_status 0 "hostname prompt accepts a valid hostname"
 [[ $(field hostname) == "workshop" ]] || fail "hostname prompt keeps re-asking until the hostname is valid"
 assert_notices "hostname prompt explains the rejection" "Hostname must be 1-63 letters, digits, or dashes, and cannot start or end with a dash"
 
-run_prompt omarchy_prompt_hostname "0:"
+run_prompt lunaos_prompt_hostname "0:"
 assert_status 0 "hostname prompt accepts an empty hostname"
-[[ $(field hostname) == "$OMARCHY_HOSTNAME_DEFAULT" ]] || fail "hostname prompt falls back to the default hostname"
+[[ $(field hostname) == "$LUNAOS_HOSTNAME_DEFAULT" ]] || fail "hostname prompt falls back to the default hostname"
 pass "hostname prompt rejects malformed names and defaults an empty one"
 
-run_prompt omarchy_prompt_hostname "1:"
-assert_status "$OMARCHY_FORM_BACK" "hostname prompt reports Esc as back"
+run_prompt lunaos_prompt_hostname "1:"
+assert_status "$LUNAOS_FORM_BACK" "hostname prompt reports Esc as back"
 assert_returned "hostname prompt survives Esc under set -e"
 pass "hostname prompt propagates Esc without dying under set -e"
 
 # Timezone
 
-TZ_GUESS=Europe/Copenhagen run_prompt omarchy_prompt_timezone "0:Europe/Copenhagen"
+TZ_GUESS=Europe/Copenhagen run_prompt lunaos_prompt_timezone "0:Europe/Copenhagen"
 assert_status 0 "timezone prompt accepts the geo guess"
 [[ $(field timezone) == "Europe/Copenhagen" ]] || fail "timezone prompt keeps the chosen timezone"
 grep -qF -- '--selected Europe/Copenhagen' "$GUM_ARGS" || fail "timezone prompt preselects the geo guess"
@@ -260,27 +260,27 @@ grep -qF UTC "$tmp_dir/stdin.1" || fail "timezone prompt offers the system timez
 pass "timezone prompt preselects geo.omarchy.org's timezone when it answers"
 
 # An unnetworked first boot has no guess, and the fallback has to survive `set -e`
-run_prompt omarchy_prompt_timezone "0:America/Chicago"
+run_prompt lunaos_prompt_timezone "0:America/Chicago"
 assert_status 0 "timezone prompt survives a failed geo guess"
 [[ $(field timezone) == "America/Chicago" ]] || fail "timezone prompt keeps the filtered timezone"
 [[ $(head -n 1 "$GUM_ARGS") == filter* ]] || fail "timezone prompt filters when there is no geo guess"
 pass "timezone prompt falls back to filtering when the geo guess fails"
 
-OMARCHY_FORM_TIMEZONE_DEFAULT=Asia/Shanghai TZ_GUESS=Europe/Copenhagen run_prompt omarchy_prompt_timezone "0:Asia/Shanghai"
+LUNAOS_FORM_TIMEZONE_DEFAULT=Asia/Shanghai TZ_GUESS=Europe/Copenhagen run_prompt lunaos_prompt_timezone "0:Asia/Shanghai"
 assert_status 0 "a preset timezone prompt succeeds"
 grep -qF -- '--selected Asia/Shanghai' "$GUM_ARGS" || fail "install media can preset the timezone over the geo guess" "$(cat "$GUM_ARGS")"
 pass "install media can preselect the timezone, which stays a choice"
 
-run_prompt omarchy_prompt_timezone "0:"
+run_prompt lunaos_prompt_timezone "0:"
 assert_status 0 "timezone prompt accepts an empty selection"
 [[ $(field timezone) == "UTC" ]] || fail "timezone prompt falls back to UTC"
 pass "timezone prompt falls back to UTC when nothing is selected"
 
-run_prompt omarchy_prompt_timezone "1:"
-assert_status "$OMARCHY_FORM_BACK" "timezone prompt reports Esc as back"
+run_prompt lunaos_prompt_timezone "1:"
+assert_status "$LUNAOS_FORM_BACK" "timezone prompt reports Esc as back"
 assert_returned "timezone prompt survives Esc under set -e"
 
-TZ_GUESS=Europe/Copenhagen run_prompt omarchy_prompt_timezone "130:"
-assert_status "$OMARCHY_FORM_SIGNAL" "timezone prompt reports Ctrl+C as the caller's signal"
+TZ_GUESS=Europe/Copenhagen run_prompt lunaos_prompt_timezone "130:"
+assert_status "$LUNAOS_FORM_SIGNAL" "timezone prompt reports Ctrl+C as the caller's signal"
 assert_returned "timezone prompt survives Ctrl+C under set -e"
 pass "timezone prompt propagates Esc and Ctrl+C without dying under set -e"

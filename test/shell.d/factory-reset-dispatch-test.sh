@@ -4,7 +4,7 @@ set -euo pipefail
 
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
-# Factory reset's boot step through the real omarchy-lifecycle-dispatch. On an
+# Factory reset's boot step through the real lunaos-lifecycle-dispatch. On an
 # x86 fixture the generic Limine UKI path runs and the boot-package entrypoints
 # on disk never do. On an Apple fixture a fake boot package owns the factory
 # root's boot chain: it prepares and verifies it before the throwaway slot is
@@ -24,7 +24,7 @@ awk '
   /^[a-z_]+\(\) \{/ { copying = 1 }
   copying { print }
   /^}/ { copying = 0 }
-' "$ROOT/bin/omarchy-system-factory-reset" >"$tmp/functions"
+' "$ROOT/bin/lunaos-system-factory-reset" >"$tmp/functions"
 
 # The fake boot package: each entrypoint records its call, reset-commit its
 # standard input, and reset-verify fails on request.
@@ -48,10 +48,10 @@ set -euo pipefail
 source "$TMP/functions"
 TOP_MNT=$TMP/top
 ESP_MNT=$TMP/esp-mount
-NEXT_NAME=@omarchy-reset-next
-PROVISIONING_DIR=/var/lib/omarchy/provisioning
+NEXT_NAME=@lunaos-reset-next
+PROVISIONING_DIR=/var/lib/lunaos/provisioning
 LOG_FILE=$TMP/reset.log
-DISPATCH=${TEST_DISPATCH:-$ROOT/bin/omarchy-lifecycle-dispatch}
+DISPATCH=${TEST_DISPATCH:-$ROOT/bin/lunaos-lifecycle-dispatch}
 RESET_BOOT=""
 RESET_BOOT_ERROR=""
 swap_done=0
@@ -94,7 +94,7 @@ mv() {
     echo "mv: the fixture refuses the activation" >&2
     return 1
   fi
-  if [[ -e $TMP/restore-fail && $1 == "$TOP_MNT"/@omarchy-old-* ]]; then
+  if [[ -e $TMP/restore-fail && $1 == "$TOP_MNT"/@lunaos-old-* ]]; then
     echo "mv: the fixture refuses the restore" >&2
     return 1
   fi
@@ -164,11 +164,11 @@ device=$tmp/luks-device
 fixture() {
   rm -rf "$tmp/top" "$tmp/calls" "$tmp/screen" "$tmp/reset.log" "$tmp/committed-key" "$tmp"/*-fail
   mkdir -p "$tmp/top/@" "$tmp/top/@factory/etc" "$tmp/top/@factory/usr/bin" \
-    "$tmp/top/@factory/usr/share/omarchy/install/provisioning" "$tmp/top/@factory/boot"
+    "$tmp/top/@factory/usr/share/lunaos/install/provisioning" "$tmp/top/@factory/boot"
   touch "$tmp/top/@/old-system" "$tmp/top/@factory/factory-system" "$tmp/esp" \
-    "$tmp/top/@factory/usr/share/omarchy/install/provisioning/omarchy-provision-owner.service"
-  printf '#!/bin/bash\n' >"$tmp/top/@factory/usr/bin/omarchy-provision-owner"
-  chmod +x "$tmp/top/@factory/usr/bin/omarchy-provision-owner"
+    "$tmp/top/@factory/usr/share/lunaos/install/provisioning/lunaos-provision-owner.service"
+  printf '#!/bin/bash\n' >"$tmp/top/@factory/usr/bin/lunaos-provision-owner"
+  chmod +x "$tmp/top/@factory/usr/bin/lunaos-provision-owner"
   printf '%s /boot vfat defaults 0 2\n' "$tmp/esp" >"$tmp/top/@factory/etc/fstab"
   : >"$device"
   printf '0 %s\n' "$current_password" >"$tmp/slots"
@@ -178,17 +178,17 @@ fixture() {
 run() {
   local mode=$1 platform=$2
   TMP=$tmp ROOT=$ROOT MODE=$mode CURRENT=$current_password DEVICE=${DEVICE-$device} TEST_DISPATCH=${TEST_DISPATCH:-} \
-    OMARCHY_PROC_ROOT="$tmp/$platform/proc" OMARCHY_LIFECYCLE_ROOT=$lifecycle PATH="$tmp/$platform/bin:$PATH" \
+    LUNAOS_PROC_ROOT="$tmp/$platform/proc" LUNAOS_LIFECYCLE_ROOT=$lifecycle PATH="$tmp/$platform/bin:$PATH" \
     bash "$tmp/reset" >"$tmp/out" 2>&1
 }
 
 activated() {
-  [[ -e $tmp/top/@/factory-system && -f $tmp/top/@/var/lib/omarchy/provisioning/pending ]] &&
-    compgen -G "$tmp/top/@omarchy-old-*/old-system" >/dev/null
+  [[ -e $tmp/top/@/factory-system && -f $tmp/top/@/var/lib/lunaos/provisioning/pending ]] &&
+    compgen -G "$tmp/top/@lunaos-old-*/old-system" >/dev/null
 }
 
 untouched() {
-  [[ -e $tmp/top/@/old-system && ! -e $tmp/top/@omarchy-reset-next ]] && [[ $(cat "$tmp/slots") == "0 $current_password" ]]
+  [[ -e $tmp/top/@/old-system && ! -e $tmp/top/@lunaos-reset-next ]] && [[ $(cat "$tmp/slots") == "0 $current_password" ]]
 }
 
 # x86: the generic Limine UKI path, with boot-package entrypoints on disk that
@@ -198,9 +198,9 @@ run owner x86 && [[ $(cat "$tmp/out") == "generic" ]] || fail "x86: the reset bo
 run reset x86 || fail "x86: an encrypted reset stages" "$(cat "$tmp/out" "$tmp/reset.log")"
 activated || fail "x86: the factory root is activated"
 grep -qx 'chroot /usr/bin/limine-update' "$tmp/calls" || fail "x86: limine-update rebuilds the factory root's UKI" "$(cat "$tmp/calls")"
-[[ -f $tmp/top/@/etc/omarchy/provisioning.key && -f $tmp/top/@/etc/limine-entry-tool.d/99-omarchy-provisioning-unlock.conf &&
-  -f $tmp/top/@/etc/mkinitcpio.conf.d/99-omarchy-provisioning-key.conf ]] || fail "x86: the UKI carries the reset's auto-unlock"
-[[ $(awk 'NR == 2 { print $2 }' "$tmp/slots") == "$(cat "$tmp/top/@/var/lib/omarchy/provisioning/luks-key")" ]] ||
+[[ -f $tmp/top/@/etc/lunaos/provisioning.key && -f $tmp/top/@/etc/limine-entry-tool.d/99-lunaos-provisioning-unlock.conf &&
+  -f $tmp/top/@/etc/mkinitcpio.conf.d/99-lunaos-provisioning-key.conf ]] || fail "x86: the UKI carries the reset's auto-unlock"
+[[ $(awk 'NR == 2 { print $2 }' "$tmp/slots") == "$(cat "$tmp/top/@/var/lib/lunaos/provisioning/luks-key")" ]] ||
   fail "x86: the throwaway slot opens with the staged key" "$(cat "$tmp/slots")"
 ! grep -q '^reset-' "$tmp/calls" || fail "x86: no boot-package entrypoint runs" "$(cat "$tmp/calls")"
 pass "x86: dispatch is a no-op and the generic Limine UKI path resets the machine"
@@ -222,16 +222,16 @@ fixture
 run owner apple && [[ $(cat "$tmp/out") == "platform" ]] || fail "apple: the boot package owns the reset boot step" "$(cat "$tmp/out")"
 run reset apple || fail "apple: an encrypted reset stages" "$(cat "$tmp/out" "$tmp/reset.log")"
 activated || fail "apple: the factory root is activated"
-expected="reset-prepare $tmp/top/@omarchy-reset-next $device
-reset-verify $tmp/top/@omarchy-reset-next
+expected="reset-prepare $tmp/top/@lunaos-reset-next $device
+reset-verify $tmp/top/@lunaos-reset-next
 cryptsetup luksAddKey
 reset-commit"
 [[ $(grep -v '^cryptsetup \(open\|luksDump\)' "$tmp/calls") == "$expected" ]] ||
   fail "apple: prepare, verify, the throwaway slot, then commit" "$(cat "$tmp/calls")"
-staged=$(cat "$tmp/top/@/var/lib/omarchy/provisioning/luks-key")
+staged=$(cat "$tmp/top/@/var/lib/lunaos/provisioning/luks-key")
 [[ -n $staged && $(cat "$tmp/committed-key") == "$staged" ]] || fail "apple: reset-commit gets the staged key on standard input"
 [[ $(awk 'NR == 2 { print $2 }' "$tmp/slots") == "$staged" ]] || fail "apple: the throwaway slot opens with the staged key" "$(cat "$tmp/slots")"
-[[ ! -e $tmp/top/@/etc/omarchy/provisioning.key && ! -e $tmp/top/@/etc/limine-entry-tool.d/99-omarchy-provisioning-unlock.conf ]] ||
+[[ ! -e $tmp/top/@/etc/lunaos/provisioning.key && ! -e $tmp/top/@/etc/limine-entry-tool.d/99-lunaos-provisioning-unlock.conf ]] ||
   fail "apple: no Limine UKI unlock is written"
 ! grep -q 'limine' "$tmp/calls" || fail "apple: the Limine UKI path never runs" "$(cat "$tmp/calls")"
 ! grep -Fq "$staged" "$tmp/reset.log" "$tmp/calls" "$tmp/out" || fail "apple: the throwaway key is never logged"
@@ -266,7 +266,7 @@ if run reset apple; then fail "apple: a failed activation fails the reset"; fi
 grep -qx 'reset-rollback' "$tmp/calls" && ! grep -q '^reset-commit' "$tmp/calls" ||
   fail "apple: a failed activation rolls back without committing" "$(cat "$tmp/calls")"
 untouched || fail "apple: a failed activation puts the previous root back at @ and revokes the throwaway slot" "$(ls "$tmp/top"; cat "$tmp/slots")"
-! compgen -G "$tmp/top/@omarchy-old-*" >/dev/null || fail "apple: a failed activation leaves no renamed root behind" "$(ls "$tmp/top")"
+! compgen -G "$tmp/top/@lunaos-old-*" >/dev/null || fail "apple: a failed activation leaves no renamed root behind" "$(ls "$tmp/top")"
 grep -q 'the current root is back at @' "$tmp/screen" || fail "apple: a failed activation says the current root is back" "$(cat "$tmp/screen")"
 pass "apple: a failed activation puts the previous root back, rolls back and revokes the slot"
 
@@ -275,8 +275,8 @@ pass "apple: a failed activation puts the previous root back, rolls back and rev
 fixture
 touch "$tmp/activate-fail" "$tmp/restore-fail"
 if run reset apple; then fail "apple: a failed activation and restore fails the reset"; fi
-old=$(compgen -G "$tmp/top/@omarchy-old-*") || fail "apple: the previous root survives under its moved-aside name" "$(ls "$tmp/top")"
-[[ -e $old/old-system && -e $tmp/top/@omarchy-reset-next/factory-system && ! -e $tmp/top/@ ]] ||
+old=$(compgen -G "$tmp/top/@lunaos-old-*") || fail "apple: the previous root survives under its moved-aside name" "$(ls "$tmp/top")"
+[[ -e $old/old-system && -e $tmp/top/@lunaos-reset-next/factory-system && ! -e $tmp/top/@ ]] ||
   fail "apple: a failed restore keeps both roots" "$(ls "$tmp/top")"
 grep -qx 'reset-rollback' "$tmp/calls" && [[ $(cat "$tmp/slots") == "0 $current_password" ]] ||
   fail "apple: a failed restore still rolls the boot state back and revokes the slot" "$(cat "$tmp/calls" "$tmp/slots")"
@@ -304,7 +304,7 @@ pass "apple: a failed commit after the switch is logged and the reset stands"
 # An unencrypted Mac still has its boot files rebuilt and verified.
 fixture
 DEVICE="" run reset apple || fail "apple: an unencrypted reset stages" "$(cat "$tmp/out")"
-[[ $(grep '^reset-' "$tmp/calls") == "reset-prepare $tmp/top/@omarchy-reset-next"$'\n'"reset-verify $tmp/top/@omarchy-reset-next"$'\n'"reset-commit" ]] ||
+[[ $(grep '^reset-' "$tmp/calls") == "reset-prepare $tmp/top/@lunaos-reset-next"$'\n'"reset-verify $tmp/top/@lunaos-reset-next"$'\n'"reset-commit" ]] ||
   fail "apple: an unencrypted reset names no LUKS device" "$(cat "$tmp/calls")"
 ! grep -q '^cryptsetup' "$tmp/calls" || fail "apple: an unencrypted reset touches no key slot"
 pass "apple: an unencrypted reset rebuilds and verifies the boot files without a key"
@@ -328,12 +328,12 @@ pass "apple: without the boot package's reset operations, or with only some of t
 # A registration that left the reset operations optional and got only some of
 # them would mix two boot paths: the reset refuses that too.
 mkdir -p "$tmp/half"
-cat >"$tmp/half/omarchy-lifecycle-dispatch" <<SH
+cat >"$tmp/half/lunaos-lifecycle-dispatch" <<SH
 #!/bin/bash
 [[ \$* != "--resolve reset-prepare" ]] || echo /usr/lib/omarchy/mac-boot/reset-prepare
 SH
-chmod +x "$tmp/half/omarchy-lifecycle-dispatch"
+chmod +x "$tmp/half/lunaos-lifecycle-dispatch"
 fixture
-if TEST_DISPATCH=$tmp/half/omarchy-lifecycle-dispatch run owner apple; then fail "a partial set of reset operations is refused"; fi
+if TEST_DISPATCH=$tmp/half/lunaos-lifecycle-dispatch run owner apple; then fail "a partial set of reset operations is refused"; fi
 grep -q 'implements only some of the factory reset operations' "$tmp/out" || fail "a partial set of reset operations is explained" "$(cat "$tmp/out")"
 pass "a boot package implementing only some of the reset operations is refused"

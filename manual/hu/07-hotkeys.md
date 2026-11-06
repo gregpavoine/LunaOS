@@ -6,7 +6,7 @@ A fő billentyűhozzárendeléseket a `Super + K` (a Tmux-hozzárendeléseket a 
 
 | Billentyűparancs                  | Funkció              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy menü (appok és minden más)    |
+| `Super + Space`           | LunaOS menü (appok és minden más)    |
 | `Super + Alt + Space` | App-rács |
 | `Super + Escape` | Rendszermenü (felfüggesztés, újraindítás stb.)  |
 | `Super + Ctrl + L` | Számítógép zárolása |
@@ -136,7 +136,7 @@ A hozzárendeléseket a `~/.config/hypr/bindings.lua` fájlban változtathatod/a
 | `Super + V`           | Beillesztés    |
 | `Super + Ctrl + V`           | Vágólapkezelő    |
 
-Linuxon általában `Ctrl + Shift + C/V` kell a másoláshoz-beillesztéshez terminálban és `Ctrl + C/V` mindenhol máshol. Ezek az Omarchy egységes vágólap-billentyűparancsok mindenhol működnek.
+Linuxon általában `Ctrl + Shift + C/V` kell a másoláshoz-beillesztéshez terminálban és `Ctrl + C/V` mindenhol máshol. Ezek az LunaOS egységes vágólap-billentyűparancsok mindenhol működnek.
 
 ## Rögzítés
 
@@ -156,7 +156,7 @@ Linuxon általában `Ctrl + Shift + C/V` kell a másoláshoz-beillesztéshez ter
 
 Képernyőfelvételeknél a billentyűparancs először megkérdezi, milyen hangot kérsz, majd elindítja a felvételt. Nyomd meg ismét a leállításhoz. A részletekért lásd a [képernyőképeket és felvételt](12-screenshots-recording.md).
 
-Minden rögzítési opció elérhető az Omarchy menüben (`Super + Space`) a _Trigger > Capture_ alatt is.
+Minden rögzítési opció elérhető az LunaOS menüben (`Super + Space`) a _Trigger > Capture_ alatt is.
 
 ## Értesítések
 
@@ -177,9 +177,9 @@ Minden rögzítési opció elérhető az Omarchy menüben (`Super + Space`) a _T
 | `Super + Backspace` | Átlátszóság kapcsolása egy ablakon |
 | `Super + Ctrl + Backspace` | Egyetlen ablak négyszögletű képarányának kapcsolása |
 
-Extra háttérképek a `~/.config/omarchy/backgrounds/<theme name>` helyen élnek. Az Omarchy menüben az _Install > Style > Background_ ponton keresztül is elérhetők.
+Extra háttérképek a `~/.config/lunaos/backgrounds/<theme name>` helyen élnek. Az LunaOS menüben az _Install > Style > Background_ ponton keresztül is elérhetők.
 
-Minden stílusopció elérhető az Omarchy menüben (`Super + Space`) a _Style_ alatt is.
+Minden stílusopció elérhető az LunaOS menüben (`Super + Space`) a _Style_ alatt is.
 
 ## Kapcsolók
 
@@ -281,7 +281,7 @@ Ezeket a függvényeket Tmux-munkameneten belül kell futtatni.
 
 ## Ghostty terminál
 
-A Ghostty terminál az Omarchy menüben az _Install > Terminal_ ponttal települ.
+A Ghostty terminál az LunaOS menüben az _Install > Terminal_ ponttal települ.
 
 | Billentyűparancs                  | Funkció              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ A `Super + Ctrl + E` kombinációval teljes emoji-választót mutathatsz, amely 
 | `Shift + CapsLock Space N` | A neved (ahogy a telepítéskor megadtad)  |
 | `Shift + CapsLock Space E` | Az e-mail címed (ahogy a telepítéskor megadtad)  |
 
-Tovább bővítheted a sajátjaiddal a `~/.XCompose` szerkesztésével, majd az `omarchy-restart-xcompose` terminálban való futtatásával, hogy a változások érvénybe lépjenek.
+Tovább bővítheted a sajátjaiddal a `~/.XCompose` szerkesztésével, majd az `lunaos-restart-xcompose` terminálban való futtatásával, hogy a változások érvénybe lépjenek.

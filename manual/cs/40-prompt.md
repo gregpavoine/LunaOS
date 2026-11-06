@@ -1,6 +1,6 @@
 # Příkazový řádek
 
-Omarchy se ve výchozím nastavení dodává s minimálním příkazovým řádkem [Starship](https://starship.rs/). Takhle si svůj příkazový řádek rád ponechávám. Nepotřebuji znát uživatele, protože jsem to vždycky já, a nepotřebuji znát čas, protože je vždy nahoře.
+LunaOS se ve výchozím nastavení dodává s minimálním příkazovým řádkem [Starship](https://starship.rs/). Takhle si svůj příkazový řádek rád ponechávám. Nepotřebuji znát uživatele, protože jsem to vždycky já, a nepotřebuji znát čas, protože je vždy nahoře.
 
  ![prompt](images/prompt.webp)
 

@@ -1,6 +1,6 @@
 # PDF-ide täitmine
 
-Omarchy tuleb toreda põhilise PDF-vaaturiga nimega Document Viewer. See on programm, mis avab kõik PDF-id, millel lihtsalt topeltklõpsad.
+LunaOS tuleb toreda põhilise PDF-vaaturiga nimega Document Viewer. See on programm, mis avab kõik PDF-id, millel lihtsalt topeltklõpsad.
 
 Kuid Document Viewerit saad kasutada ainult nende PDF-ide täitmiseks, mis on seadistatud vormidena. Kui pead täitma PDF-e, mis seda pole, või pead PDF-i allkirjastama, kasuta rakendust [Signed](https://github.com/omacom/signed). Käivita see rakenduste käivitaja kaudu (`Super + Space`) või tee failil paremklõps, vali _Open With..._ ja vali Signed.
 

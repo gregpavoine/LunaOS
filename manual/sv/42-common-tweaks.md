@@ -1,8 +1,8 @@
 # Vanliga justeringar
 
-Detta är en samling vanliga anpassningar av Omarchy-konfigurationen. Vet att det ibland kan vara nödvändigt för systemuppdateringar att återställa vissa konfigurationer till deras ursprungliga skick. Om detta händer förloras inte dina ändringar, utan läggs i en `.bak`-fil i samma katalog.
+Detta är en samling vanliga anpassningar av LunaOS-konfigurationen. Vet att det ibland kan vara nödvändigt för systemuppdateringar att återställa vissa konfigurationer till deras ursprungliga skick. Om detta händer förloras inte dina ändringar, utan läggs i en `.bak`-fil i samma katalog.
 
-Om du förstör något kan du återställa enskilda konfigurationer till deras ursprungliga konfiguration via _Uppdatera > Config_ i Omarchy-menyn. Om du _verkligen_ förstör allting kan du återställa alla konfigurationer via `omarchy-reinstall`.
+Om du förstör något kan du återställa enskilda konfigurationer till deras ursprungliga konfiguration via _Uppdatera > Config_ i LunaOS-menyn. Om du _verkligen_ förstör allting kan du återställa alla konfigurationer via `lunaos-reinstall`.
 
 ### Visa alla brickikoner hela tiden
 
@@ -10,7 +10,7 @@ Som standard döljs brickikoner, som Dropbox, 1password eller Steam, bakom brick
 
 ### Rundade fönsterhörn
 
-Omarchys standarddesign är en av fyrkantiga hörn, men om du vill mjuka upp det lite kan du ändra `~/.config/hypr/looknfeel.lua` så att rundning inte längre är bortkommenterad:
+LunaOSs standarddesign är en av fyrkantiga hörn, men om du vill mjuka upp det lite kan du ändra `~/.config/hypr/looknfeel.lua` så att rundning inte längre är bortkommenterad:
 
 ```
 hl.config({

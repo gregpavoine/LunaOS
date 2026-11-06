@@ -5,15 +5,15 @@ echo "Run the WPA handshake in software on Macs with Broadcom Wi-Fi"
 # firmware supplicant makes firmware commands time out and breaks scanning
 # entirely. A fresh install marks this done only for its first user, so an
 # account added later still runs it.
-omarchy-hw-aarch64-apple && exit 0
+lunaos-hw-aarch64-apple && exit 0
 
 # The install-time quirk only reaches machines set up after it shipped, and it
 # never covered Macs without a T2 at all, so an existing install on one still
 # cannot join a WPA2/WPA3 transition-mode network. See
 # install/hardware/apple/fix-brcmfmac-supplicant.sh for the failure it fixes and
 # for where this list of brcmfmac PCI IDs comes from.
-dmi_vendor="${OMARCHY_BRCMFMAC_DMI_VENDOR:-/sys/class/dmi/id/sys_vendor}"
-conf="${OMARCHY_BRCMFMAC_CONF:-/etc/modprobe.d/brcmfmac.conf}"
+dmi_vendor="${LUNAOS_BRCMFMAC_DMI_VENDOR:-/sys/class/dmi/id/sys_vendor}"
+conf="${LUNAOS_BRCMFMAC_CONF:-/etc/modprobe.d/brcmfmac.conf}"
 
 sys_vendor="$(cat "$dmi_vendor" 2>/dev/null || true)"
 
@@ -47,4 +47,4 @@ EOF
 # modprobe only reads this when the module loads. Reloading brcmfmac here would
 # drop a Wi-Fi connection that works on the network the user is on right now,
 # including the one carrying this update.
-omarchy-state set reboot-required
+lunaos-state set reboot-required

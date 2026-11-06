@@ -1,8 +1,8 @@
 # 主題
 
-Omarchy 內建了二十二個美麗的主題。你可以透過 Omarchy 選單（`Super + Space`）中的 _風格 > 主題_ 在它們之間選取，或使用 `Super + Ctrl + Shift + Space` 直接跳到主題選擇器。
+LunaOS 內建了二十二個美麗的主題。你可以透過 LunaOS 選單（`Super + Space`）中的 _風格 > 主題_ 在它們之間選取，或使用 `Super + Ctrl + Shift + Space` 直接跳到主題選擇器。
 
-每一個主題都會為桌面、終端機、neovim、活動畫面（btop）、Chromium 以及整個 Omarchy shell 設定樣式：選單列、選單、通知、OSD 和鎖定畫面。（對於 Obsidian，你必須在應用程式內透過 _Appearance > Themes_ 手動選取 Omarchy 主題。）
+每一個主題都會為桌面、終端機、neovim、活動畫面（btop）、Chromium 以及整個 LunaOS shell 設定樣式：選單列、選單、通知、OSD 和鎖定畫面。（對於 Obsidian，你必須在應用程式內透過 _Appearance > Themes_ 手動選取 LunaOS 主題。）
 
 主題有一組背景圖片，你可以用 `Super + Ctrl + Space` 在它們之間選取。
 

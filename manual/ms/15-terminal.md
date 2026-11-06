@@ -1,8 +1,8 @@
 # Terminal
 
-[Foot](https://codeberg.org/dnkl/foot) ialah terminal lalai untuk Omarchy. Ia pantas, ringan, dan serasi walaupun dengan komputer lama. Walau bagaimanapun, ia tidak menyokong tab atau pisahan asal.
+[Foot](https://codeberg.org/dnkl/foot) ialah terminal lalai untuk LunaOS. Ia pantas, ringan, dan serasi walaupun dengan komputer lama. Walau bagaimanapun, ia tidak menyokong tab atau pisahan asal.
 
-Jika anda menggunakan Tmux, anda mungkin tidak kisah, tetapi jika tidak, kami menyokong sepenuhnya _Alacritty_, _Ghostty_, dan _Kitty_ sebagai pilihan juga. Pilih keutamaan anda di bawah _Pasang > Terminal_ dalam menu Omarchy.
+Jika anda menggunakan Tmux, anda mungkin tidak kisah, tetapi jika tidak, kami menyokong sepenuhnya _Alacritty_, _Ghostty_, dan _Kitty_ sebagai pilihan juga. Pilih keutamaan anda di bawah _Pasang > Terminal_ dalam menu LunaOS.
 
 Anda memulakan terminal baharu menggunakan `Super + Return`. (Ikatan ini secara automatik akan menuding kepada mana-mana Terminal yang telah anda Pasang melalui _Pasang > Terminal_, dan anda boleh bertukar antara terminal yang dipasang di bawah _Persediaan > Lalai > Terminal_.)
 
@@ -12,11 +12,11 @@ Tmux menyediakan antara muka yang konsisten dan boleh diprogramkan untuk anak te
 
 Anda memulakan sesi Tmux baharu dalam terminal baharu menggunakan `Super + Alt + Return`, dan kerana Tmux ialah proses yang berterusan, anda boleh menyambung semula sesi anda walaupun anda menutup terminal itu. Hanya tekan `Ctrl + Space` (dipanggil kekunci awalan) kemudian `s` untuk melihat semua sesi aktif anda.
 
-Omarchy dihantar dengan konfigurasi Tmux yang dioptimumkan secara ergonomik, yang mempunyai banyak Ikatan Kekunci untuk dipelajari, jadi kekalkan [helaian tipu berguna](07-hotkeys.md#tmux).
+LunaOS dihantar dengan konfigurasi Tmux yang dioptimumkan secara ergonomik, yang mempunyai banyak Ikatan Kekunci untuk dipelajari, jadi kekalkan [helaian tipu berguna](07-hotkeys.md#tmux).
 
 ## Fungsi susun atur Tmux
 
-Kerana Tmux boleh diprogramkan, kita boleh menggunakan fungsi untuk mencipta susun atur. Omarchy dihantar dengan empat fungsi berbeza untuk susun atur pembangun biasa.
+Kerana Tmux boleh diprogramkan, kita boleh menggunakan fungsi untuk mencipta susun atur. LunaOS dihantar dengan empat fungsi berbeza untuk susun atur pembangun biasa.
 
 `tdl [agent]` memulakan antara muka seperti IDE pisahan tiga hala dengan `$EDITOR` di sebelah kiri, Ejen AI pilihan anda di sebelah kanan (seperti `c` untuk opencode atau `cx` untuk Claude atau `codex` untuk OpenAI), dan kemudian terminal di bahagian bawah.
 

@@ -1,8 +1,8 @@
 # Temos
 
-Omarchy pateikiama su dvidešimt dviem gražiomis temomis. Tarp jų galite rinktis per _Stilius > Tema_ Omarchy meniu (`Super + Space`) arba šokti tiesiai į temų parinkiklį naudodami `Super + Ctrl + Shift + Space`.
+LunaOS pateikiama su dvidešimt dviem gražiomis temomis. Tarp jų galite rinktis per _Stilius > Tema_ LunaOS meniu (`Super + Space`) arba šokti tiesiai į temų parinkiklį naudodami `Super + Ctrl + Shift + Space`.
 
-Kiekviena tema stilizuoja darbalaukį, terminalą, neovim, veiklos ekraną (btop), Chromium ir visą Omarchy apvalkalą: viršutinę juostą, meniu, pranešimus, OSD ir užrakinimo ekraną. (Obsidian atveju Omarchy temą turite rankiniu būdu pasirinkti per _Appearance > Themes_ programos viduje).
+Kiekviena tema stilizuoja darbalaukį, terminalą, neovim, veiklos ekraną (btop), Chromium ir visą LunaOS apvalkalą: viršutinę juostą, meniu, pranešimus, OSD ir užrakinimo ekraną. (Obsidian atveju LunaOS temą turite rankiniu būdu pasirinkti per _Appearance > Themes_ programos viduje).
 
 Temos turi foninių paveikslėlių rinkinį, iš kurio galite rinktis naudodami `Super + Ctrl + Space`.
 

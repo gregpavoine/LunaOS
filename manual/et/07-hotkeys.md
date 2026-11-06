@@ -6,7 +6,7 @@ Saad näha kõiki peamisi klaviatuuriseoseid `Super + K` abil (Tmuxi seoseid `Su
 
 | Kiirklahv                  | Funktsioon              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy menüü (rakendused ja kõik muu)    |
+| `Super + Space`           | LunaOS menüü (rakendused ja kõik muu)    |
 | `Super + Alt + Space` | Rakenduste ruudustik |
 | `Super + Escape` | Süsteemi menüü (uinak, taaskäivita jne)  |
 | `Super + Ctrl + L` | Lukusta arvuti |
@@ -136,7 +136,7 @@ Muuda/lisa seoseid failis `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Kleebi    |
 | `Super + Ctrl + V`           | Lõikelaua haldur    |
 
-Tavaliselt on Linuxil vaja `Ctrl + Shift + C/V`, et terminalis kopeerida ja kleepida, ja `Ctrl + C/V`, et teha seda kõikjal mujal. Need Omarchy ühtsed lõikelaua kiirklahvid toimivad kõikjal.
+Tavaliselt on Linuxil vaja `Ctrl + Shift + C/V`, et terminalis kopeerida ja kleepida, ja `Ctrl + C/V`, et teha seda kõikjal mujal. Need LunaOS ühtsed lõikelaua kiirklahvid toimivad kõikjal.
 
 ## Jäädvusta
 
@@ -156,7 +156,7 @@ Tavaliselt on Linuxil vaja `Ctrl + Shift + C/V`, et terminalis kopeerida ja klee
 
 Ekraanisalvestuste puhul küsib kiirklahv esmalt, millist heli soovid, ja alustab seejärel salvestamist. Vajuta seda uuesti, et peatada. Üksikasjade jaoks vt [ekraanitõmmised ja salvestamine](12-screenshots-recording.md).
 
-Kõik jäädvustamisvalikud on ligipääsetavad ka Omarchy menüüs _Käivita > Jäädvusta_ all (`Super + Space`).
+Kõik jäädvustamisvalikud on ligipääsetavad ka LunaOS menüüs _Käivita > Jäädvusta_ all (`Super + Space`).
 
 ## Teavitused
 
@@ -177,9 +177,9 @@ Kõik jäädvustamisvalikud on ligipääsetavad ka Omarchy menüüs _Käivita > 
 | `Super + Backspace` | Lülita akna läbipaistvus |
 | `Super + Ctrl + Backspace` | Lülita ühe akna ruudu kuvasuhe |
 
-Täiendavad taustapildid asuvad `~/.config/omarchy/backgrounds/<theme name>`-is. Saadaval ka Omarchy menüüs _Paigalda > Stiil > Taust_ kaudu.
+Täiendavad taustapildid asuvad `~/.config/lunaos/backgrounds/<theme name>`-is. Saadaval ka LunaOS menüüs _Paigalda > Stiil > Taust_ kaudu.
 
-Kõik stiilivalikud on ligipääsetavad ka Omarchy menüüs _Stiil_ all (`Super + Space`).
+Kõik stiilivalikud on ligipääsetavad ka LunaOS menüüs _Stiil_ all (`Super + Space`).
 
 ## Lülita
 
@@ -281,7 +281,7 @@ Need funktsioonid tuleb käivitada Tmuxi seansi sees.
 
 ## Ghostty terminal
 
-Ghostty terminal paigaldatakse Omarchy menüüs _Paigalda > Terminal_ kaudu.
+Ghostty terminal paigaldatakse LunaOS menüüs _Paigalda > Terminal_ kaudu.
 
 | Kiirklahv                  | Funktsioon              |
 | ----------------------- | --------------------- |
@@ -372,5 +372,5 @@ Saad kasutada `Super + Ctrl + E`, et kuvada täielik emoji valija, mis paneb val
 | `Shift + CapsLock Space N` | Sinu nimi (nagu seadistamisel sisestatud)  |
 | `Shift + CapsLock Space E` | Sinu e-post (nagu seadistamisel sisestatud)  |
 
-Saad lisada rohkem omi, muutes `~/.XCompose`, seejärel käivitades terminalis `omarchy-restart-xcompose`, et muudatused märgataks.
+Saad lisada rohkem omi, muutes `~/.XCompose`, seejärel käivitades terminalis `lunaos-restart-xcompose`, et muudatused märgataks.
 

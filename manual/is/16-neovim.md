@@ -6,7 +6,7 @@ Ef þú ert alveg nýr í vim-stíl ritvinnslu mæli ég með að þú skoðir [
 
 Neovim er nú í grundvallaratriðum óendanlega stillanlegt. Ef þú vilt í alvöru fara alla leið geturðu búið til þína eigin Neovim-stillingu frá grunni. Það er frábært námskeið frá [Typecraft um að setja upp Neovim frá grunni](https://www.youtube.com/watch?v=zHTeCSVAFNY). Og [ThePrimeagen á eitt líka](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-En Omarchy kemur með fullkláraða Neovim-uppsetningu — `omarchy-nvim`-pakkanum — sem hefur verið stilltur af ást til að sýna það besta sem er mögulegt úr kassanum. Án þess að þú þurfir að skrifa eina einustu línu af stillingum! Hann er byggður á [LazyVim](https://www.lazyvim.org/), dreifingu Neovim-viðbóta og stillinga. Hann er frábær.
+En LunaOS kemur með fullkláraða Neovim-uppsetningu — `omarchy-nvim`-pakkanum — sem hefur verið stilltur af ást til að sýna það besta sem er mögulegt úr kassanum. Án þess að þú þurfir að skrifa eina einustu línu af stillingum! Hann er byggður á [LazyVim](https://www.lazyvim.org/), dreifingu Neovim-viðbóta og stillinga. Hann er frábær.
 
 ## LazyVim-grunnatriði
 

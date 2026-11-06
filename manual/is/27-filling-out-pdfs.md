@@ -1,6 +1,6 @@
 # Að fylla út PDF
 
-Omarchy kemur með fínum, einföldum PDF-skoðara sem kallast Document Viewer. Þetta er forritið sem opnar öll PDF sem þú bara tvísmellir á.
+LunaOS kemur með fínum, einföldum PDF-skoðara sem kallast Document Viewer. Þetta er forritið sem opnar öll PDF sem þú bara tvísmellir á.
 
 En þú getur aðeins notað Document Viewer til að fylla út PDF sem hafa verið sett upp sem eyðublöð. Ef þú þarft að fylla út PDF sem hafa það ekki, eða þú þarft að undirrita PDF, skaltu nota [Signed](https://github.com/omacom/signed). Ræstu það í gegnum forritaræsinn (`Super + Space`), eða hægrismelltu á skrána, veldu _Open With..._ og veldu Signed.
 

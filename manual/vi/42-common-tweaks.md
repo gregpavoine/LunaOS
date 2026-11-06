@@ -1,8 +1,8 @@
 # Các tinh chỉnh phổ biến
 
-Đây là một bộ sưu tập các tùy chỉnh phổ biến cho thiết lập Omarchy. Hãy biết rằng đôi khi các bản cập nhật hệ thống có thể cần khôi phục một số cấu hình nhất định về trạng thái gốc của chúng. Nếu điều này xảy ra, các thay đổi của bạn sẽ không bị mất, mà được đặt vào một tệp `.bak` trong cùng thư mục.
+Đây là một bộ sưu tập các tùy chỉnh phổ biến cho thiết lập LunaOS. Hãy biết rằng đôi khi các bản cập nhật hệ thống có thể cần khôi phục một số cấu hình nhất định về trạng thái gốc của chúng. Nếu điều này xảy ra, các thay đổi của bạn sẽ không bị mất, mà được đặt vào một tệp `.bak` trong cùng thư mục.
 
-Nếu bạn làm hỏng thứ gì đó, bạn có thể khôi phục từng cấu hình riêng lẻ về thiết lập gốc của chúng qua _Cập nhật > Cấu hình_ trong menu Omarchy. Nếu bạn _thực sự_ làm hỏng mọi thứ, bạn có thể đặt lại mọi cấu hình qua `omarchy-reinstall`.
+Nếu bạn làm hỏng thứ gì đó, bạn có thể khôi phục từng cấu hình riêng lẻ về thiết lập gốc của chúng qua _Cập nhật > Cấu hình_ trong menu LunaOS. Nếu bạn _thực sự_ làm hỏng mọi thứ, bạn có thể đặt lại mọi cấu hình qua `lunaos-reinstall`.
 
 ### Luôn hiện mọi biểu tượng khay hệ thống
 
@@ -10,7 +10,7 @@ Theo mặc định, các biểu tượng khay hệ thống, như Dropbox, 1passw
 
 ### Góc cửa sổ bo tròn
 
-Thiết kế mặc định của Omarchy là các góc vuông, nhưng nếu bạn thích làm mềm điều đó một chút, bạn có thể thay đổi `~/.config/hypr/looknfeel.lua` để rounding không còn bị chú thích tắt nữa:
+Thiết kế mặc định của LunaOS là các góc vuông, nhưng nếu bạn thích làm mềm điều đó một chút, bạn có thể thay đổi `~/.config/hypr/looknfeel.lua` để rounding không còn bị chú thích tắt nữa:
 
 ```
 hl.config({

@@ -2,12 +2,12 @@ echo "Give the Dell XPS 16 (NVIDIA N1x) the RAM its firmware reserves for Window
 
 # See install/hardware/fix-n1x-gpu-memory.sh. The kernel option takes effect
 # with linux-omarchy-n1x; older N1x kernels ignore it.
-dropin="${OMARCHY_N1X_GPU_MEMORY_CONF:-/etc/limine-entry-tool.d/omarchy-n1x-gpu-memory.conf}"
-iomem="${OMARCHY_IOMEM:-/proc/iomem}"
-running_cmdline="${OMARCHY_RUNNING_CMDLINE:-/proc/cmdline}"
-rebuild_marker="${OMARCHY_LIMINE_REBUILD_MARKER:-/var/lib/omarchy/migrations/1790984400}"
+dropin="${LUNAOS_N1X_GPU_MEMORY_CONF:-/etc/limine-entry-tool.d/lunaos-n1x-gpu-memory.conf}"
+iomem="${LUNAOS_IOMEM:-/proc/iomem}"
+running_cmdline="${LUNAOS_RUNNING_CMDLINE:-/proc/cmdline}"
+rebuild_marker="${LUNAOS_LIMINE_REBUILD_MARKER:-/var/lib/lunaos/migrations/1790984400}"
 
-if ! omarchy-hw-match "DX16263"; then
+if ! lunaos-hw-match "DX16263"; then
   exit 0
 fi
 

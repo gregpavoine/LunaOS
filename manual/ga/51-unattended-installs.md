@@ -1,8 +1,8 @@
 # Suiteálacha gan Freastal
 
-Is féidir le ISO Omarchy é féin a shuiteáil gan aon duine ag an méarchlár. Má aimsíonn an suiteálaí an dara tiomáint lipéadaithe `cidata` a iompraíonn a chomhaid chumraíochta, cóipeálann sé amach iad, scipéann sé an treoraí socraithe go hiomlán, agus atosaíonn sé isteach sa chóras críochnaithe leis féin. Gan aon tógáil speisialta ISO, gan aon iontráil bhreise sa roghchlár tosaithe — gan aon tiomáint mar sin ceangailte, ní athraíonn aon rud agus faigheann tú an gnáth-threoraí.
+Is féidir le ISO LunaOS é féin a shuiteáil gan aon duine ag an méarchlár. Má aimsíonn an suiteálaí an dara tiomáint lipéadaithe `cidata` a iompraíonn a chomhaid chumraíochta, cóipeálann sé amach iad, scipéann sé an treoraí socraithe go hiomlán, agus atosaíonn sé isteach sa chóras críochnaithe leis féin. Gan aon tógáil speisialta ISO, gan aon iontráil bhreise sa roghchlár tosaithe — gan aon tiomáint mar sin ceangailte, ní athraíonn aon rud agus faigheann tú an gnáth-threoraí.
 
-Déanann sé seo Omarchy iontach mar bhuníomhá do thimpeallachtaí forbartha indiúscartha: cruthaigh VM i Proxmox nó le Packer, tosaigh é, siúil ar shiúl, SSH isteach. Is é `cidata` an lipéad cloud-init `NoCloud`, mar sin tá a fhios ag an uirlisiú fíorúlaithe coitianta go léir cheana conas tiomáint mar sin a cheangal.
+Déanann sé seo LunaOS iontach mar bhuníomhá do thimpeallachtaí forbartha indiúscartha: cruthaigh VM i Proxmox nó le Packer, tosaigh é, siúil ar shiúl, SSH isteach. Is é `cidata` an lipéad cloud-init `NoCloud`, mar sin tá a fhios ag an uirlisiú fíorúlaithe coitianta go léir cheana conas tiomáint mar sin a cheangal.
 
 ## Na comhaid chumraíochta
 
@@ -24,7 +24,7 @@ Is féidir leat comhad folamh ar a dtugtar `defer-provisioning` a chur isteach f
 
 ## Rochtain SSH
 
-Nuair atá `authorized_keys` i láthair, socraíonn an tsuiteáil na heochracha suas mar `~/.ssh/authorized_keys` an úsáideora, cumasaíonn sé `sshd`, agus osclaíonn sé an balla dóiteáin dó. (Seolann suiteáil stoic Omarchy openssh leis an tseirbhís díchumasaithe agus an port dúnta, mar sin bheadh meaisín gan freastal doshroichte murach sin.) Ní chuireann an tsuiteáil ach d'eochracha leis — ní scaoileann sé aon cheann de shocruithe fíordheimhnithe eile an deamhain SSH.
+Nuair atá `authorized_keys` i láthair, socraíonn an tsuiteáil na heochracha suas mar `~/.ssh/authorized_keys` an úsáideora, cumasaíonn sé `sshd`, agus osclaíonn sé an balla dóiteáin dó. (Seolann suiteáil stoic LunaOS openssh leis an tseirbhís díchumasaithe agus an port dúnta, mar sin bheadh meaisín gan freastal doshroichte murach sin.) Ní chuireann an tsuiteáil ach d'eochracha leis — ní scaoileann sé aon cheann de shocruithe fíordheimhnithe eile an deamhain SSH.
 
 Nuair atá `tailscale_authkey` i láthair, téann an meaisín isteach i do tailnet ar an gcéad tosú ina áit sin: suiteáiltear Tailscale ó phacáistí cuachta an ISO, ceadaíonn an balla dóiteáin an comhéadan tailnet, agus ritheann post cúlra an cleamhnas a luaithe a bhíonn líonra ag an meaisín i ndáiríre, ag atriall go dtí go n-éireoidh leis. Úsáid eochair in-athúsáidte, réamhúdaraithe ionas gur féidir le híomhá tiománaithe amháin fónamh do go leor meaisíní.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Ansin ceangail é leis an VM taobh leis an ISO Omarchy. Seo sampla iomlán Proxmox:
+Ansin ceangail é leis an VM taobh leis an ISO LunaOS. Seo sampla iomlán Proxmox:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

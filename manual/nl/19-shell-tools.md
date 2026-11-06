@@ -1,6 +1,6 @@
 # Shell-tools
 
-Naast de standaard Linux-tools wordt Omarchy ook geleverd met een heleboel verbeterde shell-tools. Hier zijn de belangrijkste.
+Naast de standaard Linux-tools wordt LunaOS ook geleverd met een heleboel verbeterde shell-tools. Hier zijn de belangrijkste.
 
 ## fzf
 
@@ -14,7 +14,7 @@ De volledige handleiding vind je via `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) is een vervanging voor cd. Het onthoudt de mappen waar je bent geweest, zodat je er de volgende keer gemakkelijker naartoe kunt springen. Stel dat je een keer `cd ~/.config/omarchy` doet. De volgende keer kun je gewoon `cd omarchy` doen (of zelfs gewoon `cd oma`), en Zoxide brengt je er direct naartoe.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) is een vervanging voor cd. Het onthoudt de mappen waar je bent geweest, zodat je er de volgende keer gemakkelijker naartoe kunt springen. Stel dat je een keer `cd ~/.config/lunaos` doet. De volgende keer kun je gewoon `cd lunaos` doen (of zelfs gewoon `cd oma`), en Zoxide brengt je er direct naartoe.
 
 De volledige handleiding vind je via `man zoxide`.
 
@@ -58,4 +58,4 @@ De volledige handleiding vind je via `man yt-dlp`.
 
 [try](https://github.com/tobi/try) maakt het gemakkelijk om programmeerexperimenten te beheren met mappen met datumstempel. Alle experimenten leven in `~/Work/tries` en je kunt ze benaderen via `try`.
 
-Omarchy voegt de `bin/`-map van een project niet automatisch toe aan `PATH`. Voer vertrouwde project-lokale tools uit met een expliciet relatief pad, zoals `bin/rails` of `./bin/dev`.
+LunaOS voegt de `bin/`-map van een project niet automatisch toe aan `PATH`. Voer vertrouwde project-lokale tools uit met een expliciet relatief pad, zoals `bin/rails` of `./bin/dev`.

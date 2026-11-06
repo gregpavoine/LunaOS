@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# lunaos:summary=Open Voxtype AI model setup
+
+set -e
+
+lunaos-launch-floating-terminal-with-presentation "voxtype setup model"
+lunaos-restart-shell
