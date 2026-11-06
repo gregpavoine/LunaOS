@@ -22,6 +22,27 @@ Read more about the upstream project at [omarchy.org](https://omarchy.org).
 - [`lunaos/rebrand/`](lunaos/rebrand/README.md): the replayable Omarchy-to-LunaOS rename and the upstream sync procedure.
 - Everything else is the Omarchy base, including `bin/`, `config/`, `default/`, `install/`, and `shell/`.
 
+## Prerequisites
+
+There are two ways to use this repository, and they need different things.
+
+**To build and test the control plane** (any Linux or macOS machine):
+
+- Go 1.24.13. `go.mod` pins `toolchain go1.24.13`, so a Go 1.24 install downloads it automatically when the network is available.
+- A C compiler (`gcc` or `clang`) with `CGO_ENABLED=1`, because `github.com/mattn/go-sqlite3` is built with cgo.
+- `make`, `bash`, `python3` (used by the JSON check), `gofmt` (ships with Go).
+- `curl`, for the Linux development launcher `scripts/dev-native.sh`.
+
+**To run the services as LunaOS** (Linux only, on an Arch-based system with systemd):
+
+- The Omarchy base packages from the Arch repositories, plus the `install/lunaos-*.packages` lists.
+- The LUNA binaries installed as `/usr/bin/luna-core`, `/usr/bin/luna-policy-broker`, `/usr/bin/luna-inference`, `/usr/bin/luna-discovery`, `/usr/bin/luna-owner-setup`, `/usr/bin/luna-vault`. `make build` produces them under `lunaos/build/local/`.
+- The system users and groups from `lunaos/systemd-sysusers/lunaos.conf` and `lunaos/services/inference/systemd/luna-inference.sysusers`, applied with `systemd-sysusers`.
+- The unit files from `lunaos/systemd/` and `lunaos/services/inference/systemd/`, installed under `/usr/lib/systemd/system/`.
+- For local inference: a `llama-server` binary at `/usr/bin/llama-server` (llama.cpp), the manifest at `/usr/share/luna-inference/manifest.json`, and a model downloaded with `luna-inference fetch` and matching its SHA-256. The optional environment file `/etc/luna-inference/luna-inference.env` sets `LUNA_INFERENCE_MODEL`, `LUNA_INFERENCE_GPU_LAYERS` and `LUNA_INFERENCE_CTX_SIZE`.
+
+**Not yet in the repository:** the step that installs those binaries, manifest and units on a system is part of integration track Z and does not exist yet. There is no package, no installer, and no ISO build for LunaOS. Until that step lands, the services can be built and run by hand, but they are not installed as a system.
+
 ## Building and testing the control plane
 
 The Go module is `lunaos.local/lunaos`, under `lunaos/`. It pins Go 1.24.13 (`toolchain go1.24.13` in `go.mod`).
