@@ -112,3 +112,52 @@ func TestRunRejectsBadCommandsAndNonLinux(t *testing.T) {
 		}
 	}
 }
+
+// TestUnitExecStartParses catches drift between the systemd unit and the CLI:
+// a flag renamed in parseServe while the unit still passes the old one.
+func TestUnitExecStartParses(t *testing.T) {
+	unit, err := os.ReadFile("../../systemd/luna-inference.service")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var args []string
+	for _, line := range strings.Split(string(unit), "\n") {
+		if rest, ok := strings.CutPrefix(line, "ExecStart="); ok {
+			fields := strings.Fields(strings.ReplaceAll(rest, "${LUNA_INFERENCE_MODEL}", ""))
+			for i, f := range fields {
+				if f == "serve" {
+					args = fields[i+1:]
+				}
+			}
+		}
+	}
+	if len(args) == 0 {
+		t.Fatal("no ExecStart serve arguments in the unit")
+	}
+	if _, err := user.Lookup("lunaos"); err != nil {
+		// --allowed-user=lunaos cannot resolve here; swap in the current user
+		// so the rest of the arguments are still checked.
+		current, uerr := user.Current()
+		if uerr != nil {
+			t.Fatal(uerr)
+		}
+		for i, a := range args {
+			if a == "--allowed-user=lunaos" {
+				args[i] = "--allowed-user=" + current.Username
+			}
+		}
+	}
+	socket, cfg, err := parseServe(args)
+	if err != nil {
+		t.Fatalf("parseServe rejected the unit's arguments %q: %v", args, err)
+	}
+	if socket != "/run/luna-inference/inference.sock" {
+		t.Errorf("socket = %q", socket)
+	}
+	if cfg.KeyDir != "/run/luna-inference/llama-key" {
+		t.Errorf("KeyDir = %q", cfg.KeyDir)
+	}
+	if cfg.ModelID != "" {
+		t.Errorf("empty model expected, got %q", cfg.ModelID)
+	}
+}
