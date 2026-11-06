@@ -58,6 +58,7 @@ type Supervisor struct {
 	Binary       string // absolute path; no PATH lookup
 	ModelPath    string
 	GPULayers    int
+	ContextSize  int           // llama-server -c; 0 -> llama-server's default
 	StartTimeout time.Duration // 0 -> 60 s
 	StopGrace    time.Duration // SIGTERM to SIGKILL delay; 0 -> 10 s
 	Log          io.Writer     // child stdout/stderr; nil -> os.Stderr (journal)
@@ -230,9 +231,13 @@ func (s *Supervisor) launch(startCtx context.Context) (string, string, error) {
 		return degrade(fmt.Errorf("llama-server API key: %w", err))
 	}
 	// The key goes through a file: argv is world-readable in /proc.
-	cmd := exec.Command(s.Binary, "-m", s.ModelPath, "--host", "127.0.0.1",
+	args := []string{"-m", s.ModelPath, "--host", "127.0.0.1",
 		"--port", strconv.Itoa(port), "-ngl", strconv.Itoa(s.GPULayers),
-		"--api-key-file", keyFile)
+		"--api-key-file", keyFile}
+	if s.ContextSize > 0 {
+		args = append(args, "-c", strconv.Itoa(s.ContextSize))
+	}
+	cmd := exec.Command(s.Binary, args...)
 	var out io.Writer = os.Stderr
 	if s.Log != nil {
 		out = s.Log

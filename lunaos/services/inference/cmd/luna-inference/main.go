@@ -24,7 +24,7 @@ import (
 )
 
 const usage = `usage:
-  luna-inference serve --socket <path> --model-dir <dir> [--model <id>] --manifest <path> --llama-server <path> (--allowed-uid <uid> | --allowed-user <name>) [--gpu-layers N]
+  luna-inference serve --socket <path> --model-dir <dir> [--model <id>] --manifest <path> --llama-server <path> (--allowed-uid <uid> | --allowed-user <name>) [--gpu-layers N] [--ctx-size N]
   luna-inference fetch --manifest <path> --model-dir <dir> <id>`
 
 // shutdownGrace bounds the wait for requests in flight on SIGTERM/SIGINT.
@@ -75,6 +75,7 @@ func parseServe(args []string) (string, inference.Config, error) {
 	uidFlag := fs.String("allowed-uid", "", "the only peer UID served")
 	userFlag := fs.String("allowed-user", "", "account whose UID is the only peer served")
 	gpuLayers := fs.Int("gpu-layers", 0, "layers offloaded to the GPU")
+	ctxSize := fs.Int("ctx-size", inference.DefaultContextSize, "llama-server context size in tokens")
 	if err := fs.Parse(args); err != nil {
 		return "", inference.Config{}, fmt.Errorf("%v\n%s", err, usage)
 	}
@@ -94,6 +95,7 @@ func parseServe(args []string) (string, inference.Config, error) {
 		ModelID:     *model,
 		LlamaServer: *llama,
 		GPULayers:   *gpuLayers,
+		ContextSize: *ctxSize,
 		AllowedUID:  uid,
 		// llama-server's per-spawn API key lives next to the socket, in the
 		// service's private runtime directory.

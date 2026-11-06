@@ -475,6 +475,10 @@ func TestStartupVerifiesModelOnce(t *testing.T) {
 		if env.srv.sup == nil || env.srv.sup.ModelPath != filepath.Join(env.cfg.ModelDir, "m1.gguf") {
 			t.Fatalf("supervisor not configured for the verified model: %+v", env.srv.sup)
 		}
+		// An unset context size is pinned, not left to llama-server's small default.
+		if env.srv.sup.ContextSize != DefaultContextSize {
+			t.Fatalf("ContextSize = %d, want %d", env.srv.sup.ContextSize, DefaultContextSize)
+		}
 	})
 	t.Run("invalid config", func(t *testing.T) {
 		for name, mutate := range map[string]func(*Config){
@@ -483,6 +487,7 @@ func TestStartupVerifiesModelOnce(t *testing.T) {
 			"negative uid":      func(c *Config) { c.AllowedUID = -1 },
 			"no model dir":      func(c *Config) { c.ModelDir = "" },
 			"negative gpu":      func(c *Config) { c.GPULayers = -1 },
+			"negative ctx":      func(c *Config) { c.ContextSize = -1 },
 			"missing manifest":  func(c *Config) { c.Manifest = filepath.Join(t.TempDir(), "absent.json") },
 			"no llama-server":   func(c *Config) { c.LlamaServer = "" },
 			"negative waiting":  func(c *Config) { c.StartWait = -time.Second },

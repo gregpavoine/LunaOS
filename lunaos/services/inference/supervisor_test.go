@@ -547,3 +547,29 @@ func TestImpostorWithoutTheKeyIsRejected(t *testing.T) {
 		}
 	}
 }
+
+// TestContextSizeIsPassed checks that a set context size reaches llama-server
+// as -c, and that 0 leaves llama-server's own default.
+func TestContextSizeIsPassed(t *testing.T) {
+	for _, n := range []int{16384, 0} {
+		argvFile := t.TempDir() + "/argv"
+		t.Setenv("FAKE_ARGV_FILE", argvFile)
+		s := newSup(t)
+		s.ContextSize = n
+		if _, err := s.Start(context.Background()); err != nil {
+			t.Fatalf("ctx %d: %v", n, err)
+		}
+		s.Stop()
+		b, err := os.ReadFile(argvFile)
+		if err != nil {
+			t.Fatal(err)
+		}
+		argv := " " + strings.TrimSpace(string(b)) + " "
+		if has := strings.Contains(argv, " -c "); has != (n > 0) {
+			t.Fatalf("ctx %d: argv %q", n, argv)
+		}
+		if n > 0 && !strings.Contains(argv, " -c "+strconv.Itoa(n)+" ") {
+			t.Fatalf("ctx %d: argv %q lacks -c %d", n, argv, n)
+		}
+	}
+}

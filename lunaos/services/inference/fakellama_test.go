@@ -10,7 +10,7 @@ import (
 )
 
 // fakeLlamaSource is a stand-in for llama-server. It parses -m, --host, --port,
-// -ngl and --api-key-file, then serves GET /health on <host>:<port>. Like
+// -ngl, -c and --api-key-file, then serves GET /health on <host>:<port>. Like
 // llama-server, /health is public and GET /props and POST /completion need
 // "Authorization: Bearer <key>" (401 otherwise). Stricter than llama-server, a
 // fake started without --api-key-file accepts no key at all, so a caller that
@@ -61,6 +61,7 @@ func main() {
 	host := flag.String("host", "127.0.0.1", "host")
 	port := flag.Int("port", 0, "port")
 	flag.Int("ngl", 0, "gpu layers")
+	flag.Int("c", 0, "context size")
 	keyFile := flag.String("api-key-file", "", "API key file")
 	flag.Parse()
 

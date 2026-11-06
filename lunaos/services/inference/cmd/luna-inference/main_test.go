@@ -31,11 +31,11 @@ func TestParseServeRequiresExactlyOneAllowedPeer(t *testing.T) {
 		}
 	}
 
-	socket, cfg, err := parseServe(serveArgs("--allowed-uid", "1000", "--model", "m1", "--gpu-layers", "99"))
+	socket, cfg, err := parseServe(serveArgs("--allowed-uid", "1000", "--model", "m1", "--gpu-layers", "99", "--ctx-size", "8192"))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if socket != "/run/x.sock" || cfg.AllowedUID != 1000 || cfg.ModelID != "m1" || cfg.GPULayers != 99 ||
+	if socket != "/run/x.sock" || cfg.AllowedUID != 1000 || cfg.ModelID != "m1" || cfg.GPULayers != 99 || cfg.ContextSize != 8192 ||
 		cfg.ModelDir != "/m" || cfg.Manifest != "/m.json" || cfg.LlamaServer != "/usr/bin/llama-server" || cfg.KeyDir != "/run/llama-key" {
 		t.Fatalf("parsed %q %+v", socket, cfg)
 	}
@@ -120,10 +120,24 @@ func TestUnitExecStartParses(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	// ${VAR} in ExecStart takes the unit's Environment= default, as systemd
+	// does when the env file does not override it.
+	lines := strings.Split(string(unit), "\n")
+	var env []string
+	for _, line := range lines {
+		if kv, ok := strings.CutPrefix(line, "Environment="); ok {
+			k, v, _ := strings.Cut(kv, "=")
+			env = append(env, "${"+k+"}", v)
+		}
+	}
 	var args []string
-	for _, line := range strings.Split(string(unit), "\n") {
+	for _, line := range lines {
 		if rest, ok := strings.CutPrefix(line, "ExecStart="); ok {
-			fields := strings.Fields(strings.ReplaceAll(rest, "${LUNA_INFERENCE_MODEL}", ""))
+			rest = strings.NewReplacer(env...).Replace(rest)
+			if strings.Contains(rest, "${") {
+				t.Fatalf("ExecStart uses a variable with no Environment= default: %q", rest)
+			}
+			fields := strings.Fields(rest)
 			for i, f := range fields {
 				if f == "serve" {
 					args = fields[i+1:]
@@ -159,5 +173,13 @@ func TestUnitExecStartParses(t *testing.T) {
 	}
 	if cfg.ModelID != "" {
 		t.Errorf("empty model expected, got %q", cfg.ModelID)
+	}
+	// The RTX 3080 Ti runs every layer; a prompt at the API limit plus
+	// max_tokens fits the context.
+	if cfg.GPULayers != 999 {
+		t.Errorf("GPULayers = %d, want 999", cfg.GPULayers)
+	}
+	if cfg.ContextSize != 16384 {
+		t.Errorf("ContextSize = %d, want 16384", cfg.ContextSize)
 	}
 }

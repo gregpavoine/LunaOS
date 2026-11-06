@@ -31,6 +31,9 @@ const (
 	DefaultStartWait = 60 * time.Second
 	// DefaultGenerateTimeout bounds one llama-server completion.
 	DefaultGenerateTimeout = 5 * time.Minute
+	// DefaultContextSize holds a prompt at maxPromptBytes plus maxTokensLimit
+	// tokens; llama-server's own default (often 4096) does not.
+	DefaultContextSize = 16384
 )
 
 // Config is the startup configuration of the inference service.
@@ -40,6 +43,7 @@ type Config struct {
 	ModelID         string // "" -> serve with no model
 	LlamaServer     string // absolute path of llama-server; required
 	GPULayers       int
+	ContextSize     int           // llama-server context in tokens; 0 -> DefaultContextSize
 	AllowedUID      int           // the only peer UID served (the Core)
 	StartWait       time.Duration // 0 -> DefaultStartWait
 	GenerateTimeout time.Duration // 0 -> DefaultGenerateTimeout
@@ -80,6 +84,8 @@ func NewServer(cfg Config) (*Server, error) {
 		return nil, errors.New("allowed UID must not be negative")
 	case cfg.GPULayers < 0:
 		return nil, errors.New("GPU layers must not be negative")
+	case cfg.ContextSize < 0:
+		return nil, errors.New("context size must not be negative")
 	case cfg.StartWait < 0 || cfg.GenerateTimeout < 0:
 		return nil, errors.New("timeouts must not be negative")
 	}
@@ -103,10 +109,15 @@ func NewServer(cfg Config) (*Server, error) {
 		genTimeout = DefaultGenerateTimeout
 	}
 	s.upstream = loopbackClient(genTimeout)
+	ctxSize := cfg.ContextSize
+	if ctxSize == 0 {
+		ctxSize = DefaultContextSize
+	}
 
 	if path, ok := s.verifiedModel(models, cfg.ModelDir, cfg.ModelID); ok {
 		s.modelID = cfg.ModelID
-		s.sup = &Supervisor{Binary: cfg.LlamaServer, ModelPath: path, GPULayers: cfg.GPULayers, Log: s.log, KeyDir: cfg.KeyDir}
+		s.sup = &Supervisor{Binary: cfg.LlamaServer, ModelPath: path, GPULayers: cfg.GPULayers,
+			ContextSize: ctxSize, Log: s.log, KeyDir: cfg.KeyDir}
 	}
 	return s, nil
 }
