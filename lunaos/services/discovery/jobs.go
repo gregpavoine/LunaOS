@@ -92,7 +92,7 @@ func (e *Engine) retry(ctx context.Context, call func() error) error {
 		if ctx.Err() != nil {
 			return ctx.Err()
 		}
-		if errors.Is(err, ErrUnauthorized) || errors.Is(err, ErrCursorExpired) {
+		if isFinal(err) {
 			return err
 		}
 		wait := backoff(attempt)
@@ -111,6 +111,13 @@ func (e *Engine) retry(ctx context.Context, call func() error) error {
 			return err
 		}
 	}
+}
+
+// isFinal reports errors a retry cannot change.
+func isFinal(err error) bool {
+	return errors.Is(err, ErrUnauthorized) || errors.Is(err, ErrCursorExpired) ||
+		errors.Is(err, ErrTooLarge) || errors.Is(err, ErrDownloadGone) ||
+		errors.Is(err, ErrDownloadRefused) || errors.Is(err, ErrHashMismatch)
 }
 
 // Sync runs every connector once and reports per provider.

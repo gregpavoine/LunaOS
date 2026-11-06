@@ -82,6 +82,12 @@ func errorCode(err error) string {
 		return "cursor_expired"
 	case errors.Is(err, errTakedownGuard):
 		return "takedown_guard"
+	case errors.Is(err, ErrTooLarge):
+		return "too_large"
+	case errors.Is(err, ErrDownloadGone):
+		return "gone"
+	case errors.Is(err, ErrDownloadRefused):
+		return "refused"
 	}
 	if _, ok := asRateLimited(err); ok {
 		return "rate_limited"
