@@ -45,14 +45,16 @@ var (
 
 const chunkSize = 64 * 1024
 
-// Item is one library entry. Creator, SourceURL, Tags and SHA256 are sealed at
-// rest; the other fields stay queryable in clear columns.
+// Item is one library entry. Creator, SourceURL, Title, LinkURL, Tags and
+// SHA256 are sealed at rest; the other fields stay queryable in clear columns.
 type Item struct {
 	Provider, ExternalID, SourceURL, Creator, License, ContentLevel string
-	Tags                                                            []string
-	SHA256                                                          string
-	Bytes                                                           int64
-	FetchedAt                                                       time.Time
+	// Title and LinkURL describe link metadata (Reddit posts).
+	Title, LinkURL string
+	Tags           []string
+	SHA256         string
+	Bytes          int64
+	FetchedAt      time.Time
 }
 
 type Store struct {
@@ -67,6 +69,8 @@ type Store struct {
 type sealedMeta struct {
 	Creator   string   `json:"creator"`
 	SourceURL string   `json:"source_url"`
+	Title     string   `json:"title"`
+	LinkURL   string   `json:"link_url"`
 	Tags      []string `json:"tags"`
 	SHA256    string   `json:"sha256"`
 }
@@ -227,7 +231,7 @@ func (s *Store) Put(ctx context.Context, it Item, media io.Reader) (stored bool,
 	if exists > 0 {
 		return false, nil
 	}
-	meta := sealedMeta{Creator: it.Creator, SourceURL: it.SourceURL, Tags: it.Tags, SHA256: strings.ToLower(it.SHA256)}
+	meta := sealedMeta{Creator: it.Creator, SourceURL: it.SourceURL, Title: it.Title, LinkURL: it.LinkURL, Tags: it.Tags, SHA256: strings.ToLower(it.SHA256)}
 	name := ""
 	size := it.Bytes
 	newBlob := false

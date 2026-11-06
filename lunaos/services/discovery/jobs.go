@@ -116,6 +116,7 @@ func (e *Engine) retry(ctx context.Context, call func() error) error {
 // isFinal reports errors a retry cannot change.
 func isFinal(err error) bool {
 	return errors.Is(err, ErrUnauthorized) || errors.Is(err, ErrCursorExpired) ||
+		errors.Is(err, ErrConfig) || errors.Is(err, ErrScopeUnavailable) ||
 		errors.Is(err, ErrTooLarge) || errors.Is(err, ErrDownloadGone) ||
 		errors.Is(err, ErrDownloadRefused) || errors.Is(err, ErrHashMismatch)
 }
@@ -187,7 +188,11 @@ func (p *providerRun) fail(ctx context.Context, err error, dl DeadLetter) bool {
 	}
 	p.pr.raise("failed")
 	dl.Provider, dl.Code, dl.At = p.name, errorCode(err), p.e.now()
-	return p.e.Store.AddDeadLetter(ctx, dl) == nil
+	if err := p.e.Store.AddDeadLetter(ctx, dl); err != nil {
+		return false
+	}
+	// A configuration error fails every request alike: one letter, then stop.
+	return !errors.Is(err, ErrConfig)
 }
 
 func (p *providerRun) checkRemovals(ctx context.Context, rc RemovalChecker) bool {

@@ -50,6 +50,13 @@ var (
 	// ErrCursorExpired means the provider refuses to continue a saved cursor;
 	// the scope restarts from the beginning on the next sync.
 	ErrCursorExpired = errors.New("DISCOVERY_CURSOR_EXPIRED")
+	// ErrConfig means the connector's configuration is incomplete; it sends
+	// no request and is never retried.
+	ErrConfig = errors.New("DISCOVERY_CONFIG")
+	// ErrScopeUnavailable means the provider refuses one scope (a private,
+	// banned or missing subreddit); only that scope fails, and it is never
+	// retried within a sync.
+	ErrScopeUnavailable = errors.New("DISCOVERY_SCOPE_UNAVAILABLE")
 
 	// errTakedownGuard refuses a removal check that would delete most of the
 	// provider's stored items in one sync.
@@ -80,6 +87,10 @@ func errorCode(err error) string {
 		return "transient"
 	case errors.Is(err, ErrCursorExpired):
 		return "cursor_expired"
+	case errors.Is(err, ErrConfig):
+		return "config"
+	case errors.Is(err, ErrScopeUnavailable):
+		return "scope_unavailable"
 	case errors.Is(err, errTakedownGuard):
 		return "takedown_guard"
 	case errors.Is(err, ErrTooLarge):
