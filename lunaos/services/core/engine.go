@@ -658,10 +658,14 @@ func (e *Engine) Tick(ctx context.Context) (TickResult, error) {
 	}
 	result, runErr := e.runner.Execute(ctx, req.Action)
 	if runErr != nil {
-		if err = e.finishFailed(ctx, goalID, leaseToken, "ACTION_FAILED"); err != nil {
+		code := "ACTION_FAILED"
+		if errors.Is(runErr, ErrActionNotAllowed) {
+			code = "ACTION_NOT_ALLOWED"
+		}
+		if err = e.finishFailed(ctx, goalID, leaseToken, code); err != nil {
 			return TickResult{}, err
 		}
-		return TickResult{Outcome: "failed", GoalID: goalID, Reason: "ACTION_FAILED"}, nil
+		return TickResult{Outcome: "failed", GoalID: goalID, Reason: code}, nil
 	}
 	expectedBytes := int64(len(publicFixture))
 	verified := result.SHA256 == publicFixtureSHA256 && result.ByteCount == expectedBytes && result.Provenance == "local_public_fixture_v1"

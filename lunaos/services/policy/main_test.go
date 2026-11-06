@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	"lunaos.local/lunaos/contracts"
 	"lunaos.local/lunaos/services/internal/peer"
 )
 
@@ -27,7 +28,7 @@ func call(t *testing.T, b *broker, path, token string, req request) response {
 	return out
 }
 func TestOwnerAndBudget(t *testing.T) {
-	b := &broker{key: []byte("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+	b := newBroker([]byte("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"))
 	for _, token := range []string{"", "guest", "ok je valide"} {
 		if call(t, b, "/v1/grants", token, request{GoalID: "g", Action: "local.checksum", Privacy: "general"}).Allowed {
 			t.Fatal("non-owner allowed")
@@ -38,7 +39,7 @@ func TestOwnerAndBudget(t *testing.T) {
 	}
 }
 func TestScopedSignedGrant(t *testing.T) {
-	b := &broker{key: []byte("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+	b := newBroker([]byte("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"))
 	req := request{GoalID: "g", Action: "local.checksum", Privacy: "general"}
 	r := call(t, b, "/v1/grants", string(b.key), req)
 	if !r.Allowed || r.Grant == "" {
@@ -71,7 +72,7 @@ func TestScopedSignedGrant(t *testing.T) {
 	}
 }
 func TestUnknownAndMalformed(t *testing.T) {
-	b := &broker{key: []byte("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+	b := newBroker([]byte("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"))
 	if call(t, b, "/v1/grants", string(b.key), request{GoalID: "g", Action: "shell", Privacy: "general"}).Allowed {
 		t.Fatal("shell allowed")
 	}
@@ -85,7 +86,7 @@ func TestUnknownAndMalformed(t *testing.T) {
 }
 
 func TestBrokerHealthRequiresCoreCredential(t *testing.T) {
-	b := &broker{key: []byte("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")}
+	b := newBroker([]byte("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"))
 	request := func(token string) *httptest.ResponseRecorder {
 		req := httptest.NewRequest(http.MethodGet, "/v1/system/health", nil)
 		if token != "" {
@@ -122,7 +123,7 @@ func TestUnixSocketPeerMustMatchConfiguredCoreUID(t *testing.T) {
 func TestOwnerTokenIsNotBrokerCredential(t *testing.T) {
 	brokerToken := "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	ownerToken := "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
-	b := &broker{key: []byte(brokerToken)}
+	b := newBroker([]byte(brokerToken))
 	if call(t, b, "/v1/grants", ownerToken, request{GoalID: "g", Action: "local.checksum", Privacy: "general"}).Allowed {
 		t.Fatal("owner API credential also authenticated directly to policy broker")
 	}
@@ -134,7 +135,7 @@ func TestOwnerTokenIsNotBrokerCredential(t *testing.T) {
 func TestBrokerRequiresConfiguredCorePeerBeforeCredential(t *testing.T) {
 	brokerUID := os.Getuid()
 	coreUID := brokerUID + 1
-	b := &broker{key: []byte("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"), requirePeerUID: true, allowedPeerUID: coreUID}
+	b := withPeer(newBroker([]byte("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")), coreUID)
 	invoke := func(uid int) *httptest.ResponseRecorder {
 		r := httptest.NewRequest(http.MethodPost, "/v1/grants", bytes.NewBufferString(`{"goal_id":"g","action":"local.checksum","privacy_class":"general"}`))
 		r.Header.Set("Authorization", "Bearer "+string(b.key))
@@ -184,5 +185,86 @@ func TestBrokerRuntimeDirectoryAllowsRestrictedCoreGroupTraversal(t *testing.T) 
 	}
 	if err := private(dir, true); err == nil {
 		t.Fatal("runtime directory writable by the socket group was accepted")
+	}
+}
+
+func withPeer(b *broker, uid int) *broker {
+	b.requirePeerUID, b.allowedPeerUID = true, uid
+	return b
+}
+
+const testKey = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+func TestGrantForRegisteredInferenceAction(t *testing.T) {
+	b := newBroker([]byte(testKey))
+	r := call(t, b, "/v1/grants", testKey, request{GoalID: "g", Action: "inference.generate", Privacy: "general"})
+	if !r.Allowed || r.Code != "OWNER_SCOPED_GRANT" || r.Grant == "" {
+		t.Fatal(r)
+	}
+}
+
+func TestUnregisteredActionDenied(t *testing.T) {
+	b := newBroker([]byte(testKey))
+	if r := call(t, b, "/v1/grants", testKey, request{GoalID: "g", Action: "shell.exec", Privacy: "general"}); r.Allowed || r.Code != "ACTION_DENIED" {
+		t.Fatal(r)
+	}
+}
+
+func TestGrantNotReusableAcrossActions(t *testing.T) {
+	b := newBroker([]byte(testKey))
+	g := call(t, b, "/v1/grants", testKey, request{GoalID: "g", Action: "local.checksum", Privacy: "general"})
+	r := call(t, b, "/v1/policy/evaluate", testKey, request{GoalID: "g", Action: "inference.generate", Privacy: "general", Grant: g.Grant})
+	if r.Allowed || r.Code != "GRANT_INVALID_OR_EXPIRED" {
+		t.Fatal(r)
+	}
+}
+
+func TestExpiredGrantDenied(t *testing.T) {
+	b := newBroker([]byte(testKey))
+	expired := b.sign(grant{GoalID: "g", Action: "inference.generate", Principal: "owner", Expires: time.Now().Unix() - 1})
+	r := call(t, b, "/v1/policy/evaluate", testKey, request{GoalID: "g", Action: "inference.generate", Privacy: "general", Grant: expired})
+	if r.Allowed || r.Code != "GRANT_INVALID_OR_EXPIRED" {
+		t.Fatal(r)
+	}
+}
+
+func TestPaymentStillUnset(t *testing.T) {
+	b := newBroker([]byte(testKey))
+	for _, path := range []string{"/v1/grants", "/v1/policy/evaluate"} {
+		if r := call(t, b, path, testKey, request{GoalID: "g", Action: "payment.send", Privacy: "general"}); r.Allowed || r.Code != "BUDGET_UNSET" {
+			t.Fatal(path, r)
+		}
+	}
+}
+
+func TestPrivacyClassMismatchDenied(t *testing.T) {
+	b := newBroker([]byte(testKey))
+	if r := call(t, b, "/v1/grants", testKey, request{GoalID: "g", Action: "inference.generate", Privacy: "sensitive"}); r.Allowed || r.Code != "PRIVACY_SCOPE_DENIED" {
+		t.Fatal(r)
+	}
+}
+
+func TestRegisteredActionOfOtherClassDenied(t *testing.T) {
+	b := &broker{key: []byte(testKey), actions: map[string]string{"sense.scan": "intimate"}}
+	if r := call(t, b, "/v1/grants", testKey, request{GoalID: "g", Action: "sense.scan", Privacy: "general"}); r.Allowed || r.Code != "PRIVACY_SCOPE_DENIED" {
+		t.Fatal(r)
+	}
+}
+
+func TestBrokerRefusesInvalidRegistry(t *testing.T) {
+	bad := map[string][]contracts.Action{
+		"empty name":    {{Name: "", PrivacyClass: "general"}},
+		"duplicate":     {{Name: "a.b", PrivacyClass: "general"}, {Name: "a.b", PrivacyClass: "general"}},
+		"payment":       {{Name: "payment.send", PrivacyClass: "general"}},
+		"unknown class": {{Name: "a.b", PrivacyClass: "sensitive"}},
+		"empty class":   {{Name: "a.b", PrivacyClass: ""}},
+	}
+	for name, actions := range bad {
+		if _, err := actionTable(actions); err == nil {
+			t.Fatalf("%s: invalid registry accepted", name)
+		}
+	}
+	if _, err := actionTable(contracts.Actions()); err != nil {
+		t.Fatalf("shared registry rejected: %v", err)
 	}
 }
