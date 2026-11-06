@@ -1,0 +1,20 @@
+# Strings that keep the name "omarchy" on purpose. Format: pattern<TAB>reason
+# Patterns are literal and case-sensitive; the longest match wins (linux-omarchy-headers over linux-omarchy).
+# LICENSE is not listed here: it is a skipped path in rebrand.sh (never rewritten).
+linux-omarchy-headers	Kernel headers package published by the Omarchy repositories
+linux-omarchy	Kernel package published by the Omarchy repositories
+omarchy-nvim	Upstream Neovim configuration package
+omarchy-mac-boot	Upstream Apple Silicon boot package
+omarchy-mac-pkgs	Upstream Apple Silicon package repository
+omarchy-mac	Upstream Apple Silicon support package
+omarchy-hyprland-titlebars	Upstream Hyprland plugin package
+omarchy-keyring	Upstream pacman keyring package
+stable-mirror.omarchy.org	Upstream package mirror host
+rc-mirror.omarchy.org	Upstream package mirror host
+arm-mirror.omarchy.org	Upstream package mirror host
+mirror.omarchy.org	Upstream package mirror host
+pkgs.omarchy.org	Upstream package host
+omacom/omarchy-iso	Upstream ISO repository
+omacom/omarchy-pkgs	Upstream packages repository
+omacom/omarchy-mac-pkgs	Upstream Apple Silicon packages repository
+basecamp/omarchy	Credits to the original project

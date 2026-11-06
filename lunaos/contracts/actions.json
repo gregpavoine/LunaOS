@@ -1,0 +1,6 @@
+{
+  "actions": [
+    {"name": "local.checksum", "privacy_class": "general"},
+    {"name": "inference.generate", "privacy_class": "general"}
+  ]
+}

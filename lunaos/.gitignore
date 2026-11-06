@@ -1,0 +1,11 @@
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+.local/
+rust/target/
+build/
+out/
+.archiso-work/
+.worktrees/
+*.sqlite*
