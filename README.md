@@ -35,7 +35,7 @@ There are two ways to use this repository, and they need different things.
 
 **To run the services as LunaOS** (Linux only, on an Arch-based system with systemd):
 
-- The Omarchy base packages from the Arch repositories, plus the `install/lunaos-*.packages` lists.
+- The upstream base packages from the Arch repositories, plus the `install/lunaos-*.packages` lists.
 - The LUNA binaries installed as `/usr/bin/luna-core`, `/usr/bin/luna-policy-broker`, `/usr/bin/luna-inference`, `/usr/bin/luna-discovery`, `/usr/bin/luna-owner-setup`, `/usr/bin/luna-vault`. `make build` produces them under `lunaos/build/local/`.
 - The system users and groups from `lunaos/systemd-sysusers/lunaos.conf` and `lunaos/services/inference/systemd/luna-inference.sysusers`, applied with `systemd-sysusers`.
 - The unit files from `lunaos/systemd/` and `lunaos/services/inference/systemd/`, installed under `/usr/lib/systemd/system/`.
