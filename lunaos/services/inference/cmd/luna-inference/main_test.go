@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 	"testing"
+	"time"
 
 	"lunaos.local/lunaos/services/inference"
 )
@@ -31,11 +32,11 @@ func TestParseServeRequiresExactlyOneAllowedPeer(t *testing.T) {
 		}
 	}
 
-	socket, cfg, err := parseServe(serveArgs("--allowed-uid", "1000", "--model", "m1", "--gpu-layers", "99", "--ctx-size", "8192"))
+	socket, cfg, err := parseServe(serveArgs("--allowed-uid", "1000", "--model", "m1", "--gpu-layers", "99", "--ctx-size", "8192", "--start-timeout", "7m"))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if socket != "/run/x.sock" || cfg.AllowedUID != 1000 || cfg.ModelID != "m1" || cfg.GPULayers != 99 || cfg.ContextSize != 8192 ||
+	if socket != "/run/x.sock" || cfg.AllowedUID != 1000 || cfg.ModelID != "m1" || cfg.GPULayers != 99 || cfg.ContextSize != 8192 || cfg.StartTimeout != 7*time.Minute ||
 		cfg.ModelDir != "/m" || cfg.Manifest != "/m.json" || cfg.LlamaServer != "/usr/bin/llama-server" || cfg.KeyDir != "/run/llama-key" {
 		t.Fatalf("parsed %q %+v", socket, cfg)
 	}
@@ -50,6 +51,16 @@ func TestParseServeRequiresExactlyOneAllowedPeer(t *testing.T) {
 	}
 	if strconv.Itoa(cfg.AllowedUID) != me.Uid {
 		t.Fatalf("--allowed-user %s resolved to %d, want %s", me.Username, cfg.AllowedUID, me.Uid)
+	}
+}
+
+func TestWriteTimeoutCoversStartWaitAndGeneration(t *testing.T) {
+	if got, want := writeTimeout(inference.Config{}), inference.DefaultStartWait+inference.DefaultGenerateTimeout+writeMargin; got != want {
+		t.Errorf("default WriteTimeout = %v, want %v", got, want)
+	}
+	cfg := inference.Config{StartWait: 2 * time.Minute, GenerateTimeout: 10 * time.Minute}
+	if got, want := writeTimeout(cfg), 12*time.Minute+writeMargin; got != want {
+		t.Errorf("WriteTimeout = %v, want %v", got, want)
 	}
 }
 

@@ -29,6 +29,10 @@ const (
 	// DefaultStartWait bounds how long a generate request waits for the
 	// model to start before INFERENCE_TIMEOUT.
 	DefaultStartWait = 60 * time.Second
+	// DefaultStartTimeout bounds the model load itself. It is longer than the
+	// request wait: a slow load goes on after the request times out, and a
+	// later request finds the model ready.
+	DefaultStartTimeout = 5 * time.Minute
 	// DefaultGenerateTimeout bounds one llama-server completion.
 	DefaultGenerateTimeout = 5 * time.Minute
 	// DefaultContextSize holds a prompt at maxPromptBytes plus maxTokensLimit
@@ -46,6 +50,7 @@ type Config struct {
 	ContextSize     int           // llama-server context in tokens; 0 -> DefaultContextSize
 	AllowedUID      int           // the only peer UID served (the Core)
 	StartWait       time.Duration // 0 -> DefaultStartWait
+	StartTimeout    time.Duration // 0 -> DefaultStartTimeout; must exceed StartWait
 	GenerateTimeout time.Duration // 0 -> DefaultGenerateTimeout
 	Log             io.Writer     // service and llama-server log; nil -> os.Stderr
 	KeyDir          string        // private dir for llama-server's API key; "" -> temp dir
@@ -86,8 +91,19 @@ func NewServer(cfg Config) (*Server, error) {
 		return nil, errors.New("GPU layers must not be negative")
 	case cfg.ContextSize < 0:
 		return nil, errors.New("context size must not be negative")
-	case cfg.StartWait < 0 || cfg.GenerateTimeout < 0:
+	case cfg.StartWait < 0 || cfg.StartTimeout < 0 || cfg.GenerateTimeout < 0:
 		return nil, errors.New("timeouts must not be negative")
+	}
+	startWait, startTimeout := cfg.StartWait, cfg.StartTimeout
+	if startWait == 0 {
+		startWait = DefaultStartWait
+	}
+	if startTimeout == 0 {
+		startTimeout = DefaultStartTimeout
+	}
+	if startTimeout <= startWait {
+		// Otherwise a load is killed when the request gives up and never comes up.
+		return nil, fmt.Errorf("start timeout %v must exceed the start wait %v", startTimeout, startWait)
 	}
 	models, err := LoadManifest(cfg.Manifest)
 	if err != nil {
@@ -95,11 +111,8 @@ func NewServer(cfg Config) (*Server, error) {
 	}
 	s := &Server{
 		allowedUID: cfg.AllowedUID,
-		startWait:  cfg.StartWait,
+		startWait:  startWait,
 		log:        cfg.Log,
-	}
-	if s.startWait == 0 {
-		s.startWait = DefaultStartWait
 	}
 	if s.log == nil {
 		s.log = os.Stderr
@@ -117,7 +130,7 @@ func NewServer(cfg Config) (*Server, error) {
 	if path, ok := s.verifiedModel(models, cfg.ModelDir, cfg.ModelID); ok {
 		s.modelID = cfg.ModelID
 		s.sup = &Supervisor{Binary: cfg.LlamaServer, ModelPath: path, GPULayers: cfg.GPULayers,
-			ContextSize: ctxSize, Log: s.log, KeyDir: cfg.KeyDir}
+			ContextSize: ctxSize, StartTimeout: startTimeout, Log: s.log, KeyDir: cfg.KeyDir}
 	}
 	return s, nil
 }

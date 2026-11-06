@@ -24,11 +24,15 @@ import (
 )
 
 const usage = `usage:
-  luna-inference serve --socket <path> --model-dir <dir> [--model <id>] --manifest <path> --llama-server <path> (--allowed-uid <uid> | --allowed-user <name>) [--gpu-layers N] [--ctx-size N]
+  luna-inference serve --socket <path> --model-dir <dir> [--model <id>] --manifest <path> --llama-server <path> (--allowed-uid <uid> | --allowed-user <name>) [--gpu-layers N] [--ctx-size N] [--start-timeout D]
   luna-inference fetch --manifest <path> --model-dir <dir> <id>`
 
-// shutdownGrace bounds the wait for requests in flight on SIGTERM/SIGINT.
-const shutdownGrace = 30 * time.Second
+const (
+	// shutdownGrace bounds the wait for requests in flight on SIGTERM/SIGINT.
+	shutdownGrace = 30 * time.Second
+	// writeMargin is the reply's slack after the start wait and generation.
+	writeMargin = 30 * time.Second
+)
 
 func main() {
 	if err := run(os.Args[1:]); err != nil {
@@ -76,6 +80,7 @@ func parseServe(args []string) (string, inference.Config, error) {
 	userFlag := fs.String("allowed-user", "", "account whose UID is the only peer served")
 	gpuLayers := fs.Int("gpu-layers", 0, "layers offloaded to the GPU")
 	ctxSize := fs.Int("ctx-size", inference.DefaultContextSize, "llama-server context size in tokens")
+	startTimeout := fs.Duration("start-timeout", inference.DefaultStartTimeout, "bound on a model load; must exceed the request wait")
 	if err := fs.Parse(args); err != nil {
 		return "", inference.Config{}, fmt.Errorf("%v\n%s", err, usage)
 	}
@@ -90,13 +95,14 @@ func parseServe(args []string) (string, inference.Config, error) {
 		return "", inference.Config{}, err
 	}
 	return *socket, inference.Config{
-		Manifest:    *manifest,
-		ModelDir:    *modelDir,
-		ModelID:     *model,
-		LlamaServer: *llama,
-		GPULayers:   *gpuLayers,
-		ContextSize: *ctxSize,
-		AllowedUID:  uid,
+		Manifest:     *manifest,
+		ModelDir:     *modelDir,
+		ModelID:      *model,
+		LlamaServer:  *llama,
+		GPULayers:    *gpuLayers,
+		ContextSize:  *ctxSize,
+		StartTimeout: *startTimeout,
+		AllowedUID:   uid,
 		// llama-server's per-spawn API key lives next to the socket, in the
 		// service's private runtime directory.
 		KeyDir: filepath.Join(filepath.Dir(*socket), "llama-key"),
@@ -173,10 +179,9 @@ func serve(socket string, cfg inference.Config) error {
 		ConnContext:       peer.ConnContext,
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       30 * time.Second,
-		// A generate may wait for the model start, then for the completion.
-		WriteTimeout:   inference.DefaultStartWait + inference.DefaultGenerateTimeout + 30*time.Second,
-		IdleTimeout:    60 * time.Second,
-		MaxHeaderBytes: 8192,
+		WriteTimeout:      writeTimeout(cfg),
+		IdleTimeout:       60 * time.Second,
+		MaxHeaderBytes:    8192,
 	}
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGTERM, syscall.SIGINT)
 	defer stop()
@@ -193,6 +198,19 @@ func serve(socket string, cfg inference.Config) error {
 		hs.Close()
 	}
 	return nil
+}
+
+// writeTimeout bounds one reply: a generate may wait for the model start,
+// then for the completion.
+func writeTimeout(cfg inference.Config) time.Duration {
+	wait, gen := cfg.StartWait, cfg.GenerateTimeout
+	if wait == 0 {
+		wait = inference.DefaultStartWait
+	}
+	if gen == 0 {
+		gen = inference.DefaultGenerateTimeout
+	}
+	return wait + gen + writeMargin
 }
 
 func fetch(manifest, dir, id string) error {

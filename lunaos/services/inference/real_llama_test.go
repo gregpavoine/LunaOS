@@ -41,13 +41,14 @@ func TestRealLlamaServerGenerates(t *testing.T) {
 	}
 
 	srv, err := NewServer(Config{
-		Manifest:    manifest,
-		ModelDir:    filepath.Dir(model),
-		ModelID:     id,
-		LlamaServer: binary,
-		AllowedUID:  coreUID,
-		StartWait:   5 * time.Minute,
-		Log:         io.Discard,
+		Manifest:     manifest,
+		ModelDir:     filepath.Dir(model),
+		ModelID:      id,
+		LlamaServer:  binary,
+		AllowedUID:   coreUID,
+		StartWait:    5 * time.Minute,
+		StartTimeout: 6 * time.Minute,
+		Log:          io.Discard,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -55,7 +56,6 @@ func TestRealLlamaServerGenerates(t *testing.T) {
 	if srv.sup == nil {
 		t.Fatal("model was not accepted")
 	}
-	srv.sup.StartTimeout = 5 * time.Minute
 	t.Cleanup(func() { srv.Close() })
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Minute)

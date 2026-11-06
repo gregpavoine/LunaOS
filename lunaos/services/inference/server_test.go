@@ -49,13 +49,14 @@ func testConfig(t *testing.T) Config {
 	}
 	manifest := writeManifest(t, "["+entry("m1", "https://example.test/m1.gguf", sum(modelBytes), "MIT", len(modelBytes))+"]")
 	return Config{
-		Manifest:    manifest,
-		ModelDir:    dir,
-		ModelID:     "m1",
-		LlamaServer: buildFakeLlama(t),
-		AllowedUID:  coreUID,
-		StartWait:   5 * time.Second,
-		Log:         io.Discard,
+		Manifest:     manifest,
+		ModelDir:     dir,
+		ModelID:      "m1",
+		LlamaServer:  buildFakeLlama(t),
+		AllowedUID:   coreUID,
+		StartWait:    5 * time.Second,
+		StartTimeout: 10 * time.Second,
+		Log:          io.Discard,
 	}
 }
 
@@ -74,7 +75,6 @@ func newTestServer(t *testing.T, mutate func(*Config), setup func(*Server)) *tes
 		t.Fatal(err)
 	}
 	if srv.sup != nil {
-		srv.sup.StartTimeout = 5 * time.Second
 		srv.sup.StopGrace = time.Second
 	}
 	if setup != nil {
@@ -268,6 +268,7 @@ func TestGenerateWhileDegradedReturns503(t *testing.T) {
 		env := newTestServer(t, func(c *Config) {
 			c.LlamaServer = "/nonexistent/llama-server"
 			c.StartWait = 30 * time.Second
+			c.StartTimeout = time.Minute
 		}, nil)
 		status, reply := env.do(t, "POST", "/v1/generate", genBody("hi", 4))
 		wantCode(t, "first generate", status, reply, http.StatusServiceUnavailable, "INFERENCE_DEGRADED")
@@ -301,9 +302,15 @@ func TestGenerateWhileDegradedReturns503(t *testing.T) {
 	})
 }
 
+// TestGenerateDuringSlowStartTimesOut: a load longer than the request wait but
+// within StartTimeout answers INFERENCE_TIMEOUT, then comes up for a later
+// request without a failure or a second spawn.
 func TestGenerateDuringSlowStartTimesOut(t *testing.T) {
 	t.Setenv("FAKE_HEALTH_DELAY_MS", "1500")
-	env := newTestServer(t, func(c *Config) { c.StartWait = 200 * time.Millisecond }, nil)
+	env := newTestServer(t, func(c *Config) {
+		c.StartWait = 200 * time.Millisecond
+		c.StartTimeout = 3 * time.Second
+	}, nil)
 	begin := time.Now()
 	status, reply := env.do(t, "POST", "/v1/generate", genBody("hi", 4))
 	wantCode(t, "generate during start", status, reply, http.StatusServiceUnavailable, "INFERENCE_TIMEOUT")
@@ -329,6 +336,12 @@ func TestGenerateDuringSlowStartTimesOut(t *testing.T) {
 	}
 	if pids := readPIDs(t, env.pidfile); len(pids) != 1 {
 		t.Fatalf("pids = %v, want one", pids)
+	}
+	env.srv.sup.mu.Lock()
+	n := len(env.srv.sup.failures)
+	env.srv.sup.mu.Unlock()
+	if n != 0 {
+		t.Fatalf("failures = %d, want 0", n)
 	}
 }
 
@@ -479,6 +492,19 @@ func TestStartupVerifiesModelOnce(t *testing.T) {
 		if env.srv.sup.ContextSize != DefaultContextSize {
 			t.Fatalf("ContextSize = %d, want %d", env.srv.sup.ContextSize, DefaultContextSize)
 		}
+		if env.srv.sup.StartTimeout != env.cfg.StartTimeout {
+			t.Fatalf("StartTimeout = %v, want %v", env.srv.sup.StartTimeout, env.cfg.StartTimeout)
+		}
+		// Unset timeouts let a load outlive the request wait.
+		cfg := testConfig(t)
+		cfg.StartWait, cfg.StartTimeout = 0, 0
+		srv, err := NewServer(cfg)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if srv.sup.StartTimeout != DefaultStartTimeout || DefaultStartTimeout <= DefaultStartWait {
+			t.Fatalf("default StartTimeout = %v, want %v above the %v wait", srv.sup.StartTimeout, DefaultStartTimeout, DefaultStartWait)
+		}
 	})
 	t.Run("invalid config", func(t *testing.T) {
 		for name, mutate := range map[string]func(*Config){
@@ -492,6 +518,9 @@ func TestStartupVerifiesModelOnce(t *testing.T) {
 			"no llama-server":   func(c *Config) { c.LlamaServer = "" },
 			"negative waiting":  func(c *Config) { c.StartWait = -time.Second },
 			"negative generate": func(c *Config) { c.GenerateTimeout = -time.Second },
+			"negative start":    func(c *Config) { c.StartTimeout = -time.Second },
+			"start = wait":      func(c *Config) { c.StartTimeout = c.StartWait },
+			"start below wait":  func(c *Config) { c.StartWait, c.StartTimeout = 0, 30*time.Second },
 		} {
 			cfg := testConfig(t)
 			mutate(&cfg)
