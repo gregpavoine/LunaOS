@@ -103,6 +103,7 @@ test_skips_lunaos_dir() {
   write_file "$repo" lunaos/docs/x.md "omarchy"
   write_file "$repo" LICENSE "omarchy"
   write_file "$repo" test/shell.d/fixtures/omarchy-mac-boot-mkinitcpio/90-omarchy-mac.conf "_omarchy_asahi_hooks"
+  write_file "$repo" bin/omarchy-font-list "grep -v -i -E 'emoji|signwriting|omarchy'"
   write_file "$repo" other.txt "omarchy"
   commit_all "$repo"
   run_rebrand "$repo"
@@ -111,6 +112,7 @@ test_skips_lunaos_dir() {
   assert_eq "skip: LICENSE untouched" "omarchy" "$(cat "$repo/LICENSE")"
   assert_eq "skip: upstream fixture untouched" "_omarchy_asahi_hooks" "$(cat "$repo/test/shell.d/fixtures/omarchy-mac-boot-mkinitcpio/90-omarchy-mac.conf")"
   assert_eq "skip: others rewritten" "lunaos" "$(cat "$repo/other.txt")"
+  assert_eq "skip: icon font family filter kept" "grep -v -i -E 'emoji|signwriting|omarchy'" "$(cat "$repo/bin/lunaos-font-list")"
 }
 
 test_binary_content_untouched() {

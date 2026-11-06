@@ -53,4 +53,5 @@ font.family: "omarchy"	Family name inside the icon font binary
 ? "omarchy" :	Family name inside the icon font binary (notification toast glyphs)
 the `omarchy` family	Family name inside the icon font binary
 fc-match omarchy	Family name inside the icon font binary
+signwriting|omarchy	Family name inside the icon font binary (font-list filters the icon font out of the selectable fonts)
 private `omarchy` font	Family name inside the icon font binary
