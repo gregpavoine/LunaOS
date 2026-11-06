@@ -29,13 +29,20 @@ func OwnerSocketConnContext(ctx context.Context, conn net.Conn) context.Context 
 }
 
 type HTTPHandler struct {
-	engine *Engine
-	token  string
-	vault  *intimacy.Vault
+	engine    *Engine
+	token     string
+	vault     *intimacy.Vault
+	inference InferenceClient
 }
 
 func NewHTTPHandler(engine *Engine, ownerToken string, vaults ...*intimacy.Vault) http.Handler {
-	handler := &HTTPHandler{engine: engine, token: ownerToken}
+	return NewHTTPHandlerWithInference(engine, ownerToken, nil, vaults...)
+}
+
+// NewHTTPHandlerWithInference also wires the local text generation route. A nil
+// client leaves that route answering INFERENCE_UNAVAILABLE.
+func NewHTTPHandlerWithInference(engine *Engine, ownerToken string, client InferenceClient, vaults ...*intimacy.Vault) http.Handler {
+	handler := &HTTPHandler{engine: engine, token: ownerToken, inference: client}
 	if len(vaults) > 0 {
 		handler.vault = vaults[0]
 	}
@@ -58,6 +65,10 @@ func (h *HTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ownerPrincipal := strings.TrimPrefix(authorization, "Bearer ")
 	if trustedUnixOwner {
 		ownerPrincipal = h.token
+	}
+	if r.Method == http.MethodPost && r.URL.Path == "/v1/inference/generate" {
+		h.handleGenerate(w, r, trustedUnixOwner)
+		return
 	}
 	if r.Method == http.MethodGet && r.URL.Path == "/v1/system/capabilities" {
 		writeJSON(w, http.StatusOK, h.engine.Capabilities(r.Context()))

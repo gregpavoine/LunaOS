@@ -51,6 +51,9 @@
           "id": "lunaos.agents"
         },
         {
+          "id": "lunaos.luna"
+        },
+        {
           "id": "lunaos.bluetooth"
         },
         {

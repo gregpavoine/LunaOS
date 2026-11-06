@@ -1,0 +1,132 @@
+#!/bin/bash
+
+# lunaos:summary=Query and control the local LUNA Core through its owner socket
+# lunaos:args=status|goals|goal <id>|checksum|pause <id>|resume <id>|cancel <id>|stop-intimacy|trials <id>|retry <id> <strategy> <hypothesis>|privacy|blind|open-eyes
+# lunaos:examples=lunaos luna status | lunaos luna checksum | lunaos luna pause 3f2b…
+
+# The desktop's only path to LUNA. It speaks HTTP to the Core over the
+# group-restricted Unix socket the Core opens for the owner session, so no
+# bearer token ever appears in QML, the environment or a process argument; the
+# socket's file mode is the authority. Every request is a fixed, typed route:
+# goal identifiers are checked as UUIDs before they reach a path, and the only
+# goal this command can create is the benign local.checksum action, which the
+# Core still sends to the Policy Broker before scoring and again before it runs.
+#
+# Exit codes: 0 ok, 2 usage, 3 Core unavailable, 4 not authorized,
+# 5 rejected by the Core (invalid, conflict, not found), 6 Core error.
+
+set -uo pipefail
+
+socket=${LUNAOS_CORE_SOCKET:-/run/lunaos/core.sock}
+
+usage() {
+  echo "Usage: lunaos-luna status|goals|goal <id>|checksum|pause <id>|resume <id>|cancel <id>|stop-intimacy|trials <id>|retry <id> <strategy> <hypothesis>|privacy|blind|open-eyes" >&2
+  exit 2
+}
+
+valid_id() {
+  [[ $1 =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ ]]
+}
+
+# request METHOD PATH [BODY] [IDEMPOTENCY_KEY]
+request() {
+  local method=$1 path=$2 body=${3:-} key=${4:-} response status payload code
+  local -a args=(--silent --show-error --max-time 5 --unix-socket "$socket" -X "$method" -w '\n%{http_code}')
+
+  if [[ ! -S $socket ]]; then
+    echo "LUNA Core unavailable: no socket at $socket" >&2
+    exit 3
+  fi
+  if [[ -n $body ]]; then
+    args+=(-H 'Content-Type: application/json' --data-binary "$body")
+  fi
+  if [[ -n $key ]]; then
+    args+=(-H "Idempotency-Key: $key")
+  fi
+
+  if ! response=$(curl "${args[@]}" "http://lunaos$path" 2>&1); then
+    echo "LUNA Core unavailable: ${response##*$'\n'}" >&2
+    exit 3
+  fi
+
+  status=${response##*$'\n'}
+  payload=${response%$'\n'*}
+
+  if (( status >= 200 && status < 300 )); then
+    [[ -n $payload ]] && printf '%s\n' "$payload"
+    return 0
+  fi
+
+  code=$(jq -r '.code // empty' <<<"$payload" 2>/dev/null)
+  echo "LUNA Core refused ($status): ${code:-HTTP_$status}" >&2
+  if (( status == 401 || status == 403 )); then
+    exit 4
+  elif (( status == 400 || status == 404 || status == 409 || status == 423 )); then
+    exit 5
+  else
+    exit 6
+  fi
+}
+
+new_key() {
+  if [[ -r /proc/sys/kernel/random/uuid ]]; then
+    printf 'lunaos-luna-%s' "$(</proc/sys/kernel/random/uuid)"
+  else
+    printf 'lunaos-luna-%s-%s' "$(date +%s%N)" "$RANDOM$RANDOM"
+  fi
+}
+
+command=${1:-}
+(( $# > 0 )) && shift
+
+case $command in
+  status)
+    (( $# == 0 )) || usage
+    request GET /v1/system/capabilities
+    ;;
+  goals)
+    (( $# == 0 )) || usage
+    request GET /v1/goals
+    ;;
+  goal)
+    (( $# == 1 )) && valid_id "$1" || usage
+    request GET "/v1/goals/$1"
+    ;;
+  checksum)
+    (( $# == 0 )) || usage
+    request POST /v1/goals '{"action":"local.checksum","title":"Checksum test"}' "$(new_key)"
+    ;;
+  pause | resume | cancel)
+    (( $# == 1 )) && valid_id "$1" || usage
+    request PATCH "/v1/goals/$1" "{\"operation\":\"$command\"}"
+    ;;
+  trials)
+    (( $# == 1 )) && valid_id "$1" || usage
+    request GET "/v1/goals/$1/trials"
+    ;;
+  retry)
+    (( $# == 3 )) && valid_id "$1" || usage
+    request POST "/v1/goals/$1/retry" "$(jq -cn --arg strategy "$2" --arg hypothesis "$3" '{strategy: $strategy, hypothesis: $hypothesis}')"
+    ;;
+  stop-intimacy)
+    (( $# == 0 )) || usage
+    request POST /v1/intimacy/stop '{}'
+    ;;
+  privacy)
+    (( $# == 0 )) || usage
+    request GET /v1/privacy/status
+    ;;
+  blind)
+    (( $# == 0 )) || usage
+    request POST /v1/privacy/blind '{"reason":"manual"}'
+    ;;
+  # Reopening LUNA's eyes is the one action the Core accepts only from the
+  # owner socket, so this is the owner's click or keystroke, never an agent's.
+  open-eyes)
+    (( $# == 0 )) || usage
+    request POST /v1/privacy/open-eyes '{"intent":"explicit_user_click"}'
+    ;;
+  *)
+    usage
+    ;;
+esac

@@ -1,7 +1,8 @@
 [Unit]
 Description=LunaOS Core API and durable goal scheduler
 Requires=luna-policy-broker.service
-After=luna-policy-broker.service
+After=luna-policy-broker.service luna-inference.service
+Wants=luna-inference.service
 StartLimitIntervalSec=60
 StartLimitBurst=5
 
@@ -9,7 +10,7 @@ StartLimitBurst=5
 Type=simple
 User=lunaos
 Group=luna-owner
-SupplementaryGroups=luna-policy
+SupplementaryGroups=luna-policy luna-inference
 RuntimeDirectory=lunaos
 RuntimeDirectoryMode=0750
 StateDirectory=lunaos
@@ -22,6 +23,7 @@ Environment=LUNA_POLICY_TOKEN_FILE=%d/policy-token
 Environment=LUNA_OWNER_SOCKET=/run/lunaos/core.sock
 Environment=LUNA_DATABASE=/var/lib/lunaos/goals.sqlite
 Environment=LUNA_LISTEN=127.0.0.1:7766
+Environment=LUNA_INFERENCE_SOCKET=/run/luna-inference/inference.sock
 ExecStart=/usr/bin/luna-core
 Restart=on-failure
 RestartSec=2s
