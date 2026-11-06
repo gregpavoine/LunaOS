@@ -5,7 +5,7 @@
     "lock": 300
   },
   "bar": {
-    "position": "top",
+    "position": "bottom",
     "background": "opaque",
     "layout": {
       "left": [

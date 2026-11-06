@@ -128,3 +128,11 @@ ln -nsf "$CURRENT_THEME_PATH/backgrounds/first.png" "$CURRENT_BACKGROUND_LINK"
 choose_staged_theme_background
 [[ $CHOSEN_THEME_BACKGROUND == "$CURRENT_THEME_PATH/backgrounds/selected.mp4" ]] || fail "staged same-theme selection still cycles backgrounds"
 pass "staged same-theme selection still cycles backgrounds"
+
+set_theme "Luna"
+[[ $(<"$current_state/theme.name") == "luna" ]] || fail "Luna theme is applied by name"
+[[ $(current_background_name) == "0-black.png" ]] || fail "Luna starts on the black background"
+set_theme "Tokyo Night"
+set_theme "Luna"
+[[ $(current_background_name) == "0-black.png" ]] || fail "Luna brings the black background back after another theme"
+pass "Luna theme keeps its black background across theme switches"

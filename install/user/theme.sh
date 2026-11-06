@@ -4,10 +4,10 @@ mkdir -p ~/.config/lunaos/themes
 if [[ ! -s $HOME/.local/state/lunaos/current/theme.name ]]; then
   # iso-chroot and provision-owner both run without a live session to notify.
   if [[ ${LUNAOS_SETUP_CONTEXT:-runtime} != "runtime" ]]; then
-    LUNAOS_THEME_HEADLESS=1 lunaos-theme-set "Tokyo Night"
+    LUNAOS_THEME_HEADLESS=1 lunaos-theme-set "Luna"
     rm -f ~/.config/chromium/SingletonLock # otherwise archiso owns the Chromium singleton
   else
-    lunaos-theme-set "Tokyo Night"
+    lunaos-theme-set "Luna"
   fi
 fi
 lunaos-theme-set-pi --activate
