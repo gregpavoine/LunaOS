@@ -35,8 +35,11 @@ if [[ ${1:-} == "--check" ]]; then
   check_only=1
   shift
 fi
-(( $# == 1 )) || usage
-tree=$1
+if (( $# == 1 )); then
+  tree=$1
+else
+  usage
+fi
 
 if [[ ! -d $tree ]] || [[ $(git -C "$tree" rev-parse --is-inside-work-tree 2>/dev/null) != "true" ]]; then
   echo "rebrand: $tree is not a git work tree" >&2
