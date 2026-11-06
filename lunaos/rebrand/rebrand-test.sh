@@ -181,16 +181,20 @@ test_dirty_tree_refused() {
 }
 
 test_internal_failure_is_fatal() {
-  local repo saved="$HERE/exceptions.txt.rebrand-test-saved"
+  local repo copy
   repo=$(new_repo failure)
   write_file "$repo" a.txt "omarchy"
   commit_all "$repo"
-  mv "$HERE/exceptions.txt" "$saved"
-  run_rebrand "$repo"
+  # A copy of the script with no exceptions.txt next to it: the real file is never moved
+  copy=$(mktemp -d "${TMPDIR:-/tmp}/rebrand-noexc.XXXXXX")
+  cp "$HERE/rebrand.sh" "$copy/rebrand.sh"
+  rc=0
+  "$copy/rebrand.sh" "$repo" >/dev/null 2>&1 || rc=$?
   assert_eq "failure: rewrite exit code" 5 "$rc"
-  run_rebrand --check "$repo"
-  mv "$saved" "$HERE/exceptions.txt"
+  rc=0
+  "$copy/rebrand.sh" --check "$repo" >/dev/null 2>&1 || rc=$?
   assert_eq "failure: --check exit code" 5 "$rc"
+  rm -rf "$copy"
   assert_eq "failure: tree unchanged" "" "$(git -C "$repo" status --porcelain)"
 }
 
