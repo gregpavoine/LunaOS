@@ -1,6 +1,6 @@
 # Funzioni della shell
 
-Omarchy include una serie di funzioni della shell per semplificare le attività comuni e incapsulare chiamate con parametri contorti.
+LunaOS include una serie di funzioni della shell per semplificare le attività comuni e incapsulare chiamate con parametri contorti.
 
 ## Compressione
 

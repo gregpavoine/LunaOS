@@ -2,12 +2,12 @@ echo "Give the ASUS ProArt P14 (NVIDIA N1x) the RAM its firmware reserves for Wi
 
 # See install/hardware/asus/fix-asus-proart-p14-gpu-memory.sh. The kernel option
 # takes effect with linux-omarchy-n1x; older N1x kernels ignore it.
-dropin="${OMARCHY_PROART_GPU_MEMORY_CONF:-/etc/limine-entry-tool.d/omarchy-n1x-gpu-memory.conf}"
-iomem="${OMARCHY_IOMEM:-/proc/iomem}"
-running_cmdline="${OMARCHY_RUNNING_CMDLINE:-/proc/cmdline}"
-rebuild_marker="${OMARCHY_LIMINE_REBUILD_MARKER:-/var/lib/omarchy/migrations/1790953795}"
+dropin="${LUNAOS_PROART_GPU_MEMORY_CONF:-/etc/limine-entry-tool.d/lunaos-n1x-gpu-memory.conf}"
+iomem="${LUNAOS_IOMEM:-/proc/iomem}"
+running_cmdline="${LUNAOS_RUNNING_CMDLINE:-/proc/cmdline}"
+rebuild_marker="${LUNAOS_LIMINE_REBUILD_MARKER:-/var/lib/lunaos/migrations/1790953795}"
 
-if ! omarchy-hw-match "H7407BA"; then
+if ! lunaos-hw-match "H7407BA"; then
   exit 0
 fi
 

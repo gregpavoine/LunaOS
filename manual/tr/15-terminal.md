@@ -1,8 +1,8 @@
 # Terminal
 
-[Foot](https://codeberg.org/dnkl/foot), Omarchy için varsayılan terminaldir. Hızlı, hafif ve eski bilgisayarlarla bile uyumludur. Ancak yerel sekmeleri veya bölmeleri desteklemez.
+[Foot](https://codeberg.org/dnkl/foot), LunaOS için varsayılan terminaldir. Hızlı, hafif ve eski bilgisayarlarla bile uyumludur. Ancak yerel sekmeleri veya bölmeleri desteklemez.
 
-Tmux kullanıyorsanız, umursamayabilirsiniz, ancak kullanmıyorsanız, seçenek olarak _Alacritty_, _Ghostty_ ve _Kitty_'yi de tamamen destekliyoruz. Tercihinizi Omarchy menüsündeki _Kur > Terminal_ altında seçin.
+Tmux kullanıyorsanız, umursamayabilirsiniz, ancak kullanmıyorsanız, seçenek olarak _Alacritty_, _Ghostty_ ve _Kitty_'yi de tamamen destekliyoruz. Tercihinizi LunaOS menüsündeki _Kur > Terminal_ altında seçin.
 
 Yeni bir terminali `Super + Return` kullanarak başlatırsınız. (Bu bağlama, _Kur > Terminal_ yoluyla hangi Terminal'i kurduysanız otomatik olarak onu işaret eder ve kurulu terminaller arasında _Ayarlar > Varsayılanlar > Terminal_ altında geçiş yapabilirsiniz.)
 
@@ -12,11 +12,11 @@ Tmux, terminaliniz ne olursa olsun bölmeler, pencereler (diğer adıyla sekmele
 
 `Super + Alt + Return` kullanarak yeni bir terminalde yeni bir Tmux oturumu başlatırsınız ve Tmux kalıcı bir süreç olduğundan, o terminali kapatsanız bile oturumunuzu devam ettirebilirsiniz. Tüm aktif oturumlarınızı görmek için `Ctrl + Space` (önek tuşu olarak adlandırılır) ardından `s` tuşuna basmanız yeterlidir.
 
-Omarchy, öğrenilecek çok sayıda tuş bağlaması olan ergonomik olarak optimize edilmiş bir Tmux yapılandırmasıyla gelir, bu yüzden [kopya kağıdını el altında tutun](07-hotkeys.md#tmux).
+LunaOS, öğrenilecek çok sayıda tuş bağlaması olan ergonomik olarak optimize edilmiş bir Tmux yapılandırmasıyla gelir, bu yüzden [kopya kağıdını el altında tutun](07-hotkeys.md#tmux).
 
 ## Tmux düzen işlevleri
 
-Tmux programlanabilir olduğundan, düzenler oluşturmak için işlevler kullanabiliriz. Omarchy, yaygın geliştirici düzenleri için dört farklı işlevle birlikte gelir.
+Tmux programlanabilir olduğundan, düzenler oluşturmak için işlevler kullanabiliriz. LunaOS, yaygın geliştirici düzenleri için dört farklı işlevle birlikte gelir.
 
 `tdl [agent]` soldaki `$EDITOR`, sağdaki seçtiğiniz AI ajanı (opencode için `c` veya Claude için `cx` veya OpenAI için `codex` gibi) ve ardından alttaki bir terminal ile üç yollu bölünmüş IDE benzeri bir arayüz başlatır.
 

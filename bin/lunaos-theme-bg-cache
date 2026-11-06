@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# lunaos:summary=Cache background switcher thumbnails for the current theme
+
+theme_name=$(cat "$HOME/.local/state/lunaos/current/theme.name" 2>/dev/null)
+
+lunaos-menu-images \
+  --cache-only \
+  "$HOME/.local/state/lunaos/current/theme/backgrounds" \
+  "$HOME/.config/lunaos/backgrounds/$theme_name"

@@ -1,14 +1,14 @@
 # Horní panel
 
-Pruh podél horní části obrazovky je panel Omarchy. Není to přišroubovaná stavová lišta, ale součást shellu Omarchy, jediného dlouhodobě běžícího procesu Quickshell, který kreslí také nabídku, oznámení, vyskakovací okna OSD a zamykací obrazovku. Proto se dokonale stylizuje se vším ostatním a proto se panel otevře okamžitě, místo aby spouštěl novou aplikaci.
+Pruh podél horní části obrazovky je panel LunaOS. Není to přišroubovaná stavová lišta, ale součást shellu LunaOS, jediného dlouhodobě běžícího procesu Quickshell, který kreslí také nabídku, oznámení, vyskakovací okna OSD a zamykací obrazovku. Proto se dokonale stylizuje se vším ostatním a proto se panel otevře okamžitě, místo aby spouštěl novou aplikaci.
 
 Je to také jediný kus plochy, který je vždy na obrazovce, takže stojí za to vědět, co všechny ty malé glyfy dělají.
 
 ## Co je na něm ve výchozím nastavení
 
-Panel má tři sekce. Vlevo sedí logo Omarchy (spouštěč nabídky) a ukazatele pracovních ploch. Uprostřed máte stavové ukazatele, hodiny, Elsewhen (světové hodiny), počasí a odznak aktualizace Omarchy. Vpravo: rozložení klávesnice (když je nakonfigurováno více než jedno), systémová lišta, agenti, bluetooth, síť, zvuk, displej a napájení.
+Panel má tři sekce. Vlevo sedí logo LunaOS (spouštěč nabídky) a ukazatele pracovních ploch. Uprostřed máte stavové ukazatele, hodiny, Elsewhen (světové hodiny), počasí a odznak aktualizace LunaOS. Vpravo: rozložení klávesnice (když je nakonfigurováno více než jedno), systémová lišta, agenti, bluetooth, síť, zvuk, displej a napájení.
 
-Několik z nich se objeví, jen když mají co říct. Rozložení klávesnice se objeví, jen pokud jste nakonfigurovali více než jedno rozložení. Odznak aktualizace se objeví, jen když čeká aktualizace Omarchy. A ikona agentů se objeví, když Omarchy poprvé najde na počítači používání AI pro kódování (viz [AI](17-ai.md)).
+Několik z nich se objeví, jen když mají co říct. Rozložení klávesnice se objeví, jen pokud jste nakonfigurovali více než jedno rozložení. Odznak aktualizace se objeví, jen když čeká aktualizace LunaOS. A ikona agentů se objeví, když LunaOS poprvé najde na počítači používání AI pro kódování (viz [AI](17-ai.md)).
 
 ## Klikání kolem
 
@@ -16,7 +16,7 @@ Téměř každý widget dělá něco při levém, pravém a prostředním kliknu
 
 | Widget | Vlevo | Vpravo | Prostřední / posouvání |
 | --- | --- | --- | --- |
-| Nabídka | Nabídka Omarchy | Nový terminál | — |
+| Nabídka | Nabídka LunaOS | Nový terminál | — |
 | Pracovní plochy | Zaměřit danou pracovní plochu | — | Posouvání: další/předchozí pracovní plocha |
 | Hodiny | Vyskakovací kalendář | Přepnout formát popisku | Prostřední: výběr časového pásma |
 | Počasí | Vyskakovací předpověď | Úplné počasí jako oznámení | Prostřední: obnovit |
@@ -29,7 +29,7 @@ Téměř každý widget dělá něco při levém, pravém a prostředním kliknu
 | Média | Přehrát/pozastavit | Vyskakovací obal alba | Prostřední: další · posouvání: předchozí/další |
 | Agenti | Panel agentů | Spustit vašeho agenta | Prostřední: další předplatné |
 | Lišta | Najeďte pro odhalení zásuvky | Pravé kliknutí na šipku pro správu | — |
-| Aktualizace Omarchy | Spustit aktualizaci | — | — |
+| Aktualizace LunaOS | Spustit aktualizaci | — | — |
 
 Ne všechno v této tabulce je na vašem panelu hned po vybalení. Widget médií (nyní přehrávané MPRIS s posouvající se skladbou a interpretem) i widget mikrofonu jsou zabudované, ale ve výchozím nastavení vypnuté — přidejte je, pokud je chcete, jak je popsáno níže.
 
@@ -65,7 +65,7 @@ Každý panel přijímá klávesnici stejně jako myš: šipky se pohybují, Ret
 
 Další dva widgety se na panelu objeví, až když nainstalujete odpovídající službu z **Instalovat → Služba**, a oba stojí za to znát, protože dělají víc než jen hlásí stav.
 
-Panel **Tailscale** připojuje a odpojuje tailnet, přepíná mezi účty a vybírá výstupní uzel (v seznamu se objevují vaše vlastní počítače i regiony Mullvadu). Prochází také vaše počítače — a když je jeden vybrán, `s` mu pošle soubory přes Taildrop, což je nejrychlejší způsob, jak přesunout soubor do telefonu nebo jiného notebooku. `c` zkopíruje IP počítače, `n` jeho název a `d` jeho úplné jméno DNS. Na každém řádku počítače je také tlačítko pro odeslání, pokud raději klikáte. Totéž z terminálu je `omarchy tailscale send <machine> [file...]`.
+Panel **Tailscale** připojuje a odpojuje tailnet, přepíná mezi účty a vybírá výstupní uzel (v seznamu se objevují vaše vlastní počítače i regiony Mullvadu). Prochází také vaše počítače — a když je jeden vybrán, `s` mu pošle soubory přes Taildrop, což je nejrychlejší způsob, jak přesunout soubor do telefonu nebo jiného notebooku. `c` zkopíruje IP počítače, `n` jeho název a `d` jeho úplné jméno DNS. Na každém řádku počítače je také tlačítko pro odeslání, pokud raději klikáte. Totéž z terminálu je `lunaos tailscale send <machine> [file...]`.
 
 Panel **Dropbox** zajišťuje přihlášení, zobrazuje, kolik úložiště jste využili, a uvádí nedávno synchronizované soubory.
 
@@ -90,19 +90,19 @@ Pokud si raději vybíráte z nabídky, **Akce → Vzhled → Panel** má polohu
 Tytéž věci mají příkazy, což je to, co chcete pro nastavení [dotfiles](31-dotfiles.md):
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Chcete-li widget zcela přidat nebo odebrat, použijte příkazy pluginů. `omarchy plugin list` vypíše každý widget, který shell zná, s jeho id, a pak:
+Chcete-li widget zcela přidat nebo odebrat, použijte příkazy pluginů. `lunaos plugin list` vypíše každý widget, který shell zná, s jeho id, a pak:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Skrývání panelu
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Konfigurační soubor
 
-Vše je uloženo v `~/.config/omarchy/shell.json` pod klíčem `bar`. Tady je zkrácená verze:
+Vše je uloženo v `~/.config/lunaos/shell.json` pod klíčem `bar`. Tady je zkrácená verze:
 
 ```json
 {
@@ -119,20 +119,20 @@ Vše je uloženo v `~/.config/omarchy/shell.json` pod klíčem `bar`. Tady je zk
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Každý widget je jedna položka v jednom ze tří polí rozložení a jeho nastavení sedí přímo na této položce — neexistuje žádný samostatný soubor nastavení ani žádný podobjekt `config`. `format` hodin, `formatAlt` (to, na co přepne pravé kliknutí) a `verticalFormat` všechny žijí právě tam na `{ "id": "omarchy.clock" }`.
+Každý widget je jedna položka v jednom ze tří polí rozložení a jeho nastavení sedí přímo na této položce — neexistuje žádný samostatný soubor nastavení ani žádný podobjekt `config`. `format` hodin, `formatAlt` (to, na co přepne pravé kliknutí) a `verticalFormat` všechny žijí právě tam na `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` pojmenovává jeden středový widget, který se připne přesně do středu obrazovky a ostatní ho lemují. Tak zůstávají hodiny přesně uprostřed, i když počasí a odznak aktualizace přicházejí a odcházejí. Nastavte ho na prázdný řetězec a středový seznam se místo toho vycentruje jako skupina.
 
-Jedno pravidlo, které stojí za to si osvojit: **jakmile máte vlastní `shell.json`, je kanonický**. Dokud nic nepřizpůsobíte, shell čte výchozí soubor Omarchy. V okamžiku, kdy přetáhnete widget, spustíte `omarchy bar` nebo sami upravíte soubor, vlastníte ho — nedochází k žádnému hlubokému slučování, takže nové výchozí widgety v budoucích verzích Omarchy se na vašem panelu neobjeví automaticky. `omarchy bar defaults` vrátí dodávané rozložení, kdykoli budete chtít čistý štít.
+Jedno pravidlo, které stojí za to si osvojit: **jakmile máte vlastní `shell.json`, je kanonický**. Dokud nic nepřizpůsobíte, shell čte výchozí soubor LunaOS. V okamžiku, kdy přetáhnete widget, spustíte `lunaos bar` nebo sami upravíte soubor, vlastníte ho — nedochází k žádnému hlubokému slučování, takže nové výchozí widgety v budoucích verzích LunaOS se na vašem panelu neobjeví automaticky. `lunaos bar defaults` vrátí dodávané rozložení, kdykoli budete chtít čistý štít.
 
 Tentýž soubor obsahuje také vaše časování nečinnosti na nejvyšší úrovni, mimo klíč `bar`: `idle.screensaver` a `idle.lock`, obojí v sekundách od chvíle, kdy jste se stali nečinnými. Takže výchozí spořič obrazovky naskočí po 150 sekundách a zámek po 300.

@@ -38,10 +38,10 @@ write_usb_devices() {
 # unless a case writes one, whatever the machine running the suite has installed.
 platform_root="$tmp_dir/platform"
 mkdir -p "$platform_root" "$tmp_dir/bin"
-platform_root_copy "$ROOT/bin/omarchy-hw-fingerprint" "$tmp_dir/bin/omarchy-hw-fingerprint" "$platform_root"
+platform_root_copy "$ROOT/bin/lunaos-hw-fingerprint" "$tmp_dir/bin/lunaos-hw-fingerprint" "$platform_root"
 
 hw_fingerprint() {
-  OMARCHY_USB_DEVICES_PATH="$tmp_dir/devices" "$tmp_dir/bin/omarchy-hw-fingerprint"
+  LUNAOS_USB_DEVICES_PATH="$tmp_dir/devices" "$tmp_dir/bin/lunaos-hw-fingerprint"
 }
 
 assert_detects() {

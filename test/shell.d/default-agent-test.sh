@@ -9,7 +9,7 @@ trap 'rm -rf "$test_tmp"' EXIT
 
 mock_bin="$test_tmp/bin"
 test_home="$test_tmp/home"
-agent_file="$test_home/.config/omarchy/defaults/agent"
+agent_file="$test_home/.config/lunaos/defaults/agent"
 notification_history="$test_tmp/notification-history"
 agent_open_log="$test_tmp/agent-open"
 launch_log="$test_tmp/launch"
@@ -22,80 +22,80 @@ menu_log="$test_tmp/menu"
 muse_login_log="$test_tmp/muse-login"
 mkdir -p "$mock_bin" "$test_home"
 
-cat >"$mock_bin/omarchy-install-chromium-claude" <<'SH'
+cat >"$mock_bin/lunaos-install-chromium-claude" <<'SH'
 #!/bin/bash
-echo claude-extension >>"$OMARCHY_TEST_STUB_LOG"
-if [[ ${OMARCHY_TEST_EXTENSION_FAIL:-false} == "true" ]]; then
+echo claude-extension >>"$LUNAOS_TEST_STUB_LOG"
+if [[ ${LUNAOS_TEST_EXTENSION_FAIL:-false} == "true" ]]; then
   echo "Extension installation failed" >&2
   exit 1
 fi
 SH
 
-cat >"$mock_bin/omarchy-notification-send" <<'SH'
+cat >"$mock_bin/lunaos-notification-send" <<'SH'
 #!/bin/bash
-printf '%s\0' "$@" >>"$OMARCHY_TEST_NOTIFICATION_HISTORY"
+printf '%s\0' "$@" >>"$LUNAOS_TEST_NOTIFICATION_HISTORY"
 SH
 
-cat >"$mock_bin/omarchy-cmd-missing" <<'SH'
+cat >"$mock_bin/lunaos-cmd-missing" <<'SH'
 #!/bin/bash
-[[ $1 == ${OMARCHY_TEST_MISSING_COMMAND:-} ]]
+[[ $1 == ${LUNAOS_TEST_MISSING_COMMAND:-} ]]
 SH
 
-cat >"$mock_bin/omarchy-launch-tui" <<'SH'
+cat >"$mock_bin/lunaos-launch-tui" <<'SH'
 #!/bin/bash
-printf '%s\0' "$@" >"$OMARCHY_TEST_AGENT_LAUNCH_LOG"
+printf '%s\0' "$@" >"$LUNAOS_TEST_AGENT_LAUNCH_LOG"
 SH
 
-cat >"$mock_bin/omarchy-launch-floating-terminal-with-presentation" <<'SH'
+cat >"$mock_bin/lunaos-launch-floating-terminal-with-presentation" <<'SH'
 #!/bin/bash
-printf '%s\0' "$@" >"$OMARCHY_TEST_AGENT_TERMINAL_LOG"
+printf '%s\0' "$@" >"$LUNAOS_TEST_AGENT_TERMINAL_LOG"
 SH
 
 cat >"$mock_bin/opencode" <<'SH'
 #!/bin/bash
-printf '%s\0' opencode "$@" >"$OMARCHY_TEST_AGENT_INLINE_LOG"
+printf '%s\0' opencode "$@" >"$LUNAOS_TEST_AGENT_INLINE_LOG"
 SH
 
-cat >"$mock_bin/omarchy-mise-install" <<'SH'
+cat >"$mock_bin/lunaos-mise-install" <<'SH'
 #!/bin/bash
-printf '%s\n' "$*" >>"$OMARCHY_TEST_STUB_LOG"
+printf '%s\n' "$*" >>"$LUNAOS_TEST_STUB_LOG"
 SH
 
 cat >"$mock_bin/mise" <<'SH'
 #!/bin/bash
-printf '%s\0' "$@" >"$OMARCHY_TEST_MISE_LOG"
-printf '%s\n' "$*" >>"$OMARCHY_TEST_MISE_HISTORY"
+printf '%s\0' "$@" >"$LUNAOS_TEST_MISE_LOG"
+printf '%s\n' "$*" >>"$LUNAOS_TEST_MISE_HISTORY"
 
 if [[ $1 == "where" ]]; then
-  [[ ${OMARCHY_TEST_AGENT_INSTALLED:-false} == "true" ]]
+  [[ ${LUNAOS_TEST_AGENT_INSTALLED:-false} == "true" ]]
   exit
 fi
 
-[[ ${OMARCHY_TEST_MISE_FAIL:-false} != "true" ]]
+[[ ${LUNAOS_TEST_MISE_FAIL:-false} != "true" ]]
 SH
 
-cat >"$mock_bin/omarchy-menu" <<'SH'
+cat >"$mock_bin/lunaos-menu" <<'SH'
 #!/bin/bash
-printf '%s\0' "$@" >"$OMARCHY_TEST_AGENT_MENU_LOG"
+printf '%s\0' "$@" >"$LUNAOS_TEST_AGENT_MENU_LOG"
 SH
 
-cat >"$mock_bin/omarchy-pkg-add" <<'SH'
+cat >"$mock_bin/lunaos-pkg-add" <<'SH'
 #!/bin/bash
 echo "Muse must install through mise" >&2
 exit 1
 SH
-ln -s omarchy-pkg-add "$mock_bin/omarchy-pkg-aur-add"
+ln -s lunaos-pkg-add "$mock_bin/lunaos-pkg-aur-add"
 
 cat >"$mock_bin/muse" <<'SH'
 #!/bin/bash
 if [[ ${1:-} == "login" ]]; then
-  printf 'muse %s\n' "$*" >>"$OMARCHY_TEST_MUSE_LOGIN_LOG"
+  printf 'muse %s\n' "$*" >>"$LUNAOS_TEST_MUSE_LOGIN_LOG"
 else
-  printf '%s\0' muse "$@" >"$OMARCHY_TEST_AGENT_INLINE_LOG"
+  printf '%s\0' muse "$@" >"$LUNAOS_TEST_AGENT_INLINE_LOG"
 fi
 SH
 
-cat >"$mock_bin/omarchy-test-noop" <<'SH'
+cat >"$mock_bin/lunaos-test-noop" <<'SH'
 #!/bin/bash
 exit 0
 SH
@@ -105,26 +105,26 @@ cat >"$mock_bin/sudo" <<'SH'
 exec "$@"
 SH
 
-for command in gum hyprctl omarchy-webapp-remove-all omarchy-tui-remove-all omarchy-pkg-drop; do
-  ln -s omarchy-test-noop "$mock_bin/$command"
+for command in gum hyprctl lunaos-webapp-remove-all lunaos-tui-remove-all lunaos-pkg-drop; do
+  ln -s lunaos-test-noop "$mock_bin/$command"
 done
 
 chmod +x "$mock_bin"/*
 
 export HOME="$test_home"
 export PATH="$mock_bin:$ROOT/bin:$PATH"
-export OMARCHY_TEST_NOTIFICATION_HISTORY="$notification_history"
-export OMARCHY_TEST_AGENT_OPEN_LOG="$agent_open_log"
-export OMARCHY_TEST_AGENT_LAUNCH_LOG="$launch_log"
-export OMARCHY_TEST_AGENT_INLINE_LOG="$inline_log"
-export OMARCHY_TEST_MISE_LOG="$mise_log"
-export OMARCHY_TEST_MISE_HISTORY="$mise_history"
-export OMARCHY_TEST_STUB_LOG="$stub_log"
-export OMARCHY_TEST_AGENT_TERMINAL_LOG="$terminal_log"
-export OMARCHY_TEST_AGENT_MENU_LOG="$menu_log"
-export OMARCHY_TEST_MUSE_LOGIN_LOG="$muse_login_log"
-export OMARCHY_PATH="$ROOT"
-export OMARCHY_MISE_CONFIG_PATH="$test_tmp/etc/mise/config.toml"
+export LUNAOS_TEST_NOTIFICATION_HISTORY="$notification_history"
+export LUNAOS_TEST_AGENT_OPEN_LOG="$agent_open_log"
+export LUNAOS_TEST_AGENT_LAUNCH_LOG="$launch_log"
+export LUNAOS_TEST_AGENT_INLINE_LOG="$inline_log"
+export LUNAOS_TEST_MISE_LOG="$mise_log"
+export LUNAOS_TEST_MISE_HISTORY="$mise_history"
+export LUNAOS_TEST_STUB_LOG="$stub_log"
+export LUNAOS_TEST_AGENT_TERMINAL_LOG="$terminal_log"
+export LUNAOS_TEST_AGENT_MENU_LOG="$menu_log"
+export LUNAOS_TEST_MUSE_LOGIN_LOG="$muse_login_log"
+export LUNAOS_PATH="$ROOT"
+export LUNAOS_MISE_CONFIG_PATH="$test_tmp/etc/mise/config.toml"
 
 grok_package="grok"
 omp_package="oh-my-pi"
@@ -140,7 +140,7 @@ assert_lazy_stub() {
   local command=$2
 
   : >"$mise_history"
-  "$ROOT/bin/omarchy-mise-install" "$package" "$command"
+  "$ROOT/bin/lunaos-mise-install" "$package" "$command"
   "$test_home/.local/bin/$command" --version
   mapfile -t mise_calls <"$mise_history"
 
@@ -158,8 +158,8 @@ assert_lazy_stub "$muse_package" muse
 pass "custom agent lazy stubs preserve their mise packages"
 
 source "$ROOT/install/user/mise.sh"
-lazy_config="$ROOT/etc/mise/conf.d/omarchy-tools.toml"
-[[ -f $lazy_config ]] || fail "Omarchy ships the system mise config"
+lazy_config="$ROOT/etc/mise/conf.d/lunaos-tools.toml"
+[[ -f $lazy_config ]] || fail "LunaOS ships the system mise config"
 grep -Fx 'locked_scopes = ["project", "global"]' "$lazy_config" >/dev/null ||
   fail "system tools remain installable when the user enables locked mode"
 for tool in "$agy_package" "$grok_package" "$omp_package" "$crush_package" "$cursor_agent_package" "$muse_package"; do
@@ -187,14 +187,14 @@ source "$ROOT/install/user/mise.sh"
 [[ ! -s $stub_log ]] || fail "user setup must not create handwritten mise wrappers"
 pass "user setup leaves ordinary lazy wrappers to mise"
 
-"$ROOT/bin/omarchy-mise-install" "$muse_package" muse
-"$ROOT/bin/omarchy-mise-install" "$kimi_package" kimi
-"$ROOT/bin/omarchy-mise-install" "$cursor_agent_package" cursor-agent
-"$ROOT/bin/omarchy-mise-install" "$grok_package" grok
-"$ROOT/bin/omarchy-mise-install" "$omp_package" omp
-"$ROOT/bin/omarchy-mise-install" "$crush_package" crush
+"$ROOT/bin/lunaos-mise-install" "$muse_package" muse
+"$ROOT/bin/lunaos-mise-install" "$kimi_package" kimi
+"$ROOT/bin/lunaos-mise-install" "$cursor_agent_package" cursor-agent
+"$ROOT/bin/lunaos-mise-install" "$grok_package" grok
+"$ROOT/bin/lunaos-mise-install" "$omp_package" omp
+"$ROOT/bin/lunaos-mise-install" "$crush_package" crush
 touch "$test_home/.local/bin/agy" "$test_home/.local/bin/ori"
-omarchy-remove-preinstalls >/dev/null
+lunaos-remove-preinstalls >/dev/null
 for command in agy omp ori grok crush cursor-agent muse kimi; do
   [[ ! -e $test_home/.local/bin/$command ]] || fail "Remove Preinstalls deletes the $command lazy stub"
 done
@@ -204,23 +204,23 @@ pass "Remove Preinstalls deletes every optional agent lazy stub"
 # the user's own install.
 touch "$test_home/.local/bin/cursor-agent.official"
 ln -s cursor-agent.official "$test_home/.local/bin/cursor-agent"
-omarchy-remove-preinstalls >/dev/null
+lunaos-remove-preinstalls >/dev/null
 [[ -L $test_home/.local/bin/cursor-agent ]] || fail "Remove Preinstalls keeps an official Cursor CLI install"
 rm -f "$test_home/.local/bin/cursor-agent" "$test_home/.local/bin/cursor-agent.official"
 pass "Remove Preinstalls keeps an official Cursor CLI install"
 printf '#!/bin/bash\necho user-muse\n' >"$test_home/.local/bin/muse"
 chmod +x "$test_home/.local/bin/muse"
-omarchy-remove-preinstalls >/dev/null
+lunaos-remove-preinstalls >/dev/null
 [[ $("$test_home/.local/bin/muse") == "user-muse" ]] || fail "Remove Preinstalls deletes a user-managed Muse"
 rm "$test_home/.local/bin/muse"
 pass "Remove Preinstalls keeps a user-managed Muse install"
 
 
-[[ -z $(omarchy-default-agent) ]] || fail "default agent is unset until one is chosen"
+[[ -z $(lunaos-default-agent) ]] || fail "default agent is unset until one is chosen"
 pass "default agent is unset until one is chosen"
 
 : >"$launch_log"
-if omarchy-agent >"$test_tmp/no-agent-output" 2>&1; then
+if lunaos-agent >"$test_tmp/no-agent-output" 2>&1; then
   fail "agent launcher refuses to launch without a default"
 fi
 grep -Fq "Choose default agent with" "$test_tmp/no-agent-output" ||
@@ -232,7 +232,7 @@ pass "agent launcher refuses to launch without a default"
 # the keypress look broken. It offers the choice instead.
 : >"$launch_log"
 : >"$menu_log"
-omarchy-agent --pick
+lunaos-agent --pick
 mapfile -d '' -t menu_args <"$menu_log"
 [[ ${menu_args[*]} == "summon setup.default.agent" ]] ||
   fail "--pick opens the agent defaults menu when none is set"
@@ -240,20 +240,20 @@ mapfile -d '' -t menu_args <"$menu_log"
 pass "--pick opens the agent defaults menu when none is set"
 
 source "$ROOT/default/bash/aliases"
-[[ $(alias a) == "alias a='omarchy-agent --inline'" ]] ||
+[[ $(alias a) == "alias a='lunaos-agent --inline'" ]] ||
   fail "terminal alias launches the default agent inline"
 pass "terminal alias launches the default agent inline"
 
-grep -Fq 'o.bind("SUPER + SHIFT + CTRL + A", "Agent", "omarchy-agent --pick")' \
+grep -Fq 'o.bind("SUPER + SHIFT + CTRL + A", "Agent", "lunaos-agent --pick")' \
   "$ROOT/default/hypr/bindings/utilities.lua" ||
   fail "agent launcher has a keyboard shortcut"
 pass "agent launcher has a keyboard shortcut"
 
-cat >"$mock_bin/omarchy-agent" <<'SH'
+cat >"$mock_bin/lunaos-agent" <<'SH'
 #!/bin/bash
-printf '%s\0' omarchy-agent "$@" >"$OMARCHY_TEST_AGENT_OPEN_LOG"
+printf '%s\0' lunaos-agent "$@" >"$LUNAOS_TEST_AGENT_OPEN_LOG"
 SH
-chmod +x "$mock_bin/omarchy-agent"
+chmod +x "$mock_bin/lunaos-agent"
 hash -r
 
 declare -A expected_agents=(
@@ -305,8 +305,8 @@ for selection in "${!expected_agents[@]}"; do
   expected=${expected_agents[$selection]}
   : >"$agent_open_log"
   : >"$stub_log"
-  OMARCHY_TEST_AGENT_INSTALLED=true omarchy-default-agent "$selection"
-  [[ $(omarchy-default-agent) == $expected ]] || fail "default agent canonicalizes $selection"
+  LUNAOS_TEST_AGENT_INSTALLED=true lunaos-default-agent "$selection"
+  [[ $(lunaos-default-agent) == $expected ]] || fail "default agent canonicalizes $selection"
 
   if [[ $expected == "claude" ]]; then
     grep -qx claude-extension "$stub_log" || fail "Claude selection installs the browser extension"
@@ -323,58 +323,58 @@ for selection in "${!expected_agents[@]}"; do
   esac
 
   mapfile -d '' -t agent_open_args <"$agent_open_log"
-  [[ ${#agent_open_args[@]} == 1 && ${agent_open_args[0]} == "omarchy-agent" ]] ||
+  [[ ${#agent_open_args[@]} == 1 && ${agent_open_args[0]} == "lunaos-agent" ]] ||
     fail "default agent opens $selection after selecting it"
 done
 pass "default agent selects and opens every supported provider and alias"
-[[ -f $agent_file && ! -e $test_home/.local/state/omarchy/defaults/agent ]] ||
-  fail "default agent stores its selection in Omarchy user config"
-pass "default agent stores its selection in Omarchy user config"
+[[ -f $agent_file && ! -e $test_home/.local/state/lunaos/defaults/agent ]] ||
+  fail "default agent stores its selection in LunaOS user config"
+pass "default agent stores its selection in LunaOS user config"
 
-OMARCHY_TEST_AGENT_INSTALLED=true omarchy-default-agent pi
+LUNAOS_TEST_AGENT_INSTALLED=true lunaos-default-agent pi
 : >"$agent_open_log"
-OMARCHY_TEST_AGENT_INSTALLED=true OMARCHY_TEST_EXTENSION_FAIL=true omarchy-default-agent claude >"$test_tmp/extension-failure" 2>&1
-[[ $(omarchy-default-agent) == "claude" ]] || fail "extension installation failure still selects Claude"
+LUNAOS_TEST_AGENT_INSTALLED=true LUNAOS_TEST_EXTENSION_FAIL=true lunaos-default-agent claude >"$test_tmp/extension-failure" 2>&1
+[[ $(lunaos-default-agent) == "claude" ]] || fail "extension installation failure still selects Claude"
 mapfile -d '' -t agent_open_args <"$agent_open_log"
-[[ ${agent_open_args[*]} == "omarchy-agent" ]] || fail "extension installation failure still launches Claude"
+[[ ${agent_open_args[*]} == "lunaos-agent" ]] || fail "extension installation failure still launches Claude"
 [[ ! -s $test_tmp/extension-failure ]] || fail "extension installation failure is silent"
 pass "extension installation failure silently continues selecting and launching Claude"
-OMARCHY_TEST_AGENT_INSTALLED=true omarchy-default-agent pi
+LUNAOS_TEST_AGENT_INSTALLED=true lunaos-default-agent pi
 : >"$notification_history"
 : >"$agent_open_log"
 : >"$terminal_log"
-omarchy-default-agent github-copilot
+lunaos-default-agent github-copilot
 mapfile -d '' -t terminal_args <"$terminal_log"
-[[ ${terminal_args[0]} == "omarchy-default-agent" && ${terminal_args[1]} == "--install" && ${terminal_args[2]} == "copilot" ]] ||
+[[ ${terminal_args[0]} == "lunaos-default-agent" && ${terminal_args[1]} == "--install" && ${terminal_args[2]} == "copilot" ]] ||
   fail "missing agent installation opens in a terminal"
 [[ ! -s $notification_history ]] || fail "missing agent installation skips notifications"
 [[ ! -s $agent_open_log ]] || fail "missing agent installation waits to open the agent"
-[[ $(omarchy-default-agent) == "pi" ]] || fail "missing agent installation waits to change the selection"
+[[ $(lunaos-default-agent) == "pi" ]] || fail "missing agent installation waits to change the selection"
 
-omarchy-default-agent --install github-copilot >"$test_tmp/install-output"
+lunaos-default-agent --install github-copilot >"$test_tmp/install-output"
 mapfile -d '' -t mise_args <"$mise_log"
 [[ ${mise_args[0]} == "use" && ${mise_args[1]} == "-g" && ${mise_args[2]} == "copilot" ]] ||
   fail "visible agent installation activates the provider globally through mise"
-[[ $(omarchy-default-agent) == "copilot" ]] || fail "visible agent installation changes the selection after mise succeeds"
+[[ $(lunaos-default-agent) == "copilot" ]] || fail "visible agent installation changes the selection after mise succeeds"
 [[ ! -s $notification_history ]] || fail "visible agent installation leaves progress to the terminal"
 [[ $(<"$test_tmp/install-output") == $'\033[2J\033[3J\033[H' ]] ||
   fail "visible agent installation clears its terminal before opening the agent"
 mapfile -d '' -t agent_open_args <"$agent_open_log"
-[[ ${#agent_open_args[@]} == 2 && ${agent_open_args[0]} == "omarchy-agent" && ${agent_open_args[1]} == "--inline" ]] ||
+[[ ${#agent_open_args[@]} == 2 && ${agent_open_args[0]} == "lunaos-agent" && ${agent_open_args[1]} == "--inline" ]] ||
   fail "newly installed agent opens in the installation terminal"
 pass "missing agents install visibly and open in the same terminal"
 
 : >"$notification_history"
 : >"$agent_open_log"
 : >"$terminal_log"
-OMARCHY_TEST_AGENT_INSTALLED=true omarchy-default-agent github-copilot
+LUNAOS_TEST_AGENT_INSTALLED=true lunaos-default-agent github-copilot
 [[ ! -s $terminal_log ]] || fail "installed agent selection skips the terminal"
 [[ ! -s $notification_history ]] || fail "installed agent selection skips notifications"
 mapfile -d '' -t mise_args <"$mise_log"
 [[ ${mise_args[0]} == "use" && ${mise_args[1]} == "-g" && ${mise_args[2]} == "copilot" ]] ||
   fail "default agent still activates an installed provider globally through mise"
 mapfile -d '' -t agent_open_args <"$agent_open_log"
-[[ ${#agent_open_args[@]} == 1 && ${agent_open_args[0]} == "omarchy-agent" ]] ||
+[[ ${#agent_open_args[@]} == 1 && ${agent_open_args[0]} == "lunaos-agent" ]] ||
   fail "installed agent opens in a new terminal after selection"
 pass "installed agents select and open without notifications"
 
@@ -386,12 +386,12 @@ ln -s cursor-agent.official "$test_home/.local/bin/cursor-agent"
 : >"$terminal_log"
 : >"$mise_log"
 : >"$agent_open_log"
-omarchy-default-agent cursor-agent
+lunaos-default-agent cursor-agent
 [[ ! -s $terminal_log ]] || fail "an official Cursor CLI install needs no install terminal"
 [[ ! -s $mise_log ]] || fail "an official Cursor CLI install is left to itself by mise"
 [[ $(<"$agent_file") == "cursor-agent" ]] || fail "an official Cursor CLI install becomes the default"
 mapfile -d '' -t agent_open_args <"$agent_open_log"
-[[ ${#agent_open_args[@]} == 1 && ${agent_open_args[0]} == "omarchy-agent" ]] ||
+[[ ${#agent_open_args[@]} == 1 && ${agent_open_args[0]} == "lunaos-agent" ]] ||
   fail "an official Cursor CLI install opens after selection"
 rm -f "$test_home/.local/bin/cursor-agent" "$test_home/.local/bin/cursor-agent.official"
 printf '%s\n' copilot >"$agent_file"
@@ -400,29 +400,29 @@ pass "selecting an official Cursor CLI install skips mise"
 # A file nothing can run is not an install; the wrapper is still wanted.
 touch "$test_home/.local/bin/cursor-agent"
 : >"$terminal_log"
-omarchy-default-agent cursor-agent
+lunaos-default-agent cursor-agent
 mapfile -d '' -t terminal_args <"$terminal_log"
-[[ ${terminal_args[*]} == "omarchy-default-agent --install cursor-agent" ]] ||
+[[ ${terminal_args[*]} == "lunaos-default-agent --install cursor-agent" ]] ||
   fail "a dead file at the wrapper's path still installs Cursor CLI"
 rm -f "$test_home/.local/bin/cursor-agent"
 pass "a dead file at the wrapper's path does not pass for an install"
 
 : >"$agent_open_log"
-if omarchy-default-agent unsupported >"$test_tmp/invalid-output" 2>&1; then
+if lunaos-default-agent unsupported >"$test_tmp/invalid-output" 2>&1; then
   fail "default agent rejects unsupported providers"
 fi
-grep -F "Usage: omarchy-default-agent" "$test_tmp/invalid-output" >/dev/null ||
+grep -F "Usage: lunaos-default-agent" "$test_tmp/invalid-output" >/dev/null ||
   fail "default agent explains supported providers"
-[[ $(omarchy-default-agent) == "copilot" ]] || fail "invalid selection preserves the current default agent"
+[[ $(lunaos-default-agent) == "copilot" ]] || fail "invalid selection preserves the current default agent"
 [[ ! -s $agent_open_log ]] || fail "invalid selection does not open an agent"
 pass "default agent rejects unsupported providers without changing the selection"
 
 : >"$notification_history"
 : >"$agent_open_log"
-if OMARCHY_TEST_MISE_FAIL=true omarchy-default-agent --install codex >"$test_tmp/install-failure-output" 2>&1; then
+if LUNAOS_TEST_MISE_FAIL=true lunaos-default-agent --install codex >"$test_tmp/install-failure-output" 2>&1; then
   fail "default agent rejects a failed mise installation"
 fi
-[[ $(omarchy-default-agent) == "copilot" ]] || fail "failed installation preserves the current default agent"
+[[ $(lunaos-default-agent) == "copilot" ]] || fail "failed installation preserves the current default agent"
 grep -F "Could not install Codex with mise" "$test_tmp/install-failure-output" >/dev/null ||
   fail "default agent reports a failed mise installation in the terminal"
 [[ ! -s $notification_history ]] || fail "failed visible agent installation skips notifications"
@@ -431,10 +431,10 @@ pass "default agent opens only after mise installs the provider"
 
 : >"$notification_history"
 : >"$agent_open_log"
-if OMARCHY_TEST_AGENT_INSTALLED=true OMARCHY_TEST_MISE_FAIL=true omarchy-default-agent codex >"$test_tmp/setup-failure-output" 2>&1; then
+if LUNAOS_TEST_AGENT_INSTALLED=true LUNAOS_TEST_MISE_FAIL=true lunaos-default-agent codex >"$test_tmp/setup-failure-output" 2>&1; then
   fail "default agent rejects a failed mise activation"
 fi
-[[ $(omarchy-default-agent) == "copilot" ]] || fail "failed activation preserves the current default agent"
+[[ $(lunaos-default-agent) == "copilot" ]] || fail "failed activation preserves the current default agent"
 grep -F "Could not set Codex as the default coding agent" "$test_tmp/setup-failure-output" >/dev/null ||
   fail "default agent reports a failed activation for an installed provider"
 [[ ! -s $notification_history ]] || fail "failed activation skips notifications"
@@ -445,94 +445,94 @@ pass "default agent reports mise failures without notifications"
 : >"$notification_history"
 : >"$agent_open_log"
 : >"$terminal_log"
-omarchy-default-agent muse
+lunaos-default-agent muse
 mapfile -d '' -t terminal_args <"$terminal_log"
-[[ ${terminal_args[0]} == "omarchy-default-agent" && ${terminal_args[1]} == "--install" && ${terminal_args[2]} == "muse" ]] ||
+[[ ${terminal_args[0]} == "lunaos-default-agent" && ${terminal_args[1]} == "--install" && ${terminal_args[2]} == "muse" ]] ||
   fail "missing Muse installation opens in a terminal"
 [[ ! -s $notification_history ]] || fail "missing Muse installation skips notifications"
 [[ ! -s $agent_open_log ]] || fail "missing Muse installation waits to open the agent"
-[[ $(omarchy-default-agent) == "copilot" ]] || fail "missing Muse installation waits to change the selection"
+[[ $(lunaos-default-agent) == "copilot" ]] || fail "missing Muse installation waits to change the selection"
 
-if OMARCHY_TEST_MISE_FAIL=true omarchy-default-agent --install muse >"$test_tmp/muse-install-failure-output" 2>&1; then
+if LUNAOS_TEST_MISE_FAIL=true lunaos-default-agent --install muse >"$test_tmp/muse-install-failure-output" 2>&1; then
   fail "missing Muse rejects a failed mise installation"
 fi
-[[ $(omarchy-default-agent) == "copilot" ]] || fail "failed Muse installation preserves the current default"
+[[ $(lunaos-default-agent) == "copilot" ]] || fail "failed Muse installation preserves the current default"
 [[ ! -s $muse_login_log && ! -s $agent_open_log ]] || fail "failed Muse installation skips login and launch"
 grep -F "Could not install Muse Code with mise" "$test_tmp/muse-install-failure-output" >/dev/null ||
   fail "failed Muse installation identifies mise"
 pass "failed Muse mise installation preserves the selection and skips login"
 
-# Without Omarchy's declarations nothing declares Muse, so selecting it adds it
+# Without LunaOS's declarations nothing declares Muse, so selecting it adds it
 # to the user's config.
 : >"$mise_history"
-omarchy-default-agent --install muse >/dev/null
+lunaos-default-agent --install muse >/dev/null
 grep -Fx "use -g $muse_package" "$mise_history" >/dev/null ||
   fail "Muse selection adds Muse to the user config when no system config declares it"
 rm -f "$agent_file"
 
 # mise skips the declarations for a user who removed the preinstalls, so the
 # same applies.
-mkdir -p "$(dirname "$OMARCHY_MISE_CONFIG_PATH")" "$test_home/.config/mise"
-cp "$ROOT/etc/mise/conf.d/omarchy-tools.toml" "$OMARCHY_MISE_CONFIG_PATH"
-printf 'ignored_config_paths = ["%s"]\n' "$OMARCHY_MISE_CONFIG_PATH" >"$test_home/.config/mise/miserc.toml"
+mkdir -p "$(dirname "$LUNAOS_MISE_CONFIG_PATH")" "$test_home/.config/mise"
+cp "$ROOT/etc/mise/conf.d/lunaos-tools.toml" "$LUNAOS_MISE_CONFIG_PATH"
+printf 'ignored_config_paths = ["%s"]\n' "$LUNAOS_MISE_CONFIG_PATH" >"$test_home/.config/mise/miserc.toml"
 : >"$mise_history"
-omarchy-default-agent --install muse >/dev/null
+lunaos-default-agent --install muse >/dev/null
 grep -Fx "use -g $muse_package" "$mise_history" >/dev/null ||
   fail "Muse selection adds Muse to the user config after Remove Preinstalls"
 rm -f "$agent_file" "$test_home/.config/mise/miserc.toml"
 
-# With Omarchy's system config, installing is enough; the user config stays alone.
+# With LunaOS's system config, installing is enough; the user config stays alone.
 : >"$mise_history"
 : >"$stub_log"
-omarchy-default-agent --install muse >"$test_tmp/muse-install-output"
+lunaos-default-agent --install muse >"$test_tmp/muse-install-output"
 grep -Fx "install $muse_package" "$mise_history" >/dev/null || fail "visible Muse installation uses the registry shorthand"
 grep -q '^use ' "$mise_history" && fail "Muse selection leaves the user config alone when the system config declares it"
 [[ ! -s $stub_log ]] || fail "Muse selection recreates its preinstalled wrapper"
 [[ ! -s $muse_login_log ]] || fail "Muse selection runs a separate login flow"
-[[ $(omarchy-default-agent) == "muse" ]] || fail "visible Muse installation changes the selection"
+[[ $(lunaos-default-agent) == "muse" ]] || fail "visible Muse installation changes the selection"
 mapfile -d '' -t agent_open_args <"$agent_open_log"
-[[ ${#agent_open_args[@]} == 2 && ${agent_open_args[0]} == "omarchy-agent" && ${agent_open_args[1]} == "--inline" ]] ||
+[[ ${#agent_open_args[@]} == 2 && ${agent_open_args[0]} == "lunaos-agent" && ${agent_open_args[1]} == "--inline" ]] ||
   fail "newly installed Muse opens in the installation terminal"
 pass "Muse installs visibly through mise and opens directly"
 
 : >"$terminal_log"
 : >"$muse_login_log"
 : >"$agent_open_log"
-OMARCHY_TEST_AGENT_INSTALLED=true omarchy-default-agent muse-code
+LUNAOS_TEST_AGENT_INSTALLED=true lunaos-default-agent muse-code
 [[ ! -s $terminal_log ]] || fail "installed Muse selection skips the terminal"
 [[ ! -s $muse_login_log ]] || fail "installed Muse selection skips the login"
-[[ $(omarchy-default-agent) == "muse" ]] || fail "default agent canonicalizes muse-code"
+[[ $(lunaos-default-agent) == "muse" ]] || fail "default agent canonicalizes muse-code"
 mapfile -d '' -t agent_open_args <"$agent_open_log"
-[[ ${#agent_open_args[@]} == 1 && ${agent_open_args[0]} == "omarchy-agent" ]] ||
+[[ ${#agent_open_args[@]} == 1 && ${agent_open_args[0]} == "lunaos-agent" ]] ||
   fail "installed Muse opens in a new terminal after selection"
 pass "installed Muse selects and opens directly"
 
-OMARCHY_TEST_AGENT_INSTALLED=true omarchy-default-agent pi
+LUNAOS_TEST_AGENT_INSTALLED=true lunaos-default-agent pi
 : >"$agent_open_log"
-if OMARCHY_TEST_AGENT_INSTALLED=true OMARCHY_TEST_MISE_FAIL=true omarchy-default-agent musecode >"$test_tmp/muse-failure-output" 2>&1; then
+if LUNAOS_TEST_AGENT_INSTALLED=true LUNAOS_TEST_MISE_FAIL=true lunaos-default-agent musecode >"$test_tmp/muse-failure-output" 2>&1; then
   fail "default agent rejects a failed Muse activation"
 fi
-[[ $(omarchy-default-agent) == "pi" ]] || fail "failed Muse activation preserves the current default agent"
+[[ $(lunaos-default-agent) == "pi" ]] || fail "failed Muse activation preserves the current default agent"
 grep -F "Could not set Muse Code as the default coding agent" "$test_tmp/muse-failure-output" >/dev/null ||
   fail "default agent reports a failed Muse activation"
 [[ ! -s $agent_open_log ]] || fail "failed Muse activation does not open an agent"
 pass "default agent reports Muse mise failures without changing the selection"
 
 # A manually installed launcher belongs to the user; selecting it must not
-# install a second copy or replace it with the Omarchy wrapper.
+# install a second copy or replace it with the LunaOS wrapper.
 printf '#!/bin/bash\necho user-muse\n' >"$test_home/.local/bin/muse"
 chmod +x "$test_home/.local/bin/muse"
 : >"$mise_history"
 : >"$stub_log"
 : >"$terminal_log"
-omarchy-default-agent muse
-[[ $(omarchy-default-agent) == "muse" ]] || fail "a user-installed Muse can be selected"
+lunaos-default-agent muse
+[[ $(lunaos-default-agent) == "muse" ]] || fail "a user-installed Muse can be selected"
 [[ ! -s $mise_history && ! -s $stub_log && ! -s $terminal_log ]] || fail "a user-installed Muse skips installation and wrapper creation"
 [[ $("$test_home/.local/bin/muse") == "user-muse" ]] || fail "a user-installed Muse is preserved"
 rm "$test_home/.local/bin/muse"
 pass "selecting a user-installed Muse preserves its launcher"
 
-rm "$mock_bin/omarchy-agent"
+rm "$mock_bin/lunaos-agent"
 hash -r
 
 assert_launched() {
@@ -541,7 +541,7 @@ assert_launched() {
   shift 2
   # Every agent window launches under the same app-id, whichever agent is
   # default, so window rules and themes see one class for all of them.
-  local expected=(--app-id=org.omarchy.agent "$@")
+  local expected=(--app-id=org.lunaos.agent "$@")
 
   mapfile -d '' -t actual <"$launch_log"
 
@@ -561,7 +561,7 @@ assert_launch() {
   shift
 
   printf '%s\n' "$agent" >"$agent_file"
-  omarchy-agent-prompt "Review this" project
+  lunaos-agent-prompt "Review this" project
   assert_launched "$agent" "forwards the interactive prompt" "$@"
 }
 
@@ -570,7 +570,7 @@ assert_bypass() {
   shift
 
   printf '%s\n' "$agent" >"$agent_file"
-  omarchy-agent
+  lunaos-agent
   assert_launched "$agent" "skips permission prompts" "$@"
 }
 
@@ -578,11 +578,11 @@ assert_launch pi pi "Review this project"
 assert_launch omp omp --auto-approve -- "Review this project"
 assert_launch opencode opencode --auto --prompt "Review this project"
 assert_launch ori ori code --interactive --prompt "Review this project"
-assert_launch claude env -u CLAUDE_CONFIG_DIR OMARCHY_AGENT_CLAUDE_HOME= claude --permission-mode auto -- "Review this project"
-assert_launch codex env -u CODEX_HOME OMARCHY_AGENT_CODEX_HOME= codex --approve-for-me -- "Review this project"
+assert_launch claude env -u CLAUDE_CONFIG_DIR LUNAOS_AGENT_CLAUDE_HOME= claude --permission-mode auto -- "Review this project"
+assert_launch codex env -u CODEX_HOME LUNAOS_AGENT_CODEX_HOME= codex --approve-for-me -- "Review this project"
 assert_launch muse muse --approval-mode never -- "Review this project"
 assert_launch crush crush run "Review this project"
-assert_launch grok env -u GROK_HOME OMARCHY_AGENT_GROK_HOME= grok --permission-mode bypassPermissions -- "Review this project"
+assert_launch grok env -u GROK_HOME LUNAOS_AGENT_GROK_HOME= grok --permission-mode bypassPermissions -- "Review this project"
 assert_launch cursor-agent cursor-agent --yolo --trust agent -- "Review this project"
 assert_launch hermes env -u HERMES_SESSION_SOURCE hermes chat --yolo --tui "--query=Review this project"
 assert_launch agy agy --dangerously-skip-permissions --prompt-interactive "Review this project"
@@ -592,13 +592,13 @@ pass "agent launcher adapts initial prompts for every supported agent"
 
 literal_muse_prompt=$'--disable-sandbox !Crash {$(touch must-not-run)}\ntrailing\\ '
 printf '%s\n' "muse" >"$agent_file"
-omarchy-agent-prompt "$literal_muse_prompt"
+lunaos-agent-prompt "$literal_muse_prompt"
 assert_launched muse "separates prompt text from options" muse --approval-mode never -- "$literal_muse_prompt"
 pass "Muse receives option-like prompts as one literal argument"
 
 literal_hermes_prompt=$' --help !Crash /quit {$(touch must-not-run)}\ntrailing\\ '
 printf '%s\n' "hermes" >"$agent_file"
-omarchy-agent-prompt "$literal_hermes_prompt"
+lunaos-agent-prompt "$literal_hermes_prompt"
 assert_launched hermes "binds its literal initial prompt" env -u HERMES_SESSION_SOURCE \
   hermes chat --yolo --tui "--query=$literal_hermes_prompt"
 pass "Hermes receives prompted launches as one literal query argument"
@@ -607,11 +607,11 @@ assert_bypass pi pi
 assert_bypass omp omp --auto-approve
 assert_bypass opencode opencode --auto
 assert_bypass ori ori code
-assert_bypass claude env -u CLAUDE_CONFIG_DIR OMARCHY_AGENT_CLAUDE_HOME= claude --permission-mode auto
-assert_bypass codex env -u CODEX_HOME OMARCHY_AGENT_CODEX_HOME= codex --approve-for-me
+assert_bypass claude env -u CLAUDE_CONFIG_DIR LUNAOS_AGENT_CLAUDE_HOME= claude --permission-mode auto
+assert_bypass codex env -u CODEX_HOME LUNAOS_AGENT_CODEX_HOME= codex --approve-for-me
 assert_bypass muse muse --approval-mode never
 assert_bypass crush crush --yolo
-assert_bypass grok env -u GROK_HOME OMARCHY_AGENT_GROK_HOME= grok --permission-mode bypassPermissions
+assert_bypass grok env -u GROK_HOME LUNAOS_AGENT_GROK_HOME= grok --permission-mode bypassPermissions
 assert_bypass cursor-agent cursor-agent --yolo --trust
 assert_bypass hermes hermes --yolo
 assert_bypass agy agy --dangerously-skip-permissions
@@ -620,13 +620,13 @@ assert_bypass kimi kimi --yolo
 pass "agent launcher skips permission prompts for every supported agent"
 
 printf '%s\n' "opencode" >"$agent_file"
-omarchy-agent
+lunaos-agent
 mapfile -d '' -t launch_args <"$launch_log"
-[[ ${launch_args[*]} == "--app-id=org.omarchy.agent opencode --auto" ]] ||
+[[ ${launch_args[*]} == "--app-id=org.lunaos.agent opencode --auto" ]] ||
   fail "agent launcher starts the selected agent without an initial prompt"
 pass "agent launcher starts the selected agent without an initial prompt"
 
-omarchy-agent-prompt --inline "Review this project"
+lunaos-agent-prompt --inline "Review this project"
 mapfile -d '' -t inline_args <"$inline_log"
 [[ ${inline_args[*]} == "opencode --auto --prompt Review this project" ]] ||
   fail "inline agent launcher runs in the current terminal"
@@ -635,38 +635,38 @@ pass "inline agent launcher runs in the current terminal"
 # The prompt route exists so the router can tell a prompt from a subcommand, so
 # cover the public routes and not only the binaries behind them.
 : >"$launch_log"
-omarchy agent
+lunaos agent
 mapfile -d '' -t launch_args <"$launch_log"
-[[ ${launch_args[*]} == "--app-id=org.omarchy.agent opencode --auto" ]] ||
-  fail "omarchy agent routes to the launcher"
+[[ ${launch_args[*]} == "--app-id=org.lunaos.agent opencode --auto" ]] ||
+  fail "lunaos agent routes to the launcher"
 
 # With an agent chosen there is nothing to pick, so the keybinding launches.
 : >"$launch_log"
 : >"$menu_log"
-omarchy-agent --pick
+lunaos-agent --pick
 mapfile -d '' -t launch_args <"$launch_log"
-[[ ${launch_args[*]} == "--app-id=org.omarchy.agent opencode --auto" ]] ||
+[[ ${launch_args[*]} == "--app-id=org.lunaos.agent opencode --auto" ]] ||
   fail "--pick launches once an agent is chosen"
 [[ ! -s $menu_log ]] || fail "--pick opens no menu once an agent is chosen"
 pass "--pick launches once an agent is chosen"
 
 : >"$launch_log"
-omarchy agent prompt "Review this project"
+lunaos agent prompt "Review this project"
 mapfile -d '' -t launch_args <"$launch_log"
-[[ ${launch_args[*]} == "--app-id=org.omarchy.agent opencode --auto --prompt Review this project" ]] ||
-  fail "omarchy agent prompt routes the prompt to the launcher"
+[[ ${launch_args[*]} == "--app-id=org.lunaos.agent opencode --auto --prompt Review this project" ]] ||
+  fail "lunaos agent prompt routes the prompt to the launcher"
 
 : >"$launch_log"
-if omarchy agent Review this project >"$test_tmp/positional-output" 2>&1; then
-  fail "omarchy agent rejects a positional prompt"
+if lunaos agent Review this project >"$test_tmp/positional-output" 2>&1; then
+  fail "lunaos agent rejects a positional prompt"
 fi
-grep -F "omarchy agent prompt" "$test_tmp/positional-output" >/dev/null ||
-  fail "omarchy agent points a positional prompt at the prompt route"
-[[ ! -s $launch_log ]] || fail "omarchy agent starts nothing for a positional prompt"
-pass "omarchy agent keeps prompts on the prompt route"
+grep -F "lunaos agent prompt" "$test_tmp/positional-output" >/dev/null ||
+  fail "lunaos agent points a positional prompt at the prompt route"
+[[ ! -s $launch_log ]] || fail "lunaos agent starts nothing for a positional prompt"
+pass "lunaos agent keeps prompts on the prompt route"
 
 printf '%s\n' "missing" >"$agent_file"
-if OMARCHY_TEST_MISSING_COMMAND=missing omarchy-agent >"$test_tmp/missing-output" 2>&1; then
+if LUNAOS_TEST_MISSING_COMMAND=missing lunaos-agent >"$test_tmp/missing-output" 2>&1; then
   fail "agent launcher rejects a missing default command"
 fi
 grep -F "missing is not installed" "$test_tmp/missing-output" >/dev/null ||
@@ -674,65 +674,65 @@ grep -F "missing is not installed" "$test_tmp/missing-output" >/dev/null ||
 pass "agent launcher reports a missing default command"
 
 # OpenClaw is its own self-updating runtime, not mise's: choosing it must route
-# through omarchy-install-openclaw-cli and never touch a mise environment.
+# through lunaos-install-openclaw-cli and never touch a mise environment.
 # openclaw-cli-test.sh covers the installer itself.
-cat >"$mock_bin/omarchy-install-openclaw-cli" <<'SH'
+cat >"$mock_bin/lunaos-install-openclaw-cli" <<'SH'
 #!/bin/bash
 if [[ $1 == "--check" ]]; then
-  [[ ${OMARCHY_TEST_OPENCLAW_INSTALLED:-false} == "true" ]]
+  [[ ${LUNAOS_TEST_OPENCLAW_INSTALLED:-false} == "true" ]]
 else
-  printf '%s\n' "install-openclaw-cli $*" >>"$OMARCHY_TEST_STUB_LOG"
+  printf '%s\n' "install-openclaw-cli $*" >>"$LUNAOS_TEST_STUB_LOG"
 fi
 SH
-cat >"$mock_bin/omarchy-launch-openclaw" <<'SH'
+cat >"$mock_bin/lunaos-launch-openclaw" <<'SH'
 #!/bin/bash
-printf '%s\0' omarchy-launch-openclaw "$@" >"$OMARCHY_TEST_AGENT_INLINE_LOG"
+printf '%s\0' lunaos-launch-openclaw "$@" >"$LUNAOS_TEST_AGENT_INLINE_LOG"
 SH
 cat >"$mock_bin/openclaw" <<'SH'
 #!/bin/bash
 exit 0
 SH
-chmod +x "$mock_bin/omarchy-install-openclaw-cli" \
-  "$mock_bin/omarchy-launch-openclaw" "$mock_bin/openclaw"
+chmod +x "$mock_bin/lunaos-install-openclaw-cli" \
+  "$mock_bin/lunaos-launch-openclaw" "$mock_bin/openclaw"
 
 : >"$launch_log"
 : >"$terminal_log"
 : >"$mise_history"
-OMARCHY_TEST_OPENCLAW_INSTALLED=true omarchy-default-agent openclaw
+LUNAOS_TEST_OPENCLAW_INSTALLED=true lunaos-default-agent openclaw
 read -r chosen <"$agent_file"
 [[ $chosen == openclaw ]] || fail "choosing OpenClaw records it as the default agent"
 mapfile -d '' -t launch_args <"$launch_log"
-[[ ${launch_args[*]} == "--app-id=org.omarchy.agent omarchy-launch-openclaw --tui" ]] ||
+[[ ${launch_args[*]} == "--app-id=org.lunaos.agent lunaos-launch-openclaw --tui" ]] ||
   fail "choosing OpenClaw launches its terminal UI"
 [[ ! -s $terminal_log ]] || fail "an installed OpenClaw needs no install terminal"
 ! grep -q 'use -g openclaw' "$mise_history" || fail "OpenClaw never installs through mise"
 pass "choosing OpenClaw uses its runtime and launches its terminal UI"
 
 : >"$terminal_log"
-OMARCHY_TEST_OPENCLAW_INSTALLED=false omarchy-default-agent openclaw
+LUNAOS_TEST_OPENCLAW_INSTALLED=false lunaos-default-agent openclaw
 mapfile -d '' -t terminal_args <"$terminal_log"
-[[ ${terminal_args[*]} == "omarchy-default-agent --install openclaw" ]] ||
+[[ ${terminal_args[*]} == "lunaos-default-agent --install openclaw" ]] ||
   fail "a missing OpenClaw routes through the install terminal"
 pass "a missing OpenClaw routes through the install terminal"
 
 : >"$stub_log"
 : >"$inline_log"
-OMARCHY_TEST_OPENCLAW_INSTALLED=false omarchy-default-agent --install openclaw >/dev/null
+LUNAOS_TEST_OPENCLAW_INSTALLED=false lunaos-default-agent --install openclaw >/dev/null
 grep -Fx "install-openclaw-cli --now" "$stub_log" >/dev/null ||
   fail "installing OpenClaw as default agent sets up its runtime"
 mapfile -d '' -t inline_args <"$inline_log"
-[[ ${inline_args[*]} == "omarchy-launch-openclaw --tui" ]] ||
+[[ ${inline_args[*]} == "lunaos-launch-openclaw --tui" ]] ||
   fail "installing OpenClaw as default agent hands over to its terminal UI"
 pass "installing OpenClaw as default agent sets up its runtime"
 
 : >"$launch_log"
-omarchy agent prompt "Review this project"
+lunaos agent prompt "Review this project"
 mapfile -d '' -t launch_args <"$launch_log"
 # Element-wise: the prompt must travel as one argv entry, which a space-joined
 # comparison could not tell apart from a prompt split into words.
 [[ ${#launch_args[@]} == 5 &&
-  ${launch_args[0]} == "--app-id=org.omarchy.agent" &&
-  ${launch_args[1]} == "omarchy-launch-openclaw" &&
+  ${launch_args[0]} == "--app-id=org.lunaos.agent" &&
+  ${launch_args[1]} == "lunaos-launch-openclaw" &&
   ${launch_args[2]} == "--tui" &&
   ${launch_args[3]} == "--message" &&
   ${launch_args[4]} == "Review this project" ]] ||
@@ -741,19 +741,19 @@ pass "OpenClaw receives prompts through --message"
 
 # With the package and no openclaw command, the launcher sets OpenClaw up, so
 # the agent hands over to it rather than calling OpenClaw missing.
-cat >"$mock_bin/omarchy-pkg-present" <<'SH'
+cat >"$mock_bin/lunaos-pkg-present" <<'SH'
 #!/bin/bash
-[[ " ${OMARCHY_TEST_PACKAGES:-} " == *" $1 "* ]]
+[[ " ${LUNAOS_TEST_PACKAGES:-} " == *" $1 "* ]]
 SH
-chmod +x "$mock_bin/omarchy-pkg-present"
+chmod +x "$mock_bin/lunaos-pkg-present"
 : >"$launch_log"
-OMARCHY_TEST_MISSING_COMMAND=openclaw OMARCHY_TEST_PACKAGES=openclaw omarchy-agent >/dev/null 2>&1 ||
+LUNAOS_TEST_MISSING_COMMAND=openclaw LUNAOS_TEST_PACKAGES=openclaw lunaos-agent >/dev/null 2>&1 ||
   fail "OpenClaw's agent launches with the package and no command yet"
 mapfile -d '' -t launch_args <"$launch_log"
-[[ ${launch_args[*]} == "--app-id=org.omarchy.agent omarchy-launch-openclaw --tui" ]] ||
+[[ ${launch_args[*]} == "--app-id=org.lunaos.agent lunaos-launch-openclaw --tui" ]] ||
   fail "OpenClaw's agent hands a missing command to its launcher when the package is there" "argv: ${launch_args[*]}"
 : >"$launch_log"
-if OMARCHY_TEST_MISSING_COMMAND=openclaw OMARCHY_TEST_PACKAGES= omarchy-agent >/dev/null 2>&1; then
+if LUNAOS_TEST_MISSING_COMMAND=openclaw LUNAOS_TEST_PACKAGES= lunaos-agent >/dev/null 2>&1; then
   fail "OpenClaw's agent without the package is still missing"
 fi
 [[ ! -s $launch_log ]] || fail "OpenClaw's agent without the package starts nothing"
@@ -765,7 +765,7 @@ for agent in cursor-agent muse; do
   printf '#!/bin/bash\nprintf "official %s\\n"\n' "$agent" >"$test_home/.local/bin/$agent"
   chmod +x "$test_home/.local/bin/$agent"
   printf '%s\n' "$agent" >"$agent_file"
-  output=$("$ROOT/bin/omarchy-agent" --inline)
+  output=$("$ROOT/bin/lunaos-agent" --inline)
   [[ $output == "official $agent" ]] || fail "agent launcher preserves the user-installed $agent ahead of a mise shim"
   rm "$test_home/.local/bin/$agent"
 done

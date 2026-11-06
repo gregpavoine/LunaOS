@@ -1,6 +1,6 @@
 # Instalacja równoległa (dual boot)
 
-Możesz zainstalować Omarchy na pojedynczej partycji obok Windowsa albo innych instalacji.
+Możesz zainstalować LunaOS na pojedynczej partycji obok Windowsa albo innych instalacji.
 
 Ta metoda instalacji nadal dostarcza domyślnie szyfrowanie LUKS dla partycji, więc w praktyce niczym się nie różni od instalacji na całym dysku i po prostu wymaga wolnego miejsca na dysku.
 
@@ -14,17 +14,17 @@ Znajdź odpowiednią partycję, kliknij ją prawym przyciskiem myszy i wybierz *
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- Wprowadź ilość, o jaką chcesz zmniejszyć wolumen. Pamiętaj, że będzie to rozmiar twojej przyszłej instalacji Omarchy łącznie z partycją rozruchową.
+ Wprowadź ilość, o jaką chcesz zmniejszyć wolumen. Pamiętaj, że będzie to rozmiar twojej przyszłej instalacji LunaOS łącznie z partycją rozruchową.
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-Gdy skończysz, powinieneś zobaczyć coś takiego, gdzie sekcja 50GB jest miejscem, w którym w tym przykładzie zainstalujemy Omarchy.
+Gdy skończysz, powinieneś zobaczyć coś takiego, gdzie sekcja 50GB jest miejscem, w którym w tym przykładzie zainstalujemy LunaOS.
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## Instalacja Omarchy
+## Instalacja LunaOS
 
-Proces instalacji Omarchy wygląda w praktyce tak samo jak zwykle. Po wybraniu dysku dostaniesz opcję **Free space install**. Wybierz tę opcję, aby zapobiec wyczyszczeniu całego dysku.
+Proces instalacji LunaOS wygląda w praktyce tak samo jak zwykle. Po wybraniu dysku dostaniesz opcję **Free space install**. Wybierz tę opcję, aby zapobiec wyczyszczeniu całego dysku.
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Potwierdź, że wszystko wygląda dobrze, i poczekaj, aż instalacja się zakoń
 
 ## Dodawanie innych instalacji do programu rozruchowego
 
-Gdy skończysz instalację Omarchy, zauważysz, że domyślnym programem rozruchowym jest teraz Limine. Dzięki niemu możesz też dodać do Limine opcje dla innych instalacji, takich jak Windows.
+Gdy skończysz instalację LunaOS, zauważysz, że domyślnym programem rozruchowym jest teraz Limine. Dzięki niemu możesz też dodać do Limine opcje dla innych instalacji, takich jak Windows.
 
-Aby to zrobić, uruchom `limine-scan` i postępuj zgodnie z monitami, aby dodać do konfiguracji limine, które elementy chcesz. Wtedy przy rozruchu zobaczysz swoje zwykłe opcje Omarchy, a także Windows Boot Manager i inne.
+Aby to zrobić, uruchom `limine-scan` i postępuj zgodnie z monitami, aby dodać do konfiguracji limine, które elementy chcesz. Wtedy przy rozruchu zobaczysz swoje zwykłe opcje LunaOS, a także Windows Boot Manager i inne.
 
 ## Bitlocker
 

@@ -16,7 +16,7 @@ log_file="$tmpdir/hyprctl.log"
 marker="$tmpdir/marker"
 mkdir -p "$stub_dir" "$home_dir" "$xdg_decoy"
 
-state_dir="$home_dir/.local/state/omarchy/toggles/hypr"
+state_dir="$home_dir/.local/state/lunaos/toggles/hypr"
 name_file="$state_dir/touchpad-disabled-name"
 state_lua="$state_dir/touchpad-disabled.lua"
 
@@ -29,20 +29,20 @@ esac
 EOF
 chmod +x "$stub_dir/hyprctl"
 
-cat >"$stub_dir/omarchy-osd" <<'EOF'
+cat >"$stub_dir/lunaos-osd" <<'EOF'
 #!/bin/bash
 :
 EOF
-chmod +x "$stub_dir/omarchy-osd"
+chmod +x "$stub_dir/lunaos-osd"
 
 stub_device() {
   local kind=$1
   local name=$2
-  cat >"$stub_dir/omarchy-hw-$kind" <<EOF
+  cat >"$stub_dir/lunaos-hw-$kind" <<EOF
 #!/bin/bash
 printf '%s\n' '$name'
 EOF
-  chmod +x "$stub_dir/omarchy-hw-$kind"
+  chmod +x "$stub_dir/lunaos-hw-$kind"
 }
 
 # XDG_STATE_HOME deliberately points away from HOME everywhere below: the
@@ -54,7 +54,7 @@ run_toggle() {
     XDG_STATE_HOME="$xdg_decoy" \
     HYPRCTL_LOG="$log_file" \
     PATH="$stub_dir:$ROOT/bin:$PATH" \
-    "$ROOT/bin/omarchy-toggle-input-device" "$@"
+    "$ROOT/bin/lunaos-toggle-input-device" "$@"
 }
 
 assert_decoy_untouched() {
@@ -112,7 +112,7 @@ grep -F 'hl.device({ name = "touchpad\"' "$log_file" >/dev/null ||
   fail "hyprctl eval Lua-quotes quotes in the device name" "$(<"$log_file")"
 pass "touchpad disable treats USB device names as data"
 
-HOME="$home_dir" XDG_STATE_HOME="$xdg_decoy" OMARCHY_PATH="$ROOT" MARKER="$marker" lua - <<'LUA'
+HOME="$home_dir" XDG_STATE_HOME="$xdg_decoy" LUNAOS_PATH="$ROOT" MARKER="$marker" lua - <<'LUA'
 local seen = {}
 hl = {
   device = function(opts)
@@ -123,7 +123,7 @@ hl = {
   get_windows = function() return {} end,
 }
 
-dofile(os.getenv("OMARCHY_PATH") .. "/default/hypr/bootstrap.lua")
+dofile(os.getenv("LUNAOS_PATH") .. "/default/hypr/bootstrap.lua")
 require("default.hypr.toggles")
 assert(#seen == 1, "reload disables one device")
 assert(seen[1].enabled == false)
@@ -142,7 +142,7 @@ run_toggle touchpad off
 [[ $(<"$name_file") == "$poc_name" ]] || fail "PoC device name is stored only as data"
 [[ ! -e $state_lua ]] || fail "PoC device name is not written as Lua"
 
-HOME="$home_dir" XDG_STATE_HOME="$xdg_decoy" OMARCHY_PATH="$ROOT" \
+HOME="$home_dir" XDG_STATE_HOME="$xdg_decoy" LUNAOS_PATH="$ROOT" \
   POC_NAME="$poc_name" EVAL_SNIPPET="$(<"$log_file")" lua - <<'LUA'
 local poc = os.getenv("POC_NAME")
 local snippet = os.getenv("EVAL_SNIPPET")
@@ -169,7 +169,7 @@ assert(load('hl.device({ name = "' .. poc .. '", enabled = false })', "unquoted"
 assert(executed == true, "unquoted interpolation is the Lua injection")
 
 seen, executed = {}, false
-dofile(os.getenv("OMARCHY_PATH") .. "/default/hypr/bootstrap.lua")
+dofile(os.getenv("LUNAOS_PATH") .. "/default/hypr/bootstrap.lua")
 require("default.hypr.toggles")
 assert(executed == false, "reload must not run os.execute")
 assert(#seen == 1)
@@ -177,11 +177,11 @@ assert(seen[1].name == poc)
 LUA
 pass "PoC device name cannot execute via eval or reload"
 
-cat >"$stub_dir/omarchy-hw-touchpad" <<'EOF'
+cat >"$stub_dir/lunaos-hw-touchpad" <<'EOF'
 #!/bin/bash
 printf 'evil\nname\n'
 EOF
-chmod +x "$stub_dir/omarchy-hw-touchpad"
+chmod +x "$stub_dir/lunaos-hw-touchpad"
 
 rm -f "$name_file"
 set +e
@@ -201,11 +201,11 @@ set -e
 [[ ! -e $name_file ]] || fail "enable clears persisted state even with an invalid device name"
 pass "a bad device name cannot wedge the persisted disable"
 
-cat >"$stub_dir/omarchy-hw-touchpad" <<'EOF'
+cat >"$stub_dir/lunaos-hw-touchpad" <<'EOF'
 #!/bin/bash
 :
 EOF
-chmod +x "$stub_dir/omarchy-hw-touchpad"
+chmod +x "$stub_dir/lunaos-hw-touchpad"
 
 set +e
 run_toggle touchpad off >/dev/null 2>&1
@@ -220,7 +220,7 @@ pass "disable errors when no device is found"
 # must not source it. toggles.lua excludes those two names from require_all, so the
 # payload never runs, while a current name-file disable still applies.
 reload_home="$tmpdir/reload-home"
-reload_state="$reload_home/.local/state/omarchy/toggles/hypr"
+reload_state="$reload_home/.local/state/lunaos/toggles/hypr"
 mkdir -p "$reload_state"
 reload_marker="$tmpdir/reload-executed"
 rm -f "$reload_marker"
@@ -228,13 +228,13 @@ printf 'hl.device({ name = "trackpad"})os.execute("touch %s")--", enabled = fals
   >"$reload_state/touchpad-disabled.lua"
 printf 'elan-touchpad\n' >"$reload_state/touchpad-disabled-name"
 
-HOME="$reload_home" XDG_STATE_HOME="$reload_home/.local/state" OMARCHY_PATH="$ROOT" lua - <<'LUA'
+HOME="$reload_home" XDG_STATE_HOME="$reload_home/.local/state" LUNAOS_PATH="$ROOT" lua - <<'LUA'
 local disabled = {}
 hl = {
   device = function(opts) table.insert(disabled, opts) end,
   get_windows = function() return {} end,
 }
-dofile(os.getenv("OMARCHY_PATH") .. "/default/hypr/bootstrap.lua")
+dofile(os.getenv("LUNAOS_PATH") .. "/default/hypr/bootstrap.lua")
 require("default.hypr.toggles")
 assert(#disabled == 1, "only the current name-file disable is applied")
 assert(disabled[1].name == "elan-touchpad", "disable uses the stored device name")

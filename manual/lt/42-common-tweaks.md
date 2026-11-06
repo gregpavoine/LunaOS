@@ -1,8 +1,8 @@
 # Dažni patobulinimai
 
-Tai dažnų Omarchy sąrankos pritaikymų rinkinys. Žinok, kad sistemos naujinimams kartais gali prireikti tam tikras konfigūracijas grąžinti į pradinę būseną. Jei taip atsitiks, tavo pakeitimai nedings, o bus padėti į `.bak` failą tame pačiame kataloge.
+Tai dažnų LunaOS sąrankos pritaikymų rinkinys. Žinok, kad sistemos naujinimams kartais gali prireikti tam tikras konfigūracijas grąžinti į pradinę būseną. Jei taip atsitiks, tavo pakeitimai nedings, o bus padėti į `.bak` failą tame pačiame kataloge.
 
-Jei ką sugadinsi, atskiras konfigūracijas į pradinę sąranką gali atkurti Omarchy meniu per _Atnaujinti > Konfigūracija_. Jei _iš tikrųjų_ viską sugadinsi, visas konfigūracijas gali iš naujo nustatyti su `omarchy-reinstall`.
+Jei ką sugadinsi, atskiras konfigūracijas į pradinę sąranką gali atkurti LunaOS meniu per _Atnaujinti > Konfigūracija_. Jei _iš tikrųjų_ viską sugadinsi, visas konfigūracijas gali iš naujo nustatyti su `lunaos-reinstall`.
 
 ### Visada rodyti visas dėklo piktogramas
 
@@ -10,7 +10,7 @@ Pagal numatytuosius dėklo piktogramos, tokios kaip Dropbox, 1password ar Steam,
 
 ### Užapvalinti langų kampai
 
-Numatytasis Omarchy dizainas yra kvadratinių kampų, bet jei mėgsti tai šiek tiek sušvelninti, gali pakeisti `~/.config/hypr/looknfeel.lua`, kad rounding nebebūtų užkomentuotas:
+Numatytasis LunaOS dizainas yra kvadratinių kampų, bet jei mėgsti tai šiek tiek sušvelninti, gali pakeisti `~/.config/hypr/looknfeel.lua`, kad rounding nebebūtų užkomentuotas:
 
 ```
 hl.config({

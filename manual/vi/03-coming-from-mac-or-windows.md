@@ -1,12 +1,12 @@
 # Chuyển từ Mac hoặc Windows sang
 
-Nếu bạn đã dành nhiều năm trên macOS hoặc Windows, các ngón tay của bạn biết cả trăm điều mà bộ não của bạn đã quên là nó từng học. Chương này là lớp dịch thuật: những bản năng đó đi đâu trong Omarchy. Bản thân các tính năng được trình bày sâu ở những nơi khác — đây chỉ là bản đồ.
+Nếu bạn đã dành nhiều năm trên macOS hoặc Windows, các ngón tay của bạn biết cả trăm điều mà bộ não của bạn đã quên là nó từng học. Chương này là lớp dịch thuật: những bản năng đó đi đâu trong LunaOS. Bản thân các tính năng được trình bày sâu ở những nơi khác — đây chỉ là bản đồ.
 
 ### Super là trung tâm của mọi thứ
 
-Mọi trí nhớ cơ bắp mà bạn đã xây dựng quanh phím Cmd hoặc phím Windows đều chuyển sang một phím duy nhất: Super. Đó là phím Windows trên bàn phím PC, và nó là điểm neo cho gần như mọi phím tắt trong Omarchy.
+Mọi trí nhớ cơ bắp mà bạn đã xây dựng quanh phím Cmd hoặc phím Windows đều chuyển sang một phím duy nhất: Super. Đó là phím Windows trên bàn phím PC, và nó là điểm neo cho gần như mọi phím tắt trong LunaOS.
 
-Phản xạ Spotlight hoặc Raycast hoặc menu Start của bạn trở thành `Super + Space`. Thao tác đó mở menu Omarchy, nơi khởi chạy ứng dụng, thay đổi cài đặt, cài đặt phần mềm, chụp màn hình — hầu như mọi thứ. Bắt đầu gõ để lọc. `Super + Alt + Space` hiển thị mọi ứng dụng trên một lưới duy nhất, giống như Launchpad. Xem [điều hướng](04-navigation.md).
+Phản xạ Spotlight hoặc Raycast hoặc menu Start của bạn trở thành `Super + Space`. Thao tác đó mở menu LunaOS, nơi khởi chạy ứng dụng, thay đổi cài đặt, cài đặt phần mềm, chụp màn hình — hầu như mọi thứ. Bắt đầu gõ để lọc. `Super + Alt + Space` hiển thị mọi ứng dụng trên một lưới duy nhất, giống như Launchpad. Xem [điều hướng](04-navigation.md).
 
 ### Không có dock và không có biểu tượng trên desktop
 
@@ -22,27 +22,27 @@ Các không gian làm việc sẽ cảm thấy quen thuộc: chúng là Spaces c
 
 ### Sao chép và dán cứ thế mà hoạt động
 
-Trên Mac bạn có Cmd + C ở khắp mọi nơi. Trên Windows bạn có Ctrl + C ở khắp mọi nơi — ngoại trừ terminal, nơi nó giết chương trình của bạn. Omarchy cho bạn `Super + C`, `Super + X` và `Super + V`, và chúng hoạt động ở khắp mọi nơi, kể cả terminal. Không cần học một phản xạ riêng cho shell.
+Trên Mac bạn có Cmd + C ở khắp mọi nơi. Trên Windows bạn có Ctrl + C ở khắp mọi nơi — ngoại trừ terminal, nơi nó giết chương trình của bạn. LunaOS cho bạn `Super + C`, `Super + X` và `Super + V`, và chúng hoạt động ở khắp mọi nơi, kể cả terminal. Không cần học một phản xạ riêng cho shell.
 
 Những người dùng Windows: lịch sử bảng nhớ tạm Win + V của bạn nằm trên `Super + Ctrl + V`, và nó chứa cả hình ảnh lẫn văn bản. Xem [bảng nhớ tạm & lịch sử thống nhất](08-unified-clipboard-history.md).
 
 ### Bảng dịch thuật
 
-| Bạn với tay tới | Trong Omarchy |
+| Bạn với tay tới | Trong LunaOS |
 | ------------- | ---------- |
-| Spotlight / Raycast / menu Start | `Super + Space` — menu Omarchy |
+| Spotlight / Raycast / menu Start | `Super + Space` — menu LunaOS |
 | AirDrop | LocalSend, qua `Super + Ctrl + S` — xem [GUI](22-guis.md) |
 | Cmd + Shift + 4 / Win + Shift + S | `Print Screen` — xem [ảnh chụp màn hình & ghi hình](12-screenshots-recording.md) |
 | Trung tâm thông báo | Lịch sử thông báo trên `Super + Shift + Alt + ,` |
 | Time Machine (cho hệ thống) | [Ảnh chụp hệ thống](47-system-snapshots.md) tự động trong mỗi lần cập nhật |
-| App Store / tải xuống trình cài đặt | _Cài đặt_ trong menu, hoặc `omarchy pkg add` — xem [các gói khác](29-other-packages.md) |
+| App Store / tải xuống trình cài đặt | _Cài đặt_ trong menu, hoặc `lunaos pkg add` — xem [các gói khác](29-other-packages.md) |
 | Cài đặt hệ thống / Bảng điều khiển | _Thiết lập_ trong menu, nơi chỉnh sửa các tệp cấu hình thuần túy — xem [dotfiles](31-dotfiles.md) |
 
 ### Một số điều thực sự khác biệt
 
 Rất nhiều cài đặt nằm trong các tệp văn bản mà bạn chỉnh sửa, chứ không phải các bảng mà bạn nhấp qua. Điều đó nghe có vẻ thô sơ cho đến khi bạn nhận ra nó có nghĩa là mọi tinh chỉnh đều có thể được nhìn thấy, sao chép sang máy tiếp theo của bạn, và đưa vào hệ thống quản lý phiên bản. Menu _Thiết lập_ đưa bạn thẳng vào đúng tệp và khởi động lại bất cứ thứ gì cần khởi động lại khi bạn hoàn tất.
 
-Các bản cập nhật đến qua một lệnh duy nhất — _Cập nhật > Omarchy_ — lệnh này cập nhật chính Omarchy và mọi gói trên hệ thống, đồng thời tạo một ảnh chụp trước. Không có trình cập nhật riêng cho từng ứng dụng làm phiền bạn vào những lúc ngẫu nhiên. Xem [cập nhật](30-updates.md).
+Các bản cập nhật đến qua một lệnh duy nhất — _Cập nhật > LunaOS_ — lệnh này cập nhật chính LunaOS và mọi gói trên hệ thống, đồng thời tạo một ảnh chụp trước. Không có trình cập nhật riêng cho từng ứng dụng làm phiền bạn vào những lúc ngẫu nhiên. Xem [cập nhật](30-updates.md).
 
 Phần mềm đến từ một trình quản lý gói, chứ không phải từ các trình cài đặt được tải xuống.
 
@@ -50,7 +50,7 @@ Và khi bạn đóng một cửa sổ, ứng dụng thực sự thoát. Không c
 
 ### Trên phần cứng Mac
 
-Omarchy chạy tốt trên các máy Mac Intel — xem [hỗ trợ Mac](44-mac-support.md). Và bàn phím rất thân thiện với bạn: Omarchy không ánh xạ lại bất cứ thứ gì, và Linux coi phím Command là Super, vì vậy Super nằm ngay tại nơi Cmd luôn ở đó. Ngón tay cái của bạn sẽ không nhận ra sự thay đổi.
+LunaOS chạy tốt trên các máy Mac Intel — xem [hỗ trợ Mac](44-mac-support.md). Và bàn phím rất thân thiện với bạn: LunaOS không ánh xạ lại bất cứ thứ gì, và Linux coi phím Command là Super, vì vậy Super nằm ngay tại nơi Cmd luôn ở đó. Ngón tay cái của bạn sẽ không nhận ra sự thay đổi.
 
 ### Hãy cho nó hai tuần
 

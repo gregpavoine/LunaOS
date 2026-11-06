@@ -1,6 +1,6 @@
 # Tvöföld ræsing uppsetning
 
-Þú getur sett Omarchy upp á eina disksneið við hlið Windows eða annarra uppsetninga.
+Þú getur sett LunaOS upp á eina disksneið við hlið Windows eða annarra uppsetninga.
 
 Þessi uppsetningaraðferð kemur enn með LUKS dulritun fyrir sneiðina sjálfgefið, svo hún er í raun engu frábrugðin fullu drifi og krefst einfaldlega þess að laust pláss sé til á diskinum.
 
@@ -14,17 +14,17 @@ Finndu viðeigandi sneið, hægrismelltu og veldu **Shrink Volume**.
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- Sláðu inn magnið sem þú vilt minnka magnið um. Athugaðu að þetta verður stærð framtíðar Omarchy uppsetningarinnar þinnar að meðtalinni ræsisneiðinni.
+ Sláðu inn magnið sem þú vilt minnka magnið um. Athugaðu að þetta verður stærð framtíðar LunaOS uppsetningarinnar þinnar að meðtalinni ræsisneiðinni.
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-Þegar þú ert búinn ættirðu að sjá eitthvað eins og þetta þar sem 50GB hlutinn er þar sem við munum setja upp Omarchy í þessu dæmi.
+Þegar þú ert búinn ættirðu að sjá eitthvað eins og þetta þar sem 50GB hlutinn er þar sem við munum setja upp LunaOS í þessu dæmi.
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## Að setja upp Omarchy
+## Að setja upp LunaOS
 
-Uppsetningarferlið fyrir Omarchy er í raun það sama og venjulegt. Eftir að þú velur diskinn þinn færðu valkostinn **Free space install**. Veldu þann valkost til að koma í veg fyrir að allur diskurinn þurrkist út.
+Uppsetningarferlið fyrir LunaOS er í raun það sama og venjulegt. Eftir að þú velur diskinn þinn færðu valkostinn **Free space install**. Veldu þann valkost til að koma í veg fyrir að allur diskurinn þurrkist út.
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Staðfestu að allt líti vel út og bíddu eftir að uppsetningin klárist eins
 
 ## Að bæta öðrum uppsetningum við ræsiforritið
 
-Þegar þú klárar Omarchy uppsetninguna þína munt þú taka eftir að Limine ræsiforritið er sjálfgildið núna. Með því geturðu líka bætt valkostum við Limine fyrir aðrar uppsetningar þínar eins og Windows.
+Þegar þú klárar LunaOS uppsetninguna þína munt þú taka eftir að Limine ræsiforritið er sjálfgildið núna. Með því geturðu líka bætt valkostum við Limine fyrir aðrar uppsetningar þínar eins og Windows.
 
-Til að gera það skaltu keyra `limine-scan` og fylgja kvaðningunum til að bæta hvaða hlutum sem þú vilt við limine stillinguna þína. Þegar þú ræsir sérðu svo venjulega valkostina þína fyrir Omarchy, sem og Windows Boot Manager eða fleiri.
+Til að gera það skaltu keyra `limine-scan` og fylgja kvaðningunum til að bæta hvaða hlutum sem þú vilt við limine stillinguna þína. Þegar þú ræsir sérðu svo venjulega valkostina þína fyrir LunaOS, sem og Windows Boot Manager eða fleiri.
 
 ## Bitlocker
 

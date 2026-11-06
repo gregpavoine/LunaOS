@@ -6,7 +6,7 @@ Wszystkie główne przypisania klawiszy zobaczysz przez `Super + K` (przypisania
 
 | Skrót                  | Funkcja              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Menu Omarchy (aplikacje i wszystko inne)    |
+| `Super + Space`           | Menu LunaOS (aplikacje i wszystko inne)    |
 | `Super + Alt + Space` | Siatka aplikacji |
 | `Super + Escape` | Menu systemowe (uśpienie, restart itd.)  |
 | `Super + Ctrl + L` | Zablokowanie komputera |
@@ -136,7 +136,7 @@ Przypisania zmienisz/dodasz w `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Wklejanie    |
 | `Super + Ctrl + V`           | Menedżer schowka    |
 
-Zwykle na Linuksie potrzebujesz `Ctrl + Shift + C/V` do kopiowania i wklejania w terminalu oraz `Ctrl + C/V` w pozostałych miejscach. Te ujednolicone skróty schowka Omarchy działają wszędzie.
+Zwykle na Linuksie potrzebujesz `Ctrl + Shift + C/V` do kopiowania i wklejania w terminalu oraz `Ctrl + C/V` w pozostałych miejscach. Te ujednolicone skróty schowka LunaOS działają wszędzie.
 
 ## Przechwytywanie
 
@@ -156,7 +156,7 @@ Zwykle na Linuksie potrzebujesz `Ctrl + Shift + C/V` do kopiowania i wklejania w
 
 W przypadku nagrań ekranu skrót najpierw pyta, jaki dźwięk chcesz, a potem zaczyna nagrywanie. Naciśnij go ponownie, żeby zatrzymać. Szczegóły znajdziesz w [zrzuty ekranu i nagrywanie](12-screenshots-recording.md).
 
-Wszystkie opcje przechwytywania są też dostępne pod _Akcje > Przechwyć_ w menu Omarchy (`Super + Space`).
+Wszystkie opcje przechwytywania są też dostępne pod _Akcje > Przechwyć_ w menu LunaOS (`Super + Space`).
 
 ## Powiadomienia
 
@@ -177,9 +177,9 @@ Wszystkie opcje przechwytywania są też dostępne pod _Akcje > Przechwyć_ w me
 | `Super + Backspace` | Przełączenie przezroczystości okna |
 | `Super + Ctrl + Backspace` | Przełączenie kwadratowych proporcji 1 okna |
 
-Dodatkowe obrazy tła mieszkają w `~/.config/omarchy/backgrounds/<theme name>`. Dostępne też przez _Instaluj > Styl > Tło_ w menu Omarchy.
+Dodatkowe obrazy tła mieszkają w `~/.config/lunaos/backgrounds/<theme name>`. Dostępne też przez _Instaluj > Styl > Tło_ w menu LunaOS.
 
-Wszystkie opcje stylu są też dostępne pod _Styl_ w menu Omarchy (`Super + Space`).
+Wszystkie opcje stylu są też dostępne pod _Styl_ w menu LunaOS (`Super + Space`).
 
 ## Przełączniki
 
@@ -281,7 +281,7 @@ Te funkcje muszą być uruchamiane wewnątrz sesji Tmux.
 
 ## Terminal Ghostty
 
-Terminal Ghostty instaluje się przez _Instaluj > Terminal_ z menu Omarchy.
+Terminal Ghostty instaluje się przez _Instaluj > Terminal_ z menu LunaOS.
 
 | Skrót                  | Funkcja              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Możesz użyć `Super + Ctrl + E`, żeby pokazać kompletny wybór emoji, który
 | `Shift + CapsLock Space N` | Twoje imię i nazwisko (jak podane przy konfiguracji)  |
 | `Shift + CapsLock Space E` | Twój e-mail (jak podany przy konfiguracji)  |
 
-Możesz dodać więcej własnych, edytując `~/.XCompose`, a potem uruchamiając w terminalu `omarchy-restart-xcompose`, żeby zmiany zostały przechwycone.
+Możesz dodać więcej własnych, edytując `~/.XCompose`, a potem uruchamiając w terminalu `lunaos-restart-xcompose`, żeby zmiany zostały przechwycone.

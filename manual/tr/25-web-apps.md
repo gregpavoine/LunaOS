@@ -1,10 +1,10 @@
 # Web Uygulamaları
 
-Kendi web uygulamalarınızı Omarchy menüsündeki (`Super + Space`) _Kur > Web App_ seçeneğini kullanarak ekleyebilirsiniz. Sizden uygulama adını, uygulama URL'sini ve favicon aracılığıyla alamazsa simge URL'sini isteyecektir. Birçok popüler web uygulaması için harika PNG simgelerini [Dashboard Icons](https://dashboardicons.com) adresinde bulabilirsiniz.
+Kendi web uygulamalarınızı LunaOS menüsündeki (`Super + Space`) _Kur > Web App_ seçeneğini kullanarak ekleyebilirsiniz. Sizden uygulama adını, uygulama URL'sini ve favicon aracılığıyla alamazsa simge URL'sini isteyecektir. Birçok popüler web uygulaması için harika PNG simgelerini [Dashboard Icons](https://dashboardicons.com) adresinde bulabilirsiniz.
 
 Bunlar daha sonra uygulama başlatıcı (`Super + Space`) aracılığıyla erişilebilir olacak ve güzel çerçevesiz web uygulaması penceresini kullanacaktır.
 
-Bir web uygulamasını kaldırmak isterseniz, Omarchy menüsünde _Kaldır > Web App_ seçeneğine gitmeniz yeterlidir.
+Bir web uygulamasını kaldırmak isterseniz, LunaOS menüsünde _Kaldır > Web App_ seçeneğine gitmeniz yeterlidir.
 
 Web uygulaması kısayollarını kullanmadan önce tüm hesaplarınıza normal bir tarayıcı kullanarak giriş yapmanız en iyisidir. İnce sarmalayıcı çerçeve 1password ile iyi çalışmaz, bu yüzden doğrudan önceden giriş yapmış olmak daha kolaydır.
 
@@ -12,17 +12,17 @@ Bu web uygulamaları için tüm klavye kısayolları `~/.config/hypr/bindings.lu
 
 Bir web uygulamasındayken, geçerli URL'yi `Shift + Alt + L` kullanarak panoya kopyalayabilirsiniz.
 
-Varsayılan olarak Omarchy, zaten bir dizi varsayılan uygulamayla birlikte gelir:
+Varsayılan olarak LunaOS, zaten bir dizi varsayılan uygulamayla birlikte gelir:
 
 ## HEY
 
-[HEY](https://www.hey.com/), Gmail, Outlook veya Apple Mail'den bıkan insanlar için harika bir alternatif olan bir e-posta ve takvim hizmetidir. Omarchy'nin doğduğu [37signals](https://37signals.com/) tarafından yapılır.
+[HEY](https://www.hey.com/), Gmail, Outlook veya Apple Mail'den bıkan insanlar için harika bir alternatif olan bir e-posta ve takvim hizmetidir. LunaOS'nin doğduğu [37signals](https://37signals.com/) tarafından yapılır.
 
 HEY Email'i `Super + Shift + E` kullanarak başlatabilir, `Super + Shift + Alt + E` kullanarak doğrudan yeni bir e-posta oluşturmaya atlayabilir ve HEY Calendar'ı `Super + Shift + C` kullanarak başlatabilirsiniz.
 
 ## Basecamp
 
-[Basecamp](https://basecamp.com/), küçük ekiplerin daha hızlı hareket etmesine ve daha fazla ilerleme kaydetmesine yardımcı olan bir proje yönetim hizmetidir. Trello, Slack, Asana, Notion veya her neyse karmakarışık bir derlemeyi bir araya getirmek yerine Basecamp ile hepsini tek bir yerde edinebilirsiniz. Omarchy'nin doğduğu [37signals](https://37signals.com/) tarafından yapılır.
+[Basecamp](https://basecamp.com/), küçük ekiplerin daha hızlı hareket etmesine ve daha fazla ilerleme kaydetmesine yardımcı olan bir proje yönetim hizmetidir. Trello, Slack, Asana, Notion veya her neyse karmakarışık bir derlemeyi bir araya getirmek yerine Basecamp ile hepsini tek bir yerde edinebilirsiniz. LunaOS'nin doğduğu [37signals](https://37signals.com/) tarafından yapılır.
 
 Basecamp'i uygulama başlatıcıyı (`Super + Space`) kullanarak başlatabilirsiniz
 
@@ -64,19 +64,19 @@ YouTube'u `Super + Shift + Y` kullanarak başlatabilirsiniz.
 
 ## Zoom
 
-[Zoom](https://zoom.us/), ABD'de kullanılan en popüler görüntülü sohbet sistemidir. Dünya çapında harika bağlantılar. Ve 40 dakikalık toplantılar ücretli bir hesap olmadan yapılabilir. Omarchy, Zoom'un web istemcisini sarar ve zoom toplantı bağlantıları doğrudan onun içinde açılacaktır.
+[Zoom](https://zoom.us/), ABD'de kullanılan en popüler görüntülü sohbet sistemidir. Dünya çapında harika bağlantılar. Ve 40 dakikalık toplantılar ücretli bir hesap olmadan yapılabilir. LunaOS, Zoom'un web istemcisini sarar ve zoom toplantı bağlantıları doğrudan onun içinde açılacaktır.
 
 Zoom'u uygulama başlatıcıyı (`Super + Space`) kullanarak başlatırsınız.
 
 ## Discord
 
-[Discord](https://discord.com/), [Omarchy'nin kendi topluluğu](https://discord.gg/tXFUdasqhY) dahil çoğu oyun ve açık kaynak topluluğunun takıldığı yerdir.
+[Discord](https://discord.com/), [LunaOS'nin kendi topluluğu](https://discord.gg/tXFUdasqhY) dahil çoğu oyun ve açık kaynak topluluğunun takıldığı yerdir.
 
 Discord'u uygulama başlatıcıyı (`Super + Space`) kullanarak başlatırsınız.
 
 ## Microsoft uygulamaları
 
-Outlook, Word, Excel, PowerPoint, Teams ve OneDrive'ı web uygulamaları olarak eklemek için _Kur > Service > Microsoft_ seçeneğini seçin. Her uygulamanın kendi başlatıcısı vardır ve ticari Microsoft 365 URL'lerini ve mevcut tarayıcı profilinizi kullanarak doğrudan açılır. Omarchy'nin diğer web uygulamalarıyla aynı tarayıcı uygulama pencerelerinde açılırlar; ayrı Teams for Linux istemcisini kurmazlar.
+Outlook, Word, Excel, PowerPoint, Teams ve OneDrive'ı web uygulamaları olarak eklemek için _Kur > Service > Microsoft_ seçeneğini seçin. Her uygulamanın kendi başlatıcısı vardır ve ticari Microsoft 365 URL'lerini ve mevcut tarayıcı profilinizi kullanarak doğrudan açılır. LunaOS'nin diğer web uygulamalarıyla aynı tarayıcı uygulama pencerelerinde açılırlar; ayrı Teams for Linux istemcisini kurmazlar.
 
 Paketi _Kaldır > Service > Microsoft_ ile kaldırın veya tek tek uygulamaları _Kaldır > Web App_ ile kaldırın. Ayrıca yalnızca istediğiniz uygulamaları _Kur > Web App_ aracılığıyla da kurabilirsiniz.
 
@@ -85,7 +85,7 @@ Devlet veya egemen bir bulut için, kuruluşunuz tarafından sağlanan URL'yi ku
 İş amaçlı oturum açmaları ayrı tutmak için, her başlatıcının `Exec=` satırına bir tarayıcı veri dizini ekleyin:
 
 ```ini
-Exec=omarchy-launch-webapp "https://teams.cloud.microsoft/" --user-data-dir=/absolute/path/to/work-browser-profile
+Exec=lunaos-launch-webapp "https://teams.cloud.microsoft/" --user-data-dir=/absolute/path/to/work-browser-profile
 ```
 
-Örnek dizini, seçtiğiniz mutlak bir yolla değiştirin ve iş amaçlı oturum açmaları aralarında paylaşmak için altı başlatıcının tümü için aynı yolu kullanın. Web uygulamaları, Omarchy'nin seçili desteklenen tarayıcısını kullanır; varsayılan tarayıcı desteklenmediğinde Chromium'a geri düşerler.
+Örnek dizini, seçtiğiniz mutlak bir yolla değiştirin ve iş amaçlı oturum açmaları aralarında paylaşmak için altı başlatıcının tümü için aynı yolu kullanın. Web uygulamaları, LunaOS'nin seçili desteklenen tarayıcısını kullanır; varsayılan tarayıcı desteklenmediğinde Chromium'a geri düşerler.

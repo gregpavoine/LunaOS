@@ -11,14 +11,14 @@ import "Model.js" as Model
 
 Panel {
   id: root
-  moduleName: "omarchy.audio"
-  ipcTarget: "omarchy.audio"
+  moduleName: "lunaos.audio"
+  ipcTarget: "lunaos.audio"
 
   readonly property var sink: Pipewire.defaultAudioSink
   readonly property var source: Pipewire.defaultAudioSource
   readonly property var nodes: Pipewire.nodes ? Pipewire.nodes.values : []
   readonly property var mprisPlayers: Mpris.players ? Mpris.players.values : []
-  readonly property var mediaService: bar?.shell?.firstPartyServiceFor("omarchy.media")
+  readonly property var mediaService: bar?.shell?.firstPartyServiceFor("lunaos.media")
   readonly property var activeMediaPlayer: mediaService ? mediaService.activePlayer : null
 
   // Nodes of a platform's audio processing, which are neither devices nor apps,
@@ -64,7 +64,7 @@ Panel {
       if (!n || !n.isStream || !isPlaybackStream(n)) continue
       // A tuning's output is a playback stream too, but it is the processing
       // itself rather than an application, so it does not belong in the list.
-      if (String(n.name || "").indexOf("omarchy_speaker_tuning") === 0) continue
+      if (String(n.name || "").indexOf("lunaos_speaker_tuning") === 0) continue
       if (platformHides(n)) continue
       list.push(n)
     }
@@ -133,7 +133,7 @@ Panel {
   // *into* the processing, so the slider would move while the speakers did not,
   // and on a chain with a limiter it would change the tone as well.
   //
-  // omarchy-audio-output-sink resolves the *current* default output through any
+  // lunaos-audio-output-sink resolves the *current* default output through any
   // such sink to the physical one, which is the same definition the volume keys
   // and the output switcher use. Resolving the default (rather than "whatever a
   // tuning fronts") is what keeps this correct when headphones or HDMI are
@@ -173,7 +173,7 @@ Panel {
 
   function resolveVolumeSink() {
     volumeSinkGeneration++
-    // A hardware output is its own volume sink, as omarchy-audio-output-sink
+    // A hardware output is its own volume sink, as lunaos-audio-output-sink
     // reports without looking further, so only a DSP sink needs the script.
     if (sink && String(sink.name).indexOf("alsa_output.") === 0) {
       volumeSinkName = String(sink.name)
@@ -506,7 +506,7 @@ Panel {
 
   function showVolumeOsd(volume) {
     if (!bar || !bar.shell) return
-    bar.shell.summon("omarchy.osd", JSON.stringify({
+    bar.shell.summon("lunaos.osd", JSON.stringify({
       icon: outputIcon(volume),
       value: Math.round(volume * 100)
     }))
@@ -547,7 +547,7 @@ Panel {
     Pipewire.preferredDefaultAudioSink = node
     if (node.id !== undefined && node.name) {
       Quickshell.execDetached([
-        "omarchy-audio-output-set-default",
+        "lunaos-audio-output-set-default",
         String(node.id),
         String(node.name)
       ])
@@ -560,7 +560,7 @@ Panel {
     if (node.audio) Pipewire.preferredDefaultAudioSource = node
     if (node.id !== undefined && node.name) {
       Quickshell.execDetached([
-        "omarchy-audio-input-set-default",
+        "lunaos-audio-input-set-default",
         String(node.id),
         String(node.name)
       ])
@@ -671,7 +671,7 @@ Panel {
 
   Process {
     id: sinkAvailabilityProc
-    command: ["omarchy-audio-sink-availability"]
+    command: ["lunaos-audio-sink-availability"]
     stdout: StdioCollector {
       waitForEnd: true
       onStreamFinished: root.updateSinkAvailability(text)
@@ -680,7 +680,7 @@ Panel {
 
   Process {
     id: sourceAvailabilityProc
-    command: ["omarchy-audio-sink-availability", "sources"]
+    command: ["lunaos-audio-sink-availability", "sources"]
     stdout: StdioCollector {
       waitForEnd: true
       onStreamFinished: root.sourceAvailability = Model.parseSinkAvailability(text)
@@ -689,7 +689,7 @@ Panel {
 
   Process {
     id: volumeSinkProc
-    command: ["omarchy-audio-output-sink"]
+    command: ["lunaos-audio-output-sink"]
     stdout: StdioCollector {
       waitForEnd: true
       onStreamFinished: {

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# lunaos:summary=Reload hyprland configuration (used by the LunaOS theme switching).
+
+hyprctl reload >/dev/null

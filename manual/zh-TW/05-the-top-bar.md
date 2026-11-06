@@ -1,14 +1,14 @@
 # 選單列
 
-沿著你螢幕頂部的那條帶狀區域就是 Omarchy 選單列。它不是外掛上去的狀態列，而是 Omarchy shell 的一部分，Omarchy shell 是一個單一、長時間運行的 Quickshell 程序，它同時繪製選單、通知、OSD 彈出視窗和鎖定畫面。這就是它與其他一切完美契合主題的原因，也是面板能即時開啟、而不需要產生一個新應用程式的原因。
+沿著你螢幕頂部的那條帶狀區域就是 LunaOS 選單列。它不是外掛上去的狀態列，而是 LunaOS shell 的一部分，LunaOS shell 是一個單一、長時間運行的 Quickshell 程序，它同時繪製選單、通知、OSD 彈出視窗和鎖定畫面。這就是它與其他一切完美契合主題的原因，也是面板能即時開啟、而不需要產生一個新應用程式的原因。
 
 它也是桌面上唯一永遠在螢幕上的元件，所以很值得了解那些小小的字形都在做什麼。
 
 ## 預設上面有什麼
 
-選單列有三個區段。左邊是 Omarchy 標誌（選單啟動器）和工作區指示器。中間你會看到狀態指示、時鐘、Elsewhen（世界時鐘）、天氣，以及一個 Omarchy 更新徽章。右邊則是：鍵盤配置（當設定了不只一種時）、系統匣、代理程式、藍牙、網路、音訊、顯示和電源。
+選單列有三個區段。左邊是 LunaOS 標誌（選單啟動器）和工作區指示器。中間你會看到狀態指示、時鐘、Elsewhen（世界時鐘）、天氣，以及一個 LunaOS 更新徽章。右邊則是：鍵盤配置（當設定了不只一種時）、系統匣、代理程式、藍牙、網路、音訊、顯示和電源。
 
-其中有幾項只有在有話要說時才會出現。鍵盤配置只在你設定了不只一種配置時才出現。更新徽章只在有 Omarchy 更新在等待時才出現。而代理程式圖示則在 Omarchy 第一次在機器上發現 AI 程式設計使用量時出現（見 [AI](17-ai.md)）。
+其中有幾項只有在有話要說時才會出現。鍵盤配置只在你設定了不只一種配置時才出現。更新徽章只在有 LunaOS 更新在等待時才出現。而代理程式圖示則在 LunaOS 第一次在機器上發現 AI 程式設計使用量時出現（見 [AI](17-ai.md)）。
 
 ## 點來點去
 
@@ -16,7 +16,7 @@
 
 | 小工具 | 左鍵 | 右鍵 | 中鍵 / 捲動 |
 | --- | --- | --- | --- |
-| 選單 | Omarchy 選單 | 新終端機 | — |
+| 選單 | LunaOS 選單 | 新終端機 | — |
 | 工作區 | 聚焦該工作區 | — | 捲動：下一個/上一個工作區 |
 | 時鐘 | 日曆彈出視窗 | 循環標籤格式 | 中鍵：時區選擇器 |
 | 天氣 | 天氣預報彈出視窗 | 以通知顯示完整天氣 | 中鍵：重新整理 |
@@ -29,7 +29,7 @@
 | 媒體 | 播放/暫停 | 封面藝術彈出視窗 | 中鍵：下一首 · 捲動：上一首/下一首 |
 | 代理程式 | 代理程式面板 | 啟動你的代理程式 | 中鍵：下一個訂閱 |
 | 系統匣 | 懸停以顯示抽屜 | 在 V 形圖示上右鍵點選以管理 | — |
-| Omarchy 更新 | 執行更新 | — | — |
+| LunaOS 更新 | 執行更新 | — | — |
 
 那張表裡的東西，並非每一項開箱時都在你的選單列上。媒體小工具（MPRIS 正在播放，帶有捲動的曲名和藝人）和麥克風小工具兩者都已內建，但預設關閉——如果你想要，按下面所述把它們加進來。
 
@@ -65,7 +65,7 @@
 
 還有兩個小工具，只有當你從**安裝 → 服務**安裝了相應的服務之後，才會出現在選單列上，而且兩者都值得了解一下，因為它們做的事不只是回報狀態。
 
-**Tailscale** 面板會連線和中斷 tailnet、在帳戶之間切換，並選取一個出口節點（你自己的機器和 Mullvad 地區都會出現在那份清單中）。它也能瀏覽你的機器——而在選中一台之後，按 `s` 會透過 Taildrop 把檔案傳給它，那是把檔案移到你的手機或另一台筆電最快的方法。`c` 複製機器的 IP，`n` 複製它的名稱，`d` 複製它完整的 DNS 名稱。每一台機器的那一列上也有傳送按鈕，如果你比較喜歡點選的話。從終端機做同樣的事是 `omarchy tailscale send <machine> [file...]`。
+**Tailscale** 面板會連線和中斷 tailnet、在帳戶之間切換，並選取一個出口節點（你自己的機器和 Mullvad 地區都會出現在那份清單中）。它也能瀏覽你的機器——而在選中一台之後，按 `s` 會透過 Taildrop 把檔案傳給它，那是把檔案移到你的手機或另一台筆電最快的方法。`c` 複製機器的 IP，`n` 複製它的名稱，`d` 複製它完整的 DNS 名稱。每一台機器的那一列上也有傳送按鈕，如果你比較喜歡點選的話。從終端機做同樣的事是 `lunaos tailscale send <machine> [file...]`。
 
 **Dropbox** 面板處理登入、顯示你已用掉多少儲存空間，並列出最近同步的檔案。
 
@@ -90,19 +90,19 @@
 同樣的事情也有指令，這正是你為 [dotfiles](31-dotfiles.md) 設定所需要的：
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-若要完整新增或移除一個小工具，請使用外掛指令。`omarchy plugin list` 會列印 shell 知道的每一個小工具及其 id，然後：
+若要完整新增或移除一個小工具，請使用外掛指令。`lunaos plugin list` 會列印 shell 知道的每一個小工具及其 id，然後：
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## 隱藏選單列
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## 設定檔
 
-這一切都儲存在 `~/.config/omarchy/shell.json` 中，位於 `bar` 鍵之下。這是一個精簡版：
+這一切都儲存在 `~/.config/lunaos/shell.json` 中，位於 `bar` 鍵之下。這是一個精簡版：
 
 ```json
 {
@@ -119,20 +119,20 @@ omarchy plugin disable omarchy.weather
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-每一個小工具都是三個配置陣列其中之一的一個項目，而它的設定就內嵌在那個項目上——沒有獨立的設定檔，也沒有 `config` 子物件。時鐘的 `format`、`formatAlt`（右鍵點選循環到什麼）和 `verticalFormat` 全都直接住在 `{ "id": "omarchy.clock" }` 上。
+每一個小工具都是三個配置陣列其中之一的一個項目，而它的設定就內嵌在那個項目上——沒有獨立的設定檔，也沒有 `config` 子物件。時鐘的 `format`、`formatAlt`（右鍵點選循環到什麼）和 `verticalFormat` 全都直接住在 `{ "id": "lunaos.clock" }` 上。
 
 `centerAnchor` 指明那個會被釘選在螢幕正中央的中央小工具，其他的則在它兩側。這就是時鐘始終保持在正中央的原因，即使天氣和更新徽章來來去去。把它設為空字串，中央清單就只會作為一個整體置中。
 
-有一條規則值得內化：**一旦你有了自己的 `shell.json`，它就是權威來源**。在你自訂任何東西之前，shell 讀的是 Omarchy 的預設檔案。當你拖曳了一個小工具、執行了 `omarchy bar`，或自己編輯了那個檔案的那一刻，它就歸你所有了——沒有深層合併，所以未來 Omarchy 版本中的新預設小工具，不會自動出現在你的選單列上。`omarchy bar defaults` 會在你想要一張白紙時，隨時把出貨時的配置放回來。
+有一條規則值得內化：**一旦你有了自己的 `shell.json`，它就是權威來源**。在你自訂任何東西之前，shell 讀的是 LunaOS 的預設檔案。當你拖曳了一個小工具、執行了 `lunaos bar`，或自己編輯了那個檔案的那一刻，它就歸你所有了——沒有深層合併，所以未來 LunaOS 版本中的新預設小工具，不會自動出現在你的選單列上。`lunaos bar defaults` 會在你想要一張白紙時，隨時把出貨時的配置放回來。
 
 同一個檔案也在頂層保存你的閒置計時，位於 `bar` 鍵之外：`idle.screensaver` 和 `idle.lock`，兩者都是從你進入閒置起算的秒數。所以預設的螢幕保護程式在 150 秒時啟動，鎖定則在 300 秒時啟動。

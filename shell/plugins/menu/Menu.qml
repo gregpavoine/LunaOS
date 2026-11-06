@@ -10,13 +10,13 @@ import "MenuModel.js" as MenuModel
 Item {
   id: root
 
-  // Injected by omarchy-shell when this plugin is summoned.
-  property string omarchyPath: Quickshell.env("OMARCHY_PATH")
+  // Injected by lunaos-shell when this plugin is summoned.
+  property string lunaosPath: Quickshell.env("LUNAOS_PATH")
   property var shell: null
   property var manifest: null
 
   // Plugin lifecycle hooks. The host calls open(payloadJson) after
-  // `omarchy-shell shell summon omarchy.menu ...` and close() when hidden.
+  // `lunaos-shell shell summon lunaos.menu ...` and close() when hidden.
   property string pendingInitialMenu: "root"
 
   function open(payloadJson) {
@@ -53,16 +53,16 @@ Item {
   // JSONC menu definitions. The shell parses both at startup and merges
   // the user file on top of the defaults, so the keybind → IPC → visible
   // path doesn't have to shell out to bash + jq on every open.
-  property string defaultMenuPath: omarchyPath + "/default/omarchy/omarchy-menu.jsonc"
-  property string userMenuPath: Quickshell.env("HOME") + "/.config/omarchy/extensions/omarchy-menu.jsonc"
+  property string defaultMenuPath: lunaosPath + "/default/lunaos/lunaos-menu.jsonc"
+  property string userMenuPath: Quickshell.env("HOME") + "/.config/lunaos/extensions/lunaos-menu.jsonc"
   // Display language for the shipped rows. The code lives in
-  // ~/.config/omarchy/language (omarchy-language owns it); a missing file
+  // ~/.config/lunaos/language (lunaos-language owns it); a missing file
   // means English. The catalog at default/i18n/<code>/menu.json is applied
   // to the default items before the user extension merges on top, so a
   // user's own rows and retitles always win.
   property string language: "en"
   property var menuCatalog: ({})
-  readonly property string languagePath: Quickshell.env("OMARCHY_LANGUAGE_FILE") || ((Quickshell.env("XDG_CONFIG_HOME") || (Quickshell.env("HOME") + "/.config")) + "/omarchy/language")
+  readonly property string languagePath: Quickshell.env("LUNAOS_LANGUAGE_FILE") || ((Quickshell.env("XDG_CONFIG_HOME") || (Quickshell.env("HOME") + "/.config")) + "/lunaos/language")
   property var defaultMenuItems: []
   property var userMenuItems: []
   // Whether each file has answered once, loaded or (the user's) missing. At
@@ -322,13 +322,13 @@ Item {
   // shell started shows up without restarting it.
   readonly property var providers: ({
     "fonts": {
-      script: "current=$(omarchy-font-current 2>/dev/null); omarchy-font-list 2>/dev/null | while read -r f; do [[ -z $f ]] && continue; printf '%s\\t%s\\t%s\\n' \"$f\" \"$f\" \"$current\"; done",
+      script: "current=$(lunaos-font-current 2>/dev/null); lunaos-font-list 2>/dev/null | while read -r f; do [[ -z $f ]] && continue; printf '%s\\t%s\\t%s\\n' \"$f\" \"$f\" \"$current\"; done",
       icon: "",
       volatile: true,
-      actionFor: function(value) { return "omarchy-font-set " + Util.shellQuote(value) }
+      actionFor: function(value) { return "lunaos-font-set " + Util.shellQuote(value) }
     },
     "power-profiles": {
-      script: "current=$(powerprofilesctl get 2>/dev/null); omarchy-powerprofiles-list 2>/dev/null | while read -r p; do [[ -z $p ]] && continue; printf '%s\\t%s\\t%s\\n' \"$p\" \"$p\" \"$current\"; done",
+      script: "current=$(powerprofilesctl get 2>/dev/null); lunaos-powerprofiles-list 2>/dev/null | while read -r p; do [[ -z $p ]] && continue; printf '%s\\t%s\\t%s\\n' \"$p\" \"$p\" \"$current\"; done",
       icon: "\udb81\udc0b",
       // Profile names are powerprofilesctl ids; only the label is translated,
       // and the id stays searchable through searchTerms.
@@ -338,23 +338,23 @@ Item {
         if (value === "performance") return Commons.I18n.t("menu.powerProfilePerformance")
         return value
       },
-      actionFor: function(value) { return "omarchy-powerprofiles-set autodetect " + Util.shellQuote(value) }
+      actionFor: function(value) { return "lunaos-powerprofiles-set autodetect " + Util.shellQuote(value) }
     },
     // Kernel names are package names, the same in every language.
     "kernels": {
-      script: "current=$(omarchy-kernel get 2>/dev/null); omarchy-kernel list 2>/dev/null | while read -r k; do [[ -z $k ]] && continue; printf '%s\\t%s\\t%s\\n' \"$k\" \"$k\" \"$current\"; done",
+      script: "current=$(lunaos-kernel get 2>/dev/null); lunaos-kernel list 2>/dev/null | while read -r k; do [[ -z $k ]] && continue; printf '%s\\t%s\\t%s\\n' \"$k\" \"$k\" \"$current\"; done",
       icon: "\uf17c",
       volatile: true,
-      actionFor: function(value) { return "omarchy-kernel set " + Util.shellQuote(value) }
+      actionFor: function(value) { return "lunaos-kernel set " + Util.shellQuote(value) }
     },
     // Rows carry a fourth field (the English name) so searching "danish"
     // finds the row labeled with its native name; mergeProviderRows turns
     // it into an alias.
     "languages": {
-      script: "current=$(omarchy-language 2>/dev/null); omarchy-language list 2>/dev/null | while IFS=$'\\t' read -r name code english; do [[ -z $code ]] && continue; printf '%s\\t%s\\t%s\\t%s\\n' \"$name\" \"$code\" \"$current\" \"$english\"; done",
+      script: "current=$(lunaos-language 2>/dev/null); lunaos-language list 2>/dev/null | while IFS=$'\\t' read -r name code english; do [[ -z $code ]] && continue; printf '%s\\t%s\\t%s\\t%s\\n' \"$name\" \"$code\" \"$current\" \"$english\"; done",
       icon: "\uf1ab",
       volatile: true,
-      actionFor: function(value) { return "omarchy-language " + Util.shellQuote(value) }
+      actionFor: function(value) { return "lunaos-language " + Util.shellQuote(value) }
     }
   })
 
@@ -1008,7 +1008,7 @@ Item {
   // ----------------------------------------------------------- route surface
   //
   // The menu is opened through the standard plugin lifecycle:
-  // `omarchy-shell shell summon omarchy.menu '{"menu":"system"}'`.
+  // `lunaos-shell shell summon lunaos.menu '{"menu":"system"}'`.
   // Callers may pass a real id (`system`, `setup.power`) or an alias declared
   // in JSONC (`power`, `reminder-set`). Unknown strings fall through to the
   // id-as-route behavior so misspellings still attempt to open the literal id.
@@ -1020,7 +1020,7 @@ Item {
     var id = root.resolveRoute(initialMenu)
     var entry = root.items[id]
     // If the resolved id is an action (i.e. the user invoked an alias for
-    // a leaf, e.g. `omarchy menu summon screenrecord-stop`), run it directly
+    // a leaf, e.g. `lunaos menu summon screenrecord-stop`), run it directly
     // instead of opening an action with no children.
     if (entry && entry.kind === "action" && entry.action) {
       root.cancel()
@@ -1144,7 +1144,7 @@ Item {
   }
 
   // The JSONC sources are watched so live edits to the default file (or the
-  // user extension at ~/.config/omarchy/extensions/omarchy-menu.jsonc) take
+  // user extension at ~/.config/lunaos/extensions/lunaos-menu.jsonc) take
   // effect without restarting the shell.
   FileView {
     id: defaultMenuFile
@@ -1181,7 +1181,7 @@ Item {
 
   FileView {
     id: menuCatalogFile
-    path: root.omarchyPath + "/default/i18n/" + root.language + "/menu.json"
+    path: root.lunaosPath + "/default/i18n/" + root.language + "/menu.json"
     watchChanges: true
     printErrors: false
     onLoaded: { root.menuCatalog = root.parseCatalog(text()); root.rebuildItemsFromSources(true) }
@@ -1273,7 +1273,7 @@ Item {
   OverlayWindow {
     id: panel
     shown: root.opened && root.rowsLoaded
-    WlrLayershell.namespace: "omarchy-menu"
+    WlrLayershell.namespace: "lunaos-menu"
 
     // The card opens centered exactly as always. The first search keystroke
     // or submenu move freezes the top line where it currently sits — from

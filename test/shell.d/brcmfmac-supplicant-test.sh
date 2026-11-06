@@ -41,7 +41,7 @@ for _ in {1..4096}; do
 done
 SH
 
-cat >"$stub_bin/omarchy-hw-aarch64-apple" <<'SH'
+cat >"$stub_bin/lunaos-hw-aarch64-apple" <<'SH'
 #!/bin/bash
 
 (( ${APPLE_SILICON:-0} == 1 ))

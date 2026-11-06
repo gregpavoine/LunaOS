@@ -20,11 +20,11 @@ Obsidian es gratuito para todos los fines, incluido el uso personal, comercial y
 
 Obsidian también ofrece un [complemento comercial para sincronizar](https://obsidian.md/sync) con aplicaciones móviles en iOS y Android. (https://obsidian.md/pricing).
 
-Inicias Obsidian con `Super + Shift + O`. Para usar la sincronización de temas, debes seleccionar el tema `Omarchy` en los ajustes.
+Inicias Obsidian con `Super + Shift + O`. Para usar la sincronización de temas, debes seleccionar el tema `LunaOS` en los ajustes.
 
 ## Omawrite
 
-[Omawrite](https://github.com/omacom-io/omawrite) es la aplicación de escritura Markdown súper simple de Omarchy. Sin bóvedas, sin plugins, solo tú y las palabras.
+[Omawrite](https://github.com/omacom-io/omawrite) es la aplicación de escritura Markdown súper simple de LunaOS. Sin bóvedas, sin plugins, solo tú y las palabras.
 
 Inicias Omawrite con `Super + Shift + W`.
 
@@ -44,18 +44,18 @@ Inicias Aether desde el lanzador de aplicaciones (`Super + Space`).
 
 [LocalSend](https://localsend.org/) te permite enviar archivos a otros dispositivos en la misma red que ejecuten la aplicación, como AirDrop de Apple. Sin embargo, es multiplataforma, así que puedes enviar archivos hacia y desde Windows, macOS, Android, iOS y, por supuesto, Linux.
 
-Puedes abrir el menú Compartir con `Super + Ctrl + S` o en _Activar > Compartir_ en el menú de Omarchy. Te da cuatro opciones:
+Puedes abrir el menú Compartir con `Super + Ctrl + S` o en _Activar > Compartir_ en el menú de LunaOS. Te da cuatro opciones:
 
 - **Clipboard** envía lo que hayas copiado como un archivo de texto. Genial para pasar un enlace o un fragmento a tu teléfono sin enviarte un correo a ti mismo.
 - **File** abre un selector de archivos donde puedes elegir varios a la vez.
 - **Folder** envía un directorio entero.
 - **Receive** abre LocalSend propiamente para que otro dispositivo pueda enviarte algo.
 
-Lo mismo funciona desde la terminal con `omarchy share clipboard`, `omarchy share file [path]` y `omarchy share folder [path]`. Omite la ruta y obtendrás el selector.
+Lo mismo funciona desde la terminal con `lunaos share clipboard`, `lunaos share file [path]` y `lunaos share folder [path]`. Omite la ruta y obtendrás el selector.
 
 También puedes enviar directamente desde el gestor de archivos: haz clic derecho en cualquier selección en Nautilus y elige _Send via LocalSend_.
 
-El firewall de Omarchy está cerrado de forma predeterminada excepto por el puerto de LocalSend, así que esto funciona desde el principio en una instalación nueva. Consulta [seguridad](48-security.md).
+El firewall de LunaOS está cerrado de forma predeterminada excepto por el puerto de LocalSend, así que esto funciona desde el principio en una instalación nueva. Consulta [seguridad](48-security.md).
 
 ## LibreOffice
 
@@ -65,19 +65,19 @@ Inicias LibreOffice desde el lanzador de aplicaciones (`Super + Space`).
 
 ## Hype
 
-[Hype](https://github.com/omacom/hype) es la aplicación de presentaciones súper simple de Omarchy. Tu presentación es un solo archivo Markdown con sus imágenes y videos al lado: escribe cada diapositiva debajo de una vista previa en vivo, arrastra las diapositivas para ordenarlas, y luego presenta en pantalla completa o exporta a PDF y PowerPoint. Incluso adopta tu tema de Omarchy.
+[Hype](https://github.com/omacom/hype) es la aplicación de presentaciones súper simple de LunaOS. Tu presentación es un solo archivo Markdown con sus imágenes y videos al lado: escribe cada diapositiva debajo de una vista previa en vivo, arrastra las diapositivas para ordenarlas, y luego presenta en pantalla completa o exporta a PDF y PowerPoint. Incluso adopta tu tema de LunaOS.
 
 Inicias Hype desde el lanzador de aplicaciones (`Super + Space`). Presiona `?` dentro de él para ver todos los atajos.
 
 ## Signed
 
-[Signed](https://github.com/omacom/signed) es la forma súper simple de Omarchy para firmar PDF y llenarlos. Pon tu firma guardada, texto y la fecha de hoy en cualquier lugar de una página, y luego guarda una copia firmada junto al original. Consulta [Llenar PDF](27-filling-out-pdfs.md) para saber cómo.
+[Signed](https://github.com/omacom/signed) es la forma súper simple de LunaOS para firmar PDF y llenarlos. Pon tu firma guardada, texto y la fecha de hoy en cualquier lugar de una página, y luego guarda una copia firmada junto al original. Consulta [Llenar PDF](27-filling-out-pdfs.md) para saber cómo.
 
 Inicias Signed desde el lanzador de aplicaciones (`Super + Space`), o abres un PDF con él desde el gestor de archivos.
 
 ## Omacalc
 
-[Omacalc](https://github.com/omacom-io/omacalc) es la calculadora súper simple de Omarchy, que se abre en una ventana flotante.
+[Omacalc](https://github.com/omacom-io/omacalc) es la calculadora súper simple de LunaOS, que se abre en una ventana flotante.
 
 Inicias Omacalc con `Super + Ctrl + Q` (o la tecla de calculadora, si tu teclado tiene una).
 
@@ -85,7 +85,7 @@ Inicias Omacalc con `Super + Ctrl + Q` (o la tecla de calculadora, si tu teclado
 
 [Signal](https://signal.org/) es el pionero de la mensajería cifrada de extremo a extremo, y una gran opción de comunicación para cualquiera que prefiera no pasar por uno de los grandes conglomerados tecnológicos.
 
-Inicias Signal con `Super + Shift + G`. No forma parte de la instalación base, así que la primera vez que presiones eso, Omarchy te ofrecerá instalarlo (también está en _Instalar > Servicio_ en el menú de Omarchy).
+Inicias Signal con `Super + Shift + G`. No forma parte de la instalación base, así que la primera vez que presiones eso, LunaOS te ofrecerá instalarlo (también está en _Instalar > Servicio_ en el menú de LunaOS).
 
 ## mpv
 
@@ -95,13 +95,13 @@ Inicias mpv desde el lanzador de aplicaciones (`Super + Space`) o simplemente ha
 
 ## Omacut
 
-[Omacut](https://github.com/omacom-io/omacut) es el recortador de video súper simple de Omarchy. Cuando todo lo que necesitas es cortar el inicio y el final de un clip, supera con creces abrir un editor de video completo.
+[Omacut](https://github.com/omacom-io/omacut) es el recortador de video súper simple de LunaOS. Cuando todo lo que necesitas es cortar el inicio y el final de un clip, supera con creces abrir un editor de video completo.
 
 Inicias Omacut desde el lanzador de aplicaciones (`Super + Space`).
 
 ## Monologue
 
-[Monologue](https://github.com/omacom/monologue) es la grabadora de webcam súper simple de Omarchy. Elige tu cámara y micrófono una vez, luego presiona `Space` para grabar, y de nuevo para pausar y reanudar la misma toma. Siempre graba a la resolución más alta de tu cámara, con un medidor de micrófono en vivo para que puedas revisar tus niveles antes de empezar.
+[Monologue](https://github.com/omacom/monologue) es la grabadora de webcam súper simple de LunaOS. Elige tu cámara y micrófono una vez, luego presiona `Space` para grabar, y de nuevo para pausar y reanudar la misma toma. Siempre graba a la resolución más alta de tu cámara, con un medidor de micrófono en vivo para que puedas revisar tus niveles antes de empezar.
 
 Detén la toma y se abre de inmediato en un editor integrado. Haz doble clic en un clip para dividirlo, arrastra los controles para recortar cada pedazo y quita las partes que no quieras. Luego guárdalo como MP4. Tu grabación original se conserva hasta que la descartes, así que siempre puedes volver y cortarla de otra forma.
 

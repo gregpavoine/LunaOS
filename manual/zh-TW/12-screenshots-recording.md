@@ -21,7 +21,7 @@
 
 儲存的螢幕截圖預設會落在 `~/Pictures/Screenshots` 中，名稱類似 `screenshot-2026-08-13_14-22-05-firefox.png`。設定 `OMASNAP_SCREENSHOT_DIR` 來使用另一個目錄——在哪裡放置工作階段環境變數，見[常見問題](46-faq.md)。Omasnap 會在儲存第一張截圖時建立該目錄。在 `~/.config/omasnap/omasnap.conf` 中設定 `[output] autosave = false` 來停用自動儲存。
 
-從終端機，`omarchy screenshot` 會開啟同一個覆蓋層，而你可以選擇它的起始模式：`omarchy capture screenshot region`、`windows`、`fullscreen` 或 `scroll`。第二個引數 `copy` 或 `save` 會跳過預覽，並把截圖直接送到那個目的地。若要在輸出前編輯，對於全螢幕編輯器使用 `omarchy screenshot --editor=overlay`，對於獨立視窗使用 `omarchy screenshot --editor=window`。
+從終端機，`lunaos screenshot` 會開啟同一個覆蓋層，而你可以選擇它的起始模式：`lunaos capture screenshot region`、`windows`、`fullscreen` 或 `scroll`。第二個引數 `copy` 或 `save` 會跳過預覽，並把截圖直接送到那個目的地。若要在輸出前編輯，對於全螢幕編輯器使用 `lunaos screenshot --editor=overlay`，對於獨立視窗使用 `lunaos screenshot --editor=window`。
 
 ### 用鍵盤驅動選擇器
 
@@ -40,9 +40,9 @@
 
 ## 螢幕錄影
 
-`Alt + Print Screen` 會開啟 _觸發 > 擷取 > 螢幕錄影_，它會問你想要什麼配音：無音訊、桌面音訊、桌面加麥克風，或桌面加麥克風加網路攝影機。最後一個只有在你真的插了一台攝影機時才會出現。選一個，Omarchy 的錄影選擇器會讓你拖曳一個區域，或點選一個視窗或顯示器。
+`Alt + Print Screen` 會開啟 _觸發 > 擷取 > 螢幕錄影_，它會問你想要什麼配音：無音訊、桌面音訊、桌面加麥克風，或桌面加麥克風加網路攝影機。最後一個只有在你真的插了一台攝影機時才會出現。選一個，LunaOS 的錄影選擇器會讓你拖曳一個區域，或點選一個視窗或顯示器。
 
-錄影運行在 gpu-screen-recorder 上，它以 60fps 在 GPU 上編碼，必要時則退回到 CPU。成果是一個 MP4，位於 `~/Videos` 中，名稱為 `screenrecording-2026-08-13_14-22-05.mp4`。設定 `OMARCHY_SCREENRECORD_DIR` 來變更它——但請注意，與螢幕截圖目錄不同，這個目錄必須已經存在，否則錄影會拒絕啟動。
+錄影運行在 gpu-screen-recorder 上，它以 60fps 在 GPU 上編碼，必要時則退回到 CPU。成果是一個 MP4，位於 `~/Videos` 中，名稱為 `screenrecording-2026-08-13_14-22-05.mp4`。設定 `LUNAOS_SCREENRECORD_DIR` 來變更它——但請注意，與螢幕截圖目錄不同，這個目錄必須已經存在，否則錄影會拒絕啟動。
 
 當你在錄影時，選單列上會出現一個小小的指示。點選它即可停止。你也可以再次按下 `Alt + Print Screen` 來停止，或使用 _觸發 > 擷取 > 螢幕錄影_ 底下的_停止螢幕錄影_項目，它只在確實有東西在錄影時才會出現。
 
@@ -59,7 +59,7 @@
 
 有三種大小——小、中、大——而快捷鍵會在它們之間步進。中是預設值。它們與錄影畫面成比例，所以無論你錄的是一台 1080p 顯示器還是一台 6K 顯示器，攝影機在畫面中佔的份量都相同。而如果你錄的是一個區域而非整個顯示器，覆蓋層會錨定在那個區域的角落而非顯示器的角落，所以它會留在畫面內。
 
-你也可以用 `omarchy-capture-webcam-resize small` 直接呼叫它，或用 `reset` 回到中。
+你也可以用 `lunaos-capture-webcam-resize small` 直接呼叫它，或用 `reset` 回到中。
 
 ## 文字、QR 碼和色彩
 
@@ -75,7 +75,7 @@ _觸發 > 擷取 > QR 碼_對 QR 碼做同樣的把戲。選取含有該碼的�
 
 圖片可轉成 jpg 或 png，分高、中、低三檔，寬度上限分別為 3160、2160 和 1080 像素。影片可轉成 mp4 或動畫 gif，分 4k、1080p 和 720p。轉換後的檔案會寫在原始檔案旁邊，名稱中帶有解析度——`demo-1080p.mp4`——而路徑會以檔案 URI 的形式複製到剪貼簿，所以你可以直接把它貼進一個接受檔案拖放的應用程式裡。
 
-如果你已經知道自己想要什麼，它也能從終端機運作：`omarchy transcode ~/Videos/demo.mov mp4 1080p`。還有 `omarchy transcode ascii`，它會把一張圖片變成 ASCII 藝術——那個主要是用在[品牌](41-branding.md)上的。
+如果你已經知道自己想要什麼，它也能從終端機運作：`lunaos transcode ~/Videos/demo.mov mp4 1080p`。還有 `lunaos transcode ascii`，它會把一張圖片變成 ASCII 藝術——那個主要是用在[品牌](41-branding.md)上的。
 
 ## 把它傳到某個地方
 

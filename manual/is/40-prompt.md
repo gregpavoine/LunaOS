@@ -1,6 +1,6 @@
 # Skipanakvaðning
 
-Omarchy kemur með lágmarkskvaðningu frá [Starship](https://starship.rs/) sjálfgefið. Svona finnst mér gott að hafa kvaðninguna mína. Ég þarf ekki að vita notandann, því það er alltaf ég, og ég þarf ekki að vita tímann, því hann er alltaf efst.
+LunaOS kemur með lágmarkskvaðningu frá [Starship](https://starship.rs/) sjálfgefið. Svona finnst mér gott að hafa kvaðninguna mína. Ég þarf ekki að vita notandann, því það er alltaf ég, og ég þarf ekki að vita tímann, því hann er alltaf efst.
 
  ![prompt](images/prompt.webp)
 

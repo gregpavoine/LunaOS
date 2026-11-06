@@ -80,8 +80,9 @@ func backoff(attempt int) time.Duration {
 }
 
 // retry runs one request up to maxAttempts times. It returns nil, the context
-// error, ErrUnauthorized (never retried), a longLimit, or the last error once
-// the attempts are spent. A rate limit counts as an attempt.
+// error, ErrUnauthorized or ErrCursorExpired (never retried), a longLimit, or the last error once
+// the attempts are spent. A rate limit counts as an attempt; one on the last
+// attempt becomes a longLimit so its Retry-After is persisted, not dropped.
 func (e *Engine) retry(ctx context.Context, call func() error) error {
 	for attempt := 1; ; attempt++ {
 		err := call()
@@ -91,13 +92,15 @@ func (e *Engine) retry(ctx context.Context, call func() error) error {
 		if ctx.Err() != nil {
 			return ctx.Err()
 		}
-		if errors.Is(err, ErrUnauthorized) {
-			return ErrUnauthorized
+		if isFinal(err) {
+			return err
 		}
 		wait := backoff(attempt)
 		if rl, ok := asRateLimited(err); ok {
-			if rl.RetryAfter > maxWait {
-				return longLimit{until: e.now().Add(rl.RetryAfter)}
+			// Too long to wait out, or out of attempts: the provider's
+			// Retry-After still binds the next request, so persist it.
+			if rl.RetryAfter > maxWait || attempt == maxAttempts {
+				return longLimit{until: e.now().Add(max(rl.RetryAfter, 0))}
 			}
 			wait = max(rl.RetryAfter, 0)
 		}
@@ -108,6 +111,14 @@ func (e *Engine) retry(ctx context.Context, call func() error) error {
 			return err
 		}
 	}
+}
+
+// isFinal reports errors a retry cannot change.
+func isFinal(err error) bool {
+	return errors.Is(err, ErrUnauthorized) || errors.Is(err, ErrCursorExpired) ||
+		errors.Is(err, ErrConfig) || errors.Is(err, ErrScopeUnavailable) ||
+		errors.Is(err, ErrTooLarge) || errors.Is(err, ErrDownloadGone) ||
+		errors.Is(err, ErrDownloadRefused) || errors.Is(err, ErrHashMismatch)
 }
 
 // Sync runs every connector once and reports per provider.
@@ -177,7 +188,11 @@ func (p *providerRun) fail(ctx context.Context, err error, dl DeadLetter) bool {
 	}
 	p.pr.raise("failed")
 	dl.Provider, dl.Code, dl.At = p.name, errorCode(err), p.e.now()
-	return p.e.Store.AddDeadLetter(ctx, dl) == nil
+	if err := p.e.Store.AddDeadLetter(ctx, dl); err != nil {
+		return false
+	}
+	// A configuration error fails every request alike: one letter, then stop.
+	return !errors.Is(err, ErrConfig)
 }
 
 func (p *providerRun) checkRemovals(ctx context.Context, rc RemovalChecker) bool {
@@ -197,12 +212,38 @@ func (p *providerRun) checkRemovals(ctx context.Context, rc RemovalChecker) bool
 	if err != nil {
 		return p.fail(ctx, err, DeadLetter{Scope: removalScope})
 	}
+	// A provider-side absence can have causes other than a takedown (token
+	// browsing level, regional SFW-only serving). Deletion is irreversible, so
+	// a sync that would remove most of the library deletes nothing.
+	if takedownGuardTrips(ids, gone) {
+		return p.fail(ctx, errTakedownGuard, DeadLetter{Scope: removalScope})
+	}
 	for _, id := range gone {
 		if !p.remove(ctx, id) {
 			return false
 		}
 	}
 	return true
+}
+
+// takedownGuardTrips reports whether more than half of at least two checked
+// IDs came back removed.
+func takedownGuardTrips(checked, gone []string) bool {
+	if len(checked) < 2 {
+		return false
+	}
+	asked := make(map[string]bool, len(checked))
+	for _, id := range checked {
+		asked[id] = true
+	}
+	removed := 0
+	for _, id := range gone {
+		if asked[id] {
+			removed++
+			asked[id] = false
+		}
+	}
+	return 2*removed > len(checked)
 }
 
 func (p *providerRun) remove(ctx context.Context, externalID string) bool {
@@ -236,6 +277,15 @@ func (p *providerRun) syncScope(ctx context.Context, scope string) bool {
 			page, err = p.c.Fetch(ctx, scope, cursor)
 			return err
 		})
+		if errors.Is(err, ErrCursorExpired) && ctx.Err() == nil {
+			// The provider will not continue this cursor: restart the scope
+			// from the beginning next sync, without a dead letter.
+			if err = p.e.Store.SaveCursor(ctx, p.name, scope, ""); err != nil {
+				p.pr.raise("failed")
+				return false
+			}
+			return true
+		}
 		if err != nil {
 			return p.fail(ctx, err, DeadLetter{Scope: scope, Cursor: cursor})
 		}
@@ -275,6 +325,28 @@ func (p *providerRun) process(ctx context.Context, cand Candidate) bool {
 		p.pr.Rejected++
 		return true
 	}
+	// Known items are never fetched again: each sync restarts every scope.
+	known, err := p.e.Store.Has(ctx, p.name, cand.ExternalID)
+	if err != nil {
+		p.pr.raise("failed")
+		return false
+	}
+	if known {
+		p.pr.Duplicates++
+		return true
+	}
+	if cand.MediaURL != "" {
+		// A download that failed for good is not retried, nor re-lettered.
+		final, err := p.e.Store.HasFinalDeadLetter(ctx, p.name, cand.ExternalID)
+		if err != nil {
+			p.pr.raise("failed")
+			return false
+		}
+		if final {
+			p.pr.Rejected++
+			return true
+		}
+	}
 	item := cand.Item
 	if cand.MediaURL == "" {
 		stored, err := p.e.Store.Put(ctx, item, nil)
@@ -289,7 +361,7 @@ func (p *providerRun) process(ctx context.Context, cand Candidate) bool {
 		return true
 	}
 	var path, sha string
-	err := p.e.retry(ctx, func() (err error) {
+	err = p.e.retry(ctx, func() (err error) {
 		path, sha, err = p.e.Download(ctx, cand)
 		if err != nil && path != "" {
 			_ = os.Remove(path)

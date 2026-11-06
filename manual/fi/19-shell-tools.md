@@ -1,6 +1,6 @@
 # Shell-työkalut
 
-Tavallisten Linux-työkalujen lisäksi Omarchyssa on mukana myös joukko paranneltuja shell-työkaluja. Tässä tärkeimmät.
+Tavallisten Linux-työkalujen lisäksi LunaOSssa on mukana myös joukko paranneltuja shell-työkaluja. Tässä tärkeimmät.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Koko ohjeen löydät komennolla `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) on korvaaja cd:lle. Se muistaa hakemistot, joissa olet käynyt, joten voit seuraavalla kerralla hypätä niihin helpommin. Sanotaan, että teet kerran `cd ~/.config/omarchy`. Seuraavalla kerralla voit vain tehdä `cd omarchy` (tai jopa vain `cd oma`), ja Zoxide vie sinut suoraan sinne.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) on korvaaja cd:lle. Se muistaa hakemistot, joissa olet käynyt, joten voit seuraavalla kerralla hypätä niihin helpommin. Sanotaan, että teet kerran `cd ~/.config/lunaos`. Seuraavalla kerralla voit vain tehdä `cd lunaos` (tai jopa vain `cd oma`), ja Zoxide vie sinut suoraan sinne.
 
 Koko ohjeen löydät komennolla `man zoxide`.
 
@@ -58,4 +58,4 @@ Koko ohjeen löydät komennolla `man yt-dlp`.
 
 [try](https://github.com/tobi/try) tekee ohjelmointikokeilujen hallinnasta helppoa päivämääräleimatuilla hakemistoilla. Kaikki kokeilut sijaitsevat hakemistossa `~/Work/tries`, ja pääset niihin käsiksi komennolla `try`.
 
-Omarchy ei lisää projektin hakemistoa `bin/` muuttujaan `PATH` automaattisesti. Aja luotettavia projektin paikallisia työkaluja eksplisiittisellä suhteellisella polulla, kuten `bin/rails` tai `./bin/dev`.
+LunaOS ei lisää projektin hakemistoa `bin/` muuttujaan `PATH` automaattisesti. Aja luotettavia projektin paikallisia työkaluja eksplisiittisellä suhteellisella polulla, kuten `bin/rails` tai `./bin/dev`.

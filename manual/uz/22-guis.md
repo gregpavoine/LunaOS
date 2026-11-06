@@ -20,11 +20,11 @@ Obsidian barcha maqsadlar, jumladan shaxsiy, tijorat va notijorat foydalanish uc
 
 Obsidian iOS va Android dagi mobil ilovalar bilan [sinxronlash uchun tijorat qoʻshimchasini](https://obsidian.md/sync) ham taklif etadi. (https://obsidian.md/pricing).
 
-Obsidian ni `Super + Shift + O` bilan boshlaysiz. Mavzu sinxronlashdan foydalanish uchun sozlamalar ostida `Omarchy` mavzusini tanlashingiz kerak.
+Obsidian ni `Super + Shift + O` bilan boshlaysiz. Mavzu sinxronlashdan foydalanish uchun sozlamalar ostida `LunaOS` mavzusini tanlashingiz kerak.
 
 ## Omawrite
 
-[Omawrite](https://github.com/omacom-io/omawrite) Omarchy ning oʻzining juda oddiy Markdown yozish ilovasidir. Vaultlar yoʻq, plaginlar yoʻq, faqat siz va soʻzlar.
+[Omawrite](https://github.com/omacom-io/omawrite) LunaOS ning oʻzining juda oddiy Markdown yozish ilovasidir. Vaultlar yoʻq, plaginlar yoʻq, faqat siz va soʻzlar.
 
 Omawrite ni `Super + Shift + W` bilan boshlaysiz.
 
@@ -44,18 +44,18 @@ Aether ni ilova ishga tushirgichi (`Super + Space`) orqali boshlaysiz.
 
 [LocalSend](https://localsend.org/) sizga Apple ning AirDrop kabi ilovani ishlatuvchi bir xil tarmoqdagi boshqa qurilmalarga fayllar yuborish imkonini beradi. Biroq u kross-platforma, shuning uchun Windows, macOS, Android, iOS va albatta Linux ga va ulardan fayllar yuborishingiz mumkin.
 
-Ulashish menyusini `Super + Ctrl + S` da yoki Omarchy menyusidagi _Ishga tushirish > Share_ ostida ochishingiz mumkin. U sizga toʻrtta variant beradi:
+Ulashish menyusini `Super + Ctrl + S` da yoki LunaOS menyusidagi _Ishga tushirish > Share_ ostida ochishingiz mumkin. U sizga toʻrtta variant beradi:
 
 - **Clipboard** nusxa olgan narsangizni matn fayli sifatida yuboradi. Oʻzingizga elektron pochta yubormasdan havola yoki parchani telefoningizga olish uchun ajoyib.
 - **File** bir vaqtning oʻzida bir nechtasini tanlashingiz mumkin boʻlgan fayl tanlagichni ochadi.
 - **Folder** butun katalogni yuboradi.
 - **Receive** boshqa qurilma sizga biror narsa yuborishi uchun LocalSend ning oʻzini ochadi.
 
-Xuddi shu narsa terminaldan `omarchy share clipboard`, `omarchy share file [path]` va `omarchy share folder [path]` bilan ham ishlaydi. Yoʻlni qoldirib keting va tanlagichni olasiz.
+Xuddi shu narsa terminaldan `lunaos share clipboard`, `lunaos share file [path]` va `lunaos share folder [path]` bilan ham ishlaydi. Yoʻlni qoldirib keting va tanlagichni olasiz.
 
 Fayl boshqaruvchisidan toʻgʻridan-toʻgʻri ham yuborishingiz mumkin: Nautilus da istalgan tanlovni oʻng tugma bilan bosing va _Send via LocalSend_ ni tanlang.
 
-Omarchy ning xavfsizlik devori LocalSend portidan tashqari standart tarzda yopiq, shuning uchun bu yangi oʻrnatishda qutidan chiqqanidayoq ishlaydi. [security](48-security.md) ga qarang.
+LunaOS ning xavfsizlik devori LocalSend portidan tashqari standart tarzda yopiq, shuning uchun bu yangi oʻrnatishda qutidan chiqqanidayoq ishlaydi. [security](48-security.md) ga qarang.
 
 ## LibreOffice
 
@@ -65,19 +65,19 @@ LibreOffice ni ilova ishga tushirgichi (`Super + Space`) orqali boshlaysiz.
 
 ## Hype
 
-[Hype](https://github.com/omacom/hype) Omarchy ning oʻzining juda oddiy taqdimot ilovasidir. Sizning toʻplamingiz rasmlari va videolari yonida boʻlgan bitta Markdown faylidir: har bir slaydni jonli koʻrinish ostida yozing, slaydlarni tartibga sudrab oʻtkazing, keyin toʻliq ekran taqdim eting yoki PDF va PowerPoint ga eksport qiling. U hatto Omarchy mavzungizni ham oladi.
+[Hype](https://github.com/omacom/hype) LunaOS ning oʻzining juda oddiy taqdimot ilovasidir. Sizning toʻplamingiz rasmlari va videolari yonida boʻlgan bitta Markdown faylidir: har bir slaydni jonli koʻrinish ostida yozing, slaydlarni tartibga sudrab oʻtkazing, keyin toʻliq ekran taqdim eting yoki PDF va PowerPoint ga eksport qiling. U hatto LunaOS mavzungizni ham oladi.
 
 Hype ni ilova ishga tushirgichi (`Super + Space`) orqali boshlaysiz. Har bir yorliqni koʻrish uchun uning ichida `?` ni bosing.
 
 ## Signed
 
-[Signed](https://github.com/omacom/signed) Omarchy ning PDFlarni imzolash va toʻldirishning oʻzining juda oddiy usulidir. Saqlangan imzongizni, matnni va bugungi sanani sahifaning istalgan joyiga qoʻying, keyin asl nusxa yonida imzolangan nusxani saqlang. Qanday qilish uchun [Filling out PDFs](27-filling-out-pdfs.md) ga qarang.
+[Signed](https://github.com/omacom/signed) LunaOS ning PDFlarni imzolash va toʻldirishning oʻzining juda oddiy usulidir. Saqlangan imzongizni, matnni va bugungi sanani sahifaning istalgan joyiga qoʻying, keyin asl nusxa yonida imzolangan nusxani saqlang. Qanday qilish uchun [Filling out PDFs](27-filling-out-pdfs.md) ga qarang.
 
 Signed ni ilova ishga tushirgichi (`Super + Space`) orqali boshlaysiz yoki fayl boshqaruvchisidan u bilan PDF ochasiz.
 
 ## Omacalc
 
-[Omacalc](https://github.com/omacom-io/omacalc) suzuvchi oynada ochiladigan Omarchy ning oʻzining juda oddiy kalkulyatoridir.
+[Omacalc](https://github.com/omacom-io/omacalc) suzuvchi oynada ochiladigan LunaOS ning oʻzining juda oddiy kalkulyatoridir.
 
 Omacalc ni `Super + Ctrl + Q` bilan boshlaysiz (yoki klaviaturangizda boʻlsa, kalkulyator tugmasi bilan).
 
@@ -85,7 +85,7 @@ Omacalc ni `Super + Ctrl + Q` bilan boshlaysiz (yoki klaviaturangizda boʻlsa, k
 
 [Signal](https://signal.org/) E2E shifrlangan xabar almashishning kashshofidir va yirik texnologik konglomeratlardan biri orqali oʻtishni istamaydigan har bir kishi uchun ajoyib aloqa variantidir.
 
-Signal ni `Super + Shift + G` bilan boshlaysiz. U asosiy oʻrnatishning bir qismi emas, shuning uchun birinchi marta uni bossangiz, Omarchy uni siz uchun oʻrnatishni taklif qiladi (u Omarchy menyusidagi _Oʻrnatish > Service_ ostida ham bor).
+Signal ni `Super + Shift + G` bilan boshlaysiz. U asosiy oʻrnatishning bir qismi emas, shuning uchun birinchi marta uni bossangiz, LunaOS uni siz uchun oʻrnatishni taklif qiladi (u LunaOS menyusidagi _Oʻrnatish > Service_ ostida ham bor).
 
 ## mpv
 
@@ -95,13 +95,13 @@ mpv ni ilova ishga tushirgichi (`Super + Space`) orqali boshlaysiz yoki fayl bos
 
 ## Omacut
 
-[Omacut](https://github.com/omacom-io/omacut) Omarchy ning oʻzining juda oddiy video qirqish vositasidir. Sizga kerak boʻlgan narsa faqat klipning boshi va oxirini kesish boʻlsa, u toʻliq video muharririni ishga tushirishdan yaxshiroqdir.
+[Omacut](https://github.com/omacom-io/omacut) LunaOS ning oʻzining juda oddiy video qirqish vositasidir. Sizga kerak boʻlgan narsa faqat klipning boshi va oxirini kesish boʻlsa, u toʻliq video muharririni ishga tushirishdan yaxshiroqdir.
 
 Omacut ni ilova ishga tushirgichi (`Super + Space`) orqali boshlaysiz.
 
 ## Monologue
 
-[Monologue](https://github.com/omacom/monologue) Omarchy ning oʻzining juda oddiy veb-kamera yozuvchisidir. Kamera va mikrofoningizni bir marta tanlang, keyin yozish uchun `Space` ni bosing va xuddi shu kadrni pauza qilish va davom ettirish uchun yana bosing. U har doim kamerangizning eng yuqori aniqligida yozadi, boshlashdan oldin darajangizni tekshirishingiz uchun jonli mikrofon oʻlchagichi bilan.
+[Monologue](https://github.com/omacom/monologue) LunaOS ning oʻzining juda oddiy veb-kamera yozuvchisidir. Kamera va mikrofoningizni bir marta tanlang, keyin yozish uchun `Space` ni bosing va xuddi shu kadrni pauza qilish va davom ettirish uchun yana bosing. U har doim kamerangizning eng yuqori aniqligida yozadi, boshlashdan oldin darajangizni tekshirishingiz uchun jonli mikrofon oʻlchagichi bilan.
 
 Kadrni toʻxtating va u darhol oʻrnatilgan muharrirda ochiladi. Klipni boʻlish uchun ikki marta bosing, har bir qismni qirqish uchun tutqichlarni sudrab oʻtkazing va istamagan qismlarni olib tashlang. Keyin uni MP4 sifatida saqlang. Asl yozuvingiz uni tashlab yuborishingizgacha saqlanadi, shuning uchun har doim qaytib kelib uni boshqacha kesishingiz mumkin.
 

@@ -1,16 +1,16 @@
 # Maci tugi
 
-Omarchyl on sisseehitatud tugi **Inteli Macidele**. Praegu on paar teadaolevat piirangut, aga kui oled neist teadlik ja nendega nõus, saad oma vanadele Macidele Omarchy laadimisega uue elu sisse puhuda.
+LunaOSl on sisseehitatud tugi **Inteli Macidele**. Praegu on paar teadaolevat piirangut, aga kui oled neist teadlik ja nendega nõus, saad oma vanadele Macidele LunaOS laadimisega uue elu sisse puhuda.
 
-Pane tähele, et M-seeria Macile paigaldamine pole praegu otse toetatud. Selle seisu kohta saad rohkem teada meie [Discordis](https://discord.gg/tXFUdasqhY) kanalis #omarchy-on-other.
+Pane tähele, et M-seeria Macile paigaldamine pole praegu otse toetatud. Selle seisu kohta saad rohkem teada meie [Discordis](https://discord.gg/tXFUdasqhY) kanalis #lunaos-on-other.
 
-Lihtsas testis saavutasime 2019. aasta MacBook Prol 36% jõudluse kasvu lihtsalt Omarchy paigaldamisega.
+Lihtsas testis saavutasime 2019. aasta MacBook Prol 36% jõudluse kasvu lihtsalt LunaOS paigaldamisega.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Omarchy paigaldamine Macile
+### LunaOS paigaldamine Macile
 
-Omarchy toetab praegu ainult **ühe** paigaldatud operatsioonisüsteemi olemist. Paigaldamise ajal ketas pühitakse ja MacOS pole enam alglaaditav.
+LunaOS toetab praegu ainult **ühe** paigaldatud operatsioonisüsteemi olemist. Paigaldamise ajal ketas pühitakse ja MacOS pole enam alglaaditav.
 
 Soovi korral saad selle hiljem Internet Recovery kaudu ikka taastada.
 
@@ -39,7 +39,7 @@ Paigaldaja tuvastab Maci riistvara ja rakendab vajalikud parandused automaatselt
 
 ### Teadaolevad piirangud
 
-Kogukonna liikmed töötavad pidevalt nende väljakutsete lahenduste kallal, nii et kui need on sinu jaoks probleemsed, liitu meie [Discordis](https://discord.gg/tXFUdasqhY) kanaliga #omarchy-on-other ja vaata, kas nende lahendamiseks on ajakohaseid meetodeid.
+Kogukonna liikmed töötavad pidevalt nende väljakutsete lahenduste kallal, nii et kui need on sinu jaoks probleemsed, liitu meie [Discordis](https://discord.gg/tXFUdasqhY) kanaliga #lunaos-on-other ja vaata, kas nende lahendamiseks on ajakohaseid meetodeid.
 
 #### T1 kiibiga seadmed
 

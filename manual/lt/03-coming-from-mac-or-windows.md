@@ -1,12 +1,12 @@
 # Ateinate iš Mac arba Windows
 
-Jei metus praleidote su macOS arba Windows, jūsų pirštai žino šimtą dalykų, kuriuos jūsų smegenys pamiršo kada nors išmokę. Šis skyrius yra vertimo sluoksnis: kur tie instinktai atsiduria Omarchy. Pačios funkcijos išsamiai aptartos kitur — čia tik žemėlapis.
+Jei metus praleidote su macOS arba Windows, jūsų pirštai žino šimtą dalykų, kuriuos jūsų smegenys pamiršo kada nors išmokę. Šis skyrius yra vertimo sluoksnis: kur tie instinktai atsiduria LunaOS. Pačios funkcijos išsamiai aptartos kitur — čia tik žemėlapis.
 
 ### Super yra visko centras
 
-Visa raumenų atmintis, kurią susikūrėte aplink Cmd arba Windows klavišą, persikelia į vieną klavišą: Super. Tai Windows klavišas PC klaviatūroje ir tai yra beveik kiekvieno sparčiojo klavišo Omarchy pagrindas.
+Visa raumenų atmintis, kurią susikūrėte aplink Cmd arba Windows klavišą, persikelia į vieną klavišą: Super. Tai Windows klavišas PC klaviatūroje ir tai yra beveik kiekvieno sparčiojo klavišo LunaOS pagrindas.
 
-Jūsų Spotlight, Raycast arba meniu Start refleksas tampa `Super + Space`. Tai atidaro Omarchy meniu, kuris paleidžia programas, keičia nuostatas, diegia programinę įrangą, fiksuoja ekraną — beveik viską. Pradėkite rašyti, kad filtruotumėte. `Super + Alt + Space` parodo visas programas viename tinklelyje, kaip tai daro Launchpad. Žr. [naršymą](04-navigation.md).
+Jūsų Spotlight, Raycast arba meniu Start refleksas tampa `Super + Space`. Tai atidaro LunaOS meniu, kuris paleidžia programas, keičia nuostatas, diegia programinę įrangą, fiksuoja ekraną — beveik viską. Pradėkite rašyti, kad filtruotumėte. `Super + Alt + Space` parodo visas programas viename tinklelyje, kaip tai daro Launchpad. Žr. [naršymą](04-navigation.md).
 
 ### Nėra dock ir darbalaukio piktogramų
 
@@ -22,27 +22,27 @@ Darbo sritys atrodys pažįstamos: tai macOS Spaces arba Windows virtualūs darb
 
 ### Kopijavimas ir įklijavimas tiesiog veikia
 
-Mac kompiuteryje visur turėjote Cmd + C. Windows visur turėjote Ctrl + C — išskyrus terminalą, kur tai užmuša jūsų programą. Omarchy jums duoda `Super + C`, `Super + X` ir `Super + V` ir jie veikia visur, įskaitant terminalą. Nereikia mokytis atskiro reflekso apvalkalui.
+Mac kompiuteryje visur turėjote Cmd + C. Windows visur turėjote Ctrl + C — išskyrus terminalą, kur tai užmuša jūsų programą. LunaOS jums duoda `Super + C`, `Super + X` ir `Super + V` ir jie veikia visur, įskaitant terminalą. Nereikia mokytis atskiro reflekso apvalkalui.
 
 Windows žmonės: jūsų Win + V iškarpinės istorija gyvena ant `Super + Ctrl + V` ir joje laikomi ir paveikslėliai, ir tekstas. Žr. [vieningą iškarpinę ir istoriją](08-unified-clipboard-history.md).
 
 ### Vertimo lentelė
 
-| Siekiate | Omarchy |
+| Siekiate | LunaOS |
 | ------------- | ---------- |
-| Spotlight / Raycast / meniu Start | `Super + Space` — Omarchy meniu |
+| Spotlight / Raycast / meniu Start | `Super + Space` — LunaOS meniu |
 | AirDrop | LocalSend, per `Super + Ctrl + S` — žr. [GUI](22-guis.md) |
 | Cmd + Shift + 4 / Win + Shift + S | `Print Screen` — žr. [ekrano nuotraukas ir įrašymą](12-screenshots-recording.md) |
 | Notification Center | Pranešimų istorija ant `Super + Shift + Alt + ,` |
 | Time Machine (sistemai) | Automatiniai [sistemos momentiniai atvaizdai](47-system-snapshots.md) kiekvieno atnaujinimo metu |
-| App Store / diegimo programos atsisiuntimas | _Įdiegti_ meniu arba `omarchy pkg add` — žr. [kitus paketus](29-other-packages.md) |
+| App Store / diegimo programos atsisiuntimas | _Įdiegti_ meniu arba `lunaos pkg add` — žr. [kitus paketus](29-other-packages.md) |
 | System Settings / Control Panel | _Nuostatos_ meniu, kuris redaguoja paprastus konfigūracijos failus — žr. [dotfiles](31-dotfiles.md) |
 
 ### Kai kurie dalykai tikrai skiriasi
 
 Daugelis nuostatų gyvena tekstiniuose failuose, kuriuos redaguojate, o ne skydeliuose, kuriuos spaudžiate. Tai skamba primityviai, kol nesuprantate, kad tai reiškia, jog kiekvieną pataisą galima pamatyti, nukopijuoti į kitą jūsų kompiuterį ir įdėti į versijų kontrolę. Meniu _Nuostatos_ numeta jus tiesiai į tinkamą failą ir, kai baigsite, iš naujo paleidžia tai, ką reikia paleisti iš naujo.
 
-Atnaujinimai ateina per vieną komandą — _Atnaujinti > Omarchy_ — kuri atnaujina pačią Omarchy ir kiekvieną sistemos paketą, prieš tai padarydama momentinį atvaizdą. Jokių atskirų programų naujintuvų, erzinančių jus atsitiktinai. Žr. [atnaujinimus](30-updates.md).
+Atnaujinimai ateina per vieną komandą — _Atnaujinti > LunaOS_ — kuri atnaujina pačią LunaOS ir kiekvieną sistemos paketą, prieš tai padarydama momentinį atvaizdą. Jokių atskirų programų naujintuvų, erzinančių jus atsitiktinai. Žr. [atnaujinimus](30-updates.md).
 
 Programinė įranga ateina iš paketų tvarkyklės, o ne iš atsisiųstų diegimo programų.
 
@@ -50,7 +50,7 @@ O kai uždarote langą, programa iš tikrųjų užsidaro. Nėra macOS limbo, kur
 
 ### Mac aparatinėje įrangoje
 
-Omarchy gerai veikia Intel Mac kompiuteriuose — žr. [Mac palaikymą](44-mac-support.md). O klaviatūra jums maloni: Omarchy nieko neperžymi, o Linux Command klavišą laiko Super, todėl Super yra ten pat, kur visada buvo Cmd. Jūsų nykštys judėjimo nepastebės.
+LunaOS gerai veikia Intel Mac kompiuteriuose — žr. [Mac palaikymą](44-mac-support.md). O klaviatūra jums maloni: LunaOS nieko neperžymi, o Linux Command klavišą laiko Super, todėl Super yra ten pat, kur visada buvo Cmd. Jūsų nykštys judėjimo nepastebės.
 
 ### Duokite tam dvi savaites
 

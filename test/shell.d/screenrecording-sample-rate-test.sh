@@ -14,7 +14,7 @@ trap 'rm -rf "$work"' EXIT
 # writes 96 kHz AAC from a 48 kHz recording. Many editors decode such a track as
 # silence, and on Apple Silicon playing it switches the speakers to 96 kHz,
 # which their safety daemon answers by locking the amps.
-source <(sed -n '/^finalize_recording() {/,/^}/p' "$ROOT/bin/omarchy-capture-screenrecording")
+source <(sed -n '/^finalize_recording() {/,/^}/p' "$ROOT/bin/lunaos-capture-screenrecording")
 recording="$work/recording.mp4"
 ffmpeg -loglevel error -f lavfi -i testsrc=size=64x64:rate=30 -f lavfi -i sine=frequency=440:sample_rate=48000 \
   -t 1 -c:v libx264 -c:a aac -ar 48000 "$recording"

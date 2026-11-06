@@ -308,7 +308,7 @@ function dropRoom(drop, source, sections, drawn) {
 }
 
 // An entry as JSON with its keys in order, so a config written back with its
-// keys sorted (omarchy-shell-config does) reads as the same entry.
+// keys sorted (lunaos-shell-config does) reads as the same entry.
 function entryJson(value) {
   if (Array.isArray(value)) return "[" + value.map(entryJson).join(",") + "]"
   if (isPlainObject(value))

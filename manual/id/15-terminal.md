@@ -1,8 +1,8 @@
 # Terminal
 
-[Foot](https://codeberg.org/dnkl/foot) adalah terminal bawaan untuk Omarchy. Ia cepat, ringan, dan kompatibel bahkan dengan komputer lama. Namun, ia tidak mendukung tab atau pemisahan asli.
+[Foot](https://codeberg.org/dnkl/foot) adalah terminal bawaan untuk LunaOS. Ia cepat, ringan, dan kompatibel bahkan dengan komputer lama. Namun, ia tidak mendukung tab atau pemisahan asli.
 
-Jika Anda menggunakan Tmux, Anda mungkin tidak keberatan, tetapi jika tidak, kami sepenuhnya mendukung _Alacritty_, _Ghostty_, dan _Kitty_ sebagai opsi juga. Pilih preferensi Anda di bawah _Pasang > Terminal_ dalam menu Omarchy.
+Jika Anda menggunakan Tmux, Anda mungkin tidak keberatan, tetapi jika tidak, kami sepenuhnya mendukung _Alacritty_, _Ghostty_, dan _Kitty_ sebagai opsi juga. Pilih preferensi Anda di bawah _Pasang > Terminal_ dalam menu LunaOS.
 
 Anda memulai terminal baru menggunakan `Super + Return`. (Binding ini akan secara otomatis menunjuk ke Terminal mana pun yang telah Anda pasang melalui _Pasang > Terminal_, dan Anda dapat beralih di antara terminal yang dipasang di bawah _Pengaturan > Bawaan > Terminal_.)
 
@@ -12,11 +12,11 @@ Tmux menyediakan antarmuka yang konsisten dan dapat diprogram untuk pane, jendel
 
 Anda memulai sesi Tmux baru di terminal baru menggunakan `Super + Alt + Return`, dan karena Tmux adalah proses yang persisten, Anda dapat melanjutkan sesi Anda bahkan jika Anda menutup terminal itu. Cukup tekan `Ctrl + Space` (disebut tombol awalan) lalu `s` untuk melihat semua sesi aktif Anda.
 
-Omarchy dikirim dengan konfigurasi Tmux yang dioptimalkan secara ergonomis, yang memiliki banyak keybinding untuk dipelajari, jadi simpan [lembar contekan](07-hotkeys.md#tmux) di dekat Anda.
+LunaOS dikirim dengan konfigurasi Tmux yang dioptimalkan secara ergonomis, yang memiliki banyak keybinding untuk dipelajari, jadi simpan [lembar contekan](07-hotkeys.md#tmux) di dekat Anda.
 
 ## Fungsi tata letak Tmux
 
-Karena Tmux dapat diprogram, kita dapat menggunakan fungsi untuk membuat tata letak. Omarchy dikirim dengan empat fungsi berbeda untuk tata letak pengembang umum.
+Karena Tmux dapat diprogram, kita dapat menggunakan fungsi untuk membuat tata letak. LunaOS dikirim dengan empat fungsi berbeda untuk tata letak pengembang umum.
 
 `tdl [agent]` memulai antarmuka seperti IDE tiga arah dengan `$EDITOR` di sebelah kiri, agen AI pilihan Anda di sebelah kanan (seperti `c` untuk opencode atau `cx` untuk Claude atau `codex` untuk OpenAI), dan kemudian terminal di bagian bawah.
 

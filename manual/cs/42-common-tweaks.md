@@ -1,8 +1,8 @@
 # Běžné úpravy
 
-Toto je sbírka běžných přizpůsobení nastavení Omarchy. Mějte na paměti, že někdy může být u aktualizací systému nutné obnovit určité konfigurace do původního stavu. Pokud se to stane, vaše změny se neztratí, ale uloží se do souboru `.bak` ve stejném adresáři.
+Toto je sbírka běžných přizpůsobení nastavení LunaOS. Mějte na paměti, že někdy může být u aktualizací systému nutné obnovit určité konfigurace do původního stavu. Pokud se to stane, vaše změny se neztratí, ale uloží se do souboru `.bak` ve stejném adresáři.
 
-Pokud něco pokazíte, můžete obnovit jednotlivé konfigurace do původního nastavení v nabídce Omarchy v části _Aktualizovat > Config_. Pokud to pokazíte _opravdu_ všechno, můžete obnovit všechny konfigurace příkazem `omarchy-reinstall`.
+Pokud něco pokazíte, můžete obnovit jednotlivé konfigurace do původního nastavení v nabídce LunaOS v části _Aktualizovat > Config_. Pokud to pokazíte _opravdu_ všechno, můžete obnovit všechny konfigurace příkazem `lunaos-reinstall`.
 
 ### Trvalé zobrazení všech ikon v oblasti oznámení
 
@@ -10,7 +10,7 @@ Ve výchozím nastavení jsou ikony v oblasti oznámení, například Dropbox, 1
 
 ### Zaoblené rohy oken
 
-Výchozím stylem Omarchy jsou pravoúhlé rohy, ale pokud ho chcete trochu změkčit, můžete upravit soubor `~/.config/hypr/looknfeel.lua` tak, aby parametr rounding už nebyl zakomentovaný:
+Výchozím stylem LunaOS jsou pravoúhlé rohy, ale pokud ho chcete trochu změkčit, můžete upravit soubor `~/.config/hypr/looknfeel.lua` tak, aby parametr rounding už nebyl zakomentovaný:
 
 ```
 hl.config({

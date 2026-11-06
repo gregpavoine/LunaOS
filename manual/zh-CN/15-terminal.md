@@ -1,8 +1,8 @@
 # 终端
 
-[Foot](https://codeberg.org/dnkl/foot) 是 Omarchy 的默认终端。它速度快、轻量，并且与旧计算机兼容。不过，它不支持原生选项卡或分割。
+[Foot](https://codeberg.org/dnkl/foot) 是 LunaOS 的默认终端。它速度快、轻量，并且与旧计算机兼容。不过，它不支持原生选项卡或分割。
 
-如果你使用 Tmux，你可能不会介意，但如果不是，我们也完全支持 _Alacritty_、_Ghostty_ 和 _Kitty_ 作为选项。在 Omarchy 菜单的_安装 > 终端_下选择你的偏好。
+如果你使用 Tmux，你可能不会介意，但如果不是，我们也完全支持 _Alacritty_、_Ghostty_ 和 _Kitty_ 作为选项。在 LunaOS 菜单的_安装 > 终端_下选择你的偏好。
 
 你使用 `Super + Return` 启动新终端。（此绑定会自动指向你通过_安装 > 终端_安装的任何终端，你可以在_设置 > 默认项 > 终端_下在已安装的终端之间切换。）
 
@@ -12,11 +12,11 @@
 
 你使用 `Super + Alt + Return` 在崭新的终端中启动新的 Tmux 会话，由于 Tmux 是一个持久进程，即使你关闭该终端，你也可以恢复会话。只需按 `Ctrl + Space`（称为前缀键），然后按 `s` 查看你所有的活动会话。
 
-Omarchy 附带了经过人体工程学优化的 Tmux 配置，其中有很多键盘绑定需要学习，所以请[将备忘单放在手边](07-hotkeys.md#tmux)。
+LunaOS 附带了经过人体工程学优化的 Tmux 配置，其中有很多键盘绑定需要学习，所以请[将备忘单放在手边](07-hotkeys.md#tmux)。
 
 ## Tmux 布局函数
 
-由于 Tmux 是可编程的，我们可以使用函数来创建布局。Omarchy 附带了四个不同函数，用于常见的开发人员布局。
+由于 Tmux 是可编程的，我们可以使用函数来创建布局。LunaOS 附带了四个不同函数，用于常见的开发人员布局。
 
 `tdl [agent]` 启动一个三分式 IDE 风格的界面，左侧是 `$EDITOR`，右侧是你选择的 AI 智能体（例如 `c` 代表 opencode，`cx` 代表 Claude，`codex` 代表 OpenAI），底部是终端。
 

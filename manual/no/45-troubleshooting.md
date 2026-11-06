@@ -2,17 +2,17 @@
 
 ### Jeg ødela systemet mitt med en oppdatering!
 
-Prøv først å [rulle tilbake systemet](47-system-snapshots.md) til versjonen før den siste oppdateringen. Hvis det ikke fungerer, bruk `omarchy-debug` til å dele problemet ditt på #omarchy-help på Discorden. Og hvis alt det feiler, kan du installere standardkonfigurasjonene og -pakkene på nytt med `omarchy-reinstall`.
+Prøv først å [rulle tilbake systemet](47-system-snapshots.md) til versjonen før den siste oppdateringen. Hvis det ikke fungerer, bruk `lunaos-debug` til å dele problemet ditt på #lunaos-help på Discorden. Og hvis alt det feiler, kan du installere standardkonfigurasjonene og -pakkene på nytt med `lunaos-reinstall`.
 
 ### Hvorfor er noen apper så store på skjermen min?
 
-Omarchy antar en 2x høyoppløselig skjerm, som krever at `GDK_SCALE` settes til 2 i `~/.config/hypr/monitors.lua`. Men hvis du er på en 1x-skjerm, kan du endre `local omarchy_gdk_scale = 2` til 1 (og deretter starte enhver app som er for stor på nytt). Se [manualen om skjermer](33-monitors.md).
+LunaOS antar en 2x høyoppløselig skjerm, som krever at `GDK_SCALE` settes til 2 i `~/.config/hypr/monitors.lua`. Men hvis du er på en 1x-skjerm, kan du endre `local lunaos_gdk_scale = 2` til 1 (og deretter starte enhver app som er for stor på nytt). Se [manualen om skjermer](33-monitors.md).
 
 For Spotify kan du bruke `Ctrl + Minus` for å krympe brukergrensesnittet (og `Ctrl + Plus` for å gjøre det større).
 
 ### Wi-Fi-en, Bluetooth-en, lyden eller styreflaten min sluttet bare å fungere
 
-Før du starter på nytt, prøv å starte det skyldige delsystemet på nytt for seg selv. _Oppdater > Maskinvare_ i Omarchy-menyen har Wi-Fi, Bluetooth, Lyd og Styreflate, og å laste én av dem på nytt rydder opp i flertallet av «det fungerte for fem minutter siden»-situasjoner — et Bluetooth-headsett som ikke vil koble til igjen, en styreflate som ble død etter en hvile, lyd som forsvant da du koblet fra en skjerm.
+Før du starter på nytt, prøv å starte det skyldige delsystemet på nytt for seg selv. _Oppdater > Maskinvare_ i LunaOS-menyen har Wi-Fi, Bluetooth, Lyd og Styreflate, og å laste én av dem på nytt rydder opp i flertallet av «det fungerte for fem minutter siden»-situasjoner — et Bluetooth-headsett som ikke vil koble til igjen, en styreflate som ble død etter en hvile, lyd som forsvant da du koblet fra en skjerm.
 
 ### Hvorfor spiller ikke de eksterne høyttalerne mine?
 
@@ -20,7 +20,7 @@ Sannsynligvis fordi de ikke er satt som primær utgang. Klikk på høyttalerikon
 
 ### Høyttalerne på den bærbare høres feil ut
 
-På noen bærbare bruker Omarchy automatisk en høyttalerstemme som korrigerer frekvensresponsen til de innebygde høyttalerne. `omarchy audio tuning status` forteller deg om én er aktiv på maskinen din, og `omarchy audio tuning off` slår den av hvis du heller vil høre høyttalerne rå.
+På noen bærbare bruker LunaOS automatisk en høyttalerstemme som korrigerer frekvensresponsen til de innebygde høyttalerne. `lunaos audio tuning status` forteller deg om én er aktiv på maskinen din, og `lunaos audio tuning off` slår den av hvis du heller vil høre høyttalerne rå.
 
 ### Hvorfor kan jeg ikke logge inn eller sudo med passordet mitt?
 

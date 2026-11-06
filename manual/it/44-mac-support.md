@@ -1,16 +1,16 @@
 # Supporto Mac
 
-Omarchy ha il supporto integrato per i **Mac Intel**. Al momento ci sono un paio di limitazioni note, ma finché ne sei consapevole e ti vanno bene, puoi dare nuova vita ai tuoi vecchi Mac installando Omarchy.
+LunaOS ha il supporto integrato per i **Mac Intel**. Al momento ci sono un paio di limitazioni note, ma finché ne sei consapevole e ti vanno bene, puoi dare nuova vita ai tuoi vecchi Mac installando LunaOS.
 
-Nota che al momento l'installazione su un Mac serie M non è supportata direttamente. Puoi scoprire di più sullo stato della questione in #omarchy-on-other nel nostro [Discord](https://discord.gg/tXFUdasqhY).
+Nota che al momento l'installazione su un Mac serie M non è supportata direttamente. Puoi scoprire di più sullo stato della questione in #lunaos-on-other nel nostro [Discord](https://discord.gg/tXFUdasqhY).
 
-In un semplice test, siamo riusciti a ottenere un guadagno prestazionale del 36% su un MacBook Pro del 2019 semplicemente installando Omarchy.
+In un semplice test, siamo riusciti a ottenere un guadagno prestazionale del 36% su un MacBook Pro del 2019 semplicemente installando LunaOS.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Installare Omarchy su Mac
+### Installare LunaOS su Mac
 
-Al momento Omarchy supporta solo l'installazione come **unico** sistema operativo. Durante l'installazione, il disco verrà cancellato e MacOS non sarà più avviabile.
+Al momento LunaOS supporta solo l'installazione come **unico** sistema operativo. Durante l'installazione, il disco verrà cancellato e MacOS non sarà più avviabile.
 
 Potrai comunque ripristinarlo in seguito tramite Internet Recovery, se lo desideri.
 
@@ -39,7 +39,7 @@ Il programma di installazione rileva l'hardware Mac e applica automaticamente le
 
 ### Limitazioni note
 
-I membri della community lavorano costantemente a soluzioni per queste sfide, quindi se per te sono problematiche, unisciti a #omarchy-on-other nel nostro [Discord](https://discord.gg/tXFUdasqhY) e guarda se ci sono metodi aggiornati per risolverle.
+I membri della community lavorano costantemente a soluzioni per queste sfide, quindi se per te sono problematiche, unisciti a #lunaos-on-other nel nostro [Discord](https://discord.gg/tXFUdasqhY) e guarda se ci sono metodi aggiornati per risolverle.
 
 #### Dispositivi con chip T1
 

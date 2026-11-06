@@ -1,19 +1,19 @@
 # מסכים
 
-Omarchy מניחה שאתם רצים על צג ברמת retina בעל יכולת 2x כברירת מחדל. זה מה שצריך כדי לקבל את גופני המתכנתים הנחמדים והפריכים האלה. זה מה שכמעט כל המחשבים הניידים החדשים והפרימיום עם מסכים ברזולוציה גבוהה ממוטבים עבורו. זה מה שתרצו להפעיל על [Apple Studio Display](https://www.apple.com/studio-display/)/[ProArt PA27JCV](https://www.asus.com/us/displays-desktops/monitors/proart/proart-display-5k-pa27jcv/)/[Samsung S9](https://www.samsung.com/us/computing/monitors/5k/27-viewfinity-s9-5k-monitor-with-thunderbolt-4-matte-display-and-smart-features-ls27c900panxza/)/[Kuycon G27P](https://kuycon.us/monitors/G27P/) של 27" 5K או [Apple XDR](https://www.apple.com/pro-display-xdr/)/[ProArt PA32QCV](https://www.asus.com/displays-desktops/monitors/proart/proart-display-6k-pa32qcv/)/[Kuycon G32P](https://kuycon.us/monitors/G32P/) של 32" 6K.
+LunaOS מניחה שאתם רצים על צג ברמת retina בעל יכולת 2x כברירת מחדל. זה מה שצריך כדי לקבל את גופני המתכנתים הנחמדים והפריכים האלה. זה מה שכמעט כל המחשבים הניידים החדשים והפרימיום עם מסכים ברזולוציה גבוהה ממוטבים עבורו. זה מה שתרצו להפעיל על [Apple Studio Display](https://www.apple.com/studio-display/)/[ProArt PA27JCV](https://www.asus.com/us/displays-desktops/monitors/proart/proart-display-5k-pa27jcv/)/[Samsung S9](https://www.samsung.com/us/computing/monitors/5k/27-viewfinity-s9-5k-monitor-with-thunderbolt-4-matte-display-and-smart-features-ls27c900panxza/)/[Kuycon G27P](https://kuycon.us/monitors/G27P/) של 27" 5K או [Apple XDR](https://www.apple.com/pro-display-xdr/)/[ProArt PA32QCV](https://www.asus.com/displays-desktops/monitors/proart/proart-display-6k-pa32qcv/)/[Kuycon G32P](https://kuycon.us/monitors/G32P/) של 32" 6K.
 
-אבל אם אינכם מפעילים צג עם PPI של 218 או מעלה, תרצו לשנות את הגדרות המסך. למשל, אם יש לכם 4K של 27" או 32", תוכלו להשתמש בקנה מידה שברירי על ידי פתיחת `~/.config/hypr/monitors.lua` (דרך _הגדרה > מסכים_ בתפריט Omarchy) ומעבר להמלצה לשילוב ההוא:
+אבל אם אינכם מפעילים צג עם PPI של 218 או מעלה, תרצו לשנות את הגדרות המסך. למשל, אם יש לכם 4K של 27" או 32", תוכלו להשתמש בקנה מידה שברירי על ידי פתיחת `~/.config/hypr/monitors.lua` (דרך _הגדרה > מסכים_ בתפריט LunaOS) ומעבר להמלצה לשילוב ההוא:
 
 ```lua
-local omarchy_gdk_scale = 2
-local omarchy_monitor_scale = 1.6
+local lunaos_gdk_scale = 2
+local lunaos_monitor_scale = 1.6
 ```
 
 אם אתם משתמשים בצג 1080p או 1440p, קרוב לוודאי שתרצו פשוט להשתמש בקנה מידה של 1x, כך שתוכלו להשתמש ב:
 
 ```lua
-local omarchy_gdk_scale = 1
-local omarchy_monitor_scale = 1
+local lunaos_gdk_scale = 1
+local lunaos_monitor_scale = 1
 ```
 
 שינויים ב-`GDK_SCALE` חלים על יישומים שהתחילו לאחר השינוי (ו-GTK מכבד רק מספרים שלמים, כך ששמרו אותו על המספר השלם הקרוב ביותר לקנה המידה של המסך שלכם). כך שוודאו שאתם יוצאים מהחלונות שיש לכם שהם גדולים מדי לאחר השינוי (או סוגרים את כל החלונות עם `Ctrl + Alt + Del`!).
@@ -25,20 +25,20 @@ local omarchy_monitor_scale = 1
 קנה מידה של מסך משנה את הגודל של הכול. אם כל מה שתרצו הוא _טקסט_ גדול או קטן יותר, יש ידית אחת לכך:
 
 ```
-omarchy display text size 14
+lunaos display text size 14
 ```
 
-זה לוקח גודל פיקסל בין 9 ל-20, ומעביר את מעטפת Omarchy, יישומי GTK והמסוף שלכם יחד, כך ששולחן העבודה כולו נשאר בפרופורציה. הריצו אותו ללא ארגומנט כדי לראות היכן אתם נמצאים, ו-`omarchy display text size reset` כדי לחזור לברירת המחדל. Foot הוא המשתרך היחיד: אין לו דרך לטעון מחדש את התצורה שלו, כך שמסופים פועלים שומרים על הגודל הישן שלהם עד שתפתחו אחד חדש.
+זה לוקח גודל פיקסל בין 9 ל-20, ומעביר את מעטפת LunaOS, יישומי GTK והמסוף שלכם יחד, כך ששולחן העבודה כולו נשאר בפרופורציה. הריצו אותו ללא ארגומנט כדי לראות היכן אתם נמצאים, ו-`lunaos display text size reset` כדי לחזור לברירת המחדל. Foot הוא המשתרך היחיד: אין לו דרך לטעון מחדש את התצורה שלו, כך שמסופים פועלים שומרים על הגודל הישן שלהם עד שתפתחו אחד חדש.
 
 ### הרחבה ושיקוף של צגי מחשב נייד
 
-כאשר אתם מחברים מסך חיצוני למחשב הנייד שלכם, התצוגה מורחבת באופן אוטומטי. אבל תוכלו לשנות זאת לשיקוף במקום זאת באמצעות _הפעלה > חומרה_ בתפריט Omarchy או `Super + Ctrl + Alt + Delete`. זה מועיל במיוחד אם המסך החיצוני ההוא הוא מקרן, וברצונכם להציג משהו תוך כדי עבודה.
+כאשר אתם מחברים מסך חיצוני למחשב הנייד שלכם, התצוגה מורחבת באופן אוטומטי. אבל תוכלו לשנות זאת לשיקוף במקום זאת באמצעות _הפעלה > חומרה_ בתפריט LunaOS או `Super + Ctrl + Alt + Delete`. זה מועיל במיוחד אם המסך החיצוני ההוא הוא מקרן, וברצונכם להציג משהו תוך כדי עבודה.
 
-כשאתם מרחיבים, סגירת המכסה על המחשב הנייד תכבה באופן אוטומטי את המסך הפנימי. פתיחת המכסה תדליק אותו בחזרה. תוכלו גם לשלוט בכך ידנית באמצעות _הפעלה > חומרה_ בתפריט Omarchy או `Super + Ctrl + Delete`.
+כשאתם מרחיבים, סגירת המכסה על המחשב הנייד תכבה באופן אוטומטי את המסך הפנימי. פתיחת המכסה תדליק אותו בחזרה. תוכלו גם לשלוט בכך ידנית באמצעות _הפעלה > חומרה_ בתפריט LunaOS או `Super + Ctrl + Delete`.
 
 ### סידור מסכים מרובים
 
-Hyprland עובדת מצוין עם מסכים מרובים. קראו עוד על איך לסדר אותם ב[תיעוד המסכים של Hyprland](https://wiki.hypr.land/Configuring/Basics/Monitors/). תוכלו [לקשור סביבות עבודה ספציפיות למסכים ספציפיים](https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/) גם כן. ב-Omarchy, כללים אלה נכנסים ל-`~/.config/hypr/monitors.lua` כערכי `hl.monitor` — הקובץ נשלח עם דוגמאות עם הערות להצמדת מסך ספציפי לרזולוציה, מיקום וסיבוב.
+Hyprland עובדת מצוין עם מסכים מרובים. קראו עוד על איך לסדר אותם ב[תיעוד המסכים של Hyprland](https://wiki.hypr.land/Configuring/Basics/Monitors/). תוכלו [לקשור סביבות עבודה ספציפיות למסכים ספציפיים](https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/) גם כן. ב-LunaOS, כללים אלה נכנסים ל-`~/.config/hypr/monitors.lua` כערכי `hl.monitor` — הקובץ נשלח עם דוגמאות עם הערות להצמדת מסך ספציפי לרזולוציה, מיקום וסיבוב.
 
 תוכלו גם לבדוק את [Hyprmon](https://github.com/erans/hyprmon/), אם תרצו TUI שיעזור לכם עם מיקום מסכים מרובים.
 

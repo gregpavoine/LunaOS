@@ -2,17 +2,17 @@
 
 ### Saya merosakkan sistem saya dengan kemas kini!
 
-Mula-mula cuba [kembalikan sistem anda](47-system-snapshots.md) kepada versi sebelum kemas kini terbaharu anda. Jika itu tidak berfungsi, gunakan `omarchy-debug` untuk berkongsi masalah anda di #omarchy-help dalam Discord. Dan jika semua itu gagal, anda boleh memasang semula konfigurasi dan pakej lalai menggunakan `omarchy-reinstall`.
+Mula-mula cuba [kembalikan sistem anda](47-system-snapshots.md) kepada versi sebelum kemas kini terbaharu anda. Jika itu tidak berfungsi, gunakan `lunaos-debug` untuk berkongsi masalah anda di #lunaos-help dalam Discord. Dan jika semua itu gagal, anda boleh memasang semula konfigurasi dan pakej lalai menggunakan `lunaos-reinstall`.
 
 ### Mengapa sesetengah aplikasi sangat besar pada paparan saya?
 
-Omarchy menganggap paparan resolusi tinggi 2x, yang memerlukan penetapan `GDK_SCALE` kepada 2 dalam `~/.config/hypr/monitors.lua`. Tetapi jika anda menggunakan paparan 1x, anda boleh menukar `local omarchy_gdk_scale = 2` kepada 1 (dan kemudian mulakan semula mana-mana aplikasi yang bersaiz besar). Lihat [manual tentang monitor](33-monitors.md).
+LunaOS menganggap paparan resolusi tinggi 2x, yang memerlukan penetapan `GDK_SCALE` kepada 2 dalam `~/.config/hypr/monitors.lua`. Tetapi jika anda menggunakan paparan 1x, anda boleh menukar `local lunaos_gdk_scale = 2` kepada 1 (dan kemudian mulakan semula mana-mana aplikasi yang bersaiz besar). Lihat [manual tentang monitor](33-monitors.md).
 
 Untuk Spotify, anda boleh menggunakan `Ctrl + Minus` untuk mengecilkan UI (dan `Ctrl + Plus` untuk membesarkannya).
 
 ### Wi-Fi, Bluetooth, audio, atau pad sentuh saya tiba-tiba berhenti berfungsi
 
-Sebelum anda but semula, cuba mulakan semula subsistem yang bermasalah itu sahaja. _Kemas Kini > Perkakasan_ dalam menu Omarchy mempunyai Wi-Fi, Bluetooth, Audio, dan Pad Sentuh, dan memuat semula salah satu daripadanya menyelesaikan kebanyakan situasi "ia berfungsi lima minit yang lalu" — set kepala Bluetooth yang tidak mahu menyambung semula, pad sentuh yang mati selepas suspend, bunyi yang hilang apabila anda mencabut monitor.
+Sebelum anda but semula, cuba mulakan semula subsistem yang bermasalah itu sahaja. _Kemas Kini > Perkakasan_ dalam menu LunaOS mempunyai Wi-Fi, Bluetooth, Audio, dan Pad Sentuh, dan memuat semula salah satu daripadanya menyelesaikan kebanyakan situasi "ia berfungsi lima minit yang lalu" — set kepala Bluetooth yang tidak mahu menyambung semula, pad sentuh yang mati selepas suspend, bunyi yang hilang apabila anda mencabut monitor.
 
 ### Mengapa pembesar suara luaran saya tidak berbunyi?
 
@@ -20,7 +20,7 @@ Mungkin kerana ia tidak ditetapkan sebagai output utama. Klik ikon pembesar suar
 
 ### Pembesar suara laptop saya kedengaran tidak betul
 
-Pada sesetengah laptop, Omarchy secara automatik menggunakan penalaan pembesar suara yang membetulkan tindak balas frekuensi pembesar suara terbina dalam. `omarchy audio tuning status` memberitahu anda sama ada satu penalaan aktif pada mesin anda, dan `omarchy audio tuning off` mematikannya jika anda lebih suka mendengar pembesar suara secara mentah.
+Pada sesetengah laptop, LunaOS secara automatik menggunakan penalaan pembesar suara yang membetulkan tindak balas frekuensi pembesar suara terbina dalam. `lunaos audio tuning status` memberitahu anda sama ada satu penalaan aktif pada mesin anda, dan `lunaos audio tuning off` mematikannya jika anda lebih suka mendengar pembesar suara secara mentah.
 
 ### Mengapa saya tidak boleh log masuk atau sudo dengan kata laluan saya?
 

@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ A barra mostrará automaticamente seu layout de teclado atual assim que você ti
 Clique com o botão direito no relógio na barra para alternar entre os formatos comuns, incluindo os de 12 horas. Você também pode definir o formato diretamente:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Isso exibirá Sunday 10:55 AM.
 
 ### Como mudo meu fuso horário?
 
-Execute _Atualizar > Fuso horário_ no menu do Omarchy e escolha na lista. Se o fuso horário estiver certo, mas o próprio relógio tiver desregulado, _Atualizar > Hora_ reinicia a sincronização de hora para você.
+Execute _Atualizar > Fuso horário_ no menu do LunaOS e escolha na lista. Se o fuso horário estiver certo, mas o próprio relógio tiver desregulado, _Atualizar > Hora_ reinicia a sincronização de hora para você.
 
 ### Como mudo meu DNS, compartilho meu Wi-Fi ou verifico a velocidade da minha conexão?
 
@@ -36,11 +36,11 @@ Tudo isso está em [rede](35-networking.md).
 
 ### Como verifico a velocidade do meu disco?
 
-_Acionar > Teste de velocidade > Teste de velocidade do disco_ mede a velocidade de leitura e escrita ao vivo no seu disco, ou `omarchy disk speedtest` no terminal.
+_Acionar > Teste de velocidade > Teste de velocidade do disco_ mede a velocidade de leitura e escrita ao vivo no seu disco, ou `lunaos disk speedtest` no terminal.
 
 ### Por que não consigo entrar na minha conta Google no Chromium?
 
-A compilação de código aberto pura do Chromium não traz as credenciais OAuth que o Google exige para o login na conta. Execute _Instalar > Serviço > Conta Chromium_ no menu do Omarchy para adicioná-las, reinicie o navegador, e o login vai funcionar.
+A compilação de código aberto pura do Chromium não traz as credenciais OAuth que o Google exige para o login na conta. Execute _Instalar > Serviço > Conta Chromium_ no menu do LunaOS para adicioná-las, reinicie o navegador, e o login vai funcionar.
 
 ### Como adiciono uma impressora?
 
@@ -60,15 +60,15 @@ As capturas de tela salvas vão para `~/Pictures/Screenshots` por padrão. Para 
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Você pode fazer o mesmo para gravações de tela usando `OMARCHY_SCREENRECORD_DIR`.
+Você pode fazer o mesmo para gravações de tela usando `LUNAOS_SCREENRECORD_DIR`.
 
-O Omasnap cria seu diretório de capturas de tela automaticamente. Crie o diretório de gravações de tela você mesmo e depois reinicie o Omarchy para que qualquer uma das alterações de ambiente entre em vigor.
+O Omasnap cria seu diretório de capturas de tela automaticamente. Crie o diretório de gravações de tela você mesmo e depois reinicie o LunaOS para que qualquer uma das alterações de ambiente entre em vigor.
 
 ### Como faço as caixas de som + a webcam do meu Apple Studio Display funcionarem?
 
 Você pensaria que tudo deveria funcionar só de plugar o USB C, mas infelizmente não é o caso. A solução que encontrei para fazer funcionar de forma confiável é usar [o cabo WJESOG DisplayPort + USB-A => USB-C](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/). Aí as caixas de som e a webcam funcionam perfeitamente.
 
-Lembre-se de que você tem controle de brilho embutido no Omarchy para os Apple Displays (Studio e XDR) usando os botões normais de brilho do teclado.
+Lembre-se de que você tem controle de brilho embutido no LunaOS para os Apple Displays (Studio e XDR) usando os botões normais de brilho do teclado.
 
 ### Como me livro de todo o software extra?
 
@@ -76,7 +76,7 @@ Se você não quer programas como Obsidian ou LibreOffice ou qualquer outra cois
 
 Execute _Remover > Pacote_ para ver todos os pacotes instalados. Aí você pode selecionar qualquer pacote que quer remover com tab e começar a remover tudo o que selecionou com return.
 
-E você pode usar _Remover > Aplicativo web_ no menu do Omarchy para remover qualquer um dos aplicativos web pré-instalados que não quer.
+E você pode usar _Remover > Aplicativo web_ no menu do LunaOS para remover qualquer um dos aplicativos web pré-instalados que não quer.
 
 Ou execute _Remover > Pré-instalados_ para varrer todos os extras pré-instalados — aplicativos web, TUIs e aplicativos opcionais — de uma vez só. As teclas de atalho que os abriam vão embora com eles, então você fica com um conjunto limpo de atalhos para preencher com os seus em `~/.config/hypr/bindings.lua`.
 

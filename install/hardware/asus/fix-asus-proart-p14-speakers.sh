@@ -6,6 +6,6 @@
 # before speaker-tuning.sh, whose voicing for this laptop assumes the amplifiers
 # have it.
 
-if omarchy-hw-match "H7407BA"; then
-  omarchy-pkg-add asus-proart-p14-speaker-firmware
+if lunaos-hw-match "H7407BA"; then
+  lunaos-pkg-add asus-proart-p14-speaker-firmware
 fi

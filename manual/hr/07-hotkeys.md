@@ -6,7 +6,7 @@ Sve glavne poveznice tipkovnice možete vidjeti prečacom `Super + K` (poveznice
 
 | Prečac                  | Funkcija              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy izbornik (aplikacije i sve ostalo)    |
+| `Super + Space`           | LunaOS izbornik (aplikacije i sve ostalo)    |
 | `Super + Alt + Space` | Mreža aplikacija |
 | `Super + Escape` | Izbornik sustava (obustavi, ponovno pokreni itd.)  |
 | `Super + Ctrl + L` | Zaključaj računalo |
@@ -136,7 +136,7 @@ Poveznice mijenjate/dodajete u `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Zalijepi    |
 | `Super + Ctrl + V`           | Upravitelj međuspremnika    |
 
-Obično na Linuxu trebate `Ctrl + Shift + C/V` za kopiranje i lijepljenje u terminalu i `Ctrl + C/V` da to radite posvuda drugdje. Ti Omarchyjevi jedinstveni prečaci za međuspremnik rade posvuda.
+Obično na Linuxu trebate `Ctrl + Shift + C/V` za kopiranje i lijepljenje u terminalu i `Ctrl + C/V` da to radite posvuda drugdje. Ti LunaOSjevi jedinstveni prečaci za međuspremnik rade posvuda.
 
 ## Snimaj
 
@@ -156,7 +156,7 @@ Obično na Linuxu trebate `Ctrl + Shift + C/V` za kopiranje i lijepljenje u term
 
 Kod snimanja zaslona prečac prvo pita koji zvuk želite, zatim započinje snimanje. Ponovno ga pritisnite da zaustavite. Pogledajte [snimke zaslona i snimanje](12-screenshots-recording.md) za pojedinosti.
 
-Sve opcije snimanja dostupne su i pod _Pokreni > Snimaj_ u Omarchy izborniku (`Super + Space`).
+Sve opcije snimanja dostupne su i pod _Pokreni > Snimaj_ u LunaOS izborniku (`Super + Space`).
 
 ## Obavijesti
 
@@ -177,9 +177,9 @@ Sve opcije snimanja dostupne su i pod _Pokreni > Snimaj_ u Omarchy izborniku (`S
 | `Super + Backspace` | Prebaci prozirnost na prozoru |
 | `Super + Ctrl + Backspace` | Prebaci kvadratni omjer jednoga prozora |
 
-Dodatne pozadinske slike žive u `~/.config/omarchy/backgrounds/<theme name>`. Dostupne i putem _Instaliraj > Stil > Pozadina_ u Omarchy izborniku.
+Dodatne pozadinske slike žive u `~/.config/lunaos/backgrounds/<theme name>`. Dostupne i putem _Instaliraj > Stil > Pozadina_ u LunaOS izborniku.
 
-Sve opcije stila dostupne su i pod _Stil_ u Omarchy izborniku (`Super + Space`).
+Sve opcije stila dostupne su i pod _Stil_ u LunaOS izborniku (`Super + Space`).
 
 ## Prebacivanja
 
@@ -281,7 +281,7 @@ Te se funkcije moraju izvoditi unutar Tmux sesije.
 
 ## Ghostty Terminal
 
-Ghostty terminal instalira se pomoću _Instaliraj > Terminal_ putem Omarchy izbornika.
+Ghostty terminal instalira se pomoću _Instaliraj > Terminal_ putem LunaOS izbornika.
 
 | Prečac                  | Funkcija              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Možete koristiti `Super + Ctrl + E` za prikaz potpunoga birača emojija koji ć
 | `Shift + CapsLock Space N` | Vaše ime (kako je uneseno pri postavljanju)  |
 | `Shift + CapsLock Space E` | Vaša e-pošta (kako je unesena pri postavljanju)  |
 
-Možete dodati još svojih uređivanjem `~/.XCompose`, a zatim pokretanjem `omarchy-restart-xcompose` u terminalu da se promjene pruzmu.
+Možete dodati još svojih uređivanjem `~/.XCompose`, a zatim pokretanjem `lunaos-restart-xcompose` u terminalu da se promjene pruzmu.

@@ -1,6 +1,6 @@
 # Shell funkcijos
 
-Omarchy pristatoma su rinkiniu shell funkcijų, skirtų supaprastinti įprastas užduotis ir apibendrinti sudėtingus parametrų iškvietimus.
+LunaOS pristatoma su rinkiniu shell funkcijų, skirtų supaprastinti įprastas užduotis ir apibendrinti sudėtingus parametrų iškvietimus.
 
 ## Suspaudimas
 

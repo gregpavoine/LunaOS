@@ -1,6 +1,6 @@
 # Funkce shellu
 
-Omarchy je dodávána se sadou funkcí shellu, které zjednodušují běžné úkoly a zapouzdřují složitá volání parametrů.
+LunaOS je dodávána se sadou funkcí shellu, které zjednodušují běžné úkoly a zapouzdřují složitá volání parametrů.
 
 ## Komprese
 

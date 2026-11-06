@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# lunaos:summary=Dismiss a notification by summary substring. Used by the first-run notifications to dismiss them after clicking for action.
+# lunaos:args=<summary>
+
+if (($# == 0)); then
+  echo "Usage: lunaos-notification-dismiss <summary>"
+  exit 1
+fi
+
+lunaos-shell -q notifications dismiss "$1"

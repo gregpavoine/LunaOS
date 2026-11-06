@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# lunaos:summary=Install Heroic Games Launcher (Epic, GOG, Amazon Prime Gaming) with graphics drivers.
+# lunaos:requires-sudo=true
+
+set -e
+
+echo "Installing Heroic Games Launcher..."
+lunaos-pkg-add heroic-games-launcher-bin
+lunaos-install-gaming-gpu-lib32
+
+setsid uwsm-app -- gtk-launch heroic >/dev/null 2>&1 &

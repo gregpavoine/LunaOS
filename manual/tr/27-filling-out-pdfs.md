@@ -1,6 +1,6 @@
 # PDF'leri Doldurmak
 
-Omarchy, Document Viewer adlı hoş, temel bir PDF görüntüleyiciyle birlikte gelir. Bu, çift tıkladığınız tüm PDF'leri açacak programdır.
+LunaOS, Document Viewer adlı hoş, temel bir PDF görüntüleyiciyle birlikte gelir. Bu, çift tıkladığınız tüm PDF'leri açacak programdır.
 
 Ancak Document Viewer'ı yalnızca form olarak ayarlanmış PDF'leri doldurmak için kullanabilirsiniz. Ayarlanmamış PDF'leri doldurmanız gerekiyorsa veya bir PDF imzalamanız gerekiyorsa [Signed](https://github.com/omacom/signed) uygulamasını kullanın. Onu uygulama başlatıcı (`Super + Space`) aracılığıyla başlatın veya dosyaya sağ tıklayıp _Open With..._ seçeneğini seçin ve Signed'ı seçin.
 

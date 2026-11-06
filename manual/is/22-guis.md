@@ -20,11 +20,11 @@ Obsidian er ókeypis í öllum tilgangi, þar á meðal persónulegri, viðskipt
 
 Obsidian býður líka upp á [viðskiptaviðbót fyrir samstillingu](https://obsidian.md/sync) með snjallforritum á iOS og Android. (https://obsidian.md/pricing).
 
-Þú ræsir Obsidian með `Super + Shift + O`. Til að nota þemasamstillingu verðurðu að velja þemað `Omarchy` í stillingum.
+Þú ræsir Obsidian með `Super + Shift + O`. Til að nota þemasamstillingu verðurðu að velja þemað `LunaOS` í stillingum.
 
 ## Omawrite
 
-[Omawrite](https://github.com/omacom-io/omawrite) er dauðeinfalt Markdown-ritforrit Omarchy. Engin hvelfingar, engar viðbætur, bara þú og orðin.
+[Omawrite](https://github.com/omacom-io/omawrite) er dauðeinfalt Markdown-ritforrit LunaOS. Engin hvelfingar, engar viðbætur, bara þú og orðin.
 
 Þú ræsir Omawrite með `Super + Shift + W`.
 
@@ -44,18 +44,18 @@ Obsidian býður líka upp á [viðskiptaviðbót fyrir samstillingu](https://ob
 
 [LocalSend](https://localsend.org/) leyfir þér að senda skrár til annarra tækja á sama neti sem keyra forritið, eins og AirDrop frá Apple. Það er þó fjölpalla, þannig að þú getur sent skrár til og frá Windows, macOS, Android, iOS og auðvitað Linux.
 
-Þú getur opnað valmyndina Deila með `Super + Ctrl + S` eða undir _Kveikja > Deila_ í Omarchy-valmyndinni. Hún gefur þér fjóra valkosti:
+Þú getur opnað valmyndina Deila með `Super + Ctrl + S` eða undir _Kveikja > Deila_ í LunaOS-valmyndinni. Hún gefur þér fjóra valkosti:
 
 - **Klippiborð** sendir það sem þú hefur afritað sem textaskrá. Frábært til að koma tengli eða bút í símann þinn án þess að senda sjálfum þér tölvupóst.
 - **Skrá** opnar skráaval þar sem þú getur valið nokkrar í einu.
 - **Mappa** sendir heila möppu.
 - **Taka á móti** opnar LocalSend sjálft þannig að annað tæki getur sent þér eitthvað.
 
-Sama virkar úr terminalinu með `omarchy share clipboard`, `omarchy share file [path]` og `omarchy share folder [path]`. Slepptu slóðinni og þú færð valið.
+Sama virkar úr terminalinu með `lunaos share clipboard`, `lunaos share file [path]` og `lunaos share folder [path]`. Slepptu slóðinni og þú færð valið.
 
 Þú getur líka sent beint úr skráastjóranum: hægrismelltu á hvaða val sem er í Nautilus og veldu _Send via LocalSend_.
 
-Eldveggur Omarchy er sjálfgefið lokaður nema fyrir port LocalSend, þannig að þetta virkar beint úr kassanum á nýrri uppsetningu. Sjá [öryggi](48-security.md).
+Eldveggur LunaOS er sjálfgefið lokaður nema fyrir port LocalSend, þannig að þetta virkar beint úr kassanum á nýrri uppsetningu. Sjá [öryggi](48-security.md).
 
 ## LibreOffice
 
@@ -65,19 +65,19 @@ Eldveggur Omarchy er sjálfgefið lokaður nema fyrir port LocalSend, þannig a�
 
 ## Hype
 
-[Hype](https://github.com/omacom/hype) er dauðeinfalt kynningarforrit Omarchy. Glærusafnið þitt er ein Markdown-skrá með myndum sínum og myndböndum við hliðina: skrifaðu hverja glæru fyrir neðan lifandi forskoðun, dragðu glærur í röð, kynntu síðan á fullum skjá eða fluttu út í PDF og PowerPoint. Það tekur jafnvel upp Omarchy-þemað þitt.
+[Hype](https://github.com/omacom/hype) er dauðeinfalt kynningarforrit LunaOS. Glærusafnið þitt er ein Markdown-skrá með myndum sínum og myndböndum við hliðina: skrifaðu hverja glæru fyrir neðan lifandi forskoðun, dragðu glærur í röð, kynntu síðan á fullum skjá eða fluttu út í PDF og PowerPoint. Það tekur jafnvel upp LunaOS-þemað þitt.
 
 Þú ræsir Hype í gegnum forritaræsinn (`Super + Space`). Ýttu á `?` inni í því til að sjá alla flýtilykla.
 
 ## Signed
 
-[Signed](https://github.com/omacom/signed) er dauðeinfalda leið Omarchy til að undirrita PDF og fylla þau út. Settu vistaða undirskriftina þína, texta og dagsetningu dagsins í dag hvar sem er á síðu, vistaðu síðan undirritað eintak við hlið upprunalega. Sjá [Að fylla út PDF](27-filling-out-pdfs.md) fyrir leiðbeiningar.
+[Signed](https://github.com/omacom/signed) er dauðeinfalda leið LunaOS til að undirrita PDF og fylla þau út. Settu vistaða undirskriftina þína, texta og dagsetningu dagsins í dag hvar sem er á síðu, vistaðu síðan undirritað eintak við hlið upprunalega. Sjá [Að fylla út PDF](27-filling-out-pdfs.md) fyrir leiðbeiningar.
 
 Þú ræsir Signed í gegnum forritaræsinn (`Super + Space`), eða opnar PDF með því úr skráastjóranum.
 
 ## Omacalc
 
-[Omacalc](https://github.com/omacom-io/omacalc) er dauðeinfaldur reiknivél Omarchy, sem opnast í fljótandi glugga.
+[Omacalc](https://github.com/omacom-io/omacalc) er dauðeinfaldur reiknivél LunaOS, sem opnast í fljótandi glugga.
 
 Þú ræsir Omacalc með `Super + Ctrl + Q` (eða reiknivélarlyklinum, ef lyklaborðið þitt er með einn).
 
@@ -85,7 +85,7 @@ Eldveggur Omarchy er sjálfgefið lokaður nema fyrir port LocalSend, þannig a�
 
 [Signal](https://signal.org/) er brautryðjandi E2E-dulkóðaðra skilaboða, og frábær samskiptakostur fyrir alla sem vilja frekar ekki fara í gegnum eitt af stóru tæknifyrirtækjunum.
 
-Þú ræsir Signal með `Super + Shift + G`. Það er ekki hluti af grunnuppsetningunni, þannig að í fyrsta skipti sem þú ýtir á það mun Omarchy bjóðast til að setja það upp fyrir þig (það er líka undir _Setja upp > Þjónusta_ í Omarchy-valmyndinni).
+Þú ræsir Signal með `Super + Shift + G`. Það er ekki hluti af grunnuppsetningunni, þannig að í fyrsta skipti sem þú ýtir á það mun LunaOS bjóðast til að setja það upp fyrir þig (það er líka undir _Setja upp > Þjónusta_ í LunaOS-valmyndinni).
 
 ## mpv
 
@@ -95,13 +95,13 @@ Eldveggur Omarchy er sjálfgefið lokaður nema fyrir port LocalSend, þannig a�
 
 ## Omacut
 
-[Omacut](https://github.com/omacom-io/omacut) er dauðeinfaldur myndbandaklippir Omarchy. Þegar þú þarft bara að klippa byrjun og enda af klippu slær það því við að ræsa fullan myndbandsritil.
+[Omacut](https://github.com/omacom-io/omacut) er dauðeinfaldur myndbandaklippir LunaOS. Þegar þú þarft bara að klippa byrjun og enda af klippu slær það því við að ræsa fullan myndbandsritil.
 
 Þú ræsir Omacut í gegnum forritaræsinn (`Super + Space`).
 
 ## Monologue
 
-[Monologue](https://github.com/omacom/monologue) er dauðeinfaldur vefmyndavélarupptökutæki Omarchy. Veldu myndavélina þína og hljóðnemann einu sinni, ýttu síðan á `Space` til að taka upp, og aftur til að gera hlé og halda áfram sömu töku. Það tekur alltaf upp í hæstu upplausn myndavélarinnar þinnar, með lifandi hljóðnemamæli þannig að þú getir athugað stigin áður en þú byrjar.
+[Monologue](https://github.com/omacom/monologue) er dauðeinfaldur vefmyndavélarupptökutæki LunaOS. Veldu myndavélina þína og hljóðnemann einu sinni, ýttu síðan á `Space` til að taka upp, og aftur til að gera hlé og halda áfram sömu töku. Það tekur alltaf upp í hæstu upplausn myndavélarinnar þinnar, með lifandi hljóðnemamæli þannig að þú getir athugað stigin áður en þú byrjar.
 
 Stöðvaðu tökuna og hún opnast strax í innbyggðum ritli. Tvísmelltu á klippu til að skipta henni, dragðu handföngin til að snyrta hvert stykki, og fjarlægðu hlutana sem þú vilt ekki. Vistaðu það síðan sem MP4. Upprunaleg upptaka þín er geymd þar til þú fleygir henni, þannig að þú getur alltaf komið aftur og klippt hana öðruvísi.
 

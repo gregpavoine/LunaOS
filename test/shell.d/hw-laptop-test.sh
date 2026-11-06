@@ -17,26 +17,26 @@ busctl_log="$test_tmp/busctl.log"
 cat >"$stub_bin/busctl" <<'SH'
 #!/bin/bash
 printf '%s\n' "$*" >>"$BUSCTL_LOG"
-[[ ${OMARCHY_TEST_LID_STATE:-} != "fail" ]] || exit 1
-printf '%s\n' "${OMARCHY_TEST_LID_STATE:-}"
+[[ ${LUNAOS_TEST_LID_STATE:-} != "fail" ]] || exit 1
+printf '%s\n' "${LUNAOS_TEST_LID_STATE:-}"
 SH
 chmod +x "$stub_bin/busctl"
 
 run_laptop() {
-  OMARCHY_DMI_CHASSIS_TYPE_PATH="$dmi_chassis" \
-    OMARCHY_ACPI_LID_PATH="$acpi_lid" \
-    OMARCHY_INPUT_CLASS_PATH="$input_class" \
+  LUNAOS_DMI_CHASSIS_TYPE_PATH="$dmi_chassis" \
+    LUNAOS_ACPI_LID_PATH="$acpi_lid" \
+    LUNAOS_INPUT_CLASS_PATH="$input_class" \
     PATH="$stub_bin:$PATH" \
-    "$ROOT/bin/omarchy-hw-laptop"
+    "$ROOT/bin/lunaos-hw-laptop"
 }
 
 run_lid_closed() {
-  OMARCHY_ACPI_LID_PATH="$acpi_lid" \
-    OMARCHY_INPUT_CLASS_PATH="$input_class" \
+  LUNAOS_ACPI_LID_PATH="$acpi_lid" \
+    LUNAOS_INPUT_CLASS_PATH="$input_class" \
     BUSCTL_LOG="$busctl_log" \
     PATH="$stub_bin:$PATH" \
-    OMARCHY_TEST_LID_STATE="$1" \
-    "$ROOT/bin/omarchy-hw-laptop-closed"
+    LUNAOS_TEST_LID_STATE="$1" \
+    "$ROOT/bin/lunaos-hw-laptop-closed"
 }
 
 # Input devices as sysfs shows them: a name and a switch capability bitmap

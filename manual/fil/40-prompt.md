@@ -1,6 +1,6 @@
 # Prompt
 
-May kasamang minimal na prompt na [Starship](https://starship.rs/) ang Omarchy bilang default. Ganyan ko gustong panatilihin ang prompt ko. Hindi ko kailangang malaman ang user, dahil palaging ako iyon, at hindi ko kailangang malaman ang oras, dahil palaging nasa itaas iyon.
+May kasamang minimal na prompt na [Starship](https://starship.rs/) ang LunaOS bilang default. Ganyan ko gustong panatilihin ang prompt ko. Hindi ko kailangang malaman ang user, dahil palaging ako iyon, at hindi ko kailangang malaman ang oras, dahil palaging nasa itaas iyon.
 
  ![prompt](images/prompt.webp)
 

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# lunaos:summary=Apply the current theme keyboard color to supported keyboards
+# lunaos:hidden=true
+
+lunaos-theme-set-keyboard-asus-rog
+lunaos-theme-set-keyboard-f16

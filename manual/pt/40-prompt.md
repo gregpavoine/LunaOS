@@ -1,6 +1,6 @@
 # Linha de comandos
 
-O Omarchy vem com uma linha de comandos minimalista do [Starship](https://starship.rs/) por predefinição. É assim que gosto de manter a minha linha de comandos. Não preciso de saber o utilizador, porque sou sempre eu, e não preciso de saber as horas, porque estão sempre no topo.
+O LunaOS vem com uma linha de comandos minimalista do [Starship](https://starship.rs/) por predefinição. É assim que gosto de manter a minha linha de comandos. Não preciso de saber o utilizador, porque sou sempre eu, e não preciso de saber as horas, porque estão sempre no topo.
 
  ![prompt](images/prompt.webp)
 

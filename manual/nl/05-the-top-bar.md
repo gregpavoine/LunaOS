@@ -1,14 +1,14 @@
 # De bovenbalk
 
-De strip langs de bovenkant van je scherm is de Omarchy-balk. Het is geen vastgeschroefde statusbalk maar onderdeel van de Omarchy-shell, het enige langlopende Quickshell-proces dat ook het menu, de meldingen, de OSD-popups en het vergrendelscherm tekent. Daarom thèmet hij perfect met al het andere en daarom opent een paneel direct in plaats van een nieuwe app te spawnen.
+De strip langs de bovenkant van je scherm is de LunaOS-balk. Het is geen vastgeschroefde statusbalk maar onderdeel van de LunaOS-shell, het enige langlopende Quickshell-proces dat ook het menu, de meldingen, de OSD-popups en het vergrendelscherm tekent. Daarom thèmet hij perfect met al het andere en daarom opent een paneel direct in plaats van een nieuwe app te spawnen.
 
 Het is ook het enige stukje van het bureaublad dat altijd op het scherm staat, dus het is de moeite waard om te weten wat al die kleine glyphs doen.
 
 ## Wat er standaard op staat
 
-De balk heeft drie secties. Links zit het Omarchy-logo (de menustarter) en de werkbladindicatoren. In het midden krijg je de statusindicatoren, de klok, Elsewhen (een wereldklok), het weer en een Omarchy-updatebadge. Rechts: de toetsenbordindeling (wanneer er meer dan één is geconfigureerd), het systeemvak, agents, bluetooth, netwerk, audio, display en stroom.
+De balk heeft drie secties. Links zit het LunaOS-logo (de menustarter) en de werkbladindicatoren. In het midden krijg je de statusindicatoren, de klok, Elsewhen (een wereldklok), het weer en een LunaOS-updatebadge. Rechts: de toetsenbordindeling (wanneer er meer dan één is geconfigureerd), het systeemvak, agents, bluetooth, netwerk, audio, display en stroom.
 
-Een paar daarvan verschijnen alleen wanneer ze iets te zeggen hebben. De toetsenbordindeling verschijnt alleen als je meer dan één indeling hebt geconfigureerd. De updatebadge verschijnt alleen wanneer er een Omarchy-update wacht. En het agents-pictogram verschijnt de eerste keer dat Omarchy AI-coderingsgebruik op de machine vindt (zie [AI](17-ai.md)).
+Een paar daarvan verschijnen alleen wanneer ze iets te zeggen hebben. De toetsenbordindeling verschijnt alleen als je meer dan één indeling hebt geconfigureerd. De updatebadge verschijnt alleen wanneer er een LunaOS-update wacht. En het agents-pictogram verschijnt de eerste keer dat LunaOS AI-coderingsgebruik op de machine vindt (zie [AI](17-ai.md)).
 
 ## Rondklikken
 
@@ -16,7 +16,7 @@ Bijna elke widget doet iets bij links, rechts en midden klikken, en verschillend
 
 | Widget | Links | Rechts | Midden / scrollen |
 | --- | --- | --- | --- |
-| Menu | Omarchy-menu | Nieuwe terminal | — |
+| Menu | LunaOS-menu | Nieuwe terminal | — |
 | Werkbladen | Focus dat werkblad | — | Scrollen: volgend/vorig werkblad |
 | Klok | Kalender-popup | Doorloop het labelformaat | Midden: tijdzonekiezer |
 | Weer | Voorspellings-popup | Volledig weer als een melding | Midden: vernieuwen |
@@ -29,7 +29,7 @@ Bijna elke widget doet iets bij links, rechts en midden klikken, en verschillend
 | Media | Afspelen/pauze | Cover-art-popup | Midden: volgende · scrollen: vorige/volgende |
 | Agents | Agents-paneel | Start je agent | Midden: volgend abonnement |
 | Systeemvak | Zweef om de lade te onthullen | Rechts op de chevron om te beheren | — |
-| Omarchy-update | Voer de update uit | — | — |
+| LunaOS-update | Voer de update uit | — | — |
 
 Niet alles in die tabel staat standaard op je balk. De media-widget (MPRIS now-playing, met een scrollende track en artiest) en de microfoon-widget zijn beide ingebouwd maar standaard uit — voeg ze toe als je ze wilt, zoals hieronder beschreven.
 
@@ -65,7 +65,7 @@ Elk paneel neemt zowel het toetsenbord als de muis: pijlen bewegen, Return activ
 
 Nog twee widgets verschijnen op de balk pas als je de bijpassende service installeert via **Installeren → Service**, en beide zijn het waard om te kennen omdat ze meer doen dan status rapporteren.
 
-Het **Tailscale**-paneel verbindt en verbreekt het tailnet, schakelt tussen accounts en kiest een exit node (je eigen machines en Mullvad-regio's verschijnen beide in die lijst). Het bladert ook door je machines — en met er een geselecteerd, stuurt `s` er bestanden naartoe via Taildrop, wat de snelste manier is om een bestand naar je telefoon of een andere laptop te verplaatsen. `c` kopieert het IP van de machine, `n` zijn naam en `d` zijn volledige DNS-naam. Er is ook een verzendknop op elke machinerij, als je liever klikt. Hetzelfde vanaf de terminal is `omarchy tailscale send <machine> [file...]`.
+Het **Tailscale**-paneel verbindt en verbreekt het tailnet, schakelt tussen accounts en kiest een exit node (je eigen machines en Mullvad-regio's verschijnen beide in die lijst). Het bladert ook door je machines — en met er een geselecteerd, stuurt `s` er bestanden naartoe via Taildrop, wat de snelste manier is om een bestand naar je telefoon of een andere laptop te verplaatsen. `c` kopieert het IP van de machine, `n` zijn naam en `d` zijn volledige DNS-naam. Er is ook een verzendknop op elke machinerij, als je liever klikt. Hetzelfde vanaf de terminal is `lunaos tailscale send <machine> [file...]`.
 
 Het **Dropbox**-paneel behandelt inloggen, toont hoeveel opslag je hebt gebruikt en geeft een lijst van recent gesynchroniseerde bestanden.
 
@@ -90,19 +90,19 @@ Als je liever uit een menu kiest, heeft **Activeren → Weergave → Menubalk** 
 Dezelfde dingen hebben commando's, wat is wat je wilt voor een [dotfiles](31-dotfiles.md)-setup:
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Om een widget helemaal toe te voegen of te verwijderen, gebruik je de plugin-commando's. `omarchy plugin list` print elke widget die de shell kent met zijn id, en dan:
+Om een widget helemaal toe te voegen of te verwijderen, gebruik je de plugin-commando's. `lunaos plugin list` print elke widget die de shell kent met zijn id, en dan:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## De balk verbergen
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Het configbestand
 
-Dit alles wordt opgeslagen in `~/.config/omarchy/shell.json`, onder de `bar`-sleutel. Hier is een ingekorte versie:
+Dit alles wordt opgeslagen in `~/.config/lunaos/shell.json`, onder de `bar`-sleutel. Hier is een ingekorte versie:
 
 ```json
 {
@@ -119,20 +119,20 @@ Dit alles wordt opgeslagen in `~/.config/omarchy/shell.json`, onder de `bar`-sle
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Elke widget is één item in een van de drie layout-arrays, en zijn instellingen zitten inline op dat item — er is geen apart instellingenbestand en geen `config`-sub-object. De `format`, `formatAlt` (waar rechtsklikken naartoe doorloopt) en `verticalFormat` van de klok leven allemaal precies daar op `{ "id": "omarchy.clock" }`.
+Elke widget is één item in een van de drie layout-arrays, en zijn instellingen zitten inline op dat item — er is geen apart instellingenbestand en geen `config`-sub-object. De `format`, `formatAlt` (waar rechtsklikken naartoe doorloopt) en `verticalFormat` van de klok leven allemaal precies daar op `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` benoemt de ene center-widget die wordt vastgepind op het exacte midden van het scherm, met de anderen ernaast. Zo blijft de klok pal in het midden, zelfs als het weer en de updatebadge komen en gaan. Stel hem in op een lege string en de centerlijst wordt gewoon als groep gecentreerd.
 
-Eén regel die het waard is om te internaliseren: **zodra je je eigen `shell.json` hebt, is hij canoniek**. Totdat je iets aanpast, leest de shell Omarchy's standaardbestand. Op het moment dat je een widget sleept, `omarchy bar` uitvoert, of het bestand zelf bewerkt, is hij van jou — er is geen deep merge, dus nieuwe standaardwidgets in toekomstige Omarchy-releases verschijnen niet automatisch op je balk. `omarchy bar defaults` zet de geleverde indeling terug wanneer je een schone lei wilt.
+Eén regel die het waard is om te internaliseren: **zodra je je eigen `shell.json` hebt, is hij canoniek**. Totdat je iets aanpast, leest de shell LunaOS's standaardbestand. Op het moment dat je een widget sleept, `lunaos bar` uitvoert, of het bestand zelf bewerkt, is hij van jou — er is geen deep merge, dus nieuwe standaardwidgets in toekomstige LunaOS-releases verschijnen niet automatisch op je balk. `lunaos bar defaults` zet de geleverde indeling terug wanneer je een schone lei wilt.
 
 Hetzelfde bestand bevat ook je idle-timings op het hoogste niveau, buiten de `bar`-sleutel: `idle.screensaver` en `idle.lock`, beide in seconden sinds je idle ging. Dus de standaard schermbeveiliging treedt in werking bij 150 seconden en de vergrendeling bij 300.

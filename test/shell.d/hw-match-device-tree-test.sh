@@ -4,17 +4,17 @@ set -euo pipefail
 
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
-match="$ROOT/bin/omarchy-hw-match-device-tree"
+match="$ROOT/bin/lunaos-hw-match-device-tree"
 test_tmp=$(mktemp -d)
 trap 'rm -rf "$test_tmp"' EXIT
 
 bash -n "$match" || fail "hw-match-device-tree has valid syntax"
 
-# Root reads only the live device tree, as omarchy-hw-platform does.
+# Root reads only the live device tree, as lunaos-hw-platform does.
 if (( EUID != 0 )) && unshare --user --map-root-user true 2>/dev/null; then
   mkdir -p "$test_tmp/root/proc/device-tree"
-  printf '%s\0' omarchy,no-such-board >"$test_tmp/root/proc/device-tree/compatible"
-  if OMARCHY_PROC_ROOT="$test_tmp/root/proc" unshare --user --map-root-user "$match" omarchy,no-such-board; then
+  printf '%s\0' lunaos,no-such-board >"$test_tmp/root/proc/device-tree/compatible"
+  if LUNAOS_PROC_ROOT="$test_tmp/root/proc" unshare --user --map-root-user "$match" lunaos,no-such-board; then
     fail "root ignores a fixture device tree in its environment"
   fi
   pass "root ignores a fixture device tree in its environment"
@@ -30,7 +30,7 @@ mkdir -p "$surface/proc/device-tree"
 printf '%s\0' microsoft,denali-oled microsoft,denali qcom,x1e80100 >"$surface/proc/device-tree/compatible"
 
 on_surface() {
-  OMARCHY_PROC_ROOT="$surface/proc" "$match" "$@"
+  LUNAOS_PROC_ROOT="$surface/proc" "$match" "$@"
 }
 
 on_surface microsoft,denali-oled || fail "hw-match-device-tree finds the first compatible string"
@@ -67,14 +67,14 @@ pass "hw-match-device-tree matches whole strings only"
 sysfs="$test_tmp/sysfs"
 mkdir -p "$sysfs/sys/firmware/devicetree/base" "$test_tmp/acpi/proc"
 printf '%s\0' asus,zenbook-a16-ux3607oa qcom,glymur >"$sysfs/sys/firmware/devicetree/base/compatible"
-OMARCHY_SYS_ROOT="$sysfs/sys" "$match" asus,zenbook-a16-ux3607oa ||
+LUNAOS_SYS_ROOT="$sysfs/sys" "$match" asus,zenbook-a16-ux3607oa ||
   fail "hw-match-device-tree reads the sysfs device tree fixture"
-OMARCHY_PROC_ROOT="$test_tmp/acpi/proc" OMARCHY_SYS_ROOT="$sysfs/sys" "$match" asus,zenbook-a16-ux3607oa ||
+LUNAOS_PROC_ROOT="$test_tmp/acpi/proc" LUNAOS_SYS_ROOT="$sysfs/sys" "$match" asus,zenbook-a16-ux3607oa ||
   fail "hw-match-device-tree falls back to sysfs when procfs shows no device tree"
-if OMARCHY_PROC_ROOT="$test_tmp/acpi/proc" "$match" asus,zenbook-a16-ux3607oa microsoft,denali-oled qcom,x1e80100; then
+if LUNAOS_PROC_ROOT="$test_tmp/acpi/proc" "$match" asus,zenbook-a16-ux3607oa microsoft,denali-oled qcom,x1e80100; then
   fail "hw-match-device-tree finds nothing on a machine without a device tree"
 fi
-if OMARCHY_IMAGE_ROOT="$test_tmp/acpi" "$match" asus,zenbook-a16-ux3607oa microsoft,denali-oled qcom,x1e80100; then
+if LUNAOS_IMAGE_ROOT="$test_tmp/acpi" "$match" asus,zenbook-a16-ux3607oa microsoft,denali-oled qcom,x1e80100; then
   fail "hw-match-device-tree reads no live device tree when an image root is named"
 fi
 pass "hw-match-device-tree follows the fixture roots"

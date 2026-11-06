@@ -1,8 +1,8 @@
 # Mandhari
 
-Omarchy huja na mandhari ishirini na mbili nzuri. Unaweza kuchagua kati yake kupitia _Mtindo > Mandhari_ katika Menyu ya Omarchy (`Super + Space`) au kuruka moja kwa moja hadi kichaguzi cha mandhari ukitumia `Super + Ctrl + Shift + Space`.
+LunaOS huja na mandhari ishirini na mbili nzuri. Unaweza kuchagua kati yake kupitia _Mtindo > Mandhari_ katika Menyu ya LunaOS (`Super + Space`) au kuruka moja kwa moja hadi kichaguzi cha mandhari ukitumia `Super + Ctrl + Shift + Space`.
 
-Kila mandhari huweka mtindo kwenye eneo-kazi, terminali, neovim, skrini ya shughuli (btop), Chromium, na shell yote ya Omarchy: upau wa juu, menyu, arifa, OSD, na skrini ya kufunga. (Kwa Obsidian, lazima uchague mwenyewe mandhari ya Omarchy kupitia _Appearance > Themes_ ndani ya programu).
+Kila mandhari huweka mtindo kwenye eneo-kazi, terminali, neovim, skrini ya shughuli (btop), Chromium, na shell yote ya LunaOS: upau wa juu, menyu, arifa, OSD, na skrini ya kufunga. (Kwa Obsidian, lazima uchague mwenyewe mandhari ya LunaOS kupitia _Appearance > Themes_ ndani ya programu).
 
 Mandhari yana seti ya picha za mandhari ya nyuma ambazo unaweza kuchagua kati yake ukitumia `Super + Ctrl + Space`.
 

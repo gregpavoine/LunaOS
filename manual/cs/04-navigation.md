@@ -1,8 +1,8 @@
 # Navigace
 
-Vše v Omarchy se děje přes klávesnici — _VŠECHNO!_ Když systém poprvé nastartuje, doslova neuděláte nic jen s myší. Ale můžete stisknout `Super + Space` a odhalit menu Omarchy a odtud dělat skoro všechno.
+Vše v LunaOS se děje přes klávesnici — _VŠECHNO!_ Když systém poprvé nastartuje, doslova neuděláte nic jen s myší. Ale můžete stisknout `Super + Space` a odhalit menu LunaOS a odtud dělat skoro všechno.
 
-Ale menu Omarchy většinu času ani nemá být hlavním způsobem ovládání systému. Umíme to rychleji! Všechny nejdůležitější aplikace jsou navázané přímo na jednotlivé klávesové zkratky. Terminál spustíte pomocí `Super + Return` a prohlížeč pomocí `Super + Shift + Return`. Zkuste to jedno po druhém a uvidíte kouzlo dlaždicování Hyprland v akci:
+Ale menu LunaOS většinu času ani nemá být hlavním způsobem ovládání systému. Umíme to rychleji! Všechny nejdůležitější aplikace jsou navázané přímo na jednotlivé klávesové zkratky. Terminál spustíte pomocí `Super + Return` a prohlížeč pomocí `Super + Shift + Return`. Zkuste to jedno po druhém a uvidíte kouzlo dlaždicování Hyprland v akci:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Můžete také přejít na celou obrazovku pomocí `Super + F` nebo dokonce jen 
 
 ### Rozvržení dwindle vs. scrolling
 
-Výchozí rozvržení Omarchy se jmenuje dwindle. Udržuje všechna okna, která otevřete na jediné pracovní ploše, neustále viditelná, i když je kvůli tomu musí zmenšit.
+Výchozí rozvržení LunaOS se jmenuje dwindle. Udržuje všechna okna, která otevřete na jediné pracovní ploše, neustále viditelná, i když je kvůli tomu musí zmenšit.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Plovoucí pracovní plocha funguje jako tradiční desktop: okna se překrývají a sami je přesouváte a měníte jejich velikost. Každé okno dostane titulkový pruh v barvách vašeho motivu s tlačítky pro minimalizaci, maximalizaci a zavření. Zaměřené okno minimalizuje také `Super + M`. Minimalizované okno čeká v docku; klikněte na jeho aplikaci a přivedete ho zpět. Klikněte na okno a přivedete ho dopředu. Změňte jeho velikost z kteréhokoli okraje nebo rohu. Poklepejte na titulkový pruh a maximalizujete okno při zachování horní lišty na očích, a znovu a dostanete zpět jeho starou velikost.
 
-Plovoucí pracovní plocha také ukazuje dock s vašimi připnutými aplikacemi, vším, co právě běží, a mřížkou všech aplikací za tlačítkem aplikací, které otevírá také `Super + Alt + Space` a _Apps_ v menu Omarchy. Klikněte na aplikaci v mřížce pravým tlačítkem, nebo stiskněte `Delete`, a odinstalujete ji. Klikněte na aplikaci a otevřete ji, nebo přivedete její okno dopředu; klikněte znovu a procházíte jejími okny. Kliknutí prostředním tlačítkem otevře nové okno. Táhněte ikonu podél docku a přesunete ji; přetažení běžící aplikace mezi ostatní ji tam nechá. Klikněte pravým tlačítkem a ponecháte aplikaci v docku, odstraníte ji z něj, nebo ji ukončíte. Dock se klidí z cesty oknu na celou obrazovku. Klikněte pravým tlačítkem na tlačítko aplikací a přesunete dock na jiný okraj, nebo ho necháte skrývat, dokud ukazatel nedosáhne jeho okraje. Pozice je také pod _Trigger > Appearance > Dock > Dock Position_ a `omarchy dock position left` a `omarchy dock autohide on` nastaví obojí z terminálu. Aplikace, které si necháte v docku, jsou vybledlé, zatímco neběží.
+Plovoucí pracovní plocha také ukazuje dock s vašimi připnutými aplikacemi, vším, co právě běží, a mřížkou všech aplikací za tlačítkem aplikací, které otevírá také `Super + Alt + Space` a _Apps_ v menu LunaOS. Klikněte na aplikaci v mřížce pravým tlačítkem, nebo stiskněte `Delete`, a odinstalujete ji. Klikněte na aplikaci a otevřete ji, nebo přivedete její okno dopředu; klikněte znovu a procházíte jejími okny. Kliknutí prostředním tlačítkem otevře nové okno. Táhněte ikonu podél docku a přesunete ji; přetažení běžící aplikace mezi ostatní ji tam nechá. Klikněte pravým tlačítkem a ponecháte aplikaci v docku, odstraníte ji z něj, nebo ji ukončíte. Dock se klidí z cesty oknu na celou obrazovku. Klikněte pravým tlačítkem na tlačítko aplikací a přesunete dock na jiný okraj, nebo ho necháte skrývat, dokud ukazatel nedosáhne jeho okraje. Pozice je také pod _Trigger > Appearance > Dock > Dock Position_ a `lunaos dock position left` a `lunaos dock autohide on` nastaví obojí z terminálu. Aplikace, které si necháte v docku, jsou vybledlé, zatímco neběží.
 
-Nové pracovní plochy a všechny, kterým jste nedali vlastní rozvržení pomocí `Super + L`, používají výchozí rozvržení. Změna výchozího nastavení na něj resetuje každou pracovní plochu bez oken, zatímco ta, která na sobě okna má, si ponechá rozvržení, které má. Okno minimalizované do docku se stále počítá jako okno na pracovní ploše, kterou opustilo. Vyberte ho pod _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling, nebo Floating. `omarchy-hyprland-workspace-layout-default scrolling` ho nastaví z terminálu.
+Nové pracovní plochy a všechny, kterým jste nedali vlastní rozvržení pomocí `Super + L`, používají výchozí rozvržení. Změna výchozího nastavení na něj resetuje každou pracovní plochu bez oken, zatímco ta, která na sobě okna má, si ponechá rozvržení, které má. Okno minimalizované do docku se stále počítá jako okno na pracovní ploše, kterou opustilo. Vyberte ho pod _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling, nebo Floating. `lunaos-hyprland-workspace-layout-default scrolling` ho nastaví z terminálu.
 
 ### Seskupování oken
 

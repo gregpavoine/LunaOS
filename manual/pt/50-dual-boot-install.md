@@ -1,6 +1,6 @@
 # Instalação em Dual Boot
 
-É possível instalar o Omarchy numa única partição ao lado do Windows ou de outras instalações.
+É possível instalar o LunaOS numa única partição ao lado do Windows ou de outras instalações.
 
 Este método de instalação continua a vir com encriptação LUKS para a partição por predefinição, por isso efetivamente não é diferente de usar a unidade inteira e só exige que haja espaço livre disponível no disco.
 
@@ -14,17 +14,17 @@ Encontre a partição apropriada, clique com o botão direito e escolha **Shrink
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- Introduza a quantidade em que quer reduzir o volume. Note que este será o tamanho da sua futura instalação do Omarchy, incluindo a partição de arranque.
+ Introduza a quantidade em que quer reduzir o volume. Note que este será o tamanho da sua futura instalação do LunaOS, incluindo a partição de arranque.
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-Quando tiver terminado, deverá ver algo como isto, onde a secção de 50GB é onde vamos instalar o Omarchy neste exemplo.
+Quando tiver terminado, deverá ver algo como isto, onde a secção de 50GB é onde vamos instalar o LunaOS neste exemplo.
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## Instalar o Omarchy
+## Instalar o LunaOS
 
-O processo de instalação do Omarchy é efetivamente o mesmo do normal. Depois de selecionar o seu disco, ser-lhe-á dada a opção de **Free space install**. Selecione essa opção para evitar apagar o disco inteiro.
+O processo de instalação do LunaOS é efetivamente o mesmo do normal. Depois de selecionar o seu disco, ser-lhe-á dada a opção de **Free space install**. Selecione essa opção para evitar apagar o disco inteiro.
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Confirme que está tudo bem e espere que a instalação termine como habitualmen
 
 ## Adicionar outras instalações ao carregador de arranque
 
-Quando terminar a sua instalação do Omarchy, notará que o carregador de arranque Limine é agora a predefinição. Com ele, também pode adicionar opções ao Limine para as suas outras instalações, como o Windows.
+Quando terminar a sua instalação do LunaOS, notará que o carregador de arranque Limine é agora a predefinição. Com ele, também pode adicionar opções ao Limine para as suas outras instalações, como o Windows.
 
-Para o fazer, execute `limine-scan` e siga as indicações para adicionar os itens que quiser à sua configuração do limine. Depois, ao arrancar, verá as suas opções normais para o Omarchy, bem como o Gestor de Arranque do Windows ou outros.
+Para o fazer, execute `limine-scan` e siga as indicações para adicionar os itens que quiser à sua configuração do limine. Depois, ao arrancar, verá as suas opções normais para o LunaOS, bem como o Gestor de Arranque do Windows ou outros.
 
 ## Bitlocker
 

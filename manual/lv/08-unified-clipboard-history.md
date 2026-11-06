@@ -2,7 +2,7 @@
 
 Parasti Linux tev ir nepieciešams `Ctrl + Shift + C/V`, lai kopētu un ielīmētu terminālī, un `Ctrl + C/V`, lai to darītu visur citur. Pie tā ir grūti pierast ikvienam, kurš nav dzimis un audzis ar Linux! Tāpat ir ar pāreju no super uz ctrl, ja nāc no Mac.
 
-Omarchy risina abas problēmas ar vienotām starpliktuves karstajām taustiņu kombinācijām, kas darbojas (gandrīz) visur. Tās ir:
+LunaOS risina abas problēmas ar vienotām starpliktuves karstajām taustiņu kombinācijām, kas darbojas (gandrīz) visur. Tās ir:
 
 | Karstā taustiņa kombinācija | Komanda |
 | ------- | ----------- |
@@ -15,7 +15,7 @@ _Ņem vērā, ka lielākā daļa aģentu ietvaru izmantos `Ctrl + V` attēlu iel
 
 ### Starpliktuves vēsture
 
-Starpliktuves vēsturi nodrošina Omarchy čaula, un tā darbojas gan tekstam, gan attēliem. Tu to palaid ar `Super + Ctrl + V`, atlasi savu ierakstu ar return, un pēc tam tas tiks ievietots starpliktuvē, gatavs ielīmēšanai ar `Super + V`.
+Starpliktuves vēsturi nodrošina LunaOS čaula, un tā darbojas gan tekstam, gan attēliem. Tu to palaid ar `Super + Ctrl + V`, atlasi savu ierakstu ar return, un pēc tam tas tiks ievietots starpliktuvē, gatavs ielīmēšanai ar `Super + V`.
 
  ![clipboard-history](images/clipboard-history.webp)
 

@@ -1,8 +1,8 @@
 # Terminál
 
-[Foot](https://codeberg.org/dnkl/foot) je predvolený terminál Omarchy. Je rýchly, ľahký a kompatibilný aj so starými počítačmi. Nepodporuje však natívne karty ani rozdelenia.
+[Foot](https://codeberg.org/dnkl/foot) je predvolený terminál LunaOS. Je rýchly, ľahký a kompatibilný aj so starými počítačmi. Nepodporuje však natívne karty ani rozdelenia.
 
-Ak používate Tmux, možno vám to nebude vadiť, ale ak nie, plne podporujeme aj _Alacritty_, _Ghostty_ a _Kitty_ ako možnosti. Vyberte si svoju preferenciu pod _Inštalovať > Terminál_ v menu Omarchy.
+Ak používate Tmux, možno vám to nebude vadiť, ale ak nie, plne podporujeme aj _Alacritty_, _Ghostty_ a _Kitty_ ako možnosti. Vyberte si svoju preferenciu pod _Inštalovať > Terminál_ v menu LunaOS.
 
 Nový terminál spustíte pomocou `Super + Return`. (Táto väzba bude automaticky ukazovať na ktorýkoľvek terminál, ktorý ste nainštalovali cez _Inštalovať > Terminál_, a medzi nainštalovanými terminálmi môžete prepínať pod _Nastavenie > Predvolené > Terminál_.)
 
@@ -12,11 +12,11 @@ Tmux poskytuje konzistentné, programovateľné rozhranie pre panely, okná (ali
 
 Novú reláciu Tmux v čerstvom termináli spustíte pomocou `Super + Alt + Return` a keďže Tmux je trvalý proces, môžete reláciu obnoviť, aj keď tento terminál zatvoríte. Stačí stlačiť `Ctrl + Space` (nazýva sa prefixový kláves) a potom `s`, aby ste videli všetky svoje aktívne relácie.
 
-Omarchy sa dodáva s ergonomicky optimalizovanou konfiguráciou Tmux, ktorá má veľa klávesových väzieb na naučenie, takže majte [ťahák po ruke](07-hotkeys.md#tmux).
+LunaOS sa dodáva s ergonomicky optimalizovanou konfiguráciou Tmux, ktorá má veľa klávesových väzieb na naučenie, takže majte [ťahák po ruke](07-hotkeys.md#tmux).
 
 ## Funkcie rozloženia Tmux
 
-Keďže Tmux je programovateľný, môžeme použiť funkcie na vytváranie rozložení. Omarchy sa dodáva so štyrmi rôznymi funkciami pre bežné vývojárske rozloženia.
+Keďže Tmux je programovateľný, môžeme použiť funkcie na vytváranie rozložení. LunaOS sa dodáva so štyrmi rôznymi funkciami pre bežné vývojárske rozloženia.
 
 `tdl [agent]` spustí trojcestné rozdelené rozhranie podobné IDE s `$EDITOR` vľavo, vami zvoleným AI agentom vpravo (napríklad `c` pre opencode alebo `cx` pre Claude alebo `codex` pre OpenAI) a potom terminálom dole.
 

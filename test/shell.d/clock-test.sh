@@ -239,8 +239,8 @@ assert(!calendar.clockNeedsSeconds(''), 'clock sees no seconds in an empty forma
 assert(!calendar.clockNeedsSeconds(null), 'clock sees no seconds in a missing format')
 
 // ---- widget wiring
-assert(/moduleName: "omarchy\.clock"/.test(panelSource), 'calendar panel declares its module name')
-assert(/ipcTarget: "omarchy\.clock"/.test(panelSource), 'calendar panel registers its IPC target')
+assert(/moduleName: "lunaos\.clock"/.test(panelSource), 'calendar panel declares its module name')
+assert(/ipcTarget: "lunaos\.clock"/.test(panelSource), 'calendar panel registers its IPC target')
 assert(/manageIpc: false/.test(panelSource), 'calendar panel leaves the IPC target to the bar widget')
 assert(/anchorItem: root\.anchorItem/.test(panelSource), 'calendar panel anchors to the host widget button')
 assert(/function toggleWeekStart\(\)/.test(panelSource), 'calendar panel exposes a week start toggle')
@@ -291,7 +291,7 @@ assert(/readonly property string activeFormat: configuredFormat/.test(widgetSour
 assert(/entry\[vertical \? "verticalFormat" : "format"\] = next/.test(widgetSource) && /updateEntryInline/.test(widgetSource), 'clock writes a cycled format back to shell.json')
 assert(!/formatIndex/.test(widgetSource), 'clock keeps no session-only format position')
 assert(/else root\.togglePanel\(\)/.test(widgetSource), 'clock left click reveals the calendar')
-assert(/omarchy-menu-timezone/.test(widgetSource), 'clock keeps the timezone picker on middle click')
+assert(/lunaos-menu-timezone/.test(widgetSource), 'clock keeps the timezone picker on middle click')
 
 // The bar identifies a panel by the widget in its slot, so the nested panel
 // has to present the host widget rather than itself.
@@ -312,22 +312,22 @@ assert(/if \(event\.angleDelta\.y === 0\) return/.test(panelSource), 'calendar i
 
 // Qt.formatDate/formatDateTime and a bare Qt.locale() take names from the
 // system LANG, which only follows a language switch after the next login;
-// the clock formats through the Omarchy language's formatLocale instead.
+// the clock formats through the LunaOS language's formatLocale instead.
 const panelCode = panelSource.replace(/^\s*\/\/.*$/gm, '')
 for (const [name, source] of [['Panel.qml', panelCode], ['BarWidget.qml', widgetSource]]) {
   assert(!/Qt\.format(Date|Time|DateTime)\(/.test(source), `clock ${name} does not format with the system locale`)
   assert(!/Qt\.locale\(\)/.test(source), `clock ${name} does not read the system locale`)
 }
-assert(/date\.toLocaleString\(root\.formatLocale,/.test(widgetSource), 'bar clock formats with the Omarchy language')
+assert(/date\.toLocaleString\(root\.formatLocale,/.test(widgetSource), 'bar clock formats with the LunaOS language')
 assert(/standaloneMonthName\(viewMonth/.test(panelCode), 'calendar title uses the standalone month name')
 JS
 
-shell_json=$(cd "$ROOT" && jq -r '[.bar.layout.center[].id] | join(",")' config/omarchy/shell.json)
-[[ $shell_json == *"omarchy.clock"* ]] || fail "default bar layout includes the clock widget" "center: $shell_json"
-[[ $shell_json != *"omarchy.calendar"* ]] || fail "clock hosts the calendar instead of a second bar pill" "center: $shell_json"
+shell_json=$(cd "$ROOT" && jq -r '[.bar.layout.center[].id] | join(",")' config/lunaos/shell.json)
+[[ $shell_json == *"lunaos.clock"* ]] || fail "default bar layout includes the clock widget" "center: $shell_json"
+[[ $shell_json != *"lunaos.calendar"* ]] || fail "clock hosts the calendar instead of a second bar pill" "center: $shell_json"
 pass "default bar layout includes the clock widget"
 
-grep -q 'o.bind("SUPER + CTRL + ALT + D", "Calendar", { panel = "omarchy.clock" })' \
+grep -q 'o.bind("SUPER + CTRL + ALT + D", "Calendar", { panel = "lunaos.clock" })' \
   "$ROOT/default/hypr/bindings/utilities.lua" ||
   fail "SUPER+CTRL+ALT+D toggles the calendar panel"
 pass "SUPER+CTRL+ALT+D toggles the calendar panel"

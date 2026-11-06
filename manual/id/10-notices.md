@@ -14,7 +14,7 @@ Anda dapat dengan cepat mengakses tanggal dan waktu, status baterai, dan cuaca s
 
  ![notice-weather](images/notice-weather.webp)
 
-Lokasi terdeteksi dari alamat IP Anda, yang biasanya cukup dekat, tetapi tidak selalu. Anda dapat menentukannya dengan `omarchy weather location --set Malibu`, atau tepat mengenainya dengan menambahkan koordinat: `omarchy weather location --set Malibu 34.0259,-118.7798`. Jalankan `omarchy weather location` sendiri untuk melihat di mana ia mengira Anda berada, dan `--clear` untuk kembali ke deteksi otomatis.
+Lokasi terdeteksi dari alamat IP Anda, yang biasanya cukup dekat, tetapi tidak selalu. Anda dapat menentukannya dengan `lunaos weather location --set Malibu`, atau tepat mengenainya dengan menambahkan koordinat: `lunaos weather location --set Malibu 34.0259,-118.7798`. Jalankan `lunaos weather location` sendiri untuk melihat di mana ia mengira Anda berada, dan `--clear` untuk kembali ke deteksi otomatis.
 
 ### Baterai
 

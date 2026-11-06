@@ -1,8 +1,8 @@
 # Navigacija
 
-Viskas Omarchy vyksta klaviatūra — _VISKAS!_ Kai sistema paleidžiama pirmą kartą, vien pele tiesiogine prasme nieko negalite nuveikti. Tačiau galite paspausti `Super + Space`, kad atskleistumėte Omarchy meniu, o iš čia galite daryti beveik viską.
+Viskas LunaOS vyksta klaviatūra — _VISKAS!_ Kai sistema paleidžiama pirmą kartą, vien pele tiesiogine prasme nieko negalite nuveikti. Tačiau galite paspausti `Super + Space`, kad atskleistumėte LunaOS meniu, o iš čia galite daryti beveik viską.
 
-Tačiau Omarchy meniu net nėra skirtas būti pagrindiniu būdu valdyti sistemą didžiąją laiko dalį. Galime dar greičiau! Visos svarbiausios programos tiesiogiai susietos su atskirais sparčiaisiais klavišais. Terminalą paleidžiate paspaudę `Super + Return`, o naršyklę — `Super + Shift + Return`. Pabandykite tai padaryti vieną po kito ir pamatysite veikiantį Hyprland langų išdėstymo plytelėmis stebuklą:
+Tačiau LunaOS meniu net nėra skirtas būti pagrindiniu būdu valdyti sistemą didžiąją laiko dalį. Galime dar greičiau! Visos svarbiausios programos tiesiogiai susietos su atskirais sparčiaisiais klavišais. Terminalą paleidžiate paspaudę `Super + Return`, o naršyklę — `Super + Shift + Return`. Pabandykite tai padaryti vieną po kito ir pamatysite veikiantį Hyprland langų išdėstymo plytelėmis stebuklą:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Taip pat galite įjungti viso ekrano režimą paspaudę `Super + F` arba net tie
 
 ### Dwindle prieš slenkantį išdėstymą
 
-Numatytasis Omarchy išdėstymas vadinamas dwindle. Jis visada laiko visus vienoje darbo srityje atvertus langus matomus, net jei tenka juos sumažinti.
+Numatytasis LunaOS išdėstymas vadinamas dwindle. Jis visada laiko visus vienoje darbo srityje atvertus langus matomus, net jei tenka juos sumažinti.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Slankioji darbo sritis veikia kaip tradicinis darbalaukis: langai persidengia, o jūs patys juos perkeliate ir keičiate jų dydį. Kiekvienas langas gauna jūsų temos spalvų antraštės juostą su mygtukais sumažinti, padidinti ir uždaryti. `Super + M` taip pat sumažina fokusuotą langą. Sumažintas langas laukia doke; spustelėkite jo programą, kad jį grąžintumėte. Spustelėkite langą, kad iškeltumėte jį į priekį. Keiskite jo dydį iš bet kurio krašto arba kampo. Dukart spustelėkite antraštės juostą, kad padidintumėte langą paliekant viršutinę juostą matomą, ir dar kartą, kad grąžintumėte ankstesnį jo dydį.
 
-Slankioji darbo sritis taip pat rodo doką su jūsų prisegtomis programomis, viskuo, kas šiuo metu veikia, ir kiekvienos programos tinkleliu už programų mygtuko, kurį taip pat atveria `Super + Alt + Space` ir _Apps_ Omarchy meniu. Dešiniuoju pelės mygtuku spustelėkite programą tinklelyje arba paspauskite `Delete`, kad ją pašalintumėte. Spustelėkite programą, kad ją atvertumėte arba iškeltumėte jos langą į priekį; spustelėkite dar kartą, kad pereitumėte per jos langus ciklu. Vidurinysis spustelėjimas atveria naują langą. Vilkite piktogramą išilgai doko, kad ją perkeltumėte; nutempus veikiančią programą tarp kitų, ji ten ir lieka. Dešiniuoju pelės mygtuku spustelėkite, kad programą išlaikytumėte doke, išimtumėte ją iš jo arba ją uždarytumėte. Dokas pasitraukia iš kelio viso ekrano langui. Dešiniuoju pelės mygtuku spustelėkite programų mygtuką, kad perkeltumėte doką prie kito krašto arba kad jis slėptųsi, kol žymeklis pasieks jo kraštą. Padėtis taip pat yra skiltyje _Trigger > Appearance > Dock > Dock Position_, o `omarchy dock position left` ir `omarchy dock autohide on` nustato abu iš terminalo. Programos, kurias laikote doke, yra išblukusios, kol jos neveikia.
+Slankioji darbo sritis taip pat rodo doką su jūsų prisegtomis programomis, viskuo, kas šiuo metu veikia, ir kiekvienos programos tinkleliu už programų mygtuko, kurį taip pat atveria `Super + Alt + Space` ir _Apps_ LunaOS meniu. Dešiniuoju pelės mygtuku spustelėkite programą tinklelyje arba paspauskite `Delete`, kad ją pašalintumėte. Spustelėkite programą, kad ją atvertumėte arba iškeltumėte jos langą į priekį; spustelėkite dar kartą, kad pereitumėte per jos langus ciklu. Vidurinysis spustelėjimas atveria naują langą. Vilkite piktogramą išilgai doko, kad ją perkeltumėte; nutempus veikiančią programą tarp kitų, ji ten ir lieka. Dešiniuoju pelės mygtuku spustelėkite, kad programą išlaikytumėte doke, išimtumėte ją iš jo arba ją uždarytumėte. Dokas pasitraukia iš kelio viso ekrano langui. Dešiniuoju pelės mygtuku spustelėkite programų mygtuką, kad perkeltumėte doką prie kito krašto arba kad jis slėptųsi, kol žymeklis pasieks jo kraštą. Padėtis taip pat yra skiltyje _Trigger > Appearance > Dock > Dock Position_, o `lunaos dock position left` ir `lunaos dock autohide on` nustato abu iš terminalo. Programos, kurias laikote doke, yra išblukusios, kol jos neveikia.
 
-Naujos darbo sritys ir bet kurios, kurioms neskyrėte atskiro išdėstymo paspaudę `Super + L`, naudoja numatytąjį išdėstymą. Pakeitus numatytąjį išdėstymą, kiekviena darbo sritis be langų nustatoma į jį iš naujo, o sritis su langais išlaiko turimą išdėstymą. Į doką sumažintas langas vis tiek skaičiuojamas kaip langas darbo srityje, kurią jis paliko. Pasirinkite jį skiltyje _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling arba Floating. `omarchy-hyprland-workspace-layout-default scrolling` nustato jį iš terminalo.
+Naujos darbo sritys ir bet kurios, kurioms neskyrėte atskiro išdėstymo paspaudę `Super + L`, naudoja numatytąjį išdėstymą. Pakeitus numatytąjį išdėstymą, kiekviena darbo sritis be langų nustatoma į jį iš naujo, o sritis su langais išlaiko turimą išdėstymą. Į doką sumažintas langas vis tiek skaičiuojamas kaip langas darbo srityje, kurią jis paliko. Pasirinkite jį skiltyje _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling arba Floating. `lunaos-hyprland-workspace-layout-default scrolling` nustato jį iš terminalo.
 
 ### Langų grupavimas
 

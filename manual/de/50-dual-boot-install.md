@@ -1,6 +1,6 @@
 # Dual-Boot-Installation
 
-Du kannst Omarchy in einer einzelnen Partition neben Windows oder anderen Installationen installieren.
+Du kannst LunaOS in einer einzelnen Partition neben Windows oder anderen Installationen installieren.
 
 Diese Installationsmethode kommt standardmäßig trotzdem mit LUKS-Verschlüsselung für die Partition, sodass sie sich effektiv nicht von einer kompletten Platteninstallation unterscheidet und einfach freien Speicherplatz auf der Platte braucht.
 
@@ -14,17 +14,17 @@ Finde die passende Partition, klicke mit der rechten Maustaste und wähle **Shri
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- Gib ein, um wie viel du das Volume verkleinern willst. Beachte, dass das die Größe deiner zukünftigen Omarchy-Installation einschließlich der Boot-Partition ist.
+ Gib ein, um wie viel du das Volume verkleinern willst. Beachte, dass das die Größe deiner zukünftigen LunaOS-Installation einschließlich der Boot-Partition ist.
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-Wenn du fertig bist, solltest du etwas wie hier sehen, wo der 50-GB-Abschnitt in diesem Beispiel der ist, in dem wir Omarchy installieren.
+Wenn du fertig bist, solltest du etwas wie hier sehen, wo der 50-GB-Abschnitt in diesem Beispiel der ist, in dem wir LunaOS installieren.
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## Omarchy installieren
+## LunaOS installieren
 
-Der Installationsprozess für Omarchy ist effektiv derselbe wie normal. Nachdem du deine Platte ausgewählt hast, bekommst du die Option **Free space install**. Wähle diese Option, um zu verhindern, dass die gesamte Platte gelöscht wird.
+Der Installationsprozess für LunaOS ist effektiv derselbe wie normal. Nachdem du deine Platte ausgewählt hast, bekommst du die Option **Free space install**. Wähle diese Option, um zu verhindern, dass die gesamte Platte gelöscht wird.
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Bestätige, dass alles gut aussieht, und warte wie gewohnt, bis die Installation
 
 ## Andere Installationen zum Bootloader hinzufügen
 
-Wenn deine Omarchy-Installation fertig ist, wirst du feststellen, dass jetzt der Limine-Bootloader der Standard ist. Damit kannst du auch Optionen zu Limine für deine anderen Installationen wie Windows hinzufügen.
+Wenn deine LunaOS-Installation fertig ist, wirst du feststellen, dass jetzt der Limine-Bootloader der Standard ist. Damit kannst du auch Optionen zu Limine für deine anderen Installationen wie Windows hinzufügen.
 
-Führe dazu `limine-scan` aus und folge den Anweisungen, um hinzuzufügen, welche Einträge du in deiner Limine-Konfiguration willst. Beim Booten siehst du dann deine normalen Optionen für Omarchy sowie den Windows Boot Manager oder andere.
+Führe dazu `limine-scan` aus und folge den Anweisungen, um hinzuzufügen, welche Einträge du in deiner Limine-Konfiguration willst. Beim Booten siehst du dann deine normalen Optionen für LunaOS sowie den Windows Boot Manager oder andere.
 
 ## Bitlocker
 

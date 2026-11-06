@@ -2,7 +2,7 @@
 
 Venjulega á Linux þarftu `Ctrl + Shift + C/V` til að afrita og líma í terminal og `Ctrl + C/V` til að gera það alls staðar annars staðar. Það er erfitt að venjast fyrir alla sem hafa ekki fæðst og alist upp á Linux! Svo er einnig skiptingin frá super yfir í ctrl ef þú kemur frá Mac.
 
-Omarchy tekst á við bæði vandamálin með sameinuðum klippiborðsflýtilyklum sem virka (næstum) alls staðar. Þeir eru:
+LunaOS tekst á við bæði vandamálin með sameinuðum klippiborðsflýtilyklum sem virka (næstum) alls staðar. Þeir eru:
 
 | Flýtilykill | Skipun |
 | ------- | ----------- |
@@ -15,7 +15,7 @@ _Athugaðu að flest agent-umhverfi nota `Ctrl + V` til að líma myndir, en `Su
 
 ### Klippiborðssaga
 
-Klippiborðssagan er veitt af Omarchy-skelinni og virkar bæði fyrir texta og myndir. Þú kveikir á henni með `Super + Ctrl + V`, velur færsluna þína með return, og hún verður síðan sett á klippiborðið tilbúin til að líma með `Super + V`.
+Klippiborðssagan er veitt af LunaOS-skelinni og virkar bæði fyrir texta og myndir. Þú kveikir á henni með `Super + Ctrl + V`, velur færsluna þína með return, og hún verður síðan sett á klippiborðið tilbúin til að líma með `Super + V`.
 
  ![clipboard-history](images/clipboard-history.webp)
 

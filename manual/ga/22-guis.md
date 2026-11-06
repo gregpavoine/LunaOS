@@ -20,11 +20,11 @@ Tá Obsidian saor in aisce chun gach críche, lena n-áirítear úsáid phearsan
 
 Cuireann Obsidian [breiseán tráchtála le haghaidh sioncronaithe](https://obsidian.md/sync) ar fáil freisin le haipeanna soghluaiste ar iOS agus Android. (https://obsidian.md/pricing).
 
-Tosaíonn tú Obsidian le `Super + Shift + O`. Chun sioncronú téama a úsáid, ní mór duit an téama `Omarchy` a roghnú faoi shocruithe.
+Tosaíonn tú Obsidian le `Super + Shift + O`. Chun sioncronú téama a úsáid, ní mór duit an téama `LunaOS` a roghnú faoi shocruithe.
 
 ## Omawrite
 
-Is aip scríbhneoireachta Markdown fíorshimplí Omarchy féin é [Omawrite](https://github.com/omacom-io/omawrite). Gan stórais, gan forlíontáin, díreach tusa agus na focail.
+Is aip scríbhneoireachta Markdown fíorshimplí LunaOS féin é [Omawrite](https://github.com/omacom-io/omawrite). Gan stórais, gan forlíontáin, díreach tusa agus na focail.
 
 Tosaíonn tú Omawrite le `Super + Shift + W`.
 
@@ -44,18 +44,18 @@ Tosaíonn tú Aether tríd an lainseálaí feidhmchlár (`Super + Space`).
 
 Ligeann [LocalSend](https://localsend.org/) duit comhaid a sheoladh chuig gléasanna eile ar an líonra céanna atá ag rith na haipe, ar nós AirDrop Apple. Tá sé tras-ardáin, áfach, mar sin is féidir leat comhaid a sheoladh chuig agus ó Windows, macOS, Android, iOS, agus ar ndóigh Linux.
 
-Is féidir leat an roghchlár Comhroinn a oscailt ar `Super + Ctrl + S` nó faoi _Spreag > Comhroinn_ sa roghchlár Omarchy. Tugann sé ceithre rogha duit:
+Is féidir leat an roghchlár Comhroinn a oscailt ar `Super + Ctrl + S` nó faoi _Spreag > Comhroinn_ sa roghchlár LunaOS. Tugann sé ceithre rogha duit:
 
 - Seolann **Gearrthaisce** cibé rud a chóipeáil tú mar chomhad téacs. Iontach chun nasc nó blúire a fháil ar d'fhón gan ríomhphost a sheoladh chugat féin.
 - Osclaíonn **Comhad** roghnóir comhaid inar féidir leat roinnt a roghnú ag an am céanna.
 - Seolann **Fillteán** eolaire iomlán.
 - Osclaíonn **Glac** LocalSend ceart ionas gur féidir le gléas eile rud a sheoladh chugat.
 
-Oibríonn an rud céanna ón teirminéal le `omarchy share clipboard`, `omarchy share file [path]`, agus `omarchy share folder [path]`. Fág an chonair as agus gheobhaidh tú an roghnóir.
+Oibríonn an rud céanna ón teirminéal le `lunaos share clipboard`, `lunaos share file [path]`, agus `lunaos share folder [path]`. Fág an chonair as agus gheobhaidh tú an roghnóir.
 
 Is féidir leat seoladh go díreach ón mbainisteoir comhaid freisin: deaschliceáil aon rogha in Nautilus agus pioc _Seol trí LocalSend_.
 
-Tá balla dóiteáin Omarchy dúnta de réir réamhshocraithe seachas calafort LocalSend, mar sin oibríonn sé seo as an mbunús ar shuiteáil úr. Féach [slándáil](48-security.md).
+Tá balla dóiteáin LunaOS dúnta de réir réamhshocraithe seachas calafort LocalSend, mar sin oibríonn sé seo as an mbunús ar shuiteáil úr. Féach [slándáil](48-security.md).
 
 ## LibreOffice
 
@@ -65,19 +65,19 @@ Tosaíonn tú LibreOffice tríd an lainseálaí feidhmchlár (`Super + Space`).
 
 ## Hype
 
-Is aip láithreoireachta fíorshimplí Omarchy féin é [Hype](https://github.com/omacom/hype). Is comhad Markdown amháin é do dheic leis na híomhánna agus físeáin taobh leis: scríobh gach sleamhnán faoi réamhamharc beo, tarraing sleamhnáin in ord, ansin cuir i láthair i lánscáileán nó easpórtáil go PDF agus PowerPoint. Tógann sé suas do théama Omarchy fiú.
+Is aip láithreoireachta fíorshimplí LunaOS féin é [Hype](https://github.com/omacom/hype). Is comhad Markdown amháin é do dheic leis na híomhánna agus físeáin taobh leis: scríobh gach sleamhnán faoi réamhamharc beo, tarraing sleamhnáin in ord, ansin cuir i láthair i lánscáileán nó easpórtáil go PDF agus PowerPoint. Tógann sé suas do théama LunaOS fiú.
 
 Tosaíonn tú Hype tríd an lainseálaí feidhmchlár (`Super + Space`). Brúigh `?` taobh istigh de chun gach aicearra a fheiceáil.
 
 ## Signed
 
-Is é [Signed](https://github.com/omacom/signed) bealach fíorshimplí Omarchy féin chun PDFanna a shíniú agus a líonadh isteach. Cuir do shíniú sábháilte, téacs, agus dáta an lae inniu áit ar bith ar leathanach, ansin sábháil cóip shínithe in aice leis an mbunleagan. Féach [PDFanna a Líonadh Isteach](27-filling-out-pdfs.md) chun a fháil amach conas.
+Is é [Signed](https://github.com/omacom/signed) bealach fíorshimplí LunaOS féin chun PDFanna a shíniú agus a líonadh isteach. Cuir do shíniú sábháilte, téacs, agus dáta an lae inniu áit ar bith ar leathanach, ansin sábháil cóip shínithe in aice leis an mbunleagan. Féach [PDFanna a Líonadh Isteach](27-filling-out-pdfs.md) chun a fháil amach conas.
 
 Tosaíonn tú Signed tríd an lainseálaí feidhmchlár (`Super + Space`), nó oscail PDF leis ón mbainisteoir comhaid.
 
 ## Omacalc
 
-Is é [Omacalc](https://github.com/omacom-io/omacalc) áireamhán fíorshimplí Omarchy féin, a osclaíonn i bhfuinneog ar snámh.
+Is é [Omacalc](https://github.com/omacom-io/omacalc) áireamhán fíorshimplí LunaOS féin, a osclaíonn i bhfuinneog ar snámh.
 
 Tosaíonn tú Omacalc le `Super + Ctrl + Q` (nó an eochair áireamhána, má tá ceann ag do mhéarchlár).
 
@@ -85,7 +85,7 @@ Tosaíonn tú Omacalc le `Super + Ctrl + Q` (nó an eochair áireamhána, má t�
 
 Is é [Signal](https://signal.org/) ceannródaí teachtaireachtaí criptithe E2E, agus rogha chumarsáide iontach d'aon duine arb fhearr gan dul trí cheann de na comhlachtaí móra teicneolaíochta.
 
-Tosaíonn tú Signal le `Super + Shift + G`. Níl sé mar chuid den bhunsuiteáil, mar sin an chéad uair a bhrúnn tú é sin, tairgidh Omarchy é a shuiteáil duit (tá sé freisin faoi _Suiteáil > Seirbhís_ sa roghchlár Omarchy).
+Tosaíonn tú Signal le `Super + Shift + G`. Níl sé mar chuid den bhunsuiteáil, mar sin an chéad uair a bhrúnn tú é sin, tairgidh LunaOS é a shuiteáil duit (tá sé freisin faoi _Suiteáil > Seirbhís_ sa roghchlár LunaOS).
 
 ## mpv
 
@@ -95,13 +95,13 @@ Tosaíonn tú mpv tríd an lainseálaí feidhmchlár (`Super + Space`) nó dúbc
 
 ## Omacut
 
-Is gearrthóir físeáin fíorshimplí Omarchy féin é [Omacut](https://github.com/omacom-io/omacut). Nuair nach gá duit ach an tús agus an deireadh a ghearradh de ghearrthóg, buaileann sé eagarthóir físeáin iomlán a thosú.
+Is gearrthóir físeáin fíorshimplí LunaOS féin é [Omacut](https://github.com/omacom-io/omacut). Nuair nach gá duit ach an tús agus an deireadh a ghearradh de ghearrthóg, buaileann sé eagarthóir físeáin iomlán a thosú.
 
 Tosaíonn tú Omacut tríd an lainseálaí feidhmchlár (`Super + Space`).
 
 ## Monologue
 
-Is taifeadóir ceamara gréasáin fíorshimplí Omarchy féin é [Monologue](https://github.com/omacom/monologue). Roghnaigh do cheamara agus micreafón uair amháin, ansin brúigh `Space` chun taifeadadh, agus arís chun an t-iontógáil chéanna a shos agus a atosú. Taifeadann sé i gcónaí ag an taifeach is airde de do cheamara, le méadar micreafóin beo ionas gur féidir leat do leibhéil a sheiceáil sula dtosaíonn tú.
+Is taifeadóir ceamara gréasáin fíorshimplí LunaOS féin é [Monologue](https://github.com/omacom/monologue). Roghnaigh do cheamara agus micreafón uair amháin, ansin brúigh `Space` chun taifeadadh, agus arís chun an t-iontógáil chéanna a shos agus a atosú. Taifeadann sé i gcónaí ag an taifeach is airde de do cheamara, le méadar micreafóin beo ionas gur féidir leat do leibhéil a sheiceáil sula dtosaíonn tú.
 
 Stop an t-iontógáil agus osclaíonn sí láithreach in eagarthóir ionsuite. Dúbchliceáil gearrthóg chun í a scoilt, tarraing na lámha chun gach píosa a bhearradh, agus bain na codanna nach dteastaíonn uait. Ansin sábháil í mar MP4. Coimeádtar do thaifeadadh bunaidh go dtí go gcaithfidh tú uait í, mar sin is féidir leat teacht ar ais i gcónaí agus í a ghearradh ar bhealach difriúil.
 

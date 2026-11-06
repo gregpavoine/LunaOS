@@ -6,7 +6,7 @@
 
 | 단축키                  | 기능              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy 메뉴(앱 및 기타 모든 것)    |
+| `Super + Space`           | LunaOS 메뉴(앱 및 기타 모든 것)    |
 | `Super + Alt + Space` | 앱 그리드 |
 | `Super + Escape` | 시스템 메뉴(일시 중단, 재시작 등)  |
 | `Super + Ctrl + L` | 컴퓨터 잠금 |
@@ -136,7 +136,7 @@
 | `Super + V`           | 붙여넣기    |
 | `Super + Ctrl + V`           | 클립보드 관리자    |
 
-보통 Linux에서는 터미널에서 복사/붙여넣기를 하려면 `Ctrl + Shift + C/V`가 필요하고, 다른 모든 곳에서는 `Ctrl + C/V`를 사용합니다. Omarchy의 이 통합 클립보드 단축키는 어디서나 작동합니다.
+보통 Linux에서는 터미널에서 복사/붙여넣기를 하려면 `Ctrl + Shift + C/V`가 필요하고, 다른 모든 곳에서는 `Ctrl + C/V`를 사용합니다. LunaOS의 이 통합 클립보드 단축키는 어디서나 작동합니다.
 
 ## 캡처
 
@@ -156,7 +156,7 @@
 
 화면 녹화에서는 단축키가 먼저 어떤 오디오를 원하는지 묻고, 그 뒤에 녹화를 시작합니다. 다시 누르면 중지됩니다. 자세한 내용은 [스크린샷 및 녹화](12-screenshots-recording.md)를 참조하세요.
 
-모든 캡처 옵션은 Omarchy 메뉴(`Super + Space`)의 _실행 > 캡처_에서도 사용할 수 있습니다.
+모든 캡처 옵션은 LunaOS 메뉴(`Super + Space`)의 _실행 > 캡처_에서도 사용할 수 있습니다.
 
 ## 알림
 
@@ -177,9 +177,9 @@
 | `Super + Backspace` | 창의 투명도 토글 |
 | `Super + Ctrl + Backspace` | 단일 창 정사각형 종횡비 토글 |
 
-추가 배경 이미지는 `~/.config/omarchy/backgrounds/<theme name>`에 있습니다. Omarchy 메뉴의 _설치 > 스타일 > 배경_에서도 사용할 수 있습니다.
+추가 배경 이미지는 `~/.config/lunaos/backgrounds/<theme name>`에 있습니다. LunaOS 메뉴의 _설치 > 스타일 > 배경_에서도 사용할 수 있습니다.
 
-모든 스타일 옵션은 Omarchy 메뉴(`Super + Space`)의 _스타일_에서도 사용할 수 있습니다.
+모든 스타일 옵션은 LunaOS 메뉴(`Super + Space`)의 _스타일_에서도 사용할 수 있습니다.
 
 ## 토글
 
@@ -281,7 +281,7 @@
 
 ## Ghostty 터미널
 
-Ghostty 터미널은 Omarchy 메뉴의 _설치 > 터미널_을 통해 설치합니다.
+Ghostty 터미널은 LunaOS 메뉴의 _설치 > 터미널_을 통해 설치합니다.
 
 | 단축키                  | 기능              |
 | ----------------------- | --------------------- |
@@ -372,5 +372,5 @@ Ghostty 터미널은 Omarchy 메뉴의 _설치 > 터미널_을 통해 설치합�
 | `Shift + CapsLock Space N` | 여러분의 이름(설정 때 입력한 대로)  |
 | `Shift + CapsLock Space E` | 여러분의 이메일(설정 때 입력한 대로)  |
 
-`~/.XCompose`를 편집한 뒤 터미널에서 `omarchy-restart-xcompose`를 실행하면 변경 사항이 반영되도록 직접 더 추가할 수 있습니다.
+`~/.XCompose`를 편집한 뒤 터미널에서 `lunaos-restart-xcompose`를 실행하면 변경 사항이 반영되도록 직접 더 추가할 수 있습니다.
 

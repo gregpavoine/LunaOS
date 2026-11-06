@@ -1,8 +1,8 @@
 # Ajustos habituals
 
-Aquesta és una col·lecció de personalitzacions habituals de la configuració d'Omarchy. Tingues present que de vegades pot ser necessari que les actualitzacions del sistema restaurin certes configuracions a la seva condició original. Si això passa, els teus canvis no es perdran, sinó que quedaran en un fitxer `.bak` al mateix directori.
+Aquesta és una col·lecció de personalitzacions habituals de la configuració d'LunaOS. Tingues present que de vegades pot ser necessari que les actualitzacions del sistema restaurin certes configuracions a la seva condició original. Si això passa, els teus canvis no es perdran, sinó que quedaran en un fitxer `.bak` al mateix directori.
 
-Si espatlles alguna cosa, pots restaurar configuracions individuals a la seva configuració original via _Actualitza > Configuració_ al menú d'Omarchy. Si ho espatlles _tot_ de debò, pots restablir totes les configuracions via `omarchy-reinstall`.
+Si espatlles alguna cosa, pots restaurar configuracions individuals a la seva configuració original via _Actualitza > Configuració_ al menú d'LunaOS. Si ho espatlles _tot_ de debò, pots restablir totes les configuracions via `lunaos-reinstall`.
 
 ### Mostrar totes les icones de la safata sempre
 
@@ -10,7 +10,7 @@ Per defecte, les icones de la safata, com les de Dropbox, 1Password o Steam, que
 
 ### Cantons de finestra arrodonits
 
-El disseny per defecte d'Omarchy és de cantons rectes, però si t'agrada suavitzar-ho una mica, pots canviar `~/.config/hypr/looknfeel.lua` perquè l'arrodoniment ja no quedi comentat:
+El disseny per defecte d'LunaOS és de cantons rectes, però si t'agrada suavitzar-ho una mica, pots canviar `~/.config/hypr/looknfeel.lua` perquè l'arrodoniment ja no quedi comentat:
 
 ```
 hl.config({

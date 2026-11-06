@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# lunaos:summary=Overwrite the user tmux config with the LunaOS default and reload tmux.
+
+lunaos-refresh-config tmux/tmux.conf
+lunaos-restart-tmux

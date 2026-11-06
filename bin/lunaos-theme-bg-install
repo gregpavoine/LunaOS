@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# lunaos:summary=Open the current theme's user background folder
+
+CURRENT_THEME_NAME=$(cat "$HOME/.local/state/lunaos/current/theme.name")
+THEME_USER_BACKGROUNDS="$HOME/.config/lunaos/backgrounds/$CURRENT_THEME_NAME"
+
+mkdir -p "$THEME_USER_BACKGROUNDS"
+nautilus "$THEME_USER_BACKGROUNDS"

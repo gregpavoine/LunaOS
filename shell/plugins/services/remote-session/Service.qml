@@ -10,7 +10,7 @@ import "RemoteSessionModel.js" as RemoteSessionModel
 Item {
   id: root
 
-  // Injected by omarchy-shell (the first-party service loader).
+  // Injected by lunaos-shell (the first-party service loader).
   property var shell: null
 
   property bool stateLoaded: false
@@ -67,7 +67,7 @@ Item {
 
   Process {
     id: statusProbe
-    command: ["bash", Quickshell.env("OMARCHY_PATH") + "/shell/plugins/services/remote-session/probe.sh"]
+    command: ["bash", Quickshell.env("LUNAOS_PATH") + "/shell/plugins/services/remote-session/probe.sh"]
     stdout: StdioCollector {
       waitForEnd: true
       onStreamFinished: root.applyProbe(text)

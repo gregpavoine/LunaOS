@@ -1,6 +1,6 @@
 # Kabuk Araçları
 
-Standart Linux araçlarına ek olarak Omarchy, bir sürü geliştirilmiş kabuk aracıyla da birlikte gelir. İşte temel olanlar.
+Standart Linux araçlarına ek olarak LunaOS, bir sürü geliştirilmiş kabuk aracıyla da birlikte gelir. İşte temel olanlar.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Tam kılavuzu `man fzf` ile bulabilirsiniz.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide), cd'nin yerine geçer. Bulunduğunuz dizinleri hatırlar, böylece bir dahaki sefere onlara daha kolay atlayabilirsiniz. Diyelim ki bir kez `cd ~/.config/omarchy` yaptınız. Bir dahaki sefere sadece `cd omarchy` (hatta sadece `cd oma`) yapabilirsiniz ve Zoxide sizi doğrudan oraya götürecektir.
+[Zoxide](https://github.com/ajeetdsouza/zoxide), cd'nin yerine geçer. Bulunduğunuz dizinleri hatırlar, böylece bir dahaki sefere onlara daha kolay atlayabilirsiniz. Diyelim ki bir kez `cd ~/.config/lunaos` yaptınız. Bir dahaki sefere sadece `cd lunaos` (hatta sadece `cd oma`) yapabilirsiniz ve Zoxide sizi doğrudan oraya götürecektir.
 
 Tam kılavuzu `man zoxide` ile bulabilirsiniz.
 
@@ -58,4 +58,4 @@ Tam kılavuzu `man yt-dlp` ile bulabilirsiniz.
 
 [try](https://github.com/tobi/try), programlama deneylerini tarih damgalı dizinlerle yönetmeyi kolaylaştırır. Tüm deneyler `~/Work/tries` içinde yaşar ve onlara `try` aracılığıyla erişebilirsiniz.
 
-Omarchy, bir projenin `bin/` dizinini `PATH`'e otomatik olarak eklemez. Güvenilir proje-yerel araçları, `bin/rails` veya `./bin/dev` gibi açık bir göreli yolla çalıştırın.
+LunaOS, bir projenin `bin/` dizinini `PATH`'e otomatik olarak eklemez. Güvenilir proje-yerel araçları, `bin/rails` veya `./bin/dev` gibi açık bir göreli yolla çalıştırın.

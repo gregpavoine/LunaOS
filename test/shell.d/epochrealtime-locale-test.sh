@@ -18,7 +18,7 @@ fi
 [[ $(LOCPATH="$test_tmp/locales" LC_ALL=da_DK.UTF-8 bash -c 'echo "$EPOCHREALTIME"') == *,* ]] ||
   fail "the generated locale writes EPOCHREALTIME with a comma"
 
-for command in omarchy-dev-benchmark-cli omarchy-dev-benchmark-theme-switcher; do
+for command in lunaos-dev-benchmark-cli lunaos-dev-benchmark-theme-switcher; do
   now=$(LOCPATH="$test_tmp/locales" LC_ALL=da_DK.UTF-8 bash -c '
     source <(awk "/^now_us\\(\\) \\{/ { copying=1 } copying { print } copying && /^}\$/ { exit }" "$1")
     now_us

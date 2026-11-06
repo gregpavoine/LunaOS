@@ -6,7 +6,7 @@ Tüm ana klavye bağlamalarını `Super + K` ile görebilirsiniz (Tmux bağlamal
 
 | Kısayol                  | İşlev              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy menüsü (uygulamalar ve diğer her şey)    |
+| `Super + Space`           | LunaOS menüsü (uygulamalar ve diğer her şey)    |
 | `Super + Alt + Space` | Uygulama ızgarası |
 | `Super + Escape` | Sistem menüsü (Uyku, Yeniden Başlat, vb.)  |
 | `Super + Ctrl + L` | Bilgisayarı kilitle |
@@ -136,7 +136,7 @@ Bağlamaları `~/.config/hypr/bindings.lua` içinde değiştirin/ekleyin.
 | `Super + V`           | Yapıştır    |
 | `Super + Ctrl + V`           | Pahayır yöneticisi    |
 
-Genellikle Linux'ta, terminalde kopyalayapıştır için `Ctrl + Shift + C/V` ve her yerde bunu yapmak için `Ctrl + C/V` gerekir. Bu Omarchy birleşik pahayır kısayolları her yerde çalışır.
+Genellikle Linux'ta, terminalde kopyalayapıştır için `Ctrl + Shift + C/V` ve her yerde bunu yapmak için `Ctrl + C/V` gerekir. Bu LunaOS birleşik pahayır kısayolları her yerde çalışır.
 
 ## Yakala
 
@@ -156,7 +156,7 @@ Genellikle Linux'ta, terminalde kopyalayapıştır için `Ctrl + Shift + C/V` ve
 
 Ekran kayıtlarında, kısayol önce hangi sesi istediğinizi sorar, ardından kaydı başlatır. Durdurmak için tekrar basın. Ayrıntılar için bkz. [ekran görüntüleri ve kayıt](12-screenshots-recording.md).
 
-Tüm Yakala seçeneklerine Omarchy menüsündeki (`Super + Space`) _Tetikle > Yakala_ yoluyla da erişilebilir.
+Tüm Yakala seçeneklerine LunaOS menüsündeki (`Super + Space`) _Tetikle > Yakala_ yoluyla da erişilebilir.
 
 ## Bildirimler
 
@@ -177,9 +177,9 @@ Tüm Yakala seçeneklerine Omarchy menüsündeki (`Super + Space`) _Tetikle > Ya
 | `Super + Backspace` | Bir pencerede şeffaflığı aç/kapat |
 | `Super + Ctrl + Backspace` | Tek pencere kare oranını aç/kapat |
 
-Ek arka plan görselleri `~/.config/omarchy/backgrounds/<theme name>` içinde yaşar. Omarchy menüsündeki _Kur > Stil > Arka Plan_ yoluyla da kullanılabilir.
+Ek arka plan görselleri `~/.config/lunaos/backgrounds/<theme name>` içinde yaşar. LunaOS menüsündeki _Kur > Stil > Arka Plan_ yoluyla da kullanılabilir.
 
-Tüm Stil seçeneklerine Omarchy menüsündeki (`Super + Space`) _Stil_ yoluyla da erişilebilir.
+Tüm Stil seçeneklerine LunaOS menüsündeki (`Super + Space`) _Stil_ yoluyla da erişilebilir.
 
 ## Aç/Kapat
 
@@ -281,7 +281,7 @@ Bu işlevler bir Tmux oturumu içinde çalıştırılmalıdır.
 
 ## Ghostty Terminal
 
-Ghostty terminali, Omarchy menüsü aracılığıyla _Kur > Terminal_ kullanılarak kurulur.
+Ghostty terminali, LunaOS menüsü aracılığıyla _Kur > Terminal_ kullanılarak kurulur.
 
 | Kısayol                  | İşlev              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Seçimi pahayırya koyacak eksiksiz bir emoji seçici göstermek için `Super + 
 | `Shift + CapsLock Space N` | Adınız (kurulumda girildiği gibi)  |
 | `Shift + CapsLock Space E` | E-postanız (kurulumda girildiği gibi)  |
 
-`~/.XCompose` dosyasını düzenleyerek, ardından değişikliklerin alınması için terminalde `omarchy-restart-xcompose` çalıştırarak kendinizden daha fazlasını ekleyebilirsiniz.
+`~/.XCompose` dosyasını düzenleyerek, ardından değişikliklerin alınması için terminalde `lunaos-restart-xcompose` çalıştırarak kendinizden daha fazlasını ekleyebilirsiniz.

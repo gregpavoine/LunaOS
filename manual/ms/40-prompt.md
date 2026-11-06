@@ -1,6 +1,6 @@
 # Gesaan
 
-Omarchy disertakan dengan gesaan [Starship](https://starship.rs/) yang minimal secara lalai. Begitulah cara saya suka mengekalkan gesaan saya. Saya tidak perlu tahu pengguna, kerana ia sentiasa saya, dan saya tidak perlu tahu masa, kerana ia sentiasa di atas.
+LunaOS disertakan dengan gesaan [Starship](https://starship.rs/) yang minimal secara lalai. Begitulah cara saya suka mengekalkan gesaan saya. Saya tidak perlu tahu pengguna, kerana ia sentiasa saya, dan saya tidak perlu tahu masa, kerana ia sentiasa di atas.
 
  ![prompt](images/prompt.webp)
 

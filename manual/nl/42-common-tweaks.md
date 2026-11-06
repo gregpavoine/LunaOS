@@ -1,8 +1,8 @@
 # Veelvoorkomende aanpassingen
 
-Dit is een verzameling veelvoorkomende aanpassingen aan de Omarchy-setup. Weet dat het af en toe nodig kan zijn dat systeemupdates bepaalde configs terugzetten naar hun oorspronkelijke staat. Als dit gebeurt, gaan je wijzigingen niet verloren, maar worden ze in een `.bak`-bestand in dezelfde map gezet.
+Dit is een verzameling veelvoorkomende aanpassingen aan de LunaOS-setup. Weet dat het af en toe nodig kan zijn dat systeemupdates bepaalde configs terugzetten naar hun oorspronkelijke staat. Als dit gebeurt, gaan je wijzigingen niet verloren, maar worden ze in een `.bak`-bestand in dezelfde map gezet.
 
-Als je iets verknoeit, kun je individuele configs terugzetten naar hun oorspronkelijke setup via _Bijwerken > Config_ in het Omarchy-menu. Als je _echt_ alles verknoeit, kun je alle configs resetten via `omarchy-reinstall`.
+Als je iets verknoeit, kun je individuele configs terugzetten naar hun oorspronkelijke setup via _Bijwerken > Config_ in het LunaOS-menu. Als je _echt_ alles verknoeit, kun je alle configs resetten via `lunaos-reinstall`.
 
 ### Alle tray-pictogrammen altijd tonen
 
@@ -10,7 +10,7 @@ Standaard zijn tray-pictogrammen, zoals Dropbox, 1password of Steam, verborgen a
 
 ### Afgeronde vensterhoeken
 
-Het standaardontwerp van Omarchy is er een van vierkante hoeken, maar als je dat wat wilt verzachten, kun je `~/.config/hypr/looknfeel.lua` zo wijzigen dat rounding niet langer is uitgecommentarieerd:
+Het standaardontwerp van LunaOS is er een van vierkante hoeken, maar als je dat wat wilt verzachten, kun je `~/.config/hypr/looknfeel.lua` zo wijzigen dat rounding niet langer is uitgecommentarieerd:
 
 ```
 hl.config({

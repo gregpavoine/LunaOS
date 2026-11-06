@@ -1,0 +1,12 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = lunaos-settings
+Target = lunaos-settings-dev
+
+[Action]
+Description = Pausing Hyprland config auto-reload for LunaOS settings update...
+When = PreTransaction
+Depends = lunaos
+Exec = /usr/bin/lunaos-hyprland-reload-guard pause

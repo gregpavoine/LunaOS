@@ -13,8 +13,8 @@ import "GlobeModel.js" as Solar
 // minutes to catch DST.
 Panel {
   id: root
-  moduleName: "omarchy.elsewhen"
-  ipcTarget: "omarchy.elsewhen"
+  moduleName: "lunaos.elsewhen"
+  ipcTarget: "lunaos.elsewhen"
   manageIpc: false
 
   // Items inside the panel's lazily built content, null until it first
@@ -197,7 +197,7 @@ Panel {
     refreshFacts()
   }
 
-  function notify(title) { Util.execArgv(["omarchy-notification-send", title]) }
+  function notify(title) { Util.execArgv(["lunaos-notification-send", title]) }
 
   function startChoosingHere() { if (hereSearch && localZone !== "" && !globeMode) hereSearch.start() }
 

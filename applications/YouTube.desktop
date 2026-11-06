@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Name=YouTube
-Exec=omarchy-launch-webapp https://youtube.com/
+Exec=lunaos-launch-webapp https://youtube.com/
 StartupWMClass=chrome-youtube.com__-Default
 Terminal=false
 Type=Application

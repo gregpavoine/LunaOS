@@ -1,3 +1,3 @@
-cat >>/etc/omarchy/agent.conf <<EOF
-helper=$HOME/.local/share/omarchy/bin/omarchy-agent
+cat >>/etc/lunaos/agent.conf <<EOF
+helper=$HOME/.local/share/lunaos/bin/lunaos-agent
 EOF

@@ -6,7 +6,7 @@ Pokud jste v úpravách ve stylu vimu úplně noví, doporučuji podívat se na 
 
 Neovim je v zásadě nekonečně konfigurovatelný. Pokud se opravdu chcete odvázat, můžete si vytvořit vlastní konfiguraci Neovimu od nuly. Existuje skvělý kurz od [Typecraft o nastavení Neovimu od nuly](https://www.youtube.com/watch?v=zHTeCSVAFNY). A [ThePrimeagen má také jeden](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Ale Omarchy se dodává s kompletním nastavením Neovimu — balíčkem `omarchy-nvim` — které bylo s láskou vyladěno tak, aby ukázalo to nejlepší z možného hned po vybalení. Aniž byste museli napsat jediný řádek konfigurace! Je postaveno na [LazyVim](https://www.lazyvim.org/), distribuci pluginů a konfigurací Neovimu. Je to úžasné.
+Ale LunaOS se dodává s kompletním nastavením Neovimu — balíčkem `omarchy-nvim` — které bylo s láskou vyladěno tak, aby ukázalo to nejlepší z možného hned po vybalení. Aniž byste museli napsat jediný řádek konfigurace! Je postaveno na [LazyVim](https://www.lazyvim.org/), distribuci pluginů a konfigurací Neovimu. Je to úžasné.
 
 ## Základy LazyVimu
 

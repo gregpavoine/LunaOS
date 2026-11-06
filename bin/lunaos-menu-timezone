@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# lunaos:summary=Select and set the system timezone
+# lunaos:group=menu
+# lunaos:name=timezone
+
+set -e
+
+timezone=$(timedatectl list-timezones | lunaos-menu-select "$(lunaos-i18n timezone.setTitle)" -- --width 520 --maxheight 520) || exit 1
+sudo timedatectl set-timezone "$timezone"
+lunaos-shell -q lunaos.clock refresh
+lunaos-notification-send "$(lunaos-i18n timezone.changed "$timezone")"

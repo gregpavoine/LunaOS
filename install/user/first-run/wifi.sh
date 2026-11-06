@@ -1,13 +1,13 @@
 notify_update() {
-  omarchy-notification-send -u critical -g  "Update System" "Click to update the system." \
-    --exec omarchy-launch-floating-terminal-with-presentation omarchy-update
+  lunaos-notification-send -u critical -g  "Update System" "Click to update the system." \
+    --exec lunaos-launch-floating-terminal-with-presentation lunaos-update
 }
 
-# Something for omarchy-update to install: any repository package, Omarchy's
+# Something for lunaos-update to install: any repository package, LunaOS's
 # own among them, or a development checkout behind its upstream. checkupdates
 # exits 2 when every package is current and 1 when it could not tell, so only
 # a definite "nothing" holds the prompt back. It syncs the package databases,
-# so it runs once; omarchy-update-available would run it again, and is asked
+# so it runs once; lunaos-update-available would run it again, and is asked
 # only about a checkout, which checkupdates cannot see.
 update_pending() {
   local status=0
@@ -15,16 +15,16 @@ update_pending() {
 
   if (( status != 2 )); then
     return 0
-  elif [[ $OMARCHY_PATH != "/usr/share/omarchy" ]]; then
-    omarchy-update-available >/dev/null 2>&1
+  elif [[ $LUNAOS_PATH != "/usr/share/lunaos" ]]; then
+    lunaos-update-available >/dev/null 2>&1
   else
     return 1
   fi
 }
 
 notify_wifi() {
-  omarchy-notification-send -u critical -g 󰖩 "Setup Wi-Fi" "Click to configure the wireless network." \
-    --exec omarchy-shell shell toggle omarchy.network
+  lunaos-notification-send -u critical -g 󰖩 "Setup Wi-Fi" "Click to configure the wireless network." \
+    --exec lunaos-shell shell toggle lunaos.network
 }
 
 announce_network() {

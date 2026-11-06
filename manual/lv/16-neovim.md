@@ -6,7 +6,7 @@ Ja esi pilnīgi jauns vim stila rediģēšanā, es iesaku tev apskatīt [ThePrim
 
 Tagad Neovim ir būtībā bezgalīgi konfigurējams. Ja tu patiešām vēlies aizrauties, tu vari izveidot savu Neovim konfigurāciju no nulles. Ir lielisks kurss no [Typecraft par Neovim iestatīšanu no nulles](https://www.youtube.com/watch?v=zHTeCSVAFNY). Un [ThePrimeagen arī ir viens](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Bet Omarchy nāk ar pilnīgu Neovim iestatīšanu — pakotni `omarchy-nvim` —, kas ir ar mīlestību noskaņota, lai parādītu labāko no tā, kas ir iespējams uzreiz. Tev nav jāraksta neviena konfigurācijas rinda! Tā ir veidota uz [LazyVim](https://www.lazyvim.org/), Neovim spraudņu un konfigurāciju izplatījuma. Tas ir lieliski.
+Bet LunaOS nāk ar pilnīgu Neovim iestatīšanu — pakotni `omarchy-nvim` —, kas ir ar mīlestību noskaņota, lai parādītu labāko no tā, kas ir iespējams uzreiz. Tev nav jāraksta neviena konfigurācijas rinda! Tā ir veidota uz [LazyVim](https://www.lazyvim.org/), Neovim spraudņu un konfigurāciju izplatījuma. Tas ir lieliski.
 
 ## LazyVim pamati
 

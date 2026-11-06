@@ -1,8 +1,8 @@
 # Điều hướng
 
-Mọi thứ trong Omarchy đều diễn ra qua bàn phím — _MỌI THỨ!_ Khi hệ thống mới khởi động, bạn đúng là không thể làm được bất cứ việc gì chỉ với con chuột. Nhưng bạn có thể nhấn `Super + Space` để hiện Omarchy Menu và từ đây bạn làm được gần như mọi việc.
+Mọi thứ trong LunaOS đều diễn ra qua bàn phím — _MỌI THỨ!_ Khi hệ thống mới khởi động, bạn đúng là không thể làm được bất cứ việc gì chỉ với con chuột. Nhưng bạn có thể nhấn `Super + Space` để hiện LunaOS Menu và từ đây bạn làm được gần như mọi việc.
 
-Nhưng Omarchy Menu thậm chí không được dự định là cách chính để vận hành hệ thống trong hầu hết thời gian. Chúng ta còn có thể nhanh hơn thế! Tất cả các ứng dụng quan trọng nhất đều được gán trực tiếp vào từng phím tắt riêng. Bạn khởi động terminal bằng `Super + Return` và trình duyệt bằng `Super + Shift + Return`. Hãy thử làm cái này rồi đến cái kia, và bạn sẽ thấy phép màu xếp lớp của Hyprland hoạt động:
+Nhưng LunaOS Menu thậm chí không được dự định là cách chính để vận hành hệ thống trong hầu hết thời gian. Chúng ta còn có thể nhanh hơn thế! Tất cả các ứng dụng quan trọng nhất đều được gán trực tiếp vào từng phím tắt riêng. Bạn khởi động terminal bằng `Super + Return` và trình duyệt bằng `Super + Shift + Return`. Hãy thử làm cái này rồi đến cái kia, và bạn sẽ thấy phép màu xếp lớp của Hyprland hoạt động:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Bạn cũng có thể chuyển sang toàn màn hình bằng `Super + F` hoặc t
 
 ### Dwindle so với bố cục cuộn
 
-Bố cục mặc định của Omarchy được gọi là dwindle. Nó giữ tất cả các cửa sổ bạn mở trên một không gian làm việc luôn hiển thị, ngay cả khi phải thu nhỏ chúng xuống.
+Bố cục mặc định của LunaOS được gọi là dwindle. Nó giữ tất cả các cửa sổ bạn mở trên một không gian làm việc luôn hiển thị, ngay cả khi phải thu nhỏ chúng xuống.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Một không gian làm việc nổi hoạt động như một desktop truyền thống: các cửa sổ chồng lên nhau, và bạn tự di chuyển và thay đổi kích thước chúng. Mỗi cửa sổ có một thanh tiêu đề theo màu sắc của theme của bạn, với các nút để thu nhỏ, phóng to tối đa, và đóng. `Super + M` cũng thu nhỏ cửa sổ đang được tập trung. Một cửa sổ đã thu nhỏ sẽ chờ trong dock; hãy nhấp vào ứng dụng của nó để đưa nó trở lại. Nhấp vào một cửa sổ để đưa nó lên trước. Thay đổi kích thước nó từ bất kỳ cạnh hoặc góc nào. Nhấp đúp vào thanh tiêu đề để phóng to tối đa cửa sổ trong khi vẫn giữ thanh trên cùng trong tầm nhìn, và nhấp đúp lần nữa để lấy lại kích thước cũ.
 
-Một không gian làm việc nổi cũng hiển thị một dock, với các ứng dụng đã ghim của bạn, mọi thứ đang chạy, và một lưới gồm mọi ứng dụng đằng sau nút ứng dụng, thứ mà `Super + Alt + Space` và _Apps_ trong Omarchy menu cũng mở. Nhấp chuột phải vào một ứng dụng trên lưới, hoặc nhấn `Delete`, để gỡ cài đặt nó. Nhấp vào một ứng dụng để mở nó, hoặc để đưa cửa sổ của nó lên trước; nhấp lần nữa để chuyển qua các cửa sổ của nó theo vòng tròn. Nhấp chuột giữa sẽ mở một cửa sổ mới. Kéo một biểu tượng dọc theo dock để di chuyển nó; kéo một ứng dụng đang chạy vào giữa các ứng dụng khác sẽ giữ nó ở đó. Nhấp chuột phải để giữ một ứng dụng trong dock, loại nó ra, hoặc thoát nó. Dock sẽ tránh đường cho một cửa sổ toàn màn hình. Nhấp chuột phải vào nút ứng dụng để di chuyển dock sang một cạnh khác hoặc để nó ẩn đi cho đến khi con trỏ chạm đến cạnh của nó. Vị trí cũng nằm trong _Trigger > Appearance > Dock > Dock Position_, và `omarchy dock position left` và `omarchy dock autohide on` đặt cả hai từ một terminal. Các ứng dụng bạn giữ trong dock sẽ bị mờ đi khi chúng không chạy.
+Một không gian làm việc nổi cũng hiển thị một dock, với các ứng dụng đã ghim của bạn, mọi thứ đang chạy, và một lưới gồm mọi ứng dụng đằng sau nút ứng dụng, thứ mà `Super + Alt + Space` và _Apps_ trong LunaOS menu cũng mở. Nhấp chuột phải vào một ứng dụng trên lưới, hoặc nhấn `Delete`, để gỡ cài đặt nó. Nhấp vào một ứng dụng để mở nó, hoặc để đưa cửa sổ của nó lên trước; nhấp lần nữa để chuyển qua các cửa sổ của nó theo vòng tròn. Nhấp chuột giữa sẽ mở một cửa sổ mới. Kéo một biểu tượng dọc theo dock để di chuyển nó; kéo một ứng dụng đang chạy vào giữa các ứng dụng khác sẽ giữ nó ở đó. Nhấp chuột phải để giữ một ứng dụng trong dock, loại nó ra, hoặc thoát nó. Dock sẽ tránh đường cho một cửa sổ toàn màn hình. Nhấp chuột phải vào nút ứng dụng để di chuyển dock sang một cạnh khác hoặc để nó ẩn đi cho đến khi con trỏ chạm đến cạnh của nó. Vị trí cũng nằm trong _Trigger > Appearance > Dock > Dock Position_, và `lunaos dock position left` và `lunaos dock autohide on` đặt cả hai từ một terminal. Các ứng dụng bạn giữ trong dock sẽ bị mờ đi khi chúng không chạy.
 
-Các không gian làm việc mới, và bất kỳ không gian nào bạn chưa tự cấp một bố cục riêng bằng `Super + L`, sẽ dùng bố cục mặc định. Thay đổi bố cục mặc định sẽ đặt lại mọi không gian làm việc không có cửa sổ về bố cục đó, trong khi một không gian có cửa sổ trên đó sẽ giữ bố cục mà nó đang có. Một cửa sổ được thu nhỏ xuống dock vẫn được tính là một cửa sổ trên không gian làm việc mà nó đã rời khỏi. Hãy chọn nó trong _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling, hoặc Floating. `omarchy-hyprland-workspace-layout-default scrolling` đặt nó từ một terminal.
+Các không gian làm việc mới, và bất kỳ không gian nào bạn chưa tự cấp một bố cục riêng bằng `Super + L`, sẽ dùng bố cục mặc định. Thay đổi bố cục mặc định sẽ đặt lại mọi không gian làm việc không có cửa sổ về bố cục đó, trong khi một không gian có cửa sổ trên đó sẽ giữ bố cục mà nó đang có. Một cửa sổ được thu nhỏ xuống dock vẫn được tính là một cửa sổ trên không gian làm việc mà nó đã rời khỏi. Hãy chọn nó trong _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling, hoặc Floating. `lunaos-hyprland-workspace-layout-default scrolling` đặt nó từ một terminal.
 
 ### Nhóm các cửa sổ
 

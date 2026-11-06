@@ -42,7 +42,7 @@ JS
 
 # The browser must open the URL NetworkManager probes, or a portal that only
 # intercepts the probed host would never show its sign-in page.
-nm_conf="$ROOT/etc/NetworkManager/conf.d/omarchy-connectivity.conf"
+nm_conf="$ROOT/etc/NetworkManager/conf.d/lunaos-connectivity.conf"
 nm_uri=$(sed -n 's/^uri=//p' "$nm_conf")
 panel_uri=$(sed -n 's/^var captivePortalUrl = "\(.*\)"$/\1/p' "$ROOT/shell/plugins/panels/network/Model.js")
 [[ -n $nm_uri && $nm_uri == "$panel_uri" ]] || fail "NetworkManager probes the URL the panel opens ($nm_uri vs $panel_uri)"
@@ -89,19 +89,19 @@ fs.writeFileSync(`${stage}/network/Panel.qml`, source)
 JS
 printf '#!/bin/bash\nexit 0\n' > "$stage/bin/noop"
 chmod +x "$stage/bin/noop"
-for command in omarchy-dns omarchy-network-band; do
+for command in lunaos-dns lunaos-network-band; do
   ln -s noop "$stage/bin/$command"
 done
 # Preview uses only synthetic details, never the host's SSID or addresses.
 # Normal assertions keep the details empty to exercise missing-route handling.
-printf '#!/bin/bash\nif [[ -n ${NETWORK_TEST_PREVIEW:-} ]]; then\n  printf "type\\twifi\\niface\\ttest-wifi\\nssid\\tGuest Wi-Fi\\nip\\t192.0.2.10\\ngateway\\t192.0.2.1\\n"\nfi\n' > "$stage/bin/omarchy-network-status"
-chmod +x "$stage/bin/omarchy-network-status"
-printf '#!/bin/bash\nprintf "%%s\\n" "$@" >> "$NETWORK_TEST_BROWSER_LOG"\n' > "$stage/bin/omarchy-network-captive-portal"
-chmod +x "$stage/bin/omarchy-network-captive-portal"
+printf '#!/bin/bash\nif [[ -n ${NETWORK_TEST_PREVIEW:-} ]]; then\n  printf "type\\twifi\\niface\\ttest-wifi\\nssid\\tGuest Wi-Fi\\nip\\t192.0.2.10\\ngateway\\t192.0.2.1\\n"\nfi\n' > "$stage/bin/lunaos-network-status"
+chmod +x "$stage/bin/lunaos-network-status"
+printf '#!/bin/bash\nprintf "%%s\\n" "$@" >> "$NETWORK_TEST_BROWSER_LOG"\n' > "$stage/bin/lunaos-network-captive-portal"
+chmod +x "$stage/bin/lunaos-network-captive-portal"
 
 # All networking and external actions are mocked; the real connection and
 # browser are never touched, and the fixture writes only to its scratch HOME.
-output=$(HOME="$stage/home" OMARCHY_PATH="$ROOT" PATH="$stage/bin:$PATH" \
+output=$(HOME="$stage/home" LUNAOS_PATH="$ROOT" PATH="$stage/bin:$PATH" \
   NETWORK_TEST_BROWSER_LOG="$stage/browser.log" \
   timeout 30 quickshell -p "$stage" --no-color 2>&1) || fail "network portal fixture exits cleanly" "$output"
 [[ $output == *"RESULT pass"* ]] || fail "network portal runtime assertions pass" "$output"

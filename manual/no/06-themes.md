@@ -1,8 +1,8 @@
 # Temaer
 
-Omarchy leveres med tjueto vakre temaer. Du kan velge mellom dem via _Stil > Tema_ i Omarchy-menyen (`Super + Space`) eller hoppe direkte til temavelgeren med `Super + Ctrl + Shift + Space`.
+LunaOS leveres med tjueto vakre temaer. Du kan velge mellom dem via _Stil > Tema_ i LunaOS-menyen (`Super + Space`) eller hoppe direkte til temavelgeren med `Super + Ctrl + Shift + Space`.
 
-Hvert tema styler skrivebordet, terminalen, neovim, aktivitetsskjermen (btop), Chromium og hele Omarchy-skallet: menylinjen, menyen, varslene, OSD-en og låseskjermen. (For Obsidian må du manuelt velge Omarchy-temaet via _Appearance > Themes_ inne i appen).
+Hvert tema styler skrivebordet, terminalen, neovim, aktivitetsskjermen (btop), Chromium og hele LunaOS-skallet: menylinjen, menyen, varslene, OSD-en og låseskjermen. (For Obsidian må du manuelt velge LunaOS-temaet via _Appearance > Themes_ inne i appen).
 
 Temaer har et sett med bakgrunnsbilder du kan velge mellom med `Super + Ctrl + Space`.
 

@@ -1,8 +1,8 @@
 # Valvomattomat asennukset
 
-Omarchy-ISO voi asentaa itsensä ilman ketään näppäimistöllä. Jos asennusohjelma löytää toisen aseman nimeltä `cidata`, joka sisältää sen määritystiedostot, se kopioi ne pois, ohittaa asennusvelhon kokonaan ja käynnistää itsensä valmiiseen järjestelmään. Ei erityistä ISO-koontia, ei ylimääräistä käynnistysvalikon kohtaa — ilman ko. asemaa mikään ei muutu ja saat normaalin velhon.
+LunaOS-ISO voi asentaa itsensä ilman ketään näppäimistöllä. Jos asennusohjelma löytää toisen aseman nimeltä `cidata`, joka sisältää sen määritystiedostot, se kopioi ne pois, ohittaa asennusvelhon kokonaan ja käynnistää itsensä valmiiseen järjestelmään. Ei erityistä ISO-koontia, ei ylimääräistä käynnistysvalikon kohtaa — ilman ko. asemaa mikään ei muutu ja saat normaalin velhon.
 
-Tämä tekee Omarchysta loistavan peruslevykuvan kertakäyttöisille kehitysympäristöille: luo virtuaalikone Proxmoxissa tai Packerilla, käynnistä se, kävele pois, SSH sisään. `cidata` on cloud-initin `NoCloud`-tunniste, joten kaikki yleiset virtualisointityökalut osaavat jo liittää sellaisen aseman.
+Tämä tekee LunaOSsta loistavan peruslevykuvan kertakäyttöisille kehitysympäristöille: luo virtuaalikone Proxmoxissa tai Packerilla, käynnistä se, kävele pois, SSH sisään. `cidata` on cloud-initin `NoCloud`-tunniste, joten kaikki yleiset virtualisointityökalut osaavat jo liittää sellaisen aseman.
 
 ## Määritystiedostot
 
@@ -24,7 +24,7 @@ Voit myös pudottaa tyhjän tiedoston nimeltä `defer-provisioning` tiedoston `u
 
 ## SSH-käyttöoikeus
 
-Kun `authorized_keys` on läsnä, asennus asettaa avaimet käyttäjän tiedostoksi `~/.ssh/authorized_keys`, ottaa `sshd`:n käyttöön ja avaa sille palomuurin. (Vakio-Omarchy-asennus toimittaa openssh:n palvelu poistettuna käytöstä ja portti suljettuna, joten valvomaton kone olisi muuten tavoittamattomissa.) Asennus lisää vain avaimesi — se ei löysennä mitään SSH-daemonin muista todennusasetuksista.
+Kun `authorized_keys` on läsnä, asennus asettaa avaimet käyttäjän tiedostoksi `~/.ssh/authorized_keys`, ottaa `sshd`:n käyttöön ja avaa sille palomuurin. (Vakio-LunaOS-asennus toimittaa openssh:n palvelu poistettuna käytöstä ja portti suljettuna, joten valvomaton kone olisi muuten tavoittamattomissa.) Asennus lisää vain avaimesi — se ei löysennä mitään SSH-daemonin muista todennusasetuksista.
 
 Kun `tailscale_authkey` on läsnä, kone liittyy sen sijaan tailnetiisi ensimmäisellä käynnistyksellä: Tailscale asennetaan ISO:n mukana toimitetuista paketeista, palomuuri sallii tailnet-liitännän, ja taustatehtävä ajaa liittymisen heti, kun koneella tosiasiallisesti on verkkoyhteys, yrittäen uudelleen, kunnes se onnistuu. Käytä uudelleenkäytettävää, ennakkovaltuutettua avainta, jotta yksi asemakuva voi palvella monia koneita.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Liitä se sitten virtuaalikoneeseen Omarchy-ISO:n rinnalle. Tässä on koko Proxmox-esimerkki:
+Liitä se sitten virtuaalikoneeseen LunaOS-ISO:n rinnalle. Tässä on koko Proxmox-esimerkki:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

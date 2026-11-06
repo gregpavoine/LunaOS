@@ -1,16 +1,16 @@
 # Suport per a Mac
 
-Omarchy té suport integrat per als **Macs Intel**. De moment hi ha un parell de limitacions conegudes, però mentre les coneguis i t'hi avinguis, pots insuflar una mica de vida nova als teus Macs vells carregant-hi Omarchy.
+LunaOS té suport integrat per als **Macs Intel**. De moment hi ha un parell de limitacions conegudes, però mentre les coneguis i t'hi avinguis, pots insuflar una mica de vida nova als teus Macs vells carregant-hi LunaOS.
 
-Tingues en compte que la instal·lació en un Mac amb xip de la sèrie M no es suporta directament en aquest moment. Pots saber-ne més sobre l'estat d'això a #omarchy-on-other al nostre [Discord](https://discord.gg/tXFUdasqhY).
+Tingues en compte que la instal·lació en un Mac amb xip de la sèrie M no es suporta directament en aquest moment. Pots saber-ne més sobre l'estat d'això a #lunaos-on-other al nostre [Discord](https://discord.gg/tXFUdasqhY).
 
-En una prova senzilla, vam aconseguir guanys de rendiment del 36% en un MacBook Pro del 2019 només instal·lant-hi Omarchy.
+En una prova senzilla, vam aconseguir guanys de rendiment del 36% en un MacBook Pro del 2019 només instal·lant-hi LunaOS.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Instal·lar Omarchy en un Mac
+### Instal·lar LunaOS en un Mac
 
-Omarchy només suporta ser l'**únic** sistema operatiu instal·lat en aquest moment. Durant la instal·lació, la unitat s'esborrarà i macOS ja no es podrà arrencar.
+LunaOS només suporta ser l'**únic** sistema operatiu instal·lat en aquest moment. Durant la instal·lació, la unitat s'esborrarà i macOS ja no es podrà arrencar.
 
 Tanmateix, després el pots restaurar via Internet Recovery si ho vols.
 
@@ -39,7 +39,7 @@ L'instal·lador detecta el maquinari Mac i aplica automàticament les correccion
 
 ### Limitacions conegudes
 
-Els membres de la comunitat treballen constantment en solucions per a aquests reptes, de manera que, si això et suposa un problema, uneix-te a #omarchy-on-other al nostre [Discord](https://discord.gg/tXFUdasqhY) i mira si hi ha algun mètode actualitzat per resoldre-ho.
+Els membres de la comunitat treballen constantment en solucions per a aquests reptes, de manera que, si això et suposa un problema, uneix-te a #lunaos-on-other al nostre [Discord](https://discord.gg/tXFUdasqhY) i mira si hi ha algun mètode actualitzat per resoldre-ho.
 
 #### Dispositius amb xip T1
 

@@ -1,10 +1,10 @@
 # Aplikacje webowe
 
-Możesz dodawać własne aplikacje webowe, używając _Instaluj > Web App_ w menu Omarchy (`Super + Space`). Poprosi cię o nazwę aplikacji, URL aplikacji i URL ikony, jeśli nie może go pobrać za pośrednictwem favicon. Świetne ikony PNG dla wielu popularnych aplikacji webowych możesz znaleźć na [Dashboard Icons](https://dashboardicons.com).
+Możesz dodawać własne aplikacje webowe, używając _Instaluj > Web App_ w menu LunaOS (`Super + Space`). Poprosi cię o nazwę aplikacji, URL aplikacji i URL ikony, jeśli nie może go pobrać za pośrednictwem favicon. Świetne ikony PNG dla wielu popularnych aplikacji webowych możesz znaleźć na [Dashboard Icons](https://dashboardicons.com).
 
 Będą one następnie dostępne za pośrednictwem launchera aplikacji (`Super + Space`) i będą używać pięknego bezramkowego okna aplikacji webowej.
 
-Jeśli chcesz usunąć aplikację webową, po prostu przejdź do _Usuń > Web App_ w menu Omarchy.
+Jeśli chcesz usunąć aplikację webową, po prostu przejdź do _Usuń > Web App_ w menu LunaOS.
 
 Najlepiej, jeśli zalogujesz się do wszystkich swoich kont za pomocą zwykłej przeglądarki przed użyciem skrótów aplikacji webowych. Cienka ramka-wrapper nie działa dobrze z 1password, więc po prostu łatwiej jest zalogować się bezpośrednio najpierw.
 
@@ -12,17 +12,17 @@ Wszystkie skróty klawiszowe dla tych aplikacji webowych można zmienić w `~/.c
 
 Gdy jesteś w aplikacji webowej, możesz skopiować bieżący URL do schowka za pomocą `Shift + Alt + L`.
 
-Domyślnie Omarchy dostarcza już zestaw domyślnych aplikacji:
+Domyślnie LunaOS dostarcza już zestaw domyślnych aplikacji:
 
 ## HEY
 
-[HEY](https://www.hey.com/) jest usługą poczty e-mail i kalendarza, która służy jako świetna alternatywa dla ludzi zmęczonych Gmail, Outlook lub Apple Mail. Jest tworzona przez [37signals](https://37signals.com/), skąd wywodzi się Omarchy.
+[HEY](https://www.hey.com/) jest usługą poczty e-mail i kalendarza, która służy jako świetna alternatywa dla ludzi zmęczonych Gmail, Outlook lub Apple Mail. Jest tworzona przez [37signals](https://37signals.com/), skąd wywodzi się LunaOS.
 
 Możesz uruchomić HEY Email za pomocą `Super + Shift + E`, przejść od razu do tworzenia nowego e-maila za pomocą `Super + Shift + Alt + E` i uruchomić HEY Calendar za pomocą `Super + Shift + C`.
 
 ## Basecamp
 
-[Basecamp](https://basecamp.com/) jest usługą zarządzania projektami, która pomaga małym zespołom działać szybciej i robić większe postępy. Zamiast łatać mishmash Trello, Slack, Asana, Notion czy czegokolwiek, możesz mieć to wszystko w jednym miejscu z Basecamp. Jest tworzona przez [37signals](https://37signals.com/), skąd wywodzi się Omarchy.
+[Basecamp](https://basecamp.com/) jest usługą zarządzania projektami, która pomaga małym zespołom działać szybciej i robić większe postępy. Zamiast łatać mishmash Trello, Slack, Asana, Notion czy czegokolwiek, możesz mieć to wszystko w jednym miejscu z Basecamp. Jest tworzona przez [37signals](https://37signals.com/), skąd wywodzi się LunaOS.
 
 Możesz uruchomić Basecamp za pomocą launchera aplikacji (`Super + Space`)
 
@@ -64,19 +64,19 @@ Możesz uruchomić YouTube za pomocą `Super + Shift + Y`.
 
 ## Zoom
 
-[Zoom](https://zoom.us/) jest najpopularniejszym systemem czatu wideo używanym w USA. Świetne połączenia na całym świecie. A 40-minutowe spotkania można odbywać bez płatnego konta. Omarchy owija klienta webowego Zoom, a linki do spotkań zoom otworzą się bezpośrednio w nim.
+[Zoom](https://zoom.us/) jest najpopularniejszym systemem czatu wideo używanym w USA. Świetne połączenia na całym świecie. A 40-minutowe spotkania można odbywać bez płatnego konta. LunaOS owija klienta webowego Zoom, a linki do spotkań zoom otworzą się bezpośrednio w nim.
 
 Uruchamiasz Zoom za pomocą launchera aplikacji (`Super + Space`).
 
 ## Discord
 
-[Discord](https://discord.com/) to miejsce, w którym przesiaduje większość społeczności gamingowych i open source, w tym [własna Omarchy](https://discord.gg/tXFUdasqhY).
+[Discord](https://discord.com/) to miejsce, w którym przesiaduje większość społeczności gamingowych i open source, w tym [własna LunaOS](https://discord.gg/tXFUdasqhY).
 
 Uruchamiasz Discord za pomocą launchera aplikacji (`Super + Space`).
 
 ## Aplikacje Microsoft
 
-Wybierz _Instaluj > Service > Microsoft_, aby dodać Outlook, Word, Excel, PowerPoint, Teams i OneDrive jako aplikacje webowe. Każda aplikacja ma własny launcher i otwiera się bezpośrednio, używając komercyjnych URL-i Microsoft 365 i twojego istniejącego profilu przeglądarki. Otwierają się w tych samych oknach aplikacji przeglądarki co inne aplikacje webowe Omarchy; nie instalują oddzielnego klienta Teams for Linux.
+Wybierz _Instaluj > Service > Microsoft_, aby dodać Outlook, Word, Excel, PowerPoint, Teams i OneDrive jako aplikacje webowe. Każda aplikacja ma własny launcher i otwiera się bezpośrednio, używając komercyjnych URL-i Microsoft 365 i twojego istniejącego profilu przeglądarki. Otwierają się w tych samych oknach aplikacji przeglądarki co inne aplikacje webowe LunaOS; nie instalują oddzielnego klienta Teams for Linux.
 
 Usuń pakiet za pomocą _Usuń > Service > Microsoft_ lub usuń poszczególne aplikacje za pomocą _Usuń > Web App_. Możesz również zainstalować tylko te aplikacje, które chcesz, za pośrednictwem _Instaluj > Web App_.
 
@@ -85,7 +85,7 @@ W przypadku chmury rządowej lub suwerennej edytuj URL w wierszu `Exec=` w odpow
 Aby oddzielić logowania służbowe, dodaj katalog danych przeglądarki do wiersza `Exec=` każdego launchera:
 
 ```ini
-Exec=omarchy-launch-webapp "https://teams.cloud.microsoft/" --user-data-dir=/absolute/path/to/work-browser-profile
+Exec=lunaos-launch-webapp "https://teams.cloud.microsoft/" --user-data-dir=/absolute/path/to/work-browser-profile
 ```
 
-Zastąp przykładowy katalog wybraną przez siebie ścieżką bezwzględną i użyj tej samej ścieżki dla wszystkich sześciu launcherów, aby współdzielić między nimi logowania służbowe. Aplikacje webowe używają wybranej obsługiwanej przeglądarki Omarchy, powracając do Chromium, gdy domyślna przeglądarka nie jest obsługiwana.
+Zastąp przykładowy katalog wybraną przez siebie ścieżką bezwzględną i użyj tej samej ścieżki dla wszystkich sześciu launcherów, aby współdzielić między nimi logowania służbowe. Aplikacje webowe używają wybranej obsługiwanej przeglądarki LunaOS, powracając do Chromium, gdy domyślna przeglądarka nie jest obsługiwana.

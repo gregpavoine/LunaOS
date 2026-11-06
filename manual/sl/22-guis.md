@@ -20,11 +20,11 @@ Obsidian je brezplačen za vse namene, vključno z osebno, komercialno in neprof
 
 Obsidian ponuja tudi [komercialni dodatek za sinhronizacijo](https://obsidian.md/sync) z mobilnimi aplikacijami v sistemih iOS in Android. (https://obsidian.md/pricing).
 
-Obsidian zaženete s `Super + Shift + O`. Za uporabo sinhronizacije teme morate v nastavitvah izbrati temo `Omarchy`.
+Obsidian zaženete s `Super + Shift + O`. Za uporabo sinhronizacije teme morate v nastavitvah izbrati temo `LunaOS`.
 
 ## Omawrite
 
-[Omawrite](https://github.com/omacom-io/omawrite) je preprosta aplikacija Omarchy za pisanje v Markdownu. Brez trezorjev, brez vtičnikov, samo vi in besede.
+[Omawrite](https://github.com/omacom-io/omawrite) je preprosta aplikacija LunaOS za pisanje v Markdownu. Brez trezorjev, brez vtičnikov, samo vi in besede.
 
 Omawrite zaženete s `Super + Shift + W`.
 
@@ -44,18 +44,18 @@ Aether zaženete prek zaganjalnika aplikacij (`Super + Space`).
 
 [LocalSend](https://localsend.org/) omogoča pošiljanje datotek drugim napravam v istem omrežju, ki izvajajo aplikacijo, kot Apple AirDrop. Je pa večplatformen, tako da lahko pošiljate datoteke do in iz Windows, macOS, Androida, iOS in seveda Linuxa.
 
-Meni Deli lahko odprete s `Super + Ctrl + S` ali pod _Sproži > Deli_ v meniju Omarchy. Ponudi štiri možnosti:
+Meni Deli lahko odprete s `Super + Ctrl + S` ali pod _Sproži > Deli_ v meniju LunaOS. Ponudi štiri možnosti:
 
 - **Odložišče** pošlje, kar ste kopirali, kot besedilno datoteko. Odlično, da povezavo ali delček prenesete v telefon, ne da bi si pošiljali e-pošto.
 - **Datoteka** odpre izbirnik datotek, kjer lahko izberete več naenkrat.
 - **Mapa** pošlje celotno mapo.
 - **Prejmi** odpre pravi LocalSend, da vam druga naprava lahko kaj pošlje.
 
-Enako deluje iz terminala z `omarchy share clipboard`, `omarchy share file [path]` in `omarchy share folder [path]`. Če pot izpustite, dobite izbirnik.
+Enako deluje iz terminala z `lunaos share clipboard`, `lunaos share file [path]` in `lunaos share folder [path]`. Če pot izpustite, dobite izbirnik.
 
 Pošiljate lahko tudi neposredno iz upravitelja datotek: z desno tipko miške kliknite katero koli izbiro v Nautilusu in izberite _Send via LocalSend_.
 
-Požarni zid Omarchy je privzeto zaprt, razen za vrata LocalSenda, zato to deluje kar iz škatle pri sveži namestitvi. Glejte [varnost](48-security.md).
+Požarni zid LunaOS je privzeto zaprt, razen za vrata LocalSenda, zato to deluje kar iz škatle pri sveži namestitvi. Glejte [varnost](48-security.md).
 
 ## LibreOffice
 
@@ -65,19 +65,19 @@ LibreOffice zaženete prek zaganjalnika aplikacij (`Super + Space`).
 
 ## Hype
 
-[Hype](https://github.com/omacom/hype) je preprosta predstavitvena aplikacija Omarchy. Vaša predstavitev je ena sama datoteka Markdown s slikami in videi ob njej: vsak diapozitiv napišete pod živim predogledom, diapozitive povlečete v vrstni red, nato predstavite čez cel zaslon ali izvozite v PDF in PowerPoint. Prevzame celo vašo temo Omarchy.
+[Hype](https://github.com/omacom/hype) je preprosta predstavitvena aplikacija LunaOS. Vaša predstavitev je ena sama datoteka Markdown s slikami in videi ob njej: vsak diapozitiv napišete pod živim predogledom, diapozitive povlečete v vrstni red, nato predstavite čez cel zaslon ali izvozite v PDF in PowerPoint. Prevzame celo vašo temo LunaOS.
 
 Hype zaženete prek zaganjalnika aplikacij (`Super + Space`). Pritisnite `?` znotraj njega, da vidite vsako bližnjico.
 
 ## Signed
 
-[Signed](https://github.com/omacom/signed) je preprost način Omarchy za podpisovanje PDF-jev in njihovo izpolnjevanje. Shranjeni podpis, besedilo in današnji datum postavite kamor koli na stran, nato shranite podpisano kopijo poleg izvirnika. Za navodila glejte [Izpolnjevanje PDF-jev](27-filling-out-pdfs.md).
+[Signed](https://github.com/omacom/signed) je preprost način LunaOS za podpisovanje PDF-jev in njihovo izpolnjevanje. Shranjeni podpis, besedilo in današnji datum postavite kamor koli na stran, nato shranite podpisano kopijo poleg izvirnika. Za navodila glejte [Izpolnjevanje PDF-jev](27-filling-out-pdfs.md).
 
 Signed zaženete prek zaganjalnika aplikacij (`Super + Space`) ali z njim odprete PDF iz upravitelja datotek.
 
 ## Omacalc
 
-[Omacalc](https://github.com/omacom-io/omacalc) je preprost kalkulator Omarchy, ki se odpre v lebdečem oknu.
+[Omacalc](https://github.com/omacom-io/omacalc) je preprost kalkulator LunaOS, ki se odpre v lebdečem oknu.
 
 Omacalc zaženete s `Super + Ctrl + Q` (ali tipko kalkulatorja, če jo vaša tipkovnica ima).
 
@@ -85,7 +85,7 @@ Omacalc zaženete s `Super + Ctrl + Q` (ali tipko kalkulatorja, če jo vaša tip
 
 [Signal](https://signal.org/) je pionir šifriranja sporočil E2E in odlična možnost za komunikacijo za vse, ki raje ne bi šli prek enega od velikih tehnoloških konglomeratov.
 
-Signal zaženete s `Super + Shift + G`. Ni del osnovne namestitve, zato bo Omarchy ob prvem pritisku ponudil namestitev (je tudi pod _Namesti > Storitev_ v meniju Omarchy).
+Signal zaženete s `Super + Shift + G`. Ni del osnovne namestitve, zato bo LunaOS ob prvem pritisku ponudil namestitev (je tudi pod _Namesti > Storitev_ v meniju LunaOS).
 
 ## mpv
 
@@ -95,13 +95,13 @@ mpv zaženete prek zaganjalnika aplikacij (`Super + Space`) ali preprosto dvokli
 
 ## Omacut
 
-[Omacut](https://github.com/omacom-io/omacut) je preprost rezalnik videa Omarchy. Ko morate samo odrezati začetek in konec posnetka, premaga zagon celotnega urejevalnika videa.
+[Omacut](https://github.com/omacom-io/omacut) je preprost rezalnik videa LunaOS. Ko morate samo odrezati začetek in konec posnetka, premaga zagon celotnega urejevalnika videa.
 
 Omacut zaženete prek zaganjalnika aplikacij (`Super + Space`).
 
 ## Monologue
 
-[Monologue](https://github.com/omacom/monologue) je preprost snemalnik spletne kamere Omarchy. Enkrat izberite kamero in mikrofon, nato pritisnite `Space` za snemanje in znova za premor in nadaljevanje istega posnetka. Vedno snema v najvišji ločljivosti vaše kamere, z živim merilnikom mikrofona, da lahko pred začetkom preverite ravni.
+[Monologue](https://github.com/omacom/monologue) je preprost snemalnik spletne kamere LunaOS. Enkrat izberite kamero in mikrofon, nato pritisnite `Space` za snemanje in znova za premor in nadaljevanje istega posnetka. Vedno snema v najvišji ločljivosti vaše kamere, z živim merilnikom mikrofona, da lahko pred začetkom preverite ravni.
 
 Ustavite posnetek in takoj se odpre v vgrajenem urejevalniku. Dvojni klik na posnetek ga razdeli, povlecite ročice, da obrežete vsak kos, in odstranite dele, ki jih ne želite. Nato ga shranite kot MP4. Izvirni posnetek se obdrži, dokler ga ne zavržete, tako da se lahko vedno vrnete in ga urežete drugače.
 

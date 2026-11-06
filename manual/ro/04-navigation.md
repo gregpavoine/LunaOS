@@ -1,8 +1,8 @@
 # Navigare
 
-Totul în Omarchy se face de la tastatură — _TOTUL!_ Când pornește sistemul prima dată, literalmente nu poți face nimic doar cu mouse-ul. Dar poți apăsa `Super + Space` pentru a deschide Meniul Omarchy și, de aici, poți face cam tot.
+Totul în LunaOS se face de la tastatură — _TOTUL!_ Când pornește sistemul prima dată, literalmente nu poți face nimic doar cu mouse-ul. Dar poți apăsa `Super + Space` pentru a deschide Meniul LunaOS și, de aici, poți face cam tot.
 
-Dar meniul Omarchy nici măcar nu este gândit să fie modul principal de operare a sistemului în majoritatea timpului. Putem fi mai rapizi de atât! Toate aplicațiile cele mai importante sunt legate direct de taste rapide individuale. Pornești terminalul cu `Super + Return` și un browser cu `Super + Shift + Return`. Încearcă să le faci una după alta și vei vedea magia dispunerii în mozaic din Hyprland în acțiune:
+Dar meniul LunaOS nici măcar nu este gândit să fie modul principal de operare a sistemului în majoritatea timpului. Putem fi mai rapizi de atât! Toate aplicațiile cele mai importante sunt legate direct de taste rapide individuale. Pornești terminalul cu `Super + Return` și un browser cu `Super + Shift + Return`. Încearcă să le faci una după alta și vei vedea magia dispunerii în mozaic din Hyprland în acțiune:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Poți trece și pe ecran complet cu `Super + F` sau doar pe lățimea completă 
 
 ### Dispunerea dwindle vs scrolling
 
-Dispunerea implicită din Omarchy se numește dwindle. Ea păstrează vizibile în permanență toate ferestrele pe care le deschizi pe un singur spațiu de lucru, chiar dacă trebuie să le micșoreze.
+Dispunerea implicită din LunaOS se numește dwindle. Ea păstrează vizibile în permanență toate ferestrele pe care le deschizi pe un singur spațiu de lucru, chiar dacă trebuie să le micșoreze.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Un spațiu de lucru plutitor funcționează ca un desktop tradițional: ferestrele se suprapun, iar tu le muți și le dimensionezi singur. Fiecare fereastră primește o bară de titlu în culorile temei tale, cu butoane pentru minimizare, maximizare și închidere. Și `Super + M` minimizează fereastra focalizată. O fereastră minimizată așteaptă în dock; fă clic pe aplicația ei pentru a o readuce. Fă clic pe o fereastră pentru a o aduce în față. Redimensioneaz-o de pe orice margine sau colț. Fă dublu clic pe o bară de titlu pentru a maximiza fereastra, păstrând bara de sus vizibilă, și din nou pentru a-i recupera dimensiunea veche.
 
-Un spațiu de lucru plutitor arată și un dock, cu aplicațiile tale fixate, cu tot ce rulează și cu o grilă cu toate aplicațiile în spatele butonului de aplicații, pe care îl deschid și `Super + Alt + Space`, și _Apps_ din meniul Omarchy. Fă clic dreapta pe o aplicație din grilă sau apasă `Delete` pentru a o dezinstala. Fă clic pe o aplicație pentru a o deschide sau pentru a-i aduce fereastra în față; fă clic din nou pentru a parcurge ciclic ferestrele ei. Clicul mijlociu deschide o fereastră nouă. Trage o pictogramă de-a lungul dockului pentru a o muta; dacă tragi o aplicație care rulează printre celelalte, ea rămâne acolo. Fă clic dreapta pentru a păstra o aplicație în dock, pentru a o scoate sau pentru a o închide. Dockul se dă la o parte din calea unei ferestre pe ecran complet. Fă clic dreapta pe butonul de aplicații pentru a muta dockul pe altă margine sau pentru a-l face să se ascundă până când indicatorul ajunge la marginea lui. Poziția se află și sub _Trigger > Appearance > Dock > Dock Position_, iar `omarchy dock position left` și `omarchy dock autohide on` le setează pe amândouă dintr-un terminal. Aplicațiile pe care le păstrezi în dock sunt estompate cât timp nu rulează.
+Un spațiu de lucru plutitor arată și un dock, cu aplicațiile tale fixate, cu tot ce rulează și cu o grilă cu toate aplicațiile în spatele butonului de aplicații, pe care îl deschid și `Super + Alt + Space`, și _Apps_ din meniul LunaOS. Fă clic dreapta pe o aplicație din grilă sau apasă `Delete` pentru a o dezinstala. Fă clic pe o aplicație pentru a o deschide sau pentru a-i aduce fereastra în față; fă clic din nou pentru a parcurge ciclic ferestrele ei. Clicul mijlociu deschide o fereastră nouă. Trage o pictogramă de-a lungul dockului pentru a o muta; dacă tragi o aplicație care rulează printre celelalte, ea rămâne acolo. Fă clic dreapta pentru a păstra o aplicație în dock, pentru a o scoate sau pentru a o închide. Dockul se dă la o parte din calea unei ferestre pe ecran complet. Fă clic dreapta pe butonul de aplicații pentru a muta dockul pe altă margine sau pentru a-l face să se ascundă până când indicatorul ajunge la marginea lui. Poziția se află și sub _Trigger > Appearance > Dock > Dock Position_, iar `lunaos dock position left` și `lunaos dock autohide on` le setează pe amândouă dintr-un terminal. Aplicațiile pe care le păstrezi în dock sunt estompate cât timp nu rulează.
 
-Spațiile de lucru noi și oricare cărora nu le-ai dat o dispunere proprie cu `Super + L` folosesc dispunerea implicită. Schimbarea celei implicite resetează la ea fiecare spațiu de lucru fără ferestre, în timp ce unul cu ferestre pe el își păstrează dispunerea pe care o are. O fereastră minimizată în dock încă se consideră o fereastră pe spațiul de lucru pe care l-a părăsit. Alege-o sub _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling sau Floating. `omarchy-hyprland-workspace-layout-default scrolling` o setează dintr-un terminal.
+Spațiile de lucru noi și oricare cărora nu le-ai dat o dispunere proprie cu `Super + L` folosesc dispunerea implicită. Schimbarea celei implicite resetează la ea fiecare spațiu de lucru fără ferestre, în timp ce unul cu ferestre pe el își păstrează dispunerea pe care o are. O fereastră minimizată în dock încă se consideră o fereastră pe spațiul de lucru pe care l-a părăsit. Alege-o sub _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling sau Floating. `lunaos-hyprland-workspace-layout-default scrolling` o setează dintr-un terminal.
 
 ### Gruparea ferestrelor
 

@@ -6,7 +6,7 @@ Všetky hlavné klávesové väzby uvidíte pomocou `Super + K` (väzby Tmux pom
 
 | Skratka                  | Funkcia              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Menu Omarchy (aplikácie a všetko ostatné)    |
+| `Super + Space`           | Menu LunaOS (aplikácie a všetko ostatné)    |
 | `Super + Alt + Space` | Mriežka aplikácií |
 | `Super + Escape` | Systémové menu (pozastaviť, reštartovať atď.)  |
 | `Super + Ctrl + L` | Uzamknúť počítač |
@@ -136,7 +136,7 @@ Väzby meňte/pridávajte v `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Prilepiť    |
 | `Super + Ctrl + V`           | Správca schránky    |
 
-Na Linuxe zvyčajne potrebujete `Ctrl + Shift + C/V` na kopírovanie a vkladanie v termináli a `Ctrl + C/V` na to všade inde. Tieto jednotné klávesové skratky pre schránku Omarchy fungujú všade.
+Na Linuxe zvyčajne potrebujete `Ctrl + Shift + C/V` na kopírovanie a vkladanie v termináli a `Ctrl + C/V` na to všade inde. Tieto jednotné klávesové skratky pre schránku LunaOS fungujú všade.
 
 ## Zachytenie
 
@@ -156,7 +156,7 @@ Na Linuxe zvyčajne potrebujete `Ctrl + Shift + C/V` na kopírovanie a vkladanie
 
 Pri nahrávaní obrazovky sa klávesová skratka najskôr opýta, ktorý zvuk chcete, potom začne nahrávať. Stlačte ju znova na zastavenie. Pozrite si [snímky obrazovky a nahrávanie](12-screenshots-recording.md) pre podrobnosti.
 
-Všetky možnosti zachytenia sú tiež dostupné pod _Akcie > Zachytiť_ v menu Omarchy (`Super + Space`).
+Všetky možnosti zachytenia sú tiež dostupné pod _Akcie > Zachytiť_ v menu LunaOS (`Super + Space`).
 
 ## Upozornenia
 
@@ -177,9 +177,9 @@ Všetky možnosti zachytenia sú tiež dostupné pod _Akcie > Zachytiť_ v menu 
 | `Super + Backspace` | Prepnúť priehľadnosť okna |
 | `Super + Ctrl + Backspace` | Prepnúť štvorcový pomer jedného okna |
 
-Extra obrázky pozadia žijú v `~/.config/omarchy/backgrounds/<theme name>`. Dostupné aj cez _Inštalovať > Štýl > Pozadie_ v menu Omarchy.
+Extra obrázky pozadia žijú v `~/.config/lunaos/backgrounds/<theme name>`. Dostupné aj cez _Inštalovať > Štýl > Pozadie_ v menu LunaOS.
 
-Všetky možnosti štýlu sú tiež dostupné pod _Štýl_ v menu Omarchy (`Super + Space`).
+Všetky možnosti štýlu sú tiež dostupné pod _Štýl_ v menu LunaOS (`Super + Space`).
 
 ## Prepínače
 
@@ -281,7 +281,7 @@ Tieto funkcie sa musia spustiť vnútri relácie Tmux.
 
 ## Terminál Ghostty
 
-Terminál Ghostty sa inštaluje pomocou _Inštalovať > Terminál_ cez menu Omarchy.
+Terminál Ghostty sa inštaluje pomocou _Inštalovať > Terminál_ cez menu LunaOS.
 
 | Skratka                  | Funkcia              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Môžete použiť `Super + Ctrl + E` na zobrazenie úplného výberu emoji, ktor
 | `Shift + CapsLock Space N` | Vaše meno (ako ste zadali pri nastavení)  |
 | `Shift + CapsLock Space E` | Váš e-mail (ako ste zadali pri nastavení)  |
 
-Ďalšie vlastné môžete pridať úpravou `~/.XCompose` a potom spustením `omarchy-restart-xcompose` v termináli, aby sa zmeny prevzali.
+Ďalšie vlastné môžete pridať úpravou `~/.XCompose` a potom spustením `lunaos-restart-xcompose` v termináli, aby sa zmeny prevzali.

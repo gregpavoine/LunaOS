@@ -15,8 +15,8 @@ mkdir -p "$home/.config" "$stub_bin"
 cp -r "$ROOT/config/hypr" "$home/.config/hypr"
 
 # No platform package: neither its key names nor its binds.
-menu="$tmpdir/omarchy-menu-keybindings"
-platform_root_copy "$ROOT/bin/omarchy-menu-keybindings" "$menu" "$tmpdir/no-platform"
+menu="$tmpdir/lunaos-menu-keybindings"
+platform_root_copy "$ROOT/bin/lunaos-menu-keybindings" "$menu" "$tmpdir/no-platform"
 
 # The menu reads binds from Hyprland, which is not running here, so stand in for
 # it. A Lua bind reports dispatcher __lua and no arg, and the menu recovers both
@@ -47,12 +47,12 @@ stub_hyprctl() {
 
 keybindings() {
   env -i PATH="$stub_bin:$ROOT/bin:$PATH" HOME="$home" \
-    XDG_CACHE_HOME="$tmpdir/cache" OMARCHY_PATH="$ROOT" \
+    XDG_CACHE_HOME="$tmpdir/cache" LUNAOS_PATH="$ROOT" \
     bash "$menu" --print
 }
 
-# Closing a window and toggling the scratchpad are two of the actions Omarchy
-# binds twice on purpose. The last bind carries the longest description Omarchy
+# Closing a window and toggling the scratchpad are two of the actions LunaOS
+# binds twice on purpose. The last bind carries the longest description LunaOS
 # ships, which is what puts a row closest to the width the menu allows.
 stub_hyprctl <<BINDS
 $(lua_bind 64 "SUPER + W" "Close window")
@@ -79,9 +79,9 @@ pass "the input switch shortcut appears in the cheatsheet"
 printf "io.open('%s', 'w'):close()\n" "$tmpdir/init-ran" >"$tmpdir/init.lua"
 LUA_INIT="@$tmpdir/init.lua" lua -e '' && [[ -e $tmpdir/init-ran ]] || fail "the LUA_INIT probe runs in a plain lua"
 rm -f "$tmpdir/init-ran"
-env -i PATH="$stub_bin:$ROOT/bin:$PATH" HOME="$home" XDG_CACHE_HOME="$tmpdir/cache-init" OMARCHY_PATH="$ROOT" \
+env -i PATH="$stub_bin:$ROOT/bin:$PATH" HOME="$home" XDG_CACHE_HOME="$tmpdir/cache-init" LUNAOS_PATH="$ROOT" \
   LUA_INIT="@$tmpdir/init.lua" LUA_INIT_5_5="@$tmpdir/init.lua" LUA_INIT_5_4="@$tmpdir/init.lua" LUA_PATH="$tmpdir/?.lua" \
-  bash "$ROOT/bin/omarchy-menu-keybindings" --print >/dev/null
+  bash "$ROOT/bin/lunaos-menu-keybindings" --print >/dev/null
 [[ ! -e $tmpdir/init-ran ]] || fail "the menu's config scan ignores LUA_INIT from the environment"
 pass "the menu's config scan ignores LUA_INIT and LUA_PATH from the environment"
 
@@ -111,7 +111,7 @@ pass "the grave key reads as the symbol printed on it"
 pass "every entry pads its chords to the same column"
 
 # The menu elides a row that outgrows its card: 754px of label, 78 monospace
-# characters at the heading size. The longest entry Omarchy ships sits at 74, so
+# characters at the heading size. The longest entry LunaOS ships sits at 74, so
 # a row has four characters of room and no more.
 (( $(awk '{ print length($0) }' <<<"$rendered" | sort -rn | head -1) <= 78 )) ||
   fail "no entry outgrows the width the menu gives it" "$rendered"
@@ -179,18 +179,18 @@ rendered=$(keybindings)
   fail "a refused chord does not let the next one jump the queue" "$rendered"
 pass "a refused chord does not let the next one jump the queue"
 
-# Sharing a row is something Omarchy names an action for, not something two
+# Sharing a row is something LunaOS names an action for, not something two
 # chords earn by looking alike. Alt + Tab and Shift + Alt + Tab both read
 # "Reveal active window on top" and cycle opposite ways.
 stub_hyprctl <<BINDS
-$(exec_bind 64 "SUPER + Y" "Zoom in" "omarchy-zoom in")
-$(exec_bind 64 "SUPER + Z" "Zoom in" "omarchy-zoom in")
+$(exec_bind 64 "SUPER + Y" "Zoom in" "lunaos-zoom in")
+$(exec_bind 64 "SUPER + Z" "Zoom in" "lunaos-zoom in")
 BINDS
 
 rendered=$(keybindings)
 (( $(grep -c '→ Zoom in$' <<<"$rendered") == 2 )) ||
-  fail "an action Omarchy did not name keeps its chords on separate rows" "$rendered"
-pass "an action Omarchy did not name keeps its chords on separate rows"
+  fail "an action LunaOS did not name keeps its chords on separate rows" "$rendered"
+pass "an action LunaOS did not name keeps its chords on separate rows"
 
 # Even a named action gives up the shared row rather than overrun the column:
 # two rows in line beat one that juts out of it.
@@ -210,7 +210,7 @@ pass "chords too wide to share a row stay on their own"
 # to stay apart, or the menu hides one of them behind the other.
 stub_hyprctl <<BINDS
 $(lua_bind 64 "SUPER + W" "Close window")
-$(exec_bind 64 "SUPER + X" "Close window" "omarchy-hyprland-window-close-all")
+$(exec_bind 64 "SUPER + X" "Close window" "lunaos-hyprland-window-close-all")
 BINDS
 
 rendered=$(keybindings)
@@ -240,11 +240,11 @@ expected_alternatives=(
   "Move window to scratchpad"
 )
 
-eval "$(sed -n '/^alternative_chord_actions()/,/^}/p' "$ROOT/bin/omarchy-menu-keybindings")"
+eval "$(sed -n '/^alternative_chord_actions()/,/^}/p' "$ROOT/bin/lunaos-menu-keybindings")"
 
 [[ $(alternative_chord_actions) == "$(printf '%s\n' "${expected_alternatives[@]}")" ]] ||
-  fail "the menu pairs up the actions Omarchy means it to" "$(alternative_chord_actions)"
-pass "the menu pairs up the actions Omarchy means it to"
+  fail "the menu pairs up the actions LunaOS means it to" "$(alternative_chord_actions)"
+pass "the menu pairs up the actions LunaOS means it to"
 
 # A renamed description would leave an action named here matching nothing, and
 # the row it was meant to share would quietly split in two. Only real binds
@@ -264,8 +264,8 @@ BINDS
 
 rm -rf "$tmpdir/cache"
 keybindings >/dev/null
-grep -qP '→ Terminal\texec\tomarchy-launch-terminal$' "$tmpdir"/cache/omarchy/keybindings-*.records ||
-  fail "picking the terminal bind from the menu launches a terminal" "$(cat "$tmpdir"/cache/omarchy/keybindings-*.records)"
+grep -qP '→ Terminal\texec\tlunaos-launch-terminal$' "$tmpdir"/cache/lunaos/keybindings-*.records ||
+  fail "picking the terminal bind from the menu launches a terminal" "$(cat "$tmpdir"/cache/lunaos/keybindings-*.records)"
 pass "picking the terminal bind from the menu launches a terminal"
 
 # A plugin that walks the window list while it loads must not wedge the scan,
@@ -280,14 +280,14 @@ rm -rf "$tmpdir/cache"
 # A wedged scan is stopped by the menu's own timeout before the Terminal bind,
 # which the check below catches; the outer timeout only turns a hang into a fail.
 timeout --kill-after=1s 60s env -i PATH="$stub_bin:$ROOT/bin:$PATH" HOME="$home" \
-  XDG_CACHE_HOME="$tmpdir/cache" OMARCHY_PATH="$ROOT" \
+  XDG_CACHE_HOME="$tmpdir/cache" LUNAOS_PATH="$ROOT" \
   bash "$menu" --print >/dev/null 2>&1 ||
   fail "a plugin iterating windows at load time does not wedge the keybindings scan"
-grep -qP '→ Terminal\texec\tomarchy-launch-terminal$' "$tmpdir"/cache/omarchy/keybindings-*.records ||
+grep -qP '→ Terminal\texec\tlunaos-launch-terminal$' "$tmpdir"/cache/lunaos/keybindings-*.records ||
   fail "a plugin iterating windows at load time does not wedge the keybindings scan (it stopped before the Terminal bind)"
 pass "a plugin iterating windows at load time does not wedge the keybindings scan"
 
-# Rows show their description in the Omarchy language: a numbered one
+# Rows show their description in the LunaOS language: a numbered one
 # matches its %1 pattern, an unknown one stays as written, and the chord
 # column and what the row runs never change.
 translate_root=$tmpdir/translate-root
@@ -295,15 +295,15 @@ mkdir -p "$translate_root/default/i18n/da"
 cp "$ROOT/default/i18n/locales.json" "$translate_root/default/i18n/"
 printf '{"Terminal": "Terminal (da)", "Switch to workspace %%1": "Skift til arbejdsområde %%1"}\n' >"$translate_root/default/i18n/da/keybindings.json"
 echo da >"$tmpdir/translate-language"
-eval "$(sed -n '/^translate_binding_records()/,/^}/p' "$ROOT/bin/omarchy-menu-keybindings")"
+eval "$(sed -n '/^translate_binding_records()/,/^}/p' "$ROOT/bin/lunaos-menu-keybindings")"
 translated=$(printf '%s\n' \
-  $'SUPER + RETURN                      → Terminal\texec\tomarchy-launch-terminal' \
+  $'SUPER + RETURN                      → Terminal\texec\tlunaos-launch-terminal' \
   $'SUPER + 3                           → Switch to workspace 3\tworkspace\t3' \
   $'SUPER + X                           → My own thing\texec\tmy-thing' |
-  OMARCHY_PATH=$translate_root OMARCHY_LANGUAGE_FILE=$tmpdir/translate-language translate_binding_records)
+  LUNAOS_PATH=$translate_root LUNAOS_LANGUAGE_FILE=$tmpdir/translate-language translate_binding_records)
 expected=$(printf '%s\n' \
-  $'SUPER + RETURN                      → Terminal (da)\texec\tomarchy-launch-terminal' \
+  $'SUPER + RETURN                      → Terminal (da)\texec\tlunaos-launch-terminal' \
   $'SUPER + 3                           → Skift til arbejdsområde 3\tworkspace\t3' \
   $'SUPER + X                           → My own thing\texec\tmy-thing')
-[[ $translated == "$expected" ]] || fail "keybinding descriptions show in the Omarchy language" "$translated"
-pass "keybinding descriptions show in the Omarchy language"
+[[ $translated == "$expected" ]] || fail "keybinding descriptions show in the LunaOS language" "$translated"
+pass "keybinding descriptions show in the LunaOS language"

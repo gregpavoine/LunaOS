@@ -1,10 +1,10 @@
 # Vefforrit
 
-Þú getur bætt við þínum eigin vefforritum með _Setja upp > Vefforrit_ í Omarchy-valmyndinni (`Super + Space`). Það mun biðja þig um nafn forritsins, vefslóð forritsins og vefslóð táknsins, ef það getur ekki sótt það með favicon. Þú getur fengið frábær PNG-tákn fyrir mörg vinsæl vefforrit á [Dashboard Icons](https://dashboardicons.com).
+Þú getur bætt við þínum eigin vefforritum með _Setja upp > Vefforrit_ í LunaOS-valmyndinni (`Super + Space`). Það mun biðja þig um nafn forritsins, vefslóð forritsins og vefslóð táknsins, ef það getur ekki sótt það með favicon. Þú getur fengið frábær PNG-tákn fyrir mörg vinsæl vefforrit á [Dashboard Icons](https://dashboardicons.com).
 
 Þau verða þá aðgengileg í gegnum forritaræsinn (`Super + Space`), og nota fallega rammalausa vefforritsgluggann.
 
-Ef þú vilt fjarlægja vefforrit skaltu bara fara í _Fjarlægja > Vefforrit_ í Omarchy-valmyndinni.
+Ef þú vilt fjarlægja vefforrit skaltu bara fara í _Fjarlægja > Vefforrit_ í LunaOS-valmyndinni.
 
 Það er best ef þú skráir þig inn á alla reikningana þína með venjulegum vafra áður en þú notar vefforritsflýtileiðirnar. Þunni umbúðaramminn virkar ekki vel með 1password, þannig að það er bara auðveldara að vera skráður inn beint fyrst.
 
@@ -12,17 +12,17 @@ Ef þú vilt fjarlægja vefforrit skaltu bara fara í _Fjarlægja > Vefforrit_ �
 
 Þegar þú ert í vefforriti geturðu afritað núverandi vefslóð á klippiborðið með `Shift + Alt + L`.
 
-Sjálfgefið kemur Omarchy þegar með úrvali af sjálfgefnum forritum:
+Sjálfgefið kemur LunaOS þegar með úrvali af sjálfgefnum forritum:
 
 ## HEY
 
-[HEY](https://www.hey.com/) er tölvupóst- og dagatalsþjónusta sem þjónar sem frábær valkostur fyrir fólk sem er þreytt á Gmail, Outlook eða Apple Mail. Hann er gerður af [37signals](https://37signals.com/) þar sem Omarchy á uppruna sinn.
+[HEY](https://www.hey.com/) er tölvupóst- og dagatalsþjónusta sem þjónar sem frábær valkostur fyrir fólk sem er þreytt á Gmail, Outlook eða Apple Mail. Hann er gerður af [37signals](https://37signals.com/) þar sem LunaOS á uppruna sinn.
 
 Þú getur ræst HEY Email með `Super + Shift + E`, stokkið beint í að semja nýjan tölvupóst með `Super + Shift + Alt + E`, og ræst HEY Calendar með `Super + Shift + C`.
 
 ## Basecamp
 
-[Basecamp](https://basecamp.com/) er verkefnastjórnunarþjónusta sem hjálpar litlum teymum að fara hraðar og ná meiri framförum. Í stað þess að setja saman samsuðu af Trello, Slack, Asana, Notion eða hvað sem er geturðu haft þetta allt á einum stað með Basecamp. Hann er gerður af [37signals](https://37signals.com/) þar sem Omarchy á uppruna sinn.
+[Basecamp](https://basecamp.com/) er verkefnastjórnunarþjónusta sem hjálpar litlum teymum að fara hraðar og ná meiri framförum. Í stað þess að setja saman samsuðu af Trello, Slack, Asana, Notion eða hvað sem er geturðu haft þetta allt á einum stað með Basecamp. Hann er gerður af [37signals](https://37signals.com/) þar sem LunaOS á uppruna sinn.
 
 Þú getur ræst Basecamp með forritaræsinum (`Super + Space`)
 
@@ -64,19 +64,19 @@ X er þar sem fréttir brjótast út.
 
 ## Zoom
 
-[Zoom](https://zoom.us/) er vinsælasta myndspjallkerfið sem notað er í Bandaríkjunum. Frábærar tengingar um allan heim. Og hægt er að halda 40 mínútna fundi án greidds reiknings. Omarchy vefur vefviðskiptavin Zoom, og zoom-fundartenglar opnast beint í hann.
+[Zoom](https://zoom.us/) er vinsælasta myndspjallkerfið sem notað er í Bandaríkjunum. Frábærar tengingar um allan heim. Og hægt er að halda 40 mínútna fundi án greidds reiknings. LunaOS vefur vefviðskiptavin Zoom, og zoom-fundartenglar opnast beint í hann.
 
 Þú ræsir Zoom með forritaræsinum (`Super + Space`).
 
 ## Discord
 
-[Discord](https://discord.com/) er þar sem flest leikja- og opins hugbúnaðarsamfélög hanga, þar á meðal [samfélag Omarchy sjálfs](https://discord.gg/tXFUdasqhY).
+[Discord](https://discord.com/) er þar sem flest leikja- og opins hugbúnaðarsamfélög hanga, þar á meðal [samfélag LunaOS sjálfs](https://discord.gg/tXFUdasqhY).
 
 Þú ræsir Discord með forritaræsinum (`Super + Space`).
 
 ## Microsoft-forrit
 
-Veldu _Setja upp > Þjónusta > Microsoft_ til að bæta Outlook, Word, Excel, PowerPoint, Teams og OneDrive við sem vefforritum. Hvert forrit hefur sinn eigin ræsi og opnast beint, með því að nota viðskiptavefslóðir Microsoft 365 og núverandi vafraprófíl þinn. Þau opnast í sömu vafraforritsgluggum og önnur vefforrit Omarchy; þau setja ekki upp aðskilda Teams for Linux-viðskiptavininn.
+Veldu _Setja upp > Þjónusta > Microsoft_ til að bæta Outlook, Word, Excel, PowerPoint, Teams og OneDrive við sem vefforritum. Hvert forrit hefur sinn eigin ræsi og opnast beint, með því að nota viðskiptavefslóðir Microsoft 365 og núverandi vafraprófíl þinn. Þau opnast í sömu vafraforritsgluggum og önnur vefforrit LunaOS; þau setja ekki upp aðskilda Teams for Linux-viðskiptavininn.
 
 Fjarlægðu pakkann með _Fjarlægja > Þjónusta > Microsoft_, eða fjarlægðu einstök forrit með _Fjarlægja > Vefforrit_. Þú getur líka sett upp bara forritin sem þú vilt í gegnum _Setja upp > Vefforrit_.
 
@@ -85,7 +85,7 @@ Fyrir ríkis- eða fullveldis-ský skaltu breyta vefslóðinni á línunni `Exec
 Til að halda vinnuinnskráningum aðskildum skaltu bæta vafragagnamöppu við línuna `Exec=` hvers ræsis:
 
 ```ini
-Exec=omarchy-launch-webapp "https://teams.cloud.microsoft/" --user-data-dir=/absolute/path/to/work-browser-profile
+Exec=lunaos-launch-webapp "https://teams.cloud.microsoft/" --user-data-dir=/absolute/path/to/work-browser-profile
 ```
 
-Skiptu dæmamöppunni út fyrir algilda slóð að eigin vali og notaðu sömu slóð fyrir alla sex ræsana til að deila vinnuinnskráningum á milli þeirra. Vefforritin nota valinn studdan vafra Omarchy, og falla til baka á Chromium þegar sjálfgefni vafrinn er ekki studdur.
+Skiptu dæmamöppunni út fyrir algilda slóð að eigin vali og notaðu sömu slóð fyrir alla sex ræsana til að deila vinnuinnskráningum á milli þeirra. Vefforritin nota valinn studdan vafra LunaOS, og falla til baka á Chromium þegar sjálfgefni vafrinn er ekki studdur.

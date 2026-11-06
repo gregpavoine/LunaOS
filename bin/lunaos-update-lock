@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# lunaos:summary=Run a command while holding the LunaOS update lock
+# lunaos:args=<held|run> [command] [args...]
+# lunaos:hidden=true
+
+set -e
+
+lock_dir="${XDG_RUNTIME_DIR:-/tmp}"
+lock_path="$lock_dir/lunaos-update.lock"
+
+lock_is_held() {
+  local lock_fd_path=""
+
+  [[ -n ${LUNAOS_UPDATE_LOCK_FD:-} && -e /proc/$$/fd/$LUNAOS_UPDATE_LOCK_FD ]] || return 1
+
+  lock_fd_path=$(readlink -f "/proc/$$/fd/$LUNAOS_UPDATE_LOCK_FD" 2>/dev/null || true)
+  [[ $lock_fd_path == "$(readlink -m "$lock_path")" ]] &&
+    flock -n "$LUNAOS_UPDATE_LOCK_FD"
+}
+
+case "${1:-}" in
+  held)
+    lock_is_held
+    ;;
+  run)
+    shift
+    if (( $# == 0 )); then
+      echo "Usage: lunaos-update-lock run <command> [args...]" >&2
+      exit 2
+    fi
+
+    mkdir -p "$lock_dir" 2>/dev/null || true
+    exec {LUNAOS_UPDATE_LOCK_FD}>"$lock_path"
+    if ! flock -n "$LUNAOS_UPDATE_LOCK_FD"; then
+      echo "An LunaOS update is already running."
+      exit 1
+    fi
+
+    export LUNAOS_UPDATE_LOCK_FD
+    exec "$@"
+    ;;
+  *)
+    echo "Usage: lunaos-update-lock <held|run> [command] [args...]" >&2
+    exit 2
+    ;;
+esac

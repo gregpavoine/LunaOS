@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# lunaos:summary=Wake displays and restore brightness after idle
+# lunaos:group=system
+# lunaos:name=wake
+# lunaos:examples=lunaos system wake
+
+lunaos-brightness-display on
+lunaos-brightness-keyboard restore
+lunaos-hyprland-monitor-clamshell >/dev/null 2>&1 || true

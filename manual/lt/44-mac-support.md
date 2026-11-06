@@ -1,16 +1,16 @@
 # Mac palaikymas
 
-Omarchy turi įmontuotą palaikymą **Intel Macams**. Šiuo metu yra pora žinomų apribojimų, bet kol žinai juos ir tau jie tinka, gali įkvėpti naujos gyvybės savo seniems Macams įkeldamas Omarchy.
+LunaOS turi įmontuotą palaikymą **Intel Macams**. Šiuo metu yra pora žinomų apribojimų, bet kol žinai juos ir tau jie tinka, gali įkvėpti naujos gyvybės savo seniems Macams įkeldamas LunaOS.
 
-Atkreipk dėmesį, kad įdiegimas M serijos Mac šiuo metu tiesiogiai nepalaikomas. Daugiau apie šios būsenos padėtį sužinosi #omarchy-on-other mūsų [Discord](https://discord.gg/tXFUdasqhY).
+Atkreipk dėmesį, kad įdiegimas M serijos Mac šiuo metu tiesiogiai nepalaikomas. Daugiau apie šios būsenos padėtį sužinosi #lunaos-on-other mūsų [Discord](https://discord.gg/tXFUdasqhY).
 
-Paprastame teste vien įdiegę Omarchy 2019 MacBook Pro pasiekėme 36% našumo prieaugį.
+Paprastame teste vien įdiegę LunaOS 2019 MacBook Pro pasiekėme 36% našumo prieaugį.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Omarchy įdiegimas Mac
+### LunaOS įdiegimas Mac
 
-Omarchy šiuo metu palaiko buvimą **vienintele** įdiegta OS. Įdiegimo metu diskas bus išvalytas ir MacOS nebebus galima įkrauti.
+LunaOS šiuo metu palaiko buvimą **vienintele** įdiegta OS. Įdiegimo metu diskas bus išvalytas ir MacOS nebebus galima įkrauti.
 
 Jei norėsi, vėliau vis tiek galėsi ją atkurti per Internet Recovery.
 
@@ -39,7 +39,7 @@ Būtina išjungti Apple Secure Boot, kad būtų galima įkrauti įkraunamą USB,
 
 ### Žinomi apribojimai
 
-Bendruomenės nariai nuolat dirba prie šių iššūkių sprendimų, todėl jei tau jie kelia problemų, prisijunk prie #omarchy-on-other mūsų [Discord](https://discord.gg/tXFUdasqhY) ir pažiūrėk, ar yra naujausių jų sprendimo metodų.
+Bendruomenės nariai nuolat dirba prie šių iššūkių sprendimų, todėl jei tau jie kelia problemų, prisijunk prie #lunaos-on-other mūsų [Discord](https://discord.gg/tXFUdasqhY) ir pažiūrėk, ar yra naujausių jų sprendimo metodų.
 
 #### Įrenginiai su T1 lustu
 

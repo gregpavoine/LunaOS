@@ -14,15 +14,15 @@ fi
 test_tmp=$(mktemp -d)
 trap 'rm -rf "$test_tmp"' EXIT
 
-candidate="$ROOT/default/fontconfig/conf.avail/50-omarchy.conf"
+candidate="$ROOT/default/fontconfig/conf.avail/50-lunaos.conf"
 {
   echo '<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "fonts.dtd"><fontconfig>'
   echo "<dir>/usr/share/fonts</dir><cachedir>$test_tmp/cache</cachedir>"
   placed=false
   for conf in /etc/fonts/conf.d/*.conf; do
     name=${conf##*/}
-    [[ $name == "50-omarchy.conf" ]] && continue
-    if ! $placed && [[ $name > "50-omarchy.conf" ]]; then
+    [[ $name == "50-lunaos.conf" ]] && continue
+    if ! $placed && [[ $name > "50-lunaos.conf" ]]; then
       echo "<include>$candidate</include>"
       placed=true
     fi
@@ -134,7 +134,7 @@ for locale in "${locales[@]}"; do
         fail "$locale $path lang: ${queries[i]} resolves to ${expected[i]}" "${actual[i]}"
     done
   done
-  pass "$locale: tagged CJK keeps Omarchy's Latin families and sets Han in the tag's variant"
+  pass "$locale: tagged CJK keeps LunaOS's Latin families and sets Han in the tag's variant"
 done
 
 if $chinese_locale; then
@@ -239,7 +239,7 @@ chromium_fallback() {
 # Han, then the ideographic comma and corner bracket, which Noto Sans
 # Mongolian also carries and wins for an English page without a preference.
 for variant in jp kr sc tc hk; do
-  OMARCHY_PATH=$ROOT python3 "$ROOT/default/input-methods/configure.py" font "$variant"
+  LUNAOS_PATH=$ROOT python3 "$ROOT/default/input-methods/configure.py" font "$variant"
   chromium_fallback "en 9aa8" "en 3001" "en 300c" "- 9aa8" "- 3001"
   for found in "${actual[@]}"; do
     [[ $found == "Noto Sans CJK ${variant^^}" ]] || fail "Chromium fallback with the $variant preference uses Noto Sans CJK ${variant^^}" "${actual[*]}"
@@ -253,8 +253,8 @@ for variant in jp kr sc tc hk; do
 done
 pass "a CJK preference sets untagged Han and CJK punctuation everywhere, Chromium included, and keeps the Latin families"
 
-OMARCHY_PATH=$ROOT python3 "$ROOT/default/input-methods/configure.py" font default
-! grep -q 'CJK' "$XDG_CONFIG_HOME/fontconfig/conf.d/50-omarchy-input-method.conf" || fail "the default preference names no CJK forms"
+LUNAOS_PATH=$ROOT python3 "$ROOT/default/input-methods/configure.py" font default
+! grep -q 'CJK' "$XDG_CONFIG_HOME/fontconfig/conf.d/50-lunaos-input-method.conf" || fail "the default preference names no CJK forms"
 pass "the default CJK preference leaves the system's choice"
 
 # With no preference, untagged Han takes Japanese forms in every app, and an

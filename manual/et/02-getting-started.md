@@ -1,10 +1,10 @@
 # Alustamine
 
-Omarchy paigaldatakse ISO abil. Saad valida täisketta paigalduse, mis võtab kogu ketta enda alla, või vaba ruumi paigalduse, mis paneb Omarchy ketta jaotamata ruumi — nii saad dual bootida Windowsi või mõne muu OS-i kõrvale (vaata [dual-boot paigaldus](50-dual-boot-install.md) — pane tähele, et pead esmalt Windowsis BitLockeri välja lülitama). Mõlemal juhul on paigalduse vaikesäte täielik krüptimine ja täisketta valik pühib valitud ketta tühjaks, nii et enne olemasoleva ketta kasutamist tee kindlasti varukoopia!
+LunaOS paigaldatakse ISO abil. Saad valida täisketta paigalduse, mis võtab kogu ketta enda alla, või vaba ruumi paigalduse, mis paneb LunaOS ketta jaotamata ruumi — nii saad dual bootida Windowsi või mõne muu OS-i kõrvale (vaata [dual-boot paigaldus](50-dual-boot-install.md) — pane tähele, et pead esmalt Windowsis BitLockeri välja lülitama). Mõlemal juhul on paigalduse vaikesäte täielik krüptimine ja täisketta valik pühib valitud ketta tühjaks, nii et enne olemasoleva ketta kasutamist tee kindlasti varukoopia!
 
-[Laadi alla Omarchy ISO](https://omarchy.org/), pane see USB-mälupulgale (kasuta Macis/Windowsis [balenaEtcherit](https://etcher.balena.io/) või Linuxis [caligulat](https://github.com/ifd3f/caligula)) ja käivita arvuti pulgalt.
+[Laadi alla LunaOS ISO](https://omarchy.org/), pane see USB-mälupulgale (kasuta Macis/Windowsis [balenaEtcherit](https://etcher.balena.io/) või Linuxis [caligulat](https://github.com/ifd3f/caligula)) ja käivita arvuti pulgalt.
 
-_Pead BIOS-is Secure Booti ja/või TPM-i välja lülitama. Omarchy paigaldamiseks pead need välja lülitama. Need on Microsofti turvasüsteemid, mis on mõeldud Windowsi ja Microsoftiga seotud Linuxi distributsioonide jaoks._
+_Pead BIOS-is Secure Booti ja/või TPM-i välja lülitama. LunaOS paigaldamiseks pead need välja lülitama. Need on Microsofti turvasüsteemid, mis on mõeldud Windowsi ja Microsoftiga seotud Linuxi distributsioonide jaoks._
 
 Seejärel vasta seadistamise küsimustele ja kinnita need nii:
 
@@ -14,7 +14,7 @@ Seejärel vali paigalduseks ketas ning istu maha ja vaata, kuidas paigaldusshow 
 
  ![install-done](images/install-done.webp)
 
-Nüüd oled Omarchyks valmis!
+Nüüd oled LunaOSks valmis!
 
 ### Kasuta juhtmega või 2.4ghz klaviatuuri!
 
@@ -22,22 +22,22 @@ Täisketta krüptimine ei lase sul käivitamisel Bluetoothi klaviatuurilt parool
 
 ### Paigaldamine teisele omanikule
 
-Kui seadistad masinat kellelegi teisele — pereliikmele, uuele töötajale, ostjale — ei tohiks sa isiklikele küsimustele tema eest vastata. Vajuta paigaldaja päris esimesel ekraanil (klaviatuuri valik) `Ctrl + C` ja Omarchy pakub selle asemel masina teisele omanikule ette valmistamist. Süsteem paigaldatakse kohe, kuid kogu isiklik seadistamine — klaviatuuripaigutus, kasutajanimi, parool — lükatakse edasi, kuni masin esimest korda käivitub. Ketas on vaikimisi endiselt krüptitud ja paroolist, mille uus omanik sellel esimesel käivitamisel valib, saab ka krüptimisparool. (Masina, mida oled juba kasutanud, saab üle anda ka ilma uuesti paigaldamiseta — vaata [arvuti lähtestamine](48-security.md).)
+Kui seadistad masinat kellelegi teisele — pereliikmele, uuele töötajale, ostjale — ei tohiks sa isiklikele küsimustele tema eest vastata. Vajuta paigaldaja päris esimesel ekraanil (klaviatuuri valik) `Ctrl + C` ja LunaOS pakub selle asemel masina teisele omanikule ette valmistamist. Süsteem paigaldatakse kohe, kuid kogu isiklik seadistamine — klaviatuuripaigutus, kasutajanimi, parool — lükatakse edasi, kuni masin esimest korda käivitub. Ketas on vaikimisi endiselt krüptitud ja paroolist, mille uus omanik sellel esimesel käivitamisel valib, saab ka krüptimisparool. (Masina, mida oled juba kasutanud, saab üle anda ka ilma uuesti paigaldamiseta — vaata [arvuti lähtestamine](48-security.md).)
 
 ### Järelevalveta paigaldused
 
-ISO suudab paigaldada ka täiesti iseseisvalt — ilma klaviatuuri ja viisardita — kui sellele antakse seadistus teisel kettal. Nii tuleb Omarchyt käsitleda VM-ide ja masinapargi masinate baaskujutisena. Vaata [järelevalveta paigaldused](51-unattended-installs.md).
+ISO suudab paigaldada ka täiesti iseseisvalt — ilma klaviatuuri ja viisardita — kui sellele antakse seadistus teisel kettal. Nii tuleb LunaOSt käsitleda VM-ide ja masinapargi masinate baaskujutisena. Vaata [järelevalveta paigaldused](51-unattended-installs.md).
 
 ### Krüptimata paigaldused
 
-Omarchy paigaldatakse vaikimisi krüptimisega. See on turvaline ja vastutustundlik valik iga arvuti puhul, mis võib kaduda või varastatud saada. Sa ei taha, et keegi, kes pääseb ligi sinu riistvarale, pääseks ligi ka sinu andmetele!
+LunaOS paigaldatakse vaikimisi krüptimisega. See on turvaline ja vastutustundlik valik iga arvuti puhul, mis võib kaduda või varastatud saada. Sa ei taha, et keegi, kes pääseb ligi sinu riistvarale, pääseks ligi ka sinu andmetele!
 
-Aga erilistel asjaoludel, näiteks Omarchy kaugpaigaldustel kaitstud arvutitesse või äraviskepaigaldustel ilma tundlike andmeteta, võid soovida paigaldada ilma krüptimata. Krüptimata paigaldusele lülitumiseks saad ketta vormindamise kinnitamisel vajutada `Ctrl + C`.
+Aga erilistel asjaoludel, näiteks LunaOS kaugpaigaldustel kaitstud arvutitesse või äraviskepaigaldustel ilma tundlike andmeteta, võid soovida paigaldada ilma krüptimata. Krüptimata paigaldusele lülitumiseks saad ketta vormindamise kinnitamisel vajutada `Ctrl + C`.
 
 ### Keel
 
-Omarchy räägib 50 keelt — sama komplekt kui omarchy.org — ja vaikekeel on inglise keel. Vahetamiseks ava Omarchy menüü ja mine _Setup > Language_, või käivita terminalis `omarchy language <code>` (`omarchy language list` näitab koode). Menüü, töölaud ja Omarchy enda teavitused vahetavad kohe keelt ja iga rakendus, mille seejärel avad, järgib samuti. Juba avatud rakendused vahetavad keelt, kui need taaskäivitad.
+LunaOS räägib 50 keelt — sama komplekt kui omarchy.org — ja vaikekeel on inglise keel. Vahetamiseks ava LunaOS menüü ja mine _Setup > Language_, või käivita terminalis `lunaos language <code>` (`lunaos language list` näitab koode). Menüü, töölaud ja LunaOS enda teavitused vahetavad kohe keelt ja iga rakendus, mille seejärel avad, järgib samuti. Juba avatud rakendused vahetavad keelt, kui need taaskäivitad.
 
 ### Abi, kui jääd hätta
 
-Kui jääd hätta, leiad tavaliselt kedagi, kes on nõus aitama, _#omarchy-help_ kanalis [kogukonna Discordis](https://omarchy.org/discord).
+Kui jääd hätta, leiad tavaliselt kedagi, kes on nõus aitama, _#lunaos-help_ kanalis [kogukonna Discordis](https://omarchy.org/discord).

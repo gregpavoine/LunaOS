@@ -8,8 +8,8 @@ import "Model.js" as Model
 
 Panel {
   id: root
-  moduleName: "omarchy.weather"
-  ipcTarget: "omarchy.weather"
+  moduleName: "lunaos.weather"
+  ipcTarget: "lunaos.weather"
   manageIpc: false
 
   property var anchorItem: null
@@ -75,7 +75,7 @@ Panel {
   property var dailyForecastReport: null
 
   // Configured location, read from the weather.json state file (owned by
-  // omarchy-weather-location). The watch makes hand edits take effect live.
+  // lunaos-weather-location). The watch makes hand edits take effect live.
   property var configuredLocationState: ({ name: "", latitude: null, longitude: null })
   readonly property string configuredLocation: configuredLocationState.name
 
@@ -105,7 +105,7 @@ Panel {
   }
 
   property FileView locationFile: FileView {
-    path: Quickshell.env("HOME") + "/.local/state/omarchy/settings/weather.json"
+    path: Quickshell.env("HOME") + "/.local/state/lunaos/settings/weather.json"
     watchChanges: true
     printErrors: false
     onFileChanged: reload()
@@ -286,11 +286,11 @@ Panel {
 
   function persistLocation(name, latitude, longitude) {
     if (name && latitude !== null && longitude !== null)
-      locationSaveProc.command = ["omarchy-weather-location", "--set", name, latitude + "," + longitude]
+      locationSaveProc.command = ["lunaos-weather-location", "--set", name, latitude + "," + longitude]
     else if (name)
-      locationSaveProc.command = ["omarchy-weather-location", "--set", name]
+      locationSaveProc.command = ["lunaos-weather-location", "--set", name]
     else
-      locationSaveProc.command = ["omarchy-weather-location", "--clear"]
+      locationSaveProc.command = ["lunaos-weather-location", "--clear"]
     locationSaveProc.running = true
   }
 
@@ -361,7 +361,7 @@ Panel {
     return Model.iconForOpenMeteoCode(code)
   }
 
-  // Mirrors omarchy-weather-icon's wttr.in code → nerd-font glyph mapping.
+  // Mirrors lunaos-weather-icon's wttr.in code → nerd-font glyph mapping.
   function iconForCode(code, night) {
     return Model.iconForCode(code, night)
   }
@@ -490,7 +490,7 @@ Panel {
     }
   }
 
-  // Omarchy's own lookup: city and coordinates from Cloudflare's view of
+  // LunaOS's own lookup: city and coordinates from Cloudflare's view of
   // this network, in weather.json's shape.
   Process {
     id: locationProc

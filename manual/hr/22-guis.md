@@ -20,11 +20,11 @@ Obsidian je besplatan u sve svrhe, uključujući osobnu, komercijalnu i neprofit
 
 Obsidian nudi i [komercijalni dodatak za sinkronizaciju](https://obsidian.md/sync) s mobilnim aplikacijama na iOS-u i Androidu. (https://obsidian.md/pricing).
 
-Obsidian pokrećeš sa `Super + Shift + O`. Za korištenje sinkronizacije teme moraš odabrati temu `Omarchy` pod postavkama.
+Obsidian pokrećeš sa `Super + Shift + O`. Za korištenje sinkronizacije teme moraš odabrati temu `LunaOS` pod postavkama.
 
 ## Omawrite
 
-[Omawrite](https://github.com/omacom-io/omawrite) Omarchyjeva je vlastita krajnje jednostavna aplikacija za pisanje u Markdownu. Bez vaultova, bez dodataka, samo ti i riječi.
+[Omawrite](https://github.com/omacom-io/omawrite) LunaOSjeva je vlastita krajnje jednostavna aplikacija za pisanje u Markdownu. Bez vaultova, bez dodataka, samo ti i riječi.
 
 Omawrite pokrećeš sa `Super + Shift + W`.
 
@@ -44,18 +44,18 @@ Aether pokrećeš putem pokretača aplikacija (`Super + Space`).
 
 [LocalSend](https://localsend.org/) omogućuje ti slanje datoteka drugim uređajima na istoj mreži koji pokreću aplikaciju, poput Appleova AirDropa. Međutim, višeplatformski je, pa možeš slati datoteke na i s Windowsa, macOS-a, Androida, iOS-a i naravno Linuxa.
 
-Izbornik Share možeš otvoriti na `Super + Ctrl + S` ili pod _Pokreni > Dijeli_ u izborniku Omarchy. Daje ti četiri opcije:
+Izbornik Share možeš otvoriti na `Super + Ctrl + S` ili pod _Pokreni > Dijeli_ u izborniku LunaOS. Daje ti četiri opcije:
 
 - **Međuspremnik** šalje sve što si kopirao kao tekstualnu datoteku. Odlično za slanje poveznice ili isječka na telefon bez slanja e-pošte samom sebi.
 - **Datoteka** otvara birač datoteka u kojem možeš odabrati nekoliko odjednom.
 - **Mapa** šalje cijeli direktorij.
 - **Primi** otvara pravi LocalSend tako da ti drugi uređaj može poslati nešto.
 
-Ista stvar radi iz terminala s `omarchy share clipboard`, `omarchy share file [path]` i `omarchy share folder [path]`. Izostavi putanju i dobivaš birač.
+Ista stvar radi iz terminala s `lunaos share clipboard`, `lunaos share file [path]` i `lunaos share folder [path]`. Izostavi putanju i dobivaš birač.
 
 Možeš slati i izravno iz upravitelja datoteka: desnom tipkom miša klikni bilo koji odabir u Nautilusu i odaberi _Send via LocalSend_.
 
-Omarchyjev vatrozid zatvoren je prema zadanim postavkama osim za port LocalSenda, pa ovo radi odmah po instalaciji na svježoj instalaciji. Pogledaj [sigurnost](48-security.md).
+LunaOSjev vatrozid zatvoren je prema zadanim postavkama osim za port LocalSenda, pa ovo radi odmah po instalaciji na svježoj instalaciji. Pogledaj [sigurnost](48-security.md).
 
 ## LibreOffice
 
@@ -65,19 +65,19 @@ LibreOffice pokrećeš putem pokretača aplikacija (`Super + Space`).
 
 ## Hype
 
-[Hype](https://github.com/omacom/hype) Omarchyjeva je vlastita krajnje jednostavna aplikacija za prezentacije. Tvoj deck jedna je Markdown datoteka sa svojim slikama i videima pokraj nje: piši svaki slajd ispod pregleda uživo, povuci slajdove u redoslijed, a zatim prezentiraj preko cijelog zaslona ili izvezi u PDF i PowerPoint. Čak preuzima tvoju Omarchy temu.
+[Hype](https://github.com/omacom/hype) LunaOSjeva je vlastita krajnje jednostavna aplikacija za prezentacije. Tvoj deck jedna je Markdown datoteka sa svojim slikama i videima pokraj nje: piši svaki slajd ispod pregleda uživo, povuci slajdove u redoslijed, a zatim prezentiraj preko cijelog zaslona ili izvezi u PDF i PowerPoint. Čak preuzima tvoju LunaOS temu.
 
 Hype pokrećeš putem pokretača aplikacija (`Super + Space`). Pritisni `?` unutar njega da vidiš svaki prečac.
 
 ## Signed
 
-[Signed](https://github.com/omacom/signed) Omarchyjev je vlastiti krajnje jednostavan način za potpisivanje PDF-ova i njihovo ispunjavanje. Stavi spremljeni potpis, tekst i današnji datum bilo gdje na stranicu, a zatim spremi potpisanu kopiju pokraj izvornika. Pogledaj [Ispunjavanje PDF-ova](27-filling-out-pdfs.md) za upute.
+[Signed](https://github.com/omacom/signed) LunaOSjev je vlastiti krajnje jednostavan način za potpisivanje PDF-ova i njihovo ispunjavanje. Stavi spremljeni potpis, tekst i današnji datum bilo gdje na stranicu, a zatim spremi potpisanu kopiju pokraj izvornika. Pogledaj [Ispunjavanje PDF-ova](27-filling-out-pdfs.md) za upute.
 
 Signed pokrećeš putem pokretača aplikacija (`Super + Space`) ili njime otvori PDF iz upravitelja datoteka.
 
 ## Omacalc
 
-[Omacalc](https://github.com/omacom-io/omacalc) Omarchyjev je vlastiti krajnje jednostavan kalkulator, koji se otvara u plutajućem prozoru.
+[Omacalc](https://github.com/omacom-io/omacalc) LunaOSjev je vlastiti krajnje jednostavan kalkulator, koji se otvara u plutajućem prozoru.
 
 Omacalc pokrećeš sa `Super + Ctrl + Q` (ili tipkom kalkulatora, ako je tvoja tipkovnica ima).
 
@@ -85,7 +85,7 @@ Omacalc pokrećeš sa `Super + Ctrl + Q` (ili tipkom kalkulatora, ako je tvoja t
 
 [Signal](https://signal.org/) pionir je E2E šifriranog razmjena poruka i sjajna komunikacijska opcija za svakoga tko radije ne bi išao preko jednog od velikih tehnoloških konglomerata.
 
-Signal pokrećeš sa `Super + Shift + G`. Nije dio osnovne instalacije, pa će ti prvi put kad pritisneš to Omarchy ponuditi da ga instalira za tebe (također je pod _Instaliraj > Service_ u izborniku Omarchy).
+Signal pokrećeš sa `Super + Shift + G`. Nije dio osnovne instalacije, pa će ti prvi put kad pritisneš to LunaOS ponuditi da ga instalira za tebe (također je pod _Instaliraj > Service_ u izborniku LunaOS).
 
 ## mpv
 
@@ -95,13 +95,13 @@ mpv pokrećeš putem pokretača aplikacija (`Super + Space`) ili samo dvoklikni 
 
 ## Omacut
 
-[Omacut](https://github.com/omacom-io/omacut) Omarchyjev je vlastiti krajnje jednostavan trimer videa. Kad sve što ti treba je odrezati početak i kraj isječka, pobjeđuje pokretanje punog uređivača videa.
+[Omacut](https://github.com/omacom-io/omacut) LunaOSjev je vlastiti krajnje jednostavan trimer videa. Kad sve što ti treba je odrezati početak i kraj isječka, pobjeđuje pokretanje punog uređivača videa.
 
 Omacut pokrećeš putem pokretača aplikacija (`Super + Space`).
 
 ## Monologue
 
-[Monologue](https://github.com/omacom/monologue) Omarchyjev je vlastiti krajnje jednostavan snimač web-kamere. Jednom odaberi kameru i mikrofon, a zatim pritisni `Space` za snimanje i ponovno za pauziranje i nastavak istog kadra. Uvijek snima u najvišoj razlučivosti tvoje kamere, s mjeračem mikrofona uživo kako bi mogao provjeriti razine prije početka.
+[Monologue](https://github.com/omacom/monologue) LunaOSjev je vlastiti krajnje jednostavan snimač web-kamere. Jednom odaberi kameru i mikrofon, a zatim pritisni `Space` za snimanje i ponovno za pauziranje i nastavak istog kadra. Uvijek snima u najvišoj razlučivosti tvoje kamere, s mjeračem mikrofona uživo kako bi mogao provjeriti razine prije početka.
 
 Zaustavi kadar i odmah se otvara u ugrađenom uređivaču. Dvoklikni isječak da ga podijeliš, povuci ručice za trimanje svakog dijela i ukloni dijelove koje ne želiš. Zatim ga spremi kao MP4. Tvoja izvorna snimka čuva se dok je ne odbaciš, pa se uvijek možeš vratiti i izrezati je drugačije.
 

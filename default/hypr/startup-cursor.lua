@@ -1,13 +1,13 @@
 local function cursor_theme(value)
-  if value and value ~= "" and value ~= "omarchy-startup" then return value end
+  if value and value ~= "" and value ~= "lunaos-startup" then return value end
 end
 
 local function normal_theme(interrupted)
   local current = os.getenv("XCURSOR_THEME")
   local theme = cursor_theme(current)
   -- Only a lost preference needs recovering; an unset theme still means the default alias.
-  if theme or not (interrupted or current == "omarchy-startup") then return theme or "default" end
-  theme = cursor_theme(os.getenv("OMARCHY_STARTUP_CURSOR_THEME"))
+  if theme or not (interrupted or current == "lunaos-startup") then return theme or "default" end
+  theme = cursor_theme(os.getenv("LUNAOS_STARTUP_CURSOR_THEME"))
   if theme then return theme end
   local pipe = io.popen("gsettings get org.gnome.desktop.interface cursor-theme 2>/dev/null", "r")
   if pipe then
@@ -26,13 +26,13 @@ local function normal_path()
 end
 
 -- Hyprland polls cursor.invisible, so its first frames need a blank cursor too.
-function omarchy_startup_cursor_restore(loaded)
-  if not omarchy_startup_cursor_pending then return end
-  local cursor = omarchy_startup_cursor
+function lunaos_startup_cursor_restore(loaded)
+  if not lunaos_startup_cursor_pending then return end
+  local cursor = lunaos_startup_cursor
   if loaded then
-    omarchy_startup_cursor_pending = false
-    hl.env("OMARCHY_STARTUP_CURSOR_SESSION", "")
-    hl.env("OMARCHY_STARTUP_CURSOR_THEME", "")
+    lunaos_startup_cursor_pending = false
+    hl.env("LUNAOS_STARTUP_CURSOR_SESSION", "")
+    hl.env("LUNAOS_STARTUP_CURSOR_THEME", "")
     hl.config({ cursor = cursor.config })
     if cursor.config.enable_hyprcursor and cursor.hyprcursor then
       hl.exec_cmd("hyprctl setcursor " .. o.shell_quote(cursor.hyprcursor) .. " " .. cursor.size)
@@ -43,8 +43,8 @@ function omarchy_startup_cursor_restore(loaded)
     hl.env("XCURSOR_PATH", cursor.path)
     hl.env("XCURSOR_THEME", cursor.xcursor)
     hl.exec_cmd("dbus-update-activation-environment --systemd XCURSOR_PATH XCURSOR_THEME")
-    local complete = "if omarchy_startup_cursor and omarchy_startup_cursor.xcursor == " .. string.format("%q", cursor.xcursor)
-      .. " and omarchy_startup_cursor.size == " .. cursor.size .. " then omarchy_startup_cursor_restore(true) end"
+    local complete = "if lunaos_startup_cursor and lunaos_startup_cursor.xcursor == " .. string.format("%q", cursor.xcursor)
+      .. " and lunaos_startup_cursor.size == " .. cursor.size .. " then lunaos_startup_cursor_restore(true) end"
     hl.exec_cmd("hyprctl setcursor " .. o.shell_quote(cursor.xcursor) .. " " .. cursor.size
       .. " && hyprctl eval " .. o.shell_quote(complete))
   end
@@ -52,16 +52,16 @@ end
 
 hl.on("config.reloaded", function()
   local recover = false
-  if omarchy_startup_cursor_pending == nil then
+  if lunaos_startup_cursor_pending == nil then
     -- An ordinary reload must not hide the pointer, but an interrupted reveal survives.
     local cold = #hl.get_monitors() == 0
     local session = os.getenv("HYPRLAND_INSTANCE_SIGNATURE")
-    local interrupted = session and os.getenv("OMARCHY_STARTUP_CURSOR_SESSION") == session
-    recover = not cold and not interrupted and os.getenv("XCURSOR_THEME") == "omarchy-startup"
-    omarchy_startup_cursor_pending = cold or interrupted or recover
-    if omarchy_startup_cursor_pending then
+    local interrupted = session and os.getenv("LUNAOS_STARTUP_CURSOR_SESSION") == session
+    recover = not cold and not interrupted and os.getenv("XCURSOR_THEME") == "lunaos-startup"
+    lunaos_startup_cursor_pending = cold or interrupted or recover
+    if lunaos_startup_cursor_pending then
       local hyprcursor = hl.get_config("cursor.enable_hyprcursor")
-      omarchy_startup_cursor = {
+      lunaos_startup_cursor = {
         config = {
           invisible = hl.get_config("cursor.invisible"),
           enable_hyprcursor = hyprcursor,
@@ -72,28 +72,28 @@ hl.on("config.reloaded", function()
         path = normal_path(),
         xcursor = normal_theme(interrupted),
       }
-      if omarchy_startup_cursor.size <= 0 then omarchy_startup_cursor.size = 24 end
+      if lunaos_startup_cursor.size <= 0 then lunaos_startup_cursor.size = 24 end
       -- Compositor environment survives Lua reloads; a session id prevents stale inheritance.
-      hl.env("OMARCHY_STARTUP_CURSOR_THEME", omarchy_startup_cursor.xcursor)
-      hl.env("OMARCHY_STARTUP_CURSOR_SESSION", os.getenv("HYPRLAND_INSTANCE_SIGNATURE"))
+      hl.env("LUNAOS_STARTUP_CURSOR_THEME", lunaos_startup_cursor.xcursor)
+      hl.env("LUNAOS_STARTUP_CURSOR_SESSION", os.getenv("HYPRLAND_INSTANCE_SIGNATURE"))
       if cold then
-        hl.env("XCURSOR_PATH", os.getenv("OMARCHY_PATH") .. "/default/hypr/cursors:" .. omarchy_startup_cursor.path)
-        hl.env("XCURSOR_THEME", "omarchy-startup")
+        hl.env("XCURSOR_PATH", os.getenv("LUNAOS_PATH") .. "/default/hypr/cursors:" .. lunaos_startup_cursor.path)
+        hl.env("XCURSOR_THEME", "lunaos-startup")
       else
-        hl.env("XCURSOR_PATH", omarchy_startup_cursor.path)
-        hl.env("XCURSOR_THEME", omarchy_startup_cursor.xcursor)
+        hl.env("XCURSOR_PATH", lunaos_startup_cursor.path)
+        hl.env("XCURSOR_THEME", lunaos_startup_cursor.xcursor)
       end
     end
   end
-  if omarchy_startup_cursor_pending then
+  if lunaos_startup_cursor_pending then
     -- Keep the temporary cursor private to the compositor, including GSettings.
     hl.config({ cursor = { invisible = true, enable_hyprcursor = false, sync_gsettings_theme = false } })
     hl.timer(function()
-      if omarchy_startup_cursor_pending then
-        omarchy_startup_cursor.restoring = false
-        omarchy_startup_cursor_restore()
+      if lunaos_startup_cursor_pending then
+        lunaos_startup_cursor.restoring = false
+        lunaos_startup_cursor_restore()
       end
     end, { timeout = 15000, type = "oneshot" })
-    if recover then omarchy_startup_cursor_restore() end
+    if recover then lunaos_startup_cursor_restore() end
   end
 end)

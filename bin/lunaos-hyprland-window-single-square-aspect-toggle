@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# lunaos:summary=Toggle single-window square aspect ratio.
+
+case $(lunaos-hyprland-toggle single-window-aspect-ratio) in
+  on) lunaos-notification-send -g  "$(lunaos-i18n window.squareOn)" ;;
+  off) lunaos-notification-send -g  "$(lunaos-i18n window.squareOff)" ;;
+esac

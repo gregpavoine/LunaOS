@@ -11,7 +11,7 @@ The shell is the notification daemon: `shell/plugins/notifications/Service.qml` 
 | `Store.js` | Notification snapshots, normalisation, what a stored row keeps, the stored file formats, restore |
 | `Markup.js` | Safe body markup, source lifting (`web:app.slack.com`), one-line previews |
 | `Detect.js` | Verification codes and links |
-| `Security.js` | URL policy, bounds, the sender image path policy, the `omarchy-exec-argv` and glyph checks |
+| `Security.js` | URL policy, bounds, the sender image path policy, the `lunaos-exec-argv` and glyph checks |
 | `Icons.js` | The names a card's icon may go by: site names, symbolic icons |
 | `Layout.js` | Pure deck layout: rows in, placements out |
 | `Delivery.js` | Quiet rules, ephemeral rules, bar clearance |
@@ -26,17 +26,17 @@ A collapsed deck draws its cards at the front card's height; hovering opens it. 
 
 Live `Notification` objects are kept in a plain JS map (`refs`), never a ListModel role, which would dangle once the server destroys the object. At most 100 are live.
 
-The surface is one fixed-width `WlrLayer.Overlay` window per output (namespace `omarchy-notifications`), input-masked to the deck. It stays mapped while idle, because a layer surface coming and going makes Hyprland re-evaluate focus and drags a scrolling layout's viewport. The exception is a fullscreen window: the surface unmaps over it when nothing is showing so the window can be scanned out directly.
+The surface is one fixed-width `WlrLayer.Overlay` window per output (namespace `lunaos-notifications`), input-masked to the deck. It stays mapped while idle, because a layer surface coming and going makes Hyprland re-evaluate focus and drags a scrolling layout's viewport. The exception is a fullscreen window: the surface unmaps over it when nothing is showing so the window can be scanned out directly.
 
 ## Toast lifecycle
 
 A card stays at least 5s (low), 8s (normal), or until dismissed (critical), stretched up to 30s by a longer `expire_timeout`. Its time pauses while the deck is open; a content update restarts it. Left-click activates; right-click, middle-click, or the close mark on hover dismisses.
 
-A click tries, in order: the card's `omarchy-exec-argv` command; the sender's `default` action; the sender's window by pid; a window showing the source (exact class, then for a site a browser window whose title names it); the site itself; the first link in the text; `omarchy-hyprland-focus-app` by app name.
+A click tries, in order: the card's `lunaos-exec-argv` command; the sender's `default` action; the sender's window by pid; a window showing the source (exact class, then for a site a browser window whose title names it); the site itself; the first link in the text; `lunaos-hyprland-focus-app` by app name.
 
 ## Persistence
 
-The shell keeps its state in `~/.local/state/omarchy/notifications/` (0700), three JSON files it reads with `FileView` once at startup and rewrites whole:
+The shell keeps its state in `~/.local/state/lunaos/notifications/` (0700), three JSON files it reads with `FileView` once at startup and rewrites whole:
 
 - `live.json`: the rows on screen, oldest first, put back after a shell restart with a 20s grace (critical ones still wait). At most 100.
 - `history.json`: closed rows, newest first, each with `closed_ts` and `closed_reason`. Capped at 100 entries and 24 hours. Rows whose reason is `silenced` were held back by Do Not Disturb.
@@ -46,7 +46,7 @@ The shell keeps its state in `~/.local/state/omarchy/notifications/` (0700), thr
 
 Writes go through one short timer, started (not restarted) by a change, so a burst of arrivals writes each file once and a flood writes at most four times a second; no file is written before it has been read. `FileView` writes atomically, which keeps the mode of the file it replaces, so the files are created at 0600 before anything writes them.
 
-At startup one process makes the directory and those files; a symlink in place of a state file is replaced. Persistence starts no other process. Older layouts' leftovers, which hold old message content, are removed once by migration `1792648436`: 4.0's `<ms>-<id>.json` popups and its `history/` and `images/` directories. It carries 4.0's Do Not Disturb from `~/.local/state/omarchy/notifications.json` into `quiet.json` and removes that file.
+At startup one process makes the directory and those files; a symlink in place of a state file is replaced. Persistence starts no other process. Older layouts' leftovers, which hold old message content, are removed once by migration `1792648436`: 4.0's `<ms>-<id>.json` popups and its `history/` and `images/` directories. It carries 4.0's Do Not Disturb from `~/.local/state/lunaos/notifications.json` into `quiet.json` and removes that file.
 
 ## Icons
 
@@ -55,7 +55,7 @@ Icons are resolved in the shell, the way the dock resolves its own, by each card
 1. The sender's image: an in-memory `image-data` picture (`image://qsimage/…`), or a local file named by the `image-path` hint.
 2. The icon theme (`Quickshell.iconPath`): for a browser notification the site's own names first (`app.slack.com`, then `slack`), then the app's icon hint (or its `desktop-entry` hint), source and name. An icon of your own under one of those names in `~/.local/share/icons/hicolor/` is found here, unless the active theme has its own by that name.
 3. The icon of a desktop entry matching the hint, source or app (`DesktopEntries.heuristicLookup`); for a site, only the browser's, since a fuzzy match on a domain label would put Google Contacts on `mail.google.com`.
-4. The glyph an Omarchy sender asked for, else the first letter of the source.
+4. The glyph an LunaOS sender asked for, else the first letter of the source.
 
 An icon named `*-symbolic`, or a file under a `symbolic/` directory, is a one-colour mark and is tinted with the theme's text colour.
 
@@ -65,15 +65,15 @@ Images are decoded in the shell process like every other image it draws. A sende
 
 ## Silencing
 
-Do Not Disturb is a boolean in `quiet.json`, toggled via `omarchy-shell notifications toggleDnd` / `setDnd` / `isDnd`; `omarchy-toggle-notification-silencing` wraps the toggle.
+Do Not Disturb is a boolean in `quiet.json`, toggled via `lunaos-shell notifications toggleDnd` / `setDnd` / `isDnd`; `lunaos-toggle-notification-silencing` wraps the toggle.
 
 Three kinds of notification get through Do Not Disturb:
 
-- `app_name` = `omarchy-action`: Omarchy's own confirmation toasts for something the user just did.
+- `app_name` = `lunaos-action`: LunaOS's own confirmation toasts for something the user just did.
 - urgency critical *and* `app_name` = `notify-send`: bare-CLI emergency alerts. Critical alone is not enough, because chat apps use it to force visibility under their own app name.
 - a detected verification code: it was asked for a moment ago and expires in minutes.
 
-Silenced notifications are recorded in history, so `showHistory` can put them back on screen. Ephemeral ones (the `transient` hint, or `app_name` `notify-send`/`omarchy-action`) are dropped.
+Silenced notifications are recorded in history, so `showHistory` can put them back on screen. Ephemeral ones (the `transient` hint, or `app_name` `notify-send`/`lunaos-action`) are dropped.
 
 ## Appearance
 
@@ -81,7 +81,7 @@ Notifications have no settings of their own. A new deck lands on the focused dis
 
 ## The sender contract
 
-`bin/omarchy-notification-send` is the one way Omarchy code sends
+`bin/lunaos-notification-send` is the one way LunaOS code sends
 notifications — never raw `notify-send`. It calls
 `org.freedesktop.Notifications.Notify` directly over the session bus (via
 `busctl --user`), so each value is one typed D-Bus parameter and there is no
@@ -90,11 +90,11 @@ flags map onto that call:
 
 | Flag | Becomes | Meaning |
 |---|---|---|
-| `-g` / `--glyph` | hint `omarchy-glyph` | Nerd Font glyph for the icon slot when no image icon resolves |
-| `--exec <program> [args…]` | hint `omarchy-exec-argv` | the click command; consumes the rest of the line, so it comes last. Each word is a discrete argument the shell runs without re-parsing (see below) |
+| `-g` / `--glyph` | hint `lunaos-glyph` | Nerd Font glyph for the icon slot when no image icon resolves |
+| `--exec <program> [args…]` | hint `lunaos-exec-argv` | the click command; consumes the rest of the line, so it comes last. Each word is a discrete argument the shell runs without re-parsing (see below) |
 | `--image` | hint `image-path` | the standard freedesktop image hint |
 | `-i` / `--icon` | `app_icon` | themed icon name for the toast |
-| `--app-name` | `app_name` | defaults to `omarchy-action` |
+| `--app-name` | `app_name` | defaults to `lunaos-action` |
 | `-u` / `--urgency` | hint `urgency` (byte) | `low`/`normal`/`critical`; defaults to `low` |
 | `-t` / `--expire-time` | `expire_timeout` | milliseconds on screen; server default otherwise |
 
@@ -102,7 +102,7 @@ Unknown flags are a hard error, not a silent pass-through: `--exec` is the only
 door to a click command, and there is no generic option pass-through to smuggle
 one through.
 
-The defaults are the point: an unadorned `omarchy-notification-send "Done"`
+The defaults are the point: an unadorned `lunaos-notification-send "Done"`
 is a low-urgency user-action toast that pops through DND and is treated as
 ephemeral noise when silenced.
 
@@ -115,7 +115,7 @@ keeps with the popup, which the persistence files preserve: a restored toast
 clicks through exactly like a live one, and oneshot senders can exit
 immediately. For third-party clients the click falls back to the libnotify
 `default` action while the sender is alive, then to focusing the sender's
-window by class via `omarchy-hyprland-focus-app` — chat apps rarely register
+window by class via `lunaos-hyprland-focus-app` — chat apps rarely register
 an action and just expect click-to-jump.
 
 ### Click commands are argv, never shell strings
@@ -123,7 +123,7 @@ an action and just expect click-to-jump.
 `--exec` consumes the rest of the line as the click command:
 
 ```bash
-omarchy-notification-send "Download complete" "$title" --exec mpv -- "$file"
+lunaos-notification-send "Download complete" "$title" --exec mpv -- "$file"
 ```
 
 The caller's shell has already split those words into discrete arguments, and a
@@ -160,61 +160,61 @@ caller. Because it calls `Notify` directly, the headline and description are
 typed string parameters — a relayed value like `--hint=…` or `-rf` is the
 summary or body, never an option or a hint, and there is no argv/option layer
 (no `notify-send`) left to reinterpret it. `--exec` is the only thing that can
-build the `omarchy-exec-argv` hint. (The leading `--` on the `busctl` call is a
+build the `lunaos-exec-argv` hint. (The leading `--` on the `busctl` call is a
 belt for `busctl`'s own getopt, which would otherwise read a dash-leading value
 as a `busctl` option; the summary/body themselves are never parsed as options.)
 
 ## Helper commands
 
-- `omarchy-notification-wait [timeout]` — polls until the shell answers IPC
+- `lunaos-notification-wait [timeout]` — polls until the shell answers IPC
   *and* has claimed the bus name. Anything sending near session start or a
   shell restart uses it, or the toast is sent into the void.
-- `omarchy-notification-dismiss <summary>` — dismiss by summary substring,
+- `lunaos-notification-dismiss <summary>` — dismiss by summary substring,
   used by the first-run toasts once their action has been clicked.
-- `omarchy-notification-time` / `-battery` — the hotkey notices: one-line
-  low-urgency glyph toasts wrapping `date` and `omarchy-battery-status`.
-- `omarchy-notification-weather` — despite the name, not a sender: it toggles
-  the `omarchy.weather` shell panel.
+- `lunaos-notification-time` / `-battery` — the hotkey notices: one-line
+  low-urgency glyph toasts wrapping `date` and `lunaos-battery-status`.
+- `lunaos-notification-weather` — despite the name, not a sender: it toggles
+  the `lunaos.weather` shell panel.
 
 Keybindings live in `default/hypr/bindings/utilities.lua`: `Super+comma`
 variants map to the IPC methods `dismissOne`, `dismissAll`, `invokeLast`,
 `showHistory` (put the last few back on screen), and the silencing toggle.
 
-The `notifications` IPC target also answers `ping` (used by `omarchy-notification-wait`), `dismiss <summary>`, `count`, and two for scripts and visual checks: `expand` (open the deck and hover its front card, as the pointer would) and `probe` (what the daemon thinks is true).
+The `notifications` IPC target also answers `ping` (used by `lunaos-notification-wait`), `dismiss <summary>`, `count`, and two for scripts and visual checks: `expand` (open the deck and hover its front card, as the pointer would) and `probe` (what the daemon thinks is true).
 
 ## How subsystems plug in
 
 Everything goes through the same sender contract, so the pieces are small:
 
-- **Low battery** — `omarchy-battery-low` sends a critical toast and runs the
+- **Low battery** — `lunaos-battery-low` sends a critical toast and runs the
   `battery-low` hook.
-- **Crash capture** — `omarchy-crash-watch` follows the systemd-coredump
+- **Crash capture** — `lunaos-crash-watch` follows the systemd-coredump
   journal stream and announces each crashed program (deduped per minute) as a
-  critical toast whose click runs `omarchy-agent-crash` (via `--exec`, so a
+  critical toast whose click runs `lunaos-agent-crash` (via `--exec`, so a
   hostile process name stays a discrete argument). It waits for the
   server first: a shell crash takes the notification server down with it, and
   that crash is the one most worth reporting.
-- **Pending migrations** — `omarchy-migrate-notify` (from its user service
+- **Pending migrations** — `lunaos-migrate-notify` (from its user service
   after `graphical-session.target`) waits for the server, then sends a
-  critical toast whose click opens a terminal running `omarchy-migrate`,
+  critical toast whose click opens a terminal running `lunaos-migrate`,
   falling back to printing in the terminal if the hand-off fails.
 
 ## Reminders
 
 Reminders ride on notifications rather than being their own daemon.
-`bin/omarchy-reminder <minutes> [message]` creates a transient systemd user
+`bin/lunaos-reminder <minutes> [message]` creates a transient systemd user
 timer via `systemd-run --user --collect --on-active=<minutes>m` under the
-unit name `omarchy-reminder-<minutes>m-<epoch>`; the timer's payload sends the
+unit name `lunaos-reminder-<minutes>m-<epoch>`; the timer's payload sends the
 reminder toast, deletes its message file, and refreshes the bar indicator.
-Custom messages are stashed in `$XDG_RUNTIME_DIR/omarchy-reminders/<unit>.message`
+Custom messages are stashed in `$XDG_RUNTIME_DIR/lunaos-reminders/<unit>.message`
 since a unit name cannot carry arbitrary text. `--collect` means fired timers
 leave nothing behind.
 
 The state therefore lives entirely in systemd: `show` and `clear` enumerate
-`systemctl --user list-timers "omarchy-reminder-*.timer"` — `show` as a
+`systemctl --user list-timers "lunaos-reminder-*.timer"` — `show` as a
 summary toast, `show --json` as the JSON the bar's Reminder indicator polls
-(refreshed by the same `omarchy-shell -q omarchy.indicators refresh` call the
-timers and mutations make). `omarchy-reminder -i` summons the
-`omarchy.reminders` overlay (`shell/plugins/reminders/ReminderFlow.qml`), a
-two-step minutes/message prompt that shells back out to `omarchy-reminder` to
+(refreshed by the same `lunaos-shell -q lunaos.indicators refresh` call the
+timers and mutations make). `lunaos-reminder -i` summons the
+`lunaos.reminders` overlay (`shell/plugins/reminders/ReminderFlow.qml`), a
+two-step minutes/message prompt that shells back out to `lunaos-reminder` to
 do the setting.

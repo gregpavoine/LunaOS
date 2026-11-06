@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# lunaos:summary=Toggle notification do-not-disturb mode
+
+state=$(lunaos-shell notifications toggleDnd 2>/dev/null || echo "")
+lunaos-shell -q lunaos.indicators refresh

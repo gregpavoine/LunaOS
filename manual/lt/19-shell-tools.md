@@ -1,6 +1,6 @@
 # Shell įrankiai
 
-Be standartinių Linux įrankių, Omarchy taip pat pristatoma su daugybe patobulintų shell įrankių. Štai svarbiausi.
+Be standartinių Linux įrankių, LunaOS taip pat pristatoma su daugybe patobulintų shell įrankių. Štai svarbiausi.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Visą vadovą gali rasti per `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) yra cd pakaitalas. Jis įsimena katalogus, kuriuose buvai, tad kitą kartą iki jų gali lengviau nušokti. Tarkim, vieną kartą atlikai `cd ~/.config/omarchy`. Kitą kartą gali tiesiog atlikti `cd omarchy` (ar net tiesiog `cd oma`), ir Zoxide nuves tave tiesiai ten.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) yra cd pakaitalas. Jis įsimena katalogus, kuriuose buvai, tad kitą kartą iki jų gali lengviau nušokti. Tarkim, vieną kartą atlikai `cd ~/.config/lunaos`. Kitą kartą gali tiesiog atlikti `cd lunaos` (ar net tiesiog `cd oma`), ir Zoxide nuves tave tiesiai ten.
 
 Visą vadovą gali rasti per `man zoxide`.
 
@@ -58,4 +58,4 @@ Visą vadovą gali rasti per `man yt-dlp`.
 
 [try](https://github.com/tobi/try) leidžia lengvai valdyti programavimo eksperimentus naudojant katalogus su datos antspaudais. Visi eksperimentai gyvena `~/Work/tries` ir juos gali pasiekti per `try`.
 
-Omarchy automatiškai neprideda projekto `bin/` katalogo prie `PATH`. Patikimus projektui vietinius įrankius paleisk su aiškiu santykiniu keliu, pavyzdžiui, `bin/rails` arba `./bin/dev`.
+LunaOS automatiškai neprideda projekto `bin/` katalogo prie `PATH`. Patikimus projektui vietinius įrankius paleisk su aiškiu santykiniu keliu, pavyzdžiui, `bin/rails` arba `./bin/dev`.

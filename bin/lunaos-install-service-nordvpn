@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# lunaos:summary=Install the NordVPN service with optional GUI.
+# lunaos:requires-sudo=true
+
+echo "Installing NordVPN..."
+lunaos-pkg-add nordvpn-bin
+
+echo "Enabling NordVPN daemon..."
+sudo systemctl enable --now nordvpnd
+
+echo "Adding user to nordvpn group..."
+sudo usermod -aG nordvpn "$USER"
+
+echo -e "\nNordVPN installed! After reboot, run 'nordvpn login' to authenticate."
+
+echo
+gum confirm --affirmative "$(lunaos-i18n common.yes)" --negative "$(lunaos-i18n common.no)" "$(lunaos-i18n nordvpn.rebootNow)" && lunaos-system reboot

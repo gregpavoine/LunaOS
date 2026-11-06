@@ -1,19 +1,19 @@
 # الشاشات
 
-يفترض Omarchy أنك تعمل على شاشة بمقياس 2x من فئة retina افتراضيًا. هذا هو ما تحتاج إليه للحصول على خطوط مبرمج جميلة وواضحة. إنه ما تم تحسينه تقريبًا لجميع الحواسيب المحمولة الفاخرة الجديدة ذات الشاشات عالية الدقة. إنه ما تريد تشغيله على شاشة 27" بدقة 5K مثل [Apple Studio Display](https://www.apple.com/studio-display/)/[ProArt PA27JCV](https://www.asus.com/us/displays-desktops/monitors/proart/proart-display-5k-pa27jcv/)/[Samsung S9](https://www.samsung.com/us/computing/monitors/5k/27-viewfinity-s9-5k-monitor-with-thunderbolt-4-matte-display-and-smart-features-ls27c900panxza/)/[Kuycon G27P](https://kuycon.us/monitors/G27P/) أو شاشة 32" بدقة 6K مثل [Apple XDR](https://www.apple.com/pro-display-xdr/)/[ProArt PA32QCV](https://www.asus.com/displays-desktops/monitors/proart/proart-display-6k-pa32qcv/)/[Kuycon G32P](https://kuycon.us/monitors/G32P/).
+يفترض LunaOS أنك تعمل على شاشة بمقياس 2x من فئة retina افتراضيًا. هذا هو ما تحتاج إليه للحصول على خطوط مبرمج جميلة وواضحة. إنه ما تم تحسينه تقريبًا لجميع الحواسيب المحمولة الفاخرة الجديدة ذات الشاشات عالية الدقة. إنه ما تريد تشغيله على شاشة 27" بدقة 5K مثل [Apple Studio Display](https://www.apple.com/studio-display/)/[ProArt PA27JCV](https://www.asus.com/us/displays-desktops/monitors/proart/proart-display-5k-pa27jcv/)/[Samsung S9](https://www.samsung.com/us/computing/monitors/5k/27-viewfinity-s9-5k-monitor-with-thunderbolt-4-matte-display-and-smart-features-ls27c900panxza/)/[Kuycon G27P](https://kuycon.us/monitors/G27P/) أو شاشة 32" بدقة 6K مثل [Apple XDR](https://www.apple.com/pro-display-xdr/)/[ProArt PA32QCV](https://www.asus.com/displays-desktops/monitors/proart/proart-display-6k-pa32qcv/)/[Kuycon G32P](https://kuycon.us/monitors/G32P/).
 
-ولكن إذا كنت لا تعمل على شاشة بدقة PPI تبلغ 218 أو أكثر، فستحتاج إلى تغيير إعدادات الشاشة. على سبيل المثال، إذا كان لديك شاشة 27" أو 32" بدقة 4K، فيمكنك استخدام التحجيم الكسري عن طريق فتح `~/.config/hypr/monitors.lua` (عبر _الإعداد > Monitors_ في قائمة Omarchy) والتبديل إلى التوصية لتلك التوليفة:
+ولكن إذا كنت لا تعمل على شاشة بدقة PPI تبلغ 218 أو أكثر، فستحتاج إلى تغيير إعدادات الشاشة. على سبيل المثال، إذا كان لديك شاشة 27" أو 32" بدقة 4K، فيمكنك استخدام التحجيم الكسري عن طريق فتح `~/.config/hypr/monitors.lua` (عبر _الإعداد > Monitors_ في قائمة LunaOS) والتبديل إلى التوصية لتلك التوليفة:
 
 ```lua
-local omarchy_gdk_scale = 2
-local omarchy_monitor_scale = 1.6
+local lunaos_gdk_scale = 2
+local lunaos_monitor_scale = 1.6
 ```
 
 إذا كنت تستخدم شاشة بدقة 1080p أو 1440p، فستحتاج على الأرجح فقط إلى استخدام تحجيم 1x، فيمكنك استخدام:
 
 ```lua
-local omarchy_gdk_scale = 1
-local omarchy_monitor_scale = 1
+local lunaos_gdk_scale = 1
+local lunaos_monitor_scale = 1
 ```
 
 تنطبق التغييرات على `GDK_SCALE` على التطبيقات التي تُشغّل بعد التغيير (وتحترم GTK الأعداد الصحيحة فقط، لذا احتفظ بها عند أقرب عدد صحيح لمقياس شاشتك). لذا تأكد من الخروج من النوافذ التي لديك والتي أصبحت كبيرة جدًا بعد التغيير (أو أغلق جميع النوافذ باستخدام `Ctrl + Alt + Del`!).
@@ -25,20 +25,20 @@ local omarchy_monitor_scale = 1
 تحجيم الشاشة يغير حجم كل شيء. إذا كان كل ما تريده هو _نص_ أكبر أو أصغر، فهناك مقبض واحد لذلك:
 
 ```
-omarchy display text size 14
+lunaos display text size 14
 ```
 
-يأخذ ذلك حجمًا بالبكسل بين 9 و20، ويحرّك Omarchy shell وتطبيقات GTK وterminal الخاصة بك معًا، بحيث يبقى سطح المكتب بأكمله متناسقًا. شغّله دون وسيطة لترى أين تقف، و`omarchy display text size reset` لاستعادة الإعداد الافتراضي. Foot هو الاستثناء الوحيد: فليس لديه طريقة لإعادة تحميل إعداده، لذا تبقى terminals العاملة على الحجم القديم حتى تفتح واحدة جديدة.
+يأخذ ذلك حجمًا بالبكسل بين 9 و20، ويحرّك LunaOS shell وتطبيقات GTK وterminal الخاصة بك معًا، بحيث يبقى سطح المكتب بأكمله متناسقًا. شغّله دون وسيطة لترى أين تقف، و`lunaos display text size reset` لاستعادة الإعداد الافتراضي. Foot هو الاستثناء الوحيد: فليس لديه طريقة لإعادة تحميل إعداده، لذا تبقى terminals العاملة على الحجم القديم حتى تفتح واحدة جديدة.
 
 ### تمديد شاشات الحواسيب المحمولة وعكسها
 
-عندما توصل شاشة خارجية بحاسوبك المحمول، يتم تمديد العرض تلقائيًا. لكن يمكنك تغيير ذلك إلى النسخ (mirroring) بدلًا من ذلك باستخدام _تشغيل > Hardware_ في قائمة Omarchy أو `Super + Ctrl + Alt + Delete`. هذا مفيد جدًا إذا كانت تلك الشاشة الخارجية جهاز إسقاط (projector)، وتريد عرض شيء ما أثناء العمل.
+عندما توصل شاشة خارجية بحاسوبك المحمول، يتم تمديد العرض تلقائيًا. لكن يمكنك تغيير ذلك إلى النسخ (mirroring) بدلًا من ذلك باستخدام _تشغيل > Hardware_ في قائمة LunaOS أو `Super + Ctrl + Alt + Delete`. هذا مفيد جدًا إذا كانت تلك الشاشة الخارجية جهاز إسقاط (projector)، وتريد عرض شيء ما أثناء العمل.
 
-عندما تقوم بالتمديد، فإن إغلاق غطاء الحاسوب المحمول سيطفئ الشاشة الداخلية تلقائيًا. وفتح الغطاء سيعيد تشغيلها. يمكنك أيضًا التحكم في ذلك يدويًا باستخدام _تشغيل > Hardware_ في قائمة Omarchy أو `Super + Ctrl + Delete`.
+عندما تقوم بالتمديد، فإن إغلاق غطاء الحاسوب المحمول سيطفئ الشاشة الداخلية تلقائيًا. وفتح الغطاء سيعيد تشغيلها. يمكنك أيضًا التحكم في ذلك يدويًا باستخدام _تشغيل > Hardware_ في قائمة LunaOS أو `Super + Ctrl + Delete`.
 
 ### ترتيب شاشات متعددة
 
-يعمل Hyprland على نحو رائع مع شاشات متعددة. اقرأ المزيد حول كيفية ترتيبها في [توثيق Hyprland للشاشات](https://wiki.hypr.land/Configuring/Basics/Monitors/). ويمكنك أيضًا [ربط مساحات عمل محددة بشاشات محددة](https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/). في Omarchy، توضع هذه القواعد في `~/.config/hypr/monitors.lua` بوصفها إدخالات `hl.monitor` — يأتي الملف مع أمثلة معلقة لربط شاشة محددة بدقة وموضع وتدوير.
+يعمل Hyprland على نحو رائع مع شاشات متعددة. اقرأ المزيد حول كيفية ترتيبها في [توثيق Hyprland للشاشات](https://wiki.hypr.land/Configuring/Basics/Monitors/). ويمكنك أيضًا [ربط مساحات عمل محددة بشاشات محددة](https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/). في LunaOS، توضع هذه القواعد في `~/.config/hypr/monitors.lua` بوصفها إدخالات `hl.monitor` — يأتي الملف مع أمثلة معلقة لربط شاشة محددة بدقة وموضع وتدوير.
 
 يمكنك أيضًا تجربة [Hyprmon](https://github.com/erans/hyprmon/) إذا كنت ترغب في TUI يساعدك في تحديد موضع شاشات متعددة.
 

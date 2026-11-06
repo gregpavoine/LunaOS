@@ -1,8 +1,8 @@
 # Navigacija
 
-Vse v Omarchyju poteka prek tipkovnice — _VSE!_ Ko se sistem prvič zažene, samo z miško dobesedno ne moreš narediti ničesar. Lahko pa pritisneš `Super + Space`, da prikažeš meni Omarchy, in od tu lahko narediš praktično vse.
+Vse v LunaOSju poteka prek tipkovnice — _VSE!_ Ko se sistem prvič zažene, samo z miško dobesedno ne moreš narediti ničesar. Lahko pa pritisneš `Super + Space`, da prikažeš meni LunaOS, in od tu lahko narediš praktično vse.
 
-Toda meni Omarchy večino časa niti ni namenjen temu, da bi bil glavni način upravljanja sistema. Lahko smo hitrejši od tega! Vse najpomembnejše aplikacije so vezane neposredno na posamezne bližnjice. Terminal zaženeš s `Super + Return`, brskalnik pa s `Super + Shift + Return`. Poskusi narediti eno za drugo in videl boš čarovnijo polaganja ploščic v Hyprlandu v akciji:
+Toda meni LunaOS večino časa niti ni namenjen temu, da bi bil glavni način upravljanja sistema. Lahko smo hitrejši od tega! Vse najpomembnejše aplikacije so vezane neposredno na posamezne bližnjice. Terminal zaženeš s `Super + Return`, brskalnik pa s `Super + Shift + Return`. Poskusi narediti eno za drugo in videl boš čarovnijo polaganja ploščic v Hyprlandu v akciji:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Lahko greš tudi v celozaslonski način s `Super + F` ali celo samo na celotno �
 
 ### Postavitev dwindle v primerjavi z drsno postavitvijo
 
-Privzeta postavitev v Omarchyju se imenuje dwindle. Vsa okna, ki jih odpreš na enem delovnem prostoru, ves čas ohranja vidna, tudi če jih mora pomanjšati.
+Privzeta postavitev v LunaOSju se imenuje dwindle. Vsa okna, ki jih odpreš na enem delovnem prostoru, ves čas ohranja vidna, tudi če jih mora pomanjšati.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Lebdeči delovni prostor deluje kot tradicionalno namizje: okna se prekrivajo, ti pa jih premikaš in jim spreminjaš velikost sam. Vsako okno dobi naslovno vrstico v barvah tvoje teme, z gumbi za minimiziranje, maksimiranje in zapiranje. `Super + M` minimizira tudi fokusirano okno. Minimizirano okno čaka v doku; klikni njegovo aplikacijo, da ga prikličeš nazaj. Klikni okno, da ga pripelješ v ospredje. Velikost mu spreminjaj s katerega koli roba ali vogala. Dvakrat klikni naslovno vrstico, da okno maksimiraš, pri čemer zgornja vrstica ostane vidna, in znova dvakrat klikni, da mu vrneš staro velikost.
 
-Lebdeči delovni prostor prikazuje tudi dok s pripetimi aplikacijami, vsem, kar se izvaja, in mrežo vseh aplikacij za gumbom za aplikacije, ki jo odpreta tudi `Super + Alt + Space` in _Aplikacije_ v meniju Omarchy. Z desno miškino tipko klikni aplikacijo na mreži ali pritisni `Delete`, da jo odstraniš. Klikni aplikacijo, da jo odpreš ali pripelješ njeno okno v ospredje; znova klikni, da krožiš med njenimi okni. Srednji klik odpre novo okno. Ikono povleci vzdolž doka, da jo premakneš; če delujočo aplikacijo povlečeš med druge, tam ostane. Z desno miškino tipko klikni, da aplikacijo obdržiš v doku, jo vzameš iz njega ali zapreš. Dok se umakne s poti celozaslonskemu oknu. Z desno miškino tipko klikni gumb za aplikacije, da dok premakneš na drug rob ali poskrbiš, da se skriva, dokler kazalec ne doseže njegovega roba. Položaj je tudi pod _Trigger > Videz > Dock > Položaj Docka_, `omarchy dock position left` in `omarchy dock autohide on` pa oba nastavita iz terminala. Aplikacije, ki jih obdržiš v doku, so zbledele, dokler se ne izvajajo.
+Lebdeči delovni prostor prikazuje tudi dok s pripetimi aplikacijami, vsem, kar se izvaja, in mrežo vseh aplikacij za gumbom za aplikacije, ki jo odpreta tudi `Super + Alt + Space` in _Aplikacije_ v meniju LunaOS. Z desno miškino tipko klikni aplikacijo na mreži ali pritisni `Delete`, da jo odstraniš. Klikni aplikacijo, da jo odpreš ali pripelješ njeno okno v ospredje; znova klikni, da krožiš med njenimi okni. Srednji klik odpre novo okno. Ikono povleci vzdolž doka, da jo premakneš; če delujočo aplikacijo povlečeš med druge, tam ostane. Z desno miškino tipko klikni, da aplikacijo obdržiš v doku, jo vzameš iz njega ali zapreš. Dok se umakne s poti celozaslonskemu oknu. Z desno miškino tipko klikni gumb za aplikacije, da dok premakneš na drug rob ali poskrbiš, da se skriva, dokler kazalec ne doseže njegovega roba. Položaj je tudi pod _Trigger > Videz > Dock > Položaj Docka_, `lunaos dock position left` in `lunaos dock autohide on` pa oba nastavita iz terminala. Aplikacije, ki jih obdržiš v doku, so zbledele, dokler se ne izvajajo.
 
-Novi delovni prostori in vsi, ki jim nisi dal lastne postavitve s `Super + L`, uporabljajo privzeto postavitev. Sprememba privzete nastavitve na novo nastavi vsak delovni prostor brez oken nanjo, medtem ko tisti z okni obdrži postavitev, ki jo ima. Okno, minimizirano v dok, še vedno šteje kot okno na delovnem prostoru, ki ga je zapustilo. Izberi jo pod _Trigger > Videz > Postavitev delovnega prostora_: Ploščice, Drsenje ali Lebdenje. `omarchy-hyprland-workspace-layout-default scrolling` jo nastavi iz terminala.
+Novi delovni prostori in vsi, ki jim nisi dal lastne postavitve s `Super + L`, uporabljajo privzeto postavitev. Sprememba privzete nastavitve na novo nastavi vsak delovni prostor brez oken nanjo, medtem ko tisti z okni obdrži postavitev, ki jo ima. Okno, minimizirano v dok, še vedno šteje kot okno na delovnem prostoru, ki ga je zapustilo. Izberi jo pod _Trigger > Videz > Postavitev delovnega prostora_: Ploščice, Drsenje ali Lebdenje. `lunaos-hyprland-workspace-layout-default scrolling` jo nastavi iz terminala.
 
 ### Združevanje oken v skupine
 

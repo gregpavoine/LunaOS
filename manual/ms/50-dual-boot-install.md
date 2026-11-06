@@ -1,6 +1,6 @@
 # Pemasangan But Dwi
 
-Anda boleh memasang Omarchy ke satu partition di samping Windows atau pemasangan lain.
+Anda boleh memasang LunaOS ke satu partition di samping Windows atau pemasangan lain.
 
 Kaedah pemasangan ini masih disertakan dengan penyulitan LUKS untuk partition secara lalai jadi ia sebenarnya tidak berbeza daripada pemacu penuh dan hanya memerlukan ruang kosong tersedia pada cakera.
 
@@ -14,17 +14,17 @@ Cari partition yang sesuai, klik kanan, dan pilih **Shrink Volume**.
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- Masukkan jumlah yang anda mahu kecilkan volume. Ambil perhatian bahawa ini akan menjadi saiz pemasangan Omarchy masa depan anda termasuk partition but.
+ Masukkan jumlah yang anda mahu kecilkan volume. Ambil perhatian bahawa ini akan menjadi saiz pemasangan LunaOS masa depan anda termasuk partition but.
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-Apabila anda selesai, anda sepatutnya melihat sesuatu seperti ini di mana bahagian 50GB ialah tempat kami akan memasang Omarchy dalam contoh ini.
+Apabila anda selesai, anda sepatutnya melihat sesuatu seperti ini di mana bahagian 50GB ialah tempat kami akan memasang LunaOS dalam contoh ini.
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## Memasang Omarchy
+## Memasang LunaOS
 
-Proses pemasangan untuk Omarchy sebenarnya sama seperti biasa. Selepas anda memilih cakera anda, anda akan diberi pilihan **Free space install**. Pilih pilihan itu untuk mengelakkan pemadaman cakera penuh.
+Proses pemasangan untuk LunaOS sebenarnya sama seperti biasa. Selepas anda memilih cakera anda, anda akan diberi pilihan **Free space install**. Pilih pilihan itu untuk mengelakkan pemadaman cakera penuh.
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Sahkan bahawa semuanya kelihatan baik dan tunggu pemasangan selesai seperti bias
 
 ## Menambah Pemasangan Lain pada Pemuat But
 
-Apabila anda selesai pemasangan Omarchy anda, anda akan perasan pemuat but Limine ialah lalai sekarang. Dengan ini, anda juga boleh menambah pilihan pada Limine untuk pemasangan lain anda seperti Windows.
+Apabila anda selesai pemasangan LunaOS anda, anda akan perasan pemuat but Limine ialah lalai sekarang. Dengan ini, anda juga boleh menambah pilihan pada Limine untuk pemasangan lain anda seperti Windows.
 
-Untuk berbuat demikian, jalankan `limine-scan` dan ikuti gesaan untuk menambah item apa sahaja yang anda mahu pada konfigurasi limine anda. Kemudian apabila anda but, anda akan melihat pilihan biasa anda untuk Omarchy, serta Windows Boot Manager atau yang lain.
+Untuk berbuat demikian, jalankan `limine-scan` dan ikuti gesaan untuk menambah item apa sahaja yang anda mahu pada konfigurasi limine anda. Kemudian apabila anda but, anda akan melihat pilihan biasa anda untuk LunaOS, serta Windows Boot Manager atau yang lain.
 
 ## Bitlocker
 

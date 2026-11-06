@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# lunaos:summary=Open a config file in the user's editor and surface a toast
+# lunaos:args=<path>
+# lunaos:examples=lunaos launch config-editor ~/.config/hypr/hyprland.lua
+
+path="${1-}"
+
+if [[ -z $path ]]; then
+  echo "Usage: lunaos-launch-config-editor <path>" >&2
+  exit 1
+fi
+
+lunaos-notification-send -u low "$(lunaos-i18n config.editing)" "$path"
+exec lunaos-launch-editor "$path"

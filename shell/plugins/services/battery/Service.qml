@@ -9,14 +9,14 @@ Item {
   id: root
 
   property var shell: null
-  property string omarchyPath: Quickshell.env("OMARCHY_PATH")
+  property string lunaosPath: Quickshell.env("LUNAOS_PATH")
 
   readonly property int batteryThreshold: 10
   property string pendingPowerSource: ""
   // Follows power-profiles-daemon's change signals, so nothing polls it.
   // Quickshell never attaches that listener if the daemon failed when the
   // shell started, so a one-off read on startup, on a power source change and
-  // after omarchy-powerprofiles-set (which asks for it over IPC) recovers.
+  // after lunaos-powerprofiles-set (which asks for it over IPC) recovers.
   property string activePowerProfile: ""
   property bool powerProfileReadPending: false
   property int powerProfileSignals: 0
@@ -25,7 +25,7 @@ Item {
 
   PersistentProperties {
     id: persisted
-    reloadableId: "omarchy-battery"
+    reloadableId: "lunaos-battery"
     property bool notifiedLowBattery: false
   }
 
@@ -46,7 +46,7 @@ Item {
   function sendLowBatteryWarning(level) {
     if (warningProcess.running) return
     warningProcess.command = [
-      "omarchy-battery-low",
+      "lunaos-battery-low",
       String(level)
     ]
     warningProcess.running = true
@@ -58,7 +58,7 @@ Item {
   }
 
   function runPendingPowerProfile() {
-    powerProfileProcess.command = ["omarchy-powerprofiles-set", pendingPowerSource]
+    powerProfileProcess.command = ["lunaos-powerprofiles-set", pendingPowerSource]
     pendingPowerSource = ""
     powerProfileProcess.running = true
   }

@@ -14,7 +14,7 @@
 
  ![notice-weather](images/notice-weather.webp)
 
-Staðsetningin er greind út frá IP-tölunni þinni, sem er yfirleitt nógu nálægt, en ekki alltaf. Þú getur fest hana með `omarchy weather location --set Malibu`, eða verið nákvæmur með því að bæta við hnitum: `omarchy weather location --set Malibu 34.0259,-118.7798`. Keyrðu `omarchy weather location` eitt og sér til að sjá hvar það heldur að þú sért, og `--clear` til að fara aftur í sjálfvirka greiningu.
+Staðsetningin er greind út frá IP-tölunni þinni, sem er yfirleitt nógu nálægt, en ekki alltaf. Þú getur fest hana með `lunaos weather location --set Malibu`, eða verið nákvæmur með því að bæta við hnitum: `lunaos weather location --set Malibu 34.0259,-118.7798`. Keyrðu `lunaos weather location` eitt og sér til að sjá hvar það heldur að þú sért, og `--clear` til að fara aftur í sjálfvirka greiningu.
 
 ### Rafhlaða
 

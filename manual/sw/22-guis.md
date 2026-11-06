@@ -20,11 +20,11 @@ Obsidian ni bure kwa madhumuni yote, ikiwa ni pamoja na matumizi ya kibinafsi, y
 
 Obsidian pia inatoa [nyongeza ya kibiashara ya kusawazisha](https://obsidian.md/sync) na programu za simu kwenye iOS na Android. (https://obsidian.md/pricing).
 
-Unaanzisha Obsidian kwa `Super + Shift + O`. Ili kutumia usawazishaji wa mandhari, lazima uchague mandhari ya `Omarchy` chini ya mipangilio.
+Unaanzisha Obsidian kwa `Super + Shift + O`. Ili kutumia usawazishaji wa mandhari, lazima uchague mandhari ya `LunaOS` chini ya mipangilio.
 
 ## Omawrite
 
-[Omawrite](https://github.com/omacom-io/omawrite) ni programu ya uandishi rahisi sana ya Markdown ya Omarchy yenyewe. Hakuna kuba, hakuna programu-jalizi, ni wewe tu na maneno.
+[Omawrite](https://github.com/omacom-io/omawrite) ni programu ya uandishi rahisi sana ya Markdown ya LunaOS yenyewe. Hakuna kuba, hakuna programu-jalizi, ni wewe tu na maneno.
 
 Unaanzisha Omawrite kwa `Super + Shift + W`.
 
@@ -44,18 +44,18 @@ Unaanzisha Aether kupitia kizinduzi cha programu (`Super + Space`).
 
 [LocalSend](https://localsend.org/) inakuwezesha kutuma faili kwa vifaa vingine kwenye mtandao ule ule vinavyoendesha programu, kama AirDrop ya Apple. Ni ya majukwaa mengi, hata hivyo, hivyo unaweza kutuma faili kwenda na kutoka Windows, macOS, Android, iOS, na bila shaka Linux.
 
-Unaweza kufungua menyu ya Shiriki kwa `Super + Ctrl + S` au chini ya _Anzisha > Shiriki_ katika menyu ya Omarchy. Inakupa chaguo nne:
+Unaweza kufungua menyu ya Shiriki kwa `Super + Ctrl + S` au chini ya _Anzisha > Shiriki_ katika menyu ya LunaOS. Inakupa chaguo nne:
 
 - **Ubao wa kunakili** hutuma chochote ulichonakili kama faili ya maandishi. Nzuri sana kwa kupeleka kiungo au kijisehemu kwenye simu yako bila kujitumia barua pepe.
 - **Faili** hufungua kiteuzi cha faili ambapo unaweza kuchagua kadhaa mara moja.
 - **Folda** hutuma saraka nzima.
 - **Pokea** hufungua LocalSend yenyewe ili kifaa kingine kiweze kukutumia kitu.
 
-Jambo lile lile hufanya kazi kutoka terminali kwa `omarchy share clipboard`, `omarchy share file [path]`, na `omarchy share folder [path]`. Acha njia na unapata kiteuzi.
+Jambo lile lile hufanya kazi kutoka terminali kwa `lunaos share clipboard`, `lunaos share file [path]`, na `lunaos share folder [path]`. Acha njia na unapata kiteuzi.
 
 Unaweza pia kutuma moja kwa moja kutoka meneja wa faili: bofya kulia uteuzi wowote katika Nautilus na uchague _Tuma kupitia LocalSend_.
 
-Ukuta wa moto wa Omarchy umefungwa kwa chaguomsingi isipokuwa mlango wa LocalSend, hivyo hii hufanya kazi mara moja kwenye usakinishaji mpya. Tazama [usalama](48-security.md).
+Ukuta wa moto wa LunaOS umefungwa kwa chaguomsingi isipokuwa mlango wa LocalSend, hivyo hii hufanya kazi mara moja kwenye usakinishaji mpya. Tazama [usalama](48-security.md).
 
 ## LibreOffice
 
@@ -65,19 +65,19 @@ Unaanzisha LibreOffice kupitia kizinduzi cha programu (`Super + Space`).
 
 ## Hype
 
-[Hype](https://github.com/omacom/hype) ni programu ya mawasilisho rahisi sana ya Omarchy yenyewe. Deki yako ni faili moja ya Markdown yenye picha na video zake karibu nayo: andika kila slaidi chini ya hakikisho hai, Buruta slaidi kwa mpangilio, kisha wasilisha skrini nzima au hamisha hadi PDF na PowerPoint. Hata huchukua mandhari yako ya Omarchy.
+[Hype](https://github.com/omacom/hype) ni programu ya mawasilisho rahisi sana ya LunaOS yenyewe. Deki yako ni faili moja ya Markdown yenye picha na video zake karibu nayo: andika kila slaidi chini ya hakikisho hai, Buruta slaidi kwa mpangilio, kisha wasilisha skrini nzima au hamisha hadi PDF na PowerPoint. Hata huchukua mandhari yako ya LunaOS.
 
 Unaanzisha Hype kupitia kizinduzi cha programu (`Super + Space`). Bonyeza `?` ndani yake kuona kila mkato.
 
 ## Signed
 
-[Signed](https://github.com/omacom/signed) ni njia rahisi sana ya Omarchy yenyewe ya kusaini PDF na kuzijaza. Weka sahihi yako iliyohifadhiwa, maandishi, na tarehe ya leo popote kwenye ukurasa, kisha uhifadhi nakala iliyosainiwa karibu na ya asili. Tazama [Kujaza PDF](27-filling-out-pdfs.md) kwa jinsi gani.
+[Signed](https://github.com/omacom/signed) ni njia rahisi sana ya LunaOS yenyewe ya kusaini PDF na kuzijaza. Weka sahihi yako iliyohifadhiwa, maandishi, na tarehe ya leo popote kwenye ukurasa, kisha uhifadhi nakala iliyosainiwa karibu na ya asili. Tazama [Kujaza PDF](27-filling-out-pdfs.md) kwa jinsi gani.
 
 Unaanzisha Signed kupitia kizinduzi cha programu (`Super + Space`), au fungua PDF nayo kutoka meneja wa faili.
 
 ## Omacalc
 
-[Omacalc](https://github.com/omacom-io/omacalc) ni kikokotoo rahisi sana cha Omarchy chenyewe, ambacho hufunguka katika dirisha linaloelea.
+[Omacalc](https://github.com/omacom-io/omacalc) ni kikokotoo rahisi sana cha LunaOS chenyewe, ambacho hufunguka katika dirisha linaloelea.
 
 Unaanzisha Omacalc kwa `Super + Ctrl + Q` (au kitufe cha kikokotoo, kama kibodi yako ina kimoja).
 
@@ -85,7 +85,7 @@ Unaanzisha Omacalc kwa `Super + Ctrl + Q` (au kitufe cha kikokotoo, kama kibodi 
 
 [Signal](https://signal.org/) ni kinara wa ujumbe uliosimbwa kwa njia ya E2E, na chaguo bora la mawasiliano kwa yeyote ambaye angestahili kutopitia moja ya mashirika makubwa ya teknolojia.
 
-Unaanzisha Signal kwa `Super + Shift + G`. Si sehemu ya usakinishaji wa msingi, hivyo mara ya kwanza unapogonga hiyo, Omarchy itakupa kuisakinisha kwa ajili yako (pia iko chini ya _Sakinisha > Huduma_ katika menyu ya Omarchy).
+Unaanzisha Signal kwa `Super + Shift + G`. Si sehemu ya usakinishaji wa msingi, hivyo mara ya kwanza unapogonga hiyo, LunaOS itakupa kuisakinisha kwa ajili yako (pia iko chini ya _Sakinisha > Huduma_ katika menyu ya LunaOS).
 
 ## mpv
 
@@ -95,13 +95,13 @@ Unaanzisha mpv kupitia kizinduzi cha programu (`Super + Space`) au ubofye mara m
 
 ## Omacut
 
-[Omacut](https://github.com/omacom-io/omacut) ni kipunguza video rahisi sana cha Omarchy chenyewe. Wakati unachohitaji tu ni kukata mwanzo na mwisho wa klipu, kinashinda kuwasha kihariri kamili cha video.
+[Omacut](https://github.com/omacom-io/omacut) ni kipunguza video rahisi sana cha LunaOS chenyewe. Wakati unachohitaji tu ni kukata mwanzo na mwisho wa klipu, kinashinda kuwasha kihariri kamili cha video.
 
 Unaanzisha Omacut kupitia kizinduzi cha programu (`Super + Space`).
 
 ## Monologue
 
-[Monologue](https://github.com/omacom/monologue) ni kirekodi cha kamera ya wavuti rahisi sana cha Omarchy chenyewe. Chagua kamera yako na maikrofoni mara moja, kisha bonyeza `Space` kurekodi, na tena kusitisha na kuendelea na nusu ile ile. Daima hurekodi kwa ubora wa juu zaidi wa kamera yako, na mita hai ya maikrofoni ili uweze kuangalia viwango vyako kabla ya kuanza.
+[Monologue](https://github.com/omacom/monologue) ni kirekodi cha kamera ya wavuti rahisi sana cha LunaOS chenyewe. Chagua kamera yako na maikrofoni mara moja, kisha bonyeza `Space` kurekodi, na tena kusitisha na kuendelea na nusu ile ile. Daima hurekodi kwa ubora wa juu zaidi wa kamera yako, na mita hai ya maikrofoni ili uweze kuangalia viwango vyako kabla ya kuanza.
 
 Simamisha nusu na inafunguka mara moja katika kihariri kilichojengewa ndani. Bofya mara mbili klipu kuigawanya, buruta vipini kupunguza kila kipande, na uondoe sehemu ambazo hutaki. Kisha uihifadhi kama MP4. Rekodi yako ya asili huhifadhiwa hadi utakapoitupe, hivyo unaweza kurudi kila wakati na kuikata tofauti.
 

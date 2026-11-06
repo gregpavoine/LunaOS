@@ -2,7 +2,7 @@
 
 ## Mga Alternatibong Editor
 
-May kasamang [Neovim](https://neovim.io/) ang Omarchy bilang default, pero kung gusto mo ng medyo mas mainstream at pamilyar, patakbuhin mo ang Omarchy Menu (`Super + Space`) at tingnan ang mga pagpipilian sa ilalim ng _Install > Editor_. Mayroon kaming VSCode, Cursor, Zed, Sublime Text, Helix, Vim, at Emacs na nakalista roon. Kung hindi mo makita ang hinahanap mo, tingnan ang _Install > Package_, at tingnan kung wala ito sa isang Arch package (at kung wala, subukan ang _Install > AUR_ para tingnan ang AUR).
+May kasamang [Neovim](https://neovim.io/) ang LunaOS bilang default, pero kung gusto mo ng medyo mas mainstream at pamilyar, patakbuhin mo ang LunaOS Menu (`Super + Space`) at tingnan ang mga pagpipilian sa ilalim ng _Install > Editor_. Mayroon kaming VSCode, Cursor, Zed, Sublime Text, Helix, Vim, at Emacs na nakalista roon. Kung hindi mo makita ang hinahanap mo, tingnan ang _Install > Package_, at tingnan kung wala ito sa isang Arch package (at kung wala, subukan ang _Install > AUR_ para tingnan ang AUR).
 
 Magagamit din agad ang orihinal na `vi` editor. Patakbuhin ang `vi filename` para mag-edit ng file sa terminal.
 
@@ -12,7 +12,7 @@ Maaari mong itakda ang default na editor sa buong sistema sa ilalim ng `Setup > 
 
 ## Kapaligiran
 
-Sinusuportahan ng Omarchy ang pag-setup ng napakaraming kapaligiran para sa development sa pamamagitan ng seksyong _Install > Development_ ng Omarchy Menu (`Super + Space`). Makikita mo siyempre ang _Ruby on Rails_, pero pati na rin ang tatlong pangunahing runtime para sa JavaScript (Node.js, Bun, Deno), pati na rin ang mga sikat na PHP framework tulad ng Laravel at Symfony. Oh, at mayroon ding Go, Rust, Python, Java, Elixir (may Phoenix), .NET, OCaml, Zig, Clojure, at Scala. Napakalawak ng pagpipilian!
+Sinusuportahan ng LunaOS ang pag-setup ng napakaraming kapaligiran para sa development sa pamamagitan ng seksyong _Install > Development_ ng LunaOS Menu (`Super + Space`). Makikita mo siyempre ang _Ruby on Rails_, pero pati na rin ang tatlong pangunahing runtime para sa JavaScript (Node.js, Bun, Deno), pati na rin ang mga sikat na PHP framework tulad ng Laravel at Symfony. Oh, at mayroon ding Go, Rust, Python, Java, Elixir (may Phoenix), .NET, OCaml, Zig, Clojure, at Scala. Napakalawak ng pagpipilian!
 
 Ang karamihan sa mga kapaligirang ito ay pinamamahalaan ng [Mise](https://mise.jdx.dev/). Tool ito na nagbibigay-daan sa iyong mag-install at magpatakbo ng maraming bersyon ng isang programming language sa iisang makina. Parang rbenv o rvm para sa Ruby o virtualenv para sa Python, pero gumagana ito para sa maraming iba't ibang kapaligiran.
 
@@ -20,11 +20,11 @@ Para mag-install, halimbawa, ng Ruby, patatakbuhin mo ang `mise use -g ruby`, na
 
 ## Docker
 
-Halos hindi na kailangang ipakilala ang [Docker](https://www.docker.com/). Nagbibigay-daan ito sa iyong magpatakbo ng mga isolated container, at ini-install ng Omarchy ang lahat ng kailangan para patakbuhin ito nang maayos, kasama ang Docker mismo at ang [Docker Compose](https://docs.docker.com/compose/).
+Halos hindi na kailangang ipakilala ang [Docker](https://www.docker.com/). Nagbibigay-daan ito sa iyong magpatakbo ng mga isolated container, at ini-install ng LunaOS ang lahat ng kailangan para patakbuhin ito nang maayos, kasama ang Docker mismo at ang [Docker Compose](https://docs.docker.com/compose/).
 
-Bilang default, ang user mo ay *hindi* nasa grupong `docker`. Ang grupong iyon ay epektibong root na walang password — anumang nasa loob nito ay maaaring magpatakbo ng `docker run -v /:/host` at sakupin ang makina — kaya ang isang rogue script o dependency na tumatakbo bilang ikaw ay isang command na lang ang layo mula sa root kung hindi. Kaya sa command line ay pinapatakbo mo ang Docker gamit ang `sudo` (`sudo docker ps`, `sudo docker compose up`), at ang mga graphical tool na nakikipag-usap sa daemon — ang Windows VM — ay humihingi ng awtorisasyon kapag kailangan nila. Kung gusto mong ibalik ang kaginhawahan ng groupless setup at nauunawaan mo ang kapalit, paganahin ito mula sa **Setup > Security > Sudoless Docker** (o patakbuhin ang `omarchy-setup-security-sudoless-docker`), na nagdadagdag sa iyo sa grupong `docker` pagkatapos ng isang babala; pagkatapos ay gagana na ulit ang plain na `docker` at ang `d` alias nang walang `sudo`.
+Bilang default, ang user mo ay *hindi* nasa grupong `docker`. Ang grupong iyon ay epektibong root na walang password — anumang nasa loob nito ay maaaring magpatakbo ng `docker run -v /:/host` at sakupin ang makina — kaya ang isang rogue script o dependency na tumatakbo bilang ikaw ay isang command na lang ang layo mula sa root kung hindi. Kaya sa command line ay pinapatakbo mo ang Docker gamit ang `sudo` (`sudo docker ps`, `sudo docker compose up`), at ang mga graphical tool na nakikipag-usap sa daemon — ang Windows VM — ay humihingi ng awtorisasyon kapag kailangan nila. Kung gusto mong ibalik ang kaginhawahan ng groupless setup at nauunawaan mo ang kapalit, paganahin ito mula sa **Setup > Security > Sudoless Docker** (o patakbuhin ang `lunaos-setup-security-sudoless-docker`), na nagdadagdag sa iyo sa grupong `docker` pagkatapos ng isang babala; pagkatapos ay gagana na ulit ang plain na `docker` at ang `d` alias nang walang `sudo`.
 
-Maaari mong i-setup ang mga karaniwang database para sa lokal na development sa Docker gamit ang _Install > Development > Docker DB_ sa Omarchy menu.
+Maaari mong i-setup ang mga karaniwang database para sa lokal na development sa Docker gamit ang _Install > Development > Docker DB_ sa LunaOS menu.
 
 ## GitHub CLI
 

@@ -1,8 +1,8 @@
 # Terminal
 
-[Foot](https://codeberg.org/dnkl/foot) est le terminal par défaut d'Omarchy. Il est rapide, léger et compatible même avec les vieux ordinateurs. Il ne prend cependant pas en charge les onglets ou les divisions natifs.
+[Foot](https://codeberg.org/dnkl/foot) est le terminal par défaut d'LunaOS. Il est rapide, léger et compatible même avec les vieux ordinateurs. Il ne prend cependant pas en charge les onglets ou les divisions natifs.
 
-Si vous utilisez Tmux, cela ne vous dérangera peut-être pas, mais sinon, nous prenons aussi pleinement en charge _Alacritty_, _Ghostty_ et _Kitty_ comme options. Choisissez votre préférence sous _Installer > Terminal_ dans le menu Omarchy.
+Si vous utilisez Tmux, cela ne vous dérangera peut-être pas, mais sinon, nous prenons aussi pleinement en charge _Alacritty_, _Ghostty_ et _Kitty_ comme options. Choisissez votre préférence sous _Installer > Terminal_ dans le menu LunaOS.
 
 Vous démarrez un nouveau terminal avec `Super + Return`. (Ce raccourci pointera automatiquement vers le terminal que vous avez installé via _Installer > Terminal_, et vous pouvez basculer entre les terminaux installés sous _Configuration > Par défaut > Terminal_.)
 
@@ -12,11 +12,11 @@ Tmux fournit une interface cohérente et programmable pour les panneaux, les fen
 
 Vous démarrez une nouvelle session Tmux dans un nouveau terminal avec `Super + Alt + Return`, et comme Tmux est un processus persistant, vous pouvez reprendre votre session même si vous fermez ce terminal. Faites simplement `Ctrl + Space` (appelée touche préfixe) puis `s` pour voir toutes vos sessions actives.
 
-Omarchy est livré avec une configuration Tmux optimisée pour l'ergonomie, qui comporte beaucoup de raccourcis à apprendre, alors gardez [l'antisèche à portée de main](07-hotkeys.md#tmux).
+LunaOS est livré avec une configuration Tmux optimisée pour l'ergonomie, qui comporte beaucoup de raccourcis à apprendre, alors gardez [l'antisèche à portée de main](07-hotkeys.md#tmux).
 
 ## Fonctions de disposition Tmux
 
-Comme Tmux est programmable, nous pouvons utiliser des fonctions pour créer des dispositions. Omarchy est livré avec quatre fonctions différentes pour les dispositions de développement courantes.
+Comme Tmux est programmable, nous pouvons utiliser des fonctions pour créer des dispositions. LunaOS est livré avec quatre fonctions différentes pour les dispositions de développement courantes.
 
 `tdl [agent]` démarre une interface en trois parties de type IDE avec `$EDITOR` à gauche, l'agent IA de votre choix à droite (comme `c` pour opencode ou `cx` pour Claude ou `codex` pour OpenAI), puis un terminal en bas.
 

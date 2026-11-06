@@ -21,7 +21,7 @@ Edytor adnotacji może rysować strzałki, linie, kształty, podświetlenia, num
 
 Zapisane zrzuty ekranu trafiają domyślnie do `~/Pictures/Screenshots`, z nazwą taką jak `screenshot-2026-08-13_14-22-05-firefox.png`. Ustaw `OMASNAP_SCREENSHOT_DIR`, żeby użyć innego katalogu — zob. [FAQ](46-faq.md), gdzie umieszczać zmienne środowiskowe sesji. Omasnap tworzy katalog, gdy zapisuje pierwszy zrzut. Ustaw `[output] autosave = false` w `~/.config/omasnap/omasnap.conf`, żeby wyłączyć automatyczne zapisywanie.
 
-Z terminala `omarchy screenshot` otwiera tę samą nakładkę i możesz wybrać jej tryb startowy: `omarchy capture screenshot region`, `windows`, `fullscreen` albo `scroll`. Drugi argument `copy` lub `save` pomija podgląd i wysyła zrzut prosto do tego miejsca. Aby edytować przed wyjściem, użyj `omarchy screenshot --editor=overlay` dla edytora pełnoekranowego albo `omarchy screenshot --editor=window` dla osobnego okna.
+Z terminala `lunaos screenshot` otwiera tę samą nakładkę i możesz wybrać jej tryb startowy: `lunaos capture screenshot region`, `windows`, `fullscreen` albo `scroll`. Drugi argument `copy` lub `save` pomija podgląd i wysyła zrzut prosto do tego miejsca. Aby edytować przed wyjściem, użyj `lunaos screenshot --editor=overlay` dla edytora pełnoekranowego albo `lunaos screenshot --editor=window` dla osobnego okna.
 
 ### Sterowanie selektorem z klawiatury
 
@@ -40,9 +40,9 @@ Przypisania te istnieją tylko, gdy Omasnap jest otwarty, więc nie mogą kolido
 
 ## Nagrywanie ekranu
 
-`Alt + Print Screen` otwiera _Akcje > Przechwyć > Nagraj ekran_, który pyta, co ma trafić na ścieżkę dźwiękową: brak dźwięku, dźwięk pulpitu, dźwięk pulpitu z mikrofonem albo dźwięk pulpitu z mikrofonem i kamerą internetową. Ta ostatnia opcja pokazuje się tylko, gdy faktycznie masz podłączoną kamerę. Wybierasz jedną, a selektor nagrywania Omarchy pozwala ci przeciągnąć obszar albo kliknąć okno lub monitor.
+`Alt + Print Screen` otwiera _Akcje > Przechwyć > Nagraj ekran_, który pyta, co ma trafić na ścieżkę dźwiękową: brak dźwięku, dźwięk pulpitu, dźwięk pulpitu z mikrofonem albo dźwięk pulpitu z mikrofonem i kamerą internetową. Ta ostatnia opcja pokazuje się tylko, gdy faktycznie masz podłączoną kamerę. Wybierasz jedną, a selektor nagrywania LunaOS pozwala ci przeciągnąć obszar albo kliknąć okno lub monitor.
 
-Nagrywanie działa na gpu-screen-recorder, który koduje na GPU w 60 fps i w razie potrzeby wraca do CPU. Wynikiem jest MP4 w `~/Videos`, o nazwie `screenrecording-2026-08-13_14-22-05.mp4`. Ustaw `OMARCHY_SCREENRECORD_DIR`, żeby to zmienić — ale zwróć uwagę, że w przeciwieństwie do katalogu zrzutów ekranu ten katalog musi już istnieć, inaczej nagrywanie nie wystartuje.
+Nagrywanie działa na gpu-screen-recorder, który koduje na GPU w 60 fps i w razie potrzeby wraca do CPU. Wynikiem jest MP4 w `~/Videos`, o nazwie `screenrecording-2026-08-13_14-22-05.mp4`. Ustaw `LUNAOS_SCREENRECORD_DIR`, żeby to zmienić — ale zwróć uwagę, że w przeciwieństwie do katalogu zrzutów ekranu ten katalog musi już istnieć, inaczej nagrywanie nie wystartuje.
 
 Gdy nagrywasz, na pasku pojawia się mały wskaźnik. Kliknij go, żeby zatrzymać. Możesz też zatrzymać przez ponowne `Alt + Print Screen` albo przez wpis _Zatrzymaj nagrywanie_ pod _Akcje > Przechwyć > Nagraj ekran_, który pojawia się tylko, gdy coś faktycznie się nagrywa.
 
@@ -59,7 +59,7 @@ Gdy nagrywasz z kamerą internetową, kamera pojawia się jako przypięte, przyc
 
 Są trzy rozmiary — mały, średni i duży — a skróty przechodzą między nimi. Średni jest domyślny. Są proporcjonalne do nagrania, więc kamera zajmuje ten sam udział klatki, czy nagrywasz monitor 1080p, czy 6K. A jeśli nagrałeś obszar, a nie cały ekran, nakładka kotwiczy się w rogu tego obszaru, a nie monitora, więc pozostaje wewnątrz ujęcia.
 
-Możesz też wywołać ją bezpośrednio przez `omarchy-capture-webcam-resize small` albo `reset`, żeby wrócić do średniego.
+Możesz też wywołać ją bezpośrednio przez `lunaos-capture-webcam-resize small` albo `reset`, żeby wrócić do średniego.
 
 ## Tekst, kody QR i kolory
 
@@ -75,7 +75,7 @@ Nagranie ekranu 4K albo surowy HEIC z telefonu często jest za duży, żeby po p
 
 Obrazy trafiają do jpg lub png w wariancie wysokim, średnim albo niskim, które ograniczają szerokość odpowiednio do 3160, 2160 i 1080 pikseli. Wideo trafiają do mp4 albo animowanego gifa w rozdzielczości 4k, 1080p albo 720p. Skonwertowany plik jest zapisywany obok oryginału z rozdzielczością w nazwie — `demo-1080p.mp4` — a ścieżka jest kopiowana do schowka jako file URI, więc możesz wkleić ją bezpośrednio do aplikacji przyjmującej przeciągane pliki.
 
-Działa też z terminala, jeśli już wiesz, czego chcesz: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Jest też `omarchy transcode ascii`, które zmienia obraz w sztukę ASCII — służy głównie do [brandingu](41-branding.md).
+Działa też z terminala, jeśli już wiesz, czego chcesz: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Jest też `lunaos transcode ascii`, które zmienia obraz w sztukę ASCII — służy głównie do [brandingu](41-branding.md).
 
 ## Wysyłanie gdzieś dalej
 

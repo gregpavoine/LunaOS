@@ -2,7 +2,7 @@
 
 ## Alternatīvi redaktori
 
-Omarchy pēc noklusējuma tiek piegādāts ar [Neovim](https://neovim.io/), taču, ja vēlaties ko ierastāku un pazīstamāku no plaša pielietojuma rīkiem, atveriet Omarchy izvēlni (`Super + Space`) un apskatiet iespējas sadaļā _Instalēt > Editor_. Tur sarakstā ir VSCode, Cursor, Zed, Sublime Text, Helix, Vim un Emacs. Ja neatrodat meklēto, ieskatieties sadaļā _Instalēt > Package_ un pārbaudiet, vai vajadzīgais nav pieejams kā Arch pakotne (un, ja nav, mēģiniet _Instalēt > AUR_, lai pārbaudītu AUR).
+LunaOS pēc noklusējuma tiek piegādāts ar [Neovim](https://neovim.io/), taču, ja vēlaties ko ierastāku un pazīstamāku no plaša pielietojuma rīkiem, atveriet LunaOS izvēlni (`Super + Space`) un apskatiet iespējas sadaļā _Instalēt > Editor_. Tur sarakstā ir VSCode, Cursor, Zed, Sublime Text, Helix, Vim un Emacs. Ja neatrodat meklēto, ieskatieties sadaļā _Instalēt > Package_ un pārbaudiet, vai vajadzīgais nav pieejams kā Arch pakotne (un, ja nav, mēģiniet _Instalēt > AUR_, lai pārbaudītu AUR).
 
 Oriģinālais `vi` redaktors arī ir pieejams jau uzreiz. Palaidiet `vi filename`, lai rediģētu failu terminālī.
 
@@ -12,7 +12,7 @@ Sistēmas mēroga noklusējuma redaktoru var iestatīt sadaļā `Iestatīšana >
 
 ## Vide
 
-Omarchy atbalsta vesela lēvenia izstrādes vides iestatīšanu Omarchy izvēlnes (`Super + Space`) sadaļā _Instalēt > Development_. Tur, protams, atradīsiet _Ruby on Rails_, kā arī visas trīs galvenās JavaScript izpildvides (Node.js, Bun, Deno) un populāros PHP ietvarus, piemēram, Laravel un Symfony. Ak jā, ir arī Go, Rust, Python, Java, Elixir (ar Phoenix), .NET, OCaml, Zig, Clojure un Scala. Izvēle ir patiešām plaša!
+LunaOS atbalsta vesela lēvenia izstrādes vides iestatīšanu LunaOS izvēlnes (`Super + Space`) sadaļā _Instalēt > Development_. Tur, protams, atradīsiet _Ruby on Rails_, kā arī visas trīs galvenās JavaScript izpildvides (Node.js, Bun, Deno) un populāros PHP ietvarus, piemēram, Laravel un Symfony. Ak jā, ir arī Go, Rust, Python, Java, Elixir (ar Phoenix), .NET, OCaml, Zig, Clojure un Scala. Izvēle ir patiešām plaša!
 
 Lielāko daļu šo vidi pārvalda [Mise](https://mise.jdx.dev/). Tas ir rīks, kas ļauj vienā datorā instalēt un palaist vairākas vienas programmēšanas valodas versijas. Tas ir kā rbenv vai rvm valodai Ruby vai virtualenv valodai Python, tikai darbojas ar veselām daudzām dažādām vidēm.
 
@@ -20,11 +20,11 @@ Piemēram, lai instalētu Ruby, palaidiet `mise use -g ruby`, kas gan instalēs 
 
 ## Docker
 
-[Docker](https://www.docker.com/) gandrīz nemaz nav jāiepazīstina. Tas ļauj palaist izolētus konteinerus, un Omarchy instalē visu, kas nepieciešams tā labai darbībai, ieskaitot pašu Docker un [Docker Compose](https://docs.docker.com/compose/).
+[Docker](https://www.docker.com/) gandrīz nemaz nav jāiepazīstina. Tas ļauj palaist izolētus konteinerus, un LunaOS instalē visu, kas nepieciešams tā labai darbībai, ieskaitot pašu Docker un [Docker Compose](https://docs.docker.com/compose/).
 
-Pēc noklusējuma jūs *neesat* `docker` grupā. Šī grupa būtībā ir root piekļuve bez paroles — jebkas, kas tajā atrodas, var izpildīt `docker run -v /:/host` un pārņemt datoru, — tāpēc viens vienīgs negodīgs skripts vai atkarīga pakotne, kas darbojas jūsu vārdā, citādi būtu tikai vienas komandas attālumā no root piekļuves. Tāpēc komandrindā Docker jāpalaiž ar `sudo` (`sudo docker ps`, `sudo docker compose up`), bet grafiskie rīki, kas sazinās ar dēmonu, — Windows VM —, kad tas nepieciešams, prasa autorizāciju. Ja vēlaties atgūt iestatījuma bez grupas ērtību un saprotat kompromisu, iespējojiet to sadaļā **Iestatīšana > Security > Sudoless Docker** (vai palaidiet `omarchy-setup-security-sudoless-docker`), kas pēc brīdinājuma pievieno jūs `docker` grupai; tad vienkāršs `docker` un `d` aizstājvārds atkal darbosies bez `sudo`.
+Pēc noklusējuma jūs *neesat* `docker` grupā. Šī grupa būtībā ir root piekļuve bez paroles — jebkas, kas tajā atrodas, var izpildīt `docker run -v /:/host` un pārņemt datoru, — tāpēc viens vienīgs negodīgs skripts vai atkarīga pakotne, kas darbojas jūsu vārdā, citādi būtu tikai vienas komandas attālumā no root piekļuves. Tāpēc komandrindā Docker jāpalaiž ar `sudo` (`sudo docker ps`, `sudo docker compose up`), bet grafiskie rīki, kas sazinās ar dēmonu, — Windows VM —, kad tas nepieciešams, prasa autorizāciju. Ja vēlaties atgūt iestatījuma bez grupas ērtību un saprotat kompromisu, iespējojiet to sadaļā **Iestatīšana > Security > Sudoless Docker** (vai palaidiet `lunaos-setup-security-sudoless-docker`), kas pēc brīdinājuma pievieno jūs `docker` grupai; tad vienkāršs `docker` un `d` aizstājvārds atkal darbosies bez `sudo`.
 
-Biežākās datubāzes lokālai izstrādei Docker vidē var iestatīt Omarchy izvēlnē sadaļā _Instalēt > Development > Docker DB_.
+Biežākās datubāzes lokālai izstrādei Docker vidē var iestatīt LunaOS izvēlnē sadaļā _Instalēt > Development > Docker DB_.
 
 ## GitHub CLI
 

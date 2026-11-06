@@ -6,7 +6,7 @@ Näet kaikki tärkeimmät näppäimistösidokset yhdistelmällä `Super + K` (Tm
 
 | Pikanäppäin                  | Toiminto              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy-valikko (sovellukset ja kaikki muu)    |
+| `Super + Space`           | LunaOS-valikko (sovellukset ja kaikki muu)    |
 | `Super + Alt + Space` | Sovellusruudukko |
 | `Super + Escape` | Järjestelmävalikko (lepotila, uudelleenkäynnistys jne.)  |
 | `Super + Ctrl + L` | Lukitse tietokone |
@@ -136,7 +136,7 @@ Muuta/lisää sidoksia tiedostossa `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Liitä    |
 | `Super + Ctrl + V`           | Leikepöydän hallinta    |
 
-Linuxissa tarvitset yleensä pääätteessä kopiointiin ja liittämiseen yhdistelmän `Ctrl + Shift + C/V` ja kaikkialla muualla yhdistelmän `Ctrl + C/V`. Nämä Omarchyn yhtenäiset leikepöydän pikanäppäimet toimivat kaikkialla.
+Linuxissa tarvitset yleensä pääätteessä kopiointiin ja liittämiseen yhdistelmän `Ctrl + Shift + C/V` ja kaikkialla muualla yhdistelmän `Ctrl + C/V`. Nämä LunaOSn yhtenäiset leikepöydän pikanäppäimet toimivat kaikkialla.
 
 ## Kaappaus
 
@@ -156,7 +156,7 @@ Linuxissa tarvitset yleensä pääätteessä kopiointiin ja liittämiseen yhdist
 
 Ruuduntallennuksien kohdalla pikanäppäin kysyy ensin, minkä äänen haluat, ja aloittaa sitten tallennuksen. Paina sitä uudelleen pysäyttääksesi. Katso yksityiskohdat kohdasta [kuvakaappaukset ja tallennus](12-screenshots-recording.md).
 
-Kaikki kaappausvaihtoehdot ovat saatavilla myös Omarchy-valikon kohdassa _Käynnistä > Kaappaus_ (`Super + Space`).
+Kaikki kaappausvaihtoehdot ovat saatavilla myös LunaOS-valikon kohdassa _Käynnistä > Kaappaus_ (`Super + Space`).
 
 ## Ilmoitukset
 
@@ -177,9 +177,9 @@ Kaikki kaappausvaihtoehdot ovat saatavilla myös Omarchy-valikon kohdassa _Käyn
 | `Super + Backspace` | Vaihda ikkunan läpinäkyvyys |
 | `Super + Ctrl + Backspace` | Vaihda yhden ikkunan neliönäkökulma |
 
-Lisätaustakuvat ovat hakemistossa `~/.config/omarchy/backgrounds/<theme name>`. Saatavilla myös Omarchy-valikon kohdasta _Asenna > Tyyli > Tausta_.
+Lisätaustakuvat ovat hakemistossa `~/.config/lunaos/backgrounds/<theme name>`. Saatavilla myös LunaOS-valikon kohdasta _Asenna > Tyyli > Tausta_.
 
-Kaikki tyylivaihtoehdot ovat saatavilla myös Omarchy-valikon kohdassa _Tyyli_ (`Super + Space`).
+Kaikki tyylivaihtoehdot ovat saatavilla myös LunaOS-valikon kohdassa _Tyyli_ (`Super + Space`).
 
 ## Vaihtokytkimet
 
@@ -282,7 +282,7 @@ Nämä funktiot on ajettava Tmux-istunnon sisällä.
 
 ## Ghostty-pääte
 
-Ghostty-pääte asennetaan Omarchy-valikon kohdasta _Asenna > Pääte_.
+Ghostty-pääte asennetaan LunaOS-valikon kohdasta _Asenna > Pääte_.
 
 | Pikanäppäin                  | Toiminto              |
 | ----------------------- | --------------------- |
@@ -373,4 +373,4 @@ Voit käyttää yhdistelmää `Super + Ctrl + E` näyttääksesi koko emoji-vali
 | `Shift + CapsLock Space N` | Nimesi (sellaisena kuin se syötettiin asennuksessa)  |
 | `Shift + CapsLock Space E` | Sähköpostisi (sellaisena kuin se syötettiin asennuksessa)  |
 
-Voit lisätä omiasi lisää muokkaamalla tiedostoa `~/.XCompose` ja ajamalla sitten pääätteessä komennon `omarchy-restart-xcompose`, jotta muutokset poimitaan.
+Voit lisätä omiasi lisää muokkaamalla tiedostoa `~/.XCompose` ja ajamalla sitten pääätteessä komennon `lunaos-restart-xcompose`, jotta muutokset poimitaan.

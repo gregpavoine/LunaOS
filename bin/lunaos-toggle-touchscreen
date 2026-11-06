@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# lunaos:summary=Enable, disable, or toggle the touch functionality of the screen
+# lunaos:args=[on|off|toggle]
+
+exec lunaos-toggle-input-device touchscreen "${1:-toggle}"

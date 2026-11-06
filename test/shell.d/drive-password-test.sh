@@ -4,17 +4,17 @@ set -euo pipefail
 
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
-# omarchy-drive-password against fake drives. findmnt and lsblk describe a
+# lunaos-drive-password against fake drives. findmnt and lsblk describe a
 # system drive under / and a data drive, and blkid has the empty cache a user
 # sees until root runs blkid in that boot; cryptsetup is either a slot-table fake
 # or the real binary on file-backed volumes; a chpasswd fake shows the login and
 # root passwords never change. Each cryptsetup call is a crash point, so a run
 # can be killed after every step and rerun, like a power loss. The runs repeat on an Apple fixture,
 # where a fake boot package records the owner's slot through the real
-# omarchy-lifecycle-dispatch; on the x86 fixture that is a no-op.
+# lunaos-lifecycle-dispatch; on the x86 fixture that is a no-op.
 
 # Root's dispatcher ignores the fixtures and sees this machine.
-if (( EUID == 0 )) && [[ $("$ROOT/bin/omarchy-hw-platform") == "aarch64-apple" ]]; then
+if (( EUID == 0 )) && [[ $("$ROOT/bin/lunaos-hw-platform") == "aarch64-apple" ]]; then
   skip "running as root on Apple Silicon, where dispatch ignores fixtures; skipping"
   exit 0
 fi
@@ -26,7 +26,7 @@ old_password=old-password
 new_password='new pass:word'
 recovery_key=recovery-passphrase
 data_password=data-password
-journal=$tmp/state/omarchy/drive-password.state
+journal=$tmp/state/lunaos/drive-password.state
 
 mkdir -p "$tmp/bin" "$tmp/real" "$tmp/dev"
 
@@ -72,7 +72,7 @@ fi
 cat "$TEST_TMP/root-ancestry"
 SH
 
-cat >"$tmp/bin/omarchy-drive-select" <<'SH'
+cat >"$tmp/bin/lunaos-drive-select" <<'SH'
 #!/bin/bash
 printf '%s\n' "$@" >"$TEST_TMP/offered"
 cat "$TEST_TMP/select"
@@ -259,14 +259,14 @@ SH
 chmod 755 "$tmp/lifecycle/usr/lib/omarchy/mac-boot/luks-slots"
 chmod -R go-w "$tmp/lifecycle"
 
-export TEST_TMP=$tmp OMARCHY_PATH=$ROOT XDG_STATE_HOME=$tmp/state SUDO_USER=owner OMARCHY_LIFECYCLE_ROOT=$tmp/lifecycle
+export TEST_TMP=$tmp LUNAOS_PATH=$ROOT XDG_STATE_HOME=$tmp/state SUDO_USER=owner LUNAOS_LIFECYCLE_ROOT=$tmp/lifecycle
 base_path=$PATH
 platform=x86
 
 # The command's PATH for this backend on this platform fixture.
 use() {
   backend=$1 platform=$2
-  export OMARCHY_PROC_ROOT=$tmp/$platform/proc
+  export LUNAOS_PROC_ROOT=$tmp/$platform/proc
   if [[ $backend == "fake" ]]; then
     export PATH="$tmp/$platform/bin:$tmp/bin:$ROOT/bin:$base_path"
   else
@@ -334,7 +334,7 @@ attempt() {
   echo "$crash_at" >"$tmp/crash-at"
   : >"$tmp/trace"
   {
-    CRASH_AT=$crash_at bash -c 'TEST_PID=$$ exec bash ${TEST_TRACE:+-x} "$0"' "$ROOT/bin/omarchy-drive-password"
+    CRASH_AT=$crash_at bash -c 'TEST_PID=$$ exec bash ${TEST_TRACE:+-x} "$0"' "$ROOT/bin/lunaos-drive-password"
   } >>"$tmp/output" 2>&1
 }
 
@@ -837,11 +837,11 @@ fixture
 touch "$tmp/owner-unrecorded"
 if attempt 0 "$old_password" "$new_password" "$new_password"; then fail "apple: an unrecorded disk with two keys refuses the change"; fi
 said "has keys in slots 0,1, so which one is yours can't be told"
-said "record both: sudo omarchy-lifecycle-dispatch luks-slots owner=0 recovery=1"
+said "record both: sudo lunaos-lifecycle-dispatch luks-slots owner=0 recovery=1"
 said "sudo cryptsetup luksKillSlot $system <slot>"
 said "The system disk password did not change."
 ! grep -q 'luksChangeKey\|chpasswd' "$tmp/sudo-calls" && [[ ! -e $journal && ! -e $tmp/slot-record ]] || fail "apple: an unrecorded two-key disk changes nothing"
-"$ROOT/bin/omarchy-lifecycle-dispatch" luks-slots owner=0 recovery=1
+"$ROOT/bin/lunaos-lifecycle-dispatch" luks-slots owner=0 recovery=1
 : >"$tmp/slot-record"
 attempt 0 "$old_password" "$new_password" "$new_password" || fail "apple: once both slots are recorded the change goes through" "$(cat "$tmp/output")"
 consistent "slots recorded as the refusal said" "$new_password"

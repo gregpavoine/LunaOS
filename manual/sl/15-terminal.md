@@ -1,8 +1,8 @@
 # Terminal
 
-[Foot](https://codeberg.org/dnkl/foot) je privzeti terminal za Omarchy. Je hiter, lahek in združljiv celo s starimi računalniki. Vendar ne podpira izvornih zavihkov ali razdelitev.
+[Foot](https://codeberg.org/dnkl/foot) je privzeti terminal za LunaOS. Je hiter, lahek in združljiv celo s starimi računalniki. Vendar ne podpira izvornih zavihkov ali razdelitev.
 
-Če uporabljate Tmux, vas to morda ne moti, če pa ne, kot možnosti v celoti podpiramo tudi _Alacritty_, _Ghostty_ in _Kitty_. Svojo nastavitev izberete pod _Install > Terminal_ v meniju Omarchy.
+Če uporabljate Tmux, vas to morda ne moti, če pa ne, kot možnosti v celoti podpiramo tudi _Alacritty_, _Ghostty_ in _Kitty_. Svojo nastavitev izberete pod _Install > Terminal_ v meniju LunaOS.
 
 Nov terminal zaženete s `Super + Return`. (Ta vezava bo samodejno kazala na kateri koli terminal, ki ste ga namestili prek _Install > Terminal_, med nameščenimi terminali pa lahko preklapljate pod _Setup > Defaults > Terminal_.)
 
@@ -12,11 +12,11 @@ Tmux zagotavlja dosleden, programirljiv vmesnik za podokna, okna (ali zavihke) i
 
 Novo sejo Tmux v novem terminalu zaženete s `Super + Alt + Return`, in ker je Tmux trajni proces, lahko sejo nadaljujete, tudi če ta terminal zaprete. Samo pritisnite `Ctrl + Space` (tako imenovana predpona), nato `s`, da vidite vse svoje aktivne seje.
 
-Omarchy je dobavljen z ergonomsko optimizirano konfiguracijo Tmuxa, ki se je treba naučiti veliko vezav tipk, zato [priročnik](07-hotkeys.md#tmux) držite pri roki.
+LunaOS je dobavljen z ergonomsko optimizirano konfiguracijo Tmuxa, ki se je treba naučiti veliko vezav tipk, zato [priročnik](07-hotkeys.md#tmux) držite pri roki.
 
 ## Funkcije postavitve Tmux
 
-Ker je Tmux programirljiv, lahko funkcije uporabljamo za ustvarjanje postavitev. Omarchy je dobavljen s štirimi različnimi funkcijami za običajne razvijalske postavitve.
+Ker je Tmux programirljiv, lahko funkcije uporabljamo za ustvarjanje postavitev. LunaOS je dobavljen s štirimi različnimi funkcijami za običajne razvijalske postavitve.
 
 `tdl [agent]` zažene trojno razdelitev, podobno IDE, z `$EDITOR` na levi, vašim izbranim agentom AI na desni (kot je `c` za opencode ali `cx` za Claude ali `codex` za OpenAI), nato pa terminalom na dnu.
 

@@ -1,30 +1,30 @@
 # Nettverk
 
-Nettverket i Omarchy håndteres av NetworkManager, og du styrer det fra nettverksikonet i [menylinjen](05-the-top-bar.md) eller med `Super + Ctrl + W`.
+Nettverket i LunaOS håndteres av NetworkManager, og du styrer det fra nettverksikonet i [menylinjen](05-the-top-bar.md) eller med `Super + Ctrl + W`.
 
-Det panelet skanner etter Wi-Fi-nettverk, viser signalstyrke og kobler til. Ethernet krever ingenting i det hele tatt — plugg det inn, så fungerer det. Hvis du heller vil bli i terminalen, gir `nmtui` deg de samme kontrollene, og det finnes også en `omarchy network`-kommandogruppe.
+Det panelet skanner etter Wi-Fi-nettverk, viser signalstyrke og kobler til. Ethernet krever ingenting i det hele tatt — plugg det inn, så fungerer det. Hvis du heller vil bli i terminalen, gir `nmtui` deg de samme kontrollene, og det finnes også en `lunaos network`-kommandogruppe.
 
 ## Dele Wi-Fi-en din
 
 I stedet for å lese et langt passord høyt, kjør _Oppsett > Nettverk > QR-kode_ mens du er på Wi-Fi. Det setter en QR-kode på skjermen som ethvert telefonkamera kan skanne for å bli med. Det er en av de tingene du kommer til å bruke mer enn du skulle tro, når du først vet at den er der.
 
-Hvis du faktisk trenger selve passordet, skriver `omarchy network password <interface>` det ut.
+Hvis du faktisk trenger selve passordet, skriver `lunaos network password <interface>` det ut.
 
 ## DNS
 
-Omarchy bruker den DNS-en nettverket ditt deler ut via DHCP. Du kan overstyre det for hele maskinen under _Oppsett > Nettverk > DNS_, der Cloudflare og Google er ett klikk unna. Velg _Egendefinert_ for å skrive inn dine egne servere.
+LunaOS bruker den DNS-en nettverket ditt deler ut via DHCP. Du kan overstyre det for hele maskinen under _Oppsett > Nettverk > DNS_, der Cloudflare og Google er ett klikk unna. Velg _Egendefinert_ for å skrive inn dine egne servere.
 
-Fra terminalen skriver `omarchy dns` ut gjeldende leverandør, og `omarchy dns Cloudflare` setter én.
+Fra terminalen skriver `lunaos dns` ut gjeldende leverandør, og `lunaos dns Cloudflare` setter én.
 
 ## Feste Wi-Fi-båndet
 
-Hvis ruteren din legger 2.4GHz, 5GHz og 6GHz på samme nettverksnavn, vil den bærbare noen ganger klamre seg til det trege. `omarchy network band` viser hvilket bånd du er på, og `omarchy network band 5` fester det. Bruk `auto` for å la den velge igjen.
+Hvis ruteren din legger 2.4GHz, 5GHz og 6GHz på samme nettverksnavn, vil den bærbare noen ganger klamre seg til det trege. `lunaos network band` viser hvilket bånd du er på, og `lunaos network band 5` fester det. Bruk `auto` for å la den velge igjen.
 
 Dette fester båndet i stedet for et bestemt aksesspunkt, så du fortsetter å roame mellom AP-er som normalt.
 
 ## Hvor raskt er det?
 
-_Utløs > Hastighetstest > Nettverkshastighetstest_ måler den faktiske opp- og nedhastigheten din med et par visere. Fra terminalen er det `omarchy network speedtest down` eller `up`. (Det sitter en diskhastighetstest ved siden av i den menyen, hvis du benchmarker den andre flaskehalsen.)
+_Utløs > Hastighetstest > Nettverkshastighetstest_ måler den faktiske opp- og nedhastigheten din med et par visere. Fra terminalen er det `lunaos network speedtest down` eller `up`. (Det sitter en diskhastighetstest ved siden av i den menyen, hvis du benchmarker den andre flaskehalsen.)
 
 ## Brannmuren
 
@@ -36,7 +36,7 @@ SSH er av til du slår det på med _Oppsett > Sikkerhet > SSHD_, som starter dae
 
 [Tailscale](https://tailscale.com/) er et mesh-VPN som gjør det enkelt og sikkert å nå alle datamaskinene og serverne dine over internett. Installer det med _Installer > Tjeneste > Tailscale_.
 
-Det gir deg et Tailscale-panel i linjen, som kobler til og fra tailnet-et, bytter konto og velger en exit node — både dine egne maskiner og Mullvad-regioner dukker opp i listen. Det blar også i maskinene dine, og det er der Taildrop bor: velg en maskin og trykk `s` for å sende den filer, eller `c`, `n` og `d` for å kopiere IP-en, navnet eller det fulle DNS-navnet. Tilsvarende i terminalen er `omarchy tailscale send <machine> [file...]`, og filer som sendes til deg, lander automatisk i `~/Downloads`. Varslet som kunngjør en ankomst, venter til du klikker det åpent eller avviser det, så en fil som dukker opp mens du er borte fra maskinen, fortsatt er der å svare på når du kommer tilbake.
+Det gir deg et Tailscale-panel i linjen, som kobler til og fra tailnet-et, bytter konto og velger en exit node — både dine egne maskiner og Mullvad-regioner dukker opp i listen. Det blar også i maskinene dine, og det er der Taildrop bor: velg en maskin og trykk `s` for å sende den filer, eller `c`, `n` og `d` for å kopiere IP-en, navnet eller det fulle DNS-navnet. Tilsvarende i terminalen er `lunaos tailscale send <machine> [file...]`, og filer som sendes til deg, lander automatisk i `~/Downloads`. Varslet som kunngjør en ankomst, venter til du klikker det åpent eller avviser det, så en fil som dukker opp mens du er borte fra maskinen, fortsatt er der å svare på når du kommer tilbake.
 
 Når du installerer det, får du også en nettapp for Tailscale-administrasjonskonsollen.
 

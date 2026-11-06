@@ -1,6 +1,6 @@
 echo "Retain the installed ARM Limine recovery packages during orphan cleanup"
 
-[[ $(uname -m) == "aarch64" && -f ${OMARCHY_LIMINE_CONF:-/etc/default/limine} ]] || exit 0
+[[ $(uname -m) == "aarch64" && -f ${LUNAOS_LIMINE_CONF:-/etc/default/limine} ]] || exit 0
 
 # ARM also supports boot stacks such as Asahi's, so the runtime package cannot
 # depend on Limine unconditionally. The ISO installs its chosen stack explicitly;

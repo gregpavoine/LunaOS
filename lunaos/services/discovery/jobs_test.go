@@ -93,8 +93,12 @@ func (r *removalConnector) Removed(ctx context.Context, ids []string) ([]string,
 	return r.removed(ids), nil
 }
 
+// meta builds a candidate that matches newTestEngine's allowlist.
 func meta(provider, id string) Candidate {
-	return Candidate{Item: Item{Provider: provider, ExternalID: id, ContentLevel: "adult"}}
+	if provider == "reddit" {
+		return Candidate{Item: Item{Provider: provider, ExternalID: id, Tags: []string{"r/x"}}}
+	}
+	return Candidate{Item: Item{Provider: provider, ExternalID: id, License: "cc-by", ContentLevel: "Mature", Tags: []string{"a"}}}
 }
 
 func media(provider, id string) Candidate {
@@ -154,9 +158,12 @@ func newTestEngine(t *testing.T, s *Store, clock *fakeClock, d *downloader, conn
 	e := &Engine{
 		Store:      s,
 		Connectors: conns,
-		Policy:     Policy{Civitai: CivitaiPolicy{AllowedLicenses: []string{"cc-by"}}},
-		Now:        clock.Now,
-		Sleep:      clock.Sleep,
+		Policy: Policy{
+			Civitai: CivitaiPolicy{Tags: []string{"a"}, MaxContentLevel: "X", AllowedLicenses: []string{"cc-by"}},
+			Reddit:  RedditPolicy{Subreddits: []string{"x"}},
+		},
+		Now:   clock.Now,
+		Sleep: clock.Sleep,
 	}
 	if d != nil {
 		e.Download = d.Download
@@ -248,6 +255,42 @@ func TestRetryAfterIsHonoured(t *testing.T) {
 		rep = e.Sync(context.Background())
 		if pr := rep.PerProvider["civitai"]; pr.State != "ok" || pr.Stored != 2 {
 			t.Fatalf("report after the limit = %+v", pr)
+		}
+	})
+
+	t.Run("rate limited on every attempt stops the provider", func(t *testing.T) {
+		s, _ := newTestStore(t)
+		clock := newFakeClock()
+		ctx := context.Background()
+		start := clock.Now()
+		conn := &fakeConnector{name: "civitai", scopes: []string{"tag:a", "tag:b"}, clock: clock, fetch: func(scope, cursor string, n int) (Page, error) {
+			if scope == "tag:b" {
+				t.Fatal("next scope fetched while the provider is rate limited")
+			}
+			return Page{}, ErrRateLimited{RetryAfter: 60 * time.Second}
+		}}
+		if err := s.SaveCursor(ctx, "civitai", "tag:a", "c3"); err != nil {
+			t.Fatal(err)
+		}
+		e := newTestEngine(t, s, clock, nil, conn)
+		rep := e.Sync(ctx)
+		if pr := rep.PerProvider["civitai"]; pr.State != "rate_limited" {
+			t.Fatalf("report = %+v", pr)
+		}
+		if len(conn.Calls()) != 5 {
+			t.Fatalf("want 5 attempts, got %d", len(conn.Calls()))
+		}
+		if len(deadLetters(t, s, "civitai")) != 0 {
+			t.Fatal("a rate limit is not a dead letter")
+		}
+		if c, _ := s.Cursor(ctx, "civitai", "tag:a"); c != "c3" {
+			t.Fatalf("cursor moved to %q", c)
+		}
+		// The four in-sync waits took 240 s; the last limit holds until +300 s.
+		clock.t = start.Add(299 * time.Second)
+		rep = e.Sync(ctx)
+		if len(conn.Calls()) != 5 || rep.PerProvider["civitai"].State != "rate_limited" {
+			t.Fatalf("called before the provider's Retry-After: calls=%d", len(conn.Calls()))
 		}
 	})
 }
@@ -494,5 +537,127 @@ func TestRejectedCandidatesAreNeverDownloaded(t *testing.T) {
 	}
 	if pr := rep.PerProvider["civitai"]; pr.Rejected != 1 || pr.Stored != 0 {
 		t.Fatalf("no downloader = %+v", pr)
+	}
+}
+
+func TestExpiredCursorResetsScope(t *testing.T) {
+	s, _ := newTestStore(t)
+	clock := newFakeClock()
+	ctx := context.Background()
+	if err := s.SaveCursor(ctx, "civitai", "tag:a", "stale"); err != nil {
+		t.Fatal(err)
+	}
+	conn := &fakeConnector{name: "civitai", scopes: []string{"tag:a", "tag:b"}, clock: clock, fetch: func(scope, cursor string, n int) (Page, error) {
+		if cursor == "stale" {
+			return Page{}, ErrCursorExpired
+		}
+		return Page{Items: []Candidate{meta("civitai", scope+cursor)}}, nil
+	}}
+	rep := newTestEngine(t, s, clock, nil, conn).Sync(ctx)
+	if pr := rep.PerProvider["civitai"]; pr.State != "ok" || pr.Stored != 1 {
+		t.Fatalf("report = %+v", pr)
+	}
+	if got := conn.Calls(); len(got) != 2 || got[0].Cursor != "stale" || got[1].Scope != "tag:b" {
+		t.Fatalf("an expired cursor must not be retried and must end only its scope: %+v", got)
+	}
+	if c, err := s.Cursor(ctx, "civitai", "tag:a"); err != nil || c != "" {
+		t.Fatalf("cursor = %q %v, want reset", c, err)
+	}
+	if dl := deadLetters(t, s, "civitai"); len(dl) != 0 || len(clock.Sleeps()) != 0 {
+		t.Fatalf("dead letters = %v sleeps = %v", dl, clock.Sleeps())
+	}
+}
+
+func TestTakedownGuardKeepsLibrary(t *testing.T) {
+	for name, c := range map[string]struct {
+		gone    []string
+		kept    []string
+		guarded bool
+	}{
+		"most reported removed": {gone: []string{"a", "b", "c"}, kept: []string{"a", "b", "c", "d"}, guarded: true},
+		"one reported removed":  {gone: []string{"a"}, kept: []string{"b", "c", "d"}},
+	} {
+		t.Run(name, func(t *testing.T) {
+			s, _ := newTestStore(t)
+			clock := newFakeClock()
+			for _, id := range []string{"a", "b", "c", "d"} {
+				mustPut(t, s, Item{Provider: "civitai", ExternalID: id}, []byte("media-"+id))
+			}
+			listed := 0
+			conn := &removalConnector{
+				fakeConnector: &fakeConnector{name: "civitai", scopes: []string{"tag:a"}, clock: clock, fetch: func(scope, cursor string, n int) (Page, error) {
+					listed++
+					return Page{}, nil
+				}},
+				removed: func(ids []string) []string { return c.gone },
+			}
+			pr := newTestEngine(t, s, clock, nil, conn).Sync(context.Background()).PerProvider["civitai"]
+			if got := externalIDs(t, s, "civitai"); !reflect.DeepEqual(got, c.kept) {
+				t.Fatalf("ids = %v, want %v", got, c.kept)
+			}
+			dl := deadLetters(t, s, "civitai")
+			if c.guarded {
+				if pr.State != "failed" || pr.Removed != 0 || len(dl) != 1 || dl[0].Scope != removalScope || dl[0].Code != "takedown_guard" {
+					t.Fatalf("report = %+v dead letters = %+v", pr, dl)
+				}
+			} else if pr.State != "ok" || pr.Removed != 1 || len(dl) != 0 {
+				t.Fatalf("report = %+v dead letters = %+v", pr, dl)
+			}
+			if listed != 1 {
+				t.Fatalf("listing scopes must still run: %d fetches", listed)
+			}
+		})
+	}
+}
+
+func TestSecondSyncDownloadsNothingKnown(t *testing.T) {
+	s, _ := newTestStore(t)
+	clock := newFakeClock()
+	d := newDownloader(t)
+	conn := &fakeConnector{name: "civitai", scopes: []string{"tag:a"}, clock: clock, fetch: func(scope, cursor string, n int) (Page, error) {
+		return Page{Items: []Candidate{media("civitai", "m1"), media("civitai", "m2"), meta("civitai", "t1")}}, nil
+	}}
+	e := newTestEngine(t, s, clock, d, conn)
+	if pr := e.Sync(context.Background()).PerProvider["civitai"]; pr.Stored != 3 {
+		t.Fatalf("first sync = %+v", pr)
+	}
+	d.calls = map[string]int{}
+	pr := e.Sync(context.Background()).PerProvider["civitai"]
+	if len(d.calls) != 0 {
+		t.Fatalf("second sync downloaded known items: %v", d.calls)
+	}
+	if pr.State != "ok" || pr.Stored != 0 || pr.Duplicates != 3 {
+		t.Fatalf("second sync = %+v", pr)
+	}
+	d.assertCleaned()
+}
+
+func TestFinalDeadLetterIsNotDownloadedAgain(t *testing.T) {
+	s, _ := newTestStore(t)
+	clock := newFakeClock()
+	d := newDownloader(t)
+	d.fail = func(c Candidate, n int) error {
+		if c.ExternalID == "big" {
+			return ErrTooLarge
+		}
+		return nil
+	}
+	conn := &fakeConnector{name: "civitai", scopes: []string{"tag:a"}, clock: clock, fetch: func(scope, cursor string, n int) (Page, error) {
+		return Page{Items: []Candidate{media("civitai", "big")}}, nil
+	}}
+	e := newTestEngine(t, s, clock, d, conn)
+	e.Sync(context.Background())
+	if d.calls["big"] != 1 || len(deadLetters(t, s, "civitai")) != 1 {
+		t.Fatalf("first sync: calls=%v dead letters=%+v", d.calls, deadLetters(t, s, "civitai"))
+	}
+	pr := e.Sync(context.Background()).PerProvider["civitai"]
+	if d.calls["big"] != 1 {
+		t.Fatalf("a too_large item was downloaded again: %v", d.calls)
+	}
+	if dl := deadLetters(t, s, "civitai"); len(dl) != 1 {
+		t.Fatalf("dead letters = %+v", dl)
+	}
+	if pr.State != "ok" || pr.Rejected != 1 {
+		t.Fatalf("second sync = %+v", pr)
 	}
 }

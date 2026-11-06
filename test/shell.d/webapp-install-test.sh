@@ -11,7 +11,7 @@ home="$tmpdir/home"
 mkdir -p "$home/.local/share/applications"
 
 install_webapp() {
-  HOME="$home" PATH="$ROOT/bin:$PATH" "$ROOT/bin/omarchy-webapp-install" "$@"
+  HOME="$home" PATH="$ROOT/bin:$PATH" "$ROOT/bin/lunaos-webapp-install" "$@"
 }
 
 desktop_for() {
@@ -27,7 +27,7 @@ fi
 desktop=$(desktop_for Example)
 [[ -f $desktop ]] || fail "webapp install writes a desktop file"
 grep -Fxq 'Name=Example' "$desktop" || fail "webapp install writes the app name"
-grep -Fxq 'Exec=omarchy-launch-webapp "https://example.com"' "$desktop" ||
+grep -Fxq 'Exec=lunaos-launch-webapp "https://example.com"' "$desktop" ||
   fail "webapp install launches the https URL" "$(cat "$desktop")"
 pass "webapp install writes an https desktop entry"
 
@@ -40,8 +40,8 @@ for case in \
   "https://maps.google.com|chrome-maps.google.com__-Default" \
   "https://discord.com/channels/@me|chrome-discord.com__channels_@me-Default" \
   "https://Example.com:8443/a/b?x=1#y|chrome-example.com__a_b-Default"; do
-  [[ $("$ROOT/bin/omarchy-webapp-window-class" "${case%%|*}") == "${case#*|}" ]] ||
-    fail "the window class of ${case%%|*} is ${case#*|}" "$("$ROOT/bin/omarchy-webapp-window-class" "${case%%|*}")"
+  [[ $("$ROOT/bin/lunaos-webapp-window-class" "${case%%|*}") == "${case#*|}" ]] ||
+    fail "the window class of ${case%%|*} is ${case#*|}" "$("$ROOT/bin/lunaos-webapp-window-class" "${case%%|*}")"
 done
 pass "web app window classes follow Chromium's host and path naming"
 
@@ -50,16 +50,16 @@ if install_webapp "Plain" "example.org/app" "webapp" >"$tmpdir/out" 2>"$tmpdir/e
 else
   fail "webapp install prefixes a schemeless URL with https" "$(cat "$tmpdir/err")"
 fi
-grep -Fxq 'Exec=omarchy-launch-webapp "https://example.org/app"' "$(desktop_for Plain)" ||
+grep -Fxq 'Exec=lunaos-launch-webapp "https://example.org/app"' "$(desktop_for Plain)" ||
   fail "webapp install stores the prefixed https URL" "$(cat "$(desktop_for Plain)")"
 pass "webapp install prefixes a schemeless URL with https"
 
-if install_webapp "Local" "https://localhost:47990" "webapp" "omarchy-launch-webapp https://localhost:47990 --ignore-certificate-errors" >"$tmpdir/out" 2>"$tmpdir/err"; then
+if install_webapp "Local" "https://localhost:47990" "webapp" "lunaos-launch-webapp https://localhost:47990 --ignore-certificate-errors" >"$tmpdir/out" 2>"$tmpdir/err"; then
   :
 else
   fail "webapp install keeps a custom https exec" "$(cat "$tmpdir/err")"
 fi
-grep -Fxq 'Exec=omarchy-launch-webapp https://localhost:47990 --ignore-certificate-errors' "$(desktop_for Local)" ||
+grep -Fxq 'Exec=lunaos-launch-webapp https://localhost:47990 --ignore-certificate-errors' "$(desktop_for Local)" ||
   fail "webapp install writes the custom exec" "$(cat "$(desktop_for Local)")"
 grep -Fxq 'StartupWMClass=chrome-localhost__-Default' "$(desktop_for Local)" ||
   fail "a custom exec still names its window after the URL it opens" "$(cat "$(desktop_for Local)")"
@@ -98,7 +98,7 @@ if install_webapp "Upper" "HTTPS://example.com" "webapp" >"$tmpdir/out" 2>"$tmpd
 else
   fail "webapp install accepts an uppercase scheme" "$(cat "$tmpdir/err")"
 fi
-grep -Fxq 'Exec=omarchy-launch-webapp "HTTPS://example.com"' "$(desktop_for Upper)" ||
+grep -Fxq 'Exec=lunaos-launch-webapp "HTTPS://example.com"' "$(desktop_for Upper)" ||
   fail "webapp install keeps the uppercase scheme" "$(cat "$(desktop_for Upper)")"
 pass "webapp install accepts an uppercase http scheme"
 
@@ -128,7 +128,7 @@ printf 'Evil\nfile:///etc/passwd\n' >"$tmpdir/answers"
 : >"$tmpdir/curl-log"
 
 if GUM_ANSWERS="$tmpdir/answers" GUM_COUNT="$tmpdir/gum-count" CURL_LOG="$tmpdir/curl-log" \
-  PATH="$stubs:$PATH" HOME="$home" "$ROOT/bin/omarchy-webapp-install" \
+  PATH="$stubs:$PATH" HOME="$home" "$ROOT/bin/lunaos-webapp-install" \
   >"$tmpdir/out" 2>"$tmpdir/err"; then
   fail "interactive webapp install refuses a file: URL" "$(cat "$tmpdir/out")"
 fi

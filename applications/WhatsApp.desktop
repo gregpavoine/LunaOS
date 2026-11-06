@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Name=WhatsApp
-Exec=omarchy-launch-webapp https://web.whatsapp.com/
+Exec=lunaos-launch-webapp https://web.whatsapp.com/
 StartupWMClass=chrome-web.whatsapp.com__-Default
 Terminal=false
 Type=Application

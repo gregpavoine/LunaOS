@@ -5,11 +5,11 @@ echo "Keep background selections across renumbered bundled backgrounds"
 # name, and its WebP, are gone from the theme moves to the theme's one
 # background with the same name under another number. A theme is its bundled
 # backgrounds with a user theme of the same name laid over them, as
-# omarchy-theme-set stages it. A background that still opens, a user's own
+# lunaos-theme-set stages it. A background that still opens, a user's own
 # backgrounds, and anything without exactly one match stay as they are. So does
 # a name a symlink stands for: staging keeps some symlinks and not others (not
 # those of a cloned theme), so it is left rather than guessed at.
-current_dir="$HOME/.local/state/omarchy/current"
+current_dir="$HOME/.local/state/lunaos/current"
 staged_backgrounds="$current_dir/theme/backgrounds"
 
 # Prints the theme's file for a renumbered background name.
@@ -21,7 +21,7 @@ renumbered_source() {
   stem=${BASH_REMATCH[1]}
 
   # The user theme first: its files shadow bundled ones of the same name.
-  for dir in "$HOME/.config/omarchy/themes/$theme/backgrounds" "$OMARCHY_PATH/themes/$theme/backgrounds"; do
+  for dir in "$HOME/.config/lunaos/themes/$theme/backgrounds" "$LUNAOS_PATH/themes/$theme/backgrounds"; do
     # A symlinked backgrounds folder is not staged from a cloned theme.
     [[ ! -L $dir ]] || return 1
     [[ -e $dir/$name || -e $dir/${name%.*}.webp ]] && return 1
@@ -39,7 +39,7 @@ renumbered_source() {
   [[ -n $found ]] && printf '%s\n' "$found"
 }
 
-# Selections live in the staged theme; omarchy-theme-set reads a remembered
+# Selections live in the staged theme; lunaos-theme-set reads a remembered
 # one there by name against the theme it stages.
 current_background="$current_dir/background"
 # A symlinked current/theme is someone's own directory: nothing is copied into it.
@@ -50,11 +50,11 @@ if [[ -L $current_background && ! -e $current_background && ! -L $current_dir/th
     replacement="$staged_backgrounds/${source##*/}"
     [[ -f $replacement ]] || cp "$source" "$replacement"
     ln -sfn "$replacement" "$current_background"
-    omarchy-shell -q background set "$replacement"
+    lunaos-shell -q background set "$replacement"
   fi
 fi
 
-for state_file in "$HOME/.local/state/omarchy/theme-backgrounds/"*; do
+for state_file in "$HOME/.local/state/lunaos/theme-backgrounds/"*; do
   [[ -f $state_file ]] || continue
 
   background=$(<"$state_file")

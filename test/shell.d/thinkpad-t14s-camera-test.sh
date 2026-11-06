@@ -6,13 +6,13 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
 scratch=$(mktemp -d)
 trap 'rm -rf "$scratch"' EXIT
-export OMARCHY_PATH="$ROOT"
+export LUNAOS_PATH="$ROOT"
 setup="$ROOT/install/hardware/lenovo/thinkpad-t14s-camera.sh"
 
 # Exercise the real scripts, redirecting privileged writes to a temporary root.
-omarchy-hw-aarch64-qualcomm() { [[ $soc == "qualcomm" ]]; }
-omarchy-hw-match() { grep -qi -- "$1" <<<"$model"; }
-omarchy-pkg-add() { printf '%s\n' "$*" >>"$scratch/packages"; }
+lunaos-hw-aarch64-qualcomm() { [[ $soc == "qualcomm" ]]; }
+lunaos-hw-match() { grep -qi -- "$1" <<<"$model"; }
+lunaos-pkg-add() { printf '%s\n' "$*" >>"$scratch/packages"; }
 sudo() {
   case "$1" in
     install) command install "$2" "$3" "$scratch$4" ;;
@@ -47,5 +47,5 @@ rule=$(sed '/^#/d; /^$/d' "$ROOT/default/udev/thinkpad-t14s-camera.rules")
 [[ $rule == 'SUBSYSTEM=="dma_heap", KERNEL=="system", TAG+="uaccess"' ]] || fail "access is restricted to the system heap via logind"
 pass "DMA heap access uses a scoped active-seat ACL"
 
-grep -Fxq 'pipewire-libcamera' "$ROOT/install/omarchy-other.packages" || fail "ISO can supply the camera backend offline"
+grep -Fxq 'pipewire-libcamera' "$ROOT/install/lunaos-other.packages" || fail "ISO can supply the camera backend offline"
 pass "camera backend is included in the offline package inventory"

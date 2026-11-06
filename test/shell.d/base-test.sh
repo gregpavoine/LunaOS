@@ -14,7 +14,7 @@ export ROOT
 # Language, so pin tests to English (a missing file means English) rather than
 # whatever the machine running them is set to. Tests of other languages point
 # this at a file of their own.
-export OMARCHY_LANGUAGE_FILE=$ROOT/test/.no-language
+export LUNAOS_LANGUAGE_FILE=$ROOT/test/.no-language
 
 # Tests point HOME at a scratch directory, but a desktop session also exports
 # the XDG base directories, which would keep pointing at the real home: a
@@ -39,13 +39,13 @@ fail() {
   exit 1
 }
 
-# The IPC socket a shell running an OMARCHY_PATH's config on this display
-# serves, derived as omarchy-shell derives it. A test that starts the real
+# The IPC socket a shell running an LUNAOS_PATH's config on this display
+# serves, derived as lunaos-shell derives it. A test that starts the real
 # shell removes it afterwards: killing the shell leaves the file behind.
 shell_ipc_socket() {
   local id
   id=$(printf '%s\n%s' "$1/shell" "${WAYLAND_DISPLAY:-}" | md5sum)
-  printf '%s/omarchy-shell-%s.sock\n' "${XDG_RUNTIME_DIR:-/run/user/$UID}" "${id:0:16}"
+  printf '%s/lunaos-shell-%s.sock\n' "${XDG_RUNTIME_DIR:-/run/user/$UID}" "${id:0:16}"
 }
 
 require_command() {
@@ -74,7 +74,7 @@ compositor_reachable() {
   [[ -n ${HYPRLAND_INSTANCE_SIGNATURE:-} ]] || return 0
 
   # Hyprland can miss a query while it reconfigures outputs, and one miss is not
-  # a dead compositor; retry the way omarchy-launch-shell does rather than
+  # a dead compositor; retry the way lunaos-launch-shell does rather than
   # discard a whole file's runtime coverage. Only a leftover socket gets this
   # far, so the waiting is rare.
   local attempt
@@ -117,24 +117,24 @@ require_uncovered_background() {
 }
 
 # Finds the pkgbuilds/ directory of the omarchy-pkgs checkout, which some tests
-# hold Omarchy's scripts against, and sets OMARCHY_PKGS_ROOT to it. The checkout
+# hold LunaOS's scripts against, and sets LUNAOS_PKGS_ROOT to it. The checkout
 # lives in its own repository, wherever this machine keeps it.
 #
-# OMARCHY_PKGS_PATH names it outright (the checkout or its pkgbuilds/), and then
+# LUNAOS_PKGS_PATH names it outright (the checkout or its pkgbuilds/), and then
 # nothing else is tried: an override that doesn't resolve fails the test, so a
 # typo can't quietly turn the package checks into skips. Without the override,
 # the usual places beside this checkout are tried, and finding none returns 1 so
 # the test can skip what needs one.
-find_omarchy_pkgs() {
+find_lunaos_pkgs() {
   local candidate
   local -a candidates pkgbuilds
 
-  if [[ -n ${OMARCHY_PKGS_PATH:-} ]]; then
-    candidates=("$OMARCHY_PKGS_PATH/pkgbuilds" "$OMARCHY_PKGS_PATH")
+  if [[ -n ${LUNAOS_PKGS_PATH:-} ]]; then
+    candidates=("$LUNAOS_PKGS_PATH/pkgbuilds" "$LUNAOS_PKGS_PATH")
   else
     candidates=(
       "$ROOT/../omarchy-pkgs/pkgbuilds"
-      "$ROOT/../omarchy/omarchy-pkgs/pkgbuilds"
+      "$ROOT/../lunaos/omarchy-pkgs/pkgbuilds"
       "$ROOT/../../omarchy-pkgs/pkgbuilds"
       "$ROOT/../omacom/omarchy-pkgs/pkgbuilds"
       "$ROOT/../../omacom/omarchy-pkgs/pkgbuilds"
@@ -146,19 +146,19 @@ find_omarchy_pkgs() {
     # Only */PKGBUILD is a pattern; the checkout's own path stays literal.
     pkgbuilds=("$candidate"/*/PKGBUILD)
     if [[ -f ${pkgbuilds[0]:-} ]]; then
-      OMARCHY_PKGS_ROOT=$(CDPATH= cd -- "$candidate" && pwd)
+      LUNAOS_PKGS_ROOT=$(CDPATH= cd -- "$candidate" && pwd)
       return 0
     fi
   done
 
-  [[ -z ${OMARCHY_PKGS_PATH:-} ]] ||
-    fail "OMARCHY_PKGS_PATH names an omarchy-pkgs checkout" "no */PKGBUILD under $OMARCHY_PKGS_PATH or its pkgbuilds/"
+  [[ -z ${LUNAOS_PKGS_PATH:-} ]] ||
+    fail "LUNAOS_PKGS_PATH names an omarchy-pkgs checkout" "no */PKGBUILD under $LUNAOS_PKGS_PATH or its pkgbuilds/"
   return 1
 }
 
-# Fake the hardware identity omarchy-hw-platform reads: a device tree under
+# Fake the hardware identity lunaos-hw-platform reads: a device tree under
 # $1/proc and a uname in $1/bin reporting the platform's CPU. Run the code under
-# test with OMARCHY_PROC_ROOT="$1/proc" and PATH="$1/bin:$ROOT/bin:...", so the
+# test with LUNAOS_PROC_ROOT="$1/proc" and PATH="$1/bin:$ROOT/bin:...", so the
 # real detector and its wrappers answer from the fixture.
 fake_platform() {
   local dir="$1" platform="$2" machine=aarch64
@@ -187,11 +187,11 @@ SH
   chmod +x "$dir/bin/uname"
 }
 
-# omarchy-hw-platform ignores fixture roots when it runs as root, so a root run
+# lunaos-hw-platform ignores fixture roots when it runs as root, so a root run
 # cannot fake a platform. Skip the rest of the file there.
 require_platform_fixtures() {
   (( EUID != 0 )) && return 0
-  skip "running as root, where omarchy-hw-platform ignores fixtures; skipping $1"
+  skip "running as root, where lunaos-hw-platform ignores fixtures; skipping $1"
   exit 0
 }
 

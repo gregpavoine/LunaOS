@@ -9,7 +9,7 @@ files=(plugin/after/transparency.lua lua/plugins/lualine-transparent.lua)
 [[ -d $config ]] || exit 0
 
 # Users without omarchy-nvim manage their own Neovim configuration.
-omarchy-pkg-present omarchy-nvim || exit 0
+lunaos-pkg-present omarchy-nvim || exit 0
 
 # Dotfile managers may own a file or a parent directory through a symlink.
 # Preserve that layout rather than detaching or editing its target.
@@ -41,7 +41,7 @@ install_from_package() {
   mv -fT -- "$staged" "$config/$1"
 }
 
-# Only a transparency file still as Omarchy shipped it is replaced, so one the
+# Only a transparency file still as LunaOS shipped it is replaced, so one the
 # user changed is kept.
 if [[ -f $config/${files[0]} ]]; then
   case $(sha256sum <"$config/${files[0]}") in

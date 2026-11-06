@@ -1,6 +1,6 @@
 # Čaulas rīki
 
-Papildus standarta Linux rīkiem Omarchy tiek piegādāts arī ar veselām daudzām uzlabotām čaulas rīkām. Šeit ir svarīgākie.
+Papildus standarta Linux rīkiem LunaOS tiek piegādāts arī ar veselām daudzām uzlabotām čaulas rīkām. Šeit ir svarīgākie.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Pilno rokasgrāmatu var atrast ar `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) ir komandas cd aizstājums. Tas atceras direktorijas, kurās esat bijis, tāpēc nākamreiz varat uz tām vieglāk pārlēkt. Pieņemsim, ka vienreiz izpildāt `cd ~/.config/omarchy`. Nākamreiz varat vienkārši izpildīt `cd omarchy` (vai pat tikai `cd oma`), un Zoxide jūs aizvedīs uzreiz turp.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) ir komandas cd aizstājums. Tas atceras direktorijas, kurās esat bijis, tāpēc nākamreiz varat uz tām vieglāk pārlēkt. Pieņemsim, ka vienreiz izpildāt `cd ~/.config/lunaos`. Nākamreiz varat vienkārši izpildīt `cd lunaos` (vai pat tikai `cd oma`), un Zoxide jūs aizvedīs uzreiz turp.
 
 Pilno rokasgrāmatu var atrast ar `man zoxide`.
 
@@ -58,4 +58,4 @@ Pilno rokasgrāmatu var atrast ar `man yt-dlp`.
 
 [try](https://github.com/tobi/try) atvieglo programmēšanas eksperimentu pārvaldību, izmantojot ar datumu marķētas direktorijas. Visi eksperimenti dzīvo mapē `~/Work/tries`, un tiem var piekļūt ar `try`.
 
-Omarchy automātiski nepievieno projekta `bin/` direktoriju mainīgajam `PATH`. Palaidiet uzticamus projekta lokālos rīkus, norādot skaidru relatīvo ceļu, piemēram, `bin/rails` vai `./bin/dev`.
+LunaOS automātiski nepievieno projekta `bin/` direktoriju mainīgajam `PATH`. Palaidiet uzticamus projekta lokālos rīkus, norādot skaidru relatīvo ceļu, piemēram, `bin/rails` vai `./bin/dev`.

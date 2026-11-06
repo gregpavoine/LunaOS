@@ -1,14 +1,14 @@
 # An Barra Barr
 
-Is é an stiall feadh barr do scáileáin barra Omarchy. Ní barra stádais boltáilte air é ach cuid de bhlaosc Omarchy, an próiseas Quickshell fadtréimhseach amháin a tharraingíonn an roghchlár, na fógraí, pop-ups OSD, agus an scáileán glasa freisin. Sin an fáth a dtéamaíonn sé go foirfe le gach rud eile agus an fáth a osclaíonn painéal láithreach in ionad aip nua a sceitheadh.
+Is é an stiall feadh barr do scáileáin barra LunaOS. Ní barra stádais boltáilte air é ach cuid de bhlaosc LunaOS, an próiseas Quickshell fadtréimhseach amháin a tharraingíonn an roghchlár, na fógraí, pop-ups OSD, agus an scáileán glasa freisin. Sin an fáth a dtéamaíonn sé go foirfe le gach rud eile agus an fáth a osclaíonn painéal láithreach in ionad aip nua a sceitheadh.
 
 Is é an t-aon phíosa den deasc é freisin atá ar an scáileán i gcónaí, mar sin is fiú fios a bheith agat cad a dhéanann na glifí beaga sin uile.
 
 ## Cad atá air de réir réamhshocraithe
 
-Tá trí chuid sa bharra. Ar chlé suíonn lógó Omarchy (an seoltóir roghchláir) agus táscairí na spásanna oibre. Sa lár faigheann tú na táscairí stádais, an clog, Elsewhen (clog domhanda), an aimsir, agus suaitheantas nuashonraithe Omarchy. Ar dheis: leagan amach an mhéarchláir (nuair a bhíonn níos mó ná ceann amháin cumraithe), tráidire an chórais, gníomhairí, bluetooth, líonra, fuaim, taispeáint, agus cumhacht.
+Tá trí chuid sa bharra. Ar chlé suíonn lógó LunaOS (an seoltóir roghchláir) agus táscairí na spásanna oibre. Sa lár faigheann tú na táscairí stádais, an clog, Elsewhen (clog domhanda), an aimsir, agus suaitheantas nuashonraithe LunaOS. Ar dheis: leagan amach an mhéarchláir (nuair a bhíonn níos mó ná ceann amháin cumraithe), tráidire an chórais, gníomhairí, bluetooth, líonra, fuaim, taispeáint, agus cumhacht.
 
-Ní thaispeántar cúpla ceann díobh sin ach nuair a bhíonn rud éigin le rá acu. Ní thaispeántar leagan amach an mhéarchláir ach amháin má tá níos mó ná leagan amach amháin cumraithe agat. Ní thaispeántar an suaitheantas nuashonraithe ach nuair a bhíonn nuashonrú Omarchy ag fanacht. Agus taispeántar deilbhín na ngníomhairí an chéad uair a aimsíonn Omarchy úsáid códaithe AI ar an meaisín (féach [AI](17-ai.md)).
+Ní thaispeántar cúpla ceann díobh sin ach nuair a bhíonn rud éigin le rá acu. Ní thaispeántar leagan amach an mhéarchláir ach amháin má tá níos mó ná leagan amach amháin cumraithe agat. Ní thaispeántar an suaitheantas nuashonraithe ach nuair a bhíonn nuashonrú LunaOS ag fanacht. Agus taispeántar deilbhín na ngníomhairí an chéad uair a aimsíonn LunaOS úsáid códaithe AI ar an meaisín (féach [AI](17-ai.md)).
 
 ## Ag cliceáil timpeall
 
@@ -16,7 +16,7 @@ Déanann beagnach gach giuirléid rud éigin ar chliceáil chlé, dheas, agus l�
 
 | Giuirléid | Clé | Deas | Lár / scrollú |
 | --- | --- | --- | --- |
-| Roghchlár | Roghchlár Omarchy | Teirminéal nua | — |
+| Roghchlár | Roghchlár LunaOS | Teirminéal nua | — |
 | Spásanna oibre | Dírigh ar an spás oibre sin | — | Scrollú: spás oibre eile/roimhe |
 | Clog | Pop-up féilire | Timthriall formáid an lipéid | Lár: roghnóir crios ama |
 | Aimsir | Pop-up réamhaisnéise | Aimsir iomlán mar fhógra | Lár: athnuaigh |
@@ -29,7 +29,7 @@ Déanann beagnach gach giuirléid rud éigin ar chliceáil chlé, dheas, agus l�
 | Meáin | Seinn/sos | Pop-up ealaíne clúdaigh | Lár: an chéad cheann eile · scrollú: roimhe/an chéad cheann eile |
 | Gníomhairí | Painéal gníomhairí | Seol do ghníomhaire | Lár: an chéad síntiús eile |
 | Tráidire | Hover chun an tarraiceán a nochtadh | Deas ar an tseabhrán chun bainistiú | — |
-| Nuashonrú Omarchy | Rith an nuashonrú | — | — |
+| Nuashonrú LunaOS | Rith an nuashonrú | — | — |
 
 Níl gach rud sa tábla sin ar do bharra as an mbosca. Tá giuirléid na meán (MPRIS ag seinm anois, le traic agus ealaíontóir scrollaithe) agus giuirléid an mhicreafóin araon ionsuite ach as de réir réamhshocraithe — cuir leo más mian leat iad, mar a thuairiscítear thíos.
 
@@ -65,7 +65,7 @@ Comhaireann `Super + Ctrl + 1-9` painéil ó chlé go deas sa chuid dheas, ag sc
 
 Taispeántar dhá ghiuirléid eile ar an mbarra ach amháin nuair a shuiteálann tú an tseirbhís mheaitseála ó **Suiteáil → Seirbhís**, agus is fiú an dá cheann a bheith ar eolas mar déanann siad níos mó ná stádas a thuairisciú.
 
-Nascann agus dínasceann painéal **Tailscale** an tailnet, athraíonn sé idir chuntais, agus roghnaíonn sé nód imeachta (taispeántar do mheaisíní féin agus réigiúin Mullvad araon sa liosta sin). Brabhsálann sé do mheaisíní freisin — agus le ceann roghnaithe, seolann `s` comhaid chuige thar Taildrop, arb é an tslí is tapúla é comhad a bhogadh chuig do ghuthán nó ríomhaire glúine eile. Cóipeálann `c` IP an mheaisín, `n` a ainm, agus `d` a ainm DNS iomlán. Tá cnaipe seolta ar gach ró meaisín freisin, más fearr leat cliceáil. Is é an rud céanna ón teirminéal ná `omarchy tailscale send <machine> [file...]`.
+Nascann agus dínasceann painéal **Tailscale** an tailnet, athraíonn sé idir chuntais, agus roghnaíonn sé nód imeachta (taispeántar do mheaisíní féin agus réigiúin Mullvad araon sa liosta sin). Brabhsálann sé do mheaisíní freisin — agus le ceann roghnaithe, seolann `s` comhaid chuige thar Taildrop, arb é an tslí is tapúla é comhad a bhogadh chuig do ghuthán nó ríomhaire glúine eile. Cóipeálann `c` IP an mheaisín, `n` a ainm, agus `d` a ainm DNS iomlán. Tá cnaipe seolta ar gach ró meaisín freisin, más fearr leat cliceáil. Is é an rud céanna ón teirminéal ná `lunaos tailscale send <machine> [file...]`.
 
 Láimhseálann painéal **Dropbox** logáil isteach, taispeánann sé cé mhéad stórála atá úsáidte agat, agus liostálann sé comhaid a sioncronaíodh le déanaí.
 
@@ -90,19 +90,19 @@ Más fearr leat roghnú ó roghchlár, tá an suíomh ag **Spreag → Cuma → B
 Tá orduithe ag na rudaí céanna, arb é an méid is mian leat do shocrú [dotfiles](31-dotfiles.md):
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Chun giuirléid a chur leis nó a bhaint go hiomlán, úsáid orduithe an bhreiseáin. Priontálann `omarchy plugin list` gach giuirléid atá ar eolas ag an mblaosc lena haitheantas, agus ansin:
+Chun giuirléid a chur leis nó a bhaint go hiomlán, úsáid orduithe an bhreiseáin. Priontálann `lunaos plugin list` gach giuirléid atá ar eolas ag an mblaosc lena haitheantas, agus ansin:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## An barra a cheilt
@@ -111,7 +111,7 @@ Scoránaíonn `Super + Shift + Space` an barra as agus ar ais gan an bhlaosc a m
 
 ## An comhad cumraíochta
 
-Stóráiltear é ar fad i `~/.config/omarchy/shell.json`, faoin eochair `bar`. Seo leagan bearrtha:
+Stóráiltear é ar fad i `~/.config/lunaos/shell.json`, faoin eochair `bar`. Seo leagan bearrtha:
 
 ```json
 {
@@ -119,20 +119,20 @@ Stóráiltear é ar fad i `~/.config/omarchy/shell.json`, faoin eochair `bar`. S
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Is iontráil amháin i gceann de na trí eagar leagan amach gach giuirléid, agus suíonn a socruithe inlíne ar an iontráil sin — níl comhad socruithe ar leith ann agus níl fo-oibiacht `config` ann. Tá `format` an chloig, `formatAlt` (an méid a thimthriallann cliceáil dheas chuige), agus `verticalFormat` ar fad díreach ann ar `{ "id": "omarchy.clock" }`.
+Is iontráil amháin i gceann de na trí eagar leagan amach gach giuirléid, agus suíonn a socruithe inlíne ar an iontráil sin — níl comhad socruithe ar leith ann agus níl fo-oibiacht `config` ann. Tá `format` an chloig, `formatAlt` (an méid a thimthriallann cliceáil dheas chuige), agus `verticalFormat` ar fad díreach ann ar `{ "id": "lunaos.clock" }`.
 
 Ainmníonn `centerAnchor` an giuirléid láir amháin a ghreamaítear go lár cruinn an scáileáin, leis na cinn eile ar a thaobhanna. Sin an chaoi a bhfanann an clog marbh sa lár fiú agus an aimsir agus an suaitheantas nuashonraithe ag teacht agus ag imeacht. Socraigh go téad folamh é agus tá liosta an láir láraithe mar ghrúpa ina ionad.
 
-Riail amháin is fiú a ionsú: **nuair a bhíonn do `shell.json` féin agat, tá sé canónta**. Go dtí go saincheapaíonn tú rud ar bith, léann an bhlaosc comhad réamhshocraithe Omarchy. An nóiméad a tharraingíonn tú giuirléid, a ritheann tú `omarchy bar`, nó a chuireann tú an comhad in eagar tú féin, is leatsa é — níl cumasc domhain ann, mar sin ní bheidh giuirléidí réamhshocraithe nua in eisiúintí Omarchy amach anseo le feiceáil ar do bharra go huathoibríoch. Cuireann `omarchy bar defaults` an leagan amach seolta ar ais aon uair is mian leat scláta glan.
+Riail amháin is fiú a ionsú: **nuair a bhíonn do `shell.json` féin agat, tá sé canónta**. Go dtí go saincheapaíonn tú rud ar bith, léann an bhlaosc comhad réamhshocraithe LunaOS. An nóiméad a tharraingíonn tú giuirléid, a ritheann tú `lunaos bar`, nó a chuireann tú an comhad in eagar tú féin, is leatsa é — níl cumasc domhain ann, mar sin ní bheidh giuirléidí réamhshocraithe nua in eisiúintí LunaOS amach anseo le feiceáil ar do bharra go huathoibríoch. Cuireann `lunaos bar defaults` an leagan amach seolta ar ais aon uair is mian leat scláta glan.
 
 Tá d'uainíochtaí díomhaoin sa chomhad céanna freisin ag an leibhéal is airde, lasmuigh den eochair `bar`: `idle.screensaver` agus `idle.lock`, an dá cheann i soicindí ó chuaigh tú díomhaoin. Mar sin tagann an coigilteoir scáileáin réamhshocraithe isteach ag 150 soicind agus an glas ag 300.

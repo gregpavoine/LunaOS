@@ -1,14 +1,14 @@
 # La barre supérieure
 
-La bande le long du haut de votre écran est la barre Omarchy. Ce n'est pas une barre d'état boulonnée, mais une partie du shell Omarchy, le processus Quickshell de longue durée qui dessine aussi le menu, les notifications, les popups OSD et l'écran de verrouillage. C'est pourquoi elle s'accorde parfaitement en thème avec tout le reste et pourquoi un panneau s'ouvre instantanément au lieu de lancer une nouvelle appli.
+La bande le long du haut de votre écran est la barre LunaOS. Ce n'est pas une barre d'état boulonnée, mais une partie du shell LunaOS, le processus Quickshell de longue durée qui dessine aussi le menu, les notifications, les popups OSD et l'écran de verrouillage. C'est pourquoi elle s'accorde parfaitement en thème avec tout le reste et pourquoi un panneau s'ouvre instantanément au lieu de lancer une nouvelle appli.
 
 C'est aussi le seul élément du bureau toujours à l'écran, donc cela vaut la peine de savoir ce que font tous ces petits glyphes.
 
 ## Ce qu'elle contient par défaut
 
-La barre a trois sections. À gauche se trouve le logo Omarchy (le lanceur de menu) et les indicateurs d'espaces de travail. Au centre, vous avez les indicateurs d'état, l'horloge, Elsewhen (une horloge mondiale), la météo et un badge de mise à jour Omarchy. À droite : la disposition du clavier (lorsque plusieurs sont configurées), la zone de notification système, les agents, le bluetooth, le réseau, l'audio, l'affichage et l'alimentation.
+La barre a trois sections. À gauche se trouve le logo LunaOS (le lanceur de menu) et les indicateurs d'espaces de travail. Au centre, vous avez les indicateurs d'état, l'horloge, Elsewhen (une horloge mondiale), la météo et un badge de mise à jour LunaOS. À droite : la disposition du clavier (lorsque plusieurs sont configurées), la zone de notification système, les agents, le bluetooth, le réseau, l'audio, l'affichage et l'alimentation.
 
-Quelques-uns n'apparaissent que lorsqu'ils ont quelque chose à dire. La disposition du clavier n'apparaît que si vous en avez configuré plus d'une. Le badge de mise à jour n'apparaît que lorsqu'une mise à jour Omarchy attend. Et l'icône agents apparaît la première fois qu'Omarchy trouve une utilisation d'IA de codage sur la machine (voir [IA](17-ai.md)).
+Quelques-uns n'apparaissent que lorsqu'ils ont quelque chose à dire. La disposition du clavier n'apparaît que si vous en avez configuré plus d'une. Le badge de mise à jour n'apparaît que lorsqu'une mise à jour LunaOS attend. Et l'icône agents apparaît la première fois qu'LunaOS trouve une utilisation d'IA de codage sur la machine (voir [IA](17-ai.md)).
 
 ## Cliquer partout
 
@@ -16,7 +16,7 @@ Presque chaque widget fait quelque chose au clic gauche, droit et central, et pl
 
 | Widget | Gauche | Droit | Centre / défilement |
 | --- | --- | --- | --- |
-| Menu | Menu Omarchy | Nouveau terminal | — |
+| Menu | Menu LunaOS | Nouveau terminal | — |
 | Espaces de travail | Focus sur cet espace | — | Défilement : espace suivant/précédent |
 | Horloge | Popup calendrier | Faire défiler le format du libellé | Centre : sélecteur de fuseau horaire |
 | Météo | Popup prévisions | Météo complète en notification | Centre : actualiser |
@@ -29,7 +29,7 @@ Presque chaque widget fait quelque chose au clic gauche, droit et central, et pl
 | Média | Lecture/pause | Popup pochette | Centre : suivant · défilement : précédent/suivant |
 | Agents | Panneau agents | Lancer votre agent | Centre : abonnement suivant |
 | Zone de notification | Survoler pour révéler le tiroir | Clic droit sur le chevron pour gérer | — |
-| Mise à jour Omarchy | Lancer la mise à jour | — | — |
+| Mise à jour LunaOS | Lancer la mise à jour | — | — |
 
 Tout ce qui figure dans ce tableau n'est pas sur votre barre dès l'installation. Le widget média (lecture en cours MPRIS, avec piste et artiste défilants) et le widget microphone sont tous deux intégrés mais désactivés par défaut — ajoutez-les si vous les voulez, comme décrit ci-dessous.
 
@@ -65,7 +65,7 @@ Chaque panneau accepte le clavier aussi bien que la souris : les flèches dépla
 
 Deux widgets supplémentaires apparaissent sur la barre seulement une fois que vous avez installé le service correspondant depuis **Installer → Service**, et les deux valent la peine d'être connus parce qu'ils font plus que rapporter un état.
 
-Le panneau **Tailscale** connecte et déconnecte le tailnet, bascule entre les comptes et choisit un nœud de sortie (vos propres machines et les régions Mullvad apparaissent tous deux dans cette liste). Il parcourt aussi vos machines — et avec l'une sélectionnée, `s` lui envoie des fichiers via Taildrop, ce qui est le moyen le plus rapide de déplacer un fichier vers votre téléphone ou un autre portable. `c` copie l'IP de la machine, `n` son nom, et `d` son nom DNS complet. Il y a aussi un bouton d'envoi sur chaque ligne de machine, si vous préférez cliquer. La même chose depuis le terminal est `omarchy tailscale send <machine> [file...]`.
+Le panneau **Tailscale** connecte et déconnecte le tailnet, bascule entre les comptes et choisit un nœud de sortie (vos propres machines et les régions Mullvad apparaissent tous deux dans cette liste). Il parcourt aussi vos machines — et avec l'une sélectionnée, `s` lui envoie des fichiers via Taildrop, ce qui est le moyen le plus rapide de déplacer un fichier vers votre téléphone ou un autre portable. `c` copie l'IP de la machine, `n` son nom, et `d` son nom DNS complet. Il y a aussi un bouton d'envoi sur chaque ligne de machine, si vous préférez cliquer. La même chose depuis le terminal est `lunaos tailscale send <machine> [file...]`.
 
 Le panneau **Dropbox** gère la connexion, montre combien de stockage vous avez utilisé, et liste les fichiers récemment synchronisés.
 
@@ -90,19 +90,19 @@ Si vous préférez choisir depuis un menu, **Déclencher → Apparence → Barre
 Les mêmes choses ont des commandes, ce qui est ce que vous voulez pour une configuration [dotfiles](31-dotfiles.md) :
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Pour ajouter ou retirer complètement un widget, utilisez les commandes plugin. `omarchy plugin list` affiche chaque widget que le shell connaît avec son id, et ensuite :
+Pour ajouter ou retirer complètement un widget, utilisez les commandes plugin. `lunaos plugin list` affiche chaque widget que le shell connaît avec son id, et ensuite :
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Masquer la barre
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Le fichier de configuration
 
-Tout est stocké dans `~/.config/omarchy/shell.json`, sous la clé `bar`. Voici une version allégée :
+Tout est stocké dans `~/.config/lunaos/shell.json`, sous la clé `bar`. Voici une version allégée :
 
 ```json
 {
@@ -119,20 +119,20 @@ Tout est stocké dans `~/.config/omarchy/shell.json`, sous la clé `bar`. Voici 
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Chaque widget est une entrée dans l'un des trois tableaux de disposition, et ses réglages se trouvent en ligne sur cette entrée — il n'y a pas de fichier de réglages séparé ni de sous-objet `config`. Le `format` de l'horloge, `formatAlt` (ce vers quoi le clic droit fait défiler) et `verticalFormat` vivent tous là, sur `{ "id": "omarchy.clock" }`.
+Chaque widget est une entrée dans l'un des trois tableaux de disposition, et ses réglages se trouvent en ligne sur cette entrée — il n'y a pas de fichier de réglages séparé ni de sous-objet `config`. Le `format` de l'horloge, `formatAlt` (ce vers quoi le clic droit fait défiler) et `verticalFormat` vivent tous là, sur `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` nomme le seul widget central épinglé au centre exact de l'écran, les autres le flanquant. C'est ainsi que l'horloge reste bien au centre même lorsque la météo et le badge de mise à jour vont et viennent. Définissez-le à une chaîne vide et la liste centrale est simplement centrée en tant que groupe.
 
-Une règle à assimiler : **une fois que vous avez votre propre `shell.json`, il est canonique**. Jusqu'à ce que vous personnalisiez quoi que ce soit, le shell lit le fichier par défaut d'Omarchy. Au moment où vous faites glisser un widget, exécutez `omarchy bar`, ou éditez le fichier vous-même, il vous appartient — il n'y a aucune fusion profonde, de sorte que les nouveaux widgets par défaut des futures versions d'Omarchy n'apparaîtront pas automatiquement sur votre barre. `omarchy bar defaults` remet la disposition livrée quand vous voulez repartir de zéro.
+Une règle à assimiler : **une fois que vous avez votre propre `shell.json`, il est canonique**. Jusqu'à ce que vous personnalisiez quoi que ce soit, le shell lit le fichier par défaut d'LunaOS. Au moment où vous faites glisser un widget, exécutez `lunaos bar`, ou éditez le fichier vous-même, il vous appartient — il n'y a aucune fusion profonde, de sorte que les nouveaux widgets par défaut des futures versions d'LunaOS n'apparaîtront pas automatiquement sur votre barre. `lunaos bar defaults` remet la disposition livrée quand vous voulez repartir de zéro.
 
 Le même fichier contient aussi vos délais d'inactivité au niveau supérieur, en dehors de la clé `bar` : `idle.screensaver` et `idle.lock`, tous deux en secondes depuis que vous êtes devenu inactif. Ainsi, l'écran de veille par défaut se déclenche à 150 secondes et le verrouillage à 300.

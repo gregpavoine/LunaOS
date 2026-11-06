@@ -2,7 +2,7 @@
 
 Thông thường trên Linux, bạn cần `Ctrl + Shift + C/V` để sao chép và dán trong terminal và `Ctrl + C/V` để làm điều đó ở khắp mọi nơi khác. Điều đó khó làm quen đối với bất kỳ ai chưa sinh ra và lớn lên trên Linux! Việc chuyển từ super sang ctrl cũng vậy, nếu bạn đến từ Mac.
 
-Omarchy giải quyết cả hai vấn đề bằng các phím tắt bảng nhớ tạm thống nhất hoạt động (gần như) ở khắp mọi nơi. Chúng là:
+LunaOS giải quyết cả hai vấn đề bằng các phím tắt bảng nhớ tạm thống nhất hoạt động (gần như) ở khắp mọi nơi. Chúng là:
 
 | Phím tắt | Lệnh |
 | ------- | ----------- |
@@ -15,7 +15,7 @@ _Lưu ý rằng hầu hết các khung agent sẽ dùng `Ctrl + V` để dán h�
 
 ### Lịch sử bảng nhớ tạm
 
-Lịch sử bảng nhớ tạm được cung cấp bởi shell Omarchy và hoạt động cho cả văn bản và hình ảnh. Bạn kích hoạt nó bằng `Super + Ctrl + V`, chọn mục của bạn bằng phím return, và sau đó mục đó sẽ được đặt trên bảng nhớ tạm sẵn sàng để dán bằng `Super + V`.
+Lịch sử bảng nhớ tạm được cung cấp bởi shell LunaOS và hoạt động cho cả văn bản và hình ảnh. Bạn kích hoạt nó bằng `Super + Ctrl + V`, chọn mục của bạn bằng phím return, và sau đó mục đó sẽ được đặt trên bảng nhớ tạm sẵn sàng để dán bằng `Super + V`.
 
  ![clipboard-history](images/clipboard-history.webp)
 

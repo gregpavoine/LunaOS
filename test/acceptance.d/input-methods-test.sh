@@ -5,7 +5,7 @@
 set -euo pipefail
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
-selection=$(omarchy-input-method status)
+selection=$(lunaos-input-method status)
 initial_method=$(jq -r .installed_method <<< "$selection")
 initial_layout=$(jq -r .layout <<< "$selection")
 group=$(fcitx5-remote -q)
@@ -21,7 +21,7 @@ pass "installer input selection reaches the first desktop session"
 work=$(mktemp -d)
 config_home=${XDG_CONFIG_HOME:-$HOME/.config}
 data_home=${XDG_DATA_HOME:-$HOME/.local/share}
-paths=("$config_home/fcitx5" "$config_home/fontconfig/conf.d/50-omarchy-input-method.conf" "$data_home/dbus-1/services/org.fcitx.Fcitx5.service")
+paths=("$config_home/fcitx5" "$config_home/fontconfig/conf.d/50-lunaos-input-method.conf" "$data_home/dbus-1/services/org.fcitx.Fcitx5.service")
 python "$ROOT/test/acceptance.d/input-method-state.py" backup "$work/state" "${paths[@]}"
 
 notification_monitor=""
@@ -31,12 +31,12 @@ cleanup() {
     kill "$notification_monitor" 2>/dev/null || true
     wait "$notification_monitor" 2>/dev/null || true
   fi
-  close_windows '^org\.omarchy\.ime-test$'
-  close_windows '^org\.omarchy\.ime-test-gtk$|^org\.qt-project\.qml6?$|^chrome-.*_omarchy-ime-entry\.html-Default$'
-  systemctl --user stop omarchy-fcitx5.service || status=1
+  close_windows '^org\.lunaos\.ime-test$'
+  close_windows '^org\.lunaos\.ime-test-gtk$|^org\.qt-project\.qml6?$|^chrome-.*_lunaos-ime-entry\.html-Default$'
+  systemctl --user stop lunaos-fcitx5.service || status=1
   python "$ROOT/test/acceptance.d/input-method-state.py" restore "$work/state" || status=1
   busctl --user call org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus ReloadConfig >/dev/null || status=1
-  systemctl --user start omarchy-fcitx5.service || status=1
+  systemctl --user start lunaos-fcitx5.service || status=1
   if (( status == 0 )); then
     rm -rf "$work"
   else
@@ -68,7 +68,7 @@ import gi
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk
 
-app = Gtk.Application(application_id="org.omarchy.ime-test-gtk")
+app = Gtk.Application(application_id="org.lunaos.ime-test-gtk")
 def activate(app):
   window = Gtk.ApplicationWindow(application=app, title="GTK input test")
   window.set_default_size(600, 160)
@@ -95,7 +95,7 @@ ApplicationWindow {
 }
 QML
 
-cat > "$work/omarchy-ime-entry.html" <<'HTML'
+cat > "$work/lunaos-ime-entry.html" <<'HTML'
 <!doctype html><meta charset="utf-8"><title>Browser input test</title>
 <input autofocus style="font-size:32px;width:90%" aria-label="Input test">
 HTML
@@ -142,7 +142,7 @@ verify_text() {
 
 installed=()
 for method in mozc hangul pinyin chewing cangjie5; do
-  omarchy-setup-input "$method" > "$ARTIFACTS/setup-input-$method.log" 2>&1 ||
+  lunaos-setup-input "$method" > "$ARTIFACTS/setup-input-$method.log" 2>&1 ||
     fail "$method setup completes" "$(cat "$ARTIFACTS/setup-input-$method.log")"
   group=$(fcitx5-remote -q)
   info=$(busctl --user --json=short call org.fcitx.Fcitx5 /controller org.fcitx.Fcitx.Controller1 InputMethodGroupInfo s "$group")
@@ -151,11 +151,11 @@ for method in mozc hangul pinyin chewing cangjie5; do
     jq -e --arg method "$retained" '.data[1] | any(.[0] == $method)' <<< "$info" >/dev/null || fail "$retained is still registered"
   done
   owner_pid=$(busctl --user call org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus GetConnectionUnixProcessID s org.fcitx.Fcitx5 | awk '{print $2}')
-  unit_pid=$(systemctl --user show omarchy-fcitx5.service --property MainPID --value)
+  unit_pid=$(systemctl --user show lunaos-fcitx5.service --property MainPID --value)
   [[ $owner_pid == "$unit_pid" ]] || fail "Fcitx bus owner is the supervised process"
 
-  launch_app "foot --app-id=org.omarchy.ime-test $work/reader $work/result"
-  wait_until "$method test terminal opens" 15 window_present '^org\.omarchy\.ime-test$'
+  launch_app "foot --app-id=org.lunaos.ime-test $work/reader $work/result"
+  wait_until "$method test terminal opens" 15 window_present '^org\.lunaos\.ime-test$'
   [[ $(fcitx5-remote) == "1" ]] || fail "$method setup starts in Latin mode"
   compose
   screenshot "success-input-$method-composition"
@@ -165,14 +165,14 @@ for method in mozc hangul pinyin chewing cangjie5; do
   wait_until "$method commits text" 15 test -s "$work/result"
   verify_text "$method terminal"
   fcitx5-remote -c
-  close_windows '^org\.omarchy\.ime-test$'
+  close_windows '^org\.lunaos\.ime-test$'
   rm -f "$work/result"
 
   for toolkit in gtk qt browser; do
     case "$toolkit" in
-      gtk) command="python $work/entry.py"; class='^org\.omarchy\.ime-test-gtk$' ;;
+      gtk) command="python $work/entry.py"; class='^org\.lunaos\.ime-test-gtk$' ;;
       qt) command="qml6 $work/entry.qml"; class='^org\.qt-project\.qml6?$' ;;
-      browser) command="chromium --user-data-dir=$work/chromium --no-first-run --app=file://$work/omarchy-ime-entry.html"; class='^chrome-.*_omarchy-ime-entry\.html-Default$' ;;
+      browser) command="chromium --user-data-dir=$work/chromium --no-first-run --app=file://$work/lunaos-ime-entry.html"; class='^chrome-.*_lunaos-ime-entry\.html-Default$' ;;
     esac
     launch_app "uwsm app -- $command"
     wait_until "$method $toolkit opens" 30 window_present "$class"

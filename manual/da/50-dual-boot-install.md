@@ -1,6 +1,6 @@
 # Dual Boot Installation
 
-Du er i stand til at installere Omarchy på en enkelt partition ved siden af Windows eller andre installationer.
+Du er i stand til at installere LunaOS på en enkelt partition ved siden af Windows eller andre installationer.
 
 Denne installationsmetode leveres stadig med LUKS-kryptering til partitionen som standard, så den er effektivt ikke anderledes end fuldt drev og kræver blot, at fri plads er tilgængelig på disken.
 
@@ -14,17 +14,17 @@ Find den passende partition, højreklik, og vælg **Shrink Volume**.
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- Indtast den mængde, du gerne vil skrumpe volumenet med. Bemærk, at dette vil være størrelsen på din fremtidige Omarchy-installation inklusive bootpartitionen.
+ Indtast den mængde, du gerne vil skrumpe volumenet med. Bemærk, at dette vil være størrelsen på din fremtidige LunaOS-installation inklusive bootpartitionen.
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-Når du er færdig, bør du se noget som dette, hvor 50GB-sektionen er, hvor vi installerer Omarchy i dette eksempel.
+Når du er færdig, bør du se noget som dette, hvor 50GB-sektionen er, hvor vi installerer LunaOS i dette eksempel.
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## Installer Omarchy
+## Installer LunaOS
 
-Installationsprocessen for Omarchy er effektivt den samme som normalt. Når du har valgt din disk, får du muligheden for **Free space install**. Vælg den mulighed for at forhindre sletning af hele disken.
+Installationsprocessen for LunaOS er effektivt den samme som normalt. Når du har valgt din disk, får du muligheden for **Free space install**. Vælg den mulighed for at forhindre sletning af hele disken.
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Bekræft, at alt ser godt ud, og vent på, at installationen fuldfører som norm
 
 ## Tilføj andre installationer til bootloaderen
 
-Når du fuldfører din Omarchy-installation, vil du bemærke, at Limine-bootloaderen er standarden nu. Med denne kan du også tilføje muligheder til Limine for dine andre installationer såsom Windows.
+Når du fuldfører din LunaOS-installation, vil du bemærke, at Limine-bootloaderen er standarden nu. Med denne kan du også tilføje muligheder til Limine for dine andre installationer såsom Windows.
 
-For at gøre det skal du køre `limine-scan` og følge prompterne for at tilføje de elementer, du gerne vil have, til din limine-konfiguration. Når du derefter booter, vil du se dine normale muligheder for Omarchy såvel som Windows Boot Manager eller andre.
+For at gøre det skal du køre `limine-scan` og følge prompterne for at tilføje de elementer, du gerne vil have, til din limine-konfiguration. Når du derefter booter, vil du se dine normale muligheder for LunaOS såvel som Windows Boot Manager eller andre.
 
 ## Bitlocker
 

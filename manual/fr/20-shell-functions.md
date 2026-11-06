@@ -1,6 +1,6 @@
 # Fonctions du shell
 
-Omarchy est livré avec un ensemble de fonctions shell pour simplifier les tâches courantes et encapsuler des appels de paramètres alambiqués.
+LunaOS est livré avec un ensemble de fonctions shell pour simplifier les tâches courantes et encapsuler des appels de paramètres alambiqués.
 
 ## Compression
 

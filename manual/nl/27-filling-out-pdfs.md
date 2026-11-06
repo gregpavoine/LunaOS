@@ -1,6 +1,6 @@
 # Pdf's invullen
 
-Omarchy wordt geleverd met een mooie, eenvoudige pdf-viewer genaamd Document Viewer. Dit is het programma dat alle pdf's opent waarop je gewoon dubbelklikt.
+LunaOS wordt geleverd met een mooie, eenvoudige pdf-viewer genaamd Document Viewer. Dit is het programma dat alle pdf's opent waarop je gewoon dubbelklikt.
 
 Maar je kunt Document Viewer alleen gebruiken om pdf's in te vullen die als formulieren zijn opgezet. Als je pdf's moet invullen die dat niet zijn, of je moet een pdf ondertekenen, gebruik dan [Signed](https://github.com/omacom/signed). Start het via de applicatie-launcher (`Super + Space`), of klik met de rechtermuisknop op het bestand, selecteer _Open With..._, en kies Signed.
 

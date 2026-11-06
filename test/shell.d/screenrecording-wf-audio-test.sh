@@ -14,7 +14,7 @@ awk '
   /^(wf_audio_device|wf_audio_unavailable|wf_audio_cleanup)\(\) \{/ { copying = 1 }
   copying { print }
   /^}/ { copying = 0 }
-' "$ROOT/bin/omarchy-capture-screenrecording" >"$tmp/functions"
+' "$ROOT/bin/lunaos-capture-screenrecording" >"$tmp/functions"
 
 mkdir -p "$tmp/bin"
 # Modules number from 10 up; a load fails when its arguments name a source
@@ -35,7 +35,7 @@ case $1 in
     ;;
 esac
 SH
-cat >"$tmp/bin/omarchy-notification-send" <<'SH'
+cat >"$tmp/bin/lunaos-notification-send" <<'SH'
 #!/bin/bash
 echo "notify $*" >>"$TMP/notes"
 echo "noise on stdout"
@@ -58,7 +58,7 @@ unloaded() {
 
 : >"$tmp/refuse"
 device true true
-[[ $(cat "$tmp/out") == omarchy_screenrec.monitor ]] || fail "both sources record through the null sink" "$(cat "$tmp/out")"
+[[ $(cat "$tmp/out") == lunaos_screenrec.monitor ]] || fail "both sources record through the null sink" "$(cat "$tmp/out")"
 [[ $(cat "$tmp/modules") == $'10\n11\n12' ]] || fail "all three module ids are kept for stop" "$(cat "$tmp/modules")"
 [[ ! -e $tmp/notes ]] || fail "a full mix notifies nothing" "$(cat "$tmp/notes")"
 pass "desktop and microphone audio record together through the null sink"

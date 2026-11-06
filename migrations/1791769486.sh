@@ -4,22 +4,22 @@ echo "Remove approval for new USB and Thunderbolt devices"
 # package update has already removed its commands, units and Polkit rules; this
 # undoes what they left on the machine so devices connect as they did before.
 
-usb_state=$HOME/.local/state/omarchy/usb-authorization
-tb_dir=/var/lib/omarchy/thunderbolt-authorization
+usb_state=$HOME/.local/state/lunaos/usb-authorization
+tb_dir=/var/lib/lunaos/thunderbolt-authorization
 usb_boot_drop_in=/etc/limine-entry-tool.d/usb-authorization.conf
-usb_boot_pending=/var/lib/omarchy/usb-authorization-boot.removing
+usb_boot_pending=/var/lib/lunaos/usb-authorization-boot.removing
 usb_boot_parameter=usbcore.authorized_default=0
 usbguard_shipped=1791573373 # when usbguard joined the default packages
-# The access every Omarchy path granted with `usbguard add-user`.
+# The access every LunaOS path granted with `usbguard add-user`.
 usbguard_grant=$'Devices=list,modify,listen\nPolicy=list\nExceptions=listen'
 
 # The approval watchers. Their unit files are gone, so systemctl disable can't
 # find them; drop the enablement links directly.
-for unit in omarchy-usb-authorization.service omarchy-thunderbolt-authorization.service; do
+for unit in lunaos-usb-authorization.service lunaos-thunderbolt-authorization.service; do
   systemctl --user stop "$unit" 2>/dev/null || true
   rm -f "$HOME"/.config/systemd/user/*.wants/"$unit"
 done
-rm -f "$HOME/.config/systemd/user/omarchy-usb-authorization.service"
+rm -f "$HOME/.config/systemd/user/lunaos-usb-authorization.service"
 systemctl --user daemon-reload
 
 bolt_list() {
@@ -36,10 +36,10 @@ bolt_get() {
   sudo busctl --system --json=short get-property org.freedesktop.bolt "/org/freedesktop/bolt/$1/${2//-/_}" "org.freedesktop.bolt1.$3" "$4" | jq -c .data
 }
 
-if [[ -d $tb_dir || -e /etc/omarchy/thunderbolt-authorization.enabled || -e /etc/omarchy/thunderbolt-authorization.pending ]]; then
-  sudo systemctl stop omarchy-thunderbolt-authorization.service 2>/dev/null || true
-  sudo rm -f /etc/systemd/system/multi-user.target.wants/omarchy-thunderbolt-authorization.service \
-    /etc/omarchy/thunderbolt-authorization.enabled /etc/omarchy/thunderbolt-authorization.pending
+if [[ -d $tb_dir || -e /etc/lunaos/thunderbolt-authorization.enabled || -e /etc/lunaos/thunderbolt-authorization.pending ]]; then
+  sudo systemctl stop lunaos-thunderbolt-authorization.service 2>/dev/null || true
+  sudo rm -f /etc/systemd/system/multi-user.target.wants/lunaos-thunderbolt-authorization.service \
+    /etc/lunaos/thunderbolt-authorization.enabled /etc/lunaos/thunderbolt-authorization.pending
   sudo systemctl daemon-reload
 
   state=$(sudo cat "$tb_dir/policy.json" 2>/dev/null || echo '{}')
@@ -82,7 +82,7 @@ if [[ -d $tb_dir || -e /etc/omarchy/thunderbolt-authorization.enabled || -e /etc
   done < <(jq -r '.acls // {} | keys[]' <<<"$firmware")
 
   # Accessories approved here were stored with Bolt's manual policy, which
-  # Bolt won't authorize on its own. Hand back the ones Omarchy stored, as the
+  # Bolt won't authorize on its own. Hand back the ones LunaOS stored, as the
   # removal command did, never a manual policy somebody else set.
   while read -r uid store_time; do
     if bolt_has devices "$uid"; then
@@ -118,7 +118,7 @@ if [[ -d $tb_dir || -e /etc/omarchy/thunderbolt-authorization.enabled || -e /etc
   else
     sudo rm -rf "$tb_dir"
   fi
-  sudo rm -rf /run/omarchy-thunderbolt-authorization
+  sudo rm -rf /run/lunaos-thunderbolt-authorization
 fi
 
 # limine-mkinitcpio reports success even when a kernel image fails to build, so
@@ -160,24 +160,24 @@ usb_boot_cleared() {
 # The opt-in USB at Boot setting: the parameter on the kernel command line, for
 # new boot entries and new snapshots. Keep a marker until the rebuilt entries
 # are verified, so an interrupted rebuild is retried rather than skipped.
-if [[ -e $usb_boot_drop_in || -e $usb_boot_pending ]] || grep -Fqx '# Omarchy USB authorization begin' /etc/default/limine 2>/dev/null; then
+if [[ -e $usb_boot_drop_in || -e $usb_boot_pending ]] || grep -Fqx '# LunaOS USB authorization begin' /etc/default/limine 2>/dev/null; then
   sudo touch "$usb_boot_pending"
   sudo rm -f "$usb_boot_drop_in"
-  sudo sed -i '/^# Omarchy USB authorization begin$/,/^# Omarchy USB authorization end$/d' /etc/default/limine
+  sudo sed -i '/^# LunaOS USB authorization begin$/,/^# LunaOS USB authorization end$/d' /etc/default/limine
   sudo limine-mkinitcpio
   if ! usb_boot_cleared; then
-    echo "A boot entry still has $usb_boot_parameter, so USBGuard stays until it is rebuilt. Run omarchy-migrate to retry."
+    echo "A boot entry still has $usb_boot_parameter, so USBGuard stays until it is rebuilt. Run lunaos-migrate to retry."
     exit 1
   fi
   sudo rm -f "$usb_boot_pending"
 fi
 
-# Leave a USBGuard the user set up before Omarchy shipped it. pacman resets the
+# Leave a USBGuard the user set up before LunaOS shipped it. pacman resets the
 # install date on every upgrade, so ask its log when usbguard first arrived.
-usbguard_from_omarchy() {
+usbguard_from_lunaos() {
   local first
 
-  if [[ -f $usb_state/policy-generated-by-omarchy ]]; then
+  if [[ -f $usb_state/policy-generated-by-lunaos ]]; then
     return 0
   fi
   first=$(grep -m1 -oP '^\[\K[^]]+(?=\] \[ALPM\] installed usbguard )' /var/log/pacman.log) || return 1
@@ -185,14 +185,14 @@ usbguard_from_omarchy() {
   [[ $(sudo cat "/etc/usbguard/IPCAccessControl.d/$USER" 2>/dev/null) == "$usbguard_grant" ]]
 }
 
-if omarchy-pkg-present usbguard && usbguard_from_omarchy; then
+if lunaos-pkg-present usbguard && usbguard_from_lunaos; then
   sudo systemctl disable --now usbguard.service
   # USBGuard leaves the root hubs denying new devices when it exits, until
   # the next boot. Restore the kernel default and authorize what it blocked.
   shopt -s nullglob
   echo 1 | sudo tee /sys/bus/usb/devices/usb*/authorized_default /sys/bus/usb/devices/*/authorized >/dev/null
   shopt -u nullglob
-  omarchy-pkg-drop usbguard
+  lunaos-pkg-drop usbguard
 
   # The approval access granted to each user outlives the package.
   while IFS= read -r -d '' grant; do
@@ -203,7 +203,7 @@ if omarchy-pkg-present usbguard && usbguard_from_omarchy; then
   sudo rmdir /etc/usbguard/IPCAccessControl.d /etc/usbguard 2>/dev/null || true
 fi
 
-for action in /usr/share/polkit-1/actions/org.omarchy.usb.policy /usr/share/polkit-1/actions/org.omarchy.thunderbolt.policy; do
+for action in /usr/share/polkit-1/actions/org.lunaos.usb.policy /usr/share/polkit-1/actions/org.lunaos.thunderbolt.policy; do
   if [[ -e $action ]] && ! pacman -Qo "$action" &>/dev/null; then
     sudo rm -f "$action"
   fi

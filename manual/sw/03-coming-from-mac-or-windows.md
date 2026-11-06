@@ -1,12 +1,12 @@
 # Kutoka Mac au Windows
 
-Ikiwa umetumia miaka kwenye macOS au Windows, vidole vyako vinajua mambo mia ambayo ubongo wako umesahau kuwa uliwahi kujifunza. Sura hii ndiyo tabaka la tafsiri: silika hizo huenda wapi katika Omarchy. Vipengele vyenyewe vimefunikwa kwa kina mahali pengine — hii ni ramani tu.
+Ikiwa umetumia miaka kwenye macOS au Windows, vidole vyako vinajua mambo mia ambayo ubongo wako umesahau kuwa uliwahi kujifunza. Sura hii ndiyo tabaka la tafsiri: silika hizo huenda wapi katika LunaOS. Vipengele vyenyewe vimefunikwa kwa kina mahali pengine — hii ni ramani tu.
 
 ### Super ndicho kitovu cha kila kitu
 
-Kumbukumbu yote ya misuli uliyojenga karibu na Cmd au kitufe cha Windows huhamia kwenye kitufe kimoja: Super. Hicho ndicho kitufe cha Windows kwenye kibodi ya PC, na ndicho nanga ya karibu kila mkato wa kitufe katika Omarchy.
+Kumbukumbu yote ya misuli uliyojenga karibu na Cmd au kitufe cha Windows huhamia kwenye kitufe kimoja: Super. Hicho ndicho kitufe cha Windows kwenye kibodi ya PC, na ndicho nanga ya karibu kila mkato wa kitufe katika LunaOS.
 
-Silika yako ya Spotlight au Raycast au menyu ya Start huwa `Super + Space`. Hiyo hufungua menyu ya Omarchy, ambayo huzindua programu, hubadilisha mipangilio, husakinisha programu, hunasa skrini — karibu kila kitu. Anza kuandika ili kuchuja. `Super + Alt + Space` huonyesha kila programu kwenye gridi moja, kama Launchpad inavyofanya. Tazama [urambazaji](04-navigation.md).
+Silika yako ya Spotlight au Raycast au menyu ya Start huwa `Super + Space`. Hiyo hufungua menyu ya LunaOS, ambayo huzindua programu, hubadilisha mipangilio, husakinisha programu, hunasa skrini — karibu kila kitu. Anza kuandika ili kuchuja. `Super + Alt + Space` huonyesha kila programu kwenye gridi moja, kama Launchpad inavyofanya. Tazama [urambazaji](04-navigation.md).
 
 ### Hakuna dock wala aikoni za eneo-kazi
 
@@ -22,27 +22,27 @@ Nafasi za kazi zitaonekana kufahamika: ni Spaces za macOS au eneo-kazi pepe za W
 
 ### Kunakili na kubandika hufanya kazi tu
 
-Kwenye Mac ulikuwa na Cmd + C kila mahali. Kwenye Windows ulikuwa na Ctrl + C kila mahali — isipokuwa terminali, ambapo huua programu yako. Omarchy hukupa `Super + C`, `Super + X`, na `Super + V`, na hufanya kazi kila mahali, ikiwemo terminali. Hakuna silika tofauti ya kujifunza kwa shell.
+Kwenye Mac ulikuwa na Cmd + C kila mahali. Kwenye Windows ulikuwa na Ctrl + C kila mahali — isipokuwa terminali, ambapo huua programu yako. LunaOS hukupa `Super + C`, `Super + X`, na `Super + V`, na hufanya kazi kila mahali, ikiwemo terminali. Hakuna silika tofauti ya kujifunza kwa shell.
 
 Watu wa Windows: historia yako ya ubao wa kunakili ya Win + V inaishi kwenye `Super + Ctrl + V`, na huhifadhi picha pamoja na maandishi. Tazama [ubao wa kunakili wa pamoja na historia](08-unified-clipboard-history.md).
 
 ### Jedwali la tafsiri
 
-| Unachotafuta | Katika Omarchy |
+| Unachotafuta | Katika LunaOS |
 | ------------- | ---------- |
-| Spotlight / Raycast / menyu ya Start | `Super + Space` — menyu ya Omarchy |
+| Spotlight / Raycast / menyu ya Start | `Super + Space` — menyu ya LunaOS |
 | AirDrop | LocalSend, kupitia `Super + Ctrl + S` — tazama [GUIs](22-guis.md) |
 | Cmd + Shift + 4 / Win + Shift + S | `Print Screen` — tazama [picha za skrini na kurekodi](12-screenshots-recording.md) |
 | Notification Center | Historia ya arifa kwenye `Super + Shift + Alt + ,` |
 | Time Machine (kwa mfumo) | [Picha za mfumo](47-system-snapshots.md) kiotomatiki kwenye kila sasisho |
-| App Store / kupakua kisakinishi | _Sakinisha_ katika menyu, au `omarchy pkg add` — tazama [vifurushi vingine](29-other-packages.md) |
+| App Store / kupakua kisakinishi | _Sakinisha_ katika menyu, au `lunaos pkg add` — tazama [vifurushi vingine](29-other-packages.md) |
 | System Settings / Control Panel | _Sanidi_ katika menyu, ambayo huhariri faili rahisi za usanidi — tazama [dotfiles](31-dotfiles.md) |
 
 ### Baadhi ya mambo kweli ni tofauti
 
 Mipangilio mingi huishi katika faili za maandishi unazohariri, si paneli unazobofya. Hiyo inaonekana ya kizamani hadi utambue ina maana kila badiliko linaweza kuonwa, kunakiliwa kwenye mashine yako inayofuata, na kuwekwa katika udhibiti wa toleo. Menyu ya _Sanidi_ hukuweka moja kwa moja katika faili sahihi na kuwasha upya chochote kinachohitaji kuwashwa upya ukimaliza.
 
-Masasisho huja kupitia amri moja — _Sasisha > Omarchy_ — ambayo husasisha Omarchy yenyewe na kila kifurushi kwenye mfumo, ikichukua picha kwanza. Hakuna visasisaji vya kila programu vinavyokusumbua bila mpangilio. Tazama [masasisho](30-updates.md).
+Masasisho huja kupitia amri moja — _Sasisha > LunaOS_ — ambayo husasisha LunaOS yenyewe na kila kifurushi kwenye mfumo, ikichukua picha kwanza. Hakuna visasisaji vya kila programu vinavyokusumbua bila mpangilio. Tazama [masasisho](30-updates.md).
 
 Programu huja kutoka kidhibiti cha vifurushi, si kutoka visakinishi vilivyopakuliwa.
 
@@ -50,7 +50,7 @@ Na ukifunga dirisha, programu huacha kweli. Hakuna hali ya kati ya macOS ambapo 
 
 ### Kwenye vifaa vya Mac
 
-Omarchy hufanya kazi vizuri kwenye Mac za Intel — tazama [msaada wa Mac](44-mac-support.md). Na kibodi ni nzuri kwako: Omarchy haibadili mpangilio wa chochote, na Linux huiona kitufe cha Command kama Super, kwa hiyo Super hukaa pale pale ambapo Cmd ilikuwa daima. Kidole chako gumba hakitaona uhamisho.
+LunaOS hufanya kazi vizuri kwenye Mac za Intel — tazama [msaada wa Mac](44-mac-support.md). Na kibodi ni nzuri kwako: LunaOS haibadili mpangilio wa chochote, na Linux huiona kitufe cha Command kama Super, kwa hiyo Super hukaa pale pale ambapo Cmd ilikuwa daima. Kidole chako gumba hakitaona uhamisho.
 
 ### Ipe wiki mbili
 

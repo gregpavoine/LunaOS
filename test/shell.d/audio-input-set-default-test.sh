@@ -50,7 +50,7 @@ Source Output #91
 		media.name = "node.link-group = in a title"
 OUT
 : >"$CALLS"
-PATH="$work/bin:$PATH" "$ROOT/bin/omarchy-audio-input-set-default" 113 virtual_mic
+PATH="$work/bin:$PATH" "$ROOT/bin/lunaos-audio-input-set-default" 113 virtual_mic
 grep -qx 'wpctl set-default 113' "$CALLS" || fail 'input set-default selects the node'
 grep -qx 'pactl set-default-source virtual_mic' "$CALLS" || fail 'input set-default names the default source'
 ! grep -q 'outside the C locale' "$CALLS" || fail 'input set-default reads the recordings in the C locale'
@@ -71,6 +71,6 @@ Source Output #14
 		node.group = "pipewire.dummy"
 OUT
 : >"$CALLS"
-PATH="$work/bin:$PATH" "$ROOT/bin/omarchy-audio-input-set-default" 43 alsa_input.pci-0000_00_1f.3.analog-stereo
+PATH="$work/bin:$PATH" "$ROOT/bin/lunaos-audio-input-set-default" 43 alsa_input.pci-0000_00_1f.3.analog-stereo
 [[ $(moved) == "12 13 14 " ]] || fail 'input set-default still moves every other recording' "$(moved)"
 pass 'input set-default still moves every other recording'

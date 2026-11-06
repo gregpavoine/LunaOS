@@ -1,6 +1,6 @@
 # Invite
 
-Omarchy est livré par défaut avec une invite [Starship](https://starship.rs/) minimale. C'est comme ça que j'aime mon invite. Je n'ai pas besoin de connaître l'utilisateur, parce que c'est toujours moi, et je n'ai pas besoin de connaître l'heure, parce qu'elle est toujours en haut.
+LunaOS est livré par défaut avec une invite [Starship](https://starship.rs/) minimale. C'est comme ça que j'aime mon invite. Je n'ai pas besoin de connaître l'utilisateur, parce que c'est toujours moi, et je n'ai pas besoin de connaître l'heure, parce qu'elle est toujours en haut.
 
  ![prompt](images/prompt.webp)
 

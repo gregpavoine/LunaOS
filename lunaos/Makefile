@@ -24,4 +24,5 @@ build-local:
 	CGO_ENABLED=1 go build -buildvcs=false -trimpath -o build/local/luna-policy-broker ./services/policy
 	CGO_ENABLED=1 go build -buildvcs=false -trimpath -o build/local/luna-core ./services/core/cmd/luna-core
 	CGO_ENABLED=1 go build -buildvcs=false -trimpath -o build/local/luna-vault ./services/intimacy/cmd/luna-vault
+	CGO_ENABLED=1 go build -buildvcs=false -trimpath -o build/local/luna-discovery ./services/discovery/cmd/luna-discovery
 	CGO_ENABLED=1 go build -buildvcs=false -trimpath -o build/local/luna-owner-setup ./services/identity/cmd/luna-owner-setup

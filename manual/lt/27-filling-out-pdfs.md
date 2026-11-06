@@ -1,6 +1,6 @@
 # PDF pildymas
 
-Omarchy pristatoma su malonia, paprasta PDF peržiūros programa pavadinimu Document Viewer. Tai programa, kuri atvers bet kuriuos PDF, kuriuos tiesiog dukart spustelėsi.
+LunaOS pristatoma su malonia, paprasta PDF peržiūros programa pavadinimu Document Viewer. Tai programa, kuri atvers bet kuriuos PDF, kuriuos tiesiog dukart spustelėsi.
 
 Bet Document Viewer gali naudoti tik tiems PDF pildyti, kurie buvo paruošti kaip formos. Jei reikia pildyti PDF, kurie nebuvo, arba reikia pasirašyti PDF, naudok [Signed](https://github.com/omacom/signed). Paleisk jį per programų paleidimo priemonę (`Super + Space`) arba dešiniuoju pelės klavišu spustelėk failą, pasirink _Open With..._ ir rinkis Signed.
 

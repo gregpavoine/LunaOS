@@ -34,7 +34,7 @@ receive() {
   shift
 
   rm -f "$WORKDIR/notifications/"*
-  OMARCHY_PATH="$ROOT" PATH="$WORKDIR/bin:$ROOT/bin:$PATH" "$@" "$ROOT/bin/omarchy-tailscale-receive" --once "$downloads"
+  LUNAOS_PATH="$ROOT" PATH="$WORKDIR/bin:$ROOT/bin:$PATH" "$@" "$ROOT/bin/lunaos-tailscale-receive" --once "$downloads"
 
   for _ in {1..50}; do
     (($(find "$WORKDIR/notifications" -type f | wc -l) >= expected)) && break
@@ -72,9 +72,9 @@ assert_notification() {
         urgency_found=true
         [[ ${args[i + 2]} == 2 ]] || fail "taildrop receive keeps critical urgency" "$name"
         ;;
-      omarchy-glyph) glyph=${args[i + 2]} ;;
+      lunaos-glyph) glyph=${args[i + 2]} ;;
       image-path) image=${args[i + 2]}; image_index=$((i + 2)) ;;
-      omarchy-exec-argv) open_json=${args[i + 2]}; open_index=$((i + 2)) ;;
+      lunaos-exec-argv) open_json=${args[i + 2]}; open_index=$((i + 2)) ;;
       esac
     done
 
@@ -124,14 +124,14 @@ pass "taildrop receive keeps both files on a name clash"
 [[ -f $downloads/browser-download.iso ]] || fail "taildrop receive keeps the concurrent download"
 pass "taildrop receive ignores downloads that arrive while it waits"
 
-[[ -z $(ls -A "$downloads/.omarchy-taildrop") ]] ||
-  fail "taildrop receive empties its staging directory" "$(ls -A "$downloads/.omarchy-taildrop")"
+[[ -z $(ls -A "$downloads/.lunaos-taildrop") ]] ||
+  fail "taildrop receive empties its staging directory" "$(ls -A "$downloads/.lunaos-taildrop")"
 pass "taildrop receive empties its staging directory"
 
 # Keep upstream's localized title and save location.
 printf 'da\n' >"$WORKDIR/language"
 printf 'png' >"$WORKDIR/outbox/Translated Image.png"
-receive 1 env OMARCHY_LANGUAGE_FILE="$WORKDIR/language"
+receive 1 env LUNAOS_LANGUAGE_FILE="$WORKDIR/language"
 assert_notification "$downloads/Translated Image.png" "Modtaget Translated Image.png" "Gemt til $downloads"
 pass "taildrop receive preserves localized notifications"
 

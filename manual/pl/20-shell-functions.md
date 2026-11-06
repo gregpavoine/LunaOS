@@ -1,6 +1,6 @@
 # Funkcje powłoki
 
-Omarchy zawiera zestaw funkcji powłoki, które upraszczają typowe zadania i encapsulują zawiłe wywołania parametrów.
+LunaOS zawiera zestaw funkcji powłoki, które upraszczają typowe zadania i encapsulują zawiłe wywołania parametrów.
 
 ## Kompresja
 

@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
-python3 - "$ROOT/bin/omarchy-agent-usage-kimi" <<'PY'
+python3 - "$ROOT/bin/lunaos-agent-usage-kimi" <<'PY'
 import contextlib
 import importlib.machinery
 import importlib.util
@@ -282,12 +282,12 @@ cases = {"destination": destination, "home": home_isolation, "static": static_to
          "key_help": key_help, "redaction": error_redaction, "redirects": redirects}
 failed = False
 for name, check in cases.items():
-  selected = os.environ.get("OMARCHY_TEST_KIMI_CASE")
+  selected = os.environ.get("LUNAOS_TEST_KIMI_CASE")
   if selected and name != selected:
     continue
   requests.clear()
   state.clear()
-  with tempfile.TemporaryDirectory(prefix="omarchy-kimi-regression-") as directory:
+  with tempfile.TemporaryDirectory(prefix="lunaos-kimi-regression-") as directory:
     scanner = load(Path(directory))
     try:
       check(Path(directory))

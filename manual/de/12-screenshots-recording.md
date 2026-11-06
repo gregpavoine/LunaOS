@@ -21,7 +21,7 @@ Der Annotations-Editor kann Pfeile, Linien, Formen, Hervorhebungen, nummerierte 
 
 Gespeicherte Screenshots landen standardmäßig in `~/Pictures/Screenshots`, mit einem Namen wie `screenshot-2026-08-13_14-22-05-firefox.png`. Setze `OMASNAP_SCREENSHOT_DIR`, um ein anderes Verzeichnis zu verwenden — siehe [die FAQ](46-faq.md), wo Sitzungs-Umgebungsvariablen hingehören. Omasnap erstellt das Verzeichnis, wenn es den ersten Screenshot speichert. Setze `[output] autosave = false` in `~/.config/omasnap/omasnap.conf`, um das automatische Speichern zu deaktivieren.
 
-Vom Terminal aus öffnet `omarchy screenshot` dasselbe Overlay, und du kannst seinen Startmodus wählen: `omarchy capture screenshot region`, `windows`, `fullscreen` oder `scroll`. Ein zweites Argument `copy` oder `save` überspringt die Vorschau und schickt den Screenshot direkt an dieses Ziel. Um vor der Ausgabe zu bearbeiten, verwende `omarchy screenshot --editor=overlay` für einen Vollbild-Editor oder `omarchy screenshot --editor=window` für ein separates Fenster.
+Vom Terminal aus öffnet `lunaos screenshot` dasselbe Overlay, und du kannst seinen Startmodus wählen: `lunaos capture screenshot region`, `windows`, `fullscreen` oder `scroll`. Ein zweites Argument `copy` oder `save` überspringt die Vorschau und schickt den Screenshot direkt an dieses Ziel. Um vor der Ausgabe zu bearbeiten, verwende `lunaos screenshot --editor=overlay` für einen Vollbild-Editor oder `lunaos screenshot --editor=window` für ein separates Fenster.
 
 ### Den Picker über die Tastatur steuern
 
@@ -40,9 +40,9 @@ Diese Zuordnungen existieren nur, während Omasnap offen ist, sodass sie mit nic
 
 ## Bildschirmaufnahme
 
-`Alt + Print Screen` öffnet _Auslösen > Aufnehmen > Bildschirmaufnahme_, was fragt, was du auf der Tonspur haben willst: kein Audio, Desktop-Audio, Desktop plus Mikrofon oder Desktop plus Mikrofon plus Webcam. Die letzte Option erscheint nur, wenn du tatsächlich eine Kamera angeschlossen hast. Wähle eine, und Omarchys Aufnahme-Picker lässt dich einen Bereich ziehen oder auf ein Fenster oder einen Monitor klicken.
+`Alt + Print Screen` öffnet _Auslösen > Aufnehmen > Bildschirmaufnahme_, was fragt, was du auf der Tonspur haben willst: kein Audio, Desktop-Audio, Desktop plus Mikrofon oder Desktop plus Mikrofon plus Webcam. Die letzte Option erscheint nur, wenn du tatsächlich eine Kamera angeschlossen hast. Wähle eine, und LunaOSs Aufnahme-Picker lässt dich einen Bereich ziehen oder auf ein Fenster oder einen Monitor klicken.
 
-Die Aufnahme läuft auf gpu-screen-recorder, der auf der GPU mit 60 fps kodiert und bei Bedarf auf die CPU zurückfällt. Das Ergebnis ist eine MP4 in `~/Videos` mit dem Namen `screenrecording-2026-08-13_14-22-05.mp4`. Setze `OMARCHY_SCREENRECORD_DIR`, um das zu ändern — beachte aber, dass dieses Verzeichnis im Gegensatz zum Screenshot-Verzeichnis bereits existieren muss, sonst weigert sich die Aufnahme zu starten.
+Die Aufnahme läuft auf gpu-screen-recorder, der auf der GPU mit 60 fps kodiert und bei Bedarf auf die CPU zurückfällt. Das Ergebnis ist eine MP4 in `~/Videos` mit dem Namen `screenrecording-2026-08-13_14-22-05.mp4`. Setze `LUNAOS_SCREENRECORD_DIR`, um das zu ändern — beachte aber, dass dieses Verzeichnis im Gegensatz zum Screenshot-Verzeichnis bereits existieren muss, sonst weigert sich die Aufnahme zu starten.
 
 Während du aufnimmst, erscheint eine kleine Anzeige in der Leiste. Klicke darauf, um zu stoppen. Du kannst auch mit `Alt + Print Screen` erneut stoppen oder mit dem Eintrag _Aufnahme stoppen_ unter _Auslösen > Aufnehmen > Bildschirmaufnahme_, der nur erscheint, während tatsächlich etwas aufnimmt.
 
@@ -59,7 +59,7 @@ Wenn du mit einer Webcam aufnimmst, erscheint die Kamera als angeheftetes, zuges
 
 Es gibt drei Größen — klein, mittel und groß — und die Tastenkürzel wechseln zwischen ihnen. Mittel ist der Standard. Sie sind proportional zur Aufnahme, sodass die Kamera denselben Anteil des Bildes einnimmt, egal ob du einen 1080p-Monitor oder einen 6K-Monitor aufnimmst. Und wenn du einen Bereich statt eines ganzen Displays aufgenommen hast, verankert sich das Overlay an der Ecke dieses Bereichs statt an der des Monitors, sodass es innerhalb der Aufnahme bleibt.
 
-Du kannst es auch direkt mit `omarchy-capture-webcam-resize small` aufrufen oder mit `reset`, um zu mittel zurückzukehren.
+Du kannst es auch direkt mit `lunaos-capture-webcam-resize small` aufrufen oder mit `reset`, um zu mittel zurückzukehren.
 
 ## Text, QR-Codes und Farben
 
@@ -75,7 +75,7 @@ Eine 4K-Bildschirmaufnahme oder ein rohes HEIC von deinem Telefon ist oft zu gro
 
 Bilder gehen zu jpg oder png in hoch, mittel oder niedrig, was die Breite auf 3160, 2160 und 1080 Pixel begrenzt. Videos gehen zu mp4 oder einem animierten gif in 4k, 1080p oder 720p. Die konvertierte Datei wird neben dem Original mit der Auflösung im Namen geschrieben — `demo-1080p.mp4` — und der Pfad wird als Datei-URI in die Zwischenablage kopiert, sodass du sie direkt in eine App einfügen kannst, die Datei-Drops akzeptiert.
 
-Es funktioniert auch vom Terminal aus, wenn du schon weißt, was du willst: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Es gibt auch `omarchy transcode ascii`, das ein Bild in ASCII-Kunst verwandelt — das ist hauptsächlich für [Branding](41-branding.md) gedacht.
+Es funktioniert auch vom Terminal aus, wenn du schon weißt, was du willst: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Es gibt auch `lunaos transcode ascii`, das ein Bild in ASCII-Kunst verwandelt — das ist hauptsächlich für [Branding](41-branding.md) gedacht.
 
 ## Es irgendwohin senden
 

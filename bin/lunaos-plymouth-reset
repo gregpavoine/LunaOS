@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# lunaos:summary=Restore the default LunaOS Plymouth boot theme and SDDM login screen
+# lunaos:requires-sudo=true
+
+set -euo pipefail
+
+"$LUNAOS_PATH/bin/lunaos-refresh-plymouth"
+"$LUNAOS_PATH/bin/lunaos-refresh-sddm"

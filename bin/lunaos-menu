@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# lunaos:summary=Control the LunaOS menu (toggle / summon / close / refresh)
+# lunaos:args=[toggle|summon|close|refresh|ping] [route]
+# lunaos:examples=lunaos menu | lunaos menu toggle system | lunaos menu summon appearance.theme | lunaos menu refresh
+
+# Thin wrapper around the standard plugin IPC surface. The menu is the
+# first-party `lunaos.menu` plugin; routes are passed as JSON payload.
+
+set -euo pipefail
+
+verb="${1-toggle}"
+route="${2-root}"
+
+menu_payload() {
+  jq -nc --arg menu "$1" '{ menu: $menu }'
+}
+
+case "$verb" in
+  toggle)
+    exec lunaos-shell shell toggle lunaos.menu "$(menu_payload "$route")"
+    ;;
+  summon)
+    exec lunaos-shell shell summon lunaos.menu "$(menu_payload "$route")"
+    ;;
+  close)
+    exec lunaos-shell shell hide lunaos.menu
+    ;;
+  refresh | ping)
+    exec lunaos-shell shell call lunaos.menu "$verb" "{}"
+    ;;
+  -h | --help | help)
+    cat <<USAGE
+Usage: lunaos menu [verb] [route]
+
+Verbs:
+  toggle [route]   Open the menu at <route>, or close it if already open. Default verb.
+  summon [route]   Always open the menu (no close-if-visible toggle).
+  close            Close the menu if it is visible.
+  refresh          Re-parse the menu JSONC files.
+  ping             Health check.
+
+Route is an item id (e.g. setup.power) or alias (e.g. power). Defaults to
+"root", which opens the top-level menu.
+USAGE
+    exit 0
+    ;;
+  *)
+    echo "lunaos-menu: unknown verb '$verb'. Try 'lunaos menu --help'." >&2
+    exit 2
+    ;;
+esac

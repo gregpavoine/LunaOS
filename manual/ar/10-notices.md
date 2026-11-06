@@ -14,7 +14,7 @@
 
  ![notice-weather](images/notice-weather.webp)
 
-يُكتشف الموقع من عنوان IP الخاص بك، والذي يكون قريبًا بما يكفي عادةً، لكن ليس دائمًا. يمكنك تثبيته بـ `omarchy weather location --set Malibu`، أو كن دقيقًا بشأنه بإضافة إحداثيات: `omarchy weather location --set Malibu 34.0259,-118.7798`. شغّل `omarchy weather location` بمفرده لترى أين يظنّ أنك، و`--clear` للعودة إلى الكشف التلقائي.
+يُكتشف الموقع من عنوان IP الخاص بك، والذي يكون قريبًا بما يكفي عادةً، لكن ليس دائمًا. يمكنك تثبيته بـ `lunaos weather location --set Malibu`، أو كن دقيقًا بشأنه بإضافة إحداثيات: `lunaos weather location --set Malibu 34.0259,-118.7798`. شغّل `lunaos weather location` بمفرده لترى أين يظنّ أنك، و`--clear` للعودة إلى الكشف التلقائي.
 
 ### البطارية
 

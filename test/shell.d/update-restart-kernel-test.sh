@@ -44,8 +44,8 @@ kernel() {
 
 prompts() {
   : >"$TEST_LOG"
-  TEST_RUNNING_KERNEL=$1 OMARCHY_KERNEL_MODULES_PATH="$tmp_dir/modules" HOME="$tmp_dir/home" \
-    OMARCHY_UPDATE_UNATTENDED=0 PATH="$tmp_dir/bin:$PATH" "$ROOT/bin/omarchy-update-restart" --reboot-only >/dev/null 2>&1
+  TEST_RUNNING_KERNEL=$1 LUNAOS_KERNEL_MODULES_PATH="$tmp_dir/modules" HOME="$tmp_dir/home" \
+    LUNAOS_UPDATE_UNATTENDED=0 PATH="$tmp_dir/bin:$PATH" "$ROOT/bin/lunaos-update-restart" --reboot-only >/dev/null 2>&1
   cat "$TEST_LOG"
 }
 

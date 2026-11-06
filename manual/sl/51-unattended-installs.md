@@ -1,8 +1,8 @@
 # Nenadzorovane namestitve
 
-ISO Omarchy se lahko namesti sam, brez nikogar ob tipkovnici. Če namestitveni program najde drugi pogon z oznako `cidata`, ki nosi njegove konfiguracijske datoteke, jih skopira, v celoti preskoči čarovnika za namestitev in se sam znova zažene v končani sistem. Brez posebne zgradbe ISO, brez dodatnega vnosa zagonskega menija — brez priklopljenega takega pogona se nič ne spremeni in dobite običajnega čarovnika.
+ISO LunaOS se lahko namesti sam, brez nikogar ob tipkovnici. Če namestitveni program najde drugi pogon z oznako `cidata`, ki nosi njegove konfiguracijske datoteke, jih skopira, v celoti preskoči čarovnika za namestitev in se sam znova zažene v končani sistem. Brez posebne zgradbe ISO, brez dodatnega vnosa zagonskega menija — brez priklopljenega takega pogona se nič ne spremeni in dobite običajnega čarovnika.
 
-Zaradi tega je Omarchy odličen kot osnovna slika za okolja za razvoj za enkratno uporabo: ustvarite VM v Proxmox ali s Packerjem, ga zaženite, odidite, se povežite prek SSH. `cidata` je oznaka `NoCloud` za cloud-init, tako da vsa običajna orodja za virtualizacijo že vedo, kako pritrditi tak pogon.
+Zaradi tega je LunaOS odličen kot osnovna slika za okolja za razvoj za enkratno uporabo: ustvarite VM v Proxmox ali s Packerjem, ga zaženite, odidite, se povežite prek SSH. `cidata` je oznaka `NoCloud` za cloud-init, tako da vsa običajna orodja za virtualizacijo že vedo, kako pritrditi tak pogon.
 
 ## Konfiguracijske datoteke
 
@@ -24,7 +24,7 @@ Namesto `user_credentials.json` lahko vstavite tudi prazno datoteko z imenom `de
 
 ## Dostop SSH
 
-Ko je prisoten `authorized_keys`, namestitev nastavi ključe kot uporabnikove `~/.ssh/authorized_keys`, omogoči `sshd` in odpre požarni zid zanj. (Običajna namestitev Omarchy prinaša openssh z onemogočeno storitvijo in zaprtimi vrati, tako da nenadzorovan računalnik sicer ne bi bil dosegljiv.) Namestitev doda samo vaše ključe — ne zrahlja nobenih drugih nastavitev preverjanja pristnosti demona SSH.
+Ko je prisoten `authorized_keys`, namestitev nastavi ključe kot uporabnikove `~/.ssh/authorized_keys`, omogoči `sshd` in odpre požarni zid zanj. (Običajna namestitev LunaOS prinaša openssh z onemogočeno storitvijo in zaprtimi vrati, tako da nenadzorovan računalnik sicer ne bi bil dosegljiv.) Namestitev doda samo vaše ključe — ne zrahlja nobenih drugih nastavitev preverjanja pristnosti demona SSH.
 
 Ko je prisoten `tailscale_authkey`, se računalnik ob prvem zagonu namesto tega pridruži vašemu tailnetu: Tailscale se namesti iz priloženih paketov ISO, požarni zid dovoljuje vmesnik tailnet, opravilo v ozadju pa zažene pridružitev takoj, ko ima računalnik dejansko omrežje, pri čemer poskuša znova, dokler ne uspe. Uporabite večkrat uporaben, vnaprej pooblaščen ključ, tako da lahko ena slika pogona služi veliko računalnikom.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Nato ga priklopite na VM poleg ISO-ja Omarchy. Tukaj je celoten primer Proxmox:
+Nato ga priklopite na VM poleg ISO-ja LunaOS. Tukaj je celoten primer Proxmox:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

@@ -2,7 +2,7 @@
 
 Normalmente no Linux, você precisa de `Ctrl + Shift + C/V` para copiar e colar no terminal e `Ctrl + C/V` para fazer isso em todos os outros lugares. Isso é difícil de acostumar para quem não nasceu e cresceu no Linux! Assim como a troca de super para ctrl, se você está vindo do Mac.
 
-O Omarchy enfrenta os dois problemas com atalhos de área de transferência unificados que funcionam (quase) em todo lugar. Eles são:
+O LunaOS enfrenta os dois problemas com atalhos de área de transferência unificados que funcionam (quase) em todo lugar. Eles são:
 
 | Atalho | Comando |
 | ------- | ----------- |
@@ -15,7 +15,7 @@ _Note que a maioria dos harnesses de agentes usará `Ctrl + V` para colar imagen
 
 ### Histórico da área de transferência
 
-O histórico da área de transferência é fornecido pelo shell do Omarchy e funciona tanto para texto quanto para imagens. Você o aciona com `Super + Ctrl + V`, seleciona sua entrada com return, e ela será colocada na área de transferência pronta para colar com `Super + V`.
+O histórico da área de transferência é fornecido pelo shell do LunaOS e funciona tanto para texto quanto para imagens. Você o aciona com `Super + Ctrl + V`, seleciona sua entrada com return, e ela será colocada na área de transferência pronta para colar com `Super + V`.
 
  ![clipboard-history](images/clipboard-history.webp)
 

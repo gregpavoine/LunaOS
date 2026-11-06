@@ -1,6 +1,6 @@
 # PDF-ek kitöltése
 
-Az Omarchy egy szép, egyszerű PDF-megjelenítővel érkezik, amelynek neve Document Viewer. Ez a program nyitja meg azokat a PDF-eket, amelyekre egyszerűen duplán kattintasz.
+Az LunaOS egy szép, egyszerű PDF-megjelenítővel érkezik, amelynek neve Document Viewer. Ez a program nyitja meg azokat a PDF-eket, amelyekre egyszerűen duplán kattintasz.
 
 De a Document Viewert csak olyan PDF-ek kitöltéséhez használhatod, amelyeket űrlapként állítottak be. Ha olyan PDF-eket kell kitöltened, amelyeket nem állítottak be így, vagy alá kell írnod egy PDF-et, használd a [Signedot](https://github.com/omacom/signed). Indítsd az alkalmazásindítón keresztül (`Super + Space`), vagy kattints a fájlra jobb gombbal, válaszd az _Open With..._ lehetőséget, és válaszd a Signedot.
 

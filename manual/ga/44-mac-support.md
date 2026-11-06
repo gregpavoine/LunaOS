@@ -1,16 +1,16 @@
 # Tacaíocht Mac
 
-Tá tacaíocht ionsuite ag Omarchy do **Intel Macs**. Tá cúpla teorainn aitheanta ann faoi láthair, ach fad is atá tú ar an eolas agus sásta leo sin; is féidir leat saol nua a thabhairt isteach i do shean-Mhacs trí Omarchy a lódáil.
+Tá tacaíocht ionsuite ag LunaOS do **Intel Macs**. Tá cúpla teorainn aitheanta ann faoi láthair, ach fad is atá tú ar an eolas agus sásta leo sin; is féidir leat saol nua a thabhairt isteach i do shean-Mhacs trí LunaOS a lódáil.
 
-Tabhair faoi deara le do thoil nach dtacaítear go díreach le suiteáil ar Mac den tsraith M faoi láthair. Is féidir leat tuilleadh a fháil amach faoi staid seo in #omarchy-on-other inár [Discord](https://discord.gg/tXFUdasqhY).
+Tabhair faoi deara le do thoil nach dtacaítear go díreach le suiteáil ar Mac den tsraith M faoi láthair. Is féidir leat tuilleadh a fháil amach faoi staid seo in #lunaos-on-other inár [Discord](https://discord.gg/tXFUdasqhY).
 
-I dtástáil shimplí, bhíomar in ann gnóthachain feidhmíochta 36% a bhaint amach ar MacBook Pro 2019 díreach trí Omarchy a shuiteáil.
+I dtástáil shimplí, bhíomar in ann gnóthachain feidhmíochta 36% a bhaint amach ar MacBook Pro 2019 díreach trí LunaOS a shuiteáil.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Omarchy a shuiteáil ar Mac
+### LunaOS a shuiteáil ar Mac
 
-Ní thacaíonn Omarchy ach le bheith mar an t-aon OS suiteáilte faoi láthair. Le linn na suiteála, glanfar an tiomáint agus ní bheidh MacOS intosaithe a thuilleadh.
+Ní thacaíonn LunaOS ach le bheith mar an t-aon OS suiteáilte faoi láthair. Le linn na suiteála, glanfar an tiomáint agus ní bheidh MacOS intosaithe a thuilleadh.
 
 Is féidir leat é a chur ar ais fós níos déanaí trí Internet Recovery más mian leat.
 
@@ -39,7 +39,7 @@ Aimsíonn an suiteálaí crua-earraí Mac agus cuireann sé na socruithe is gá 
 
 ### Teorainneacha Aitheanta
 
-Tá baill den phobal ag obair i gcónaí ar réitigh do na dúshláin seo mar sin má tá siad seo ina bhfadhb duitse, bí páirteach in #omarchy-on-other inár [Discord](https://discord.gg/tXFUdasqhY) agus feic an bhfuil modhanna cothrom le dáta ar bith ann chun iad seo a réiteach.
+Tá baill den phobal ag obair i gcónaí ar réitigh do na dúshláin seo mar sin má tá siad seo ina bhfadhb duitse, bí páirteach in #lunaos-on-other inár [Discord](https://discord.gg/tXFUdasqhY) agus feic an bhfuil modhanna cothrom le dáta ar bith ann chun iad seo a réiteach.
 
 #### Gléasanna le Sceall T1
 

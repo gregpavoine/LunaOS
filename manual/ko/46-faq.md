@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ hl.config({
 막대의 시계를 마우스 오른쪽 버튼으로 클릭하면 12시간제를 포함한 흔한 형식들을 순환합니다. 직접 형식을 설정할 수도 있습니다:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 그러면 Sunday 10:55 AM으로 표시됩니다.
 
 ### 시간대를 어떻게 바꾸나요?
 
-Omarchy 메뉴에서 _업데이트 > 시간대_를 실행하고 목록에서 고르세요. 시간대는 맞는데 시계 자체가 틀어졌다면 _업데이트 > 시간_이 시간 동기화를 재시작해 줍니다.
+LunaOS 메뉴에서 _업데이트 > 시간대_를 실행하고 목록에서 고르세요. 시간대는 맞는데 시계 자체가 틀어졌다면 _업데이트 > 시간_이 시간 동기화를 재시작해 줍니다.
 
 ### DNS는 어떻게 바꾸고, Wi-Fi는 어떻게 공유하고, 연결 속도는 어떻게 확인하나요?
 
@@ -36,11 +36,11 @@ Omarchy 메뉴에서 _업데이트 > 시간대_를 실행하고 목록에서 고
 
 ### 디스크가 얼마나 빠른지 어떻게 확인하나요?
 
-_실행 > 속도 테스트 > 디스크 속도 테스트_는 드라이브의 실시간 읽기 및 쓰기 속도를 측정하며, 터미널에서는 `omarchy disk speedtest`입니다.
+_실행 > 속도 테스트 > 디스크 속도 테스트_는 드라이브의 실시간 읽기 및 쓰기 속도를 측정하며, 터미널에서는 `lunaos disk speedtest`입니다.
 
 ### 왜 Chromium에서 Google 계정으로 로그인할 수 없나요?
 
-순수 오픈소스 Chromium 빌드에는 Google이 계정 로그인에 요구하는 OAuth 자격 증명이 함께 제공되지 않습니다. Omarchy 메뉴에서 _설치 > 서비스 > Chromium 계정_을 실행해 이를 추가하고 브라우저를 재시작하면 로그인이 진행됩니다.
+순수 오픈소스 Chromium 빌드에는 Google이 계정 로그인에 요구하는 OAuth 자격 증명이 함께 제공되지 않습니다. LunaOS 메뉴에서 _설치 > 서비스 > Chromium 계정_을 실행해 이를 추가하고 브라우저를 재시작하면 로그인이 진행됩니다.
 
 ### 프린터를 어떻게 추가하나요?
 
@@ -60,15 +60,15 @@ _추가_를 선택하고 잠시 기다리세요: USB로 연결한 프린터와 �
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-`OMARCHY_SCREENRECORD_DIR`를 사용해 화면 녹화에도 같은 일을 할 수 있습니다.
+`LUNAOS_SCREENRECORD_DIR`를 사용해 화면 녹화에도 같은 일을 할 수 있습니다.
 
-Omasnap은 스크린샷 디렉터리를 자동으로 만듭니다. 화면 녹화 디렉터리는 직접 만든 뒤, 환경 변경 사항이 적용되도록 Omarchy를 재시작하세요.
+Omasnap은 스크린샷 디렉터리를 자동으로 만듭니다. 화면 녹화 디렉터리는 직접 만든 뒤, 환경 변경 사항이 적용되도록 LunaOS를 재시작하세요.
 
 ### Apple Studio Display의 스피커와 웹캠을 어떻게 작동시키나요?
 
 USB C를 꽂으면 전부 작동할 거라고 생각하겠지만, 안타깝게도 그렇지 않습니다. 제가 안정적으로 작동시키기 위해 찾은 해결책은 [WJESOG DisplayPort + USB-A => USB-C 케이블](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/)을 사용하는 것입니다. 그러면 스피커와 웹캠이 아주 잘 작동합니다.
 
-Omarchy에는 일반 키보드 밝기 버튼을 사용해 Apple Display(Studio와 XDR 모두)의 내장 밝기 조절 기능이 있다는 점도 기억하세요.
+LunaOS에는 일반 키보드 밝기 버튼을 사용해 Apple Display(Studio와 XDR 모두)의 내장 밝기 조절 기능이 있다는 점도 기억하세요.
 
 ### 추가 소프트웨어를 모두 어떻게 없애나요?
 
@@ -76,7 +76,7 @@ Obsidian이나 LibreOffice 같은 프로그램이나 사전 설치된 다른 것
 
 _제거 > 패키지_를 실행하면 설치된 모든 패키지를 볼 수 있습니다. 그러면 Tab으로 제거하고 싶은 패키지를 선택하고, Return으로 선택한 모든 것의 제거를 시작할 수 있습니다.
 
-그리고 Omarchy 메뉴의 _제거 > 웹 앱_을 사용해 원하지 않는 사전 설치 웹 앱을 제거할 수도 있습니다.
+그리고 LunaOS 메뉴의 _제거 > 웹 앱_을 사용해 원하지 않는 사전 설치 웹 앱을 제거할 수도 있습니다.
 
 또는 _제거 > 사전 설치 항목_을 실행해 사전 설치된 추가 항목 — 웹 앱, TUI, 선택 사항 애플리케이션 — 을 한 번에 쓸어 버리세요. 이를 실행하던 단축키도 함께 사라지므로 `~/.config/hypr/bindings.lua`에 직접 채울 수 있는 깨끗한 바인딩 슬레이트가 남습니다.
 

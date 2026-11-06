@@ -1,8 +1,8 @@
 # Tēmas
 
-Omarchy nāk ar divdesmit divām skaistām tēmām. Tu vari izvēlēties starp tām, izmantojot _Stils > Tēma_ Omarchy izvēlnē (`Super + Space`) vai lekt tieši uz tēmu atlasītāju, izmantojot `Super + Ctrl + Shift + Space`.
+LunaOS nāk ar divdesmit divām skaistām tēmām. Tu vari izvēlēties starp tām, izmantojot _Stils > Tēma_ LunaOS izvēlnē (`Super + Space`) vai lekt tieši uz tēmu atlasītāju, izmantojot `Super + Ctrl + Shift + Space`.
 
-Katra tēma veido darbvirsmu, termināli, neovim, aktivitāšu ekrānu (btop), Chromium un visu Omarchy čaulu: augšējo joslu, izvēlni, paziņojumus, OSD un bloķēšanas ekrānu. (Obsidian gadījumā tev pašam jāatlasa Omarchy tēma, izmantojot _Appearance > Themes_ lietotnes iekšpusē).
+Katra tēma veido darbvirsmu, termināli, neovim, aktivitāšu ekrānu (btop), Chromium un visu LunaOS čaulu: augšējo joslu, izvēlni, paziņojumus, OSD un bloķēšanas ekrānu. (Obsidian gadījumā tev pašam jāatlasa LunaOS tēma, izmantojot _Appearance > Themes_ lietotnes iekšpusē).
 
 Tēmām ir fona attēlu kopa, starp kurām vari izvēlēties, izmantojot `Super + Ctrl + Space`.
 

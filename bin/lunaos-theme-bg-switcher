@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# lunaos:summary=Open the LunaOS background switcher
+# lunaos:group=theme
+# lunaos:name=bg-switcher
+# lunaos:aliases=lunaos background
+
+theme_name=$(cat "$HOME/.local/state/lunaos/current/theme.name" 2>/dev/null)
+current_background=$(readlink -f "$HOME/.local/state/lunaos/current/background" 2>/dev/null)
+
+lunaos-menu-images \
+  --selected "$current_background" \
+  "$HOME/.local/state/lunaos/current/theme/backgrounds" \
+  "$HOME/.config/lunaos/backgrounds/$theme_name"

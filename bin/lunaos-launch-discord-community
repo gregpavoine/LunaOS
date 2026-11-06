@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# lunaos:summary=Open the LunaOS Discord community in the Discord app or a browser.
+
+invite="https://discord.gg/tXFUdasqhY"
+
+if lunaos-cmd-present discord; then
+  exec setsid uwsm-app -- discord --url -- "discord://-/invite/${invite##*/}"
+else
+  exec lunaos-launch-webapp "$invite"
+fi

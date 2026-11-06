@@ -4,18 +4,18 @@ set -euo pipefail
 
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
-helper="$ROOT/bin/omarchy-install-video-decode"
+helper="$ROOT/bin/lunaos-install-video-decode"
 test_tmp=$(mktemp -d)
 trap 'rm -rf "$test_tmp"' EXIT
 
 # The Snapdragon check answers from a file, so each case picks the platform.
 mkdir -p "$test_tmp/bin"
-cat >"$test_tmp/bin/omarchy-hw-aarch64-qualcomm" <<'STUB'
+cat >"$test_tmp/bin/lunaos-hw-aarch64-qualcomm" <<'STUB'
 #!/bin/bash
-[[ -e $OMARCHY_TEST_QUALCOMM ]]
+[[ -e $LUNAOS_TEST_QUALCOMM ]]
 STUB
-chmod +x "$test_tmp/bin/omarchy-hw-aarch64-qualcomm"
-export OMARCHY_TEST_QUALCOMM="$test_tmp/qualcomm"
+chmod +x "$test_tmp/bin/lunaos-hw-aarch64-qualcomm"
+export LUNAOS_TEST_QUALCOMM="$test_tmp/qualcomm"
 export PATH="$test_tmp/bin:$ROOT/bin:$PATH"
 
 new_home() {
@@ -32,7 +32,7 @@ shipped="$ROOT/config/chromium-flags.conf"
 features=$(grep -- '^--enable-features=' "$shipped")
 hwdec='hwdec=auto-safe,v4l2m2m-copy'
 
-touch "$OMARCHY_TEST_QUALCOMM"
+touch "$LUNAOS_TEST_QUALCOMM"
 home=$(new_home shipped)
 cp "$shipped" "$home/.config/chromium-flags.conf"
 run_helper "$home"
@@ -44,7 +44,7 @@ grep -Fxq -- "$features,AcceleratedVideoDecoder" "$conf" || fail "Snapdragon Chr
 (( $(grep -cFx -- "$hwdec" "$home/.config/mpv/mpv.conf") == 1 )) || fail "Snapdragon mpv gets the V4L2 fallback once" "$(cat "$home/.config/mpv/mpv.conf")"
 pass "a Snapdragon laptop gets the mpv and Chromium settings once, even when the helper runs twice"
 
-rm "$OMARCHY_TEST_QUALCOMM"
+rm "$LUNAOS_TEST_QUALCOMM"
 home=$(new_home other)
 cp "$shipped" "$home/.config/chromium-flags.conf"
 run_helper "$home"
@@ -52,7 +52,7 @@ cmp -s "$shipped" "$home/.config/chromium-flags.conf" || fail "other machines ke
 [[ ! -e $home/.config/mpv ]] || fail "other machines get no mpv config"
 pass "other machines keep Chromium's flags and get no mpv config"
 
-touch "$OMARCHY_TEST_QUALCOMM"
+touch "$LUNAOS_TEST_QUALCOMM"
 home=$(new_home user-choices)
 printf '%s\n' '--use-angle=vulkan' '--enable-features=AcceleratedVideoDecoder' >"$home/.config/chromium-flags.conf"
 mkdir -p "$home/.config/mpv"

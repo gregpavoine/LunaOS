@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# lunaos:summary=Cycle to the next media source and transfer playback when the current source is playing
+# lunaos:args=[next|previous]
+# lunaos:examples=lunaos audio source switch | lunaos-audio-source-switch previous
+
+direction="${1:-next}"
+
+case "$direction" in
+  next)
+    lunaos-shell media sourceSwitch
+    ;;
+  previous)
+    lunaos-shell media sourceSwitchPrevious
+    ;;
+  *)
+    echo "Usage: lunaos-audio-source-switch [next|previous]" >&2
+    exit 1
+    ;;
+esac

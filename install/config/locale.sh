@@ -6,8 +6,8 @@
 locale_conf=/etc/locale.conf
 locale_gen=/etc/locale.gen
 if (( EUID != 0 )); then
-  locale_conf=${OMARCHY_LOCALE_CONF:-$locale_conf}
-  locale_gen=${OMARCHY_LOCALE_GEN:-$locale_gen}
+  locale_conf=${LUNAOS_LOCALE_CONF:-$locale_conf}
+  locale_gen=${LUNAOS_LOCALE_GEN:-$locale_gen}
 fi
 
 # Repair only the stock state -- an unset LANG, or the bare C/POSIX the image

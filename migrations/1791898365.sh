@@ -8,7 +8,7 @@ echo "Speed up the boot menu and keep it quiet until a key is pressed"
 # stays. quiet is added wherever it is missing. Running this twice
 # changes nothing the second time.
 
-limine_conf="${OMARCHY_LIMINE_CONF:-}"
+limine_conf="${LUNAOS_LIMINE_CONF:-}"
 if [[ -z $limine_conf ]]; then
   esp=""
   if [[ -r /etc/default/limine ]]; then

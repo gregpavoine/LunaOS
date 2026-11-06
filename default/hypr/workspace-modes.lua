@@ -1,4 +1,4 @@
--- Workspace modes for omarchy-hyprland-workspace-layout-toggle.
+-- Workspace modes for lunaos-hyprland-workspace-layout-toggle.
 --
 -- Hyprland has dwindle and scrolling as tiled layouts, but nothing that floats a
 -- whole workspace: it reports a workspace's `tiledLayout` and takes an unknown
@@ -18,10 +18,10 @@
 require("default.hypr.helpers")
 local paths = require("default.hypr.paths")
 
-local FLOATED_TAG = "omarchy-mode-floated"
-local WORKSPACE_TAG = "omarchy-floating-workspace"
-local OPENED_TAG = "omarchy-mode-opened"
-local OPEN_RULE = "omarchy-floating-open-"
+local FLOATED_TAG = "lunaos-mode-floated"
+local WORKSPACE_TAG = "lunaos-floating-workspace"
+local OPENED_TAG = "lunaos-mode-opened"
+local OPEN_RULE = "lunaos-floating-open-"
 local LAST_WORKSPACE = 2147483647
 local TITLEBARS = "/usr/lib/omarchy-hyprland-titlebars/titlebars.so"
 
@@ -412,9 +412,9 @@ end
 
 local function theme_colors()
   local colors = {}
-  -- omarchy-theme-set writes the current theme under ~/.local/state whatever
+  -- lunaos-theme-set writes the current theme under ~/.local/state whatever
   -- XDG_STATE_HOME says, and Hyprland loads the theme's own config from there.
-  local file = io.open(paths.home .. "/.local/state/omarchy/current/theme/colors.toml", "r")
+  local file = io.open(paths.home .. "/.local/state/lunaos/current/theme/colors.toml", "r")
 
   if file then
     for line in file:lines() do
@@ -493,7 +493,7 @@ local function titlebars()
     { icon = "×", action = "hyprctl dispatch 'hl.dsp.window.close({ " .. window .. " })'" },
     { icon = "□", action = "hyprctl dispatch 'hl.dsp.window.fullscreen({ mode = \"maximized\", action = \"toggle\", " .. window .. " })'" },
     -- Minimized windows wait in the dock, which brings them back.
-    { icon = "−", action = "omarchy-hyprland-window-minimize %WINDOW%" },
+    { icon = "−", action = "lunaos-hyprland-window-minimize %WINDOW%" },
   }) do
     hl.plugin.hyprbars.add_button({
       bg_color = colors.titlebar,

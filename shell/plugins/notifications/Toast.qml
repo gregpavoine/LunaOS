@@ -74,9 +74,9 @@ Item {
                                                : (row.urgency === 0 ? dimColor : Commons.Color.notifications.countdown)
   readonly property bool hasBody: String(row.body || "").length > 0
   readonly property bool redacted: Store.redacted(row)
-  // Omarchy's own toasts and bare notify-send calls name no source worth a
+  // LunaOS's own toasts and bare notify-send calls name no source worth a
   // letter, and a summary that opens with its own glyph already has its mark.
-  readonly property bool anonymous: row.app === "omarchy-action" || row.app === "notify-send"
+  readonly property bool anonymous: row.app === "lunaos-action" || row.app === "notify-send"
   readonly property bool glyphLed: Delivery.summaryStartsWithGlyph(row.summary)
   readonly property real contentPaddingY: hasBody ? Style.space(10) : Style.space(7)
   // A card behind the front of a collapsed deck is a shape: the cards are
@@ -240,7 +240,7 @@ Item {
       spacing: thumb.compact ? Style.space(8) : Style.space(12)
 
       // The sender's image, else the icon resolved for its source, else the
-      // glyph an Omarchy sender asked for, else the first letter of the source.
+      // glyph an LunaOS sender asked for, else the first letter of the source.
       Item {
         id: thumb
         readonly property bool pictured: picture.status === Image.Ready && best !== ""
@@ -317,7 +317,7 @@ Item {
           visible: thumb.glyphed
           text: String(card.row.glyph || "")
           color: Commons.Color.notifications.text
-          font.family: Delivery.omarchyGlyph(card.row.glyph) ? "omarchy" : Style.font.family
+          font.family: Delivery.lunaosGlyph(card.row.glyph) ? "omarchy" : Style.font.family
           font.pixelSize: (thumb.compact ? Style.font.icon : Style.font.displayLarge)
         }
 

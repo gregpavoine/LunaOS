@@ -21,7 +21,7 @@ Anotacijų redaguoklis gali piešti rodykles, linijas, figūras, paryškinimus, 
 
 Išsaugotos ekrano nuotraukos pagal numatytuosius nustatymus patenka į `~/Pictures/Screenshots` su pavadinimu, pavyzdžiui, `screenshot-2026-08-13_14-22-05-firefox.png`. Nustatykite `OMASNAP_SCREENSHOT_DIR`, kad naudotumėte kitą katalogą — kur dėti sesijos aplinkos kintamuosius, žr. [DUK](46-faq.md). Omasnap sukuria katalogą, kai išsaugo pirmą kadrą. `~/.config/omasnap/omasnap.conf` nustatykite `[output] autosave = false`, kad išjungtumėte automatinį išsaugojimą.
 
-Iš terminalo `omarchy screenshot` atidaro tą pačią perdangą ir galite pasirinkti jos pradinį režimą: `omarchy capture screenshot region`, `windows`, `fullscreen` arba `scroll`. Antras argumentas `copy` arba `save` praleidžia peržiūrą ir siunčia kadrą tiesiai į tą paskirties vietą. Norėdami redaguoti prieš išvestį, naudokite `omarchy screenshot --editor=overlay` viso ekrano redaguokliui arba `omarchy screenshot --editor=window` atskiram langui.
+Iš terminalo `lunaos screenshot` atidaro tą pačią perdangą ir galite pasirinkti jos pradinį režimą: `lunaos capture screenshot region`, `windows`, `fullscreen` arba `scroll`. Antras argumentas `copy` arba `save` praleidžia peržiūrą ir siunčia kadrą tiesiai į tą paskirties vietą. Norėdami redaguoti prieš išvestį, naudokite `lunaos screenshot --editor=overlay` viso ekrano redaguokliui arba `lunaos screenshot --editor=window` atskiram langui.
 
 ### Parinkiklio valdymas iš klaviatūros
 
@@ -40,9 +40,9 @@ Kol pasirinkimas yra atidarytas, jums visai nereikia naudoti pelės:
 
 ## Ekrano įrašymas
 
-`Alt + Print Screen` atidaro _Veiksmai > Fiksuoti > Ekrano įrašas_, kuris paklausia, ko norite garso takelyje: be garso, darbalaukio garsas, darbalaukis plius mikrofonas arba darbalaukis plius mikrofonas plius kamera. Tas paskutinis pasirodo tik jei iš tikrųjų turite prijungtą kamerą. Pasirinkite vieną ir Omarchy įrašymo parinkiklis leidžia vilkti sritį arba spustelėti langą ar monitorių.
+`Alt + Print Screen` atidaro _Veiksmai > Fiksuoti > Ekrano įrašas_, kuris paklausia, ko norite garso takelyje: be garso, darbalaukio garsas, darbalaukis plius mikrofonas arba darbalaukis plius mikrofonas plius kamera. Tas paskutinis pasirodo tik jei iš tikrųjų turite prijungtą kamerą. Pasirinkite vieną ir LunaOS įrašymo parinkiklis leidžia vilkti sritį arba spustelėti langą ar monitorių.
 
-Įrašymas veikia ant gpu-screen-recorder, kuris koduoja GPU 60fps ir, jei reikia, grįžta prie CPU. Rezultatas yra MP4 `~/Videos`, pavadintas `screenrecording-2026-08-13_14-22-05.mp4`. Nustatykite `OMARCHY_SCREENRECORD_DIR`, kad tai pakeistumėte — bet atkreipkite dėmesį, kad, skirtingai nei ekrano nuotraukų katalogas, šis turi jau egzistuoti, kitaip įrašymas atsisako prasidėti.
+Įrašymas veikia ant gpu-screen-recorder, kuris koduoja GPU 60fps ir, jei reikia, grįžta prie CPU. Rezultatas yra MP4 `~/Videos`, pavadintas `screenrecording-2026-08-13_14-22-05.mp4`. Nustatykite `LUNAOS_SCREENRECORD_DIR`, kad tai pakeistumėte — bet atkreipkite dėmesį, kad, skirtingai nei ekrano nuotraukų katalogas, šis turi jau egzistuoti, kitaip įrašymas atsisako prasidėti.
 
 Kol įrašote, juostoje pasirodo mažas indikatorius. Spustelėkite jį, kad sustabdytumėte. Taip pat galite sustabdyti dar kartą su `Alt + Print Screen` arba su įrašu _Stabdyti įrašą_ po _Veiksmai > Fiksuoti > Ekrano įrašas_, kuris pasirodo tik kol kažkas iš tikrųjų įrašo.
 
@@ -59,7 +59,7 @@ Kai įrašote su kamera, kamera pasirodo kaip prisegtas, apkarpytas portretinis 
 
 Yra trys dydžiai — mažas, vidutinis ir didelis — ir spartieji klavišai žingsniuoja tarp jų. Vidutinis yra numatytasis. Jie proporcingi įrašui, todėl kamera užima tą pačią kadro dalį, nesvarbu, ar įrašote 1080p monitorių, ar 6K. Ir jei įrašėte sritį, o ne visą ekraną, perdanga tvirtinasi prie tos srities kampo, o ne monitoriaus, todėl ji lieka kadro viduje.
 
-Taip pat galite ją iškviesti tiesiogiai su `omarchy-capture-webcam-resize small` arba `reset`, kad grįžtumėte į vidutinę.
+Taip pat galite ją iškviesti tiesiogiai su `lunaos-capture-webcam-resize small` arba `reset`, kad grįžtumėte į vidutinę.
 
 ## Tekstas, QR kodai ir spalvos
 
@@ -75,7 +75,7 @@ _Veiksmai > Fiksuoti > QR Code_ daro tą patį triuką QR kodams. Pasirinkite sr
 
 Paveikslėliai eina į jpg arba png aukšta, vidutine arba žema kokybe, kuri riboja plotį iki 3160, 2160 ir 1080 pikselių. Vaizdo įrašai eina į mp4 arba animuotą gif 4k, 1080p arba 720p. Konvertuotas failas įrašomas šalia originalo su skyra pavadinime — `demo-1080p.mp4` — o kelias nukopijuojamas į iškarpinę kaip failo URI, todėl galite jį įklijuoti tiesiai į programą, kuri priima failų numetimus.
 
-Tai veikia ir iš terminalo, jei jau žinote, ko norite: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Taip pat yra `omarchy transcode ascii`, kuris paveikslėlį paverčia ASCII menu — tas daugiausia skirtas [prekės ženklui](41-branding.md).
+Tai veikia ir iš terminalo, jei jau žinote, ko norite: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Taip pat yra `lunaos transcode ascii`, kuris paveikslėlį paverčia ASCII menu — tas daugiausia skirtas [prekės ženklui](41-branding.md).
 
 ## Siuntimas kur nors
 

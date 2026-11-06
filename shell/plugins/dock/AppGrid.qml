@@ -169,7 +169,7 @@ Item {
   OverlayWindow {
     id: panel
     shown: root.opened
-    WlrLayershell.namespace: "omarchy-dock-apps"
+    WlrLayershell.namespace: "lunaos-dock-apps"
     Rectangle {
       anchors.fill: parent
       color: Commons.Color.menu.scrim

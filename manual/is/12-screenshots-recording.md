@@ -21,7 +21,7 @@ Merkingarritillinn getur teiknað örvar, línur, form, áherslur, númeraða me
 
 Vistaðar skjámyndir lenda sjálfgefið í `~/Pictures/Screenshots`, með nafni eins og `screenshot-2026-08-13_14-22-05-firefox.png`. Stilltu `OMASNAP_SCREENSHOT_DIR` til að nota aðra möppu — sjá [algengar spurningar](46-faq.md) um hvar á að setja umhverfisbreytur lotunnar. Omasnap býr til möppuna þegar það vistar fyrstu myndina. Stilltu `[output] autosave = false` í `~/.config/omasnap/omasnap.conf` til að slökkva á sjálfvirkri vistun.
 
-Úr terminal opnar `omarchy screenshot` sama yfirlag, og þú getur valið byrjunarham þess: `omarchy capture screenshot region`, `windows`, `fullscreen` eða `scroll`. Annað viðfang, `copy` eða `save`, sleppir forskoðuninni og sendir myndina beint á þann áfangastað. Til að breyta fyrir úttak skaltu nota `omarchy screenshot --editor=overlay` fyrir ritil í fullum skjá eða `omarchy screenshot --editor=window` fyrir sérglugga.
+Úr terminal opnar `lunaos screenshot` sama yfirlag, og þú getur valið byrjunarham þess: `lunaos capture screenshot region`, `windows`, `fullscreen` eða `scroll`. Annað viðfang, `copy` eða `save`, sleppir forskoðuninni og sendir myndina beint á þann áfangastað. Til að breyta fyrir úttak skaltu nota `lunaos screenshot --editor=overlay` fyrir ritil í fullum skjá eða `lunaos screenshot --editor=window` fyrir sérglugga.
 
 ### Að stjórna veljaranum með lyklaborðinu
 
@@ -40,9 +40,9 @@ Vistaðar skjámyndir lenda sjálfgefið í `~/Pictures/Screenshots`, með nafni
 
 ## Skjáupptaka
 
-`Alt + Print Screen` opnar _Kveikja > Fanga > Skjáupptaka_, sem spyr hvað þú vilt á hljóðrásinni: ekkert hljóð, skjáborðshljóð, skjáborð ásamt hljóðnema, eða skjáborð ásamt hljóðnema ásamt vefmyndavél. Sá síðasti birtist aðeins ef þú hefur í alvöru myndavél í sambandi. Veldu einn og upptökuveljari Omarchy lætur þig draga svæði eða smella á glugga eða skjá.
+`Alt + Print Screen` opnar _Kveikja > Fanga > Skjáupptaka_, sem spyr hvað þú vilt á hljóðrásinni: ekkert hljóð, skjáborðshljóð, skjáborð ásamt hljóðnema, eða skjáborð ásamt hljóðnema ásamt vefmyndavél. Sá síðasti birtist aðeins ef þú hefur í alvöru myndavél í sambandi. Veldu einn og upptökuveljari LunaOS lætur þig draga svæði eða smella á glugga eða skjá.
 
-Upptakan keyrir á gpu-screen-recorder, sem kóðar á GPU á 60 fps og fellur aftur á CPU ef það þarf. Niðurstaðan er MP4-skrá í `~/Videos`, sem heitir `screenrecording-2026-08-13_14-22-05.mp4`. Stilltu `OMARCHY_SCREENRECORD_DIR` til að breyta því — en athugaðu að ólíkt skjámyndamöppunni verður þessi að vera til fyrir, annars neitar upptakan að byrja.
+Upptakan keyrir á gpu-screen-recorder, sem kóðar á GPU á 60 fps og fellur aftur á CPU ef það þarf. Niðurstaðan er MP4-skrá í `~/Videos`, sem heitir `screenrecording-2026-08-13_14-22-05.mp4`. Stilltu `LUNAOS_SCREENRECORD_DIR` til að breyta því — en athugaðu að ólíkt skjámyndamöppunni verður þessi að vera til fyrir, annars neitar upptakan að byrja.
 
 Á meðan þú tekur upp birtist lítill vísi í stikunni. Smelltu á hann til að stöðva. Þú getur líka stöðvað með `Alt + Print Screen` aftur, eða með færslunni _Stöðva skjáupptöku_ undir _Kveikja > Fanga > Skjáupptaka_, sem birtist aðeins á meðan eitthvað er í alvöru að taka upp.
 
@@ -59,7 +59,7 @@ Að stöðva gerir smá tiltekt áður en það afhendir þér skrána: fyrsti r
 
 Það eru þrjár stærðir — lítil, miðlungs og stór — og flýtilyklarnir stíga á milli þeirra. Miðlungs er sjálfgefið. Þær eru hlutfallslegar við upptökuna, svo myndavélin tekur sama hlutfall rammans hvort sem þú tekur upp 1080p-skjá eða 6K-skjá. Og ef þú tókst upp svæði frekar en allan skjá festist yfirlagið við horn þess svæðis frekar en skjásins, svo það helst inni í myndinni.
 
-Þú getur líka kallað á það beint með `omarchy-capture-webcam-resize small`, eða `reset` til að fara aftur í miðlungs.
+Þú getur líka kallað á það beint með `lunaos-capture-webcam-resize small`, eða `reset` til að fara aftur í miðlungs.
 
 ## Texti, QR-kóðar og litir
 
@@ -75,7 +75,7 @@ _Kveikja > Fanga > QR-kóði_ gerir sama bragð fyrir QR-kóða. Veldu svæðið
 
 Myndir fara í jpg eða png í háu, miðlungs eða lágu, sem takmarka breiddina við 3160, 2160 og 1080 punkta. Myndbönd fara í mp4 eða hreyfanlegt gif í 4k, 1080p eða 720p. Umbreytta skráin er skrifuð við hliðina á frumgerðinni með upplausninni í nafninu — `demo-1080p.mp4` — og slóðin er afrituð á klippiborðið sem skráa-URI, svo þú getur límt hana beint inn í forrit sem tekur við skráaköstum.
 
-Það virkar líka úr terminal ef þú veist þegar hvað þú vilt: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Það er líka `omarchy transcode ascii`, sem breytir mynd í ASCII-list — það er aðallega fyrir [vörumerki](41-branding.md).
+Það virkar líka úr terminal ef þú veist þegar hvað þú vilt: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Það er líka `lunaos transcode ascii`, sem breytir mynd í ASCII-list — það er aðallega fyrir [vörumerki](41-branding.md).
 
 ## Að senda það einhvert
 

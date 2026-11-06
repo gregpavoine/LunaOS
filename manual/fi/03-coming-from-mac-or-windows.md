@@ -1,12 +1,12 @@
 # Siirtyminen Macista tai Windowsista
 
-Jos olet viettänyt vuosia macOS:in tai Windowsin parissa, sormesi osaavat sata asiaa, jotka aivosi ovat unohtaneet koskaan oppineensa. Tämä luku on käännöskerros: mihin ne vaistot menevät Omarchyssa. Ominaisuudet itsessään käsitellään syvällisesti muualla — tämä on vain kartta.
+Jos olet viettänyt vuosia macOS:in tai Windowsin parissa, sormesi osaavat sata asiaa, jotka aivosi ovat unohtaneet koskaan oppineensa. Tämä luku on käännöskerros: mihin ne vaistot menevät LunaOSssa. Ominaisuudet itsessään käsitellään syvällisesti muualla — tämä on vain kartta.
 
 ### Super on kaiken keskipiste
 
-Kaikki Cmd- tai Windows-näppäimen ympärille rakentamasi lihasmuisti siirtyy yhdelle näppäimelle: Super. Se on Windows-näppäin PC-näppäimistössä, ja se on lähes jokaisen Omarchyn pikanäppäimen ankkuri.
+Kaikki Cmd- tai Windows-näppäimen ympärille rakentamasi lihasmuisti siirtyy yhdelle näppäimelle: Super. Se on Windows-näppäin PC-näppäimistössä, ja se on lähes jokaisen LunaOSn pikanäppäimen ankkuri.
 
-Spotlight-, Raycast- tai Käynnistä-valikkovaistosi muuttuu yhdistelmäksi `Super + Space`. Se avaa Omarchy-valikon, joka käynnistää sovelluksia, muuttaa asetuksia, asentaa ohjelmistoja, kaappaa ruudun — oikeastaan kaiken. Aloita kirjoittaminen suodattaaksesi. `Super + Alt + Space` näyttää kaikki sovellukset yhdellä ruudukolla, niin kuin Launchpad tekee. Katso [navigointi](04-navigation.md).
+Spotlight-, Raycast- tai Käynnistä-valikkovaistosi muuttuu yhdistelmäksi `Super + Space`. Se avaa LunaOS-valikon, joka käynnistää sovelluksia, muuttaa asetuksia, asentaa ohjelmistoja, kaappaa ruudun — oikeastaan kaiken. Aloita kirjoittaminen suodattaaksesi. `Super + Alt + Space` näyttää kaikki sovellukset yhdellä ruudukolla, niin kuin Launchpad tekee. Katso [navigointi](04-navigation.md).
 
 ### Dockia tai työpöydän kuvakkeita ei ole
 
@@ -22,27 +22,27 @@ Työtilat tuntuvat tutuilta: ne ovat macOSin Spaces tai Windowsin virtuaalityöp
 
 ### Kopiointi ja liittäminen vain toimivat
 
-Macilla sinulla oli Cmd + C kaikkialla. Windowsissa sinulla oli Ctrl + C kaikkialla — paitsi pääätteessä, jossa se tappaa ohjelmasi. Omarchy antaa sinulle yhdistelmät `Super + C`, `Super + X` ja `Super + V`, ja ne toimivat kaikkialla, myös pääätteessä. Kuorta varten ei tarvitse oppia erillistä vaistoa.
+Macilla sinulla oli Cmd + C kaikkialla. Windowsissa sinulla oli Ctrl + C kaikkialla — paitsi pääätteessä, jossa se tappaa ohjelmasi. LunaOS antaa sinulle yhdistelmät `Super + C`, `Super + X` ja `Super + V`, ja ne toimivat kaikkialla, myös pääätteessä. Kuorta varten ei tarvitse oppia erillistä vaistoa.
 
 Windows-ihmiset: Win + V -leikepöytähistoriasi elää yhdistelmässä `Super + Ctrl + V`, ja se sisältää kuvia sekä tekstiä. Katso [yhtenäinen leikepöytä ja historia](08-unified-clipboard-history.md).
 
 ### Käännöstaulukko
 
-| Kätesi tavoittelee | Omarchyssa |
+| Kätesi tavoittelee | LunaOSssa |
 | ------------- | ---------- |
-| Spotlight / Raycast / Käynnistä-valikko | `Super + Space` — Omarchy-valikko |
+| Spotlight / Raycast / Käynnistä-valikko | `Super + Space` — LunaOS-valikko |
 | AirDrop | LocalSend yhdistelmällä `Super + Ctrl + S` — katso [GUI:t](22-guis.md) |
 | Cmd + Shift + 4 / Win + Shift + S | `Print Screen` — katso [kuvakaappaukset ja tallennus](12-screenshots-recording.md) |
 | Ilmoituskeskus | Ilmoitushistoria yhdistelmällä `Super + Shift + Alt + ,` |
 | Time Machine (järjestelmää varten) | Automaattiset [järjestelmän tilannekuvat](47-system-snapshots.md) jokaisessa päivityksessä |
-| App Store / asentajan lataaminen | _Asenna_ valikossa tai `omarchy pkg add` — katso [muut paketit](29-other-packages.md) |
+| App Store / asentajan lataaminen | _Asenna_ valikossa tai `lunaos pkg add` — katso [muut paketit](29-other-packages.md) |
 | Järjestelmäasetukset / Ohjauspaneeli | _Asetukset_ valikossa, joka muokkaa tavallisia määritystiedostoja — katso [dotfiles](31-dotfiles.md) |
 
 ### Jotkin asiat todella ovat toisin
 
 Monet asetukset elävät tekstitiedostoissa, joita muokkaat, ei paneeleissa, joita klikkailet läpi. Se kuulostaa alkukantaiselta, kunnes ymmärrät, että se tarkoittaa jokaisen säädön voivan nähdä, kopioida seuraavalle koneellesi ja laittaa versionhallintaan. _Asetukset_-valikko pudottaa sinut suoraan oikeaan tiedostoon ja käynnistää uudelleen kaiken, mikä tarvitsee käynnistämistä, kun olet valmis.
 
-Päivitykset tulevat yhden komennon kautta — _Päivitä > Omarchy_ — joka päivittää Omarchyn itsensä ja jokaisen järjestelmän paketin ja ottaa ensin tilannekuvan. Ei sovelluskohtaisia, satunnaisesti häiritseviä päivittimiä. Katso [päivitykset](30-updates.md).
+Päivitykset tulevat yhden komennon kautta — _Päivitä > LunaOS_ — joka päivittää LunaOSn itsensä ja jokaisen järjestelmän paketin ja ottaa ensin tilannekuvan. Ei sovelluskohtaisia, satunnaisesti häiritseviä päivittimiä. Katso [päivitykset](30-updates.md).
 
 Ohjelmistot tulevat paketinhallinnasta, ei ladatuista asentajista.
 
@@ -50,7 +50,7 @@ Ja kun suljet ikkunan, sovellus todella sulkeutuu. Ei ole macOSin välitilaa, jo
 
 ### Mac-laitteistolla
 
-Omarchy toimii hyvin Intel-Maceilla — katso [Mac-tuki](44-mac-support.md). Ja näppäimistö on sinulle kiltti: Omarchy ei muuta mitään määrittelyjä, ja Linux kohtelee Command-näppäintä Superinä, joten Super istuu juuri siinä, missä Cmd aina oli. Peukalosi ei huomaa siirtoa.
+LunaOS toimii hyvin Intel-Maceilla — katso [Mac-tuki](44-mac-support.md). Ja näppäimistö on sinulle kiltti: LunaOS ei muuta mitään määrittelyjä, ja Linux kohtelee Command-näppäintä Superinä, joten Super istuu juuri siinä, missä Cmd aina oli. Peukalosi ei huomaa siirtoa.
 
 ### Anna sille kaksi viikkoa
 

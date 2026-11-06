@@ -1,6 +1,6 @@
 # Eines de l'intèrpret d'ordres
 
-A més de les eines estàndard de Linux, Omarchy també ve amb una pila d'eines millorades per a l'intèrpret d'ordres. Aquí tens les principals.
+A més de les eines estàndard de Linux, LunaOS també ve amb una pila d'eines millorades per a l'intèrpret d'ordres. Aquí tens les principals.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Trobareu el manual complet amb `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) és un substitut de cd. Recorda els directoris on has estat, perquè la propera vegada hi puguis saltar més fàcilment. Suposa que fas `cd ~/.config/omarchy` una vegada. La propera vegada pots fer simplement `cd omarchy` (o fins i tot només `cd oma`), i Zoxide t'hi portarà directament.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) és un substitut de cd. Recorda els directoris on has estat, perquè la propera vegada hi puguis saltar més fàcilment. Suposa que fas `cd ~/.config/lunaos` una vegada. La propera vegada pots fer simplement `cd lunaos` (o fins i tot només `cd oma`), i Zoxide t'hi portarà directament.
 
 Trobareu el manual complet amb `man zoxide`.
 
@@ -58,4 +58,4 @@ Trobareu el manual complet amb `man yt-dlp`.
 
 [try](https://github.com/tobi/try) facilita la gestió d'experiments de programació amb directoris amb data. Tots els experiments viuen a `~/Work/tries` i hi pots accedir amb `try`.
 
-Omarchy no afegeix automàticament el directori `bin/` d'un projecte a `PATH`. Executa les eines locals de projecte en què confies amb una ruta relativa explícita, com ara `bin/rails` o `./bin/dev`.
+LunaOS no afegeix automàticament el directori `bin/` d'un projecte a `PATH`. Executa les eines locals de projecte en què confies amb una ruta relativa explícita, com ara `bin/rails` o `./bin/dev`.

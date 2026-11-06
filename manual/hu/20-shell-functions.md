@@ -1,6 +1,6 @@
 # Shell-funkciók
 
-Az Omarchy egy sor shell-funkcióval érkezik, amelyek leegyszerűsítik a gyakori feladatokat, és elrejtik a bonyolult paraméterhívásokat.
+Az LunaOS egy sor shell-funkcióval érkezik, amelyek leegyszerűsítik a gyakori feladatokat, és elrejtik a bonyolult paraméterhívásokat.
 
 ## Tömörítés
 

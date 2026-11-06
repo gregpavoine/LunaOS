@@ -1,14 +1,14 @@
 # Gornja traka
 
-Traka duž vrha vašega zaslona je Omarchy traka. To nije naknadno pričvršćena statusna traka, već dio Omarchy ljuske, jedinoga dugotrajnoga Quickshell procesa koji također crta izbornik, obavijesti, OSD skočnice i zaključani zaslon. Zato se savršeno uklapa u temu sa svime ostalim i zato se ploča otvara trenutačno umjesto da pokreće novu aplikaciju.
+Traka duž vrha vašega zaslona je LunaOS traka. To nije naknadno pričvršćena statusna traka, već dio LunaOS ljuske, jedinoga dugotrajnoga Quickshell procesa koji također crta izbornik, obavijesti, OSD skočnice i zaključani zaslon. Zato se savršeno uklapa u temu sa svime ostalim i zato se ploča otvara trenutačno umjesto da pokreće novu aplikaciju.
 
 To je i jedini dio radne površine koji je uvijek na zaslonu, pa vrijedi znati što rade svi ti maleni znakovi.
 
 ## Što je na njoj prema zadanim postavkama
 
-Traka ima tri odjeljka. Na lijevoj strani nalaze se Omarchy logotip (pokretač izbornika) i pokazatelji radnih prostora. U sredini dobivate pokazatelje statusa, sat, Elsewhen (svjetski sat), vrijeme i značku za Omarchy ažuriranje. Na desnoj strani: raspored tipkovnice (kada je konfigurirano više od jednoga), paleta sustava, agenti, bluetooth, mreža, zvuk, zaslon i napajanje.
+Traka ima tri odjeljka. Na lijevoj strani nalaze se LunaOS logotip (pokretač izbornika) i pokazatelji radnih prostora. U sredini dobivate pokazatelje statusa, sat, Elsewhen (svjetski sat), vrijeme i značku za LunaOS ažuriranje. Na desnoj strani: raspored tipkovnice (kada je konfigurirano više od jednoga), paleta sustava, agenti, bluetooth, mreža, zvuk, zaslon i napajanje.
 
-Nekoliko njih pojavljuje se samo kada imaju što reći. Raspored tipkovnice pojavljuje se samo ako ste konfigurirali više od jednoga rasporeda. Značka za ažuriranje pojavljuje se samo kada čeka Omarchy ažuriranje. A ikona agenata pojavljuje se prvi put kada Omarchy pronađe upotrebu AI kodiranja na stroju (pogledajte [AI](17-ai.md)).
+Nekoliko njih pojavljuje se samo kada imaju što reći. Raspored tipkovnice pojavljuje se samo ako ste konfigurirali više od jednoga rasporeda. Značka za ažuriranje pojavljuje se samo kada čeka LunaOS ažuriranje. A ikona agenata pojavljuje se prvi put kada LunaOS pronađe upotrebu AI kodiranja na stroju (pogledajte [AI](17-ai.md)).
 
 ## Klikanje okolo
 
@@ -16,7 +16,7 @@ Gotovo svaki widget radi nešto na lijevi, desni i srednji klik, a nekoliko ih r
 
 | Widget | Lijevi | Desni | Srednji / pomicanje |
 | --- | --- | --- | --- |
-| Izbornik | Omarchy izbornik | Novi terminal | — |
+| Izbornik | LunaOS izbornik | Novi terminal | — |
 | Radni prostori | Fokusiraj taj radni prostor | — | Pomicanje: sljedeći/prethodni radni prostor |
 | Sat | Skočni kalendar | Kruži kroz format naljepnice | Srednji: birač vremenske zone |
 | Vrijeme | Skočna prognoza | Potpuno vrijeme kao obavijest | Srednji: osvježi |
@@ -29,7 +29,7 @@ Gotovo svaki widget radi nešto na lijevi, desni i srednji klik, a nekoliko ih r
 | Mediji | Reproduciraj/pauziraj | Skočni omot | Srednji: sljedeće · pomicanje: prethodno/sljedeće |
 | Agenti | Ploča agenata | Pokreni svoga agenta | Srednji: sljedeća pretplata |
 | Paleta | Lebdjenje otkriva ladicu | Desni klik na ševron za upravljanje | — |
-| Omarchy ažuriranje | Pokreni ažuriranje | — | — |
+| LunaOS ažuriranje | Pokreni ažuriranje | — | — |
 
 Nije sve u toj tablici na vašoj traci odmah iz kutije. Medijski widget (MPRIS koji se trenutačno reproducira, s pomičnom pjesmom i izvođačem) i widget mikrofona oboje su ugrađeni, ali prema zadanim postavkama isključeni — dodajte ih ako ih želite, kako je opisano u nastavku.
 
@@ -65,7 +65,7 @@ Svaka ploča prima tipkovnicu jednako kao i miš: strelice se pomiču, Return ak
 
 Još dva widgeta pojavljuju se na traci tek kada instalirate odgovarajuću uslugu iz **Instaliraj → Usluga**, i oboje vrijedi znati jer rade više od izvješćivanja o statusu.
 
-Ploča **Tailscale** povezuje i odspaja tailnet, prebacuje između računa i odabire izlazni čvor (vaši vlastiti strojevi i Mullvad regije oboje se pojavljuju na tome popisu). Također pregledava vaše strojeve — a kada je jedan odabran, `s` mu šalje datoteke preko Taildropa, što je najbrži način za premještanje datoteke na vaš telefon ili drugo prijenosno računalo. `c` kopira IP stroja, `n` njegovo ime, a `d` njegovo puno DNS ime. Na svakom retku stroja nalazi se i tipka za slanje, ako radije klikate. Isto iz terminala je `omarchy tailscale send <machine> [file...]`.
+Ploča **Tailscale** povezuje i odspaja tailnet, prebacuje između računa i odabire izlazni čvor (vaši vlastiti strojevi i Mullvad regije oboje se pojavljuju na tome popisu). Također pregledava vaše strojeve — a kada je jedan odabran, `s` mu šalje datoteke preko Taildropa, što je najbrži način za premještanje datoteke na vaš telefon ili drugo prijenosno računalo. `c` kopira IP stroja, `n` njegovo ime, a `d` njegovo puno DNS ime. Na svakom retku stroja nalazi se i tipka za slanje, ako radije klikate. Isto iz terminala je `lunaos tailscale send <machine> [file...]`.
 
 Ploča **Dropbox** upravlja prijavom, prikazuje koliko ste prostora za pohranu iskoristili i navodi nedavno sinkronizirane datoteke.
 
@@ -90,19 +90,19 @@ Ako radije birate iz izbornika, **Pokreni → Izgled → Traka izbornika** ima p
 Iste stvari imaju naredbe, što je ono što želite za postavku [dotfiles](31-dotfiles.md):
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Za potpuno dodavanje ili uklanjanje widgeta koristite naredbe dodataka. `omarchy plugin list` ispisuje svaki widget koji ljuska poznaje s njegovim id-om, a zatim:
+Za potpuno dodavanje ili uklanjanje widgeta koristite naredbe dodataka. `lunaos plugin list` ispisuje svaki widget koji ljuska poznaje s njegovim id-om, a zatim:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Skrivanje trake
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Konfiguracijska datoteka
 
-Sve je to pohranjeno u `~/.config/omarchy/shell.json`, pod ključem `bar`. Evo skraćene verzije:
+Sve je to pohranjeno u `~/.config/lunaos/shell.json`, pod ključem `bar`. Evo skraćene verzije:
 
 ```json
 {
@@ -119,20 +119,20 @@ Sve je to pohranjeno u `~/.config/omarchy/shell.json`, pod ključem `bar`. Evo s
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Svaki widget jedan je unos u jednom od tri polja rasporeda, a njegove postavke sjede u retku na tome unosu — nema zasebne datoteke postavki i nema podobjekta `config`. `format` sata, `formatAlt` (na što desni klik kruži) i `verticalFormat` svi žive točno ondje na `{ "id": "omarchy.clock" }`.
+Svaki widget jedan je unos u jednom od tri polja rasporeda, a njegove postavke sjede u retku na tome unosu — nema zasebne datoteke postavki i nema podobjekta `config`. `format` sata, `formatAlt` (na što desni klik kruži) i `verticalFormat` svi žive točno ondje na `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` imenuje jedan središnji widget koji se prikvačuje na točno središte zaslona, s ostalima bočno uz njega. Tako sat ostaje točno u sredini čak i dok vrijeme i značka za ažuriranje dolaze i odlaze. Postavite ga na prazan niz i središnji popis samo se centrira kao grupa.
 
-Jedno pravilo koje vrijedi usvojiti: **jednom kada imate vlastiti `shell.json`, on je kanonski**. Dok ništa ne prilagodite, ljuska čita Omarchyjevu zadanu datoteku. Trenutak kada povučete widget, pokrenete `omarchy bar` ili sami uredite datoteku, vi ste vlasnik — nema dubokoga spajanja, pa se novi zadani widgeti u budućim Omarchy izdanjima neće automatski pojaviti na vašoj traci. `omarchy bar defaults` vraća isporučeni raspored kad god želite čistu ploču.
+Jedno pravilo koje vrijedi usvojiti: **jednom kada imate vlastiti `shell.json`, on je kanonski**. Dok ništa ne prilagodite, ljuska čita LunaOSjevu zadanu datoteku. Trenutak kada povučete widget, pokrenete `lunaos bar` ili sami uredite datoteku, vi ste vlasnik — nema dubokoga spajanja, pa se novi zadani widgeti u budućim LunaOS izdanjima neće automatski pojaviti na vašoj traci. `lunaos bar defaults` vraća isporučeni raspored kad god želite čistu ploču.
 
 Ista datoteka također drži vaše vremenske odmake neaktivnosti na najvišoj razini, izvan ključa `bar`: `idle.screensaver` i `idle.lock`, oba u sekundama otkako ste postali neaktivni. Dakle zadani čuvar zaslona uključuje se u 150 sekundi, a zaključavanje u 300.

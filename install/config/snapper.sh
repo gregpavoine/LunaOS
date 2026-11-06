@@ -1,13 +1,13 @@
-SNAPPER_CONFIG_PATH="${OMARCHY_SNAPPER_CONFIG_PATH:-/etc/snapper/configs/root}"
-SNAPPER_CONF_PATH="${OMARCHY_SNAPPER_CONF_PATH:-/etc/conf.d/snapper}"
-template="${OMARCHY_SNAPPER_TEMPLATE:-${OMARCHY_PATH:-/usr/share/omarchy}/default/snapper/root}"
+SNAPPER_CONFIG_PATH="${LUNAOS_SNAPPER_CONFIG_PATH:-/etc/snapper/configs/root}"
+SNAPPER_CONF_PATH="${LUNAOS_SNAPPER_CONF_PATH:-/etc/conf.d/snapper}"
+template="${LUNAOS_SNAPPER_TEMPLATE:-${LUNAOS_PATH:-/usr/share/lunaos}/default/snapper/root}"
 
-echo "Configuring Omarchy Snapper snapshot retention"
+echo "Configuring LunaOS Snapper snapshot retention"
 
 if [[ ! -f $SNAPPER_CONFIG_PATH ]]; then
   mkdir -p "$(dirname "$SNAPPER_CONFIG_PATH")"
 
-  if [[ ${OMARCHY_SNAPPER_CONFIGURE_TEST:-0} == "1" ]]; then
+  if [[ ${LUNAOS_SNAPPER_CONFIGURE_TEST:-0} == "1" ]]; then
     : >"$SNAPPER_CONFIG_PATH"
   else
     snapper --no-dbus -c root create-config / >/dev/null 2>&1 || snapper -c root create-config / >/dev/null

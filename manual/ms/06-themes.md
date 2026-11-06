@@ -1,8 +1,8 @@
 # Tema
 
-Omarchy datang dengan dua puluh dua tema yang cantik. Anda boleh memilih antaranya melalui _Gaya > Tema_ dalam Menu Omarchy (`Super + Space`) atau melompat terus ke pemilih tema menggunakan `Super + Ctrl + Shift + Space`.
+LunaOS datang dengan dua puluh dua tema yang cantik. Anda boleh memilih antaranya melalui _Gaya > Tema_ dalam Menu LunaOS (`Super + Space`) atau melompat terus ke pemilih tema menggunakan `Super + Ctrl + Shift + Space`.
 
-Setiap tema menggayakan desktop, terminal, neovim, skrin aktiviti (btop), Chromium, dan keseluruhan shell Omarchy: bar atas, menu, pemberitahuan, OSD, dan skrin kunci. (Untuk Obsidian, anda mesti memilih tema Omarchy secara manual melalui _Penampilan > Tema_ di dalam aplikasi).
+Setiap tema menggayakan desktop, terminal, neovim, skrin aktiviti (btop), Chromium, dan keseluruhan shell LunaOS: bar atas, menu, pemberitahuan, OSD, dan skrin kunci. (Untuk Obsidian, anda mesti memilih tema LunaOS secara manual melalui _Penampilan > Tema_ di dalam aplikasi).
 
 Tema mempunyai set imej latar belakang yang anda boleh pilih antaranya menggunakan `Super + Ctrl + Space`.
 

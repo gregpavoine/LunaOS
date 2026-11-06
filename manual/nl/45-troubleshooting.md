@@ -2,17 +2,17 @@
 
 ### Ik heb mijn systeem kapotgemaakt met een update!
 
-Probeer eerst [je systeem terug te draaien](47-system-snapshots.md) naar de versie vóór je recente update. Als dat niet werkt, gebruik dan `omarchy-debug` om je probleem te delen op #omarchy-help in de Discord. En als dat allemaal faalt, kun je de standaardconfigs en -pakketten opnieuw installeren met `omarchy-reinstall`.
+Probeer eerst [je systeem terug te draaien](47-system-snapshots.md) naar de versie vóór je recente update. Als dat niet werkt, gebruik dan `lunaos-debug` om je probleem te delen op #lunaos-help in de Discord. En als dat allemaal faalt, kun je de standaardconfigs en -pakketten opnieuw installeren met `lunaos-reinstall`.
 
 ### Waarom zijn sommige apps zo groot op mijn scherm?
 
-Omarchy gaat uit van een 2x-scherm met hoge resolutie, wat vereist dat `GDK_SCALE` op 2 wordt ingesteld in `~/.config/hypr/monitors.lua`. Maar als je op een 1x-scherm zit, kun je `local omarchy_gdk_scale = 2` wijzigen naar 1 (en vervolgens elke app herstarten die te groot is). Zie [de handleiding over monitors](33-monitors.md).
+LunaOS gaat uit van een 2x-scherm met hoge resolutie, wat vereist dat `GDK_SCALE` op 2 wordt ingesteld in `~/.config/hypr/monitors.lua`. Maar als je op een 1x-scherm zit, kun je `local lunaos_gdk_scale = 2` wijzigen naar 1 (en vervolgens elke app herstarten die te groot is). Zie [de handleiding over monitors](33-monitors.md).
 
 Voor Spotify kun je `Ctrl + Minus` gebruiken om de UI te verkleinen (en `Ctrl + Plus` om hem groter te maken).
 
 ### Mijn wifi, Bluetooth, audio of trackpad stopte er net mee
 
-Probeer voordat je herstart eerst het storende subsysteem op zichzelf te herstarten. _Bijwerken > Hardware_ in het Omarchy-menu heeft Wi-Fi, Bluetooth, Audio en Trackpad, en het herladen van een daarvan ruimt het merendeel van de "het werkte vijf minuten geleden nog"-situaties op — een Bluetooth-headset die geen verbinding meer wil maken, een trackpad dat na een suspend dood ging, geluid dat verdween toen je een monitor loskoppelde.
+Probeer voordat je herstart eerst het storende subsysteem op zichzelf te herstarten. _Bijwerken > Hardware_ in het LunaOS-menu heeft Wi-Fi, Bluetooth, Audio en Trackpad, en het herladen van een daarvan ruimt het merendeel van de "het werkte vijf minuten geleden nog"-situaties op — een Bluetooth-headset die geen verbinding meer wil maken, een trackpad dat na een suspend dood ging, geluid dat verdween toen je een monitor loskoppelde.
 
 ### Waarom spelen mijn externe luidsprekers niet af?
 
@@ -20,7 +20,7 @@ Waarschijnlijk omdat ze niet als primaire uitvoer zijn ingesteld. Klik op het lu
 
 ### Mijn laptop-luidsprekers klinken raar
 
-Op sommige laptops past Omarchy automatisch een luidsprekerafstemming toe die de frequentierespons van de ingebouwde luidsprekers corrigeert. `omarchy audio tuning status` vertelt je of er een actief is op je machine, en `omarchy audio tuning off` schakelt hem uit als je de luidsprekers liever rauw hoort.
+Op sommige laptops past LunaOS automatisch een luidsprekerafstemming toe die de frequentierespons van de ingebouwde luidsprekers corrigeert. `lunaos audio tuning status` vertelt je of er een actief is op je machine, en `lunaos audio tuning off` schakelt hem uit als je de luidsprekers liever rauw hoort.
 
 ### Waarom kan ik niet inloggen of sudo'en met mijn wachtwoord?
 

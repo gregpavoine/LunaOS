@@ -1,6 +1,6 @@
 # 셸 도구
 
-표준 Linux 도구 외에도 Omarchy에는 향상된 셸 도구가 잔뜩 포함되어 있습니다. 주요 도구는 다음과 같습니다.
+표준 Linux 도구 외에도 LunaOS에는 향상된 셸 도구가 잔뜩 포함되어 있습니다. 주요 도구는 다음과 같습니다.
 
 ## fzf
 
@@ -14,7 +14,7 @@
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide)는 cd의 대체 도구입니다. 방문한 디렉터리를 기억하므로 다음에 더 쉽게 이동할 수 있습니다. 예를 들어 `cd ~/.config/omarchy`를 한 번 실행했다고 합시다. 다음번에는 그냥 `cd omarchy`(또는 `cd oma`)를 실행하면 Zoxide가 바로 그곳으로 데려다줍니다.
+[Zoxide](https://github.com/ajeetdsouza/zoxide)는 cd의 대체 도구입니다. 방문한 디렉터리를 기억하므로 다음에 더 쉽게 이동할 수 있습니다. 예를 들어 `cd ~/.config/lunaos`를 한 번 실행했다고 합시다. 다음번에는 그냥 `cd lunaos`(또는 `cd oma`)를 실행하면 Zoxide가 바로 그곳으로 데려다줍니다.
 
 전체 설명서는 `man zoxide`로 볼 수 있습니다.
 
@@ -58,4 +58,4 @@
 
 [try](https://github.com/tobi/try)는 날짜가 찍힌 디렉터리로 프로그래밍 실험을 쉽게 관리할 수 있게 해줍니다. 모든 실험은 `~/Work/tries`에 살며, `try`를 통해 접근할 수 있습니다.
 
-Omarchy는 프로젝트의 `bin/` 디렉터리를 `PATH`에 자동으로 추가하지 않습니다. 신뢰할 수 있는 프로젝트 로컬 도구는 `bin/rails`나 `./bin/dev`처럼 명시적인 상대 경로로 실행하세요.
+LunaOS는 프로젝트의 `bin/` 디렉터리를 `PATH`에 자동으로 추가하지 않습니다. 신뢰할 수 있는 프로젝트 로컬 도구는 `bin/rails`나 `./bin/dev`처럼 명시적인 상대 경로로 실행하세요.

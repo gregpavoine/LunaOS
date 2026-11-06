@@ -1,6 +1,6 @@
 # Kujaza PDF
 
-Omarchy huja na kitazama PDF kizuri, cha msingi kinachoitwa Kitazama Hati. Hii ndiyo programu itakayofungua PDF yoyote unayoibofya mara mbili tu.
+LunaOS huja na kitazama PDF kizuri, cha msingi kinachoitwa Kitazama Hati. Hii ndiyo programu itakayofungua PDF yoyote unayoibofya mara mbili tu.
 
 Lakini unaweza kutumia Kitazama Hati tu kujaza PDF ambazo zimesanidiwa kama fomu. Kama unahitaji kujaza PDF ambazo hazijasanidiwa, au unahitaji kusaini PDF, tumia [Signed](https://github.com/omacom/signed). Ianzishe kupitia kizinduzi cha programu (`Super + Space`), au bofya kulia faili, chagua _Fungua Kwa..._, na uchague Signed.
 

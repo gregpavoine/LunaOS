@@ -1,14 +1,14 @@
 # Viršutinė juosta
 
-Juosta palei jūsų ekrano viršų yra Omarchy juosta. Tai ne primontuota būsenos juosta, o Omarchy apvalkalo dalis — vieno ilgai veikiančio Quickshell proceso, kuris taip pat piešia meniu, pranešimus, OSD iškylančius langus ir užrakinimo ekraną. Štai kodėl ji puikiai dera prie viso kito ir kodėl skydelis atsidaro akimirksniu, o ne sukuria naują programą.
+Juosta palei jūsų ekrano viršų yra LunaOS juosta. Tai ne primontuota būsenos juosta, o LunaOS apvalkalo dalis — vieno ilgai veikiančio Quickshell proceso, kuris taip pat piešia meniu, pranešimus, OSD iškylančius langus ir užrakinimo ekraną. Štai kodėl ji puikiai dera prie viso kito ir kodėl skydelis atsidaro akimirksniu, o ne sukuria naują programą.
 
 Tai taip pat vienintelė darbalaukio dalis, kuri visada yra ekrane, todėl verta žinoti, ką daro visi tie maži glifai.
 
 ## Kas joje yra pagal numatytuosius nustatymus
 
-Juosta turi tris dalis. Kairėje yra Omarchy logotipas (meniu leistuvas) ir darbo sričių indikatoriai. Centre gaunate būsenos indikatorius, laikrodį, Elsewhen (pasaulio laikrodį), orus ir Omarchy atnaujinimo ženklelį. Dešinėje: klaviatūros išdėstymas (kai sukonfigūruota daugiau nei viena), sistemos dėklas, agentai, bluetooth, tinklas, garsas, ekranas ir maitinimas.
+Juosta turi tris dalis. Kairėje yra LunaOS logotipas (meniu leistuvas) ir darbo sričių indikatoriai. Centre gaunate būsenos indikatorius, laikrodį, Elsewhen (pasaulio laikrodį), orus ir LunaOS atnaujinimo ženklelį. Dešinėje: klaviatūros išdėstymas (kai sukonfigūruota daugiau nei viena), sistemos dėklas, agentai, bluetooth, tinklas, garsas, ekranas ir maitinimas.
 
-Keletas iš jų pasirodo tik tada, kai turi ką pasakyti. Klaviatūros išdėstymas pasirodo tik jei sukonfigūravote daugiau nei vieną išdėstymą. Atnaujinimo ženklelis pasirodo tik kai laukia Omarchy atnaujinimas. O agentų piktograma pasirodo pirmą kartą, kai Omarchy randa AI programavimo naudojimą kompiuteryje (žr. [AI](17-ai.md)).
+Keletas iš jų pasirodo tik tada, kai turi ką pasakyti. Klaviatūros išdėstymas pasirodo tik jei sukonfigūravote daugiau nei vieną išdėstymą. Atnaujinimo ženklelis pasirodo tik kai laukia LunaOS atnaujinimas. O agentų piktograma pasirodo pirmą kartą, kai LunaOS randa AI programavimo naudojimą kompiuteryje (žr. [AI](17-ai.md)).
 
 ## Spaudinėjimas
 
@@ -16,7 +16,7 @@ Beveik kiekvienas valdiklis kažką daro paspaudus kairiuoju, dešiniuoju ir vid
 
 | Valdiklis | Kairysis | Dešinysis | Vidurinis / slinkimas |
 | --- | --- | --- | --- |
-| Meniu | Omarchy meniu | Naujas terminalas | — |
+| Meniu | LunaOS meniu | Naujas terminalas | — |
 | Darbo sritys | Sufokusuoti tą darbo sritį | — | Slinkimas: kita / ankstesnė darbo sritis |
 | Laikrodis | Kalendoriaus iškylantis langas | Keisti žymos formatą cikliškai | Vidurinis: laiko juostos parinkiklis |
 | Oras | Prognozės iškylantis langas | Pilnas oras kaip pranešimas | Vidurinis: atnaujinti |
@@ -29,7 +29,7 @@ Beveik kiekvienas valdiklis kažką daro paspaudus kairiuoju, dešiniuoju ir vid
 | Medija | Leisti / pristabdyti | Viršelio iškylantis langas | Vidurinis: kitas · slinkimas: ankstesnis / kitas |
 | Agentai | Agentų skydelis | Paleisti jūsų agentą | Vidurinis: kita prenumerata |
 | Dėklas | Užveskite, kad atidengtumėte stalčių | Dešinysis ant ševrono, kad valdytumėte | — |
-| Omarchy atnaujinimas | Paleisti atnaujinimą | — | — |
+| LunaOS atnaujinimas | Paleisti atnaujinimą | — | — |
 
 Ne viskas iš tos lentelės iš karto yra jūsų juostoje. Medijos valdiklis (MPRIS dabar leidžiama, su slenkančiu kūriniu ir atlikėju) ir mikrofono valdiklis abu yra įmontuoti, bet pagal numatytuosius nustatymus išjungti — pridėkite juos, jei jų norite, kaip aprašyta toliau.
 
@@ -65,7 +65,7 @@ Kiekvienas skydelis priima ir klaviatūrą, ir pelę: rodyklės juda, Return akt
 
 Dar du valdikliai juostoje pasirodo tik įdiegus atitinkamą paslaugą iš **Įdiegti → Paslauga**, ir abu verta žinoti, nes jie daro daugiau nei praneša būseną.
 
-**Tailscale** skydelis prijungia ir atjungia tailnet, perjungia paskyras ir pasirenka išėjimo mazgą (tame sąraše rodomi ir jūsų paties kompiuteriai, ir Mullvad regionai). Jis taip pat naršo jūsų kompiuterius — ir kai vienas pasirinktas, `s` siunčia jam failus per Taildrop, o tai yra greičiausias būdas perkelti failą į jūsų telefoną ar kitą nešiojamąjį kompiuterį. `c` nukopijuoja kompiuterio IP, `n` jo pavadinimą, o `d` jo pilną DNS pavadinimą. Kiekvienoje kompiuterio eilutėje taip pat yra siuntimo mygtukas, jei mieliau spustelėtumėte. Tas pats iš terminalo yra `omarchy tailscale send <machine> [file...]`.
+**Tailscale** skydelis prijungia ir atjungia tailnet, perjungia paskyras ir pasirenka išėjimo mazgą (tame sąraše rodomi ir jūsų paties kompiuteriai, ir Mullvad regionai). Jis taip pat naršo jūsų kompiuterius — ir kai vienas pasirinktas, `s` siunčia jam failus per Taildrop, o tai yra greičiausias būdas perkelti failą į jūsų telefoną ar kitą nešiojamąjį kompiuterį. `c` nukopijuoja kompiuterio IP, `n` jo pavadinimą, o `d` jo pilną DNS pavadinimą. Kiekvienoje kompiuterio eilutėje taip pat yra siuntimo mygtukas, jei mieliau spustelėtumėte. Tas pats iš terminalo yra `lunaos tailscale send <machine> [file...]`.
 
 **Dropbox** skydelis tvarko prisijungimą, rodo, kiek saugyklos naudojate, ir išvardija neseniai sinchronizuotus failus.
 
@@ -90,19 +90,19 @@ Jei mieliau rinktumėtės iš meniu, **Veiksmai → Išvaizda → Meniu juosta**
 Tie patys dalykai turi komandas, o tai yra tai, ko norite [dotfiles](31-dotfiles.md) sąrankai:
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Norėdami visiškai pridėti arba pašalinti valdiklį, naudokite papildinių komandas. `omarchy plugin list` atspausdina kiekvieną valdiklį, kurį žino apvalkalas, su jo id, o tada:
+Norėdami visiškai pridėti arba pašalinti valdiklį, naudokite papildinių komandas. `lunaos plugin list` atspausdina kiekvieną valdiklį, kurį žino apvalkalas, su jo id, o tada:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Juostos slėpimas
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Konfigūracijos failas
 
-Visa tai saugoma `~/.config/omarchy/shell.json`, po `bar` raktu. Štai apkarpyta versija:
+Visa tai saugoma `~/.config/lunaos/shell.json`, po `bar` raktu. Štai apkarpyta versija:
 
 ```json
 {
@@ -119,20 +119,20 @@ Visa tai saugoma `~/.config/omarchy/shell.json`, po `bar` raktu. Štai apkarpyta
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Kiekvienas valdiklis yra vienas įrašas viename iš trijų išdėstymo masyvų, o jo nuostatos yra tame įraše — nėra atskiro nuostatų failo ir nėra `config` poobjekto. Laikrodžio `format`, `formatAlt` (į ką cikliškai pereina dešinysis spustelėjimas) ir `verticalFormat` visi gyvena ten pat ant `{ "id": "omarchy.clock" }`.
+Kiekvienas valdiklis yra vienas įrašas viename iš trijų išdėstymo masyvų, o jo nuostatos yra tame įraše — nėra atskiro nuostatų failo ir nėra `config` poobjekto. Laikrodžio `format`, `formatAlt` (į ką cikliškai pereina dešinysis spustelėjimas) ir `verticalFormat` visi gyvena ten pat ant `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` įvardija vieną centrinį valdiklį, kuris prisegamas prie tikslaus ekrano centro, o kiti jį supa iš šonų. Taip laikrodis lieka pačiame centre, net kai ateina ir išeina oras ir atnaujinimo ženklelis. Nustatykite jį į tuščią eilutę ir centro sąrašas tiesiog centruojamas kaip grupė.
 
-Viena taisyklė, kurią verta įsisavinti: **kai turite savo `shell.json`, jis yra kanoninis**. Kol nieko nepritaikote, apvalkalas skaito Omarchy numatytąjį failą. Kai tik nutempiate valdiklį, paleidžiate `omarchy bar` arba patys redaguojate failą, jis priklauso jums — nėra gilaus sujungimo, todėl nauji numatytieji valdikliai būsimuose Omarchy leidimuose jūsų juostoje automatiškai nepasirodys. `omarchy bar defaults` grąžina pristatytą išdėstymą, kai tik norite švaraus lapo.
+Viena taisyklė, kurią verta įsisavinti: **kai turite savo `shell.json`, jis yra kanoninis**. Kol nieko nepritaikote, apvalkalas skaito LunaOS numatytąjį failą. Kai tik nutempiate valdiklį, paleidžiate `lunaos bar` arba patys redaguojate failą, jis priklauso jums — nėra gilaus sujungimo, todėl nauji numatytieji valdikliai būsimuose LunaOS leidimuose jūsų juostoje automatiškai nepasirodys. `lunaos bar defaults` grąžina pristatytą išdėstymą, kai tik norite švaraus lapo.
 
 Tame pačiame faile taip pat yra jūsų tuščiosios eigos laikai aukščiausiame lygyje, už `bar` rakto: `idle.screensaver` ir `idle.lock`, abu sekundėmis nuo to, kai nuėjote į tuščiąją eigą. Taigi numatytoji ekrano užsklanda įsijungia po 150 sekundžių, o užraktas po 300.

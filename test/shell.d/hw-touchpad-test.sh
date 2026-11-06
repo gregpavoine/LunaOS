@@ -4,7 +4,7 @@ set -euo pipefail
 
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
-touchpad="$ROOT/bin/omarchy-hw-touchpad"
+touchpad="$ROOT/bin/lunaos-hw-touchpad"
 
 require_command jq
 
@@ -41,7 +41,7 @@ event_device() {
 }
 
 detected() {
-  MICE="$1" OMARCHY_INPUT_CLASS_PATH="$input_class" PATH="$stub_bin:$PATH" bash "$touchpad"
+  MICE="$1" LUNAOS_INPUT_CLASS_PATH="$input_class" PATH="$stub_bin:$PATH" bash "$touchpad"
 }
 
 # Apple Silicon's trackpad is named after its MTP HID interface, so neither
@@ -52,7 +52,7 @@ event_device event2 "Apple MTP multi-touch" "ID_INPUT_TOUCHPAD=1"
   fail "the Apple Silicon trackpad is detected" "$(detected "apple-mtp-multi-touch")"
 pass "the Apple Silicon trackpad is detected"
 
-# omarchy-toggle-input-device passes the name straight to hl.device, so a name
+# lunaos-toggle-input-device passes the name straight to hl.device, so a name
 # that does not match leaves the menu entry hidden and the toggle dead.
 for name in "elan-touchpad" "apple-magic-trackpad-2"; do
   [[ $(detected "$name") == "$name" ]] || fail "the touchpads that already worked still do" "$(detected "$name")"

@@ -1,6 +1,6 @@
 # Alati ljuske
 
-Osim standardnih Linux alata, Omarchy dolazi i s hrpom poboljšanih alata ljuske. Evo ključnih.
+Osim standardnih Linux alata, LunaOS dolazi i s hrpom poboljšanih alata ljuske. Evo ključnih.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Potpuni priručnik može se pronaći putem `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) je zamjena za cd. Pamti direktorije u kojima si bio, pa sljedeći put lakše skočiš do njih. Recimo da jednom izvršiš `cd ~/.config/omarchy`. Sljedeći put možeš samo izvršiti `cd omarchy` (ili čak samo `cd oma`) i Zoxide će te odvesti izravno tamo.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) je zamjena za cd. Pamti direktorije u kojima si bio, pa sljedeći put lakše skočiš do njih. Recimo da jednom izvršiš `cd ~/.config/lunaos`. Sljedeći put možeš samo izvršiti `cd lunaos` (ili čak samo `cd oma`) i Zoxide će te odvesti izravno tamo.
 
 Potpuni priručnik može se pronaći putem `man zoxide`.
 
@@ -58,4 +58,4 @@ Potpuni priručnik može se pronaći putem `man yt-dlp`.
 
 [try](https://github.com/tobi/try) olakšava upravljanje programerskim eksperimentima s direktorijima označenima datumom. Svi eksperimenti nalaze se u `~/Work/tries` i možeš im pristupiti putem `try`.
 
-Omarchy ne dodaje direktorij `bin/` projekta u `PATH` automatski. Pokreni pouzdane alate lokalne za projekt s eksplicitnom relativnom putanjom, poput `bin/rails` ili `./bin/dev`.
+LunaOS ne dodaje direktorij `bin/` projekta u `PATH` automatski. Pokreni pouzdane alate lokalne za projekt s eksplicitnom relativnom putanjom, poput `bin/rails` ili `./bin/dev`.

@@ -12,7 +12,7 @@ require_command lua
 # CPU for 27 hours after a single SUPER+K) or aborts halfway, silently dropping
 # every bind declared after the failing line.
 
-script="$ROOT/bin/omarchy-menu-keybindings"
+script="$ROOT/bin/lunaos-menu-keybindings"
 scan=$(awk '/lua (-E - )?<<.LUA.$/ { capture = 1; next } /^LUA$/ { capture = 0 } capture' "$script")
 [[ -n $scan ]] || fail "keybindings menu embeds the Lua bind scan"
 
@@ -39,7 +39,7 @@ if monitor.scale > 1 then
   error("stub comparisons should be false")
 end
 
-hl.bind("SUPER + K", hl.dsp.exec_cmd("omarchy-menu keybindings"), { description = "Keybindings menu" })
+hl.bind("SUPER + K", hl.dsp.exec_cmd("lunaos-menu keybindings"), { description = "Keybindings menu" })
 hl.bind("SUPER + code:20", hl.dsp.workspace({ name = "special" }), { description = "Lua only bind" })
 LUA
 
@@ -49,7 +49,7 @@ output=$(HOME="$TMPDIR/home" DEBUG=1 timeout 60 lua -E - <<<"$scan" 2>&1) || fai
 pass "Lua bind scan survives load-time loops, comparisons, and arithmetic over stub state"
 
 [[ $output != *"lua bind scan failed"* ]] || fail "Lua bind scan does not abort on stub comparisons ($output)"
-grep -qF $'64\tKeybindings menu\tK\texec\tomarchy-menu keybindings' <<<"$output" || fail "Lua bind scan reports exec binds declared after load-time reads (got: $output)"
+grep -qF $'64\tKeybindings menu\tK\texec\tlunaos-menu keybindings' <<<"$output" || fail "Lua bind scan reports exec binds declared after load-time reads (got: $output)"
 grep -qF $'64\tLua only bind\tcode:20\tlua\thl.dsp.workspace({ name = "special" })' <<<"$output" || fail "Lua bind scan reports Lua dispatcher binds (got: $output)"
 pass "Lua bind scan reports binds declared after load-time compositor reads"
 
@@ -59,12 +59,12 @@ pass "Lua bind scan is time-boxed"
 # A loop nothing in the stub can end is stopped inside the scan, well before
 # the timeout, and the binds declared ahead of it are still reported.
 cat >"$TMPDIR/home/.config/hypr/hyprland.lua" <<'LUA'
-hl.bind("SUPER + K", hl.dsp.exec_cmd("omarchy-menu keybindings"), { description = "Keybindings menu" })
+hl.bind("SUPER + K", hl.dsp.exec_cmd("lunaos-menu keybindings"), { description = "Keybindings menu" })
 while true do end
 LUA
 
 output=$(HOME="$TMPDIR/home" DEBUG=1 timeout 60 lua -E - <<<"$scan" 2>&1) || fail "Lua bind scan stops a runaway config instead of running until killed (output: $output)"
-grep -qF $'64\tKeybindings menu\tK\texec\tomarchy-menu keybindings' <<<"$output" || fail "Lua bind scan keeps binds declared before a runaway loop (got: $output)"
+grep -qF $'64\tKeybindings menu\tK\texec\tlunaos-menu keybindings' <<<"$output" || fail "Lua bind scan keeps binds declared before a runaway loop (got: $output)"
 pass "Lua bind scan stops a runaway config and keeps the binds declared before it"
 
 # Indexing a collection still reads a stand-in: only `ipairs` sees it as empty,
@@ -75,12 +75,12 @@ local first = monitors[1].name
 local last = monitors[#monitors].name
 hl.monitor({ output = first, scale = 1 })
 hl.monitor({ output = last, scale = 1 })
-hl.bind("SUPER + K", hl.dsp.exec_cmd("omarchy-menu keybindings"), { description = "Keybindings menu" })
+hl.bind("SUPER + K", hl.dsp.exec_cmd("lunaos-menu keybindings"), { description = "Keybindings menu" })
 LUA
 
 output=$(HOME="$TMPDIR/home" DEBUG=1 timeout 60 lua -E - <<<"$scan" 2>&1) || fail "Lua bind scan reads an indexed stub collection (output: $output)"
 [[ $output != *"lua bind scan failed"* ]] || fail "Lua bind scan does not abort on an indexed stub collection ($output)"
-grep -qF $'64\tKeybindings menu\tK\texec\tomarchy-menu keybindings' <<<"$output" || fail "Lua bind scan reports binds declared after indexing a stub collection (got: $output)"
+grep -qF $'64\tKeybindings menu\tK\texec\tlunaos-menu keybindings' <<<"$output" || fail "Lua bind scan reports binds declared after indexing a stub collection (got: $output)"
 pass "Lua bind scan reads an indexed stub collection and keeps the binds after it"
 
 # A walk by index ends too, and the binds after it are still reported.
@@ -90,10 +90,10 @@ local i = 1
 while monitors[i] do
   i = i + 1
 end
-hl.bind("SUPER + K", hl.dsp.exec_cmd("omarchy-menu keybindings"), { description = "Keybindings menu" })
+hl.bind("SUPER + K", hl.dsp.exec_cmd("lunaos-menu keybindings"), { description = "Keybindings menu" })
 LUA
 
 output=$(HOME="$TMPDIR/home" DEBUG=1 timeout 60 lua -E - <<<"$scan" 2>&1) || fail "Lua bind scan ends an indexed walk over a stub collection (output: $output)"
 [[ $output != *"lua bind scan failed"* ]] || fail "Lua bind scan does not abort on an indexed walk over a stub collection ($output)"
-grep -qF $'64\tKeybindings menu\tK\texec\tomarchy-menu keybindings' <<<"$output" || fail "Lua bind scan reports binds declared after an indexed walk (got: $output)"
+grep -qF $'64\tKeybindings menu\tK\texec\tlunaos-menu keybindings' <<<"$output" || fail "Lua bind scan reports binds declared after an indexed walk (got: $output)"
 pass "Lua bind scan ends an indexed walk over a stub collection and keeps the binds after it"

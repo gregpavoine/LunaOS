@@ -21,7 +21,7 @@ Açıklama düzenleyicisi oklar, çizgiler, şekiller, vurgular, numaralı işar
 
 Kayıtlı ekran görüntüleri varsayılan olarak `~/Pictures/Screenshots` içine, `screenshot-2026-08-13_14-22-05-firefox.png` gibi bir adla iner. Başka bir dizin kullanmak için `OMASNAP_SCREENSHOT_DIR` ayarlayın — oturum ortam değişkenlerini nereye koyacağınız için bkz. [SSS](46-faq.md). Omasnap, ilk çekimi kaydederken dizini oluşturur. Otomatik kaydetmeyi devre dışı bırakmak için `~/.config/omasnap/omasnap.conf` içinde `[output] autosave = false` ayarlayın.
 
-Terminalden, `omarchy screenshot` aynı katmanı açar ve başlangıç modunu seçebilirsiniz: `omarchy capture screenshot region`, `windows`, `fullscreen` veya `scroll`. İkinci bir `copy` veya `save` argümanı önizlemeyi atlar ve çekimi doğrudan o hedefe gönderir. Çıktıdan önce düzenlemek için, tam ekran bir düzenleyici için `omarchy screenshot --editor=overlay` veya ayrı bir pencere için `omarchy screenshot --editor=window` kullanın.
+Terminalden, `lunaos screenshot` aynı katmanı açar ve başlangıç modunu seçebilirsiniz: `lunaos capture screenshot region`, `windows`, `fullscreen` veya `scroll`. İkinci bir `copy` veya `save` argümanı önizlemeyi atlar ve çekimi doğrudan o hedefe gönderir. Çıktıdan önce düzenlemek için, tam ekran bir düzenleyici için `lunaos screenshot --editor=overlay` veya ayrı bir pencere için `lunaos screenshot --editor=window` kullanın.
 
 ### Seçiciyi klavyeden sürmek
 
@@ -40,9 +40,9 @@ Bu bağlamalar yalnızca Omasnap açıkken vardır, bu yüzden kendi yapılandı
 
 ## Ekran kaydı
 
-`Alt + Print Screen`, film müziğinde ne istediğinizi soran _Tetikle > Yakala > Ekran Kaydı_ öğesini açar: ses yok, masaüstü sesi, masaüstü + mikrofon veya masaüstü + mikrofon + webcam. Sonuncusu yalnızca gerçekten takılı bir kameranız varsa görünür. Birini seçin, Omarchy'nin kayıt seçicisi bir bölge sürüklemenize veya bir pencere veya monitöre tıklamanıza izin verir.
+`Alt + Print Screen`, film müziğinde ne istediğinizi soran _Tetikle > Yakala > Ekran Kaydı_ öğesini açar: ses yok, masaüstü sesi, masaüstü + mikrofon veya masaüstü + mikrofon + webcam. Sonuncusu yalnızca gerçekten takılı bir kameranız varsa görünür. Birini seçin, LunaOS'nin kayıt seçicisi bir bölge sürüklemenize veya bir pencere veya monitöre tıklamanıza izin verir.
 
-Kayıt, GPU üzerinde 60fps'de kodlayan ve gerekirse CPU'ya dönen gpu-screen-recorder üzerinde çalışır. Sonuç, `~/Videos` içinde `screenrecording-2026-08-13_14-22-05.mp4` adlı bir MP4'tür. Bunu değiştirmek için `OMARCHY_SCREENRECORD_DIR` ayarlayın — ancak ekran görüntüsü dizininin aksine, bunun zaten mevcut olması gerektiğini, yoksa kaydın başlamayı reddedeceğini unutmayın.
+Kayıt, GPU üzerinde 60fps'de kodlayan ve gerekirse CPU'ya dönen gpu-screen-recorder üzerinde çalışır. Sonuç, `~/Videos` içinde `screenrecording-2026-08-13_14-22-05.mp4` adlı bir MP4'tür. Bunu değiştirmek için `LUNAOS_SCREENRECORD_DIR` ayarlayın — ancak ekran görüntüsü dizininin aksine, bunun zaten mevcut olması gerektiğini, yoksa kaydın başlamayı reddedeceğini unutmayın.
 
 Kaydederken, çubukta küçük bir gösterge belirir. Durdurmak için ona tıklayın. Ayrıca tekrar `Alt + Print Screen` ile veya _Tetikle > Yakala > Ekran Kaydı_ altındaki ve yalnızca bir şey gerçekten kaydederken görünen _Kaydı Durdur_ girdisiyle de durdurabilirsiniz.
 
@@ -59,7 +59,7 @@ Bir webcam ile kaydettiğinizde, kamera kaydettiğiniz şeyin sağ alt köşesin
 
 Üç boyut vardır — küçük, orta ve büyük — ve kısayollar aralarında adım atar. Orta varsayılandır. Bunlar kayıtla orantılıdır, böylece kamera 1080p bir monitör de 6K bir monitör de kaydediyor olsanız çerçevenin aynı payını alır. Ve tüm ekran yerine bir bölge kaydettiyseniz, katman monitörün köşesi yerine o bölgenin köşesine sabitlenir, böylece çekimin içinde kalır.
 
-Ayrıca bunu `omarchy-capture-webcam-resize small` ile doğrudan çağırabilir veya ortaya dönmek için `reset` diyebilirsiniz.
+Ayrıca bunu `lunaos-capture-webcam-resize small` ile doğrudan çağırabilir veya ortaya dönmek için `reset` diyebilirsiniz.
 
 ## Metin, QR kodları ve renkler
 
@@ -75,7 +75,7 @@ _Tetikle > Yakala > QR Kodu_ aynı numarayı QR kodları için yapar. Kodu içer
 
 Resimler genişliği 3160, 2160 ve 1080 piksel ile sınırlayan yüksek, orta veya düşük ayarda jpg veya png'ye gider. Videolar 4k, 1080p veya 720p'de mp4 veya animasyonlu gif'e gider. Dönüştürülen dosya, çözünürlük adında olacak şekilde orijinalin yanına yazılır — `demo-1080p.mp4` — ve yol dosya URI'si olarak panoya kopyalanır, böylece onu dosya bırakmalarını kabul eden bir uygulamanın içine doğrudan yapıştırabilirsiniz.
 
-Ne istediğinizi zaten biliyorsanız terminalden de çalışır: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Ayrıca bir görüntüyü ASCII sanatına dönüştüren `omarchy transcode ascii` de var — bu çoğunlukla [markalama](41-branding.md) için.
+Ne istediğinizi zaten biliyorsanız terminalden de çalışır: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Ayrıca bir görüntüyü ASCII sanatına dönüştüren `lunaos transcode ascii` de var — bu çoğunlukla [markalama](41-branding.md) için.
 
 ## Bir yere göndermek
 

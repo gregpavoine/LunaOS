@@ -1,6 +1,6 @@
 # Funciones de shell
 
-Omarchy viene con un conjunto de funciones de shell para simplificar tareas comunes y encapsular llamadas con parámetros enredados.
+LunaOS viene con un conjunto de funciones de shell para simplificar tareas comunes y encapsular llamadas con parámetros enredados.
 
 ## Compresión
 

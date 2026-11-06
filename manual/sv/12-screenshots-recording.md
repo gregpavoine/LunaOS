@@ -21,7 +21,7 @@ Annoteringsredigeraren kan rita pilar, linjer, former, markeringar, numrerade ma
 
 Sparade skärmbilder hamnar i `~/Pictures/Screenshots` som standard, med ett namn som `screenshot-2026-08-13_14-22-05-firefox.png`. Ställ in `OMASNAP_SCREENSHOT_DIR` för att använda en annan katalog — se [FAQ](46-faq.md) för var du placerar sessionsmiljövariabler. Omasnap skapar katalogen när den sparar den första bilden. Ställ in `[output] autosave = false` i `~/.config/omasnap/omasnap.conf` för att inaktivera automatisk sparning.
 
-Från terminalen öppnar `omarchy screenshot` samma overlay, och du kan välja dess startläge: `omarchy capture screenshot region`, `windows`, `fullscreen` eller `scroll`. Ett andra argument `copy` eller `save` hoppar över förhandsgranskningen och skickar bilden direkt till den destinationen. För att redigera före utmatning, använd `omarchy screenshot --editor=overlay` för en helskärmsredigerare eller `omarchy screenshot --editor=window` för ett separat fönster.
+Från terminalen öppnar `lunaos screenshot` samma overlay, och du kan välja dess startläge: `lunaos capture screenshot region`, `windows`, `fullscreen` eller `scroll`. Ett andra argument `copy` eller `save` hoppar över förhandsgranskningen och skickar bilden direkt till den destinationen. För att redigera före utmatning, använd `lunaos screenshot --editor=overlay` för en helskärmsredigerare eller `lunaos screenshot --editor=window` för ett separat fönster.
 
 ### Styra väljaren från tangentbordet
 
@@ -40,9 +40,9 @@ Dessa bindningar existerar bara medan Omasnap är öppen, så de kan inte krocka
 
 ## Skärminspelning
 
-`Alt + Print Screen` öppnar _Trigger > Capture > Screenrecord_, som frågar vad du vill ha på ljudspåret: inget ljud, skrivbordsljud, skrivbord plus mikrofon eller skrivbord plus mikrofon plus webbkamera. Det sista visas bara om du faktiskt har en kamera inkopplad. Välj ett så låter Omarchys inspelningsväljare dig dra en region eller klicka på ett fönster eller en skärm.
+`Alt + Print Screen` öppnar _Trigger > Capture > Screenrecord_, som frågar vad du vill ha på ljudspåret: inget ljud, skrivbordsljud, skrivbord plus mikrofon eller skrivbord plus mikrofon plus webbkamera. Det sista visas bara om du faktiskt har en kamera inkopplad. Välj ett så låter LunaOSs inspelningsväljare dig dra en region eller klicka på ett fönster eller en skärm.
 
-Inspelningen körs på gpu-screen-recorder, som kodar på GPU:n i 60fps och faller tillbaka på CPU:n om den måste. Resultatet är en MP4 i `~/Videos`, med namnet `screenrecording-2026-08-13_14-22-05.mp4`. Ställ in `OMARCHY_SCREENRECORD_DIR` för att ändra det — men observera att till skillnad från skärmbildskatalogen måste den här redan existera, annars vägrar inspelningen att starta.
+Inspelningen körs på gpu-screen-recorder, som kodar på GPU:n i 60fps och faller tillbaka på CPU:n om den måste. Resultatet är en MP4 i `~/Videos`, med namnet `screenrecording-2026-08-13_14-22-05.mp4`. Ställ in `LUNAOS_SCREENRECORD_DIR` för att ändra det — men observera att till skillnad från skärmbildskatalogen måste den här redan existera, annars vägrar inspelningen att starta.
 
 Medan du spelar in visas en liten indikator i fältet. Klicka på den för att stoppa. Du kan också stoppa med `Alt + Print Screen` igen, eller med posten _Stop Screenrecording_ under _Trigger > Capture > Screenrecord_, som bara visas medan något faktiskt spelar in.
 
@@ -59,7 +59,7 @@ När du spelar in med en webbkamera visas kameran som ett fäst, beskuret portr�
 
 Det finns tre storlekar — liten, medel och stor — och snabbtangenterna stiger mellan dem. Medel är standard. De är proportionella mot inspelningen, så kameran tar upp samma andel av bildrutan oavsett om du spelar in en 1080p-skärm eller en 6K-skärm. Och om du spelade in en region snarare än en hel skärm förankras overlayen i den regionens hörn snarare än skärmens, så att den stannar inuti bilden.
 
-Du kan också anropa den direkt med `omarchy-capture-webcam-resize small`, eller `reset` för att gå tillbaka till medel.
+Du kan också anropa den direkt med `lunaos-capture-webcam-resize small`, eller `reset` för att gå tillbaka till medel.
 
 ## Text, QR-koder och färger
 
@@ -75,7 +75,7 @@ En 4K-skärminspelning eller en rå HEIC från din telefon är ofta för stor f�
 
 Bilder går till jpg eller png på hög, medel eller låg, vilket begränsar bredden till 3160, 2160 och 1080 pixlar. Videor går till mp4 eller en animerad gif i 4k, 1080p eller 720p. Den konverterade filen skrivs bredvid originalet med upplösningen i namnet — `demo-1080p.mp4` — och sökvägen kopieras till urklippet som en fil-URI, så att du kan klistra in den direkt i en app som tar fildroppar.
 
-Det fungerar från terminalen också, om du redan vet vad du vill: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Det finns också `omarchy transcode ascii`, som förvandlar en bild till ASCII-konst — den är mest för [branding](41-branding.md).
+Det fungerar från terminalen också, om du redan vet vad du vill: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Det finns också `lunaos transcode ascii`, som förvandlar en bild till ASCII-konst — den är mest för [branding](41-branding.md).
 
 ## Skicka den någonstans
 

@@ -3,9 +3,9 @@ echo "Turn on CPPC autonomous frequency selection on the N1x so power profiles t
 # See install/hardware/n1x.sh, which sets up new installs the same way. The
 # rule applies when cppc_cpufreq next loads, at the next boot, together with
 # the power-profiles-daemon that relies on it.
-rules="${OMARCHY_N1X_CPPC_RULES:-/etc/udev/rules.d/71-omarchy-n1x-cppc.rules}"
+rules="${LUNAOS_N1X_CPPC_RULES:-/etc/udev/rules.d/71-lunaos-n1x-cppc.rules}"
 
-omarchy-hw-aarch64-n1x || exit 0
+lunaos-hw-aarch64-n1x || exit 0
 
 if [[ ! -f $rules ]]; then
   sudo install -Dm644 /dev/stdin "$rules" <<'EOF'

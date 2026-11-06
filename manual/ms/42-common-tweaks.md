@@ -1,8 +1,8 @@
 # Pelarasan biasa
 
-Ini ialah koleksi penyesuaian biasa kepada persediaan Omarchy. Ketahuilah bahawa kadangkala kemas kini sistem mungkin perlu memulihkan konfigurasi tertentu kepada keadaan asalnya. Jika ini berlaku, perubahan anda tidak akan hilang, tetapi diletakkan dalam fail `.bak` dalam direktori yang sama.
+Ini ialah koleksi penyesuaian biasa kepada persediaan LunaOS. Ketahuilah bahawa kadangkala kemas kini sistem mungkin perlu memulihkan konfigurasi tertentu kepada keadaan asalnya. Jika ini berlaku, perubahan anda tidak akan hilang, tetapi diletakkan dalam fail `.bak` dalam direktori yang sama.
 
-Jika anda merosakkan sesuatu, anda boleh memulihkan konfigurasi individu kepada persediaan asalnya melalui _Kemas Kini > Konfigurasi_ dalam menu Omarchy. Jika anda _benar-benar_ merosakkan semuanya, anda boleh menetapkan semula semua konfigurasi melalui `omarchy-reinstall`.
+Jika anda merosakkan sesuatu, anda boleh memulihkan konfigurasi individu kepada persediaan asalnya melalui _Kemas Kini > Konfigurasi_ dalam menu LunaOS. Jika anda _benar-benar_ merosakkan semuanya, anda boleh menetapkan semula semua konfigurasi melalui `lunaos-reinstall`.
 
 ### Dedahkan semua ikon dulang sepanjang masa
 
@@ -10,7 +10,7 @@ Secara lalai, ikon dulang, seperti Dropbox, 1password, atau Steam, disembunyikan
 
 ### Sudut tetingkap bulat
 
-Reka bentuk lalai Omarchy ialah sudut segi empat, tetapi jika anda suka melembutkannya sedikit, anda boleh menukar `~/.config/hypr/looknfeel.lua` supaya pembundaran tidak lagi dikomenkan:
+Reka bentuk lalai LunaOS ialah sudut segi empat, tetapi jika anda suka melembutkannya sedikit, anda boleh menukar `~/.config/hypr/looknfeel.lua` supaya pembundaran tidak lagi dikomenkan:
 
 ```
 hl.config({

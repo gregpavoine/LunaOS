@@ -6,7 +6,7 @@ Kui oled vim-stiilis redigeerimises täiesti uus, soovitan sul vaadata [ThePrime
 
 Nüüd on Neovim põhimõtteliselt lõpmatult seadistatav. Kui sa päriselt hulluks minna tahad, saad nullist luua oma Neovimi seadistuse. Olemas on suurepärane kursus [Typecraftilt Neovimi nullist seadistamise kohta](https://www.youtube.com/watch?v=zHTeCSVAFNY). Ja [ThePrimeagenil on samuti üks](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Kuid Omarchy tarnitakse täieliku Neovimi seadistusega — paketiga `omarchy-nvim` —, mis on armastusega häälestatud, et tutvustada karbist välja võttes parimat, mis võimalik. Ilma et peaksid ühe rea seadistust kirjutama! See põhineb [LazyVimil](https://www.lazyvim.org/), Neovimi pluginate ja seadistuste distributsioonil. See on suurepärane.
+Kuid LunaOS tarnitakse täieliku Neovimi seadistusega — paketiga `omarchy-nvim` —, mis on armastusega häälestatud, et tutvustada karbist välja võttes parimat, mis võimalik. Ilma et peaksid ühe rea seadistust kirjutama! See põhineb [LazyVimil](https://www.lazyvim.org/), Neovimi pluginate ja seadistuste distributsioonil. See on suurepärane.
 
 ## LazyVimi põhitõed
 

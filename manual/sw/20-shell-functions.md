@@ -1,6 +1,6 @@
 # Vitendakazi vya Shell
 
-Omarchy huja na seti ya vitendakazi vya shell kurahisisha kazi za kawaida na kufupisha miito ya vigezo iliyochanganyikiwa.
+LunaOS huja na seti ya vitendakazi vya shell kurahisisha kazi za kawaida na kufupisha miito ya vigezo iliyochanganyikiwa.
 
 ## Ukandamizaji
 

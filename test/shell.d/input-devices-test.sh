@@ -54,7 +54,7 @@ sed -i \
   "$stage/Commons/InputDevices.qml"
 cp "$SHELL_TEST_DIR/fixtures/input-devices/shell.qml" "$stage/shell.qml"
 
-OMARCHY_INPUT_ROOT="$stage/root" quickshell -p "$stage" --no-color >"$stage/log" 2>&1 &
+LUNAOS_INPUT_ROOT="$stage/root" quickshell -p "$stage" --no-color >"$stage/log" 2>&1 &
 QS_PID=$!
 
 watching=0
@@ -179,7 +179,7 @@ pass "the seat is read again once a lost watch is back"
 # own fallback timer covers it.
 stop_shell
 mkdir -p "$stage/broken"
-OMARCHY_INPUT_ROOT="$stage/broken" quickshell -p "$stage" --no-color >"$stage/broken.log" 2>&1 &
+LUNAOS_INPUT_ROOT="$stage/broken" quickshell -p "$stage" --no-color >"$stage/broken.log" 2>&1 &
 QS_PID=$!
 # Scaled retries fire every 250ms, so 2s covers more retries than the
 # unscaled 7s window did.

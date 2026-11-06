@@ -6,7 +6,7 @@ Poți vedea toate mapările principale de tastatură cu `Super + K` (mapările T
 
 | Scurtătură                  | Funcție              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Meniul Omarchy (aplicații și tot restul)    |
+| `Super + Space`           | Meniul LunaOS (aplicații și tot restul)    |
 | `Super + Alt + Space` | Grila de aplicații |
 | `Super + Escape` | Meniul de sistem (suspendă, repornește etc.)  |
 | `Super + Ctrl + L` | Blochează calculatorul |
@@ -136,7 +136,7 @@ Schimbă/adaugă mapări în `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Lipește    |
 | `Super + Ctrl + V`           | Manager de clipboard    |
 
-De obicei, pe Linux, ai nevoie de `Ctrl + Shift + C/V` ca să copiezi și să lipești în terminal și de `Ctrl + C/V` ca să o faci peste tot în rest. Aceste scurtături de clipboard unificate ale Omarchy funcționează peste tot.
+De obicei, pe Linux, ai nevoie de `Ctrl + Shift + C/V` ca să copiezi și să lipești în terminal și de `Ctrl + C/V` ca să o faci peste tot în rest. Aceste scurtături de clipboard unificate ale LunaOS funcționează peste tot.
 
 ## Captură
 
@@ -156,7 +156,7 @@ De obicei, pe Linux, ai nevoie de `Ctrl + Shift + C/V` ca să copiezi și să li
 
 La înregistrările de ecran, scurtătura întreabă mai întâi ce sunet vrei, apoi pornește înregistrarea. Apas-o din nou ca să oprești. Vezi [capturile de ecran și înregistrarea](12-screenshots-recording.md) pentru detalii.
 
-Toate opțiunile de captură sunt accesibile și sub _Declanșator > Captură_ în meniul Omarchy (`Super + Space`).
+Toate opțiunile de captură sunt accesibile și sub _Declanșator > Captură_ în meniul LunaOS (`Super + Space`).
 
 ## Notificări
 
@@ -177,9 +177,9 @@ Toate opțiunile de captură sunt accesibile și sub _Declanșator > Captură_ �
 | `Super + Backspace` | Comută transparența unei ferestre |
 | `Super + Ctrl + Backspace` | Comută aspectul pătrat pentru o singură fereastră |
 
-Imaginile de fundal suplimentare trăiesc în `~/.config/omarchy/backgrounds/<theme name>`. Disponibile și prin _Instalează > Stil > Fundal_ în meniul Omarchy.
+Imaginile de fundal suplimentare trăiesc în `~/.config/lunaos/backgrounds/<theme name>`. Disponibile și prin _Instalează > Stil > Fundal_ în meniul LunaOS.
 
-Toate opțiunile de stil sunt accesibile și sub _Stil_ în meniul Omarchy (`Super + Space`).
+Toate opțiunile de stil sunt accesibile și sub _Stil_ în meniul LunaOS (`Super + Space`).
 
 ## Comutări
 
@@ -281,7 +281,7 @@ Aceste funcții trebuie rulate în interiorul unei sesiuni Tmux.
 
 ## Terminalul Ghostty
 
-Terminalul Ghostty se instalează folosind _Instalează > Terminal_ prin meniul Omarchy.
+Terminalul Ghostty se instalează folosind _Instalează > Terminal_ prin meniul LunaOS.
 
 | Scurtătură                  | Funcție              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Poți folosi `Super + Ctrl + E` ca să afișezi un selector complet de emoji car
 | `Shift + CapsLock Space N` | Numele tău (așa cum a fost introdus la configurare)  |
 | `Shift + CapsLock Space E` | E-mailul tău (așa cum a fost introdus la configurare)  |
 
-Poți adăuga mai multe ale tale editând `~/.XCompose`, apoi rulând `omarchy-restart-xcompose` în terminal ca schimbările să fie preluate.
+Poți adăuga mai multe ale tale editând `~/.XCompose`, apoi rulând `lunaos-restart-xcompose` în terminal ca schimbările să fie preluate.

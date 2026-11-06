@@ -1,16 +1,16 @@
 # ブランディング
 
-Omarchyでは、ブートロック解除、スクリーンセーバー、情報画面のすべてに、会社のロゴや個人の画像を設定できます。
+LunaOSでは、ブートロック解除、スクリーンセーバー、情報画面のすべてに、会社のロゴや個人の画像を設定できます。
 
 ### ブートロック解除
 
-`omarchy plymouth preview`を使うと、カスタムロゴと色がどのように見えるかを確認できます。背景色、テキスト色、logo png、プレビュー画像のパスを受け取ります。
+`lunaos plymouth preview`を使うと、カスタムロゴと色がどのように見えるかを確認できます。背景色、テキスト色、logo png、プレビュー画像のパスを受け取ります。
 
 ```
-omarchy plymouth preview '#1d2021' '#ebdbb2' logo.png preview.png
+lunaos plymouth preview '#1d2021' '#ebdbb2' logo.png preview.png
 ```
 
-その後、`omarchy plymouth set '#1d2021' '#ebdbb2' logo.png`で設定を適用します。これにより、SDDMログイン画面にも同じ色とロゴが適用されます。元に戻したい場合は`omarchy plymouth reset`が使えます。
+その後、`lunaos plymouth set '#1d2021' '#ebdbb2' logo.png`で設定を適用します。これにより、SDDMログイン画面にも同じ色とロゴが適用されます。元に戻したい場合は`lunaos plymouth reset`が使えます。
 
  ![branding-plymouth-shopify](images/branding-plymouth-shopify.webp)
 
@@ -22,13 +22,13 @@ omarchy plymouth preview '#1d2021' '#ebdbb2' logo.png preview.png
 
 そのメニューには3つの項目があります。
 
-- **テキストを編集**は、エディターで`~/.config/omarchy/branding/screensaver.txt`を開きます。ASCIIアート、名前、汚い言葉など、好きなものを入力または貼り付けてください。保存して終了すると、スクリーンセーバーがすぐに起動して確認できます。
+- **テキストを編集**は、エディターで`~/.config/lunaos/branding/screensaver.txt`を開きます。ASCIIアート、名前、汚い言葉など、好きなものを入力または貼り付けてください。保存して終了すると、スクリーンセーバーがすぐに起動して確認できます。
 - **画像から設定**は、pngまたはsvg用のファイルピッカーを開き、ASCIIに変換して結果を表示します。シルエットがはっきりしたロゴは、写真よりもはるかにうまくいきます。
-- **デフォルトに戻す**は、Omarchyロゴに戻します。
+- **デフォルトに戻す**は、LunaOSロゴに戻します。
 
 ### 情報画面
 
-同じ3つのオプションが、Omarchyメニューから表示される_情報_画面向けに_スタイル > 情報_の下にあり、動作も同じです。ファイルは`~/.config/omarchy/branding/about.txt`で、変更のたびに情報ウィンドウがポップアップします。情報画面のアートはスクリーンセーバー用よりも小さいサイズに変換されます。ディスプレイいっぱいに表示するのではなく、ウィンドウに収まる必要があるためです。
+同じ3つのオプションが、LunaOSメニューから表示される_情報_画面向けに_スタイル > 情報_の下にあり、動作も同じです。ファイルは`~/.config/lunaos/branding/about.txt`で、変更のたびに情報ウィンドウがポップアップします。情報画面のアートはスクリーンセーバー用よりも小さいサイズに変換されます。ディスプレイいっぱいに表示するのではなく、ウィンドウに収まる必要があるためです。
 
 ウィンドウが開いている間、数秒ごとに緑色のきらめきがアートを斜めに横切り、その後また静止します。自分のアートでも、すべての文字が1列幅である限り同じことが起こります。_画像から設定_で生成されるものはすべてそうです。絵文字や全角文字で作られたアートは代わりに静止し、独自のfastfetch設定を保持している場合も画面は静止します。そうしたケースでロゴが静止するのはアニメーションが邪魔をしないようにしているのであって、失敗しているわけではありません。きらめきを横切らせると、行の残りの部分が誤った位置に来てしまうためです。
 
@@ -36,20 +36,20 @@ omarchy plymouth preview '#1d2021' '#ebdbb2' logo.png preview.png
 
 ### 自分で画像を変換する
 
-2つの_画像から設定_オプションはどちらも`omarchy transcode ascii`を呼び出しているだけです。変換を細かく制御したい場合は、直接実行できます。
+2つの_画像から設定_オプションはどちらも`lunaos transcode ascii`を呼び出しているだけです。変換を細かく制御したい場合は、直接実行できます。
 
 ```
-omarchy transcode ascii ~/logo.svg ~/.config/omarchy/branding/screensaver.txt --width 100
+lunaos transcode ascii ~/logo.svg ~/.config/lunaos/branding/screensaver.txt --width 100
 ```
 
 `--width`と`--height`はターミナルの列数と行数で指定し、`--mode`は`braille`（デフォルトで、はるかに細かい）または`block`のいずれか、`--threshold`はどのピクセルをロゴの一部とみなすかを決めるパーセンテージ、`--invert`はロゴが暗い背景に明るいものである場合に使います。変換結果が何かの塊になってしまった場合は、たいていしきい値が調整すべきつまみです。
 
 ### ロゴではなく言葉
 
-`omarchy ascii`は、Omarchyのワードマーク自体が描かれているFIGletフォント「Delta Corps Priest 1」でテキストを描画します。そのため、スクリーンセーバーで絵ではなく何かを言うことができます。
+`lunaos ascii`は、LunaOSのワードマーク自体が描かれているFIGletフォント「Delta Corps Priest 1」でテキストを描画します。そのため、スクリーンセーバーで絵ではなく何かを言うことができます。
 
 ```
-omarchy ascii "Back in five" > ~/.config/omarchy/branding/screensaver.txt
+lunaos ascii "Back in five" > ~/.config/lunaos/branding/screensaver.txt
 ```
 
 テキストを引数として受け取るか、引数がない場合はパイプから読み取ります。このフォントには文字とスペースしか含まれていません。数字や句読点なしで描かれたためです。そのため、それ以外のものは静かに飲み込まれるのではなく、削除されてstderrに名前が示されます。

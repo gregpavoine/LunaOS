@@ -1,16 +1,16 @@
 # Podpora pre Mac
 
-Omarchy má vstavanú podporu pre **Macy s procesormi Intel**. V tejto chvíli existuje pár známych obmedzení, ale pokiaľ o nich viete a ste s nimi v poriadku, môžete vdýchnuť nový život svojim starým Macom nainštalovaním Omarchy.
+LunaOS má vstavanú podporu pre **Macy s procesormi Intel**. V tejto chvíli existuje pár známych obmedzení, ale pokiaľ o nich viete a ste s nimi v poriadku, môžete vdýchnuť nový život svojim starým Macom nainštalovaním LunaOS.
 
-Upozorňujeme, že inštalácia na Mac s čipom série M nie je v súčasnosti priamo podporovaná. Viac o stave tejto podpory sa dozviete v kanáli #omarchy-on-other na našom [Discorde](https://discord.gg/tXFUdasqhY).
+Upozorňujeme, že inštalácia na Mac s čipom série M nie je v súčasnosti priamo podporovaná. Viac o stave tejto podpory sa dozviete v kanáli #lunaos-on-other na našom [Discorde](https://discord.gg/tXFUdasqhY).
 
-V jednoduchom teste sme na MacBooku Pro z roku 2019 len nainštalovaním Omarchy dokázali dosiahnuť 36 % nárast výkonu.
+V jednoduchom teste sme na MacBooku Pro z roku 2019 len nainštalovaním LunaOS dokázali dosiahnuť 36 % nárast výkonu.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Inštalácia Omarchy na Macu
+### Inštalácia LunaOS na Macu
 
-Omarchy v súčasnosti podporuje byť **jediným** nainštalovaným operačným systémom. Počas inštalácie sa disk vymaže a MacOS už nebude možné zaviesť.
+LunaOS v súčasnosti podporuje byť **jediným** nainštalovaným operačným systémom. Počas inštalácie sa disk vymaže a MacOS už nebude možné zaviesť.
 
 Neskôr ho však môžete obnoviť cez Internet Recovery, ak budete chcieť.
 
@@ -39,7 +39,7 @@ Inštalačný program rozpozná hardvér Macu a automaticky použije potrebné o
 
 ### Známe obmedzenia
 
-Členovia komunity neustále pracujú na riešeniach týchto výziev, takže ak sú pre vás problémom, pripojte sa ku kanálu #omarchy-on-other na našom [Discorde](https://discord.gg/tXFUdasqhY) a pozrite sa, či existujú aktuálne metódy na ich vyriešenie.
+Členovia komunity neustále pracujú na riešeniach týchto výziev, takže ak sú pre vás problémom, pripojte sa ku kanálu #lunaos-on-other na našom [Discorde](https://discord.gg/tXFUdasqhY) a pozrite sa, či existujú aktuálne metódy na ich vyriešenie.
 
 #### Zariadenia s čipom T1
 

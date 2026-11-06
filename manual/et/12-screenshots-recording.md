@@ -21,7 +21,7 @@ Annotatsiooniredaktor saab joonistada nooli, jooni, kujundeid, esiletõste, numm
 
 Salvestatud ekraanitõmmised maanduvad vaikimisi `~/Pictures/Screenshots`-i, sellise nimega nagu `screenshot-2026-08-13_14-22-05-firefox.png`. Sea `OMASNAP_SCREENSHOT_DIR`, et kasutada teist kataloogi — vt [KKK](46-faq.md) selle kohta, kuhu seansi keskkonnamuutujad panna. Omasnap loob kataloogi, kui salvestab esimese tõmmise. Sea `[output] autosave = false` failis `~/.config/omasnap/omasnap.conf`, et automaatne salvestamine keelata.
 
-Terminalist avab `omarchy screenshot` sama pealiskihi ja saad valida selle algrežiimi: `omarchy capture screenshot region`, `windows`, `fullscreen` või `scroll`. Teine argument `copy` või `save` jätab eelvaate vahele ja saadab tõmmise otse sellesse sihtkohta. Enne väljundit muutmiseks kasuta `omarchy screenshot --editor=overlay` täisekraani redaktori jaoks või `omarchy screenshot --editor=window` eraldi akna jaoks.
+Terminalist avab `lunaos screenshot` sama pealiskihi ja saad valida selle algrežiimi: `lunaos capture screenshot region`, `windows`, `fullscreen` või `scroll`. Teine argument `copy` või `save` jätab eelvaate vahele ja saadab tõmmise otse sellesse sihtkohta. Enne väljundit muutmiseks kasuta `lunaos screenshot --editor=overlay` täisekraani redaktori jaoks või `lunaos screenshot --editor=window` eraldi akna jaoks.
 
 ### Valija juhtimine klaviatuurilt
 
@@ -40,9 +40,9 @@ Need seosed eksisteerivad ainult seni, kuni Omasnap on avatud, nii et need ei sa
 
 ## Ekraanisalvestus
 
-`Alt + Print Screen` avab _Käivita > Jäädvusta > Ekraanisalvestus_, mis küsib, mida soovid heliribale: heli pole, töölaua heli, töölaud pluss mikrofon või töölaud pluss mikrofon pluss veebikaamera. See viimane ilmub ainult siis, kui sul on päriselt kaamera ühendatud. Vali üks ja Omarchy salvestusvalija laseb sul piirkonna lohistada või aknal või kuvaril klõpsata.
+`Alt + Print Screen` avab _Käivita > Jäädvusta > Ekraanisalvestus_, mis küsib, mida soovid heliribale: heli pole, töölaua heli, töölaud pluss mikrofon või töölaud pluss mikrofon pluss veebikaamera. See viimane ilmub ainult siis, kui sul on päriselt kaamera ühendatud. Vali üks ja LunaOS salvestusvalija laseb sul piirkonna lohistada või aknal või kuvaril klõpsata.
 
-Salvestamine töötab gpu-screen-recorderil, mis kodeerib GPU-l 60fps ja läheb vajaduse korral CPU juurde tagasi. Tulemus on MP4 failis `~/Videos`, nimega `screenrecording-2026-08-13_14-22-05.mp4`. Sea `OMARCHY_SCREENRECORD_DIR`, et seda muuta — kuid pane tähele, et erinevalt ekraanitõmmiste kataloogist peab see juba olemas olema, muidu keeldub salvestamine algamast.
+Salvestamine töötab gpu-screen-recorderil, mis kodeerib GPU-l 60fps ja läheb vajaduse korral CPU juurde tagasi. Tulemus on MP4 failis `~/Videos`, nimega `screenrecording-2026-08-13_14-22-05.mp4`. Sea `LUNAOS_SCREENRECORD_DIR`, et seda muuta — kuid pane tähele, et erinevalt ekraanitõmmiste kataloogist peab see juba olemas olema, muidu keeldub salvestamine algamast.
 
 Kui salvestad, ilmub ribale väike näidik. Klõpsa seda peatamiseks. Saad peatada ka `Alt + Print Screen` abil uuesti või kirje _Peata ekraanisalvestus_ alt _Käivita > Jäädvusta > Ekraanisalvestus_, mis ilmub ainult siis, kui midagi päriselt salvestatakse.
 
@@ -59,7 +59,7 @@ Kui salvestad veebikaameraga, ilmub kaamera kinnitatud, kärbitud portreeaknana 
 
 On kolm suurust — väike, keskmine ja suur — ja kiirklahvid astuvad nende vahel. Keskmine on vaikimisi. Need on salvestusega proportsionaalsed, nii et kaamera võtab sama osa kaadrist, olenemata sellest, kas salvestad 1080p kuvarit või 6K kuvarit. Ja kui salvestasid piirkonna, mitte kogu ekraani, ankurdub pealiskiht selle piirkonna nurga, mitte kuvari nurga külge, nii et see jääb kaadri sisse.
 
-Saad seda kutsuda ka otse `omarchy-capture-webcam-resize small` abil või `reset`, et keskmise juurde tagasi minna.
+Saad seda kutsuda ka otse `lunaos-capture-webcam-resize small` abil või `reset`, et keskmise juurde tagasi minna.
 
 ## Tekst, QR-koodid ja värvid
 
@@ -75,7 +75,7 @@ _Käivita > Jäädvusta > QR-kood_ teeb QR-koodide puhul sama trikki. Vali piirk
 
 Pildid lähevad jpg või png vormingusse kõrge, keskmise või madala korral, mis piiravad laiuse 3160, 2160 ja 1080 pikslini. Videod lähevad mp4 või animeeritud gif vormingusse 4k, 1080p või 720p korral. Teisendatud fail kirjutatakse originaali kõrvale eraldusvõimega nimes — `demo-1080p.mp4` — ja tee kopeeritakse lõikelauale faili URI-na, nii et saad selle otse rakendusse kleepida, mis võtab vastu failide kukutamist.
 
-See töötab ka terminalist, kui juba tead, mida soovid: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Olemas on ka `omarchy transcode ascii`, mis muudab pildi ASCII kunstiks — see on enamasti [brändingu](41-branding.md) jaoks.
+See töötab ka terminalist, kui juba tead, mida soovid: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Olemas on ka `lunaos transcode ascii`, mis muudab pildi ASCII kunstiks — see on enamasti [brändingu](41-branding.md) jaoks.
 
 ## Selle saatmine kuhugi
 

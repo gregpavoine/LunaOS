@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ La barra mostrará automáticamente tu distribución de teclado actual una vez q
 Haz clic derecho en el reloj de la barra para recorrer los formatos comunes, incluidos los de 12 horas. También puedes establecer el formato directamente:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Esto mostrará Domingo 10:55 AM.
 
 ### ¿Cómo cambio mi zona horaria?
 
-Ejecuta _Actualizar > Zona horaria_ en el menú de Omarchy y elige de la lista. Si la zona horaria es correcta pero el reloj mismo se desfasó, _Actualizar > Hora_ reinicia la sincronización de la hora por ti.
+Ejecuta _Actualizar > Zona horaria_ en el menú de LunaOS y elige de la lista. Si la zona horaria es correcta pero el reloj mismo se desfasó, _Actualizar > Hora_ reinicia la sincronización de la hora por ti.
 
 ### ¿Cómo cambio mi DNS, comparto mi Wi-Fi o reviso la velocidad de mi conexión?
 
@@ -36,11 +36,11 @@ Todo eso vive en [redes](35-networking.md).
 
 ### ¿Cómo reviso qué tan rápido es mi disco?
 
-_Activar > Prueba de velocidad > Prueba de velocidad de disco_ mide la velocidad de lectura y escritura en vivo de tu unidad, o `omarchy disk speedtest` desde la terminal.
+_Activar > Prueba de velocidad > Prueba de velocidad de disco_ mide la velocidad de lectura y escritura en vivo de tu unidad, o `lunaos disk speedtest` desde la terminal.
 
 ### ¿Por qué no puedo iniciar sesión en mi cuenta de Google en Chromium?
 
-La versión de código abierto de Chromium no trae las credenciales OAuth que Google requiere para iniciar sesión en una cuenta. Ejecuta _Instalar > Servicio > Cuenta de Chromium_ en el menú de Omarchy para agregarlas, reinicia el navegador y el inicio de sesión pasará.
+La versión de código abierto de Chromium no trae las credenciales OAuth que Google requiere para iniciar sesión en una cuenta. Ejecuta _Instalar > Servicio > Cuenta de Chromium_ en el menú de LunaOS para agregarlas, reinicia el navegador y el inicio de sesión pasará.
 
 ### ¿Cómo agrego una impresora?
 
@@ -60,15 +60,15 @@ Las capturas de pantalla guardadas van a `~/Pictures/Screenshots` por defecto. P
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Puedes hacer lo mismo para las grabaciones de pantalla usando `OMARCHY_SCREENRECORD_DIR`.
+Puedes hacer lo mismo para las grabaciones de pantalla usando `LUNAOS_SCREENRECORD_DIR`.
 
-Omasnap crea su directorio de capturas de pantalla automáticamente. Crea tú mismo el directorio de grabaciones de pantalla y luego reinicia Omarchy para que cualquiera de los dos cambios de entorno surta efecto.
+Omasnap crea su directorio de capturas de pantalla automáticamente. Crea tú mismo el directorio de grabaciones de pantalla y luego reinicia LunaOS para que cualquiera de los dos cambios de entorno surta efecto.
 
 ### ¿Cómo hago funcionar las bocinas y la webcam de mi Apple Studio Display?
 
 Pensarías que todo debería funcionar conectando el USB C, pero por desgracia no es así. La solución que he encontrado para que funcione de manera confiable es usar [el cable WJESOG DisplayPort + USB-A => USB-C](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/). Entonces las bocinas y la webcam funcionan de maravilla.
 
-Recuerda que tienes control de brillo integrado en Omarchy para las pantallas Apple (tanto la Studio como la XDR) usando los botones normales de brillo del teclado.
+Recuerda que tienes control de brillo integrado en LunaOS para las pantallas Apple (tanto la Studio como la XDR) usando los botones normales de brillo del teclado.
 
 ### ¿Cómo me deshago de todo el software extra?
 
@@ -76,7 +76,7 @@ Si no quieres programas como Obsidian o LibreOffice o cualquiera de las demás c
 
 Ejecuta _Quitar > Paquete_ para ver cada paquete que está instalado. Luego puedes seleccionar con Tab cualquier paquete que quieras quitar y empezar a eliminar todo lo que seleccionaste con Enter.
 
-Y puedes usar _Quitar > App web_ desde el menú de Omarchy para quitar cualquiera de las apps web preinstaladas que no quieras.
+Y puedes usar _Quitar > App web_ desde el menú de LunaOS para quitar cualquiera de las apps web preinstaladas que no quieras.
 
 O bien ejecuta _Quitar > Preinstalados_ para barrer con todos los extras preinstalados —apps web, TUIs y aplicaciones opcionales— de una vez. Los atajos de teclado que las abrían desaparecen con ellas, así que te queda una pizarra limpia de atajos para llenar con los tuyos en `~/.config/hypr/bindings.lua`.
 

@@ -1,12 +1,12 @@
 # Mac veya Windows'tan Geliyorsanız
 
-macOS veya Windows'ta yıllar geçirdiyseniz, parmaklarınız beyninizin hiç öğrendiğini unuttuğu yüzlerce şeyi bilir. Bu bölüm çeviri katmanıdır: o içgüdülerin Omarchy'de nereye gittiği. Özelliklerin kendileri başka yerlerde derinlemesine ele alınıyor — bu sadece harita.
+macOS veya Windows'ta yıllar geçirdiyseniz, parmaklarınız beyninizin hiç öğrendiğini unuttuğu yüzlerce şeyi bilir. Bu bölüm çeviri katmanıdır: o içgüdülerin LunaOS'de nereye gittiği. Özelliklerin kendileri başka yerlerde derinlemesine ele alınıyor — bu sadece harita.
 
 ### Super her şeyin merkezinde
 
-Cmd veya Windows tuşu etrafında geliştirdiğiniz tüm kas hafızası tek bir tuşa aktarılır: Super. Bu, bir PC klavyesindeki Windows tuşudur ve Omarchy'deki neredeyse her kısayolun dayanağıdır.
+Cmd veya Windows tuşu etrafında geliştirdiğiniz tüm kas hafızası tek bir tuşa aktarılır: Super. Bu, bir PC klavyesindeki Windows tuşudur ve LunaOS'deki neredeyse her kısayolun dayanağıdır.
 
-Spotlight, Raycast veya Başlat menüsü refleksiniz `Super + Space` olur. Bu, uygulamaları başlatan, ayarları değiştiren, yazılım kuran, ekranı yakalayan — hemen hemen her şeyi yapan Omarchy menüsünü açar. Filtrelemek için yazmaya başlayın. `Super + Alt + Space`, Launchpad'in yaptığı gibi tüm uygulamaları tek bir ızgarada gösterir. Bkz. [gezinme](04-navigation.md).
+Spotlight, Raycast veya Başlat menüsü refleksiniz `Super + Space` olur. Bu, uygulamaları başlatan, ayarları değiştiren, yazılım kuran, ekranı yakalayan — hemen hemen her şeyi yapan LunaOS menüsünü açar. Filtrelemek için yazmaya başlayın. `Super + Alt + Space`, Launchpad'in yaptığı gibi tüm uygulamaları tek bir ızgarada gösterir. Bkz. [gezinme](04-navigation.md).
 
 ### Dock ve masaüstü simgeleri yok
 
@@ -22,27 +22,27 @@ Gerçekten yüzen bir pencereye ihtiyacınız olduğunda, `Super + T` aktif penc
 
 ### Kopyala yapıştır öylece çalışır
 
-Mac'te her yerde Cmd + C vardı. Windows'ta her yerde Ctrl + C vardı — terminal hariç, orada programınızı öldürür. Omarchy size `Super + C`, `Super + X` ve `Super + V` verir ve bunlar terminal dahil her yerde çalışır. Kabuk için öğrenilecek ayrı bir refleks yok.
+Mac'te her yerde Cmd + C vardı. Windows'ta her yerde Ctrl + C vardı — terminal hariç, orada programınızı öldürür. LunaOS size `Super + C`, `Super + X` ve `Super + V` verir ve bunlar terminal dahil her yerde çalışır. Kabuk için öğrenilecek ayrı bir refleks yok.
 
 Windows kullanıcıları: Win + V pano geçmişiniz `Super + Ctrl + V` üzerinde yaşar ve metnin yanı sıra görselleri de tutar. Bkz. [birleşik pano ve geçmiş](08-unified-clipboard-history.md).
 
 ### Çeviri tablosu
 
-| Ulaştığınız şey | Omarchy'de |
+| Ulaştığınız şey | LunaOS'de |
 | ------------- | ---------- |
-| Spotlight / Raycast / Başlat menüsü | `Super + Space` — Omarchy menüsü |
+| Spotlight / Raycast / Başlat menüsü | `Super + Space` — LunaOS menüsü |
 | AirDrop | LocalSend, `Super + Ctrl + S` ile — bkz. [GUI'ler](22-guis.md) |
 | Cmd + Shift + 4 / Win + Shift + S | `Print Screen` — bkz. [ekran görüntüleri ve kayıt](12-screenshots-recording.md) |
 | Bildirim Merkezi | `Super + Shift + Alt + ,` üzerindeki bildirim geçmişi |
 | Time Machine (sistem için) | Her güncellemede otomatik [sistem anlık görüntüleri](47-system-snapshots.md) |
-| App Store / kurulumcu indirme | Menüde _Kur_, veya `omarchy pkg add` — bkz. [diğer paketler](29-other-packages.md) |
+| App Store / kurulumcu indirme | Menüde _Kur_, veya `lunaos pkg add` — bkz. [diğer paketler](29-other-packages.md) |
 | Sistem Ayarları / Denetim Masası | Menüde _Ayarlar_, düz yapılandırma dosyalarını düzenler — bkz. [dotfiles](31-dotfiles.md) |
 
 ### Bazı şeyler gerçekten farklı
 
 Birçok ayar, panellerde tıklayarak değil, düzenlediğiniz metin dosyalarında yaşar. Bu, her ince ayarın görülebilmesi, bir sonraki makinenize kopyalanabilmesi ve sürüm denetimine konulabilmesi anlamına geldiğini fark edene kadar ilkel geliyor. _Ayarlar_ menüsü sizi doğrudan doğru dosyaya bırakır ve işiniz bittiğinde yeniden başlatılması gereken her şeyi yeniden başlatır.
 
-Güncellemeler tek bir komuttan gelir — _Güncelle > Omarchy_ — bu komut, önce bir anlık görüntü alarak Omarchy'nin kendisini ve sistemdeki her paketi günceller. Rastgele zamanlarda sizi rahatsız eden uygulama başına güncelleyiciler yok. Bkz. [güncellemeler](30-updates.md).
+Güncellemeler tek bir komuttan gelir — _Güncelle > LunaOS_ — bu komut, önce bir anlık görüntü alarak LunaOS'nin kendisini ve sistemdeki her paketi günceller. Rastgele zamanlarda sizi rahatsız eden uygulama başına güncelleyiciler yok. Bkz. [güncellemeler](30-updates.md).
 
 Yazılım, indirilen kurulumculardan değil, bir paket yöneticisinden gelir.
 
@@ -50,7 +50,7 @@ Ve bir pencereyi kapattığınızda, uygulama gerçekten kapanır. Programın pe
 
 ### Mac donanımında
 
-Omarchy Intel Mac'lerde iyi çalışır — bkz. [Mac desteği](44-mac-support.md). Ve klavye size naziktir: Omarchy hiçbir şeyi yeniden eşlemez ve Linux Command tuşunu Super olarak ele alır, böylece Super tam Cmd'nin her zaman olduğu yerde oturur. Başparmağınız geçişi fark etmez bile.
+LunaOS Intel Mac'lerde iyi çalışır — bkz. [Mac desteği](44-mac-support.md). Ve klavye size naziktir: LunaOS hiçbir şeyi yeniden eşlemez ve Linux Command tuşunu Super olarak ele alır, böylece Super tam Cmd'nin her zaman olduğu yerde oturur. Başparmağınız geçişi fark etmez bile.
 
 ### İki hafta verin
 

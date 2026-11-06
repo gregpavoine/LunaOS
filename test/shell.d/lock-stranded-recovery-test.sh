@@ -15,7 +15,7 @@ assert(
 )
 
 assert(
-  /id: strandedLockCheckProc[\s\S]*omarchy-hyprland-session-lock-stranded \\"\$PPID\\"/.test(serviceQml),
+  /id: strandedLockCheckProc[\s\S]*lunaos-hyprland-session-lock-stranded \\"\$PPID\\"/.test(serviceQml),
   'the startup check asks whether a lock has no live locker, skipping this shell'
 )
 
@@ -30,7 +30,7 @@ assert(
   'only a compositor that reports a lock counts as a stranded lock'
 )
 
-// omarchy-restart-shell re-locks a fresh shell, possibly mid-question.
+// lunaos-restart-shell re-locks a fresh shell, possibly mid-question.
 assert(
   /root\.strandedLock = exitCode === 0 && !root\.currentlyLocked\(\)/.test(serviceQml),
   'a lock this shell took while the check was in flight is not stranded'

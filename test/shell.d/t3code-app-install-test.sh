@@ -81,15 +81,15 @@ esac
 if [[ -n $output ]]; then cp "$source" "$output"; else cat "$source"; fi
 SH
 
-cat >"$mock_bin/omarchy-pkg-add" <<'SH'
+cat >"$mock_bin/lunaos-pkg-add" <<'SH'
 #!/bin/bash
 echo "add:$*" >>"$TEST_LOG"
 SH
-cat >"$mock_bin/omarchy-pkg-drop" <<'SH'
+cat >"$mock_bin/lunaos-pkg-drop" <<'SH'
 #!/bin/bash
 echo "drop:$*" >>"$TEST_LOG"
 SH
-cat >"$mock_bin/omarchy-hw-aarch64" <<'SH'
+cat >"$mock_bin/lunaos-hw-aarch64" <<'SH'
 #!/bin/bash
 [[ ${TEST_AARCH64:-0} == "1" ]]
 SH
@@ -108,7 +108,7 @@ fresh_home() {
 
 install_app() {
   HOME="$test_tmp/home" T3CODE_HOME="$test_tmp/home/.t3" PATH="$mock_bin:$ROOT/bin:$PATH" \
-    "$ROOT/bin/omarchy-install-t3code-app" "$@" >"$test_tmp/output" 2>&1
+    "$ROOT/bin/lunaos-install-t3code-app" "$@" >"$test_tmp/output" 2>&1
 }
 
 home="$test_tmp/home"
@@ -180,7 +180,7 @@ pass "an install that stops partway leaves no AppImage, so a retry finishes it"
 percent_home="$test_tmp/home%20name"
 mkdir -p "$percent_home"
 HOME="$percent_home" T3CODE_HOME="$percent_home/.t3" PATH="$mock_bin:$ROOT/bin:$PATH" \
-  "$ROOT/bin/omarchy-install-t3code-app" stable >"$test_tmp/output" 2>&1 ||
+  "$ROOT/bin/lunaos-install-t3code-app" stable >"$test_tmp/output" 2>&1 ||
   fail "an install under a home with % in its path succeeds" "$(cat "$test_tmp/output")"
 percent_desktop="$percent_home/.local/share/applications/t3code.desktop"
 grep -qxF "Exec=\"$test_tmp/home%%20name/.local/share/t3code/T3-Code.AppImage\" %U" "$percent_desktop" ||

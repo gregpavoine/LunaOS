@@ -1,8 +1,8 @@
 # Navigering
 
-Allt i Omarchy sker via tangentbordet — _ALLT!_ När systemet först startar kan du bokstavligen inte göra någonting med enbart musen. Men du kan trycka på `Super + Space` för att visa Omarchy-menyn, och härifrån kan du göra i stort sett allt.
+Allt i LunaOS sker via tangentbordet — _ALLT!_ När systemet först startar kan du bokstavligen inte göra någonting med enbart musen. Men du kan trycka på `Super + Space` för att visa LunaOS-menyn, och härifrån kan du göra i stort sett allt.
 
-Men Omarchy-menyn är inte ens tänkt att vara det huvudsakliga sättet att använda systemet för det mesta. Vi kan bli snabbare än så! Alla de viktigaste applikationerna är bundna direkt till enskilda snabbtangenter. Du startar terminalen med `Super + Return` och en webbläsare med `Super + Shift + Return`. Prova att göra det ena efter det andra, så får du se Hyprlands tiling-magi i praktiken:
+Men LunaOS-menyn är inte ens tänkt att vara det huvudsakliga sättet att använda systemet för det mesta. Vi kan bli snabbare än så! Alla de viktigaste applikationerna är bundna direkt till enskilda snabbtangenter. Du startar terminalen med `Super + Return` och en webbläsare med `Super + Shift + Return`. Prova att göra det ena efter det andra, så får du se Hyprlands tiling-magi i praktiken:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Du kan också gå till helskärm med `Super + F`, eller bara till full bredd (me
 
 ### Dwindle vs. scrollande layout
 
-Omarchys standardlayout heter dwindle. Den håller alla fönster du öppnar på en enda arbetsyta synliga hela tiden, även om den måste krympa dem.
+LunaOSs standardlayout heter dwindle. Den håller alla fönster du öppnar på en enda arbetsyta synliga hela tiden, även om den måste krympa dem.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 En flytande arbetsyta fungerar som ett traditionellt skrivbord: fönstren överlappar varandra, och du flyttar och storleksändrar dem själv. Varje fönster får en titelrad i ditt temas färger, med knappar för att minimera, maximera och stänga. `Super + M` minimerar också det fokuserade fönstret. Ett minimerat fönster väntar i dockan; klicka på dess app för att ta tillbaka det. Klicka på ett fönster för att ta fram det. Ändra storlek på det från valfri kant eller valfritt hörn. Dubbelklicka på en titelrad för att maximera fönstret samtidigt som den övre raden fortfarande syns, och dubbelklicka igen för att få tillbaka dess gamla storlek.
 
-En flytande arbetsyta visar också en docka, med dina fästa appar, allt som körs, och ett rutnät med alla appar bakom appknappen, som `Super + Alt + Space` och _Appar_ i Omarchy-menyn också öppnar. Högerklicka på en app i rutnätet, eller tryck på `Delete`, för att avinstallera den. Klicka på en app för att öppna den, eller för att ta fram dess fönster; klicka igen för att växla igenom dess fönster. Ett klick med mittenknappen öppnar ett nytt fönster. Dra en ikon längs dockan för att flytta den; om du drar en app som körs in bland de andra behålls den där. Högerklicka för att behålla en app i dockan, ta bort den därifrån eller avsluta den. Dockan flyttar sig ur vägen för ett helskärmsfönster. Högerklicka på appknappen för att flytta dockan till en annan kant eller låta den dölja sig tills pekaren når dess kant. Positionen finns också under _Trigger > Utseende > Dock > Dockposition_, och `omarchy dock position left` och `omarchy dock autohide on` ställer in båda från en terminal. Appar du behåller i dockan är nedtonade medan de inte körs.
+En flytande arbetsyta visar också en docka, med dina fästa appar, allt som körs, och ett rutnät med alla appar bakom appknappen, som `Super + Alt + Space` och _Appar_ i LunaOS-menyn också öppnar. Högerklicka på en app i rutnätet, eller tryck på `Delete`, för att avinstallera den. Klicka på en app för att öppna den, eller för att ta fram dess fönster; klicka igen för att växla igenom dess fönster. Ett klick med mittenknappen öppnar ett nytt fönster. Dra en ikon längs dockan för att flytta den; om du drar en app som körs in bland de andra behålls den där. Högerklicka för att behålla en app i dockan, ta bort den därifrån eller avsluta den. Dockan flyttar sig ur vägen för ett helskärmsfönster. Högerklicka på appknappen för att flytta dockan till en annan kant eller låta den dölja sig tills pekaren når dess kant. Positionen finns också under _Trigger > Utseende > Dock > Dockposition_, och `lunaos dock position left` och `lunaos dock autohide on` ställer in båda från en terminal. Appar du behåller i dockan är nedtonade medan de inte körs.
 
-Nya arbetsytor, och alla som du inte har gett en egen layout med `Super + L`, använder standardlayouten. Att ändra standardlayouten återställer varje arbetsyta utan fönster till den, medan en arbetsyta med fönster på behåller layouten den har. Ett fönster som minimerats till dockan räknas fortfarande som ett fönster på arbetsytan det lämnade. Välj den under _Trigger > Utseende > Arbetsytelayout_: Tiling, Scrolling eller Flytande. `omarchy-hyprland-workspace-layout-default scrolling` ställer in den från en terminal.
+Nya arbetsytor, och alla som du inte har gett en egen layout med `Super + L`, använder standardlayouten. Att ändra standardlayouten återställer varje arbetsyta utan fönster till den, medan en arbetsyta med fönster på behåller layouten den har. Ett fönster som minimerats till dockan räknas fortfarande som ett fönster på arbetsytan det lämnade. Välj den under _Trigger > Utseende > Arbetsytelayout_: Tiling, Scrolling eller Flytande. `lunaos-hyprland-workspace-layout-default scrolling` ställer in den från en terminal.
 
 ### Gruppera fönster
 

@@ -1,14 +1,14 @@
 # Bar Atas
 
-Jalur di sepanjang bahagian atas skrin anda ialah bar Omarchy. Ia bukan bar status yang ditambah kemudian tetapi sebahagian daripada shell Omarchy, proses Quickshell tunggal yang berjalan lama yang juga melukis menu, pemberitahuan, pop timbul OSD, dan skrin kunci. Itulah sebabnya ia bertema dengan sempurna bersama segala-galanya yang lain dan mengapa panel dibuka serta-merta dan bukannya memulakan aplikasi baharu.
+Jalur di sepanjang bahagian atas skrin anda ialah bar LunaOS. Ia bukan bar status yang ditambah kemudian tetapi sebahagian daripada shell LunaOS, proses Quickshell tunggal yang berjalan lama yang juga melukis menu, pemberitahuan, pop timbul OSD, dan skrin kunci. Itulah sebabnya ia bertema dengan sempurna bersama segala-galanya yang lain dan mengapa panel dibuka serta-merta dan bukannya memulakan aplikasi baharu.
 
 Ia juga satu-satunya bahagian desktop yang sentiasa berada pada skrin, jadi berbaloi untuk mengetahui apa yang dilakukan oleh semua glif kecil itu.
 
 ## Apa yang ada padanya secara lalai
 
-Bar mempunyai tiga bahagian. Di sebelah kiri terletak logo Omarchy (pelancar menu) dan penunjuk ruang kerja. Di tengah anda mendapat penunjuk status, jam, Elsewhen (jam dunia), cuaca, dan lencana kemas kini Omarchy. Di sebelah kanan: susun atur papan kekunci (apabila lebih daripada satu dikonfigurasikan), dulang sistem, ejen, bluetooth, rangkaian, audio, paparan, dan kuasa.
+Bar mempunyai tiga bahagian. Di sebelah kiri terletak logo LunaOS (pelancar menu) dan penunjuk ruang kerja. Di tengah anda mendapat penunjuk status, jam, Elsewhen (jam dunia), cuaca, dan lencana kemas kini LunaOS. Di sebelah kanan: susun atur papan kekunci (apabila lebih daripada satu dikonfigurasikan), dulang sistem, ejen, bluetooth, rangkaian, audio, paparan, dan kuasa.
 
-Sebahagian daripadanya hanya muncul apabila ia mempunyai sesuatu untuk dikatakan. Susun atur papan kekunci hanya muncul jika anda telah mengkonfigurasikan lebih daripada satu susun atur. Lencana kemas kini hanya muncul apabila terdapat kemas kini Omarchy yang menunggu. Dan ikon ejen muncul pada kali pertama Omarchy menemui penggunaan pengekodan AI pada mesin (lihat [AI](17-ai.md)).
+Sebahagian daripadanya hanya muncul apabila ia mempunyai sesuatu untuk dikatakan. Susun atur papan kekunci hanya muncul jika anda telah mengkonfigurasikan lebih daripada satu susun atur. Lencana kemas kini hanya muncul apabila terdapat kemas kini LunaOS yang menunggu. Dan ikon ejen muncul pada kali pertama LunaOS menemui penggunaan pengekodan AI pada mesin (lihat [AI](17-ai.md)).
 
 ## Mengklik sekeliling
 
@@ -16,7 +16,7 @@ Hampir setiap widget melakukan sesuatu pada klik kiri, kanan, dan tengah, dan be
 
 | Widget | Kiri | Kanan | Tengah / tatal |
 | --- | --- | --- | --- |
-| Menu | Menu Omarchy | Terminal baharu | — |
+| Menu | Menu LunaOS | Terminal baharu | — |
 | Ruang Kerja | Fokus ruang kerja itu | — | Tatal: ruang kerja seterusnya/sebelumnya |
 | Jam | Pop timbul kalendar | Kitar format label | Tengah: pemilih zon waktu |
 | Cuaca | Pop timbul ramalan | Cuaca penuh sebagai pemberitahuan | Tengah: muat semula |
@@ -29,7 +29,7 @@ Hampir setiap widget melakukan sesuatu pada klik kiri, kanan, dan tengah, dan be
 | Media | Main/jeda | Pop timbul seni muka depan | Tengah: seterusnya · tatal: sebelum/seterusnya |
 | Ejen | Panel ejen | Lancarkan ejen anda | Tengah: langganan seterusnya |
 | Dulang | Layar untuk mendedahkan laci | Kanan pada chevron untuk mengurus | — |
-| Kemas kini Omarchy | Jalankan kemas kini | — | — |
+| Kemas kini LunaOS | Jalankan kemas kini | — | — |
 
 Tidak semua dalam jadual itu berada pada bar anda di luar kotak. Widget media (MPRIS sedang dimainkan, dengan trek dan artis yang menatal) dan widget mikrofon kedua-duanya terbina dalam tetapi dimatikan secara lalai — tambahkannya jika anda mahukannya, seperti yang diterangkan di bawah.
 
@@ -65,7 +65,7 @@ Setiap panel menerima papan kekunci serta tetikus: anak panah bergerak, Return m
 
 Dua lagi widget muncul pada bar hanya sebaik sahaja anda memasang perkhidmatan yang sepadan daripada **Pasang → Perkhidmatan**, dan kedua-duanya berbaloi untuk diketahui kerana ia melakukan lebih daripada melaporkan status.
 
-Panel **Tailscale** menyambung dan memutuskan tailnet, bertukar antara akaun, dan memilih nod keluar (mesin anda sendiri dan rantau Mullvad kedua-duanya muncul dalam senarai itu). Ia juga menyemak imbas mesin anda — dan dengan satu dipilih, `s` menghantar fail kepadanya melalui Taildrop, iaitu cara terpantas untuk memindahkan fail ke telefon anda atau laptop lain. `c` menyalin IP mesin, `n` namanya, dan `d` nama DNS penuhnya. Terdapat juga butang hantar pada setiap baris mesin, jika anda lebih suka mengklik. Perkara yang sama dari terminal ialah `omarchy tailscale send <machine> [file...]`.
+Panel **Tailscale** menyambung dan memutuskan tailnet, bertukar antara akaun, dan memilih nod keluar (mesin anda sendiri dan rantau Mullvad kedua-duanya muncul dalam senarai itu). Ia juga menyemak imbas mesin anda — dan dengan satu dipilih, `s` menghantar fail kepadanya melalui Taildrop, iaitu cara terpantas untuk memindahkan fail ke telefon anda atau laptop lain. `c` menyalin IP mesin, `n` namanya, dan `d` nama DNS penuhnya. Terdapat juga butang hantar pada setiap baris mesin, jika anda lebih suka mengklik. Perkara yang sama dari terminal ialah `lunaos tailscale send <machine> [file...]`.
 
 Panel **Dropbox** mengendalikan log masuk, memaparkan berapa banyak storan yang telah anda gunakan, dan menyenaraikan fail yang disegerakkan baru-baru ini.
 
@@ -90,19 +90,19 @@ Jika anda lebih suka memilih daripada menu, **Pencetus → Penampilan → Bar Me
 Perkara yang sama mempunyai arahan, iaitu apa yang anda mahukan untuk persediaan [dotfiles](31-dotfiles.md):
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Untuk menambah atau membuang widget sepenuhnya, gunakan arahan plugin. `omarchy plugin list` mencetak setiap widget yang diketahui oleh shell dengan id-nya, dan kemudian:
+Untuk menambah atau membuang widget sepenuhnya, gunakan arahan plugin. `lunaos plugin list` mencetak setiap widget yang diketahui oleh shell dengan id-nya, dan kemudian:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Menyembunyikan bar
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Fail konfigurasi
 
-Kesemuanya disimpan dalam `~/.config/omarchy/shell.json`, di bawah kekunci `bar`. Berikut ialah versi yang dipangkas:
+Kesemuanya disimpan dalam `~/.config/lunaos/shell.json`, di bawah kekunci `bar`. Berikut ialah versi yang dipangkas:
 
 ```json
 {
@@ -119,20 +119,20 @@ Kesemuanya disimpan dalam `~/.config/omarchy/shell.json`, di bawah kekunci `bar`
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Setiap widget ialah satu entri dalam salah satu daripada tiga tatasusunan susun atur, dan tetapannya berada sebaris pada entri itu — tiada fail tetapan berasingan dan tiada sub-objek `config`. `format` jam, `formatAlt` (apa yang dikitar oleh klik kanan), dan `verticalFormat` semuanya berada betul-betul di sana pada `{ "id": "omarchy.clock" }`.
+Setiap widget ialah satu entri dalam salah satu daripada tiga tatasusunan susun atur, dan tetapannya berada sebaris pada entri itu — tiada fail tetapan berasingan dan tiada sub-objek `config`. `format` jam, `formatAlt` (apa yang dikitar oleh klik kanan), dan `verticalFormat` semuanya berada betul-betul di sana pada `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` menamakan satu widget tengah yang disematkan ke pusat tepat skrin, dengan yang lain mengapitnya. Begitulah cara jam kekal betul-betul di tengah walaupun cuaca dan lencana kemas kini datang dan pergi. Tetapkannya kepada rentetan kosong dan senarai tengah hanya dipusatkan sebagai kumpulan sebagai gantinya.
 
-Satu peraturan yang berbaloi untuk dihayati: **sebaik sahaja anda mempunyai `shell.json` anda sendiri, ia adalah berkanun**. Sehingga anda menyesuaikan apa-apa, shell membaca fail lalai Omarchy. Sebaik sahaja anda menyeret widget, menjalankan `omarchy bar`, atau menyunting fail itu sendiri, anda memilikinya — tiada gabungan mendalam, jadi widget lalai baharu dalam keluaran Omarchy masa hadapan tidak akan muncul pada bar anda secara automatik. `omarchy bar defaults` mengembalikan susun atur yang dihantar pada bila-bila masa anda mahukan permulaan yang bersih.
+Satu peraturan yang berbaloi untuk dihayati: **sebaik sahaja anda mempunyai `shell.json` anda sendiri, ia adalah berkanun**. Sehingga anda menyesuaikan apa-apa, shell membaca fail lalai LunaOS. Sebaik sahaja anda menyeret widget, menjalankan `lunaos bar`, atau menyunting fail itu sendiri, anda memilikinya — tiada gabungan mendalam, jadi widget lalai baharu dalam keluaran LunaOS masa hadapan tidak akan muncul pada bar anda secara automatik. `lunaos bar defaults` mengembalikan susun atur yang dihantar pada bila-bila masa anda mahukan permulaan yang bersih.
 
 Fail yang sama juga menyimpan pemasaan terbiar anda pada peringkat atas, di luar kekunci `bar`: `idle.screensaver` dan `idle.lock`, kedua-duanya dalam saat sejak anda menjadi terbiar. Jadi tabir skrin lalai bermula pada 150 saat dan kunci pada 300.

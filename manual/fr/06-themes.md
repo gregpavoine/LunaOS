@@ -1,8 +1,8 @@
 # Thèmes
 
-Omarchy est livré avec vingt-deux beaux thèmes. Vous pouvez les sélectionner via _Style > Thème_ dans le menu Omarchy (`Super + Space`) ou sauter directement au sélecteur de thème avec `Super + Ctrl + Shift + Space`.
+LunaOS est livré avec vingt-deux beaux thèmes. Vous pouvez les sélectionner via _Style > Thème_ dans le menu LunaOS (`Super + Space`) ou sauter directement au sélecteur de thème avec `Super + Ctrl + Shift + Space`.
 
-Chaque thème stylise le bureau, le terminal, neovim, l'écran d'activité (btop), Chromium et l'ensemble du shell Omarchy : barre supérieure, menu, notifications, OSD et écran de verrouillage. (Pour Obsidian, vous devez sélectionner manuellement le thème Omarchy via _Appearance > Themes_ dans l'appli).
+Chaque thème stylise le bureau, le terminal, neovim, l'écran d'activité (btop), Chromium et l'ensemble du shell LunaOS : barre supérieure, menu, notifications, OSD et écran de verrouillage. (Pour Obsidian, vous devez sélectionner manuellement le thème LunaOS via _Appearance > Themes_ dans l'appli).
 
 Les thèmes ont un ensemble d'images d'arrière-plan parmi lesquelles vous pouvez choisir avec `Super + Ctrl + Space`.
 

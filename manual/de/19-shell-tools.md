@@ -1,6 +1,6 @@
 # Shell-Werkzeuge
 
-Zusätzlich zu den standardmäßigen Linux-Werkzeugen liefert Omarchy auch eine Reihe verbesserter Shell-Werkzeuge mit. Hier sind die wichtigsten.
+Zusätzlich zu den standardmäßigen Linux-Werkzeugen liefert LunaOS auch eine Reihe verbesserter Shell-Werkzeuge mit. Hier sind die wichtigsten.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Das vollständige Handbuch findest du über `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) ist ein Ersatz für cd. Es merkt sich die Verzeichnisse, in denen du warst, sodass du beim nächsten Mal leichter dorthin springen kannst. Angenommen, du führst einmal `cd ~/.config/omarchy` aus. Beim nächsten Mal kannst du einfach `cd omarchy` (oder sogar nur `cd oma`) eingeben, und Zoxide bringt dich direkt dorthin.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) ist ein Ersatz für cd. Es merkt sich die Verzeichnisse, in denen du warst, sodass du beim nächsten Mal leichter dorthin springen kannst. Angenommen, du führst einmal `cd ~/.config/lunaos` aus. Beim nächsten Mal kannst du einfach `cd lunaos` (oder sogar nur `cd oma`) eingeben, und Zoxide bringt dich direkt dorthin.
 
 Das vollständige Handbuch findest du über `man zoxide`.
 
@@ -58,4 +58,4 @@ Das vollständige Handbuch findest du über `man yt-dlp`.
 
 [try](https://github.com/tobi/try) macht es einfach, Programmierexperimente mit datumsmarkierten Verzeichnissen zu verwalten. Alle Experimente leben in `~/Work/tries`, und du erreichst sie über `try`.
 
-Omarchy fügt das Verzeichnis `bin/` eines Projekts nicht automatisch zu `PATH` hinzu. Führe vertrauenswürdige projektlokale Werkzeuge mit einem expliziten relativen Pfad aus, zum Beispiel `bin/rails` oder `./bin/dev`.
+LunaOS fügt das Verzeichnis `bin/` eines Projekts nicht automatisch zu `PATH` hinzu. Führe vertrauenswürdige projektlokale Werkzeuge mit einem expliziten relativen Pfad aus, zum Beispiel `bin/rails` oder `./bin/dev`.

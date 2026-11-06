@@ -7,10 +7,10 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 fake_bin=$(mktemp -d)
 trap 'rm -rf "$fake_bin"' EXIT
 
-cat >"$fake_bin/omarchy-hyprland-session-locked" <<'SH'
+cat >"$fake_bin/lunaos-hyprland-session-locked" <<'SH'
 #!/bin/bash
 
-exit "$OMARCHY_TEST_LOCKED"
+exit "$LUNAOS_TEST_LOCKED"
 SH
 
 # The lockers running are given, so the live desktop's own shell stays out of it.
@@ -18,16 +18,16 @@ cat >"$fake_bin/pgrep" <<'SH'
 #!/bin/bash
 
 [[ $* == "-u $UID -x quickshell|qs|hyprlock" ]] || exit 3
-[[ -n $OMARCHY_TEST_LOCKERS ]] || exit 1
-printf '%s\n' $OMARCHY_TEST_LOCKERS
+[[ -n $LUNAOS_TEST_LOCKERS ]] || exit 1
+printf '%s\n' $LUNAOS_TEST_LOCKERS
 SH
 chmod +x "$fake_bin"/*
 
 assert_status() {
   local expected="$1" locked="$2" lockers="$3" description="$4" actual=0
 
-  PATH="$fake_bin:$PATH" OMARCHY_TEST_LOCKED="$locked" OMARCHY_TEST_LOCKERS="$lockers" \
-    "$ROOT/bin/omarchy-hyprland-session-lock-stranded" 100 || actual=$?
+  PATH="$fake_bin:$PATH" LUNAOS_TEST_LOCKED="$locked" LUNAOS_TEST_LOCKERS="$lockers" \
+    "$ROOT/bin/lunaos-hyprland-session-lock-stranded" 100 || actual=$?
 
   (( actual == expected )) || fail "$description" "expected exit $expected, got $actual"
   pass "$description"

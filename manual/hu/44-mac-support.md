@@ -1,16 +1,16 @@
 # Mac-támogatás
 
-Az Omarchy beépített támogatással rendelkezik **Intel Macekre**. Jelenleg van néhány ismert korlátozás, de amennyiben tudatában vagy és rendben vagy velük; az Omarchy betöltésével új életet lehelhetsz a régi Maceidbe.
+Az LunaOS beépített támogatással rendelkezik **Intel Macekre**. Jelenleg van néhány ismert korlátozás, de amennyiben tudatában vagy és rendben vagy velük; az LunaOS betöltésével új életet lehelhetsz a régi Maceidbe.
 
-Kérjük, vedd figyelembe, hogy M-sorozatú Macre telepítés jelenleg nem közvetlenül támogatott. Ennek állapotáról többet a #omarchy-on-other csatornán tudhatsz meg a [Discordunkon](https://discord.gg/tXFUdasqhY).
+Kérjük, vedd figyelembe, hogy M-sorozatú Macre telepítés jelenleg nem közvetlenül támogatott. Ennek állapotáról többet a #lunaos-on-other csatornán tudhatsz meg a [Discordunkon](https://discord.gg/tXFUdasqhY).
 
-Egy egyszerű tesztben egy 2019-es MacBook Prón egyedül az Omarchy telepítésével 36%-os teljesítménynövekedést értünk el.
+Egy egyszerű tesztben egy 2019-es MacBook Prón egyedül az LunaOS telepítésével 36%-os teljesítménynövekedést értünk el.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Az Omarchy telepítése Macre
+### Az LunaOS telepítése Macre
 
-Az Omarchy jelenleg csak azt támogatja, hogy az **egyetlen** telepített operációs rendszer legyen. A telepítés során a meghajtó törlődik, és a MacOS nem lesz többé indítható.
+Az LunaOS jelenleg csak azt támogatja, hogy az **egyetlen** telepített operációs rendszer legyen. A telepítés során a meghajtó törlődik, és a MacOS nem lesz többé indítható.
 
 Később visszaállíthatod Internet Recovery segítségével, ha szeretnéd.
 
@@ -39,7 +39,7 @@ A telepítő érzékeli a Mac-hardvert, és automatikusan alkalmazza a szükség
 
 ### Ismert korlátozások
 
-A közösség tagjai folyamatosan dolgoznak ezeknek a kihívásoknak a megoldásán, így ha ezek problémásak számodra, csatlakozz a #omarchy-on-other csatornához a [Discordunkon](https://discord.gg/tXFUdasqhY), és nézd meg, van-e valamilyen naprakész módszer ezek megoldására.
+A közösség tagjai folyamatosan dolgoznak ezeknek a kihívásoknak a megoldásán, így ha ezek problémásak számodra, csatlakozz a #lunaos-on-other csatornához a [Discordunkon](https://discord.gg/tXFUdasqhY), és nézd meg, van-e valamilyen naprakész módszer ezek megoldására.
 
 #### T1 chippel rendelkező eszközök
 

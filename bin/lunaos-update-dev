@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# lunaos:summary=Update the active LunaOS dev checkout
+
+set -euo pipefail
+
+[[ $LUNAOS_PATH != "/usr/share/lunaos" ]] || exit 0
+
+if ! git -C "$LUNAOS_PATH" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "Error: LUNAOS_PATH is not a git checkout: $LUNAOS_PATH" >&2
+  exit 1
+fi
+
+upstream=$(git -C "$LUNAOS_PATH" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null || true)
+if [[ -z $upstream ]]; then
+  echo -e "\e[33m\nSkip LunaOS dev checkout update (current branch has no upstream)\e[0m"
+  exit 0
+fi
+
+echo -e "\e[32m\nUpdate LunaOS dev checkout\e[0m"
+# A filtered fetch makes a full clone blobless once; git saves the filter, so
+# pulls then only fetch the file contents the new checkout needs.
+remote=$(git -C "$LUNAOS_PATH" for-each-ref --format='%(upstream:remotename)' "$(git -C "$LUNAOS_PATH" symbolic-ref -q HEAD)")
+if git -C "$LUNAOS_PATH" config "remote.$remote.url" >/dev/null && ! git -C "$LUNAOS_PATH" config "remote.$remote.promisor" >/dev/null; then
+  git -C "$LUNAOS_PATH" fetch --filter=blob:none "$remote"
+fi
+git -C "$LUNAOS_PATH" pull --ff-only

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# lunaos:summary=Install Zed Editor and configure it with the current LunaOS theme
+
+echo "Installing Zed Editor..."
+lunaos-pkg-add zed omazed
+
+# Apply LunaOS theme to Zed
+omazed setup
+
+setsid uwsm-app -- gtk-launch dev.zed.Zed >/dev/null 2>&1 &

@@ -1,8 +1,8 @@
 # Instal·lacions desateses
 
-La ISO d'Omarchy es pot instal·lar sola sense ningú al teclat. Si l'instal·lador troba una segona unitat etiquetada com a `cidata` que conté els seus fitxers de configuració, els copia, se salta completament l'assistent de configuració i reinicia cap al sistema acabat pel seu compte. No cal cap construcció especial de la ISO ni cap entrada extra al menú d'arrencada: sense una unitat com aquesta connectada, no canvia res i obtens l'assistent normal.
+La ISO d'LunaOS es pot instal·lar sola sense ningú al teclat. Si l'instal·lador troba una segona unitat etiquetada com a `cidata` que conté els seus fitxers de configuració, els copia, se salta completament l'assistent de configuració i reinicia cap al sistema acabat pel seu compte. No cal cap construcció especial de la ISO ni cap entrada extra al menú d'arrencada: sense una unitat com aquesta connectada, no canvia res i obtens l'assistent normal.
 
-Això fa que Omarchy sigui perfecte com a imatge base per a entorns de desenvolupament d'un sol ús: crea una màquina virtual a Proxmox o amb Packer, arrenca-la, marxa, entra-hi per SSH. `cidata` és l'etiqueta `NoCloud` de cloud-init, de manera que totes les eines habituals de virtualització ja saben com connectar una unitat com aquesta.
+Això fa que LunaOS sigui perfecte com a imatge base per a entorns de desenvolupament d'un sol ús: crea una màquina virtual a Proxmox o amb Packer, arrenca-la, marxa, entra-hi per SSH. `cidata` és l'etiqueta `NoCloud` de cloud-init, de manera que totes les eines habituals de virtualització ja saben com connectar una unitat com aquesta.
 
 ## Els fitxers de configuració
 
@@ -24,7 +24,7 @@ També pots deixar caure un fitxer buit anomenat `defer-provisioning` en comptes
 
 ## Accés SSH
 
-Quan `authorized_keys` hi és present, la instal·lació configura les claus com el `~/.ssh/authorized_keys` de l'usuari, activa `sshd` i hi obre el tallafoc. (Una instal·lació d'Omarchy estàndard subministra openssh amb el servei desactivat i el port tancat, de manera que altrament una màquina desatesa seria inabastable.) La instal·lació només afegeix les teves claus: no afluixa cap de les altres opcions d'autenticació del dimoni SSH.
+Quan `authorized_keys` hi és present, la instal·lació configura les claus com el `~/.ssh/authorized_keys` de l'usuari, activa `sshd` i hi obre el tallafoc. (Una instal·lació d'LunaOS estàndard subministra openssh amb el servei desactivat i el port tancat, de manera que altrament una màquina desatesa seria inabastable.) La instal·lació només afegeix les teves claus: no afluixa cap de les altres opcions d'autenticació del dimoni SSH.
 
 Quan `tailscale_authkey` hi és present, la màquina s'uneix en comptes d'això a la teva tailnet a la primera arrencada: Tailscale s'instal·la des dels paquets subministrats a la ISO, el tallafoc permet la interfície de la tailnet i un procés en segon pla executa la unió tan aviat com la màquina té xarxa de debò, reintentant-ho fins que ho aconsegueix. Fes servir una clau reutilitzable i preautoritzada perquè una imatge d'unitat pugui servir per a moltes màquines.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Després connecta-la a la màquina virtual juntament amb la ISO d'Omarchy. Aquí hi ha un exemple complet amb Proxmox:
+Després connecta-la a la màquina virtual juntament amb la ISO d'LunaOS. Aquí hi ha un exemple complet amb Proxmox:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

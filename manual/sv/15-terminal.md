@@ -1,8 +1,8 @@
 # Terminal
 
-[Foot](https://codeberg.org/dnkl/foot) är standardterminalen för Omarchy. Den är snabb, lättviktig och kompatibel med även gamla datorer. Den stöder dock inte inbyggda flikar eller delningar.
+[Foot](https://codeberg.org/dnkl/foot) är standardterminalen för LunaOS. Den är snabb, lättviktig och kompatibel med även gamla datorer. Den stöder dock inte inbyggda flikar eller delningar.
 
-Om du använder Tmux kanske du inte bryr dig, men om inte stöder vi fullt ut _Alacritty_, _Ghostty_ och _Kitty_ som alternativ också. Välj din preferens under _Install > Terminal_ i Omarchy-menyn.
+Om du använder Tmux kanske du inte bryr dig, men om inte stöder vi fullt ut _Alacritty_, _Ghostty_ och _Kitty_ som alternativ också. Välj din preferens under _Install > Terminal_ i LunaOS-menyn.
 
 Du startar en ny terminal med `Super + Return`. (Denna bindning pekar automatiskt på vilken terminal du än har installerat via _Install > Terminal_, och du kan växla mellan installerade terminaler under _Setup > Defaults > Terminal_.)
 
@@ -12,11 +12,11 @@ Tmux tillhandahåller ett konsekvent, programmerbart gränssnitt för rutor, fö
 
 Du startar en ny Tmux-session i en ny terminal med `Super + Alt + Return`, och eftersom Tmux är en beständig process kan du återuppta din session även om du stänger den terminalen. Tryck bara på `Ctrl + Space` (kallas prefixtangenten) och sedan `s` för att se alla dina aktiva sessioner.
 
-Omarchy levereras med en ergonomiskt optimerad Tmux-konfiguration, som har många tangentbindningar att lära sig, så ha [fusklappen till hands](07-hotkeys.md#tmux).
+LunaOS levereras med en ergonomiskt optimerad Tmux-konfiguration, som har många tangentbindningar att lära sig, så ha [fusklappen till hands](07-hotkeys.md#tmux).
 
 ## Tmux layoutfunktioner
 
-Eftersom Tmux är programmerbart kan vi använda funktioner för att skapa layouter. Omarchy levereras med fyra olika funktioner för vanliga utvecklarlayouter.
+Eftersom Tmux är programmerbart kan vi använda funktioner för att skapa layouter. LunaOS levereras med fyra olika funktioner för vanliga utvecklarlayouter.
 
 `tdl [agent]` startar ett trevägsdelat IDE-liknande gränssnitt med `$EDITOR` till vänster, din valda AI-agent till höger (som `c` för opencode eller `cx` för Claude eller `codex` för OpenAI), och sedan en terminal längst ner.
 

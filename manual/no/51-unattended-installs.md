@@ -1,8 +1,8 @@
 # Uovervåkede installasjoner
 
-Omarchy ISO-en kan installere seg selv uten noen ved tastaturet. Hvis installasjonsprogrammet finner en andre stasjon merket `cidata` som bærer konfigurasjonsfilene sine, kopierer det dem av, hopper over oppsettsveiviseren helt og starter på nytt inn i det ferdige systemet på egen hånd. Ingen spesiell ISO-bygg, ingen ekstra oppstartsmenyoppføring — uten en slik stasjon tilkoblet endres ingenting, og du får den vanlige veiviseren.
+LunaOS ISO-en kan installere seg selv uten noen ved tastaturet. Hvis installasjonsprogrammet finner en andre stasjon merket `cidata` som bærer konfigurasjonsfilene sine, kopierer det dem av, hopper over oppsettsveiviseren helt og starter på nytt inn i det ferdige systemet på egen hånd. Ingen spesiell ISO-bygg, ingen ekstra oppstartsmenyoppføring — uten en slik stasjon tilkoblet endres ingenting, og du får den vanlige veiviseren.
 
-Dette gjør Omarchy flott som et basisavbilde for engangs utviklingsmiljøer: opprett en VM i Proxmox eller med Packer, start den opp, gå bort, SSH inn. `cidata` er cloud-init `NoCloud`-etiketten, så alle vanlige virtualiseringsverktøy vet allerede hvordan de skal koble til en slik stasjon.
+Dette gjør LunaOS flott som et basisavbilde for engangs utviklingsmiljøer: opprett en VM i Proxmox eller med Packer, start den opp, gå bort, SSH inn. `cidata` er cloud-init `NoCloud`-etiketten, så alle vanlige virtualiseringsverktøy vet allerede hvordan de skal koble til en slik stasjon.
 
 ## Konfigurasjonsfilene
 
@@ -24,7 +24,7 @@ Du kan også slippe inn en tom fil kalt `defer-provisioning` i stedet for `user_
 
 ## SSH-tilgang
 
-Når `authorized_keys` er til stede, setter installasjonen nøklene opp som brukerens `~/.ssh/authorized_keys`, aktiverer `sshd` og åpner brannmuren for den. (En standard Omarchy-installasjon leverer openssh med tjenesten deaktivert og porten lukket, så en uovervåket maskin ellers ville vært utilgjengelig.) Installasjonen legger bare til nøklene dine — den løsner ikke noen av SSH-daemonens andre autentiseringsinnstillinger.
+Når `authorized_keys` er til stede, setter installasjonen nøklene opp som brukerens `~/.ssh/authorized_keys`, aktiverer `sshd` og åpner brannmuren for den. (En standard LunaOS-installasjon leverer openssh med tjenesten deaktivert og porten lukket, så en uovervåket maskin ellers ville vært utilgjengelig.) Installasjonen legger bare til nøklene dine — den løsner ikke noen av SSH-daemonens andre autentiseringsinnstillinger.
 
 Når `tailscale_authkey` er til stede, blir maskinen i stedet med i tailnet-et ditt ved første oppstart: Tailscale installeres fra ISO-ens medfølgende pakker, brannmuren tillater tailnet-grensesnittet, og en bakgrunnsjobb kjører tilmeldingen så snart maskinen faktisk har nettverk, og prøver på nytt til den lykkes. Bruk en gjenbrukbar, forhåndsgodkjent nøkkel slik at ett stasjonsavbilde kan betjene mange maskiner.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Koble den deretter til VM-en ved siden av Omarchy ISO-en. Her er et fullt Proxmox-eksempel:
+Koble den deretter til VM-en ved siden av LunaOS ISO-en. Her er et fullt Proxmox-eksempel:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

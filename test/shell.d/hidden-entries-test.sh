@@ -29,7 +29,7 @@ entry "$scratch/system/applications/quote\" app.desktop" 'NoDisplay=true'
 entry "$scratch/ven[dor]*/applications/vendor.desktop" 'Hidden=true'
 entry "$HOME/.nix-profile/share/applications/nix.desktop" 'NoDisplay=true'
 
-actual=$(bash "$ROOT/shell/services/hidden-entries.sh" 'Hyprland:Omarchy')
+actual=$(bash "$ROOT/shell/services/hidden-entries.sh" 'Hyprland:LunaOS')
 expected=$'user-hidden\nnested-deeper-app\nnested-space name\nnot-hyprland\nquote" app\nvendor\nnix'
 [[ $actual == "$expected" ]] || fail "hidden entries changed IDs, directory precedence, or desktop visibility: $actual"
 pass "hidden entries preserve nested IDs, unusual filenames, overrides, and desktop filters"

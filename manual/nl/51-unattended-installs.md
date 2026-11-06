@@ -1,8 +1,8 @@
 # Onbeheerde installaties
 
-De Omarchy-ISO kan zichzelf installeren met niemand achter het toetsenbord. Als het installatieprogramma een tweede schijf vindt met het label `cidata` die zijn configuratiebestanden draagt, kopieert het ze eraf, slaat het de setupwizard volledig over en herstart het uit zichzelf in het voltooide systeem. Geen speciale ISO-build, geen extra opstartmenu-item — zonder zo'n schijf aangesloten verandert er niets en krijg je de normale wizard.
+De LunaOS-ISO kan zichzelf installeren met niemand achter het toetsenbord. Als het installatieprogramma een tweede schijf vindt met het label `cidata` die zijn configuratiebestanden draagt, kopieert het ze eraf, slaat het de setupwizard volledig over en herstart het uit zichzelf in het voltooide systeem. Geen speciale ISO-build, geen extra opstartmenu-item — zonder zo'n schijf aangesloten verandert er niets en krijg je de normale wizard.
 
-Dit maakt Omarchy geweldig als basisimage voor wegwerpbare dev-omgevingen: maak een VM in Proxmox of met Packer, start hem op, loop weg, SSH erin. `cidata` is het cloud-init `NoCloud`-label, dus alle gangbare virtualisatietooling weet al hoe zo'n schijf moet worden aangesloten.
+Dit maakt LunaOS geweldig als basisimage voor wegwerpbare dev-omgevingen: maak een VM in Proxmox of met Packer, start hem op, loop weg, SSH erin. `cidata` is het cloud-init `NoCloud`-label, dus alle gangbare virtualisatietooling weet al hoe zo'n schijf moet worden aangesloten.
 
 ## De configuratiebestanden
 
@@ -24,7 +24,7 @@ Je kunt ook een leeg bestand met de naam `defer-provisioning` plaatsen in plaats
 
 ## SSH-toegang
 
-Wanneer `authorized_keys` aanwezig is, stelt de installatie de sleutels in als de `~/.ssh/authorized_keys` van de gebruiker, schakelt hij `sshd` in en opent hij de firewall ervoor. (Een standaard Omarchy-installatie levert openssh met de service uitgeschakeld en de poort gesloten, dus een onbeheerde machine zou anders onbereikbaar zijn.) De installatie voegt alleen je sleutels toe — hij versoepelt geen van de andere authenticatie-instellingen van de SSH-daemon.
+Wanneer `authorized_keys` aanwezig is, stelt de installatie de sleutels in als de `~/.ssh/authorized_keys` van de gebruiker, schakelt hij `sshd` in en opent hij de firewall ervoor. (Een standaard LunaOS-installatie levert openssh met de service uitgeschakeld en de poort gesloten, dus een onbeheerde machine zou anders onbereikbaar zijn.) De installatie voegt alleen je sleutels toe — hij versoepelt geen van de andere authenticatie-instellingen van de SSH-daemon.
 
 Wanneer `tailscale_authkey` aanwezig is, voegt de machine zich in plaats daarvan bij de eerste opstart bij je tailnet: Tailscale wordt geïnstalleerd uit de meegeleverde pakketten van de ISO, de firewall staat de tailnet-interface toe, en een achtergrondtaak voert de join uit zodra de machine daadwerkelijk netwerk heeft, en blijft het proberen totdat het lukt. Gebruik een herbruikbare, vooraf geautoriseerde sleutel zodat één schijfimage veel machines kan bedienen.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Sluit hem vervolgens aan op de VM naast de Omarchy-ISO. Hier is een volledig Proxmox-voorbeeld:
+Sluit hem vervolgens aan op de VM naast de LunaOS-ISO. Hier is een volledig Proxmox-voorbeeld:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

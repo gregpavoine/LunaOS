@@ -1,8 +1,8 @@
 # Navegação
 
-Tudo no Omarchy acontece através do teclado — _TUDO!_ Quando o sistema arranca pela primeira vez, literalmente não consegues fazer nada só com o rato. Mas podes carregar em `Super + Space` para revelar o Menu Omarchy e, a partir daqui, fazer praticamente tudo.
+Tudo no LunaOS acontece através do teclado — _TUDO!_ Quando o sistema arranca pela primeira vez, literalmente não consegues fazer nada só com o rato. Mas podes carregar em `Super + Space` para revelar o Menu LunaOS e, a partir daqui, fazer praticamente tudo.
 
-Mas o menu Omarchy nem sequer foi pensado para ser a forma principal de operar o sistema na maior parte do tempo. Conseguimos ser mais rápidos do que isso! Todas as aplicações mais importantes estão associadas diretamente a atalhos individuais. Arrancas o terminal com `Super + Return` e um navegador com `Super + Shift + Return`. Experimenta fazer um a seguir ao outro e vais ver a magia do tiling do Hyprland em ação:
+Mas o menu LunaOS nem sequer foi pensado para ser a forma principal de operar o sistema na maior parte do tempo. Conseguimos ser mais rápidos do que isso! Todas as aplicações mais importantes estão associadas diretamente a atalhos individuais. Arrancas o terminal com `Super + Return` e um navegador com `Super + Shift + Return`. Experimenta fazer um a seguir ao outro e vais ver a magia do tiling do Hyprland em ação:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Também podes ir para ecrã inteiro com `Super + F` ou até apenas para largura 
 
 ### Esquema dwindle vs scrolling
 
-O esquema predefinido do Omarchy chama-se dwindle. Mantém todas as janelas que abres num único espaço de trabalho sempre visíveis, mesmo que tenha de as encolher.
+O esquema predefinido do LunaOS chama-se dwindle. Mantém todas as janelas que abres num único espaço de trabalho sempre visíveis, mesmo que tenha de as encolher.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Um espaço de trabalho flutuante funciona como um ambiente de trabalho tradicional: as janelas sobrepõem-se e és tu que as moves e dimensionas. Cada janela recebe uma barra de título nas cores do teu tema, com botões para minimizar, maximizar e fechar. `Super + M` também minimiza a janela em foco. Uma janela minimizada fica à espera na dock; clica na sua aplicação para a trazer de volta. Clica numa janela para a trazer para a frente. Redimensiona-a a partir de qualquer margem ou canto. Faz duplo clique numa barra de título para maximizar a janela mantendo a barra superior visível, e outra vez para recuperar o seu tamanho antigo.
 
-Um espaço de trabalho flutuante também mostra uma dock, com as tuas aplicações afixadas, tudo o que está a correr e uma grelha de todas as aplicações atrás do botão de aplicações, que `Super + Alt + Space` e _Apps_ no menu Omarchy também abrem. Clica com o botão direito numa aplicação da grelha, ou carrega em `Delete`, para a desinstalar. Clica numa aplicação para a abrir, ou para trazer a sua janela para a frente; clica outra vez para percorrer as suas janelas. O clique do meio abre uma nova janela. Arrasta um ícone ao longo da dock para o mover; arrastar uma aplicação em execução para o meio das outras mantém-na aí. Clica com o botão direito para manter uma aplicação na dock, retirá-la ou sair dela. A dock sai do caminho de uma janela em ecrã inteiro. Clica com o botão direito no botão de aplicações para mover a dock para outra margem ou fazer com que se esconda até o ponteiro chegar à sua margem. A posição também está em _Trigger > Appearance > Dock > Dock Position_, e `omarchy dock position left` e `omarchy dock autohide on` definem ambas a partir de um terminal. As aplicações que manténs na dock ficam esbatidas enquanto não estão a correr.
+Um espaço de trabalho flutuante também mostra uma dock, com as tuas aplicações afixadas, tudo o que está a correr e uma grelha de todas as aplicações atrás do botão de aplicações, que `Super + Alt + Space` e _Apps_ no menu LunaOS também abrem. Clica com o botão direito numa aplicação da grelha, ou carrega em `Delete`, para a desinstalar. Clica numa aplicação para a abrir, ou para trazer a sua janela para a frente; clica outra vez para percorrer as suas janelas. O clique do meio abre uma nova janela. Arrasta um ícone ao longo da dock para o mover; arrastar uma aplicação em execução para o meio das outras mantém-na aí. Clica com o botão direito para manter uma aplicação na dock, retirá-la ou sair dela. A dock sai do caminho de uma janela em ecrã inteiro. Clica com o botão direito no botão de aplicações para mover a dock para outra margem ou fazer com que se esconda até o ponteiro chegar à sua margem. A posição também está em _Trigger > Appearance > Dock > Dock Position_, e `lunaos dock position left` e `lunaos dock autohide on` definem ambas a partir de um terminal. As aplicações que manténs na dock ficam esbatidas enquanto não estão a correr.
 
-Os espaços de trabalho novos, e qualquer um a que não tenhas dado um esquema próprio com `Super + L`, usam o esquema predefinido. Alterar a predefinição repõe nela todos os espaços de trabalho sem janelas, enquanto um que tenha janelas mantém o esquema que tem. Uma janela minimizada para a dock continua a contar como uma janela no espaço de trabalho de onde saiu. Escolhe-o em _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling ou Floating. `omarchy-hyprland-workspace-layout-default scrolling` define-o a partir de um terminal.
+Os espaços de trabalho novos, e qualquer um a que não tenhas dado um esquema próprio com `Super + L`, usam o esquema predefinido. Alterar a predefinição repõe nela todos os espaços de trabalho sem janelas, enquanto um que tenha janelas mantém o esquema que tem. Uma janela minimizada para a dock continua a contar como uma janela no espaço de trabalho de onde saiu. Escolhe-o em _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling ou Floating. `lunaos-hyprland-workspace-layout-default scrolling` define-o a partir de um terminal.
 
 ### Agrupar janelas
 

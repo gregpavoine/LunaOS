@@ -1,14 +1,14 @@
 # La barra superior
 
-La franja de la part superior de la pantalla és la barra d'Omarchy. No és una barra d'estat afegida, sinó part del shell d'Omarchy, l'únic procés de Quickshell de llarga durada que també dibuixa el menú, les notificacions, les finestres emergents OSD i la pantalla de bloqueig. Per això combina perfectament amb tot la resta i per això un panell s'obre instantàniament en lloc d'iniciar una aplicació nova.
+La franja de la part superior de la pantalla és la barra d'LunaOS. No és una barra d'estat afegida, sinó part del shell d'LunaOS, l'únic procés de Quickshell de llarga durada que també dibuixa el menú, les notificacions, les finestres emergents OSD i la pantalla de bloqueig. Per això combina perfectament amb tot la resta i per això un panell s'obre instantàniament en lloc d'iniciar una aplicació nova.
 
 També és l'única peça de l'escriptori que sempre és a la pantalla, així que val la pena saber què fan tots aquests petits glifs.
 
 ## Què hi ha per defecte
 
-La barra té tres seccions. A l'esquerra hi ha el logotip d'Omarchy (el llançador del menú) i els indicadors d'espais de treball. Al centre teniu els indicadors d'estat, el rellotge, Elsewhen (un rellotge mundial), el temps i un distintiu d'actualització d'Omarchy. A la dreta: la disposició del teclat (quan n'hi ha més d'una configurada), la safata del sistema, els agents, bluetooth, xarxa, àudio, pantalla i energia.
+La barra té tres seccions. A l'esquerra hi ha el logotip d'LunaOS (el llançador del menú) i els indicadors d'espais de treball. Al centre teniu els indicadors d'estat, el rellotge, Elsewhen (un rellotge mundial), el temps i un distintiu d'actualització d'LunaOS. A la dreta: la disposició del teclat (quan n'hi ha més d'una configurada), la safata del sistema, els agents, bluetooth, xarxa, àudio, pantalla i energia.
 
-Alguns només apareixen quan tenen alguna cosa a dir. La disposició del teclat només apareix si n'heu configurat més d'una. El distintiu d'actualització només apareix quan hi ha una actualització d'Omarchy esperant. I la icona dels agents apareix la primera vegada que Omarchy troba ús de codificació amb IA a la màquina (vegeu [IA](17-ai.md)).
+Alguns només apareixen quan tenen alguna cosa a dir. La disposició del teclat només apareix si n'heu configurat més d'una. El distintiu d'actualització només apareix quan hi ha una actualització d'LunaOS esperant. I la icona dels agents apareix la primera vegada que LunaOS troba ús de codificació amb IA a la màquina (vegeu [IA](17-ai.md)).
 
 ## Fer clics per aquí i per allà
 
@@ -16,7 +16,7 @@ Gairebé tots els ginys fan alguna cosa amb el clic esquerre, el dret i el del m
 
 | Giny | Esquerra | Dreta | Mig / desplaçament |
 | --- | --- | --- | --- |
-| Menú | Menú d'Omarchy | Terminal nou | — |
+| Menú | Menú d'LunaOS | Terminal nou | — |
 | Espais de treball | Enfoca aquest espai de treball | — | Desplaçament: espai de treball següent/anterior |
 | Rellotge | Finestra emergent del calendari | Fa rotar el format de l'etiqueta | Mig: selector de zona horària |
 | Temps | Finestra emergent de la previsió | Temps complet com a notificació | Mig: actualitza |
@@ -29,7 +29,7 @@ Gairebé tots els ginys fan alguna cosa amb el clic esquerre, el dret i el del m
 | Mitjans | Reprodueix/pausa | Finestra emergent de la caràtula | Mig: següent · desplaçament: anterior/següent |
 | Agents | Panell d'agents | Llança el vostre agent | Mig: subscripció següent |
 | Safata | Passar el cursor revela el calaix | Clic dret al xevró per gestionar | — |
-| Actualització d'Omarchy | Executa l'actualització | — | — |
+| Actualització d'LunaOS | Executa l'actualització | — | — |
 
 No tot el que hi ha en aquesta taula és a la vostra barra de sèrie. El giny de mitjans (reproducció actual MPRIS, amb la cançó i l'artista desplaçant-se) i el giny del micròfon són tots dos integrats però desactivats per defecte — afegiu-los si els voleu, com es descriu més avall.
 
@@ -65,7 +65,7 @@ Cada panell accepta tant el teclat com el ratolí: les fletxes mouen, Return act
 
 Dos ginys més apareixen a la barra només un cop instal·leu el servei corresponent des de **Instal·la → Servei**, i tots dos val la pena conèixer perquè fan més que informar de l'estat.
 
-El panell de **Tailscale** connecta i desconnecta la tailnet, canvia entre comptes i tria un node de sortida (tant les vostres màquines com les regions de Mullvad apareixen en aquesta llista). També navega per les vostres màquines — i amb una de seleccionada, `s` hi envia fitxers mitjançant Taildrop, que és la manera més ràpida de moure un fitxer al vostre telèfon o a un altre portàtil. `c` copia l'IP de la màquina, `n` el seu nom i `d` el seu nom DNS complet. També hi ha un botó d'enviament a cada fila de màquina, si preferiu fer clic. El mateix des del terminal és `omarchy tailscale send <machine> [file...]`.
+El panell de **Tailscale** connecta i desconnecta la tailnet, canvia entre comptes i tria un node de sortida (tant les vostres màquines com les regions de Mullvad apareixen en aquesta llista). També navega per les vostres màquines — i amb una de seleccionada, `s` hi envia fitxers mitjançant Taildrop, que és la manera més ràpida de moure un fitxer al vostre telèfon o a un altre portàtil. `c` copia l'IP de la màquina, `n` el seu nom i `d` el seu nom DNS complet. També hi ha un botó d'enviament a cada fila de màquina, si preferiu fer clic. El mateix des del terminal és `lunaos tailscale send <machine> [file...]`.
 
 El panell de **Dropbox** gestiona l'inici de sessió, mostra quant d'emmagatzematge heu fet servir i enumera els fitxers sincronitzats recentment.
 
@@ -90,19 +90,19 @@ Si preferiu triar des d'un menú, **Activa → Aparença → Barra de menú** t�
 Les mateixes coses tenen ordres, que és el que voleu per a una configuració de [dotfiles](31-dotfiles.md):
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Per afegir o eliminar un giny del tot, feu servir les ordres de complement. `omarchy plugin list` imprimeix tots els ginys que el shell coneix amb el seu id, i llavors:
+Per afegir o eliminar un giny del tot, feu servir les ordres de complement. `lunaos plugin list` imprimeix tots els ginys que el shell coneix amb el seu id, i llavors:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Amagar la barra
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## El fitxer de configuració
 
-Tot plegat es desa a `~/.config/omarchy/shell.json`, a la clau `bar`. Aquí en teniu una versió retallada:
+Tot plegat es desa a `~/.config/lunaos/shell.json`, a la clau `bar`. Aquí en teniu una versió retallada:
 
 ```json
 {
@@ -119,20 +119,20 @@ Tot plegat es desa a `~/.config/omarchy/shell.json`, a la clau `bar`. Aquí en t
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Cada giny és una entrada en una de les tres matrius de disposició, i la seva configuració és dins d'aquesta entrada — no hi ha cap fitxer de configuració separat ni cap subobjecte `config`. El `format` del rellotge, el `formatAlt` (allò a què el clic dret fa rotar) i el `verticalFormat` viuen tots just aquí a `{ "id": "omarchy.clock" }`.
+Cada giny és una entrada en una de les tres matrius de disposició, i la seva configuració és dins d'aquesta entrada — no hi ha cap fitxer de configuració separat ni cap subobjecte `config`. El `format` del rellotge, el `formatAlt` (allò a què el clic dret fa rotar) i el `verticalFormat` viuen tots just aquí a `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` anomena l'únic giny del centre que es fixa al centre exacte de la pantalla, amb els altres flanquejant-lo. Així és com el rellotge es manté ben centrat fins i tot mentre el temps i el distintiu d'actualització van i venen. Definiu-lo a una cadena buida i la llista del centre simplement se centrarà com a grup.
 
-Una regla que val la pena interioritzar: **un cop teniu el vostre propi `shell.json`, és canònic**. Fins que no personalitzeu res, el shell llegeix el fitxer per defecte d'Omarchy. En el moment que arrossegueu un giny, executeu `omarchy bar` o editeu el fitxer vosaltres mateixos, passa a ser vostre — no hi ha fusió en profunditat, de manera que els ginys nous per defecte en futures versions d'Omarchy no apareixeran automàticament a la vostra barra. `omarchy bar defaults` restableix la disposició subministrada sempre que vulgueu començar de zero.
+Una regla que val la pena interioritzar: **un cop teniu el vostre propi `shell.json`, és canònic**. Fins que no personalitzeu res, el shell llegeix el fitxer per defecte d'LunaOS. En el moment que arrossegueu un giny, executeu `lunaos bar` o editeu el fitxer vosaltres mateixos, passa a ser vostre — no hi ha fusió en profunditat, de manera que els ginys nous per defecte en futures versions d'LunaOS no apareixeran automàticament a la vostra barra. `lunaos bar defaults` restableix la disposició subministrada sempre que vulgueu començar de zero.
 
 El mateix fitxer també conté els vostres temps d'inactivitat al nivell superior, fora de la clau `bar`: `idle.screensaver` i `idle.lock`, tots dos en segons des que vau quedar inactius. Així, el salvapantalles per defecte s'activa als 150 segons i el bloqueig als 300.

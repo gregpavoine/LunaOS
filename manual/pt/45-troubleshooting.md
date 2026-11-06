@@ -2,17 +2,17 @@
 
 ### Estraguei o meu sistema com uma atualização!
 
-Primeiro tente [repor o seu sistema](47-system-snapshots.md) para a versão anterior à sua atualização recente. Se isso não funcionar, use `omarchy-debug` para partilhar o seu problema em #omarchy-help no Discord. E se tudo isso falhar, pode reinstalar as configurações e pacotes predefinidos usando `omarchy-reinstall`.
+Primeiro tente [repor o seu sistema](47-system-snapshots.md) para a versão anterior à sua atualização recente. Se isso não funcionar, use `lunaos-debug` para partilhar o seu problema em #lunaos-help no Discord. E se tudo isso falhar, pode reinstalar as configurações e pacotes predefinidos usando `lunaos-reinstall`.
 
 ### Porque é que algumas aplicações são tão grandes no meu ecrã?
 
-O Omarchy assume um ecrã de alta resolução 2x, o que exige definir `GDK_SCALE` para 2 em `~/.config/hypr/monitors.lua`. Mas se estiver num ecrã 1x, pode mudar `local omarchy_gdk_scale = 2` para 1 (e depois reiniciar qualquer aplicação que esteja sobredimensionada). Veja [o manual sobre monitores](33-monitors.md).
+O LunaOS assume um ecrã de alta resolução 2x, o que exige definir `GDK_SCALE` para 2 em `~/.config/hypr/monitors.lua`. Mas se estiver num ecrã 1x, pode mudar `local lunaos_gdk_scale = 2` para 1 (e depois reiniciar qualquer aplicação que esteja sobredimensionada). Veja [o manual sobre monitores](33-monitors.md).
 
 Para o Spotify, pode usar `Ctrl + Minus` para encolher a interface (e `Ctrl + Plus` para a aumentar).
 
 ### O meu Wi-Fi, Bluetooth, áudio ou painel tátil deixou simplesmente de funcionar
 
-Antes de reiniciar, tente reiniciar apenas o subsistema problemático. _Atualizar > Hardware_ no menu Omarchy tem Wi-Fi, Bluetooth, Áudio e Painel tátil, e recarregar um deles resolve a maioria das situações do tipo «funcionava há cinco minutos» — uns auriculares Bluetooth que não se reconectam, um painel tátil que morreu depois de uma suspensão, som que desapareceu quando desligou um monitor.
+Antes de reiniciar, tente reiniciar apenas o subsistema problemático. _Atualizar > Hardware_ no menu LunaOS tem Wi-Fi, Bluetooth, Áudio e Painel tátil, e recarregar um deles resolve a maioria das situações do tipo «funcionava há cinco minutos» — uns auriculares Bluetooth que não se reconectam, um painel tátil que morreu depois de uma suspensão, som que desapareceu quando desligou um monitor.
 
 ### Porque é que as minhas colunas externas não estão a reproduzir?
 
@@ -20,7 +20,7 @@ Provavelmente porque não estão definidas como saída principal. Clique no íco
 
 ### As colunas do meu portátil soam estranhas
 
-Em alguns portáteis, o Omarchy aplica automaticamente uma afinação de colunas que corrige a resposta de frequência das colunas integradas. `omarchy audio tuning status` diz-lhe se alguma está ativa na sua máquina, e `omarchy audio tuning off` desliga-a se preferir ouvir as colunas sem tratamento.
+Em alguns portáteis, o LunaOS aplica automaticamente uma afinação de colunas que corrige a resposta de frequência das colunas integradas. `lunaos audio tuning status` diz-lhe se alguma está ativa na sua máquina, e `lunaos audio tuning off` desliga-a se preferir ouvir as colunas sem tratamento.
 
 ### Porque é que não consigo iniciar sessão ou usar sudo com a minha palavra-passe?
 

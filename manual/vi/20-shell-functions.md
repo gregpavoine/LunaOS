@@ -1,6 +1,6 @@
 # Hàm shell
 
-Omarchy đi kèm một tập hợp các hàm shell để đơn giản hóa các tác vụ phổ biến và đóng gói những lệnh gọi tham số rườm rà.
+LunaOS đi kèm một tập hợp các hàm shell để đơn giản hóa các tác vụ phổ biến và đóng gói những lệnh gọi tham số rườm rà.
 
 ## Nén
 

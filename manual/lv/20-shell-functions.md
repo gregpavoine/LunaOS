@@ -1,6 +1,6 @@
 # Čaulas funkcijas
 
-Omarchy nāk kopā ar čaulas funkciju kopumu, kas vienkāršo ierastus uzdevumus un iekapsulē sarežģītus parametru izsaukumus.
+LunaOS nāk kopā ar čaulas funkciju kopumu, kas vienkāršo ierastus uzdevumus un iekapsulē sarežģītus parametru izsaukumus.
 
 ## Saspiešana
 

@@ -1,6 +1,6 @@
 # PDF:ien täyttäminen
 
-Omarchyssa on mukana mukava, yksinkertainen PDF-katseluohjelma nimeltä Document Viewer. Tämä on ohjelma, joka avaa kaikki PDF:t, joita vain kaksoisnapsautat.
+LunaOSssa on mukana mukava, yksinkertainen PDF-katseluohjelma nimeltä Document Viewer. Tämä on ohjelma, joka avaa kaikki PDF:t, joita vain kaksoisnapsautat.
 
 Mutta Document Viewerilla voit täyttää vain PDF:iä, jotka on valmisteltu lomakkeiksi. Jos sinun pitää täyttää PDF:iä, joita ei ole, tai jos sinun pitää allekirjoittaa PDF, käytä ohjelmaa [Signed](https://github.com/omacom/signed). Käynnistä se sovellusten käynnistimen kautta (`Super + Space`) tai napsauta tiedostoa hiiren kakkospainikkeella, valitse _Open With..._ ja valitse Signed.
 

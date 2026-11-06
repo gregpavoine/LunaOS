@@ -1,12 +1,12 @@
 # Dolazak s Maca ili Windowsa
 
-Ako ste godinama bili na macOS-u ili Windowsu, vaši prsti znaju stotinu stvari koje je vaš mozak zaboravio da ih je ikada naučio. Ovo poglavlje je prevoditeljski sloj: kuda ti nagoni vode u Omarchyju. Same značajke detaljno su obrađene drugdje — ovo je samo karta.
+Ako ste godinama bili na macOS-u ili Windowsu, vaši prsti znaju stotinu stvari koje je vaš mozak zaboravio da ih je ikada naučio. Ovo poglavlje je prevoditeljski sloj: kuda ti nagoni vode u LunaOSju. Same značajke detaljno su obrađene drugdje — ovo je samo karta.
 
 ### Super je središte svega
 
-Sva mišićna memorija koju ste izgradili oko tipke Cmd ili tipke Windows prenosi se na jednu tipku: Super. To je tipka Windows na PC tipkovnici i sidro je za gotovo svaki prečac u Omarchyju.
+Sva mišićna memorija koju ste izgradili oko tipke Cmd ili tipke Windows prenosi se na jednu tipku: Super. To je tipka Windows na PC tipkovnici i sidro je za gotovo svaki prečac u LunaOSju.
 
-Vaš refleks za Spotlight, Raycast ili izbornik Start postaje `Super + Space`. To otvara Omarchy izbornik, koji pokreće aplikacije, mijenja postavke, instalira softver, snima zaslon — gotovo sve. Počnite tipkati za filtriranje. `Super + Alt + Space` prikazuje svaku aplikaciju na jednoj mreži, onako kako to radi Launchpad. Pogledajte [navigaciju](04-navigation.md).
+Vaš refleks za Spotlight, Raycast ili izbornik Start postaje `Super + Space`. To otvara LunaOS izbornik, koji pokreće aplikacije, mijenja postavke, instalira softver, snima zaslon — gotovo sve. Počnite tipkati za filtriranje. `Super + Alt + Space` prikazuje svaku aplikaciju na jednoj mreži, onako kako to radi Launchpad. Pogledajte [navigaciju](04-navigation.md).
 
 ### Nema docka ni ikona na radnoj površini
 
@@ -22,27 +22,27 @@ Radni prostori djelovat će vam poznato: oni su macOS Spaces ili virtualne radne
 
 ### Kopiranje i lijepljenje jednostavno rade
 
-Na Macu ste posvuda imali Cmd + C. Na Windowsu ste posvuda imali Ctrl + C — osim u terminalu, gdje to ubija vaš program. Omarchy vam daje `Super + C`, `Super + X` i `Super + V`, i oni rade posvuda, uključujući terminal. Nema zasebnoga refleksa koji treba naučiti za ljusku.
+Na Macu ste posvuda imali Cmd + C. Na Windowsu ste posvuda imali Ctrl + C — osim u terminalu, gdje to ubija vaš program. LunaOS vam daje `Super + C`, `Super + X` i `Super + V`, i oni rade posvuda, uključujući terminal. Nema zasebnoga refleksa koji treba naučiti za ljusku.
 
 Ljudi s Windowsa: vaša povijest međuspremnika s Win + V živi na `Super + Ctrl + V` i drži slike jednako kao i tekst. Pogledajte [jedinstveni međuspremnik i povijest](08-unified-clipboard-history.md).
 
 ### Prevoditeljska tablica
 
-| Posežete za | U Omarchyju |
+| Posežete za | U LunaOSju |
 | ------------- | ---------- |
-| Spotlight / Raycast / izbornik Start | `Super + Space` — Omarchy izbornik |
+| Spotlight / Raycast / izbornik Start | `Super + Space` — LunaOS izbornik |
 | AirDrop | LocalSend, putem `Super + Ctrl + S` — pogledajte [GUI-je](22-guis.md) |
 | Cmd + Shift + 4 / Win + Shift + S | `Print Screen` — pogledajte [snimke zaslona i snimanje](12-screenshots-recording.md) |
 | Centar za obavijesti | Povijest obavijesti na `Super + Shift + Alt + ,` |
 | Time Machine (za sustav) | Automatski [sistemski snimci](47-system-snapshots.md) pri svakom ažuriranju |
-| App Store / preuzimanje instalacijskoga programa | _Instaliraj_ u izborniku ili `omarchy pkg add` — pogledajte [ostale pakete](29-other-packages.md) |
+| App Store / preuzimanje instalacijskoga programa | _Instaliraj_ u izborniku ili `lunaos pkg add` — pogledajte [ostale pakete](29-other-packages.md) |
 | Postavke sustava / Upravljačka ploča | _Postavke_ u izborniku, koje uređuju obične konfiguracijske datoteke — pogledajte [dotfiles](31-dotfiles.md) |
 
 ### Neke su stvari doista drukčije
 
 Mnoge postavke žive u tekstualnim datotekama koje uređujete, a ne u pločama kroz koje klikate. To zvuči primitivno dok ne shvatite da to znači da se svaka prilagodba može vidjeti, kopirati na vaš sljedeći stroj i staviti u kontrolu verzija. Izbornik _Postavke_ spušta vas ravno u pravu datoteku i ponovno pokreće što god treba ponovno pokrenuti kada završite.
 
-Ažuriranja dolaze kroz jednu naredbu — _Ažuriraj > Omarchy_ — koja ažurira sam Omarchy i svaki paket u sustavu, prethodno napravivši snimak. Nema pojedinačnih ažuriratelja aplikacija koji bi vas gnjavili nasumično. Pogledajte [ažuriranja](30-updates.md).
+Ažuriranja dolaze kroz jednu naredbu — _Ažuriraj > LunaOS_ — koja ažurira sam LunaOS i svaki paket u sustavu, prethodno napravivši snimak. Nema pojedinačnih ažuriratelja aplikacija koji bi vas gnjavili nasumično. Pogledajte [ažuriranja](30-updates.md).
 
 Softver dolazi od upravitelja paketa, a ne od preuzetih instalacijskih programa.
 
@@ -50,7 +50,7 @@ A kada zatvorite prozor, aplikacija doista prestaje s radom. Nema macOS limbe u 
 
 ### Na Mac hardveru
 
-Omarchy dobro radi na Intel Macovima — pogledajte [podršku za Mac](44-mac-support.md). A tipkovnica je ljubazna prema vama: Omarchy ništa ne premješta, a Linux tipku Command tretira kao Super, pa Super sjedi točno ondje gdje je Cmd oduvijek bio. Vaš palac neće primijetiti selidbu.
+LunaOS dobro radi na Intel Macovima — pogledajte [podršku za Mac](44-mac-support.md). A tipkovnica je ljubazna prema vama: LunaOS ništa ne premješta, a Linux tipku Command tretira kao Super, pa Super sjedi točno ondje gdje je Cmd oduvijek bio. Vaš palac neće primijetiti selidbu.
 
 ### Dajte tome dva tjedna
 

@@ -1,23 +1,23 @@
-o.bind("SUPER + SPACE", "Omarchy menu", { menu = "root" })
-o.bind("SUPER + ALT + SPACE", "Apps", "omarchy-shell omarchy.dock apps")
-o.bind("SUPER + CTRL + E", "Emojis", { panel = "omarchy.emojis" })
+o.bind("SUPER + SPACE", "LunaOS menu", { menu = "root" })
+o.bind("SUPER + ALT + SPACE", "Apps", "lunaos-shell lunaos.dock apps")
+o.bind("SUPER + CTRL + E", "Emojis", { panel = "lunaos.emojis" })
 o.bind("SUPER + CTRL + C", "Capture menu", { menu = "capture" })
 o.bind("SUPER + CTRL + O", "Toggle menu", { menu = "toggle" })
 o.bind("SUPER + CTRL + H", "Hardware menu", { menu = "hardware" })
-o.bind("SUPER + SHIFT + code:201", "Omarchy menu", { menu = "root" })
+o.bind("SUPER + SHIFT + code:201", "LunaOS menu", { menu = "root" })
 o.bind("SUPER + ESCAPE", "System menu", { menu = "system" })
 o.bind("XF86PowerOff", "Power menu", { menu = "system" }, { locked = true })
-o.bind("SUPER + K", "Keybindings", "omarchy-menu-keybindings")
-o.bind("SUPER + ALT + K", "Tmux keybindings", "omarchy-menu-tmux-keybindings")
-o.bind("SUPER + CTRL + K", "Herdr keybindings", "omarchy-menu-herdr-keybindings")
+o.bind("SUPER + K", "Keybindings", "lunaos-menu-keybindings")
+o.bind("SUPER + ALT + K", "Tmux keybindings", "lunaos-menu-tmux-keybindings")
+o.bind("SUPER + CTRL + K", "Herdr keybindings", "lunaos-menu-herdr-keybindings")
 o.bind_toggle("SUPER + SHIFT + SPACE", "Toggle top bar", "bar")
 o.bind("SUPER + CTRL + SPACE", "Background switcher", { menu = "background" })
 o.bind("SUPER + CTRL + W", "Background switcher", { menu = "background" })
 o.bind("SUPER + SHIFT + CTRL + SPACE", "Theme menu", { menu = "theme" })
 o.bind("SUPER + CTRL + T", "Theme menu", { menu = "theme" })
-o.bind("SUPER + BACKSPACE", "Toggle transparency on a window", "omarchy-hyprland-window-transparency-toggle")
-o.bind("SUPER + SHIFT + BACKSPACE", "Toggle window gaps", "omarchy-hyprland-window-gaps-toggle")
-o.bind("SUPER + CTRL + BACKSPACE", "Toggle single-window square aspect", "omarchy-hyprland-window-single-square-aspect-toggle")
+o.bind("SUPER + BACKSPACE", "Toggle transparency on a window", "lunaos-hyprland-window-transparency-toggle")
+o.bind("SUPER + SHIFT + BACKSPACE", "Toggle window gaps", "lunaos-hyprland-window-gaps-toggle")
+o.bind("SUPER + CTRL + BACKSPACE", "Toggle single-window square aspect", "lunaos-hyprland-window-single-square-aspect-toggle")
 o.bind_toggle("SUPER + CTRL + ALT + F", "Toggle full screen desktop", "fullscreen-desktop")
 
 -- xkbcommon names the comma keysym "comma"; the upper-case "COMMA" does not match.
@@ -28,23 +28,23 @@ o.bind("SUPER + ALT + comma", "Invoke last notification", { ipc = "notifications
 o.bind("SUPER + SHIFT + ALT + comma", "Open notification history", { ipc = "notifications.showHistory" })
 
 o.bind_toggle("SUPER + CTRL + I", "Toggle locking on idle", "idle")
-o.bind("SUPER + CTRL + Delete", "Toggle laptop display", "omarchy-hyprland-monitor-internal toggle")
-o.bind("SUPER + CTRL + ALT + Delete", "Toggle laptop display mirroring", "omarchy-hyprland-monitor-internal-mirror toggle")
-o.bind("switch:on:Lid Switch", nil, "omarchy-system-lid-close", { locked = true })
-o.bind("switch:off:Lid Switch", nil, "omarchy-hyprland-monitor-clamshell", { locked = true })
+o.bind("SUPER + CTRL + Delete", "Toggle laptop display", "lunaos-hyprland-monitor-internal toggle")
+o.bind("SUPER + CTRL + ALT + Delete", "Toggle laptop display mirroring", "lunaos-hyprland-monitor-internal-mirror toggle")
+o.bind("switch:on:Lid Switch", nil, "lunaos-system-lid-close", { locked = true })
+o.bind("switch:off:Lid Switch", nil, "lunaos-hyprland-monitor-clamshell", { locked = true })
 -- Apple Silicon reports its lid through the SMC, under its own switch name.
-o.bind("switch:on:Apple SMC power/lid events", nil, "omarchy-system-lid-close", { locked = true })
-o.bind("switch:off:Apple SMC power/lid events", nil, "omarchy-hyprland-monitor-clamshell", { locked = true })
+o.bind("switch:on:Apple SMC power/lid events", nil, "lunaos-system-lid-close", { locked = true })
+o.bind("switch:off:Apple SMC power/lid events", nil, "lunaos-hyprland-monitor-clamshell", { locked = true })
 
-o.bind("PRINT", "Screenshot", "omarchy-capture-screenshot")
-o.bind("SUPER + CTRL + ALT + C", "Screenshot", "omarchy-capture-screenshot")
-o.bind("ALT + PRINT", "Screenrecording", "omarchy-capture-screenrecording --stop-recording || omarchy-menu toggle trigger.capture.screenrecord")
-o.bind("SUPER + ALT + code:34", "Make webcam overlay smaller", "omarchy-capture-webcam-resize smaller")
-o.bind("SUPER + ALT + code:35", "Make webcam overlay larger", "omarchy-capture-webcam-resize larger")
+o.bind("PRINT", "Screenshot", "lunaos-capture-screenshot")
+o.bind("SUPER + CTRL + ALT + C", "Screenshot", "lunaos-capture-screenshot")
+o.bind("ALT + PRINT", "Screenrecording", "lunaos-capture-screenrecording --stop-recording || lunaos-menu toggle trigger.capture.screenrecord")
+o.bind("SUPER + ALT + code:34", "Make webcam overlay smaller", "lunaos-capture-webcam-resize smaller")
+o.bind("SUPER + ALT + code:35", "Make webcam overlay larger", "lunaos-capture-webcam-resize larger")
 o.bind("SUPER + PRINT", "Color picker", "pkill hyprpicker || hyprpicker -a")
-o.bind("SUPER + CTRL + PRINT", "Extract text (OCR) from screenshot", "omarchy-capture-text")
+o.bind("SUPER + CTRL + PRINT", "Extract text (OCR) from screenshot", "lunaos-capture-text")
 
--- Keyboard control for the slurp region picker (see omarchy-capture-region).
+-- Keyboard control for the slurp region picker (see lunaos-capture-region).
 -- The binds live exactly as long as a selection layer is on screen (slurp
 -- opens one per monitor), so they cannot leak or get stuck.
 -- Unbinding by key would take a same-key binding out of the user's own config
@@ -57,15 +57,15 @@ hl.on("layer.opened", function(layer)
     selection_layers = selection_layers + 1
     if selection_layers == 1 then
       selection_binds = {
-        hl.bind("RETURN", hl.dsp.exec_cmd("omarchy-capture-region --take-window"), { description = "Capture highlighted window" }),
-        hl.bind("CTRL + RETURN", hl.dsp.exec_cmd("omarchy-capture-region --take-fullscreen"), { description = "Capture entire screen" }),
-        hl.bind("TAB", hl.dsp.exec_cmd("omarchy-capture-region --select-window next"), { description = "Select next window to capture" }),
-        hl.bind("CTRL + TAB", hl.dsp.exec_cmd("omarchy-capture-region --select-window prev"), { description = "Select previous window to capture" }),
+        hl.bind("RETURN", hl.dsp.exec_cmd("lunaos-capture-region --take-window"), { description = "Capture highlighted window" }),
+        hl.bind("CTRL + RETURN", hl.dsp.exec_cmd("lunaos-capture-region --take-fullscreen"), { description = "Capture entire screen" }),
+        hl.bind("TAB", hl.dsp.exec_cmd("lunaos-capture-region --select-window next"), { description = "Select next window to capture" }),
+        hl.bind("CTRL + TAB", hl.dsp.exec_cmd("lunaos-capture-region --select-window prev"), { description = "Select previous window to capture" }),
       }
       for _, direction in ipairs({ "left", "right", "up", "down" }) do
         table.insert(
           selection_binds,
-          hl.bind(direction:upper(), hl.dsp.exec_cmd("omarchy-capture-region --select-window " .. direction), { description = "Select window to capture" })
+          hl.bind(direction:upper(), hl.dsp.exec_cmd("lunaos-capture-region --select-window " .. direction), { description = "Select window to capture" })
         )
       end
     end
@@ -86,24 +86,24 @@ end)
 
 o.bind("SUPER + CTRL + S", "Share", { menu = "share" })
 
-o.bind("SUPER + CTRL + PERIOD", "Transcode", "omarchy-transcode")
+o.bind("SUPER + CTRL + PERIOD", "Transcode", "lunaos-transcode")
 
 o.bind("SUPER + CTRL + R", "Set reminder", { menu = "reminder-set" })
-o.bind("SUPER + CTRL + ALT + R", "Show reminders", "omarchy-reminder show")
-o.bind("SUPER + SHIFT + CTRL + R", "Clear reminders", "omarchy-reminder clear")
+o.bind("SUPER + CTRL + ALT + R", "Show reminders", "lunaos-reminder show")
+o.bind("SUPER + SHIFT + CTRL + R", "Clear reminders", "lunaos-reminder clear")
 
-o.bind("SUPER + CTRL + ALT + T", "Show time", "omarchy-notification-time")
-o.bind("SUPER + CTRL + ALT + B", "Show battery remaining", "omarchy-notification-battery")
-o.bind("SUPER + CTRL + ALT + W", "Toggle weather", "omarchy-notification-weather")
+o.bind("SUPER + CTRL + ALT + T", "Show time", "lunaos-notification-time")
+o.bind("SUPER + CTRL + ALT + B", "Show battery remaining", "lunaos-notification-battery")
+o.bind("SUPER + CTRL + ALT + W", "Toggle weather", "lunaos-notification-weather")
 
-o.bind("SUPER + SHIFT + CTRL + A", "Agent", "omarchy-agent --pick")
-o.bind("SUPER + CTRL + A", "Audio", { panel = "omarchy.audio" })
-o.bind("SUPER + CTRL + B", "Bluetooth", { panel = "omarchy.bluetooth" })
-o.bind("SUPER + CTRL + D", "Display", { panel = "omarchy.monitor" })
-o.bind("SUPER + CTRL + ALT + D", "Calendar", { panel = "omarchy.clock" })
-o.bind("SUPER + CTRL + ALT + E", "World clock", { panel = "omarchy.elsewhen" })
-o.bind("SUPER + CTRL + N", "Network", { panel = "omarchy.network" })
-o.bind("SUPER + CTRL + P", "Power", { panel = "omarchy.power" })
+o.bind("SUPER + SHIFT + CTRL + A", "Agent", "lunaos-agent --pick")
+o.bind("SUPER + CTRL + A", "Audio", { panel = "lunaos.audio" })
+o.bind("SUPER + CTRL + B", "Bluetooth", { panel = "lunaos.bluetooth" })
+o.bind("SUPER + CTRL + D", "Display", { panel = "lunaos.monitor" })
+o.bind("SUPER + CTRL + ALT + D", "Calendar", { panel = "lunaos.clock" })
+o.bind("SUPER + CTRL + ALT + E", "World clock", { panel = "lunaos.elsewhen" })
+o.bind("SUPER + CTRL + N", "Network", { panel = "lunaos.network" })
+o.bind("SUPER + CTRL + P", "Power", { panel = "lunaos.power" })
 o.bind("SUPER + SHIFT + T", "Activity", { tui = "btop" })
 
 -- The letters above name a panel; the numbers count them. 1 is the leftmost
@@ -114,7 +114,7 @@ for panel = 1, 9 do
   o.bind(
     "SUPER + CTRL + code:" .. tostring(panel + 9),
     "Bar panel " .. panel,
-    "omarchy-shell -q shell togglePanelAt right " .. panel
+    "lunaos-shell -q shell togglePanelAt right " .. panel
   )
 end
 
@@ -127,4 +127,4 @@ o.bind("SUPER + CTRL + ALT + Z", "Reset zoom", function()
   hl.config({ cursor = { zoom_factor = 1 } })
 end)
 
-o.bind("SUPER + CTRL + L", "Lock system", "omarchy-system-lock")
+o.bind("SUPER + CTRL + L", "Lock system", "lunaos-system-lock")

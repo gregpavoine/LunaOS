@@ -12,17 +12,17 @@ call_log="$test_tmp/calls"
 runtime_dir="$test_tmp/runtime"
 mkdir -p "$mock_bin" "$runtime_dir"
 
-cat >"$mock_bin/omarchy-hyprland-monitor-focused-apple" <<'SH'
+cat >"$mock_bin/lunaos-hyprland-monitor-focused-apple" <<'SH'
 #!/bin/bash
 exit 1
 SH
 
-cat >"$mock_bin/omarchy-hyprland-monitor-focused" <<'SH'
+cat >"$mock_bin/lunaos-hyprland-monitor-focused" <<'SH'
 #!/bin/bash
 printf '%s\n' "${FOCUSED_MONITOR:-eDP-1}"
 SH
 
-cat >"$mock_bin/omarchy-hw-display" <<'SH'
+cat >"$mock_bin/lunaos-hw-display" <<'SH'
 #!/bin/bash
 printf 'mock_backlight\n'
 SH
@@ -58,10 +58,10 @@ chmod +x "$mock_bin"/*
 # installed) and its DRM connectors from a fixture directory.
 platform_root="$test_tmp/platform"
 mkdir -p "$platform_root" "$test_tmp/copy"
-brightness_display="$test_tmp/copy/omarchy-brightness-display"
-platform_root_copy "$ROOT/bin/omarchy-brightness-display" "$brightness_display" "$platform_root"
+brightness_display="$test_tmp/copy/lunaos-brightness-display"
+platform_root_copy "$ROOT/bin/lunaos-brightness-display" "$brightness_display" "$platform_root"
 sed -i "s|/sys/class/drm|$test_tmp/drm|g" "$brightness_display"
-grep -qF "$test_tmp/drm/card" "$brightness_display" || fail "omarchy-brightness-display reads DRM connectors from the fixture"
+grep -qF "$test_tmp/drm/card" "$brightness_display" || fail "lunaos-brightness-display reads DRM connectors from the fixture"
 
 run_brightness() {
   CALL_LOG="$call_log" XDG_RUNTIME_DIR="$runtime_dir" \
@@ -111,7 +111,7 @@ fi
   fail "unsupported external monitor detection is temporarily cached"
 pass "unsupported external monitor has no brightness backend"
 
-rm -f "$runtime_dir/omarchy-brightness-display-ddc/DP-1.bus"
+rm -f "$runtime_dir/lunaos-brightness-display-ddc/DP-1.bus"
 detect_count=$(grep -c ' detect --brief' "$call_log")
 if DDC_READ_FAIL=1 run_brightness --monitor DP-1 >/dev/null 2>&1; then
   fail "transient DDC read failure is reported"
@@ -124,7 +124,7 @@ brightness=$(run_brightness --monitor DP-1)
   fail "transient DDC read failure does not create a negative cache entry"
 pass "transient DDC read failure is retried on the next invocation"
 
-printf '7 80 0\n' >"$runtime_dir/omarchy-brightness-display-ddc/DP-1.bus"
+printf '7 80 0\n' >"$runtime_dir/lunaos-brightness-display-ddc/DP-1.bus"
 get_count=$(grep -c ' getvcp 10 ' "$call_log")
 DDC_MAXIMUM=100 run_brightness --no-osd --monitor DP-1 50%
 (( $(grep -c ' getvcp 10 ' "$call_log") == get_count + 1 )) || \
@@ -133,7 +133,7 @@ grep -F 'ddcutil --bus 7 --skip-ddc-checks --noverify setvcp 10 50' "$call_log" 
   fail "expired external brightness range uses the refreshed maximum"
 pass "expired external brightness range is refreshed"
 
-rm -f "$runtime_dir/omarchy-brightness-display-ddc/DP-1.bus"
+rm -f "$runtime_dir/lunaos-brightness-display-ddc/DP-1.bus"
 DDC_CURRENT=4 DDC_MAXIMUM=100 run_brightness --no-osd --monitor DP-1 +5%
 grep -F 'ddcutil --bus 7 --skip-ddc-checks --noverify setvcp 10 5' "$call_log" >/dev/null || \
   fail "external low brightness writes the one-percent target"
@@ -148,9 +148,9 @@ printf '%s\n' '[
 SH
 chmod +x "$mock_bin/hyprctl"
 
-PATH="$mock_bin:$PATH" "$ROOT/bin/omarchy-hyprland-monitor-focused-apple" DP-2 || \
+PATH="$mock_bin:$PATH" "$ROOT/bin/lunaos-hyprland-monitor-focused-apple" DP-2 || \
   fail "named Apple display is detected independently of focus"
-if PATH="$mock_bin:$PATH" "$ROOT/bin/omarchy-hyprland-monitor-focused-apple"; then
+if PATH="$mock_bin:$PATH" "$ROOT/bin/lunaos-hyprland-monitor-focused-apple"; then
   fail "focused non-Apple display is not detected as Apple"
 fi
 pass "named Apple display is detected independently of focus"
@@ -178,17 +178,17 @@ brightness=$(run_brightness --monitor eDP-1)
 (( brightness == 40 )) || fail "the built-in panel still uses the kernel backlight" "actual: $brightness"
 pass "a platform without DDC channels skips DDC for a connector without one"
 
-rm -f "$runtime_dir/omarchy-brightness-display-ddc/"*
+rm -f "$runtime_dir/lunaos-brightness-display-ddc/"*
 : >"$test_tmp/drm/card2-USB-1/ddc"
 brightness=$(DDC_CONNECTOR=USB-1 run_brightness --monitor USB-1)
 (( brightness == 50 )) || fail "an external monitor with a ddc node uses DDC" "actual: $brightness"
 pass "a platform without DDC channels still uses DDC where a connector has one"
 
 # Without the directive, every external monitor is probed, ddc node or not.
-rm -f "$runtime_dir/omarchy-brightness-display-ddc/"* "$test_tmp/drm/card2-USB-1/ddc"
+rm -f "$runtime_dir/lunaos-brightness-display-ddc/"* "$test_tmp/drm/card2-USB-1/ddc"
 for conf in "" "ddc-require-connector-ddc extra" "ddc-future"; do
   printf '%s\n' "$conf" >"$platform_root/displays.conf"
-  rm -f "$runtime_dir/omarchy-brightness-display-ddc/"*
+  rm -f "$runtime_dir/lunaos-brightness-display-ddc/"*
   brightness=$(DDC_CONNECTOR=USB-1 run_brightness --monitor USB-1)
   (( brightness == 50 )) || fail "an external monitor is probed without the directive" "conf: $conf, actual: $brightness"
 done

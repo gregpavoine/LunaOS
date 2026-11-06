@@ -1,14 +1,14 @@
 # A felső sáv
 
-A képernyőd tetején végigfutó csík az Omarchy sáv. Ez nem egy odacsavarozott állapotsáv, hanem az Omarchy shell része, annak az egyetlen hosszú futású Quickshell-folyamatnak a része, amely a menüt, az értesítéseket, az OSD-felugró ablakokat és a zárolási képernyőt is rajzolja. Ezért illeszkedik tökéletesen minden máshoz a témában, és ezért nyílik meg egy panel azonnal, ahelyett, hogy új appot indítana.
+A képernyőd tetején végigfutó csík az LunaOS sáv. Ez nem egy odacsavarozott állapotsáv, hanem az LunaOS shell része, annak az egyetlen hosszú futású Quickshell-folyamatnak a része, amely a menüt, az értesítéseket, az OSD-felugró ablakokat és a zárolási képernyőt is rajzolja. Ezért illeszkedik tökéletesen minden máshoz a témában, és ezért nyílik meg egy panel azonnal, ahelyett, hogy új appot indítana.
 
 Ez az asztal egyetlen olyan része is, amely mindig a képernyőn van, ezért érdemes tudni, mit csinálnak azok a kis jelek mind.
 
 ## Mi van rajta alapértelmezetten
 
-A sávnak három szakasza van. A bal oldalon ül az Omarchy logó (a menüindító) és a munkaterület-jelzők. Középen kapod meg az állapotjelzőket, az órát, az Elsewhen világórát, az időjárást és egy Omarchy-frissítési jelvényt. A jobb oldalon: a billentyűzetkiosztás (ha egynél több van beállítva), a rendszertálca, az agentek, a bluetooth, a hálózat, a hang, a kijelző és az energia.
+A sávnak három szakasza van. A bal oldalon ül az LunaOS logó (a menüindító) és a munkaterület-jelzők. Középen kapod meg az állapotjelzőket, az órát, az Elsewhen világórát, az időjárást és egy LunaOS-frissítési jelvényt. A jobb oldalon: a billentyűzetkiosztás (ha egynél több van beállítva), a rendszertálca, az agentek, a bluetooth, a hálózat, a hang, a kijelző és az energia.
 
-Néhány közülük csak akkor jelenik meg, ha van mondanivalója. A billentyűzetkiosztás csak akkor jelenik meg, ha egynél több kiosztást állítottál be. A frissítési jelvény csak akkor jelenik meg, ha egy Omarchy-frissítés vár rád. Az agentek ikonja pedig akkor jelenik meg először, amikor az Omarchy AI-kódolási használatot talál a gépen (lásd az [AI-t](17-ai.md)).
+Néhány közülük csak akkor jelenik meg, ha van mondanivalója. A billentyűzetkiosztás csak akkor jelenik meg, ha egynél több kiosztást állítottál be. A frissítési jelvény csak akkor jelenik meg, ha egy LunaOS-frissítés vár rád. Az agentek ikonja pedig akkor jelenik meg először, amikor az LunaOS AI-kódolási használatot talál a gépen (lásd az [AI-t](17-ai.md)).
 
 ## Kattintgatás
 
@@ -16,7 +16,7 @@ Szinte minden widget csinál valamit bal, jobb és középső kattintásra, és 
 
 | Widget | Bal | Jobb | Középső / görgetés |
 | --- | --- | --- | --- |
-| Menü | Omarchy menü | Új terminál | — |
+| Menü | LunaOS menü | Új terminál | — |
 | Munkaterületek | Fókusz arra a munkaterületre | — | Görgetés: következő/előző munkaterület |
 | Óra | Naptár-felugró ablak | A címkeformátum váltása | Középső: időzóna-választó |
 | Időjárás | Előrejelzés-felugró ablak | Teljes időjárás értesítésként | Középső: frissítés |
@@ -29,7 +29,7 @@ Szinte minden widget csinál valamit bal, jobb és középső kattintásra, és 
 | Média | Lejátszás/szünet | Borítókép-felugró ablak | Középső: következő · görgetés: előző/következő |
 | Agentek | Agentpanel | Az agented indítása | Középső: következő előfizetés |
 | Tálca | Hoverrel a fiók előhozása | Jobb kattintás a chevronon a kezeléshez | — |
-| Omarchy-frissítés | A frissítés futtatása | — | — |
+| LunaOS-frissítés | A frissítés futtatása | — | — |
 
 Ebben a táblázatban nem minden van kint a sávodon a dobozból kivéve. A médiawidget (MPRIS now-playing, görgetődő szám- és előadócímmel) és a mikrofonwidget is beépített, de alapértelmezetten ki vannak kapcsolva — add hozzá őket, ha szeretnéd, az alábbiak szerint.
 
@@ -65,7 +65,7 @@ A `Super + Ctrl + 1-9` a jobb szakaszban számolja a paneleket balról jobbra, k
 
 Két további widget csak akkor jelenik meg a sávon, ha a megfelelő szolgáltatást a **Telepítés → Szolgáltatás** pontból telepíted, és mindkettőről érdemes tudni, mert többet tesznek, mint hogy állapotot jelentenek.
 
-A **Tailscale** panel csatlakoztatja és leválasztja a tailnetet, vált a fiókok között, és kiválaszt egy exit node-ot (a saját gépeid és a Mullvad-régiók egyaránt megjelennek ezen a listán). Böngészni is lehet vele a gépeid között — és ha egyet kiválasztasz, az `s` fájlokat küld neki Taildroppal, amely a leggyorsabb módja annak, hogy egy fájlt a telefonodra vagy egy másik laptopra mozgass. A `c` másolja a gép IP-jét, az `n` a nevét és a `d` a teljes DNS-nevét. Minden gépsoron van küldés gomb is, ha inkább kattintanál. Terminálból ugyanez: `omarchy tailscale send <machine> [file...]`.
+A **Tailscale** panel csatlakoztatja és leválasztja a tailnetet, vált a fiókok között, és kiválaszt egy exit node-ot (a saját gépeid és a Mullvad-régiók egyaránt megjelennek ezen a listán). Böngészni is lehet vele a gépeid között — és ha egyet kiválasztasz, az `s` fájlokat küld neki Taildroppal, amely a leggyorsabb módja annak, hogy egy fájlt a telefonodra vagy egy másik laptopra mozgass. A `c` másolja a gép IP-jét, az `n` a nevét és a `d` a teljes DNS-nevét. Minden gépsoron van küldés gomb is, ha inkább kattintanál. Terminálból ugyanez: `lunaos tailscale send <machine> [file...]`.
 
 A **Dropbox** panel kezeli a bejelentkezést, mutatja, mennyi tárhelyet használtál el, és felsorolja a nemrég szinkronizált fájlokat.
 
@@ -90,19 +90,19 @@ Ha inkább menüből választanál, a **Trigger → Appearance → Menu Bar** po
 Ugyanezekhez parancsok is tartoznak, amelyeket egy [dotfiles](31-dotfiles.md) beállításhoz szeretnél:
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Egy widget teljes hozzáadásához vagy eltávolításához használd a pluginparancsokat. Az `omarchy plugin list` minden widgetet kiír, amelyet a shell ismer, az azonosítójával együtt, majd:
+Egy widget teljes hozzáadásához vagy eltávolításához használd a pluginparancsokat. Az `lunaos plugin list` minden widgetet kiír, amelyet a shell ismer, az azonosítójával együtt, majd:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## A sáv elrejtése
@@ -111,7 +111,7 @@ A `Super + Shift + Space` ki- és bekapcsolja a sávot a shell leállítása né
 
 ## A konfigurációs fájl
 
-Mindez a `~/.config/omarchy/shell.json` fájlban tárolódik, a `bar` kulcs alatt. Íme egy kurtított változat:
+Mindez a `~/.config/lunaos/shell.json` fájlban tárolódik, a `bar` kulcs alatt. Íme egy kurtított változat:
 
 ```json
 {
@@ -119,20 +119,20 @@ Mindez a `~/.config/omarchy/shell.json` fájlban tárolódik, a `bar` kulcs alat
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Minden widget egyetlen bejegyzés a három layout-tömb egyikében, és a beállításai soron belül, azon a bejegyzésen ülnek — nincs külön beállításfájl és nincs `config` alobjektum. Az óra `format`, `formatAlt` (amire a jobb kattintás ciklusban vált) és `verticalFormat` értékei mind ott élnek a `{ "id": "omarchy.clock" }` bejegyzésen.
+Minden widget egyetlen bejegyzés a három layout-tömb egyikében, és a beállításai soron belül, azon a bejegyzésen ülnek — nincs külön beállításfájl és nincs `config` alobjektum. Az óra `format`, `formatAlt` (amire a jobb kattintás ciklusban vált) és `verticalFormat` értékei mind ott élnek a `{ "id": "lunaos.clock" }` bejegyzésen.
 
 A `centerAnchor` nevezi meg azt az egyetlen középső widgetet, amely a képernyő pontos közepére rögzül, a többi pedig körülötte. Így marad az óra halottan középen, még akkor is, amikor az időjárás és a frissítési jelvény jön és megy. Állítsd üres stringre, és a középső lista ehelyett csak csoportként középeződik.
 
-Egy érdemes beidegzendő szabály: **ha egyszer megvan a saját `shell.json` fájlod, az a mérvadó**. Amíg semmit sem szabtál testre, a shell az Omarchy alapértelmezett fájlját olvassa. Abban a pillanatban, amikor egy widgetet húzol, az `omarchy bar` parancsot futtatod, vagy magad szerkeszted a fájlt, a tiéd lesz — nincs mély egyesítés, így a jövőbeli Omarchy-kiadások új alapértelmezett widgetei nem jelennek meg automatikusan a sávodon. Az `omarchy bar defaults` bármikor visszaállítja a szállított kiosztást, amikor tiszta lapot szeretnél.
+Egy érdemes beidegzendő szabály: **ha egyszer megvan a saját `shell.json` fájlod, az a mérvadó**. Amíg semmit sem szabtál testre, a shell az LunaOS alapértelmezett fájlját olvassa. Abban a pillanatban, amikor egy widgetet húzol, az `lunaos bar` parancsot futtatod, vagy magad szerkeszted a fájlt, a tiéd lesz — nincs mély egyesítés, így a jövőbeli LunaOS-kiadások új alapértelmezett widgetei nem jelennek meg automatikusan a sávodon. Az `lunaos bar defaults` bármikor visszaállítja a szállított kiosztást, amikor tiszta lapot szeretnél.
 
 Ugyanez a fájl a `bar` kulcson kívül, legfelső szinten az üresjárati időzítéseidet is tárolja: `idle.screensaver` és `idle.lock`, mindkettő másodpercben attól számítva, hogy mikor mentél üresjáratba. Így az alapértelmezett képernyővédő 150 másodpercnél kapcsol be, a zárolás pedig 300-nál.

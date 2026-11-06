@@ -6,7 +6,7 @@ Du kan se alle de vigtigste tastaturbindinger med `Super + K` (Tmux-bindinger me
 
 | Genvejstast                  | Funktion              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy-menu (apps og alt andet)    |
+| `Super + Space`           | LunaOS-menu (apps og alt andet)    |
 | `Super + Alt + Space` | Appgitter |
 | `Super + Escape` | Systemmenu (hvile, genstart osv.)  |
 | `Super + Ctrl + L` | Lås computeren |
@@ -136,7 +136,7 @@ Du kan se alle de vigtigste tastaturbindinger med `Super + K` (Tmux-bindinger me
 | `Super + V`           | Indsæt    |
 | `Super + Ctrl + V`           | Udklipsholderhåndtering    |
 
-Normalt på Linux skal du bruge `Ctrl + Shift + C/V` til at kopiér-og-indsætte i terminalen og `Ctrl + C/V` til at gøre det alle andre steder. Disse samlede Omarchy-udklipsholdergenveje virker overalt.
+Normalt på Linux skal du bruge `Ctrl + Shift + C/V` til at kopiér-og-indsætte i terminalen og `Ctrl + C/V` til at gøre det alle andre steder. Disse samlede LunaOS-udklipsholdergenveje virker overalt.
 
 ## Optag
 
@@ -156,7 +156,7 @@ Normalt på Linux skal du bruge `Ctrl + Shift + C/V` til at kopiér-og-indsætte
 
 Ved skærmoptagelser spørger genvejstasten først, hvilken lyd du ønsker, og starter derefter optagelsen. Tryk på den igen for at stoppe. Se [skærmbilleder og optagelse](12-screenshots-recording.md) for detaljerne.
 
-Alle optagelsesmuligheder er også tilgængelige under _Udløs > Optag_ i Omarchy-menuen (`Super + Space`).
+Alle optagelsesmuligheder er også tilgængelige under _Udløs > Optag_ i LunaOS-menuen (`Super + Space`).
 
 ## Notifikationer
 
@@ -177,9 +177,9 @@ Alle optagelsesmuligheder er også tilgængelige under _Udløs > Optag_ i Omarch
 | `Super + Backspace` | Slå gennemsigtighed til/fra på et vindue |
 | `Super + Ctrl + Backspace` | Slå kvadratisk format til/fra for enkeltvindue |
 
-Ekstra baggrundsbilleder bor i `~/.config/omarchy/backgrounds/<theme name>`. Også tilgængelige via _Installer > Stil > Baggrund_ i Omarchy-menuen.
+Ekstra baggrundsbilleder bor i `~/.config/lunaos/backgrounds/<theme name>`. Også tilgængelige via _Installer > Stil > Baggrund_ i LunaOS-menuen.
 
-Alle stilmuligheder er også tilgængelige under _Stil_ i Omarchy-menuen (`Super + Space`).
+Alle stilmuligheder er også tilgængelige under _Stil_ i LunaOS-menuen (`Super + Space`).
 
 ## Til/fra
 
@@ -281,7 +281,7 @@ Disse funktioner skal køres inde i en Tmux-session.
 
 ## Ghostty-terminal
 
-Ghostty-terminalen installeres med _Installer > Terminal_ via Omarchy-menuen.
+Ghostty-terminalen installeres med _Installer > Terminal_ via LunaOS-menuen.
 
 | Genvejstast                  | Funktion              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Du kan bruge `Super + Ctrl + E` til at vise en komplet emojivælger, som lægger
 | `Shift + CapsLock Space N` | Dit navn (som indtastet ved opsætning)  |
 | `Shift + CapsLock Space E` | Din e-mail (som indtastet ved opsætning)  |
 
-Du kan tilføje flere af dine egne ved at redigere `~/.XCompose` og derefter køre `omarchy-restart-xcompose` i terminalen for at få ændringerne fanget.
+Du kan tilføje flere af dine egne ved at redigere `~/.XCompose` og derefter køre `lunaos-restart-xcompose` i terminalen for at få ændringerne fanget.

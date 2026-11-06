@@ -1,8 +1,8 @@
 # Navegação
 
-Tudo no Omarchy acontece pelo teclado — _TUDO!_ Quando o sistema inicia pela primeira vez, você literalmente não consegue fazer nada só com o mouse. Mas você pode pressionar `Super + Space` para revelar o Menu do Omarchy e, a partir daí, fazer praticamente tudo.
+Tudo no LunaOS acontece pelo teclado — _TUDO!_ Quando o sistema inicia pela primeira vez, você literalmente não consegue fazer nada só com o mouse. Mas você pode pressionar `Super + Space` para revelar o Menu do LunaOS e, a partir daí, fazer praticamente tudo.
 
-Mas o menu do Omarchy nem sequer foi pensado para ser a principal forma de operar o sistema na maior parte do tempo. Dá para ser mais rápido que isso! Todos os aplicativos mais importantes estão vinculados diretamente a teclas de atalho individuais. Você inicia o terminal com `Super + Return` e um navegador com `Super + Shift + Return`. Tente fazer um depois do outro e você verá a magia do tiling do Hyprland em ação:
+Mas o menu do LunaOS nem sequer foi pensado para ser a principal forma de operar o sistema na maior parte do tempo. Dá para ser mais rápido que isso! Todos os aplicativos mais importantes estão vinculados diretamente a teclas de atalho individuais. Você inicia o terminal com `Super + Return` e um navegador com `Super + Shift + Return`. Tente fazer um depois do outro e você verá a magia do tiling do Hyprland em ação:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Você também pode entrar em tela cheia com `Super + F`, ou até apenas em largu
 
 ### Dwindle vs layout scrolling
 
-O layout padrão do Omarchy se chama dwindle. Ele mantém todas as janelas que você abre em uma única área de trabalho visíveis o tempo todo, mesmo que precise encolhê-las.
+O layout padrão do LunaOS se chama dwindle. Ele mantém todas as janelas que você abre em uma única área de trabalho visíveis o tempo todo, mesmo que precise encolhê-las.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Uma área de trabalho flutuante funciona como uma área de trabalho tradicional: as janelas se sobrepõem, e você move e dimensiona elas por conta própria. Cada janela ganha uma barra de título nas cores do seu tema, com botões para minimizar, maximizar e fechar. `Super + M` também minimiza a janela em foco. Uma janela minimizada aguarda no dock; clique no aplicativo dela para trazê-la de volta. Clique em uma janela para trazê-la para a frente. Redimensione ela a partir de qualquer borda ou canto. Clique duas vezes em uma barra de título para maximizar a janela mantendo a barra superior à vista, e de novo para recuperar o tamanho antigo dela.
 
-Uma área de trabalho flutuante também mostra um dock, com seus aplicativos fixados, tudo o que está em execução, e uma grade com todos os aplicativos atrás do botão de aplicativos, que `Super + Alt + Space` e _Apps_ no menu do Omarchy também abrem. Clique com o botão direito em um aplicativo na grade, ou pressione `Delete`, para desinstalá-lo. Clique em um aplicativo para abri-lo, ou para trazer a janela dele para a frente; clique novamente para alternar entre as janelas dele em ciclo. O clique com o botão do meio abre uma nova janela. Arraste um ícone ao longo do dock para movê-lo; arrastar um aplicativo em execução para o meio dos outros mantém ele ali. Clique com o botão direito para manter um aplicativo no dock, tirá-lo de lá ou encerrá-lo. O dock sai do caminho de uma janela em tela cheia. Clique com o botão direito no botão de aplicativos para mover o dock para outra borda ou fazer ele se esconder até que o ponteiro alcance a borda dele. A posição também fica em _Trigger > Appearance > Dock > Dock Position_, e `omarchy dock position left` e `omarchy dock autohide on` definem as duas coisas a partir de um terminal. Os aplicativos que você mantém no dock ficam esmaecidos enquanto não estão em execução.
+Uma área de trabalho flutuante também mostra um dock, com seus aplicativos fixados, tudo o que está em execução, e uma grade com todos os aplicativos atrás do botão de aplicativos, que `Super + Alt + Space` e _Apps_ no menu do LunaOS também abrem. Clique com o botão direito em um aplicativo na grade, ou pressione `Delete`, para desinstalá-lo. Clique em um aplicativo para abri-lo, ou para trazer a janela dele para a frente; clique novamente para alternar entre as janelas dele em ciclo. O clique com o botão do meio abre uma nova janela. Arraste um ícone ao longo do dock para movê-lo; arrastar um aplicativo em execução para o meio dos outros mantém ele ali. Clique com o botão direito para manter um aplicativo no dock, tirá-lo de lá ou encerrá-lo. O dock sai do caminho de uma janela em tela cheia. Clique com o botão direito no botão de aplicativos para mover o dock para outra borda ou fazer ele se esconder até que o ponteiro alcance a borda dele. A posição também fica em _Trigger > Appearance > Dock > Dock Position_, e `lunaos dock position left` e `lunaos dock autohide on` definem as duas coisas a partir de um terminal. Os aplicativos que você mantém no dock ficam esmaecidos enquanto não estão em execução.
 
-Novas áreas de trabalho, e qualquer uma à qual você não tenha dado um layout próprio com `Super + L`, usam o layout padrão. Mudar o padrão redefine para ele todas as áreas de trabalho sem janelas, enquanto uma com janelas mantém o layout que ela tem. Uma janela minimizada para o dock ainda conta como uma janela na área de trabalho de onde ela saiu. Escolha ele em _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling ou Floating. `omarchy-hyprland-workspace-layout-default scrolling` define isso a partir de um terminal.
+Novas áreas de trabalho, e qualquer uma à qual você não tenha dado um layout próprio com `Super + L`, usam o layout padrão. Mudar o padrão redefine para ele todas as áreas de trabalho sem janelas, enquanto uma com janelas mantém o layout que ela tem. Uma janela minimizada para o dock ainda conta como uma janela na área de trabalho de onde ela saiu. Escolha ele em _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling ou Floating. `lunaos-hyprland-workspace-layout-default scrolling` define isso a partir de um terminal.
 
 ### Agrupando janelas
 

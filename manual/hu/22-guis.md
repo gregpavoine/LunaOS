@@ -20,11 +20,11 @@ Az Obsidian minden célra ingyenes, beleértve a személyes, kereskedelmi és no
 
 Az Obsidian [kereskedelmi szinkronizálási kiegészítőt](https://obsidian.md/sync) is kínál iOS- és Android-mobilalkalmazásokkal. (https://obsidian.md/pricing).
 
-Az Obsidiant a `Super + Shift + O` kombinációval indítod. A témaszinkronizáláshoz a beállításokban ki kell választanod az `Omarchy` témát.
+Az Obsidiant a `Super + Shift + O` kombinációval indítod. A témaszinkronizáláshoz a beállításokban ki kell választanod az `LunaOS` témát.
 
 ## Omawrite
 
-Az [Omawrite](https://github.com/omacom-io/omawrite) az Omarchy saját, végtelenül egyszerű Markdown-íróalkalmazása. Nincsenek adattárak, nincsenek bővítmények, csak te és a szavaid.
+Az [Omawrite](https://github.com/omacom-io/omawrite) az LunaOS saját, végtelenül egyszerű Markdown-íróalkalmazása. Nincsenek adattárak, nincsenek bővítmények, csak te és a szavaid.
 
 Az Omawrite-ot a `Super + Shift + W` kombinációval indítod.
 
@@ -44,18 +44,18 @@ Az Aethert az alkalmazásindítón keresztül indíthatod (`Super + Space`).
 
 A [LocalSend](https://localsend.org/) segítségével fájlokat küldhetsz ugyanazon a hálózaton lévő, az alkalmazást futtató más eszközökre, mint az Apple AirDropja. Azonban többplatformos, így Windowsra, macOS-re, Androidra, iOS-re és természetesen Linuxra is küldhetsz és fogadhatsz fájlokat.
 
-A Megosztás menüt a `Super + Ctrl + S` billentyűvel vagy az Omarchy menü _Trigger > Share_ pontjában nyithatod meg. Négy lehetőséget ad:
+A Megosztás menüt a `Super + Ctrl + S` billentyűvel vagy az LunaOS menü _Trigger > Share_ pontjában nyithatod meg. Négy lehetőséget ad:
 
 - A **Clipboard** szövegfájlként küldi el, bármit is másoltál. Nagyszerű ahhoz, hogy egy hivatkozást vagy egy kódrészletet a telefonodra juttass anélkül, hogy magadnak e-maileznél.
 - A **File** megnyit egy fájlválasztót, ahol egyszerre többet választhatsz ki.
 - A **Folder** egy teljes könyvtárat küld.
 - A **Receive** megnyitja magát a LocalSend-et, hogy egy másik eszköz küldhessen neked valamit.
 
-Ugyanez működik terminálból is az `omarchy share clipboard`, az `omarchy share file [path]` és az `omarchy share folder [path]` paranccsal. Hagyd le az elérési utat, és megkapod a fájlválasztót.
+Ugyanez működik terminálból is az `lunaos share clipboard`, az `lunaos share file [path]` és az `lunaos share folder [path]` paranccsal. Hagyd le az elérési utat, és megkapod a fájlválasztót.
 
 Küldhetsz közvetlenül a fájlkezelőből is: kattints jobb gombbal bármely kiválasztásra a Nautilusban, és válaszd az _Send via LocalSend_ lehetőséget.
 
-Az Omarchy tűzfala alapértelmezetten zárva van, kivéve a LocalSend portját, így ez frissen telepített rendszeren is azonnal működik. Lásd a [security](48-security.md) részt.
+Az LunaOS tűzfala alapértelmezetten zárva van, kivéve a LocalSend portját, így ez frissen telepített rendszeren is azonnal működik. Lásd a [security](48-security.md) részt.
 
 ## LibreOffice
 
@@ -65,19 +65,19 @@ A LibreOffice-t az alkalmazásindítón keresztül indíthatod (`Super + Space`)
 
 ## Hype
 
-A [Hype](https://github.com/omacom/hype) az Omarchy saját, végtelenül egyszerű prezentációs alkalmazása. A diavetítésed egy egyetlen Markdown-fájl a képeivel és videóival mellette: minden diát egy élő előnézet alá írj, húzd rendezett sorba a diákat, majd mutasd be teljes képernyőn vagy exportáld PDF-be és PowerPointba. Még az Omarchy-témádat is átveszi.
+A [Hype](https://github.com/omacom/hype) az LunaOS saját, végtelenül egyszerű prezentációs alkalmazása. A diavetítésed egy egyetlen Markdown-fájl a képeivel és videóival mellette: minden diát egy élő előnézet alá írj, húzd rendezett sorba a diákat, majd mutasd be teljes képernyőn vagy exportáld PDF-be és PowerPointba. Még az LunaOS-témádat is átveszi.
 
 A Hype-ot az alkalmazásindítón keresztül indíthatod (`Super + Space`). Nyomd meg a `?` billentyűt belül az összes gyorsbillentyű megtekintéséhez.
 
 ## Signed
 
-A [Signed](https://github.com/omacom/signed) az Omarchy saját, végtelenül egyszerű módja PDF-ek aláírására és kitöltésére. Tedd a tárolt aláírásodat, szövegedet és a mai dátumot az oldal bármely részére, majd ments el egy aláírt példányt az eredeti mellé. A hogyanról lásd a [Filling out PDFs](27-filling-out-pdfs.md) részt.
+A [Signed](https://github.com/omacom/signed) az LunaOS saját, végtelenül egyszerű módja PDF-ek aláírására és kitöltésére. Tedd a tárolt aláírásodat, szövegedet és a mai dátumot az oldal bármely részére, majd ments el egy aláírt példányt az eredeti mellé. A hogyanról lásd a [Filling out PDFs](27-filling-out-pdfs.md) részt.
 
 A Signedet az alkalmazásindítón keresztül indíthatod (`Super + Space`), vagy nyiss meg vele egy PDF-et a fájlkezelőből.
 
 ## Omacalc
 
-Az [Omacalc](https://github.com/omacom-io/omacalc) az Omarchy saját, végtelenül egyszerű számológépe, amely lebegő ablakban nyílik.
+Az [Omacalc](https://github.com/omacom-io/omacalc) az LunaOS saját, végtelenül egyszerű számológépe, amely lebegő ablakban nyílik.
 
 Az Omacalcot a `Super + Ctrl + Q` kombinációval indíthatod (vagy a számológép-billentyűvel, ha a billentyűzete rendelkezik ilyennel).
 
@@ -85,7 +85,7 @@ Az Omacalcot a `Super + Ctrl + Q` kombinációval indíthatod (vagy a számológ
 
 A [Signal](https://signal.org/) az E2E-titkosítás úttörője, és nagyszerű kommunikációs lehetőség bárki számára, aki szeretné elkerülni a nagy technológiai konglomerátumokat.
 
-A Signalt a `Super + Shift + G` kombinációval indíthatod. Nem része az alaptelepítésnek, így az első alkalommal, amikor ezt megnyomod, az Omarchy felajánlja, hogy telepíti neked (az Omarchy menü _Install > Service_ pontja alatt is megtalálható).
+A Signalt a `Super + Shift + G` kombinációval indíthatod. Nem része az alaptelepítésnek, így az első alkalommal, amikor ezt megnyomod, az LunaOS felajánlja, hogy telepíti neked (az LunaOS menü _Install > Service_ pontja alatt is megtalálható).
 
 ## mpv
 
@@ -95,13 +95,13 @@ Az mpv-t az alkalmazásindítón keresztül (`Super + Space`) indíthatod, vagy 
 
 ## Omacut
 
-Az [Omacut](https://github.com/omacom-io/omacut) az Omarchy saját, végtelenül egyszerű videóvágója. Amikor csak egy klip elejét és végét kell levágni, ez veri egy komplett videószerkesztő elindítását.
+Az [Omacut](https://github.com/omacom-io/omacut) az LunaOS saját, végtelenül egyszerű videóvágója. Amikor csak egy klip elejét és végét kell levágni, ez veri egy komplett videószerkesztő elindítását.
 
 Az Omacutot az alkalmazásindítón keresztül indíthatod (`Super + Space`).
 
 ## Monologue
 
-A [Monologue](https://github.com/omacom/monologue) az Omarchy saját, végtelenül egyszerű webkamera-felvevője. Vállj kamerát és mikrofont egyszer, majd nyomd meg a `Space` billentyűt a felvételhez, és újra a szünethez és folytatáshoz ugyanannál a felvételnél. Mindig a kamerád legnagyobb felbontásában rögzít, élő mikrofon-méterrel, hogy a kezdés előtt ellenőrizd a szinteket.
+A [Monologue](https://github.com/omacom/monologue) az LunaOS saját, végtelenül egyszerű webkamera-felvevője. Vállj kamerát és mikrofont egyszer, majd nyomd meg a `Space` billentyűt a felvételhez, és újra a szünethez és folytatáshoz ugyanannál a felvételnél. Mindig a kamerád legnagyobb felbontásában rögzít, élő mikrofon-méterrel, hogy a kezdés előtt ellenőrizd a szinteket.
 
 Állítsd le a felvételt, és máris megnyílik egy beépített szerkesztőben. Kattints duplán egy klipre, hogy felvágd, húzd a fogantyúkat minden rész vágásához, és töröld a nem kívánt részeket. Majd mentse el MP4-ként. Az eredeti felvétel addig megmarad, amíg el nem dobja, így mindig visszatérhetsz, és másképp vághatod.
 

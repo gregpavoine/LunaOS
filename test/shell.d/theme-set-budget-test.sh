@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # A theme switch returns once the desktop has its new colours; slow app
-# retints run behind it or not at all. This runs the whole omarchy-theme-set
+# retints run behind it or not at all. This runs the whole lunaos-theme-set
 # against a scratch home in which every app is a stub, and gives the stubs the
 # costs the real apps have: a running Hunk, VS Code with the theme's extension
 # installed (answering --list-extensions after an Electron boot), a Framework 16
@@ -20,7 +20,7 @@ require_comparable_speed "theme switch budget"
 # nudge or on one VS Code boot costs a second more. The budget grows with how
 # much slower this machine starts processes, which a slow enough one can stretch
 # past that second, so the waits are also checked directly below.
-BUDGET_MS=$(( ${OMARCHY_THEME_SET_BUDGET_MS:-500} * SPEED_PERCENT / 100 ))
+BUDGET_MS=$(( ${LUNAOS_THEME_SET_BUDGET_MS:-500} * SPEED_PERCENT / 100 ))
 STUB_COST=1
 
 sandbox=$(mktemp -d)
@@ -68,8 +68,8 @@ for tool in awk base64 basename cat chmod cksum cmp cp cut date dirname env find
   ln -s "$path" "$tools_bin/$tool"
 done
 
-for name in hyprctl omarchy-shell pkill killall omarchy-theme-set-browser-policy \
-  omarchy-theme-set-herdr-machines omarchy-theme-bg-cache omarchy-hook; do
+for name in hyprctl lunaos-shell pkill killall lunaos-theme-set-browser-policy \
+  lunaos-theme-set-herdr-machines lunaos-theme-bg-cache lunaos-hook; do
   stub "$name"
 done
 # Never escalate: the browser policy hook would rewrite the system's policy.
@@ -79,11 +79,11 @@ stub pgrep '[[ " $* " == *" hunk "* ]] || exit 1'
 stub tmux '[[ $1 == "list-sessions" ]] && printf "%s\n" one two three'
 stub code "[[ \$* == *--list-extensions* ]] && { sleep $STUB_COST; echo enkia.tokyo-night; }"
 stub qmk_hid
-# Hunk's settle nudge sleeps from inside omarchy-theme-set-hunk; with a gate set
+# Hunk's settle nudge sleeps from inside lunaos-theme-set-hunk; with a gate set
 # it waits for the gate instead. Every other sleep is a real one.
 cat >"$stub_bin/sleep" <<'SH'
 #!/bin/bash
-if [[ -n ${HUNK_GATE:-} ]] && tr '\0' ' ' <"/proc/$PPID/cmdline" 2>/dev/null | grep -q omarchy-theme-set-hunk; then
+if [[ -n ${HUNK_GATE:-} ]] && tr '\0' ' ' <"/proc/$PPID/cmdline" 2>/dev/null | grep -q lunaos-theme-set-hunk; then
   for _ in {1..100}; do
     [[ -e $HUNK_GATE || ! -d ${HUNK_GATE%/*} ]] && exit 0
     /usr/bin/sleep 0.1
@@ -95,7 +95,7 @@ SH
 chmod +x "$stub_bin/sleep"
 
 # The app retints run under `bash -lc`, and a login shell resets PATH and
-# OMARCHY_PATH from /etc/omarchy.conf, which would put the real commands back
+# LUNAOS_PATH from /etc/lunaos.conf, which would put the real commands back
 # ahead of these stubs. Keep the login shell from rereading the profile.
 cat >"$stub_bin/bash" <<'SH'
 #!/bin/bash
@@ -111,22 +111,22 @@ jq -n '[{identifier: {id: "enkia.tokyo-night"}, relativeLocation: "enkia.tokyo-n
 echo '{}' >"$test_home/.config/Code/User/settings.json"
 
 # Cursor is the one editor the VS Code hook names by absolute path.
-mkdir -p "$test_home/.local/state/omarchy/toggles"
-touch "$test_home/.local/state/omarchy/toggles/skip-cursor-theme-changes"
+mkdir -p "$test_home/.local/state/lunaos/toggles"
+touch "$test_home/.local/state/lunaos/toggles/skip-cursor-theme-changes"
 
 run_theme_set() {
   env -i \
     HOME="$test_home" \
-    USER="${USER:-omarchy}" \
+    USER="${USER:-lunaos}" \
     LANG=C.UTF-8 \
-    OMARCHY_PATH="$ROOT" \
+    LUNAOS_PATH="$ROOT" \
     PATH="$stub_bin:$ROOT/bin:$tools_bin" \
     XDG_RUNTIME_DIR="$sandbox/run" \
     TMUX_TMPDIR="$sandbox/tmux" \
-    OMARCHY_THEME_SKIP_BACKGROUND=1 \
-    OMARCHY_BROWSER_POLICY_DIRS="$sandbox/policy" \
+    LUNAOS_THEME_SKIP_BACKGROUND=1 \
+    LUNAOS_BROWSER_POLICY_DIRS="$sandbox/policy" \
     HUNK_GATE="${HUNK_GATE:-}" \
-    "$ROOT/bin/omarchy-theme-set" "$1" >"$sandbox/theme-set.log" 2>&1
+    "$ROOT/bin/lunaos-theme-set" "$1" >"$sandbox/theme-set.log" 2>&1
 }
 
 # A first switch sets up the scratch home, so the timed ones change between two
@@ -157,7 +157,7 @@ done
 
 # The stubs only prove anything if the switches reached them.
 cat "$sandbox"/calls-*.log >"$sandbox/calls-all.log"
-for reached in "pgrep -x hunk" "qmk_hid via" "tmux list-sessions" "hyprctl reload" "omarchy-theme-set-browser-policy"; do
+for reached in "pgrep -x hunk" "qmk_hid via" "tmux list-sessions" "hyprctl reload" "lunaos-theme-set-browser-policy"; do
   grep -qF -- "$reached" "$sandbox/calls-all.log" ||
     fail "theme set reaches the stubbed apps ($reached)" "$(cut -c1-160 "$sandbox/calls-all.log" | sort -u)"
 done

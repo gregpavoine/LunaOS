@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# lunaos:summary=Toggle animations, blur and shadows, which are slow without a GPU
+# lunaos:args=[toggle|on|off]
+# lunaos:examples=lunaos toggle animations | lunaos toggle animations off | lunaos toggle animations on
+
+# The flag records animations being off, so on and off swap on the way through.
+case ${1:-toggle} in
+toggle) lunaos-hyprland-toggle no-animations toggle ;;
+on) lunaos-hyprland-toggle no-animations off ;;
+off) lunaos-hyprland-toggle no-animations on ;;
+*)
+  echo "Usage: lunaos-toggle-animations [toggle|on|off]" >&2
+  exit 1
+  ;;
+esac
+
+if lunaos-hyprland-toggle-enabled no-animations; then
+  lunaos-notification-send -g 󰗘 "$(lunaos-i18n animations.disabled)"
+else
+  lunaos-notification-send -g 󰗘 "$(lunaos-i18n animations.enabled)"
+fi

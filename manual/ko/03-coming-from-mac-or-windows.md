@@ -1,12 +1,12 @@
 # Mac이나 Windows에서 온 경우
 
-macOS나 Windows에서 수년을 보냈다면, 손가락은 머리가 배웠다는 사실조차 잊은 수백 가지 동작을 알고 있습니다. 이 장은 그 번역 계층입니다. 그 본능들이 Omarchy에서 어디로 가는지를 보여 줍니다. 기능 자체는 다른 곳에서 깊이 있게 다룹니다 — 여기는 그냥 지도입니다.
+macOS나 Windows에서 수년을 보냈다면, 손가락은 머리가 배웠다는 사실조차 잊은 수백 가지 동작을 알고 있습니다. 이 장은 그 번역 계층입니다. 그 본능들이 LunaOS에서 어디로 가는지를 보여 줍니다. 기능 자체는 다른 곳에서 깊이 있게 다룹니다 — 여기는 그냥 지도입니다.
 
 ### Super가 모든 것의 중심입니다
 
-Cmd나 Windows 키를 중심으로 쌓아 온 모든 근육 기억은 하나의 키, Super로 옮겨 갑니다. PC 키보드에서는 그게 Windows 키이며, Omarchy의 거의 모든 단축키의 중심축입니다.
+Cmd나 Windows 키를 중심으로 쌓아 온 모든 근육 기억은 하나의 키, Super로 옮겨 갑니다. PC 키보드에서는 그게 Windows 키이며, LunaOS의 거의 모든 단축키의 중심축입니다.
 
-Spotlight나 Raycast나 시작 메뉴를 찾던 반사 동작은 `Super + Space`가 됩니다. 그러면 앱을 실행하고, 설정을 바꾸고, 소프트웨어를 설치하고, 화면을 캡처하는 등 거의 모든 것을 하는 Omarchy 메뉴가 열립니다. 입력하기 시작하면 필터링됩니다. `Super + Alt + Space`는 Launchpad처럼 모든 앱을 하나의 그리드에 보여 줍니다. [탐색](04-navigation.md)을 참조하세요.
+Spotlight나 Raycast나 시작 메뉴를 찾던 반사 동작은 `Super + Space`가 됩니다. 그러면 앱을 실행하고, 설정을 바꾸고, 소프트웨어를 설치하고, 화면을 캡처하는 등 거의 모든 것을 하는 LunaOS 메뉴가 열립니다. 입력하기 시작하면 필터링됩니다. `Super + Alt + Space`는 Launchpad처럼 모든 앱을 하나의 그리드에 보여 줍니다. [탐색](04-navigation.md)을 참조하세요.
 
 ### 독도 없고 바탕화면 아이콘도 없습니다
 
@@ -22,27 +22,27 @@ Spotlight나 Raycast나 시작 메뉴를 찾던 반사 동작은 `Super + Space`
 
 ### 복사와 붙여넣기가 그냥 작동합니다
 
-Mac에서는 어디서나 Cmd + C를 썼습니다. Windows에서는 어디서나 Ctrl + C를 썼죠 — 터미널에서는 프로그램을 죽인다는 점만 빼고요. Omarchy는 `Super + C`, `Super + X`, `Super + V`를 제공하며, 터미널을 포함해 어디서나 작동합니다. 셸을 위해 따로 반사 동작을 배울 필요가 없습니다.
+Mac에서는 어디서나 Cmd + C를 썼습니다. Windows에서는 어디서나 Ctrl + C를 썼죠 — 터미널에서는 프로그램을 죽인다는 점만 빼고요. LunaOS는 `Super + C`, `Super + X`, `Super + V`를 제공하며, 터미널을 포함해 어디서나 작동합니다. 셸을 위해 따로 반사 동작을 배울 필요가 없습니다.
 
 Windows 사용자 여러분: Win + V 클립보드 히스토리는 `Super + Ctrl + V`에 있으며, 텍스트뿐 아니라 이미지도 보관합니다. [통합 클립보드 및 히스토리](08-unified-clipboard-history.md)를 참조하세요.
 
 ### 번역표
 
-| 찾는 것 | Omarchy에서는 |
+| 찾는 것 | LunaOS에서는 |
 | ------------- | ---------- |
-| Spotlight / Raycast / 시작 메뉴 | `Super + Space` — Omarchy 메뉴 |
+| Spotlight / Raycast / 시작 메뉴 | `Super + Space` — LunaOS 메뉴 |
 | AirDrop | `Super + Ctrl + S`를 통한 LocalSend — [GUI](22-guis.md) 참조 |
 | Cmd + Shift + 4 / Win + Shift + S | `Print Screen` — [스크린샷 및 녹화](12-screenshots-recording.md) 참조 |
 | 알림 센터 | `Super + Shift + Alt + ,`의 알림 히스토리 |
 | Time Machine(시스템용) | 모든 업데이트 때 자동 [시스템 스냅샷](47-system-snapshots.md) |
-| App Store / 설치 프로그램 다운로드 | 메뉴의 _설치_, 또는 `omarchy pkg add` — [기타 패키지](29-other-packages.md) 참조 |
+| App Store / 설치 프로그램 다운로드 | 메뉴의 _설치_, 또는 `lunaos pkg add` — [기타 패키지](29-other-packages.md) 참조 |
 | 시스템 설정 / 제어판 | 메뉴의 _설정_, 평범한 구성 파일을 편집합니다 — [dotfiles](31-dotfiles.md) 참조 |
 
 ### 어떤 것은 정말로 다릅니다
 
 많은 설정이 클릭해 다니는 패널이 아니라 직접 편집하는 텍스트 파일에 있습니다. 원시적으로 들리겠지만, 모든 조정을 눈으로 확인하고, 다음 머신으로 복사하고, 버전 관리에 넣을 수 있다는 뜻이라는 걸 깨닫기 전까지만 그렇습니다. _설정_ 메뉴는 바로 올바른 파일로 안내하고, 작업을 마치면 재시작이 필요한 것을 재시작해 줍니다.
 
-업데이트는 하나의 명령 — _업데이트 > Omarchy_ — 을 통해 이루어지며, 먼저 스냅샷을 만든 뒤 Omarchy 자체와 시스템의 모든 패키지를 업데이트합니다. 앱별 업데이터가 무작위로 귀찮게 구는 일은 없습니다. [업데이트](30-updates.md)를 참조하세요.
+업데이트는 하나의 명령 — _업데이트 > LunaOS_ — 을 통해 이루어지며, 먼저 스냅샷을 만든 뒤 LunaOS 자체와 시스템의 모든 패키지를 업데이트합니다. 앱별 업데이터가 무작위로 귀찮게 구는 일은 없습니다. [업데이트](30-updates.md)를 참조하세요.
 
 소프트웨어는 다운로드한 설치 프로그램이 아니라 패키지 관리자에서 옵니다.
 
@@ -50,7 +50,7 @@ Windows 사용자 여러분: Win + V 클립보드 히스토리는 `Super + Ctrl 
 
 ### Mac 하드웨어에서
 
-Omarchy는 Intel Mac에서 잘 실행됩니다 — [Mac 지원](44-mac-support.md)을 참조하세요. 키보드도 친절합니다. Omarchy는 아무것도 재배열하지 않으며, Linux는 Command 키를 Super로 취급하므로 Super가 Cmd가 항상 있던 바로 그 자리에 있습니다. 엄지는 변화를 눈치채지 못할 것입니다.
+LunaOS는 Intel Mac에서 잘 실행됩니다 — [Mac 지원](44-mac-support.md)을 참조하세요. 키보드도 친절합니다. LunaOS는 아무것도 재배열하지 않으며, Linux는 Command 키를 Super로 취급하므로 Super가 Cmd가 항상 있던 바로 그 자리에 있습니다. 엄지는 변화를 눈치채지 못할 것입니다.
 
 ### 2주를 주세요
 

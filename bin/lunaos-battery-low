@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# lunaos:summary=Send the low battery warning notification and run battery-low hooks.
+# lunaos:args=<percentage>
+# lunaos:hidden=true
+
+set -euo pipefail
+
+if (($# != 1)); then
+  echo "Usage: lunaos-battery-low <percentage>" >&2
+  exit 1
+fi
+
+level=$1
+
+lunaos-notification-send -g 󱐋 -u critical "$(lunaos-i18n battery.lowTitle)" "$(lunaos-i18n battery.lowBody "$level")" -i battery-caution -t 30000
+lunaos-hook battery-low "$level"

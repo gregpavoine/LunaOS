@@ -45,14 +45,16 @@ var (
 
 const chunkSize = 64 * 1024
 
-// Item is one library entry. Creator, SourceURL, Tags and SHA256 are sealed at
-// rest; the other fields stay queryable in clear columns.
+// Item is one library entry. Creator, SourceURL, Title, LinkURL, Tags and
+// SHA256 are sealed at rest; the other fields stay queryable in clear columns.
 type Item struct {
 	Provider, ExternalID, SourceURL, Creator, License, ContentLevel string
-	Tags                                                            []string
-	SHA256                                                          string
-	Bytes                                                           int64
-	FetchedAt                                                       time.Time
+	// Title and LinkURL describe link metadata (Reddit posts).
+	Title, LinkURL string
+	Tags           []string
+	SHA256         string
+	Bytes          int64
+	FetchedAt      time.Time
 }
 
 type Store struct {
@@ -67,6 +69,8 @@ type Store struct {
 type sealedMeta struct {
 	Creator   string   `json:"creator"`
 	SourceURL string   `json:"source_url"`
+	Title     string   `json:"title"`
+	LinkURL   string   `json:"link_url"`
 	Tags      []string `json:"tags"`
 	SHA256    string   `json:"sha256"`
 }
@@ -227,7 +231,7 @@ func (s *Store) Put(ctx context.Context, it Item, media io.Reader) (stored bool,
 	if exists > 0 {
 		return false, nil
 	}
-	meta := sealedMeta{Creator: it.Creator, SourceURL: it.SourceURL, Tags: it.Tags, SHA256: strings.ToLower(it.SHA256)}
+	meta := sealedMeta{Creator: it.Creator, SourceURL: it.SourceURL, Title: it.Title, LinkURL: it.LinkURL, Tags: it.Tags, SHA256: strings.ToLower(it.SHA256)}
 	name := ""
 	size := it.Bytes
 	newBlob := false
@@ -490,6 +494,25 @@ func (s *Store) deleteItem(ctx context.Context, provider, externalID string) (bo
 		}
 	}
 	return true, nil
+}
+
+// Has reports whether (provider, externalID) is already stored.
+func (s *Store) Has(ctx context.Context, provider, externalID string) (bool, error) {
+	var n int
+	err := s.db.QueryRowContext(ctx, `SELECT COUNT(*) FROM items WHERE provider=? AND external_id=?`, provider, externalID).Scan(&n)
+	return n > 0, err
+}
+
+// finalDownloadCodes are dead-letter codes no later attempt can change.
+var finalDownloadCodes = []any{"too_large", "gone", "refused", "hash_mismatch"}
+
+// HasFinalDeadLetter reports whether a download of (provider, externalID)
+// already failed with a code a retry cannot change.
+func (s *Store) HasFinalDeadLetter(ctx context.Context, provider, externalID string) (bool, error) {
+	var n int
+	args := append([]any{provider, externalID}, finalDownloadCodes...)
+	err := s.db.QueryRowContext(ctx, `SELECT COUNT(*) FROM dead_letter WHERE provider=? AND external_id=? AND scope='' AND code IN (?,?,?,?)`, args...).Scan(&n)
+	return n > 0, err
 }
 
 // ExternalIDs lists the provider's stored external IDs.

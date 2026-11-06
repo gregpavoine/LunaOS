@@ -1,8 +1,8 @@
 # Terminalas
 
-[Foot](https://codeberg.org/dnkl/foot) yra numatytasis Omarchy terminalas. Jis greitas, lengvas ir suderinamas net su senais kompiuteriais. Tačiau jis nepalaiko natūralių skirtukų ar padalijimų.
+[Foot](https://codeberg.org/dnkl/foot) yra numatytasis LunaOS terminalas. Jis greitas, lengvas ir suderinamas net su senais kompiuteriais. Tačiau jis nepalaiko natūralių skirtukų ar padalijimų.
 
-Jei naudojate Tmux, jums gal ir nesvarbu, bet jei ne, mes taip pat visiškai palaikome _Alacritty_, _Ghostty_ ir _Kitty_ kaip parinktis. Savo pageidavimą rinkitės po _Įdiegti > Terminalas_ Omarchy meniu.
+Jei naudojate Tmux, jums gal ir nesvarbu, bet jei ne, mes taip pat visiškai palaikome _Alacritty_, _Ghostty_ ir _Kitty_ kaip parinktis. Savo pageidavimą rinkitės po _Įdiegti > Terminalas_ LunaOS meniu.
 
 Naują terminalą paleidžiate naudodami `Super + Return`. (Šis susiejimas automatiškai rodys į bet kurį Terminalą, kurį įdiegėte per _Įdiegti > Terminalas_, o tarp įdiegtų terminalų galite persijungti po _Nuostatos > Numatytosios > Terminalas_.)
 
@@ -12,11 +12,11 @@ Tmux suteikia nuoseklią, programuojamą sąsają sritims, langams (dar vadinami
 
 Naują Tmux sesiją naujame terminale paleidžiate naudodami `Super + Alt + Return`, ir kadangi Tmux yra nuolatinis procesas, galite atnaujinti savo sesiją, net jei tą terminalą uždarote. Tiesiog paspauskite `Ctrl + Space` (vadinamą prefikso klavišu), tada `s`, kad pamatytumėte visas savo aktyvias sesijas.
 
-Omarchy pateikiama su ergonomiškai optimizuota Tmux konfigūracija, kurioje yra daug klavišų susiejimų, kuriuos reikia išmokti, todėl laikykite [apgaulingą lapą po ranka](07-hotkeys.md#tmux).
+LunaOS pateikiama su ergonomiškai optimizuota Tmux konfigūracija, kurioje yra daug klavišų susiejimų, kuriuos reikia išmokti, todėl laikykite [apgaulingą lapą po ranka](07-hotkeys.md#tmux).
 
 ## Tmux išdėstymo funkcijos
 
-Kadangi Tmux galima programuoti, galime naudoti funkcijas išdėstymams kurti. Omarchy pateikiama su keturiomis skirtingomis funkcijomis bendriems kūrėjų išdėstymams.
+Kadangi Tmux galima programuoti, galime naudoti funkcijas išdėstymams kurti. LunaOS pateikiama su keturiomis skirtingomis funkcijomis bendriems kūrėjų išdėstymams.
 
 `tdl [agent]` paleidžia trijų dalių, į IDE panašią sąsają su `$EDITOR` kairėje, jūsų pasirinktu AI agentu dešinėje (pavyzdžiui, `c` opencode arba `cx` Claude arba `codex` OpenAI), o tada terminalu apačioje.
 

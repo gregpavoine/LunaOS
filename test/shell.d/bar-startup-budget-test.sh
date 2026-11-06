@@ -16,7 +16,7 @@ QS_PID=""
 
 # Same leftover discipline as the runtime smoke test: Quickshell leaves
 # children behind when it stops, so stop whatever still runs with this
-# test's scratch OMARCHY_PATH once the shell is down.
+# test's scratch LUNAOS_PATH once the shell is down.
 leftover_pids() {
   local environ pid
 
@@ -24,7 +24,7 @@ leftover_pids() {
   while IFS= read -r environ; do
     pid=${environ#/proc/}
     echo "${pid%/environ}"
-  done < <(grep -lzxF -- "OMARCHY_PATH=$test_root" /proc/[0-9]*/environ 2>/dev/null || true)
+  done < <(grep -lzxF -- "LUNAOS_PATH=$test_root" /proc/[0-9]*/environ 2>/dev/null || true)
 }
 
 signal_leftovers() {
@@ -75,18 +75,18 @@ require_command jq
 command -v quickshell >/dev/null 2>&1 || { skip "quickshell not installed; skipping shell startup budget"; exit 0; }
 require_comparable_speed "shell startup budget"
 
-BUDGET_MS=$(( ${OMARCHY_BAR_STARTUP_BUDGET_MS:-750} * SPEED_PERCENT / 100 ))
+BUDGET_MS=$(( ${LUNAOS_BAR_STARTUP_BUDGET_MS:-750} * SPEED_PERCENT / 100 ))
 
 TMPDIR=$(mktemp -d)
-test_root="$TMPDIR/omarchy"
+test_root="$TMPDIR/lunaos"
 test_home="$TMPDIR/home"
 stub_bin="$TMPDIR/bin"
 log="$TMPDIR/quickshell.log"
 mkdir -p "$test_root" "$test_home" "$stub_bin"
 # Nobody touches the seat during a run, so without this the scratch
 # shell's idle service would eventually screensave/lock the real desktop.
-mkdir -p "$test_home/.local/state/omarchy/indicators"
-touch "$test_home/.local/state/omarchy/indicators/stay-awake"
+mkdir -p "$test_home/.local/state/lunaos/indicators"
+touch "$test_home/.local/state/lunaos/indicators/stay-awake"
 cp -a "$ROOT/shell" "$test_root/shell"
 ln -s "$ROOT/config" "$test_root/config"
 ln -s "$ROOT/bin" "$test_root/bin"
@@ -102,12 +102,12 @@ for name in pkill killall; do
 done
 # Nor may it change system state over D-Bus: the battery service applies a
 # power profile when UPower reports one.
-for name in omarchy-powerprofiles-set powerprofilesctl; do
+for name in lunaos-powerprofiles-set powerprofilesctl; do
   printf '#!/bin/bash\nexit 0\n' >"$stub_bin/$name"
   chmod +x "$stub_bin/$name"
 done
 # The shell runs some commands under `bash -lc`, and a login shell resets
-# PATH and OMARCHY_PATH from /etc/omarchy.conf, which would put the
+# PATH and LUNAOS_PATH from /etc/lunaos.conf, which would put the
 # session's checkout and its real commands back ahead of these stubs.
 printf '#!/bin/bash\n[[ ${1:-} == "-lc" ]] && shift && set -- -c "$@"\nexec /bin/bash "$@"\n' >"$stub_bin/bash"
 chmod +x "$stub_bin/bash"
@@ -125,10 +125,10 @@ cold_start_ms() {
   # (the background-intro marker, caches) that later launches read and
   # skip first-login work for.
   rm -rf "$test_home"
-  mkdir -p "$test_home/.local/state/omarchy/indicators"
-  touch "$test_home/.local/state/omarchy/indicators/stay-awake"
+  mkdir -p "$test_home/.local/state/lunaos/indicators"
+  touch "$test_home/.local/state/lunaos/indicators/stay-awake"
   start=$EPOCHREALTIME
-  OMARCHY_PATH="$test_root" \
+  LUNAOS_PATH="$test_root" \
   HOME="$test_home" \
   XDG_CONFIG_HOME="$test_home/.config" \
   XDG_CACHE_HOME="$test_home/.cache" \
@@ -141,7 +141,7 @@ cold_start_ms() {
   for _ in {1..800}; do
     layers=$(hyprctl -j layers 2>/dev/null || true)
     if [[ -n $layers ]] && jq -e --argjson pid "$QS_PID" '
-      [.. | objects | select(.namespace? == "omarchy-bar" and .pid == $pid and .w > 0 and .h > 0)] | length > 0
+      [.. | objects | select(.namespace? == "lunaos-bar" and .pid == $pid and .w > 0 and .h > 0)] | length > 0
     ' <<<"$layers" >/dev/null 2>&1; then
       end=$EPOCHREALTIME
       elapsed=$(( (${end/[.,]/} - ${start/[.,]/}) / 1000 ))

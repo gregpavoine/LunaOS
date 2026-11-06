@@ -18,7 +18,7 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
 # Long enough to catch any poll at 30s or faster, the slowest interval a
 # widget has been seen polling at; override to look for slower ones.
-IDLE_WINDOW=${OMARCHY_IDLE_SPAWN_WINDOW:-30}
+IDLE_WINDOW=${LUNAOS_IDLE_SPAWN_WINDOW:-30}
 
 TMPDIR=""
 QS_PID=""
@@ -78,7 +78,7 @@ cleanup() {
   fi
   if [[ -f ${exec_log:-} ]]; then
     for pid in $(cut -d' ' -f1 "$exec_log" | sort -u); do
-      { tr '\0' '\n' <"/proc/$pid/environ"; } 2>/dev/null | grep -qxF "OMARCHY_EXEC_LOG=$exec_log" && leftovers+=("$pid")
+      { tr '\0' '\n' <"/proc/$pid/environ"; } 2>/dev/null | grep -qxF "LUNAOS_EXEC_LOG=$exec_log" && leftovers+=("$pid")
     done
   fi
   stop_processes "${leftovers[@]}"
@@ -105,7 +105,7 @@ require_command socat
 require_command node
 
 TMPDIR=$(mktemp -d)
-test_root="$TMPDIR/omarchy"
+test_root="$TMPDIR/lunaos"
 test_home="$TMPDIR/home"
 stub_bin="$TMPDIR/bin"
 log="$TMPDIR/quickshell.log"
@@ -115,8 +115,8 @@ mkdir -p "$test_root" "$test_home" "$stub_bin"
 # Nobody touches the seat while the test watches, so a long enough window
 # would reach the screensaver and the lock: actions on an event, not polling,
 # and run against the session's desktop. Keep the test shell awake.
-mkdir -p "$test_home/.local/state/omarchy/indicators"
-touch "$test_home/.local/state/omarchy/indicators/stay-awake"
+mkdir -p "$test_home/.local/state/lunaos/indicators"
+touch "$test_home/.local/state/lunaos/indicators/stay-awake"
 
 cc -shared -fPIC -O2 -o "$TMPDIR/exec-log.so" "$SHELL_TEST_DIR/fixtures/idle-shell/exec-log.c" -ldl ||
   fail "the exec logger builds"
@@ -135,7 +135,7 @@ stub() {
 
 # Keep startup off the network. These only shape what startup does; a poll
 # still shows up as an exec whether or not its command is stubbed.
-stub omarchy-update-available 'exit 1'
+stub lunaos-update-available 'exit 1'
 # A weather fetch that fails is retried, so answer it the way wttr.in does.
 stub curl 'case "${*: -1}" in
   *"?format=j1") printf "{\"current_condition\":[{\"weatherCode\":\"113\",\"temp_F\":\"72\"}]}\n" ;;
@@ -147,10 +147,10 @@ esac'
 # and a charger plugged in or out switches the power profile.
 stub pkill 'exit 1'
 stub killall 'exit 1'
-stub omarchy-powerprofiles-set 'exit 0'
+stub lunaos-powerprofiles-set 'exit 0'
 stub powerprofilesctl 'exit 0'
 # The shell runs some commands under `bash -lc`, and a login shell resets PATH
-# and OMARCHY_PATH from /etc/omarchy.conf, which would put the session's
+# and LUNAOS_PATH from /etc/lunaos.conf, which would put the session's
 # checkout and its real commands back ahead of these stubs.
 stub bash '[[ ${1:-} == "-lc" ]] && shift && set -- -c "$@"
 exec /bin/bash "$@"'
@@ -168,13 +168,13 @@ exec_count() {
   fi
 }
 
-OMARCHY_PATH="$test_root" \
+LUNAOS_PATH="$test_root" \
 HOME="$test_home" \
 XDG_CONFIG_HOME="$test_home/.config" \
 XDG_CACHE_HOME="$test_home/.cache" \
 XDG_STATE_HOME="$test_home/.local/state" \
 PATH="$stub_bin:$ROOT/bin:$PATH" \
-OMARCHY_EXEC_LOG="$exec_log" \
+LUNAOS_EXEC_LOG="$exec_log" \
 LD_PRELOAD="$TMPDIR/exec-log.so" \
 QS_DISABLE_FILE_WATCHER=1 \
 QS_NO_RELOAD_POPUP=1 \
@@ -183,7 +183,7 @@ QS_PID=$!
 
 ready=0
 for _ in {1..150}; do
-  if OMARCHY_PATH="$test_root" "$ROOT/bin/omarchy-shell" shell listPlugins 2>/dev/null | jq -e 'length > 0' >/dev/null 2>&1; then
+  if LUNAOS_PATH="$test_root" "$ROOT/bin/lunaos-shell" shell listPlugins 2>/dev/null | jq -e 'length > 0' >/dev/null 2>&1; then
     ready=1
     break
   fi
@@ -198,7 +198,7 @@ done
 # everything has been quiet for a few seconds. A shell that never goes quiet
 # fails below with the commands it kept running.
 startup_done() {
-  grep -q 'omarchy_startup_cursor_restore' "$exec_log" 2>/dev/null
+  grep -q 'lunaos_startup_cursor_restore' "$exec_log" 2>/dev/null
 }
 
 settle_start=$SECONDS

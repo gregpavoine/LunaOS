@@ -14,7 +14,7 @@ Saad kiiresti juurde pääseda kuupäevale ja ajale, aku olekule ja praegusele i
 
  ![notice-weather](images/notice-weather.webp)
 
-Asukoht tuvastatakse su IP-aadressist, mis on tavaliselt piisavalt lähedal, kuid mitte alati. Saad selle täpsustada `omarchy weather location --set Malibu` abil või olla täpne, lisades koordinaadid: `omarchy weather location --set Malibu 34.0259,-118.7798`. Käivita `omarchy weather location` omaette, et näha, kus see arvab, et oled, ja `--clear`, et minna tagasi automaatse tuvastamise juurde.
+Asukoht tuvastatakse su IP-aadressist, mis on tavaliselt piisavalt lähedal, kuid mitte alati. Saad selle täpsustada `lunaos weather location --set Malibu` abil või olla täpne, lisades koordinaadid: `lunaos weather location --set Malibu 34.0259,-118.7798`. Käivita `lunaos weather location` omaette, et näha, kus see arvab, et oled, ja `--clear`, et minna tagasi automaatse tuvastamise juurde.
 
 ### Aku
 

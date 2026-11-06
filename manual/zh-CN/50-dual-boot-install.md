@@ -1,6 +1,6 @@
 # 双启动安装
 
-你可以将 Omarchy 安装到一个单独的分区上，与 Windows 或其他安装共存。
+你可以将 LunaOS 安装到一个单独的分区上，与 Windows 或其他安装共存。
 
 此安装方法默认仍为该分区提供 LUKS 加密，所以它实际上与全盘安装没有区别，只需磁盘上有可用空间即可。
 
@@ -14,17 +14,17 @@
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- 输入你希望卷缩减的量。请注意，这将是你未来 Omarchy 安装的大小，包括启动分区。
+ 输入你希望卷缩减的量。请注意，这将是你未来 LunaOS 安装的大小，包括启动分区。
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-当你完成后，你应该会看到类似这样的界面，其中 50GB 部分是本示例中我们安装 Omarchy 的位置。
+当你完成后，你应该会看到类似这样的界面，其中 50GB 部分是本示例中我们安装 LunaOS 的位置。
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## 安装 Omarchy
+## 安装 LunaOS
 
-Omarchy 的安装过程实际上与正常情况相同。在你选择磁盘后，你会看到 **Free space install** 选项。选择该选项以防止擦除整个磁盘。
+LunaOS 的安装过程实际上与正常情况相同。在你选择磁盘后，你会看到 **Free space install** 选项。选择该选项以防止擦除整个磁盘。
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Omarchy 的安装过程实际上与正常情况相同。在你选择磁盘后，
 
 ## 将其他安装添加到引导程序
 
-当你完成 Omarchy 安装时，你会注意到 Limine 引导程序现在是默认引导程序了。有了它，你还可以向 Limine 添加其他安装（如 Windows）的选项。
+当你完成 LunaOS 安装时，你会注意到 Limine 引导程序现在是默认引导程序了。有了它，你还可以向 Limine 添加其他安装（如 Windows）的选项。
 
-为此，运行 `limine-scan` 并按照提示将任何你想要的项目添加到你的 limine 配置中。然后当你启动时，你会看到正常的 Omarchy 选项，以及 Windows Boot Manager 或其他。
+为此，运行 `limine-scan` 并按照提示将任何你想要的项目添加到你的 limine 配置中。然后当你启动时，你会看到正常的 LunaOS 选项，以及 Windows Boot Manager 或其他。
 
 ## Bitlocker
 

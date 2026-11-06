@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "id": "omarchy.lock",
+  "id": "lunaos.lock",
   "name": "Lock Screen",
   "version": "1.0.0",
-  "author": "Omarchy",
+  "author": "LunaOS",
   "description": "Quickshell session lock with separate password and fingerprint PAM flows.",
-  "omarchy": {
+  "lunaos": {
     "capabilities": [
       "authentication"
     ]

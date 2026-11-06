@@ -2,9 +2,9 @@
 
 set -euo pipefail
 
-remoteproc_root=${OMARCHY_YOGA_REMOTEPROC_ROOT:-/sys/class/remoteproc}
-attempts=${OMARCHY_YOGA_REMOTEPROC_ATTEMPTS:-30}
-sleep_seconds=${OMARCHY_YOGA_REMOTEPROC_SLEEP:-1}
+remoteproc_root=${LUNAOS_YOGA_REMOTEPROC_ROOT:-/sys/class/remoteproc}
+attempts=${LUNAOS_YOGA_REMOTEPROC_ATTEMPTS:-30}
+sleep_seconds=${LUNAOS_YOGA_REMOTEPROC_SLEEP:-1}
 
 adsp_started=0
 cdsp_started=0

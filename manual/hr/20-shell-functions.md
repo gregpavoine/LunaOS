@@ -1,6 +1,6 @@
 # Funkcije ljuske
 
-Omarchy dolazi sa skupom funkcija ljuske za pojednostavljenje uobičajenih zadataka i enkapsulaciju zamršenih poziva s parametrima.
+LunaOS dolazi sa skupom funkcija ljuske za pojednostavljenje uobičajenih zadataka i enkapsulaciju zamršenih poziva s parametrima.
 
 ## Kompresija
 
