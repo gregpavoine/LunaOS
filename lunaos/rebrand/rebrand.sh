@@ -11,8 +11,8 @@
 # the tree may be half rewritten, discard it with git checkout/reset).
 #
 # <tree>/lunaos/ and .git/ are never entered; binary files only have their path
-# renamed. Exceptions live in exceptions.txt, the LICENSE skip and the update
-# repository rewrite are in the perl program below.
+# renamed. Exceptions live in exceptions.txt; the LICENSE and upstream fixture
+# skips and the update repository rewrite are in the perl program below.
 set -uo pipefail
 
 HERE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
@@ -56,13 +56,17 @@ use warnings;
 
 my ($mode, $excfile, $tree, $listfile) = @ARGV;
 
-# Data: explicit substitutions (not exceptions), applied before the casings.
+# Data: explicit substitutions (not exceptions), applied before the exceptions are
+# masked, so a broad exception such as omacom/omarchy keeps every other upstream link.
 my @REPO_SUBSTITUTIONS = (
   ['https://github.com/omacom/omarchy.git',      'https://github.com/gregpavoine/LunaOS.git'],
   ['https://github.com/omacom/omarchy/releases', 'https://github.com/gregpavoine/LunaOS/releases'],
 );
 # Data: paths (relative to the tree) whose contents are never rewritten.
 my %SKIPPED = ('LICENSE' => 1);
+# Data: directories (relative to the tree) whose contents are never rewritten:
+# verbatim copies of files shipped by upstream packages.
+my @SKIPPED_DIRS = ('test/shell.d/fixtures/omarchy-mac-boot-mkinitcpio/');
 
 my @exc;
 open my $fh, '<', $excfile or die "cannot read $excfile: $!";
@@ -116,7 +120,12 @@ sub unknown_casing {
   return 0;
 }
 
-sub skipped { my ($p) = @_; return $p =~ m{^lunaos/} || $SKIPPED{$p}; }
+sub skipped {
+  my ($p) = @_;
+  return 1 if $p =~ m{^lunaos/} || $SKIPPED{$p};
+  for my $d (@SKIPPED_DIRS) { return 1 if index($p, $d) == 0; }
+  return 0;
+}
 
 sub read_list {
   open my $l, '<:raw', $listfile or die "cannot read $listfile: $!";
@@ -141,7 +150,7 @@ if ($mode eq 'contents-unknown' || $mode eq 'contents-check') {
     next if skipped($f) || -l "$tree/$f";
     my $s = slurp("$tree/$f");
     next unless defined $s;
-    my @lines = split /\n/, ($mode eq 'contents-unknown' ? repo_substitute(protect($s)) : protect($s)), -1;
+    my @lines = split /\n/, ($mode eq 'contents-unknown' ? protect(repo_substitute($s)) : protect($s)), -1;
     for my $i (0 .. $#lines) {
       if ($mode eq 'contents-unknown') {
         print "$f:" . ($i + 1) . "\n" if unknown_casing($lines[$i]);
@@ -156,7 +165,7 @@ if ($mode eq 'contents-unknown' || $mode eq 'contents-check') {
     next if skipped($f) || -l "$tree/$f";
     my $s = slurp("$tree/$f");
     next unless defined $s;
-    my $t = restore(casings(repo_substitute(protect($s))));
+    my $t = restore(casings(protect(repo_substitute($s))));
     next if $t eq $s;
     open my $out, '>:raw', "$tree/$f" or die "cannot write $f: $!";
     print $out $t;

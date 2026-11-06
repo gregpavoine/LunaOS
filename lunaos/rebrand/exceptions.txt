@@ -9,6 +9,7 @@ omarchy-mac-boot	Upstream Apple Silicon boot package
 omarchy-mac-pkgs	Upstream Apple Silicon package repository
 omarchy-mac	Upstream Apple Silicon support package
 omarchy-hyprland-titlebars	Upstream Hyprland plugin package
+omarchy/omarchy-keyring	Repository-qualified keyring package name (pacman repository omarchy)
 omarchy-keyring	Upstream pacman keyring package
 stable-mirror.omarchy.org	Upstream package mirror host
 rc-mirror.omarchy.org	Upstream package mirror host
@@ -19,3 +20,37 @@ omacom/omarchy-iso	Upstream ISO repository
 omacom/omarchy-pkgs	Upstream packages repository
 omacom/omarchy-mac-pkgs	Upstream Apple Silicon packages repository
 basecamp/omarchy	Credits to the original project
+omacom/omarchy/blob/quattro/docs/omarchy-shell.md	Upstream link to a document whose path is upstream's
+omacom/omarchy	Upstream GitHub repositories (issues, discussions, blob and archive links); the update repository URLs are rewritten before masking
+omacom-io/omarchy	Upstream GitHub repositories under omacom-io (omarchy-mirror, omarchy-site, omarchy-pkgs, omarchy-audio-tuner)
+henrysipp/omarchy-nix	Third-party NixOS port credited in the manual
+omarchy.org	Upstream website, package, mirror, ISO, log, geo, NTP and mail hosts
+omarchy.cn	Upstream China package and mirror hosts
+omarchy.org/omarchy-	ISO file names published on the upstream ISO host
+\[omarchy\]	Pacman repository name as a regex: pacman fetches omarchy.db from pkgs.omarchy.org
+[omarchy]	Pacman repository section name: pacman fetches omarchy.db from pkgs.omarchy.org
+section == "omarchy"	Pacman repository name parsed from pacman.conf
+omarchy-pkgs	Upstream packages repository (PKGBUILDs of the omarchy repo packages)
+omarchy-iso	Upstream ISO builder repository and its commands
+--sync-omarchy	Option of the upstream omarchy-iso-test command
+omarchy-installer	Legacy upstream installer package and repository
+omarchy-site	Upstream website repository
+omarchy-mx-mac	Upstream Apple Silicon repository cited in a fixture
+omarchy-audio-tuner	Upstream audio tuning package and repository
+omarchy-walker	Legacy upstream package removed by the quattro upgrade
+omarchy-lazyvim	Legacy upstream package removed by the quattro upgrade
+omarchy-herdr	Upstream package briefly published under this name
+omarchy-emacs	AUR package
+omarchy-install-emacs	Command shipped by the omarchy-emacs AUR package
+omarchy-vendorfw	mkinitcpio hook shipped by omarchy-mac-boot
+/usr/lib/omarchy/mac	Lifecycle entrypoints installed by omarchy-mac and omarchy-mac-boot
+omarchy-platform	Platform root /usr/share/omarchy-platform owned by the platform runtime packages
+"iconFont":"omarchy"	Family name inside the icon font binary (fc-scan reports omarchy)
+iconFont: 'omarchy'	Family name inside the icon font binary
+iconFont === 'omarchy'	Family name inside the icon font binary
+fontFamily: "omarchy"	Family name inside the icon font binary
+font.family: "omarchy"	Family name inside the icon font binary
+? "omarchy" :	Family name inside the icon font binary (notification toast glyphs)
+the `omarchy` family	Family name inside the icon font binary
+fc-match omarchy	Family name inside the icon font binary
+private `omarchy` font	Family name inside the icon font binary
