@@ -4,6 +4,8 @@ Before=luna-core.service
 Requires=luna-owner-setup.service
 After=luna-owner-setup.service
 PartOf=luna-core.service
+StartLimitIntervalSec=60
+StartLimitBurst=5
 
 [Service]
 Type=simple

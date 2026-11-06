@@ -21,6 +21,7 @@ import (
 	"syscall"
 	"time"
 
+	"lunaos.local/lunaos/contracts"
 	"lunaos.local/lunaos/services/internal/peer"
 )
 
@@ -43,8 +44,38 @@ type grant struct {
 }
 type broker struct {
 	key            []byte
+	actions        map[string]string // registered action name -> privacy class
 	requirePeerUID bool
 	allowedPeerUID int
+}
+
+// actionTable validates the shared registry and indexes it by action name. Anything the Broker
+// would grant must pass: payment.* is never grantable and classes must be ones the Core accepts.
+func actionTable(actions []contracts.Action) (map[string]string, error) {
+	table := make(map[string]string, len(actions))
+	for _, a := range actions {
+		switch {
+		case a.Name == "":
+			return nil, fmt.Errorf("action registry: empty action name")
+		case strings.HasPrefix(a.Name, "payment."):
+			return nil, fmt.Errorf("action registry: %q: payment actions are not grantable", a.Name)
+		case a.PrivacyClass != "general" && a.PrivacyClass != "intimate" && a.PrivacyClass != "biometric":
+			return nil, fmt.Errorf("action registry: %q: unknown privacy class %q", a.Name, a.PrivacyClass)
+		}
+		if _, dup := table[a.Name]; dup {
+			return nil, fmt.Errorf("action registry: duplicate action %q", a.Name)
+		}
+		table[a.Name] = a.PrivacyClass
+	}
+	return table, nil
+}
+
+func newBroker(key []byte) *broker {
+	table, err := actionTable(contracts.Actions())
+	if err != nil {
+		panic(err) // tests only; serve validates before constructing
+	}
+	return &broker{key: key, actions: table}
 }
 
 func (b *broker) sign(g grant) string {
@@ -122,8 +153,13 @@ func (b *broker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		reply(200, response{Code: "PRIVACY_SCOPE_DENIED"})
 		return
 	}
-	if req.Action != "local.checksum" {
+	class, registered := b.actions[req.Action]
+	if !registered {
 		reply(200, response{Code: "ACTION_DENIED"})
+		return
+	}
+	if class != req.Privacy {
+		reply(200, response{Code: "PRIVACY_SCOPE_DENIED"})
 		return
 	}
 	if r.URL.Path == "/v1/grants" {
@@ -200,6 +236,10 @@ func serve(socket, keyFile, clientUser string) error {
 	if _, err = hex.DecodeString(string(key)); err != nil {
 		return fmt.Errorf("key must be hex")
 	}
+	actions, err := actionTable(contracts.Actions())
+	if err != nil {
+		return err
+	}
 	if _, err = os.Lstat(socket); !os.IsNotExist(err) {
 		return fmt.Errorf("socket path exists or cannot be inspected; refusing replacement")
 	}
@@ -213,7 +253,7 @@ func serve(socket, keyFile, clientUser string) error {
 		return err
 	}
 	server := &http.Server{
-		Handler:           &broker{key: key, requirePeerUID: true, allowedPeerUID: allowedPeerUID},
+		Handler:           &broker{key: key, actions: actions, requirePeerUID: true, allowedPeerUID: allowedPeerUID},
 		ConnContext:       peer.ConnContext,
 		ReadHeaderTimeout: 2 * time.Second, ReadTimeout: 3 * time.Second,
 		WriteTimeout: 3 * time.Second, IdleTimeout: 3 * time.Second, MaxHeaderBytes: 8192,

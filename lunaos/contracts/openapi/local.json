@@ -332,6 +332,175 @@
         ]
       }
     },
+    "/v1/goals/{id}/retry": {
+      "post": {
+        "summary": "Owner retries a failed goal as the next numbered strategy trial; the Policy Broker decides again",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "strategy",
+                  "hypothesis"
+                ],
+                "properties": {
+                  "strategy": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_.-]{0,63}$"
+                  },
+                  "hypothesis": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Trial recorded; a blocked decision is recorded as a finished trial",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "goal",
+                    "trial"
+                  ],
+                  "properties": {
+                    "goal": {
+                      "$ref": "#/components/schemas/Goal"
+                    },
+                    "trial": {
+                      "$ref": "#/components/schemas/StrategyTrial"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request or STRATEGY_AND_HYPOTHESIS_REQUIRED"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Goal not found"
+          },
+          "409": {
+            "description": "GOAL_TRANSITION_CONFLICT when the goal is not failed, STRATEGY_TRIAL_LIMIT after five trials"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
+    "/v1/goals/{id}/evidence": {
+      "get": {
+        "summary": "Read the artifact evidence recorded for a goal",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recorded evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArtifactEvidence"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Goal not found or no evidence recorded"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
+    "/v1/goals/{id}/trials": {
+      "get": {
+        "summary": "List a goal's strategy trials in attempt order",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "trials"
+                  ],
+                  "properties": {
+                    "trials": {
+                      "type": "array",
+                      "maxItems": 5,
+                      "items": {
+                        "$ref": "#/components/schemas/StrategyTrial"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "Goal not found"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
     "/v1/system/capabilities": {
       "get": {
         "summary": "Live service readiness; hardware remains unverified",
@@ -1053,6 +1222,1016 @@
           }
         }
       }
+    },
+    "/v1/privacy/status": {
+      "get": {
+        "summary": "Read the privacy mode and whether capture is possible; never says why BLIND was entered",
+        "responses": {
+          "200": {
+            "description": "Current privacy state",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyState"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
+    "/v1/privacy/blind": {
+      "post": {
+        "summary": "Latch BLIND and invalidate every capture lease; idempotent, any owner channel",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "reason"
+                ],
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "enum": [
+                      "manual",
+                      "intimate_scene",
+                      "sensor_error",
+                      "consent_revoked"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "BLIND latched",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyState"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request or INVALID_BLIND_REASON"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
+    "/v1/privacy/open-eyes": {
+      "post": {
+        "summary": "Leave BLIND or the startup lock for ephemeral detection, from the trusted local UI only",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "intent"
+                ],
+                "properties": {
+                  "intent": {
+                    "const": "explicit_user_click"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Eyes opened",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyState"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request or EXPLICIT_USER_CLICK_REQUIRED"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "TRUSTED_UI_REQUIRED: accepted only from the owner Unix socket"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
+    "/v1/privacy/leases": {
+      "post": {
+        "summary": "Request a capture lease valid until the next entry into BLIND",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "purpose"
+                ],
+                "properties": {
+                  "purpose": {
+                    "type": "string",
+                    "enum": [
+                      "blind_detection",
+                      "consented_capture"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Lease issued",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaptureLease"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request or INVALID_CAPTURE_PURPOSE"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "423": {
+            "description": "PRIVACY_BLOCKED: the current mode does not allow capture for this purpose"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
+    "/v1/privacy/leases/validate": {
+      "post": {
+        "summary": "Check whether a capture lease still permits capture right now",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CaptureLease"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Validity; a malformed or stale lease is reported as not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "valid"
+                  ],
+                  "properties": {
+                    "valid": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/context": {
+      "put": {
+        "summary": "Set the intimacy privacy context; private only from the trusted local UI",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "privacy_mode"
+                ],
+                "properties": {
+                  "privacy_mode": {
+                    "type": "string",
+                    "enum": [
+                      "public",
+                      "private"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Context updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntimacyState"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request or INVALID_PRIVACY_MODE"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "TRUSTED_UI_REQUIRED: accepted only from the owner Unix socket"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/resume": {
+      "post": {
+        "summary": "Lift STOP_INTIMACY, from the trusted local UI only",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "Empty object expected; members are ignored"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Intimacy resumed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntimacyState"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "TRUSTED_UI_REQUIRED: accepted only from the owner Unix socket"
+          },
+          "503": {
+            "description": "Local service unavailable"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/library/sources": {
+      "get": {
+        "summary": "List registered library folders with library.read consent",
+        "parameters": [
+          {
+            "name": "consent_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Registered sources",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "sources"
+                  ],
+                  "properties": {
+                    "sources": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/LibrarySource"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Consent absent, expired, revoked or missing the library scope (CONSENT_DENIED)"
+          },
+          "423": {
+            "description": "BLOCKED_PRIVACY: context is not private or intimacy is stopped; nothing is revealed"
+          },
+          "503": {
+            "description": "Private vault unavailable (INTIMACY_VAULT_UNAVAILABLE)"
+          }
+        }
+      },
+      "post": {
+        "summary": "Register a library folder with library.write consent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "consent_id",
+                  "path"
+                ],
+                "properties": {
+                  "consent_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "path": {
+                    "type": "string",
+                    "description": "Absolute, clean path of an existing directory that is not a symlink"
+                  },
+                  "label": {
+                    "type": "string",
+                    "maxLength": 128
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Source registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LibrarySource"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request or INVALID_LIBRARY_SOURCE"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Consent absent, expired, revoked or missing the library scope (CONSENT_DENIED)"
+          },
+          "423": {
+            "description": "BLOCKED_PRIVACY: context is not private or intimacy is stopped; nothing is revealed"
+          },
+          "503": {
+            "description": "Private vault unavailable (INTIMACY_VAULT_UNAVAILABLE)"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/library/sources/{id}/scan": {
+      "post": {
+        "summary": "Index new and changed images and videos under a source with library.write consent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "consent_id"
+                ],
+                "properties": {
+                  "consent_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Scan report",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LibraryScanReport"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Consent absent, expired, revoked or missing the library scope (CONSENT_DENIED)"
+          },
+          "404": {
+            "description": "LIBRARY_ITEM_NOT_FOUND: unknown source"
+          },
+          "423": {
+            "description": "BLOCKED_PRIVACY: context is not private or intimacy is stopped; nothing is revealed"
+          },
+          "503": {
+            "description": "Private vault unavailable (INTIMACY_VAULT_UNAVAILABLE)"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/library/search": {
+      "post": {
+        "summary": "Search decrypted names and tags in memory with library.read consent; the query is not stored",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "consent_id"
+                ],
+                "properties": {
+                  "consent_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "maxItems": 32,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "media_type": {
+                    "type": "string",
+                    "enum": [
+                      "image",
+                      "video"
+                    ]
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "Values outside 1..200 mean 200"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Matching items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "maxItems": 200,
+                      "items": {
+                        "$ref": "#/components/schemas/LibraryItem"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request or INVALID_LIBRARY_REQUEST"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Consent absent, expired, revoked or missing the library scope (CONSENT_DENIED)"
+          },
+          "423": {
+            "description": "BLOCKED_PRIVACY: context is not private or intimacy is stopped; nothing is revealed"
+          },
+          "503": {
+            "description": "Private vault unavailable (INTIMACY_VAULT_UNAVAILABLE)"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/library/items/{id}/tags": {
+      "put": {
+        "summary": "Replace an item's tags with library.write consent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "consent_id"
+                ],
+                "properties": {
+                  "consent_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "maxItems": 32,
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Tags replaced"
+          },
+          "400": {
+            "description": "Malformed request or INVALID_LIBRARY_REQUEST"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Consent absent, expired, revoked or missing the library scope (CONSENT_DENIED)"
+          },
+          "404": {
+            "description": "LIBRARY_ITEM_NOT_FOUND"
+          },
+          "423": {
+            "description": "BLOCKED_PRIVACY: context is not private or intimacy is stopped; nothing is revealed"
+          },
+          "503": {
+            "description": "Private vault unavailable (INTIMACY_VAULT_UNAVAILABLE)"
+          }
+        }
+      }
+    },
+    "/v1/intimacy/library/items/{id}": {
+      "delete": {
+        "summary": "Drop an item and its locations from the index with library.write consent; files are untouched",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "consent_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Item removed from the index"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "Consent absent, expired, revoked or missing the library scope (CONSENT_DENIED)"
+          },
+          "404": {
+            "description": "LIBRARY_ITEM_NOT_FOUND"
+          },
+          "423": {
+            "description": "BLOCKED_PRIVACY: context is not private or intimacy is stopped; nothing is revealed"
+          },
+          "503": {
+            "description": "Private vault unavailable (INTIMACY_VAULT_UNAVAILABLE)"
+          }
+        }
+      }
+    },
+    "/v1/subjects": {
+      "post": {
+        "summary": "Create a consent subject; attested_adult only from the trusted local consent screen",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "adult_status"
+                ],
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "SELF",
+                      "OTHER"
+                    ]
+                  },
+                  "adult_status": {
+                    "type": "string",
+                    "enum": [
+                      "unverified",
+                      "attested_adult",
+                      "suspected_minor",
+                      "minor"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Subject created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subject"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request or INVALID_SUBJECT_REQUEST"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "TRUSTED_UI_REQUIRED: accepted only from the owner Unix socket"
+          },
+          "503": {
+            "description": "Private vault unavailable (INTIMACY_VAULT_UNAVAILABLE)"
+          }
+        }
+      }
+    },
+    "/v1/subjects/{id}": {
+      "delete": {
+        "summary": "Close LUNA's eyes, then erase everything about a subject, including the data key",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Erasure receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErasureReceipt"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "SUBJECT_NOT_FOUND"
+          },
+          "503": {
+            "description": "Private vault unavailable (INTIMACY_VAULT_UNAVAILABLE)"
+          }
+        }
+      }
+    },
+    "/v1/subjects/{id}/challenge": {
+      "post": {
+        "summary": "Issue a single-use spoken challenge, valid two minutes, from the trusted local consent screen",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Phrase the subject must say back",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "phrase"
+                  ],
+                  "properties": {
+                    "phrase": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "TRUSTED_UI_REQUIRED: accepted only from the owner Unix socket"
+          },
+          "404": {
+            "description": "SUBJECT_NOT_FOUND"
+          },
+          "503": {
+            "description": "Private vault unavailable (INTIMACY_VAULT_UNAVAILABLE)"
+          }
+        }
+      }
+    },
+    "/v1/subjects/{id}/consents": {
+      "post": {
+        "summary": "Record the scopes a subject granted, from the trusted local consent screen",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubjectConsentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Grants recorded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "grants"
+                  ],
+                  "properties": {
+                    "grants": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SubjectGrant"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request or INVALID_SUBJECT_REQUEST"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "403": {
+            "description": "TRUSTED_UI_REQUIRED, SUBJECT_ADULTHOOD_NOT_ATTESTED, SUBJECT_CONSENT_REQUIRED or CONSENT_CHALLENGE_INVALID"
+          },
+          "404": {
+            "description": "SUBJECT_NOT_FOUND"
+          },
+          "503": {
+            "description": "Private vault unavailable (INTIMACY_VAULT_UNAVAILABLE)"
+          }
+        }
+      }
+    },
+    "/v1/subjects/{id}/scopes": {
+      "get": {
+        "summary": "List a subject's active, unexpired grants",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active grants",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "grants"
+                  ],
+                  "properties": {
+                    "grants": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SubjectGrant"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "SUBJECT_NOT_FOUND"
+          },
+          "503": {
+            "description": "Private vault unavailable (INTIMACY_VAULT_UNAVAILABLE)"
+          }
+        }
+      }
+    },
+    "/v1/subjects/{id}/revoke": {
+      "post": {
+        "summary": "Close LUNA's eyes, then revoke scopes and erase the assets they covered, from any owner channel",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "scopes"
+                ],
+                "properties": {
+                  "scopes": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "$ref": "#/components/schemas/SubjectScope"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Erasure receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErasureReceipt"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed request or INVALID_SUBJECT_REQUEST"
+          },
+          "401": {
+            "description": "Owner authentication required"
+          },
+          "404": {
+            "description": "SUBJECT_NOT_FOUND"
+          },
+          "503": {
+            "description": "Private vault unavailable (INTIMACY_VAULT_UNAVAILABLE)"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1303,17 +2482,7 @@
           },
           "parent_id": {"type": "string", "format": "uuid"},
           "dependency_goal_ids": {"type": "array", "maxItems": 32, "items": {"type": "string", "format": "uuid"}},
-          "evidence": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["sha256", "byte_count", "provenance", "verified"],
-            "properties": {
-              "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
-              "byte_count": {"type": "integer", "minimum": 0},
-              "provenance": {"type": "string"},
-              "verified": {"type": "boolean"}
-            }
-          },
+          "evidence": {"$ref": "#/components/schemas/ArtifactEvidence"},
           "created_at_utc": {
             "type": "string",
             "format": "date-time"
@@ -1828,6 +2997,403 @@
               "ALLOWLIST_MISS",
               "ALLOWLIST_MATCH"
             ]
+          }
+        }
+      },
+      "ArtifactEvidence": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sha256",
+          "byte_count",
+          "provenance",
+          "verified"
+        ],
+        "properties": {
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "byte_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "provenance": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean"
+          }
+        }
+      },
+      "StrategyTrial": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "attempt",
+          "strategy",
+          "hypothesis",
+          "baseline_code",
+          "outcome",
+          "created_at_utc"
+        ],
+        "properties": {
+          "attempt": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "strategy": {
+            "type": "string"
+          },
+          "hypothesis": {
+            "type": "string"
+          },
+          "baseline_code": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "succeeded",
+              "failed",
+              "blocked"
+            ]
+          },
+          "outcome_code": {
+            "type": "string"
+          },
+          "created_at_utc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finished_at_utc": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PrivacyState": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mode",
+          "capture_allowed",
+          "requires_open_eyes",
+          "updated_at_utc"
+        ],
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "STARTUP_LOCKED",
+              "NORMAL_EPHEMERAL_DETECTION",
+              "AUTHORIZED_CAPTURE_SESSION",
+              "BLIND_LATCHED",
+              "SENSOR_UNAVAILABLE"
+            ]
+          },
+          "capture_allowed": {
+            "type": "boolean"
+          },
+          "requires_open_eyes": {
+            "type": "boolean"
+          },
+          "updated_at_utc": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CaptureLease": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "purpose",
+          "epoch",
+          "check"
+        ],
+        "properties": {
+          "purpose": {
+            "type": "string",
+            "enum": [
+              "blind_detection",
+              "consented_capture"
+            ]
+          },
+          "epoch": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "check": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          }
+        }
+      },
+      "LibrarySource": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_id",
+          "path",
+          "label",
+          "online"
+        ],
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "path": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "online": {
+            "type": "boolean"
+          },
+          "last_scan_utc": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "LibraryScanReport": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_id",
+          "online",
+          "indexed",
+          "unchanged",
+          "duplicates",
+          "skipped",
+          "unavailable"
+        ],
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "online": {
+            "type": "boolean"
+          },
+          "indexed": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "unchanged": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "duplicates": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "skipped": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "unavailable": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "LibraryItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "item_id",
+          "source_id",
+          "sha256",
+          "media_type",
+          "bytes",
+          "name",
+          "tags",
+          "available",
+          "copies"
+        ],
+        "properties": {
+          "item_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "source_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "media_type": {
+            "type": "string"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "name": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "copies": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      },
+      "SubjectScope": {
+        "type": "string",
+        "enum": [
+          "BODY_PROFILE",
+          "FACE_RECOGNITION",
+          "FACE_REFERENCE",
+          "GENERATION_REFERENCE",
+          "INTIMATE_DATA_RETENTION",
+          "INTIMATE_STILL_CAPTURE",
+          "INTIMATE_VIDEO_CAPTURE",
+          "INTIMATE_VIEW",
+          "NAS_ENCRYPTED_BACKUP",
+          "ONGOING_AUTONOMOUS_CAPTURE",
+          "TRAINING_BLIND",
+          "TRAINING_BODY",
+          "TRAINING_FACE"
+        ]
+      },
+      "Subject": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "subject_id",
+          "kind",
+          "adult_status"
+        ],
+        "properties": {
+          "subject_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "SELF",
+              "OTHER"
+            ]
+          },
+          "adult_status": {
+            "type": "string",
+            "enum": [
+              "unverified",
+              "attested_adult",
+              "suspected_minor",
+              "minor"
+            ]
+          }
+        }
+      },
+      "SubjectConsentRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "scopes",
+          "disclosure_revision",
+          "proof",
+          "expires_at"
+        ],
+        "properties": {
+          "scopes": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 13,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/components/schemas/SubjectScope"
+            }
+          },
+          "disclosure_revision": {
+            "const": "2026-11-01.fr.v1"
+          },
+          "intimate_disclosure_acknowledged": {
+            "type": "boolean",
+            "description": "Required true, with an attested adult subject, for any intimate scope"
+          },
+          "proof": {
+            "type": "string",
+            "enum": [
+              "subject_click",
+              "voice_challenge"
+            ]
+          },
+          "challenge_response": {
+            "type": "string",
+            "description": "The issued phrase, for voice_challenge proof"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "In the future and at most 366 days away"
+          }
+        }
+      },
+      "SubjectGrant": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "scope",
+          "expires_at"
+        ],
+        "properties": {
+          "scope": {
+            "$ref": "#/components/schemas/SubjectScope"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ErasureReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "subject_id",
+          "reason",
+          "assets_erased",
+          "key_destroyed",
+          "completed_at_utc"
+        ],
+        "properties": {
+          "subject_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "assets_erased": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "key_destroyed": {
+            "type": "boolean"
+          },
+          "completed_at_utc": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       }

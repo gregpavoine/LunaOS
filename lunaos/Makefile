@@ -9,6 +9,7 @@ check:
 	test -z "$$(gofmt -l services contracts)"
 	go vet -buildvcs=false ./services/... ./contracts/...
 	bash -n scripts/dev-native.sh
+	bash tests/systemd-units-test.sh
 	for f in $$(find contracts -name '*.json' -type f); do python3 -m json.tool "$$f" >/dev/null || exit 1; done
 
 # Real Linux child-process smoke: isolated broker, Core, SQLite recovery and API.
