@@ -314,14 +314,16 @@ func hashFile(path string) (string, error) {
 	return fmt.Sprintf("%x", h.Sum(nil)), nil
 }
 
-// sweepStaleParts removes abandoned partial downloads older than a day.
+// sweepStaleParts removes abandoned partial downloads, and plaintext media a
+// crash left between the rename and the engine's removal, older than a day.
 func sweepStaleParts(dir string) {
 	entries, err := os.ReadDir(dir)
 	if err != nil {
 		return
 	}
 	for _, e := range entries {
-		if e.IsDir() || !(strings.HasSuffix(e.Name(), ".part") || strings.HasSuffix(e.Name(), ".validator")) {
+		name := e.Name()
+		if e.IsDir() || !(strings.HasSuffix(name, ".part") || strings.HasSuffix(name, ".validator") || strings.HasSuffix(name, ".media")) {
 			continue
 		}
 		if info, err := e.Info(); err == nil && time.Since(info.ModTime()) > stalePartAge {

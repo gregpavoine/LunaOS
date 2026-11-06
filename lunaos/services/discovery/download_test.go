@@ -333,20 +333,24 @@ func TestDownloadRejectsBadTmpDirAndSweepsStale(t *testing.T) {
 	srv := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { _, _ = w.Write(body) }))
 	defer srv.Close()
 	dir := dlTmp(t)
-	stale := filepath.Join(dir, "old.part")
-	young := filepath.Join(dir, "young.part")
-	_ = os.WriteFile(stale, []byte("x"), 0600)
-	_ = os.WriteFile(young, []byte("x"), 0600)
+	// A crash between the rename and the engine's removal leaves plaintext
+	// media behind: it ages out like a part.
 	old := time.Now().Add(-25 * time.Hour)
-	_ = os.Chtimes(stale, old, old)
+	for _, ext := range []string{".part", ".media"} {
+		_ = os.WriteFile(filepath.Join(dir, "old"+ext), []byte("x"), 0600)
+		_ = os.Chtimes(filepath.Join(dir, "old"+ext), old, old)
+		_ = os.WriteFile(filepath.Join(dir, "young"+ext), []byte("x"), 0600)
+	}
 	if _, _, err := Download(context.Background(), srv.Client(), dlCandidate(srv.URL), 0, dir); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := os.Stat(stale); !os.IsNotExist(err) {
-		t.Fatal("stale part survived")
-	}
-	if _, err := os.Stat(young); err != nil {
-		t.Fatal("young part removed")
+	for _, ext := range []string{".part", ".media"} {
+		if _, err := os.Stat(filepath.Join(dir, "old"+ext)); !os.IsNotExist(err) {
+			t.Fatalf("stale %s survived", ext)
+		}
+		if _, err := os.Stat(filepath.Join(dir, "young"+ext)); err != nil {
+			t.Fatalf("young %s removed", ext)
+		}
 	}
 }
 
