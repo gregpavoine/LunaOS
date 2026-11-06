@@ -120,7 +120,9 @@ func TestResumeWithRange(t *testing.T) {
 	if info, _ := os.Stat(path); info.Mode().Perm() != 0600 {
 		t.Fatalf("mode = %v", info.Mode().Perm())
 	}
-	if names := dirEntries(t, dir); len(names) != 1 || !strings.HasSuffix(names[0], ".media") || strings.Contains(path, "42") {
+	// Named after the identity hash only, never the external ID or URL.
+	want := strings.TrimSuffix(filepath.Base(partPath(dir, c)), ".part") + ".media"
+	if names := dirEntries(t, dir); len(names) != 1 || names[0] != want || path != filepath.Join(dir, want) {
 		t.Fatalf("dir = %v", names)
 	}
 }
