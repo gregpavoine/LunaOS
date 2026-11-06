@@ -1,0 +1,78 @@
+# Local LLM inference for LunaOS: supervises llama-server and serves generation
+# to the Core over a peer-checked Unix socket.
+#
+# Model download is not done by the service. Start the service once first:
+# its StateDirectory= creates /var/lib/luna-inference/models. Then the owner
+# fetches a model:
+#   sudo -u luna-inference luna-inference fetch --manifest /usr/share/luna-inference/manifest.json --model-dir /var/lib/luna-inference/models <id>
+# then selects it in /etc/luna-inference/luna-inference.env:
+#   LUNA_INFERENCE_MODEL=<id>
+# An empty LUNA_INFERENCE_MODEL starts the service with no model.
+#
+# The nvidia and nvidia-uvm modules must be loaded at boot (modules-load.d):
+# ProtectKernelModules= and NoNewPrivileges= keep nvidia-modprobe from loading
+# them on first use.
+#
+# Three llama-server start failures within 60 s make the service degraded
+# (INFERENCE_DEGRADED); it tries no start until it is restarted:
+#   systemctl restart luna-inference
+[Unit]
+Description=LunaOS local inference (llama-server supervisor)
+
+[Service]
+Type=simple
+User=luna-inference
+Group=luna-inference
+SupplementaryGroups=video render
+Environment=LUNA_INFERENCE_MODEL=
+# Offload every layer to the GPU and pin the context so a prompt at the API
+# limit plus max_tokens fits. Both may be overridden in the env file.
+Environment=LUNA_INFERENCE_GPU_LAYERS=999
+Environment=LUNA_INFERENCE_CTX_SIZE=16384
+EnvironmentFile=-/etc/luna-inference/luna-inference.env
+# 0750: the Core (member of group luna-inference) traverses to the 0660 socket.
+# The llama-key subdirectory is created 0700 by the service itself.
+RuntimeDirectory=luna-inference
+RuntimeDirectoryMode=0750
+StateDirectory=luna-inference luna-inference/models
+UMask=0077
+ExecStart=/usr/bin/luna-inference serve --socket=/run/luna-inference/inference.sock --model-dir=/var/lib/luna-inference/models --manifest=/usr/share/luna-inference/manifest.json --llama-server=/usr/bin/llama-server --allowed-user=lunaos --model=${LUNA_INFERENCE_MODEL} --gpu-layers=${LUNA_INFERENCE_GPU_LAYERS} --ctx-size=${LUNA_INFERENCE_CTX_SIZE}
+Restart=on-failure
+RestartSec=2s
+# Default control-group kill mode, stated on purpose: a SIGKILLed luna-inference
+# must not leave an orphaned llama-server holding the GPU.
+KillMode=control-group
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+# Only the Core reaches inference. llama-server listens on 127.0.0.1; in a
+# private network namespace that port is invisible to every other local UID,
+# which therefore cannot reach it or squat it. The Core talks to the Unix socket.
+PrivateNetwork=yes
+IPAddressDeny=any
+IPAddressAllow=localhost
+RestrictAddressFamilies=AF_UNIX AF_INET
+# GPU access. The brief's intent is `DeviceAllow=/dev/nvidia* rw`, but systemd
+# does not glob paths, so device classes (names from /proc/devices) are used.
+# The nvidia driver registers "nvidia-frontend" on current versions and "nvidia"
+# on older ones; the explicit paths cover the nodes either way.
+DeviceAllow=char-nvidia-frontend rw
+DeviceAllow=char-nvidia rw
+DeviceAllow=char-nvidia-uvm rw
+DeviceAllow=char-nvidia-caps rw
+DeviceAllow=/dev/nvidiactl rw
+DeviceAllow=/dev/nvidia-modeset rw
+DeviceAllow=char-drm rw
+# PrivateDevices and MemoryDenyWriteExecute stay off: GPU drivers need the
+# device nodes, and CUDA JIT-compiles kernels into executable memory.
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+LockPersonality=yes
+SystemCallArchitectures=native
+RestrictNamespaces=yes
+RestrictSUIDSGID=yes
+
+[Install]
+WantedBy=multi-user.target

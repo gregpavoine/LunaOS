@@ -1,4 +1,3 @@
-// Package inference supervises llama.cpp and only serves hash-verified models.
 package inference
 
 import (

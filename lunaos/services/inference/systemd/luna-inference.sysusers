@@ -1,0 +1,5 @@
+g luna-inference -
+u luna-inference - "LunaOS local inference" /var/lib/luna-inference /usr/bin/nologin
+# The lunaos user is defined by lunaos.conf (track B). Membership lets the Core
+# open the 0660 inference socket.
+m lunaos luna-inference
