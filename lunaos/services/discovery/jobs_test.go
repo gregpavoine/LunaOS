@@ -93,8 +93,12 @@ func (r *removalConnector) Removed(ctx context.Context, ids []string) ([]string,
 	return r.removed(ids), nil
 }
 
+// meta builds a candidate that matches newTestEngine's allowlist.
 func meta(provider, id string) Candidate {
-	return Candidate{Item: Item{Provider: provider, ExternalID: id, ContentLevel: "adult"}}
+	if provider == "reddit" {
+		return Candidate{Item: Item{Provider: provider, ExternalID: id, Tags: []string{"r/x"}}}
+	}
+	return Candidate{Item: Item{Provider: provider, ExternalID: id, License: "cc-by", ContentLevel: "Mature", Tags: []string{"a"}}}
 }
 
 func media(provider, id string) Candidate {
@@ -154,9 +158,12 @@ func newTestEngine(t *testing.T, s *Store, clock *fakeClock, d *downloader, conn
 	e := &Engine{
 		Store:      s,
 		Connectors: conns,
-		Policy:     Policy{Civitai: CivitaiPolicy{AllowedLicenses: []string{"cc-by"}}},
-		Now:        clock.Now,
-		Sleep:      clock.Sleep,
+		Policy: Policy{
+			Civitai: CivitaiPolicy{Tags: []string{"a"}, MaxContentLevel: "X", AllowedLicenses: []string{"cc-by"}},
+			Reddit:  RedditPolicy{Subreddits: []string{"x"}},
+		},
+		Now:   clock.Now,
+		Sleep: clock.Sleep,
 	}
 	if d != nil {
 		e.Download = d.Download
