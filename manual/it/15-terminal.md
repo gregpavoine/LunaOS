@@ -1,8 +1,8 @@
 # Terminale
 
-[Foot](https://codeberg.org/dnkl/foot) è il terminale predefinito di Omarchy. È veloce, leggero e compatibile anche con computer vecchi. Non supporta però schede o divisioni native.
+[Foot](https://codeberg.org/dnkl/foot) è il terminale predefinito di LunaOS. È veloce, leggero e compatibile anche con computer vecchi. Non supporta però schede o divisioni native.
 
-Se usi Tmux, potrebbe non importarti, ma in caso contrario supportiamo completamente anche _Alacritty_, _Ghostty_ e _Kitty_ come opzioni. Scegli la tua preferenza sotto _Installa > Terminale_ nel menu Omarchy.
+Se usi Tmux, potrebbe non importarti, ma in caso contrario supportiamo completamente anche _Alacritty_, _Ghostty_ e _Kitty_ come opzioni. Scegli la tua preferenza sotto _Installa > Terminale_ nel menu LunaOS.
 
 Avvii un nuovo terminale usando `Super + Return`. (Questa combinazione punterà automaticamente a qualsiasi Terminale tu abbia installato tramite _Installa > Terminale_, e puoi passare tra i terminali installati sotto _Impostazioni > Predefiniti > Terminale_.)
 
@@ -12,11 +12,11 @@ Tmux fornisce un'interfaccia coerente e programmabile per pannelli, finestre (de
 
 Avvii una nuova sessione Tmux in un terminale nuovo usando `Super + Alt + Return`, e poiché Tmux è un processo persistente, puoi riprendere la sessione anche se chiudi quel terminale. Premi semplicemente `Ctrl + Space` (chiamato tasto prefisso) poi `s` per vedere tutte le sessioni attive.
 
-Omarchy viene fornito con una configurazione Tmux ottimizzata ergonomicamente, che ha molte combinazioni da imparare, quindi tieni [il foglio riassuntivo a portata di mano](07-hotkeys.md#tmux).
+LunaOS viene fornito con una configurazione Tmux ottimizzata ergonomicamente, che ha molte combinazioni da imparare, quindi tieni [il foglio riassuntivo a portata di mano](07-hotkeys.md#tmux).
 
 ## Funzioni layout Tmux
 
-Poiché Tmux è programmabile, possiamo usare le funzioni per creare layout. Omarchy viene fornito con quattro funzioni diverse per layout di sviluppo comuni.
+Poiché Tmux è programmabile, possiamo usare le funzioni per creare layout. LunaOS viene fornito con quattro funzioni diverse per layout di sviluppo comuni.
 
 `tdl [agent]` avvia un'interfaccia in stile IDE divisa in tre con `$EDITOR` a sinistra, l'agente AI scelto a destra (come `c` per opencode o `cx` per Claude o `codex` per OpenAI), e poi un terminale in basso.
 

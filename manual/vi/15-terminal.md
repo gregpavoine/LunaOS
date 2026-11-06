@@ -1,8 +1,8 @@
 # Terminal
 
-[Foot](https://codeberg.org/dnkl/foot) là terminal mặc định cho Omarchy. Nó nhanh, nhẹ và tương thích ngay cả với các máy tính cũ. Tuy nhiên, nó không hỗ trợ tab hoặc chia màn hình gốc.
+[Foot](https://codeberg.org/dnkl/foot) là terminal mặc định cho LunaOS. Nó nhanh, nhẹ và tương thích ngay cả với các máy tính cũ. Tuy nhiên, nó không hỗ trợ tab hoặc chia màn hình gốc.
 
-Nếu bạn dùng Tmux, bạn có thể không bận tâm, nhưng nếu không, chúng tôi cũng hỗ trợ đầy đủ _Alacritty_, _Ghostty_ và _Kitty_ làm các tùy chọn. Chọn sở thích của bạn trong _Cài đặt > Terminal_ trong menu Omarchy.
+Nếu bạn dùng Tmux, bạn có thể không bận tâm, nhưng nếu không, chúng tôi cũng hỗ trợ đầy đủ _Alacritty_, _Ghostty_ và _Kitty_ làm các tùy chọn. Chọn sở thích của bạn trong _Cài đặt > Terminal_ trong menu LunaOS.
 
 Bạn khởi động một terminal mới bằng `Super + Return`. (Phím gán này sẽ tự động chỉ tới bất kỳ Terminal nào bạn đã cài đặt qua _Cài đặt > Terminal_, và bạn có thể chuyển đổi giữa các terminal đã cài đặt trong _Thiết lập > Mặc định > Terminal_.)
 
@@ -12,11 +12,11 @@ Tmux cung cấp một giao diện nhất quán, có thể lập trình cho các 
 
 Bạn khởi động một phiên Tmux mới trong một terminal mới bằng `Super + Alt + Return`, và vì Tmux là một tiến trình bền vững, bạn có thể tiếp tục phiên của mình ngay cả khi bạn đóng terminal đó. Chỉ cần nhấn `Ctrl + Space` (được gọi là phím tiền tố) rồi `s` để xem tất cả các phiên đang hoạt động của bạn.
 
-Omarchy đi kèm với một cấu hình Tmux được tối ưu hóa về công thái học, có rất nhiều phím gán cần học, vì vậy hãy giữ [bảng gian lận tiện dụng](07-hotkeys.md#tmux).
+LunaOS đi kèm với một cấu hình Tmux được tối ưu hóa về công thái học, có rất nhiều phím gán cần học, vì vậy hãy giữ [bảng gian lận tiện dụng](07-hotkeys.md#tmux).
 
 ## Hàm bố cục Tmux
 
-Vì Tmux có thể lập trình được, chúng ta có thể dùng các hàm để tạo bố cục. Omarchy đi kèm với bốn hàm khác nhau cho các bố cục phổ biến dành cho nhà phát triển.
+Vì Tmux có thể lập trình được, chúng ta có thể dùng các hàm để tạo bố cục. LunaOS đi kèm với bốn hàm khác nhau cho các bố cục phổ biến dành cho nhà phát triển.
 
 `tdl [agent]` khởi động một giao diện giống IDE chia ba với `$EDITOR` ở bên trái, AI agent bạn đã chọn ở bên phải (như `c` cho opencode hoặc `cx` cho Claude hoặc `codex` cho OpenAI), và sau đó một terminal ở phía dưới.
 

@@ -1,16 +1,16 @@
 # Suporta para sa Mac
 
-Ang Omarchy ay may built-in na suporta para sa mga **Intel Mac**. May ilang kilalang limitasyon sa ngayon, pero basta't alam mo ang mga ito at ayos lang sa iyo; maaari kang magbigay ng bagong buhay sa iyong mga lumang Mac sa pamamagitan ng pag-load ng Omarchy.
+Ang LunaOS ay may built-in na suporta para sa mga **Intel Mac**. May ilang kilalang limitasyon sa ngayon, pero basta't alam mo ang mga ito at ayos lang sa iyo; maaari kang magbigay ng bagong buhay sa iyong mga lumang Mac sa pamamagitan ng pag-load ng LunaOS.
 
-Pakitandaan na ang pag-install sa isang Mac na M-series ay hindi direktang sinusuportahan sa kasalukuyan. Makakahanap ka ng higit pang impormasyon tungkol sa estado nito sa #omarchy-on-other sa aming [Discord](https://discord.gg/tXFUdasqhY).
+Pakitandaan na ang pag-install sa isang Mac na M-series ay hindi direktang sinusuportahan sa kasalukuyan. Makakahanap ka ng higit pang impormasyon tungkol sa estado nito sa #lunaos-on-other sa aming [Discord](https://discord.gg/tXFUdasqhY).
 
-Sa isang simpleng pagsubok, nakamit namin ang 36% na pagtaas ng performance sa isang 2019 MacBook Pro sa pamamagitan lamang ng pag-install ng Omarchy.
+Sa isang simpleng pagsubok, nakamit namin ang 36% na pagtaas ng performance sa isang 2019 MacBook Pro sa pamamagitan lamang ng pag-install ng LunaOS.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Pag-install ng Omarchy sa Mac
+### Pag-install ng LunaOS sa Mac
 
-Sinusuportahan lang ng Omarchy ang pagiging **tanging** OS na naka-install sa ngayon. Sa panahon ng pag-install, buburahin ang drive at hindi na maaaring i-boot ang MacOS.
+Sinusuportahan lang ng LunaOS ang pagiging **tanging** OS na naka-install sa ngayon. Sa panahon ng pag-install, buburahin ang drive at hindi na maaaring i-boot ang MacOS.
 
 Maaari mo pa rin itong ibalik sa ibang pagkakataon sa pamamagitan ng Internet Recovery kung gusto mo.
 
@@ -39,7 +39,7 @@ Natutukoy ng installer ang hardware ng Mac at awtomatikong inilalapat ang mga ki
 
 ### Mga Kilalang Limitasyon
 
-Ang mga kasapi ng komunidad ay patuloy na nagtatrabaho sa mga solusyon sa mga hamong ito kaya kung problema sa iyo ang mga ito, sumali sa #omarchy-on-other sa aming [Discord](https://discord.gg/tXFUdasqhY) at tingnan kung may anumang napapanahong paraan para malutas ang mga ito.
+Ang mga kasapi ng komunidad ay patuloy na nagtatrabaho sa mga solusyon sa mga hamong ito kaya kung problema sa iyo ang mga ito, sumali sa #lunaos-on-other sa aming [Discord](https://discord.gg/tXFUdasqhY) at tingnan kung may anumang napapanahong paraan para malutas ang mga ito.
 
 #### Mga Device na may T1 Chip
 

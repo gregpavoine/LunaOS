@@ -21,7 +21,7 @@ Anotāciju redaktors var zīmēt bultiņas, līnijas, figūras, izgaismojumus, n
 
 Saglabātie ekrānuzņēmumi pēc noklusējuma nonāk `~/Pictures/Screenshots` ar nosaukumu, piemēram, `screenshot-2026-08-13_14-22-05-firefox.png`. Iestati `OMASNAP_SCREENSHOT_DIR`, lai izmantotu citu direktoriju — skat. [BUJ](46-faq.md), kur ievietot sesijas vides mainīgos. Omasnap izveido direktoriju, kad saglabā pirmo uzņemto. Iestati `[output] autosave = false` failā `~/.config/omasnap/omasnap.conf`, lai atspējotu automātisko saglabāšanu.
 
-No termināla `omarchy screenshot` atver to pašu pārklājumu, un tu vari izvēlēties tā sākuma režīmu: `omarchy capture screenshot region`, `windows`, `fullscreen` vai `scroll`. Otrais arguments `copy` vai `save` izlaiž priekšskatījumu un nosūta uzņemto tieši uz šo galamērķi. Lai rediģētu pirms izvades, izmanto `omarchy screenshot --editor=overlay` pilnekrāna redaktoram vai `omarchy screenshot --editor=window` atsevišķam logam.
+No termināla `lunaos screenshot` atver to pašu pārklājumu, un tu vari izvēlēties tā sākuma režīmu: `lunaos capture screenshot region`, `windows`, `fullscreen` vai `scroll`. Otrais arguments `copy` vai `save` izlaiž priekšskatījumu un nosūta uzņemto tieši uz šo galamērķi. Lai rediģētu pirms izvades, izmanto `lunaos screenshot --editor=overlay` pilnekrāna redaktoram vai `lunaos screenshot --editor=window` atsevišķam logam.
 
 ### Atlasītāja vadīšana no tastatūras
 
@@ -40,9 +40,9 @@ Kamēr atlase ir augšā, tev vispār nav jāizmanto pele:
 
 ## Ekrāna ierakstīšana
 
-`Alt + Print Screen` atver _Palaist > Uzņemt > Ekrāna ieraksts_, kas jautā, ko tu vēlies skaņu celiņā: bez audio, darbvirsmas audio, darbvirsmas plus mikrofons vai darbvirsmas plus mikrofons plus tīmekļa kamera. Pēdējais parādās tikai tad, ja tev patiešām ir pievienota kamera. Izvēlies vienu, un Omarchy ierakstīšanas atlasītājs ļauj tev vilkt reģionu vai noklikšķināt uz loga vai monitora.
+`Alt + Print Screen` atver _Palaist > Uzņemt > Ekrāna ieraksts_, kas jautā, ko tu vēlies skaņu celiņā: bez audio, darbvirsmas audio, darbvirsmas plus mikrofons vai darbvirsmas plus mikrofons plus tīmekļa kamera. Pēdējais parādās tikai tad, ja tev patiešām ir pievienota kamera. Izvēlies vienu, un LunaOS ierakstīšanas atlasītājs ļauj tev vilkt reģionu vai noklikšķināt uz loga vai monitora.
 
-Ierakstīšana darbojas ar gpu-screen-recorder, kas kodē GPU ar 60 kadriem/s un atkāpjas uz CPU, ja nepieciešams. Rezultāts ir MP4 mapē `~/Videos` ar nosaukumu `screenrecording-2026-08-13_14-22-05.mp4`. Iestati `OMARCHY_SCREENRECORD_DIR`, lai to mainītu — bet ņem vērā, ka atšķirībā no ekrānuzņēmumu direktorijas šai ir jāpastāv jau iepriekš, citādi ierakstīšana atteiksies sākties.
+Ierakstīšana darbojas ar gpu-screen-recorder, kas kodē GPU ar 60 kadriem/s un atkāpjas uz CPU, ja nepieciešams. Rezultāts ir MP4 mapē `~/Videos` ar nosaukumu `screenrecording-2026-08-13_14-22-05.mp4`. Iestati `LUNAOS_SCREENRECORD_DIR`, lai to mainītu — bet ņem vērā, ka atšķirībā no ekrānuzņēmumu direktorijas šai ir jāpastāv jau iepriekš, citādi ierakstīšana atteiksies sākties.
 
 Kamēr tu ieraksti, joslā parādās mazs rādītājs. Noklikšķini uz tā, lai apturētu. Tu vari arī apturēt vēlreiz ar `Alt + Print Screen` vai ar ierakstu _Apturēt ekrāna ierakstu_ zem _Palaist > Uzņemt > Ekrāna ieraksts_, kas parādās tikai kamēr kaut kas patiešām ieraksta.
 
@@ -59,7 +59,7 @@ Kad tu ieraksti ar tīmekļa kameru, kamera parādās kā piesprausts, apgriezts
 
 Ir trīs izmēri — mazs, vidējs un liels —, un karstās taustiņu kombinācijas soļo starp tiem. Vidējs ir noklusējums. Tie ir proporcionāli ierakstam, tāpēc kamera aizņem tādu pašu kadra daļu neatkarīgi no tā, vai tu ieraksti 1080p monitoru vai 6K monitoru. Un, ja tu ierakstīji reģionu, nevis visu displeju, pārklājums noenkurojas pie šī reģiona stūra, nevis monitora stūra, tāpēc tas paliek kadra iekšpusē.
 
-Tu vari to izsaukt tieši arī ar `omarchy-capture-webcam-resize small` vai `reset`, lai atgrieztos pie vidēja.
+Tu vari to izsaukt tieši arī ar `lunaos-capture-webcam-resize small` vai `reset`, lai atgrieztos pie vidēja.
 
 ## Teksts, QR kodi un krāsas
 
@@ -75,7 +75,7 @@ _Palaist > Uzņemt > QR kods_ dara to pašu triku QR kodiem. Atlasi reģionu ar 
 
 Attēli nonāk jpg vai png formātā augstā, vidējā vai zemā kvalitātē, kas ierobežo platumu līdz 3160, 2160 un 1080 pikseļiem. Video nonāk mp4 vai animētā gif formātā 4k, 1080p vai 720p. Pārvērstais fails tiek ierakstīts blakus oriģinālam ar izšķirtspēju nosaukumā — `demo-1080p.mp4` —, un ceļš tiek kopēts starpliktuvē kā faila URI, tāpēc tu vari to ielīmēt tieši lietotnē, kas pieņem failu nomešanu.
 
-Tas darbojas arī no termināla, ja tu jau zini, ko vēlies: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Ir arī `omarchy transcode ascii`, kas pārvērš attēlu ASCII mākslā — tas galvenokārt ir paredzēts [zīmolvedībai](41-branding.md).
+Tas darbojas arī no termināla, ja tu jau zini, ko vēlies: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Ir arī `lunaos transcode ascii`, kas pārvērš attēlu ASCII mākslā — tas galvenokārt ir paredzēts [zīmolvedībai](41-branding.md).
 
 ## Nosūtīšana kaut kur
 

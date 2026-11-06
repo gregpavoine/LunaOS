@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# lunaos:summary=Set the correct power profile on boot based on current AC/battery state.
+
+exec lunaos-powerprofiles-set autodetect

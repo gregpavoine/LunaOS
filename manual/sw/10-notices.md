@@ -14,7 +14,7 @@ Unaweza kufikia haraka tarehe na muda, hali ya betri, na hali ya hewa ya sasa uk
 
  ![notice-weather](images/notice-weather.webp)
 
-Mahali hugunduliwa kutoka anwani yako ya IP, ambayo kwa kawaida huwa karibu vya kutosha, lakini si daima. Unaweza kubainisha kwa `omarchy weather location --set Malibu`, au kuwa sahihi kabisa kwa kuongeza viwianishi: `omarchy weather location --set Malibu 34.0259,-118.7798`. Endesha `omarchy weather location` pekee ili kuona inakodhani uko, na `--clear` ili kurudi kwenye ugunduzi otomatiki.
+Mahali hugunduliwa kutoka anwani yako ya IP, ambayo kwa kawaida huwa karibu vya kutosha, lakini si daima. Unaweza kubainisha kwa `lunaos weather location --set Malibu`, au kuwa sahihi kabisa kwa kuongeza viwianishi: `lunaos weather location --set Malibu 34.0259,-118.7798`. Endesha `lunaos weather location` pekee ili kuona inakodhani uko, na `--clear` ili kurudi kwenye ugunduzi otomatiki.
 
 ### Betri
 

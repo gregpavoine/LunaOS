@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# lunaos:summary=Check if a Hyprland toggle is currently disabled (missing).
+# lunaos:args=<flag-name>
+
+[[ ! -f "$HOME/.local/state/lunaos/toggles/hypr/$1.lua" ]]

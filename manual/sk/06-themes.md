@@ -1,8 +1,8 @@
 # Témy
 
-Omarchy prichádza s dvadsiatimi dvomi krásnymi témami. Môžete si medzi nimi vybrať cez _Štýl > Téma_ v menu Omarchy (`Super + Space`) alebo skočiť priamo k výberu tém pomocou `Super + Ctrl + Shift + Space`.
+LunaOS prichádza s dvadsiatimi dvomi krásnymi témami. Môžete si medzi nimi vybrať cez _Štýl > Téma_ v menu LunaOS (`Super + Space`) alebo skočiť priamo k výberu tém pomocou `Super + Ctrl + Shift + Space`.
 
-Každá téma štylizuje pracovnú plochu, terminál, neovim, obrazovku aktivity (btop), Chromium a celý shell Omarchy: hornú lištu, menu, upozornenia, OSD a uzamykaciu obrazovku. (Pri Obsidian musíte tému Omarchy vybrať ručne cez _Appearance > Themes_ vnútri aplikácie).
+Každá téma štylizuje pracovnú plochu, terminál, neovim, obrazovku aktivity (btop), Chromium a celý shell LunaOS: hornú lištu, menu, upozornenia, OSD a uzamykaciu obrazovku. (Pri Obsidian musíte tému LunaOS vybrať ručne cez _Appearance > Themes_ vnútri aplikácie).
 
 Témy majú sadu obrázkov pozadia, medzi ktorými si môžete vyberať pomocou `Super + Ctrl + Space`.
 

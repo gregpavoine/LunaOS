@@ -21,7 +21,7 @@ Izoh editori oʻqlar, chiziqlar, shakllar, ajratib koʻrsatishlar, raqamlangan b
 
 Saqlangan skrinshotlar standartda `~/Pictures/Screenshots` ga tushadi, `screenshot-2026-08-13_14-22-05-firefox.png` kabi nom bilan. Boshqa katalog ishlatish uchun `OMASNAP_SCREENSHOT_DIR` ni oʻrnating — sessiya muhiti oʻzgaruvchilarini qayerga qoʻyish haqida [FAQ](46-faq.md) ga qarang. Omasnap birinchi suratni saqlaganda katalogni yaratadi. Avtomatik saqlashni oʻchirish uchun `~/.config/omasnap/omasnap.conf` da `[output] autosave = false` ni oʻrnating.
 
-Terminaldan `omarchy screenshot` xuddi shu qoplamani ochadi va siz uning boshlangʻich rejimini tanlashingiz mumkin: `omarchy capture screenshot region`, `windows`, `fullscreen` yoki `scroll`. `copy` yoki `save` ikkinchi argumenti oldindan koʻrishni oʻtkazib yuboradi va suratni toʻgʻridan-toʻgʻri oʻsha manzilga yuboradi. Chiqarishdan oldin tahrirlash uchun toʻliq ekran editori uchun `omarchy screenshot --editor=overlay` yoki alohida oyna uchun `omarchy screenshot --editor=window` ishlating.
+Terminaldan `lunaos screenshot` xuddi shu qoplamani ochadi va siz uning boshlangʻich rejimini tanlashingiz mumkin: `lunaos capture screenshot region`, `windows`, `fullscreen` yoki `scroll`. `copy` yoki `save` ikkinchi argumenti oldindan koʻrishni oʻtkazib yuboradi va suratni toʻgʻridan-toʻgʻri oʻsha manzilga yuboradi. Chiqarishdan oldin tahrirlash uchun toʻliq ekran editori uchun `lunaos screenshot --editor=overlay` yoki alohida oyna uchun `lunaos screenshot --editor=window` ishlating.
 
 ### Tanlovchini klaviaturadan boshqarish
 
@@ -40,9 +40,9 @@ Bu bogʻlanishlar faqat Omasnap ochiq boʻlganda mavjud, shuning uchun ular oʻz
 
 ## Ekran yozuvi
 
-`Alt + Print Screen` _Ishga tushirish > Yozib olish > Ekran yozuvi_ ni ochadi, u ovoz yozuvida nimani xohlashingizni soʻraydi: ovoz yoʻq, ish stoli ovozi, ish stoli plyus mikrofon yoki ish stoli plyus mikrofon plyus veb-kamera. Oxirgisi faqat haqiqatan kamera ulagan boʻlsangiz paydo boʻladi. Bittasini tanlang va Omarchyning yozuv tanlovchisi sizga hudud sudrab borish yoki oyna yoki monitorni bosish imkonini beradi.
+`Alt + Print Screen` _Ishga tushirish > Yozib olish > Ekran yozuvi_ ni ochadi, u ovoz yozuvida nimani xohlashingizni soʻraydi: ovoz yoʻq, ish stoli ovozi, ish stoli plyus mikrofon yoki ish stoli plyus mikrofon plyus veb-kamera. Oxirgisi faqat haqiqatan kamera ulagan boʻlsangiz paydo boʻladi. Bittasini tanlang va LunaOSning yozuv tanlovchisi sizga hudud sudrab borish yoki oyna yoki monitorni bosish imkonini beradi.
 
-Yozuv gpu-screen-recorderda ishlaydi, u GPUda 60fpsda kodlaydi va kerak boʻlsa CPUga qaytadi. Natija `~/Videos` dagi `screenrecording-2026-08-13_14-22-05.mp4` nomli MP4 dir. Uni oʻzgartirish uchun `OMARCHY_SCREENRECORD_DIR` ni oʻrnating — lekin esda tuting, skrinshot katalogidan farqli oʻlaroq, bu katalog allaqachon mavjud boʻlishi kerak, aks holda yozuv boshlanishni rad etadi.
+Yozuv gpu-screen-recorderda ishlaydi, u GPUda 60fpsda kodlaydi va kerak boʻlsa CPUga qaytadi. Natija `~/Videos` dagi `screenrecording-2026-08-13_14-22-05.mp4` nomli MP4 dir. Uni oʻzgartirish uchun `LUNAOS_SCREENRECORD_DIR` ni oʻrnating — lekin esda tuting, skrinshot katalogidan farqli oʻlaroq, bu katalog allaqachon mavjud boʻlishi kerak, aks holda yozuv boshlanishni rad etadi.
 
 Yozib olayotganingizda panelda kichik koʻrsatkich paydo boʻladi. Toʻxtatish uchun uni bosing. Yana `Alt + Print Screen` yoki _Ishga tushirish > Yozib olish > Ekran yozuvi_ ostidagi _Yozuvni toʻxtatish_ yozuvi bilan ham toʻxtatishingiz mumkin, u faqat nimadir haqiqatan yozib olinayotgan paytda paydo boʻladi.
 
@@ -59,7 +59,7 @@ Veb-kamera bilan yozib olganingizda, kamera yozib olayotgan narsangizning pastki
 
 Uchta oʻlcham bor — kichik, oʻrta va katta — va hotkeylar ular orasida qadam tashlaydi. Oʻrta standart hisoblanadi. Ular yozuvga mutanosib, shuning uchun kamera 1080p monitor yoki 6K monitor yozib olayotganingizdan qatʼi nazar kadrning bir xil ulushini egallaydi. Va agar butun displey emas, hudud yozib olgan boʻlsangiz, qoplama monitorning emas, oʻsha hudud burchagiga mahkamlanadi, shuning uchun u surat ichida qoladi.
 
-Uni bevosita `omarchy-capture-webcam-resize small` bilan yoki oʻrtaga qaytish uchun `reset` bilan ham chaqirishingiz mumkin.
+Uni bevosita `lunaos-capture-webcam-resize small` bilan yoki oʻrtaga qaytish uchun `reset` bilan ham chaqirishingiz mumkin.
 
 ## Matn, QR kodlar va ranglar
 
@@ -75,7 +75,7 @@ _Ishga tushirish > Yozib olish > QR kod_ QR kodlar uchun xuddi shu hiylani qilad
 
 Rasmlar kengligi 3160, 2160 va 1080 piksel bilan chegaralanadigan yuqori, oʻrta yoki past sifatda jpg yoki png ga ketadi. Videolar 4k, 1080p yoki 720p da mp4 yoki animatsiyali gif ga ketadi. Oʻzgartirilgan fayl nomda oʻlcham bilan asl fayl yoniga yoziladi — `demo-1080p.mp4` — va yoʻl fayl URI si sifatida buferga nusxalanadi, shuning uchun uni fayl tashlashlarni oladigan ilovaga toʻgʻridan-toʻgʻri qoʻyishingiz mumkin.
 
-Agar nimani xohlashingizni allaqachon bilsangiz, u terminaldan ham ishlaydi: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Yana `omarchy transcode ascii` bor, u rasmni ASCII sanʼatiga aylantiradi — bunisi asosan [brending](41-branding.md) uchun.
+Agar nimani xohlashingizni allaqachon bilsangiz, u terminaldan ham ishlaydi: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Yana `lunaos transcode ascii` bor, u rasmni ASCII sanʼatiga aylantiradi — bunisi asosan [brending](41-branding.md) uchun.
 
 ## Uni biror joyga yuborish
 

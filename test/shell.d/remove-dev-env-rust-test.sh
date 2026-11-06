@@ -35,7 +35,7 @@ SH
 chmod +x "$test_home/.cargo/bin/rustup" "$shim_bin/rustup" "$shim_bin/mise"
 
 HOME="$test_home" PATH="$shim_bin:/usr/bin" EVENT_LOG="$event_log" \
-  "$ROOT/bin/omarchy-remove-dev-env" rust >/dev/null ||
+  "$ROOT/bin/lunaos-remove-dev-env" rust >/dev/null ||
   fail "removing Rust succeeds with the real rustup" "$(cat "$event_log")"
 
 grep -qx "rustup self uninstall -y" "$event_log" ||
@@ -62,7 +62,7 @@ SH
 mkdir -p "$test_home/.local/share/mise/installs/rust"
 
 if HOME="$test_home" PATH="$shim_bin:/usr/bin" EVENT_LOG="$event_log" \
-  "$ROOT/bin/omarchy-remove-dev-env" rust >/dev/null 2>&1; then
+  "$ROOT/bin/lunaos-remove-dev-env" rust >/dev/null 2>&1; then
   fail "removing Rust fails when rustup fails"
 fi
 pass "removing Rust fails when rustup fails"

@@ -14,7 +14,7 @@
 
  ![notice-weather](images/notice-weather.webp)
 
-位置は IP アドレスから検出され、通常は十分に近いのですが、常にそうとは限りません。`omarchy weather location --set Malibu` で固定したり、座標を追加して正確にしたりできます：`omarchy weather location --set Malibu 34.0259,-118.7798`。`omarchy weather location` を単独で実行すると、どこにいると考えているか確認でき、`--clear` で自動検出に戻ります。
+位置は IP アドレスから検出され、通常は十分に近いのですが、常にそうとは限りません。`lunaos weather location --set Malibu` で固定したり、座標を追加して正確にしたりできます：`lunaos weather location --set Malibu 34.0259,-118.7798`。`lunaos weather location` を単独で実行すると、どこにいると考えているか確認でき、`--clear` で自動検出に戻ります。
 
 ### バッテリー
 

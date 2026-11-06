@@ -1,14 +1,14 @@
 # Górny pasek
 
-Pasek wzdłuż górnej krawędzi ekranu to pasek Omarchy. Nie jest doczepionym paskiem statusu, lecz częścią powłoki Omarchy — pojedynczego, długo działającego procesu Quickshell, który rysuje też menu, powiadomienia, wyskakujące OSD i ekran blokady. Dlatego doskonale motywuje się z całą resztą pulpitów i dlatego panel otwiera się natychmiast zamiast tworzyć nową aplikację.
+Pasek wzdłuż górnej krawędzi ekranu to pasek LunaOS. Nie jest doczepionym paskiem statusu, lecz częścią powłoki LunaOS — pojedynczego, długo działającego procesu Quickshell, który rysuje też menu, powiadomienia, wyskakujące OSD i ekran blokady. Dlatego doskonale motywuje się z całą resztą pulpitów i dlatego panel otwiera się natychmiast zamiast tworzyć nową aplikację.
 
 To też jedyny fragment pulpitu, który jest zawsze widoczny, więc warto wiedzieć, co robią te wszystkie małe glify.
 
 ## Co jest na nim domyślnie
 
-Pasek ma trzy sekcje. Po lewej siedzą logo Omarchy (uruchamiacz menu) oraz wskaźniki obszarów roboczych. Pośrodku dostajesz wskaźniki statusu, zegar, Elsewhen (zegar światowy), pogodę i plakietkę aktualizacji Omarchy. Po prawej: układ klawiatury (gdy skonfigurowany jest więcej niż jeden), zasobnik systemowy, agenci, bluetooth, sieć, dźwięk, ekran i zasilanie.
+Pasek ma trzy sekcje. Po lewej siedzą logo LunaOS (uruchamiacz menu) oraz wskaźniki obszarów roboczych. Pośrodku dostajesz wskaźniki statusu, zegar, Elsewhen (zegar światowy), pogodę i plakietkę aktualizacji LunaOS. Po prawej: układ klawiatury (gdy skonfigurowany jest więcej niż jeden), zasobnik systemowy, agenci, bluetooth, sieć, dźwięk, ekran i zasilanie.
 
-Kilka z tych elementów pokazuje się tylko, gdy ma coś do powiedzenia. Układ klawiatury pojawia się tylko, gdy skonfigurowałeś więcej niż jeden układ. Plakietka aktualizacji pojawia się tylko, gdy czeka aktualizacja Omarchy. A ikona agentów pojawia się, gdy Omarchy po raz pierwszy znajdzie na maszynie użycie agentów kodujących AI (zob. [AI](17-ai.md)).
+Kilka z tych elementów pokazuje się tylko, gdy ma coś do powiedzenia. Układ klawiatury pojawia się tylko, gdy skonfigurowałeś więcej niż jeden układ. Plakietka aktualizacji pojawia się tylko, gdy czeka aktualizacja LunaOS. A ikona agentów pojawia się, gdy LunaOS po raz pierwszy znajdzie na maszynie użycie agentów kodujących AI (zob. [AI](17-ai.md)).
 
 ## Klikanie
 
@@ -16,7 +16,7 @@ Prawie każdy widget robi coś po kliknięciu lewym, prawym i środkowym przycis
 
 | Widget | Lewy | Prawy | Środkowy / przewijanie |
 | --- | --- | --- | --- |
-| Menu | Menu Omarchy | Nowy terminal | — |
+| Menu | Menu LunaOS | Nowy terminal | — |
 | Obszary robocze | Skupienie na tym obszarze | — | Przewijanie: następny/poprzedni obszar roboczy |
 | Zegar | Wyskakujący kalendarz | Przełączanie formatu etykiety | Środkowy: wybór strefy czasowej |
 | Pogoda | Wyskakująca prognoza | Pełna pogoda jako powiadomienie | Środkowy: odśwież |
@@ -29,7 +29,7 @@ Prawie każdy widget robi coś po kliknięciu lewym, prawym i środkowym przycis
 | Media | Odtwarzaj/pauza | Wyskakująca okładka | Środkowy: następny · przewijanie: poprzedni/następny |
 | Agenci | Panel agentów | Uruchomienie swojego agenta | Środkowy: następna subskrypcja |
 | Zasobnik | Najazd odsłania szufladę | Prawy na szewronie, żeby zarządzać | — |
-| Aktualizacja Omarchy | Uruchomienie aktualizacji | — | — |
+| Aktualizacja LunaOS | Uruchomienie aktualizacji | — | — |
 
 Nie wszystko w tej tabeli znajduje się na twoim pasku od razu. Widget mediów (odtwarzane teraz w MPRIS, z przewijanitym tytułem utworu i artystą) oraz widget mikrofonu są oba wbudowane, ale domyślnie wyłączone — dodaj je, jeśli ich chcesz, jak opisano niżej.
 
@@ -65,7 +65,7 @@ Każdy panel obsługuje klawiaturę równie dobrze jak mysz: strzałki przesuwaj
 
 Dwa kolejne widgety pojawiają się na pasku dopiero, gdy z **Instaluj → Usługa** zainstalujesz pasującą usługę, i oba warto znać, bo robią więcej niż tylko raportują status.
 
-Panel **Tailscale** łączy i rozłącza tailnet, przełącza konta i wybiera węzeł wyjściowy (zarówno twoje własne maszyny, jak i regiony Mullvad pokazują się na tej liście). Przegląda też twoje maszyny — a gdy jedną wybierzesz, `s` wysyła do niej pliki przez Taildrop, co jest najszybszym sposobem na przeniesienie pliku na telefon lub inny laptop. `c` kopiuje adres IP maszyny, `n` jej nazwę, a `d` jej pełną nazwę DNS. Na każdym wierszu maszyny jest też przycisk wysyłki, jeśli wolisz klikać. To samo z terminala to `omarchy tailscale send <machine> [file...]`.
+Panel **Tailscale** łączy i rozłącza tailnet, przełącza konta i wybiera węzeł wyjściowy (zarówno twoje własne maszyny, jak i regiony Mullvad pokazują się na tej liście). Przegląda też twoje maszyny — a gdy jedną wybierzesz, `s` wysyła do niej pliki przez Taildrop, co jest najszybszym sposobem na przeniesienie pliku na telefon lub inny laptop. `c` kopiuje adres IP maszyny, `n` jej nazwę, a `d` jej pełną nazwę DNS. Na każdym wierszu maszyny jest też przycisk wysyłki, jeśli wolisz klikać. To samo z terminala to `lunaos tailscale send <machine> [file...]`.
 
 Panel **Dropbox** obsługuje logowanie, pokazuje, ile miejsca używasz, oraz listuje ostatnio zsynchronizowane pliki.
 
@@ -90,19 +90,19 @@ Jeśli wolisz wybrać z menu, **Akcje → Wygląd → Pasek menu** ma położeni
 Te same rzeczy mają polecenia, co jest potrzebne przy konfiguracji przez [dotfiles](31-dotfiles.md):
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Aby dodać lub usunąć widget w całości, użyj poleceń wtyczek. `omarchy plugin list` wypisuje każdy widget znany powłoce wraz z jego identyfikatorem, a potem:
+Aby dodać lub usunąć widget w całości, użyj poleceń wtyczek. `lunaos plugin list` wypisuje każdy widget znany powłoce wraz z jego identyfikatorem, a potem:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Ukrywanie paska
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Plik konfiguracyjny
 
-Wszystko to przechowywane jest w `~/.config/omarchy/shell.json` pod kluczem `bar`. Oto przycięta wersja:
+Wszystko to przechowywane jest w `~/.config/lunaos/shell.json` pod kluczem `bar`. Oto przycięta wersja:
 
 ```json
 {
@@ -119,20 +119,20 @@ Wszystko to przechowywane jest w `~/.config/omarchy/shell.json` pod kluczem `bar
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Każdy widget jest jednym wpisem w jednej z trzech tablic układu, a jego ustawienia siedzą w tym wpisie inline — nie ma osobnego pliku ustawień ani podobiektu `config`. `format` zegara, `formatAlt` (na co przechodzi prawy klik) i `verticalFormat` mieszkają tam wprost na `{ "id": "omarchy.clock" }`.
+Każdy widget jest jednym wpisem w jednej z trzech tablic układu, a jego ustawienia siedzą w tym wpisie inline — nie ma osobnego pliku ustawień ani podobiektu `config`. `format` zegara, `formatAlt` (na co przechodzi prawy klik) i `verticalFormat` mieszkają tam wprost na `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` nazywa ten jeden widget środkowy, który jest przypinany do dokładnego środka ekranu, a pozostałe go flankują. Tak zegar pozostaje martwo pośrodku, nawet gdy pogoda i plakietka aktualizacji przychodzą i odchodzą. Ustaw go na pusty ciąg, a lista środkowa wyśrodkowuje się po prostu jako grupa.
 
-Jedna zasada warta przyswojenia: **gdy masz już własny `shell.json`, jest on kanoniczny**. Dopóki niczego nie dostosujesz, powłoka czyta domyślny plik Omarchy. W chwili, gdy przeciągniesz widget, uruchomisz `omarchy bar` albo sam wyedytujesz plik, staje się on twój — nie ma głębokiego łączenia, więc nowe domyślne widgety z przyszłych wydań Omarchy nie pojawią się na twoim pasku automatycznie. `omarchy bar defaults` przywraca dostarczany układ, kiedy tylko chcesz czyste płótno.
+Jedna zasada warta przyswojenia: **gdy masz już własny `shell.json`, jest on kanoniczny**. Dopóki niczego nie dostosujesz, powłoka czyta domyślny plik LunaOS. W chwili, gdy przeciągniesz widget, uruchomisz `lunaos bar` albo sam wyedytujesz plik, staje się on twój — nie ma głębokiego łączenia, więc nowe domyślne widgety z przyszłych wydań LunaOS nie pojawią się na twoim pasku automatycznie. `lunaos bar defaults` przywraca dostarczany układ, kiedy tylko chcesz czyste płótno.
 
 Ten sam plik trzyma też twoje czasy bezczynności na poziomie głównym, poza kluczem `bar`: `idle.screensaver` i `idle.lock`, oba w sekundach od przejścia w stan bezczynności. Domyślny wygaszacz włącza się więc po 150 sekundach, a blokada po 300.

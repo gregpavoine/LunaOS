@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ Vrstica bo samodejno prikazala vašo trenutno razporeditev tipkovnice, ko imate 
 Z desno tipko miške kliknite uro v vrstici, da preklapljate med pogostimi oblikami, vključno z 12-urnimi. Obliko lahko nastavite tudi neposredno:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 To bo prikazalo Sunday 10:55 AM.
 
 ### Kako spremenim časovni pas?
 
-Zaženite _Posodobi > Timezone_ v meniju Omarchy in izberite s seznama. Če je časovni pas pravi, ura sama pa je zdrsnila, _Posodobi > Time_ za vas znova zažene sinhronizacijo časa.
+Zaženite _Posodobi > Timezone_ v meniju LunaOS in izberite s seznama. Če je časovni pas pravi, ura sama pa je zdrsnila, _Posodobi > Time_ za vas znova zažene sinhronizacijo časa.
 
 ### Kako spremenim svoj DNS, delim svoj Wi-Fi ali preverim hitrost povezave?
 
@@ -36,11 +36,11 @@ Vse to živi v [omrežje](35-networking.md).
 
 ### Kako preverim, kako hiter je moj disk?
 
-_Sproži > Preizkus hitrosti > Hitrost diska_ izmeri hitrost branja in pisanja v živo na vašem pogonu ali `omarchy disk speedtest` iz terminala.
+_Sproži > Preizkus hitrosti > Hitrost diska_ izmeri hitrost branja in pisanja v živo na vašem pogonu ali `lunaos disk speedtest` iz terminala.
 
 ### Zakaj se ne morem prijaviti v svoj Google račun v Chromiumu?
 
-Navadna odprtokodna zgradba Chromiuma ne prinaša poverilnic OAuth, ki jih Google zahteva za prijavo v račun. V meniju Omarchy zaženite _Namesti > Service > Chromium Account_, da jih dodate, znova zaženite brskalnik in prijava bo uspela.
+Navadna odprtokodna zgradba Chromiuma ne prinaša poverilnic OAuth, ki jih Google zahteva za prijavo v račun. V meniju LunaOS zaženite _Namesti > Service > Chromium Account_, da jih dodate, znova zaženite brskalnik in prijava bo uspela.
 
 ### Kako dodam tiskalnik?
 
@@ -60,15 +60,15 @@ Shranjeni posnetki zaslona privzeto gredo v `~/Pictures/Screenshots`. Za uporabo
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Enako lahko storite za snemanja zaslona z uporabo `OMARCHY_SCREENRECORD_DIR`.
+Enako lahko storite za snemanja zaslona z uporabo `LUNAOS_SCREENRECORD_DIR`.
 
-Omasnap samodejno ustvari svoj imenik posnetkov zaslona. Imenik snemanja zaslona ustvarite sami, nato znova zaženite Omarchy, da katera koli sprememba okolja začne veljati.
+Omasnap samodejno ustvari svoj imenik posnetkov zaslona. Imenik snemanja zaslona ustvarite sami, nato znova zaženite LunaOS, da katera koli sprememba okolja začne veljati.
 
 ### Kako poskrbim, da zvočniki + spletna kamera delujejo na mojem Apple Studio Display?
 
 Mislili bi, da bi moralo vse delovati samo s priklopom USB C, a žal ni tako. Rešitev, ki sem jo našel, da zanesljivo deluje, je uporaba [kabla WJESOG DisplayPort + USB-A => USB-C](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/). Potem zvočniki in spletna kamera delujejo kot urica.
 
-Ne pozabite, da imate v Omarchyju vgrajen nadzor svetlosti za zaslone Apple (tako Studio kot XDR) z uporabo običajnih gumbov za svetlost na tipkovnici.
+Ne pozabite, da imate v LunaOSju vgrajen nadzor svetlosti za zaslone Apple (tako Studio kot XDR) z uporabo običajnih gumbov za svetlost na tipkovnici.
 
 ### Kako se znebim vse dodatne programske opreme?
 
@@ -76,7 +76,7 @@ Ne pozabite, da imate v Omarchyju vgrajen nadzor svetlosti za zaslone Apple (tak
 
 Zaženite _Odstrani > Package_, da vidite vsak nameščeni paket. Nato lahko s tab izberete vsak paket, ki ga želite odstraniti, in z return začnete odstranjevati vse, kar ste izbrali.
 
-Uporabite lahko tudi _Odstrani > Web App_ v meniju Omarchy, da odstranite katero koli vnaprej nameščeno spletno aplikacijo, ki je ne želite.
+Uporabite lahko tudi _Odstrani > Web App_ v meniju LunaOS, da odstranite katero koli vnaprej nameščeno spletno aplikacijo, ki je ne želite.
 
 Ali zaženite _Odstrani > Preinstalls_, da v enem zamahu pometete vse vnaprej nameščene dodatke — spletne aplikacije, TUI-je in izbirne aplikacije — naenkrat. Bližnjice, ki so jih zaganjale, izginejo z njimi, tako da vam ostane čista karta vezav, ki jo zapolnite s svojimi v `~/.config/hypr/bindings.lua`.
 

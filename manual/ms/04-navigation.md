@@ -1,8 +1,8 @@
 # Navigasi
 
-Segala-galanya dalam Omarchy berlaku melalui papan kekunci — _SEGALA-GALANYA!_ Apabila sistem mula-mula dimulakan, anda memang tidak boleh buat apa-apa dengan tetikus sahaja. Tetapi anda boleh tekan `Super + Space` untuk memaparkan Omarchy Menu dan dari sini anda boleh buat hampir segala-galanya.
+Segala-galanya dalam LunaOS berlaku melalui papan kekunci — _SEGALA-GALANYA!_ Apabila sistem mula-mula dimulakan, anda memang tidak boleh buat apa-apa dengan tetikus sahaja. Tetapi anda boleh tekan `Super + Space` untuk memaparkan LunaOS Menu dan dari sini anda boleh buat hampir segala-galanya.
 
-Tetapi Omarchy Menu pun tidak bertujuan untuk menjadi cara utama mengendalikan sistem pada kebanyakan masa. Kita boleh jadi lebih pantas daripada itu! Semua aplikasi yang paling penting terikat terus kepada kekunci pintas individu. Anda mulakan terminal dengan `Super + Return` dan pelayar dengan `Super + Shift + Return`. Cuba lakukan satu demi satu, dan anda akan nampak keajaiban tiling Hyprland beraksi:
+Tetapi LunaOS Menu pun tidak bertujuan untuk menjadi cara utama mengendalikan sistem pada kebanyakan masa. Kita boleh jadi lebih pantas daripada itu! Semua aplikasi yang paling penting terikat terus kepada kekunci pintas individu. Anda mulakan terminal dengan `Super + Return` dan pelayar dengan `Super + Shift + Return`. Cuba lakukan satu demi satu, dan anda akan nampak keajaiban tiling Hyprland beraksi:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Anda juga boleh pergi ke skrin penuh dengan `Super + F` atau malah hanya lebar p
 
 ### Susun atur dwindle lwn scrolling
 
-Susun atur lalai Omarchy dipanggil dwindle. Ia memastikan semua tetingkap yang anda buka pada satu ruang kerja kelihatan pada setiap masa, walaupun terpaksa mengecilkannya.
+Susun atur lalai LunaOS dipanggil dwindle. Ia memastikan semua tetingkap yang anda buka pada satu ruang kerja kelihatan pada setiap masa, walaupun terpaksa mengecilkannya.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Ruang kerja terapung berfungsi seperti desktop tradisional: tetingkap bertindih, dan anda mengalih dan menetapkan saiznya sendiri. Setiap tetingkap dapat titlebar dalam warna tema anda, dengan butang untuk meminimumkan, memaksimumkan, dan menutup. `Super + M` turut meminimumkan tetingkap yang difokuskan. Tetingkap yang diminimumkan menunggu di dock; klik aplikasinya untuk membawanya kembali. Klik tetingkap untuk membawanya ke hadapan. Ubah saiznya dari mana-mana tepi atau sudut. Klik dua kali pada titlebar untuk memaksimumkan tetingkap sambil mengekalkan bar atas kelihatan, dan sekali lagi untuk mendapatkan semula saiz lamanya.
 
-Ruang kerja terapung juga menunjukkan dock, dengan aplikasi yang anda pin, segala yang sedang dijalankan, dan grid setiap aplikasi di sebalik butang aplikasi, yang `Super + Alt + Space` dan _Apps_ dalam Omarchy menu turut buka. Klik kanan aplikasi pada grid, atau tekan `Delete`, untuk menyahpasangnya. Klik aplikasi untuk membukanya, atau untuk membawa tetingkapnya ke hadapan; klik sekali lagi untuk bergilir melalui tetingkapnya. Klik tengah membuka tetingkap baharu. Seret ikon di sepanjang dock untuk mengalihkannya; menyeret aplikasi yang sedang dijalankan masuk ke antara yang lain mengekalkannya di situ. Klik kanan untuk mengekalkan aplikasi di dock, mengeluarkannya, atau keluar daripadanya. Dock menyingkir daripada tetingkap skrin penuh. Klik kanan butang aplikasi untuk memindahkan dock ke tepi lain atau menjadikannya tersembunyi sehingga penuding sampai ke tepinya. Kedudukan juga berada di bawah _Trigger > Appearance > Dock > Dock Position_, dan `omarchy dock position left` dan `omarchy dock autohide on` menetapkan kedua-duanya dari terminal. Aplikasi yang anda kekalkan di dock kelihatan pudar semasa tidak dijalankan.
+Ruang kerja terapung juga menunjukkan dock, dengan aplikasi yang anda pin, segala yang sedang dijalankan, dan grid setiap aplikasi di sebalik butang aplikasi, yang `Super + Alt + Space` dan _Apps_ dalam LunaOS menu turut buka. Klik kanan aplikasi pada grid, atau tekan `Delete`, untuk menyahpasangnya. Klik aplikasi untuk membukanya, atau untuk membawa tetingkapnya ke hadapan; klik sekali lagi untuk bergilir melalui tetingkapnya. Klik tengah membuka tetingkap baharu. Seret ikon di sepanjang dock untuk mengalihkannya; menyeret aplikasi yang sedang dijalankan masuk ke antara yang lain mengekalkannya di situ. Klik kanan untuk mengekalkan aplikasi di dock, mengeluarkannya, atau keluar daripadanya. Dock menyingkir daripada tetingkap skrin penuh. Klik kanan butang aplikasi untuk memindahkan dock ke tepi lain atau menjadikannya tersembunyi sehingga penuding sampai ke tepinya. Kedudukan juga berada di bawah _Trigger > Appearance > Dock > Dock Position_, dan `lunaos dock position left` dan `lunaos dock autohide on` menetapkan kedua-duanya dari terminal. Aplikasi yang anda kekalkan di dock kelihatan pudar semasa tidak dijalankan.
 
-Ruang kerja baharu, dan mana-mana yang anda belum berikan susun atur sendiri dengan `Super + L`, menggunakan susun atur lalai. Menukar lalai menetapkan semula setiap ruang kerja tanpa tetingkap kepadanya, manakala ruang kerja dengan tetingkap di atasnya mengekalkan susun atur yang dimilikinya. Tetingkap yang diminimumkan ke dock masih dikira sebagai tetingkap pada ruang kerja yang ditinggalkannya. Pilihnya di bawah _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling, atau Floating. `omarchy-hyprland-workspace-layout-default scrolling` menetapkannya dari terminal.
+Ruang kerja baharu, dan mana-mana yang anda belum berikan susun atur sendiri dengan `Super + L`, menggunakan susun atur lalai. Menukar lalai menetapkan semula setiap ruang kerja tanpa tetingkap kepadanya, manakala ruang kerja dengan tetingkap di atasnya mengekalkan susun atur yang dimilikinya. Tetingkap yang diminimumkan ke dock masih dikira sebagai tetingkap pada ruang kerja yang ditinggalkannya. Pilihnya di bawah _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling, atau Floating. `lunaos-hyprland-workspace-layout-default scrolling` menetapkannya dari terminal.
 
 ### Mengumpulkan tetingkap
 

@@ -1,8 +1,8 @@
 # Häufige Anpassungen
 
-Dies ist eine Sammlung häufiger Anpassungen am Omarchy-Setup. Sei dir bewusst, dass Systemupdates gelegentlich bestimmte Konfigurationen in ihren Ursprungszustand zurückversetzen müssen. Wenn das passiert, gehen deine Änderungen nicht verloren, sondern landen in einer `.bak`-Datei im selben Verzeichnis.
+Dies ist eine Sammlung häufiger Anpassungen am LunaOS-Setup. Sei dir bewusst, dass Systemupdates gelegentlich bestimmte Konfigurationen in ihren Ursprungszustand zurückversetzen müssen. Wenn das passiert, gehen deine Änderungen nicht verloren, sondern landen in einer `.bak`-Datei im selben Verzeichnis.
 
-Wenn du etwas vermasselst, kannst du einzelne Konfigurationen über _Aktualisieren > Config_ im Omarchy-Menü auf ihr ursprüngliches Setup zurücksetzen. Wenn du _wirklich_ alles vermasselst, kannst du alle Konfigurationen mit `omarchy-reinstall` zurücksetzen.
+Wenn du etwas vermasselst, kannst du einzelne Konfigurationen über _Aktualisieren > Config_ im LunaOS-Menü auf ihr ursprüngliches Setup zurücksetzen. Wenn du _wirklich_ alles vermasselst, kannst du alle Konfigurationen mit `lunaos-reinstall` zurücksetzen.
 
 ### Alle Tray-Symbole immer anzeigen
 
@@ -10,7 +10,7 @@ Standardmäßig verstecken sich Tray-Symbole wie Dropbox, 1Password oder Steam h
 
 ### Abgerundete Fensterecken
 
-Omarchys Standard-Design setzt auf eckige Ecken, aber wenn du das etwas abmildern willst, kannst du `~/.config/hypr/looknfeel.lua` so ändern, dass die Rundung nicht mehr auskommentiert ist:
+LunaOSs Standard-Design setzt auf eckige Ecken, aber wenn du das etwas abmildern willst, kannst du `~/.config/hypr/looknfeel.lua` so ändern, dass die Rundung nicht mehr auskommentiert ist:
 
 ```
 hl.config({

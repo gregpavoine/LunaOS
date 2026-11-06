@@ -1,6 +1,6 @@
 # PDF への記入
 
-Omarchy には Document Viewer と呼ばれる、素敵で基本的な PDF ビューアが同梱されています。これはあなたがダブルクリックした PDF を開くプログラムです。
+LunaOS には Document Viewer と呼ばれる、素敵で基本的な PDF ビューアが同梱されています。これはあなたがダブルクリックした PDF を開くプログラムです。
 
 しかし Document Viewer はフォームとして設定された PDF への記入にしか使えません。そうなっていない PDF へ記入する必要がある場合、または PDF に署名する必要がある場合は、[Signed](https://github.com/omacom/signed) を使ってください。アプリランチャー（`Super + Space`）経由で起動するか、ファイルを右クリックして _Open With..._ を選び、Signed を選択してください。
 

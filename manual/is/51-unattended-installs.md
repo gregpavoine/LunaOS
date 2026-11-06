@@ -1,8 +1,8 @@
 # Óaðgæddar uppsetningar
 
-Omarchy ISO getur sett sig upp án þess að nokkur sé við lyklaborðið. Ef uppsetningarforritið finnur annað drif merkt `cidata` sem ber stillingarskrár sínar, afritar það þær af, sleppir uppsetningarhjálpinni alveg og endurræsir sjálft inn í fullbúna kerfið. Engin sérstök ISO bygging, engin aukaræsivalmyndarfærsla — með ekkert slíkt drif tengt breytist ekkert og þú færð venjulegu hjálpina.
+LunaOS ISO getur sett sig upp án þess að nokkur sé við lyklaborðið. Ef uppsetningarforritið finnur annað drif merkt `cidata` sem ber stillingarskrár sínar, afritar það þær af, sleppir uppsetningarhjálpinni alveg og endurræsir sjálft inn í fullbúna kerfið. Engin sérstök ISO bygging, engin aukaræsivalmyndarfærsla — með ekkert slíkt drif tengt breytist ekkert og þú færð venjulegu hjálpina.
 
-Þetta gerir Omarchy frábært sem grunnmynd fyrir einnota þróunarumhverfi: búðu til VM í Proxmox eða með Packer, ræstu hana, farðu í burtu, SSH-aðu inn. `cidata` er cloud-init `NoCloud` merkið, svo öll algeng sýndartól vita nú þegar hvernig á að tengja slíkt drif.
+Þetta gerir LunaOS frábært sem grunnmynd fyrir einnota þróunarumhverfi: búðu til VM í Proxmox eða með Packer, ræstu hana, farðu í burtu, SSH-aðu inn. `cidata` er cloud-init `NoCloud` merkið, svo öll algeng sýndartól vita nú þegar hvernig á að tengja slíkt drif.
 
 ## Stillingarskrárnar
 
@@ -24,7 +24,7 @@ Gerðu lykilorðshassann fyrir `user_credentials.json` með `openssl passwd -6 "
 
 ## SSH aðgangur
 
-Þegar `authorized_keys` er til staðar setur uppsetningin lyklana upp sem `~/.ssh/authorized_keys` notandans, virkjar `sshd` og opnar eldvegginn fyrir því. (Venjuleg Omarchy uppsetning flytur openssh með þjónustuna óvirka og tengið lokað, svo óvarin vél væri annars óaðgengileg.) Uppsetningin bætir aðeins lyklunum þínum við — hún slakar ekki á neinum af öðrum auðkenningarstillingum SSH þjónustunnar.
+Þegar `authorized_keys` er til staðar setur uppsetningin lyklana upp sem `~/.ssh/authorized_keys` notandans, virkjar `sshd` og opnar eldvegginn fyrir því. (Venjuleg LunaOS uppsetning flytur openssh með þjónustuna óvirka og tengið lokað, svo óvarin vél væri annars óaðgengileg.) Uppsetningin bætir aðeins lyklunum þínum við — hún slakar ekki á neinum af öðrum auðkenningarstillingum SSH þjónustunnar.
 
 Þegar `tailscale_authkey` er til staðar gengur vélin í tailnetið þitt við fyrstu ræsingu í staðinn: Tailscale er sett upp úr innbyggðum pökkum ISO, eldveggurinn leyfir tailnet viðmótið, og bakgrunnsverk keyrir inngönguna um leið og vélin hefur raunverulega net, og reynir aftur þar til það heppnast. Notaðu endurnotanlegan, fyrirframsamþykktan lykil svo ein drifmynd geti þjónað mörgum vélum.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Tengdu það svo við VM við hlið Omarchy ISO. Hér er fullt Proxmox dæmi:
+Tengdu það svo við VM við hlið LunaOS ISO. Hér er fullt Proxmox dæmi:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

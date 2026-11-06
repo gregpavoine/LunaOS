@@ -6,7 +6,7 @@
 # the laptop ships; Fn+Esc still switches to F1-F12. hid-asus loads from the
 # initramfs, so the option takes effect once the initramfs is rebuilt.
 
-if omarchy-hw-match "H7407BA"; then
+if lunaos-hw-match "H7407BA"; then
   conf=/etc/modprobe.d/hid_asus.conf
 
   if [[ ! -f $conf ]]; then

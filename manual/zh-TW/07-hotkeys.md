@@ -6,7 +6,7 @@
 
 | 快捷鍵                  | 功能              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy 選單（應用程式及其他一切）    |
+| `Super + Space`           | LunaOS 選單（應用程式及其他一切）    |
 | `Super + Alt + Space` | 應用程式格子 |
 | `Super + Escape` | 系統選單（睡眠、重新啟動等）  |
 | `Super + Ctrl + L` | 鎖定電腦 |
@@ -136,7 +136,7 @@
 | `Super + V`           | 貼上    |
 | `Super + Ctrl + V`           | 剪貼簿管理器    |
 
-一般在 Linux 上，你需要在終端機裡用 `Ctrl + Shift + C/V` 來複製貼上，在其他地方則用 `Ctrl + C/V`。這些 Omarchy 統一剪貼簿快捷鍵到處都能用。
+一般在 Linux 上，你需要在終端機裡用 `Ctrl + Shift + C/V` 來複製貼上，在其他地方則用 `Ctrl + C/V`。這些 LunaOS 統一剪貼簿快捷鍵到處都能用。
 
 ## 擷取
 
@@ -156,7 +156,7 @@
 
 使用螢幕錄影時，快捷鍵會先詢問你想要哪一種音訊，然後才開始錄影。再按一次即可停止。詳情見[螢幕截圖與錄影](12-screenshots-recording.md)。
 
-所有擷取選項也可以在 Omarchy 選單（`Super + Space`）的 _Trigger > Capture_ 底下取得。
+所有擷取選項也可以在 LunaOS 選單（`Super + Space`）的 _Trigger > Capture_ 底下取得。
 
 ## 通知
 
@@ -177,9 +177,9 @@
 | `Super + Backspace` | 切換視窗透明度 |
 | `Super + Ctrl + Backspace` | 切換單視窗正方形比例 |
 
-額外的背景圖片位於 `~/.config/omarchy/backgrounds/<theme name>`。也可以透過 Omarchy 選單的 _Install > Style > Background_ 取得。
+額外的背景圖片位於 `~/.config/lunaos/backgrounds/<theme name>`。也可以透過 LunaOS 選單的 _Install > Style > Background_ 取得。
 
-所有風格選項也可以在 Omarchy 選單（`Super + Space`）的 _Style_ 底下取得。
+所有風格選項也可以在 LunaOS 選單（`Super + Space`）的 _Style_ 底下取得。
 
 ## 切換
 
@@ -281,7 +281,7 @@
 
 ## Ghostty 終端機
 
-Ghostty 終端機透過 Omarchy 選單的 _Install > Terminal_ 安裝。
+Ghostty 終端機透過 LunaOS 選單的 _Install > Terminal_ 安裝。
 
 | 快捷鍵                  | 功能              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Ghostty 終端機透過 Omarchy 選單的 _Install > Terminal_ 安裝。
 | `Shift + CapsLock Space N` | 你的姓名（依設定時輸入）  |
 | `Shift + CapsLock Space E` | 你的電子郵件（依設定時輸入）  |
 
-你也可以編輯 `~/.XCompose` 新增更多自己的內容，然後在終端機執行 `omarchy-restart-xcompose` 讓變更生效。
+你也可以編輯 `~/.XCompose` 新增更多自己的內容，然後在終端機執行 `lunaos-restart-xcompose` 讓變更生效。

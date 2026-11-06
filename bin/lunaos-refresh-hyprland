@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# lunaos:summary=Overwrite all the user Hyprland Lua configs in ~/.config/hypr with the LunaOS defaults.
+
+lunaos-refresh-config hypr/.luarc.json
+lunaos-refresh-config hypr/autostart.lua
+lunaos-refresh-config hypr/bindings.lua
+lunaos-refresh-config hypr/input.lua
+lunaos-refresh-config hypr/looknfeel.lua
+lunaos-refresh-config hypr/hyprland.lua
+lunaos-refresh-config hypr/monitors.lua
+
+mkdir -p ~/.local/state/lunaos/toggles/hypr
+cp "$LUNAOS_PATH/default/hypr/toggles/flags.lua" ~/.local/state/lunaos/toggles/hypr/

@@ -6,7 +6,7 @@ Vim tarzı düzenlemede tamamen yeniyseniz, YouTube'daki [ThePrimeagen'ın Vim A
 
 Şimdi Neovim temelde sonsuz şekilde yapılandırılabilirdir. Gerçekten çılgınlaşmak isterseniz, kendi Neovim yapılandırmanızı sıfırdan oluşturabilirsiniz. [Typecraft'tan Neovim'i sıfırdan kurmak üzerine harika bir kurs](https://www.youtube.com/watch?v=zHTeCSVAFNY) var. Ve [ThePrimeagen'ın da biri var](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Ancak Omarchy, kutudan çıktığı haliyle mümkün olanın en iyisini sergilemek için sevgiyle ayarlanmış eksiksiz bir Neovim kurulumuyla — `omarchy-nvim` paketi — birlikte gelir. Tek bir satır yapılandırma yazmanız gerekmeden! Neovim eklentileri ve yapılandırmalarının bir dağıtımı olan [LazyVim](https://www.lazyvim.org/) üzerine kuruludur. Harika.
+Ancak LunaOS, kutudan çıktığı haliyle mümkün olanın en iyisini sergilemek için sevgiyle ayarlanmış eksiksiz bir Neovim kurulumuyla — `omarchy-nvim` paketi — birlikte gelir. Tek bir satır yapılandırma yazmanız gerekmeden! Neovim eklentileri ve yapılandırmalarının bir dağıtımı olan [LazyVim](https://www.lazyvim.org/) üzerine kuruludur. Harika.
 
 ## LazyVim Temelleri
 

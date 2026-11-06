@@ -16,14 +16,14 @@ done
 matching="$scratch/matching"
 mkdir -p "$matching"
 (
-  omarchy-hw-aarch64-qualcomm() { return 0; }
-  omarchy-hw-match() { [[ $1 == "83ED" ]]; }
+  lunaos-hw-aarch64-qualcomm() { return 0; }
+  lunaos-hw-match() { [[ $1 == "83ED" ]]; }
   systemctl() { printf '%s\n' "$*" >>"$matching/systemctl.log"; }
 
-  OMARCHY_YOGA_MODULES_LOAD_DIR="$matching/modules-load.d" \
-    OMARCHY_YOGA_MKINITCPIO_DIR="$matching/mkinitcpio.conf.d" \
-    OMARCHY_YOGA_LIMINE_CONFIG_DIR="$matching/limine-entry-tool.d" \
-    OMARCHY_YOGA_SYSTEMD_DIR="$matching/systemd" \
+  LUNAOS_YOGA_MODULES_LOAD_DIR="$matching/modules-load.d" \
+    LUNAOS_YOGA_MKINITCPIO_DIR="$matching/mkinitcpio.conf.d" \
+    LUNAOS_YOGA_LIMINE_CONFIG_DIR="$matching/limine-entry-tool.d" \
+    LUNAOS_YOGA_SYSTEMD_DIR="$matching/systemd" \
     source "$setup"
 )
 
@@ -35,7 +35,7 @@ grep -Fxq 'scmi-cpufreq' "$matching/modules-load.d/yoga-slim7x.conf" ||
   touch "$firmware_root/qcom/gen70500_sqe.fw.zst" \
     "$firmware_root/qcom/gen70500_gmu.bin.xz"
   MODULES=() FILES=()
-  OMARCHY_YOGA_FIRMWARE_ROOT="$firmware_root" \
+  LUNAOS_YOGA_FIRMWARE_ROOT="$firmware_root" \
     source "$matching/mkinitcpio.conf.d/yoga-slim7x-initramfs.conf"
   [[ ${MODULES[*]} == "i2c-hid-of qrtr ps883x pmic_glink_altmode" ]] ||
     fail "the generated config loads the keyboard and display modules"
@@ -46,7 +46,7 @@ grep -Fxq 'scmi-cpufreq' "$matching/modules-load.d/yoga-slim7x.conf" ||
     fail "xz display firmware is included"
   touch "$firmware_root/updates/qcom/gen70500_sqe.fw"
   FILES=()
-  OMARCHY_YOGA_FIRMWARE_ROOT="$firmware_root" \
+  LUNAOS_YOGA_FIRMWARE_ROOT="$firmware_root" \
     source "$matching/mkinitcpio.conf.d/yoga-slim7x-initramfs.conf"
   [[ ${FILES[0]} == "$firmware_root/updates/qcom/gen70500_sqe.fw" ]] ||
     fail "plain extracted firmware takes precedence over compressed packaged firmware"
@@ -73,14 +73,14 @@ grep -Fxq 'enable yoga-slim7x-remoteprocs.service' "$matching/systemctl.log" ||
 nonmatching="$scratch/nonmatching"
 mkdir -p "$nonmatching"
 (
-  omarchy-hw-aarch64-qualcomm() { return 0; }
-  omarchy-hw-match() { return 1; }
+  lunaos-hw-aarch64-qualcomm() { return 0; }
+  lunaos-hw-match() { return 1; }
   systemctl() { fail "nonmatching Qualcomm hardware does not enable Yoga services"; }
 
-  OMARCHY_YOGA_MODULES_LOAD_DIR="$nonmatching/modules-load.d" \
-    OMARCHY_YOGA_MKINITCPIO_DIR="$nonmatching/mkinitcpio.conf.d" \
-    OMARCHY_YOGA_LIMINE_CONFIG_DIR="$nonmatching/limine-entry-tool.d" \
-    OMARCHY_YOGA_SYSTEMD_DIR="$nonmatching/systemd" \
+  LUNAOS_YOGA_MODULES_LOAD_DIR="$nonmatching/modules-load.d" \
+    LUNAOS_YOGA_MKINITCPIO_DIR="$nonmatching/mkinitcpio.conf.d" \
+    LUNAOS_YOGA_LIMINE_CONFIG_DIR="$nonmatching/limine-entry-tool.d" \
+    LUNAOS_YOGA_SYSTEMD_DIR="$nonmatching/systemd" \
     source "$setup"
 )
 
@@ -102,9 +102,9 @@ printf 'offline\n' >"$remoteprocs/remoteproc1/state"
 printf 'unrelated.mbn\n' >"$remoteprocs/remoteproc2/firmware"
 printf 'offline\n' >"$remoteprocs/remoteproc2/state"
 
-OMARCHY_YOGA_REMOTEPROC_ROOT="$remoteprocs" \
-  OMARCHY_YOGA_REMOTEPROC_ATTEMPTS=1 \
-  OMARCHY_YOGA_REMOTEPROC_SLEEP=0 \
+LUNAOS_YOGA_REMOTEPROC_ROOT="$remoteprocs" \
+  LUNAOS_YOGA_REMOTEPROC_ATTEMPTS=1 \
+  LUNAOS_YOGA_REMOTEPROC_SLEEP=0 \
   bash "$starter"
 
 [[ $(<"$remoteprocs/remoteproc0/state") == start ]] ||
@@ -115,9 +115,9 @@ OMARCHY_YOGA_REMOTEPROC_ROOT="$remoteprocs" \
   fail "Yoga Slim 7x helper leaves unrelated remote processors alone"
 
 run_starter() {
-  OMARCHY_YOGA_REMOTEPROC_ROOT="$remoteprocs" \
-    OMARCHY_YOGA_REMOTEPROC_ATTEMPTS=1 \
-    OMARCHY_YOGA_REMOTEPROC_SLEEP=0 \
+  LUNAOS_YOGA_REMOTEPROC_ROOT="$remoteprocs" \
+    LUNAOS_YOGA_REMOTEPROC_ATTEMPTS=1 \
+    LUNAOS_YOGA_REMOTEPROC_SLEEP=0 \
     bash "$starter"
 }
 printf 'running\n' >"$remoteprocs/remoteproc0/state"
@@ -146,9 +146,9 @@ mkdir -p "$late/remoteproc0"
 printf 'qcadsp8380.mbn\n' >"$late/remoteproc0/firmware"
 printf 'offline\n' >"$late/remoteproc0/state"
 run_late_starter() {
-  OMARCHY_YOGA_REMOTEPROC_ROOT="$late" \
-    OMARCHY_YOGA_REMOTEPROC_ATTEMPTS=2 \
-    OMARCHY_YOGA_REMOTEPROC_SLEEP=0 \
+  LUNAOS_YOGA_REMOTEPROC_ROOT="$late" \
+    LUNAOS_YOGA_REMOTEPROC_ATTEMPTS=2 \
+    LUNAOS_YOGA_REMOTEPROC_SLEEP=0 \
     bash "$starter"
 }
 (
@@ -184,7 +184,7 @@ printf 'offline\n' >"$late/remoteproc1/state"
 
 pass "Yoga Slim 7x adds only its board-specific keyboard, display, CPU and DSP setup"
 
-# The family half of the gate is omarchy-hw-aarch64-qualcomm, so ask the real
+# The family half of the gate is lunaos-hw-aarch64-qualcomm, so ask the real
 # detector: the DMI name sets a Snapdragon laptop up and no other platform.
 require_platform_fixtures "the Yoga Slim 7x gate under the real detector"
 
@@ -193,16 +193,16 @@ run_setup_on() (
   out="$scratch/on/$platform"
   mkdir -p "$out"
   fake_platform "$scratch/platforms/$platform" "$platform"
-  export OMARCHY_PROC_ROOT="$scratch/platforms/$platform/proc"
+  export LUNAOS_PROC_ROOT="$scratch/platforms/$platform/proc"
   export PATH="$scratch/platforms/$platform/bin:$ROOT/bin:$PATH"
 
-  omarchy-hw-match() { [[ $1 == "83ED" ]]; }
+  lunaos-hw-match() { [[ $1 == "83ED" ]]; }
   systemctl() { printf '%s\n' "$*" >>"$out/systemctl.log"; }
 
-  OMARCHY_YOGA_MODULES_LOAD_DIR="$out/modules-load.d" \
-    OMARCHY_YOGA_MKINITCPIO_DIR="$out/mkinitcpio.conf.d" \
-    OMARCHY_YOGA_LIMINE_CONFIG_DIR="$out/limine-entry-tool.d" \
-    OMARCHY_YOGA_SYSTEMD_DIR="$out/systemd" \
+  LUNAOS_YOGA_MODULES_LOAD_DIR="$out/modules-load.d" \
+    LUNAOS_YOGA_MKINITCPIO_DIR="$out/mkinitcpio.conf.d" \
+    LUNAOS_YOGA_LIMINE_CONFIG_DIR="$out/limine-entry-tool.d" \
+    LUNAOS_YOGA_SYSTEMD_DIR="$out/systemd" \
     source "$setup"
 )
 

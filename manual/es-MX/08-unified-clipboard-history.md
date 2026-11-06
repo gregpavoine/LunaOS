@@ -2,7 +2,7 @@
 
 Normalmente en Linux necesitas `Ctrl + Shift + C/V` para copiar y pegar en la terminal y `Ctrl + C/V` para hacerlo en cualquier otro lado. ¡Eso es difícil de acostumbrarse para cualquiera que no haya nacido y crecido en Linux! Lo mismo pasa con el cambio de super a ctrl, si vienes de Mac.
 
-Omarchy resuelve ambos problemas con atajos de portapapeles unificados que funcionan (casi) en todas partes. Son estos:
+LunaOS resuelve ambos problemas con atajos de portapapeles unificados que funcionan (casi) en todas partes. Son estos:
 
 | Atajo | Comando |
 | ------- | ----------- |
@@ -15,7 +15,7 @@ _Ten en cuenta que la mayoría de los arneses de agentes usarán `Ctrl + V` para
 
 ### Historial del portapapeles
 
-El historial del portapapeles lo proporciona el shell de Omarchy y funciona tanto para texto como para imágenes. Lo activas con `Super + Ctrl + V`, seleccionas tu entrada con Enter, y eso quedará en el portapapeles listo para pegarse con `Super + V`.
+El historial del portapapeles lo proporciona el shell de LunaOS y funciona tanto para texto como para imágenes. Lo activas con `Super + Ctrl + V`, seleccionas tu entrada con Enter, y eso quedará en el portapapeles listo para pegarse con `Super + V`.
 
  ![clipboard-history](images/clipboard-history.webp)
 

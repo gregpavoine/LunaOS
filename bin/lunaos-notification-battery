@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# lunaos:summary=Show the current battery status notification
+
+lunaos-notification-send -g 󰁹 -u low "$(lunaos-battery-status)"

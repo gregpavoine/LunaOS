@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# lunaos:summary=Overwrite the user config for hyprsunset with the LunaOS default and restart the service.
+
+lunaos-refresh-config hypr/hyprsunset.conf
+lunaos-restart-hyprsunset

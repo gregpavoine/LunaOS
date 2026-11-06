@@ -6,7 +6,7 @@ Jos olet täysin uusi vim-tyylisessä muokkaamisessa, suosittelen katsomaan [The
 
 Neovim on nyt pohjimmiltaan loputtomasti määritettävissä. Jos todella haluat villiintyä, voit luoda oman Neovim-määrityksesi tyhjästä. Siihen on loistava kurssi Typecraftilta aiheesta [Neovimin käyttöönotto tyhjästä](https://www.youtube.com/watch?v=zHTeCSVAFNY). Ja [ThePrimeagenilla on myös yksi](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Mutta Omarchyn mukana tulee täydellinen Neovim-kokoonpano — `omarchy-nvim`-paketti — joka on rakkaudella viritetty esittelemään parhaita siitä, mikä on mahdollista heti käyttövalmiina. Ilman, että sinun tarvitsee kirjoittaa riviäkään määritystä! Se on rakennettu [LazyVimin](https://www.lazyvim.org/) päälle, joka on Neovim-lisäosien ja määritysten jakelu. Se on mahtava.
+Mutta LunaOSn mukana tulee täydellinen Neovim-kokoonpano — `omarchy-nvim`-paketti — joka on rakkaudella viritetty esittelemään parhaita siitä, mikä on mahdollista heti käyttövalmiina. Ilman, että sinun tarvitsee kirjoittaa riviäkään määritystä! Se on rakennettu [LazyVimin](https://www.lazyvim.org/) päälle, joka on Neovim-lisäosien ja määritysten jakelu. Se on mahtava.
 
 ## LazyVimin perusteet
 

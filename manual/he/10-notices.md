@@ -14,7 +14,7 @@
 
  ![notice-weather](images/notice-weather.webp)
 
-המיקום מזוהה מכתובת ה-IP שלכם, שלרוב קרובה מספיק, אבל לא תמיד. אפשר לקבע אותו עם `omarchy weather location --set Malibu`, או להיות מדויקים לגביו על ידי הוספת קואורדינטות: `omarchy weather location --set Malibu 34.0259,-118.7798`. הריצו את `omarchy weather location` לבדו כדי לראות היכן הוא חושב שאתם, ואת `--clear` כדי לחזור לזיהוי אוטומטי.
+המיקום מזוהה מכתובת ה-IP שלכם, שלרוב קרובה מספיק, אבל לא תמיד. אפשר לקבע אותו עם `lunaos weather location --set Malibu`, או להיות מדויקים לגביו על ידי הוספת קואורדינטות: `lunaos weather location --set Malibu 34.0259,-118.7798`. הריצו את `lunaos weather location` לבדו כדי לראות היכן הוא חושב שאתם, ואת `--clear` כדי לחזור לזיהוי אוטומטי.
 
 ### סוללה
 

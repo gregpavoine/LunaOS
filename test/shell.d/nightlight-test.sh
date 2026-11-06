@@ -20,7 +20,7 @@ trap 'rm -rf "$TMPDIR"' EXIT
 
 mkdir -p "$TMPDIR/bin"
 STATE="$TMPDIR/hyprsunset-temp"
-SHELL_LOG="$TMPDIR/omarchy-shell-log"
+SHELL_LOG="$TMPDIR/lunaos-shell-log"
 
 cat >"$TMPDIR/bin/hyprctl" <<'SH'
 #!/bin/bash
@@ -42,18 +42,18 @@ cat >"$TMPDIR/bin/pgrep" <<'SH'
 exit 0
 SH
 
-cat >"$TMPDIR/bin/omarchy-shell" <<'SH'
+cat >"$TMPDIR/bin/lunaos-shell" <<'SH'
 #!/bin/bash
-printf '%s\n' "$*" >>"$OMARCHY_SHELL_LOG"
+printf '%s\n' "$*" >>"$LUNAOS_SHELL_LOG"
 SH
 
-chmod +x "$TMPDIR/bin/hyprctl" "$TMPDIR/bin/pgrep" "$TMPDIR/bin/omarchy-shell"
+chmod +x "$TMPDIR/bin/hyprctl" "$TMPDIR/bin/pgrep" "$TMPDIR/bin/lunaos-shell"
 
 nightlight_cli() {
   PATH="$TMPDIR/bin:$PATH" \
   HYPRSUNSET_STATE="$STATE" \
-  OMARCHY_SHELL_LOG="$SHELL_LOG" \
-    "$ROOT/bin/omarchy-toggle-nightlight" "$@"
+  LUNAOS_SHELL_LOG="$SHELL_LOG" \
+    "$ROOT/bin/lunaos-toggle-nightlight" "$@"
 }
 
 nightlight_status() {
@@ -92,7 +92,7 @@ BOOT_PENDING="$TMPDIR/boot-pending"
 printf '#!/bin/bash\n[[ $* == *etimes* ]] && echo "${HYPRSUNSET_AGE:-100}"\n' >"$TMPDIR/bin/ps"
 cat >"$TMPDIR/bin/sleep" <<'SH'
 #!/bin/bash
-printf 'sleep %s\n' "$*" >>"$OMARCHY_SHELL_LOG"
+printf 'sleep %s\n' "$*" >>"$LUNAOS_SHELL_LOG"
 if [[ -e $BOOT_PENDING ]]; then
   rm -f "$BOOT_PENDING"
   printf '6000\n' >"$HYPRSUNSET_STATE"
@@ -123,7 +123,7 @@ toggle_from_daylight 100
 [[ $(<"$STATE") == 4000 && ! -e $BOOT_PENDING ]] || fail "a freshly started hyprsunset can't undo the toggle with its default"
 pass "a freshly started hyprsunset can't undo the toggle with its default"
 
-if rg -q 'omarchy.indicators' "$ROOT/bin/omarchy-toggle-nightlight"; then
+if rg -q 'lunaos.indicators' "$ROOT/bin/lunaos-toggle-nightlight"; then
   fail "nightlight toggle leaves indicator refresh to the nightlight service"
 fi
 pass "nightlight toggle leaves indicator refresh to the nightlight service"

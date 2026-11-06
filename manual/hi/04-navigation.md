@@ -1,8 +1,8 @@
 # नेविगेशन
 
-Omarchy में सब कुछ keyboard के जरिए होता है — _सब कुछ!_ जब system पहली बार शुरू होता है, तो सचमुच आप अकेले mouse से कुछ भी नहीं कर सकते। लेकिन आप `Super + Space` दबाकर Omarchy Menu खोल सकते हैं और यहाँ से आप लगभग सब कुछ कर सकते हैं।
+LunaOS में सब कुछ keyboard के जरिए होता है — _सब कुछ!_ जब system पहली बार शुरू होता है, तो सचमुच आप अकेले mouse से कुछ भी नहीं कर सकते। लेकिन आप `Super + Space` दबाकर LunaOS Menu खोल सकते हैं और यहाँ से आप लगभग सब कुछ कर सकते हैं।
 
-लेकिन Omarchy menu का इरादा ज्यादातर समय system चलाने का मुख्य तरीका बनने का भी नहीं है। हम इससे तेज हो सकते हैं! सभी सबसे महत्वपूर्ण applications सीधे अलग-अलग hotkeys से जुड़े हैं। आप terminal `Super + Return` से और browser `Super + Shift + Return` से शुरू करते हैं। एक के बाद एक करके देखें, और आप Hyprland की tiling का जादू काम करते हुए देखेंगे:
+लेकिन LunaOS menu का इरादा ज्यादातर समय system चलाने का मुख्य तरीका बनने का भी नहीं है। हम इससे तेज हो सकते हैं! सभी सबसे महत्वपूर्ण applications सीधे अलग-अलग hotkeys से जुड़े हैं। आप terminal `Super + Return` से और browser `Super + Shift + Return` से शुरू करते हैं। एक के बाद एक करके देखें, और आप Hyprland की tiling का जादू काम करते हुए देखेंगे:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Omarchy में सब कुछ keyboard के जरिए होता ह
 
 ### Dwindle बनाम scrolling layout
 
-Omarchy के default layout को dwindle कहा जाता है। यह किसी एक workspace पर आपकी खोली गई सभी windows को हर समय दिखाई देता रखता है, भले ही उसे उन्हें छोटा करना पड़े।
+LunaOS के default layout को dwindle कहा जाता है। यह किसी एक workspace पर आपकी खोली गई सभी windows को हर समय दिखाई देता रखता है, भले ही उसे उन्हें छोटा करना पड़े।
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Floating workspace पारंपरिक desktop की तरह काम करता है: windows overlap होती हैं, और आप उन्हें खुद हटाते और उनका आकार तय करते हैं। प्रत्येक window को आपकी theme के रंगों में एक titlebar मिलता है, जिसमें minimize, maximize, और close करने के buttons होते हैं। `Super + M` focused window को भी minimize कर देता है। Minimize की गई window dock में प्रतीक्षा करती है; उसे वापस लाने के लिए उसकी app पर click करें। किसी window को आगे लाने के लिए उस पर click करें। उसे किसी भी किनारे या कोने से resize करें। Window को maximize करते हुए top bar को दिखाई देता रखने के लिए titlebar पर double-click करें, और उसका पुराना आकार वापस पाने के लिए फिर से double-click करें।
 
-Floating workspace एक dock भी दिखाता है, जिसमें आपकी pinned apps, जो कुछ भी चल रहा है वह सब, और apps button के पीछे हर app का grid होता है, जिसे `Super + Alt + Space` और Omarchy menu में _Apps_ भी खोलते हैं। किसी app को uninstall करने के लिए grid पर उस पर right-click करें, या `Delete` दबाएँ। किसी app को खोलने के लिए, या उसकी window को आगे लाने के लिए उस पर click करें; उसकी windows में चक्र लगाने के लिए फिर से click करें। Middle-click से नई window खुलती है। किसी icon को हटाने के लिए उसे dock के साथ-साथ drag करें; चल रही app को दूसरों के बीच drag करने से वह वहीं बनी रहती है। किसी app को dock में रखने, उसे बाहर निकालने, या उसे quit करने के लिए right-click करें। Dock fullscreen window के रास्ते से हट जाता है। Dock को किसी दूसरे किनारे पर ले जाने के लिए या pointer के उसके किनारे तक पहुँचने तक उसे छिपाए रखने के लिए apps button पर right-click करें। यह स्थिति _Trigger > Appearance > Dock > Dock Position_ के अंतर्गत भी है, और `omarchy dock position left` और `omarchy dock autohide on` दोनों को terminal से set करते हैं। Dock में आप जिन apps को रखते हैं वे तब फीके होते हैं जब वे नहीं चल रहे होते हैं।
+Floating workspace एक dock भी दिखाता है, जिसमें आपकी pinned apps, जो कुछ भी चल रहा है वह सब, और apps button के पीछे हर app का grid होता है, जिसे `Super + Alt + Space` और LunaOS menu में _Apps_ भी खोलते हैं। किसी app को uninstall करने के लिए grid पर उस पर right-click करें, या `Delete` दबाएँ। किसी app को खोलने के लिए, या उसकी window को आगे लाने के लिए उस पर click करें; उसकी windows में चक्र लगाने के लिए फिर से click करें। Middle-click से नई window खुलती है। किसी icon को हटाने के लिए उसे dock के साथ-साथ drag करें; चल रही app को दूसरों के बीच drag करने से वह वहीं बनी रहती है। किसी app को dock में रखने, उसे बाहर निकालने, या उसे quit करने के लिए right-click करें। Dock fullscreen window के रास्ते से हट जाता है। Dock को किसी दूसरे किनारे पर ले जाने के लिए या pointer के उसके किनारे तक पहुँचने तक उसे छिपाए रखने के लिए apps button पर right-click करें। यह स्थिति _Trigger > Appearance > Dock > Dock Position_ के अंतर्गत भी है, और `lunaos dock position left` और `lunaos dock autohide on` दोनों को terminal से set करते हैं। Dock में आप जिन apps को रखते हैं वे तब फीके होते हैं जब वे नहीं चल रहे होते हैं।
 
-नए workspaces, और जिन्हें भी आपने `Super + L` से अपना खुद का layout नहीं दिया है, वे default layout का उपयोग करते हैं। Default बदलने से बिना windows वाला हर workspace उस पर reset हो जाता है, जबकि जिस पर windows हैं वह अपना मौजूदा layout बनाए रखता है। Dock में minimize की गई window अभी भी उस workspace पर एक window मानी जाती है जिसे उसने छोड़ा था। उसे _Trigger > Appearance > Workspace Layout_ के अंतर्गत चुनें: Tiling, Scrolling, या Floating। `omarchy-hyprland-workspace-layout-default scrolling` उसे terminal से set करता है।
+नए workspaces, और जिन्हें भी आपने `Super + L` से अपना खुद का layout नहीं दिया है, वे default layout का उपयोग करते हैं। Default बदलने से बिना windows वाला हर workspace उस पर reset हो जाता है, जबकि जिस पर windows हैं वह अपना मौजूदा layout बनाए रखता है। Dock में minimize की गई window अभी भी उस workspace पर एक window मानी जाती है जिसे उसने छोड़ा था। उसे _Trigger > Appearance > Workspace Layout_ के अंतर्गत चुनें: Tiling, Scrolling, या Floating। `lunaos-hyprland-workspace-layout-default scrolling` उसे terminal से set करता है।
 
 ### Windows को group करना
 

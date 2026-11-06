@@ -73,7 +73,7 @@ pci_devices() {
 }
 
 hybrid_gpu() {
-  OMARCHY_PCI_DEVICES_PATH="$(pci_devices)" PATH="$fake_bin:$PATH" timeout --kill-after=1s 10s bash "$ROOT/bin/omarchy-hw-hybrid-gpu"
+  LUNAOS_PCI_DEVICES_PATH="$(pci_devices)" PATH="$fake_bin:$PATH" timeout --kill-after=1s 10s bash "$ROOT/bin/lunaos-hw-hybrid-gpu"
 }
 
 hybrid_gpu ||
@@ -114,11 +114,11 @@ BLOCKED=kill-only GPU_COUNT=2 hybrid_gpu ||
   fail "hybrid GPU detection counts multiple GPUs when supergfxd is wedged"
 pass "hybrid GPU detection counts multiple GPUs when supergfxd is wedged"
 
-cat >"$fake_bin/omarchy-cmd-present" <<'STUB'
+cat >"$fake_bin/lunaos-cmd-present" <<'STUB'
 #!/bin/bash
 exit 1
 STUB
-chmod +x "$fake_bin/omarchy-cmd-present"
+chmod +x "$fake_bin/lunaos-cmd-present"
 
 GPU_COUNT=2 hybrid_gpu ||
   fail "hybrid GPU detection counts GPUs without supergfxctl"

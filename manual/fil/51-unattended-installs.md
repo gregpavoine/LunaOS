@@ -1,8 +1,8 @@
 # Mga Pag-install nang Walang Nagbabantay
 
-Ang Omarchy ISO ay maaaring i-install ang sarili nito nang walang tao sa keyboard. Kung makahanap ang installer ng ikalawang drive na may label na `cidata` na may dala nitong mga file ng konpigurasyon, kinokopya nito ang mga ito, nilalaktawan nang buo ang setup wizard, at nagre-reboot papunta sa natapos na sistema nang kusa. Walang espesyal na build ng ISO, walang dagdag na entry sa menu ng boot — kapag walang nakakabit na ganoong drive, walang nagbabago at makukuha mo ang normal na wizard.
+Ang LunaOS ISO ay maaaring i-install ang sarili nito nang walang tao sa keyboard. Kung makahanap ang installer ng ikalawang drive na may label na `cidata` na may dala nitong mga file ng konpigurasyon, kinokopya nito ang mga ito, nilalaktawan nang buo ang setup wizard, at nagre-reboot papunta sa natapos na sistema nang kusa. Walang espesyal na build ng ISO, walang dagdag na entry sa menu ng boot — kapag walang nakakabit na ganoong drive, walang nagbabago at makukuha mo ang normal na wizard.
 
-Ginagawa nitong napakahusay ang Omarchy bilang isang base image para sa mga disposable na environment ng dev: gumawa ng VM sa Proxmox o gamit ang Packer, i-boot ito, umalis, mag-SSH in. Ang `cidata` ang label na `NoCloud` ng cloud-init, kaya alam na ng lahat ng karaniwang tool ng virtualization kung paano magkabit ng ganoong drive.
+Ginagawa nitong napakahusay ang LunaOS bilang isang base image para sa mga disposable na environment ng dev: gumawa ng VM sa Proxmox o gamit ang Packer, i-boot ito, umalis, mag-SSH in. Ang `cidata` ang label na `NoCloud` ng cloud-init, kaya alam na ng lahat ng karaniwang tool ng virtualization kung paano magkabit ng ganoong drive.
 
 ## Ang mga file ng konpigurasyon
 
@@ -24,7 +24,7 @@ Maaari ka ring maghulog ng walang laman na file na pinangalanang `defer-provisio
 
 ## Access sa SSH
 
-Kapag naroroon ang `authorized_keys`, sine-setup ng pag-install ang mga key bilang `~/.ssh/authorized_keys` ng user, pinapagana ang `sshd`, at binubuksan ang firewall para dito. (Ang isang stock na pag-install ng Omarchy ay may kasamang openssh na naka-disable ang serbisyo at sarado ang port, kaya ang isang makinang walang nagbabantay ay hindi sana maaabot kung hindi.) Idinaragdag lang ng pag-install ang mga key mo — hindi nito niluluwagan ang anumang iba pang setting ng awtentikasyon ng SSH daemon.
+Kapag naroroon ang `authorized_keys`, sine-setup ng pag-install ang mga key bilang `~/.ssh/authorized_keys` ng user, pinapagana ang `sshd`, at binubuksan ang firewall para dito. (Ang isang stock na pag-install ng LunaOS ay may kasamang openssh na naka-disable ang serbisyo at sarado ang port, kaya ang isang makinang walang nagbabantay ay hindi sana maaabot kung hindi.) Idinaragdag lang ng pag-install ang mga key mo — hindi nito niluluwagan ang anumang iba pang setting ng awtentikasyon ng SSH daemon.
 
 Kapag naroroon ang `tailscale_authkey`, sa halip ay sumasali ang makina sa tailnet mo sa unang boot: ini-install ang Tailscale mula sa mga naka-bundle na pakete ng ISO, pinapayagan ng firewall ang interface ng tailnet, at isang background job ang nagpapatakbo ng pagsali sa sandaling magkaroon talaga ng network ang makina, na umuulit hanggang sa magtagumpay ito. Gumamit ng isang reusable, pre-authorized na key para ang isang imahe ng drive ay makapaglingkod sa maraming makina.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Pagkatapos ay ikabit ito sa VM kasama ang Omarchy ISO. Narito ang isang buong halimbawa para sa Proxmox:
+Pagkatapos ay ikabit ito sa VM kasama ang LunaOS ISO. Narito ang isang buong halimbawa para sa Proxmox:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

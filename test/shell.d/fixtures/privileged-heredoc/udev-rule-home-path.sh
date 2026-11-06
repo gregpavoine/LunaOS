@@ -1,7 +1,7 @@
-if omarchy-battery-present; then
+if lunaos-battery-present; then
   cat <<EOF | sudo tee "/etc/udev/rules.d/99-power-profile.rules"
-SUBSYSTEM=="power_supply", ATTR{type}=="Mains", RUN+="/usr/bin/systemd-run --no-block --collect --unit=omarchy-power-profile --property=After=power-profiles-daemon.service $HOME/.local/share/omarchy/bin/omarchy-powerprofiles-set"
-SUBSYSTEM=="power_supply", ATTR{type}=="USB", RUN+="/usr/bin/systemd-run --no-block --collect --unit=omarchy-power-profile --property=After=power-profiles-daemon.service $HOME/.local/share/omarchy/bin/omarchy-powerprofiles-set"
+SUBSYSTEM=="power_supply", ATTR{type}=="Mains", RUN+="/usr/bin/systemd-run --no-block --collect --unit=lunaos-power-profile --property=After=power-profiles-daemon.service $HOME/.local/share/lunaos/bin/lunaos-powerprofiles-set"
+SUBSYSTEM=="power_supply", ATTR{type}=="USB", RUN+="/usr/bin/systemd-run --no-block --collect --unit=lunaos-power-profile --property=After=power-profiles-daemon.service $HOME/.local/share/lunaos/bin/lunaos-powerprofiles-set"
 EOF
 
   sudo systemctl enable power-profiles-daemon

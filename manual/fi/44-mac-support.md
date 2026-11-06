@@ -1,16 +1,16 @@
 # Mac-tuki
 
-Omarchyssa on sisäänrakennettu tuki **Intel-Maceille**. Tällä hetkellä on pari tunnettua rajoitusta, mutta kunhan olet niistä tietoinen ja hyväksyt ne, voit puhaltaa vanhoihin Maceihisi uutta elämää asentamalla Omarchyn.
+LunaOSssa on sisäänrakennettu tuki **Intel-Maceille**. Tällä hetkellä on pari tunnettua rajoitusta, mutta kunhan olet niistä tietoinen ja hyväksyt ne, voit puhaltaa vanhoihin Maceihisi uutta elämää asentamalla LunaOSn.
 
-Huomaa, että asentamista M-sarjan Macille ei tueta suoraan tällä hetkellä. Saat lisätietoja tämän tilanteesta kanavalta #omarchy-on-other [Discordissamme](https://discord.gg/tXFUdasqhY).
+Huomaa, että asentamista M-sarjan Macille ei tueta suoraan tällä hetkellä. Saat lisätietoja tämän tilanteesta kanavalta #lunaos-on-other [Discordissamme](https://discord.gg/tXFUdasqhY).
 
-Yksinkertaisessa testissä saavutimme 36 % suorituskykyparannuksen vuoden 2019 MacBook Prolla pelkästään asentamalla Omarchyn.
+Yksinkertaisessa testissä saavutimme 36 % suorituskykyparannuksen vuoden 2019 MacBook Prolla pelkästään asentamalla LunaOSn.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Omarchyn asentaminen Macille
+### LunaOSn asentaminen Macille
 
-Omarchy tukee tällä hetkellä vain sitä, että se on **ainoa** asennettu käyttöjärjestelmä. Asennuksen aikana asema tyhjennetään eikä MacOS ole enää käynnistettävissä.
+LunaOS tukee tällä hetkellä vain sitä, että se on **ainoa** asennettu käyttöjärjestelmä. Asennuksen aikana asema tyhjennetään eikä MacOS ole enää käynnistettävissä.
 
 Voit silti palauttaa sen myöhemmin Internet Recoveryn kautta halutessasi.
 
@@ -39,7 +39,7 @@ Asennusohjelma tunnistaa Mac-laitteiston ja soveltaa tarvittavat korjaukset auto
 
 ### Tunnetut rajoitukset
 
-Yhteisön jäsenet työskentelevät jatkuvasti ratkaisujen parissa näihin haasteisiin, joten jos nämä ovat sinulle ongelmallisia, liity kanavalle #omarchy-on-other [Discordissamme](https://discord.gg/tXFUdasqhY) ja katso, onko ajantasaisia menetelmiä niiden ratkaisemiseksi.
+Yhteisön jäsenet työskentelevät jatkuvasti ratkaisujen parissa näihin haasteisiin, joten jos nämä ovat sinulle ongelmallisia, liity kanavalle #lunaos-on-other [Discordissamme](https://discord.gg/tXFUdasqhY) ja katso, onko ajantasaisia menetelmiä niiden ratkaisemiseksi.
 
 #### Laitteet, joissa on T1-siru
 

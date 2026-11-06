@@ -2,7 +2,7 @@
 
 ## المحررات البديلة
 
-يأتي Omarchy مع [Neovim](https://neovim.io/) افتراضيًا، ولكن إذا كنت تريد شيئًا أكثر شيوعًا وألفة بعض الشيء، فيمكنك تشغيل Omarchy Menu (`Super + Space`) والاطلاع على الخيارات ضمن _تثبيت > Editor_. لدينا VSCode وCursor وZed وSublime Text وHelix وVim وEmacs مدرجة هناك. وإذا لم تجد ما تبحث عنه، فجرّب _تثبيت > Package_ لترى ما إذا كان موجودًا في حزمة من حزم Arch (وإن لم يكن، فجرّب _تثبيت > AUR_ للتحقق من AUR).
+يأتي LunaOS مع [Neovim](https://neovim.io/) افتراضيًا، ولكن إذا كنت تريد شيئًا أكثر شيوعًا وألفة بعض الشيء، فيمكنك تشغيل LunaOS Menu (`Super + Space`) والاطلاع على الخيارات ضمن _تثبيت > Editor_. لدينا VSCode وCursor وZed وSublime Text وHelix وVim وEmacs مدرجة هناك. وإذا لم تجد ما تبحث عنه، فجرّب _تثبيت > Package_ لترى ما إذا كان موجودًا في حزمة من حزم Arch (وإن لم يكن، فجرّب _تثبيت > AUR_ للتحقق من AUR).
 
 محرر `vi` الأصلي متاح أيضًا فور التثبيت. شغّل `vi filename` لتعديل ملف في terminal.
 
@@ -12,7 +12,7 @@
 
 ## البيئة
 
-يدعم Omarchy إعداد مجموعة واسعة من بيئات التطوير عبر قسم _تثبيت > Development_ في Omarchy Menu (`Super + Space`). ستجد بالطبع _Ruby on Rails_، بالإضافة إلى وقتات تشغيل JavaScript الرئيسية الثلاثة جميعها (Node.js وBun وDeno)، وأطر عمل PHP الشهيرة مثل Laravel وSymfony. آه، وهناك أيضًا Go وRust وPython وJava وElixir (مع Phoenix) و.NET وOCaml وZig وClojure وScala. إنها تشكيلة واسعة حقًا!
+يدعم LunaOS إعداد مجموعة واسعة من بيئات التطوير عبر قسم _تثبيت > Development_ في LunaOS Menu (`Super + Space`). ستجد بالطبع _Ruby on Rails_، بالإضافة إلى وقتات تشغيل JavaScript الرئيسية الثلاثة جميعها (Node.js وBun وDeno)، وأطر عمل PHP الشهيرة مثل Laravel وSymfony. آه، وهناك أيضًا Go وRust وPython وJava وElixir (مع Phoenix) و.NET وOCaml وZig وClojure وScala. إنها تشكيلة واسعة حقًا!
 
 تتم إدارة غالبية هذه البيئات بواسطة [Mise](https://mise.jdx.dev/). إنها أداة تتيح لك تثبيت إصدارات متعددة من لغة برمجة وتشغيلها على الجهاز نفسه. إنها تشبه rbenv أو rvm للغة Ruby أو virtualenv للغة Python، ولكنها تعمل مع مجموعة كبيرة من البيئات المختلفة.
 
@@ -20,11 +20,11 @@
 
 ## Docker
 
-بالكاد يحتاج [Docker](https://www.docker.com/) إلى أي مقدمة. فهو يتيح لك تشغيل حاويات معزولة، ويقوم Omarchy بتثبيت كل ما يلزم لتشغيله جيدًا، بما في ذلك Docker نفسه و[Docker Compose](https://docs.docker.com/compose/).
+بالكاد يحتاج [Docker](https://www.docker.com/) إلى أي مقدمة. فهو يتيح لك تشغيل حاويات معزولة، ويقوم LunaOS بتثبيت كل ما يلزم لتشغيله جيدًا، بما في ذلك Docker نفسه و[Docker Compose](https://docs.docker.com/compose/).
 
-افتراضيًا، مستخدمك *ليس* في مجموعة `docker`. هذه المجموعة في الواقع تمنح صلاحيات root دون كلمة مرور — فأي شيء فيها يمكنه تنفيذ `docker run -v /:/host` والسيطرة على الجهاز — لذا فإن أي نص برمجي مارق أو تبعية مارقة تعمل بصلاحياتك ستكون على بعد أمر واحد من صلاحيات root بخلاف ذلك. لهذا، على سطر الأوامر تشغّل Docker باستخدام `sudo` (`sudo docker ps`، `sudo docker compose up`)، والأدوات الرسومية التي تتحدث إلى daemon — مثل Windows VM — تطلب إذنًا عندما تحتاج إليه. وإذا كنت تريد استعادة سهولة الإعداد دون مجموعة وتفهم المفاضلة في ذلك، فعّل ذلك من **الإعداد > Security > Sudoless Docker** (أو شغّل `omarchy-setup-security-sudoless-docker`)، سيضيفك ذلك إلى مجموعة `docker` بعد تحذير؛ وبعدها يعمل `docker` العادي والاختصار `d` دون `sudo` مجددًا.
+افتراضيًا، مستخدمك *ليس* في مجموعة `docker`. هذه المجموعة في الواقع تمنح صلاحيات root دون كلمة مرور — فأي شيء فيها يمكنه تنفيذ `docker run -v /:/host` والسيطرة على الجهاز — لذا فإن أي نص برمجي مارق أو تبعية مارقة تعمل بصلاحياتك ستكون على بعد أمر واحد من صلاحيات root بخلاف ذلك. لهذا، على سطر الأوامر تشغّل Docker باستخدام `sudo` (`sudo docker ps`، `sudo docker compose up`)، والأدوات الرسومية التي تتحدث إلى daemon — مثل Windows VM — تطلب إذنًا عندما تحتاج إليه. وإذا كنت تريد استعادة سهولة الإعداد دون مجموعة وتفهم المفاضلة في ذلك، فعّل ذلك من **الإعداد > Security > Sudoless Docker** (أو شغّل `lunaos-setup-security-sudoless-docker`)، سيضيفك ذلك إلى مجموعة `docker` بعد تحذير؛ وبعدها يعمل `docker` العادي والاختصار `d` دون `sudo` مجددًا.
 
-يمكنك إعداد قواعد البيانات الشائعة للتطوير المحلي في Docker باستخدام _تثبيت > Development > Docker DB_ في قائمة Omarchy.
+يمكنك إعداد قواعد البيانات الشائعة للتطوير المحلي في Docker باستخدام _تثبيت > Development > Docker DB_ في قائمة LunaOS.
 
 ## GitHub CLI
 

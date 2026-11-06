@@ -14,8 +14,8 @@ import "BarModel.js" as BarModel
 Item {
   id: root
 
-  // The omarchy-shell host injects omarchyPath from OMARCHY_PATH.
-  property string omarchyPath: Quickshell.env("OMARCHY_PATH")
+  // The lunaos-shell host injects lunaosPath from LUNAOS_PATH.
+  property string lunaosPath: Quickshell.env("LUNAOS_PATH")
   // Injected by the host shell so bar slots can resolve enabled widgets.
   property var barWidgetRegistry: fallbackBarWidgetRegistry
   // Read-only registry view for third-party full bars; the built-in bar does
@@ -44,7 +44,7 @@ Item {
   property bool barHidden: false
   property string home: Quickshell.env("HOME")
   property string stateHome: home + "/.local/state"
-  property string omarchyConfigDir: home + "/.config/omarchy"
+  property string lunaosConfigDir: home + "/.config/lunaos"
   property var fallbackBarConfig: ({
     position: "top",
     background: "opaque",
@@ -74,7 +74,7 @@ Item {
   property int barConfigSerial: 0
   property string position: "top"
   // Resolves through fontconfig at paint time (Style.font.family defaults
-  // to "monospace"), so changing the system font (via `omarchy-font-set`)
+  // to "monospace"), so changing the system font (via `lunaos-font-set`)
   // updates the bar without a reload.
   property string fontFamily: Style.font.family
   // Bound to the central Color singleton so the bar tracks shell.toml's
@@ -770,7 +770,7 @@ Item {
     if (look !== "none") glassy = look === "glassy"
     if (look !== glassSyncedLook) {
       glassSyncedLook = look
-      Util.execDetached("omarchy-bar sync-glass")
+      Util.execDetached("lunaos-bar sync-glass")
     }
 
     // Each widget keeps its key while it stays in the layout, wherever it
@@ -896,7 +896,7 @@ Item {
     return monitor ? String(monitor.name || "") : ""
   }
 
-  // Resolve the live bar-widget instance for a plugin id (e.g. "omarchy.bluetooth").
+  // Resolve the live bar-widget instance for a plugin id (e.g. "lunaos.bluetooth").
   // Only widgets that expose popup open/close methods count; plain indicators
   // (clock, workspaces, tray) return null. Used by shell.summon/toggle so
   // panel hotkeys route through the bar instead of a per-target IPC handler
@@ -967,7 +967,7 @@ Item {
   }
 
   function customModuleSource(entry) {
-    var source = BarModel.customModulePath(entry, home, omarchyConfigDir)
+    var source = BarModel.customModulePath(entry, home, lunaosConfigDir)
     return source ? Util.fileUrl(source) : ""
   }
 
@@ -1008,9 +1008,9 @@ Item {
   }
 
   // Steps the bar background from clear to glassy to opaque and around. Through
-  // omarchy-bar, which keeps Hyprland's blur behind a glassy bar in step.
+  // lunaos-bar, which keeps Hyprland's blur behind a glassy bar in step.
   function cycleBackground() {
-    Util.execDetached("omarchy-bar background cycle")
+    Util.execDetached("lunaos-bar background cycle")
   }
 
   function moduleDropAtScene(scenePoint, sourceSlot) {
@@ -1479,7 +1479,7 @@ Item {
     if (!requestedTransparent || transparentForegroundProc.running) return
 
     transparentForegroundProc.command = [
-      "omarchy-bar-text-color",
+      "lunaos-bar-text-color",
       root.position,
       String(root.barSize),
       colorHex(root.themeForeground),
@@ -1519,7 +1519,7 @@ Item {
   }
 
   FileView {
-    path: root.stateHome + "/omarchy/current"
+    path: root.stateHome + "/lunaos/current"
     watchChanges: true
     printErrors: false
     onFileChanged: root.scheduleTransparentForegroundRefresh()
@@ -1582,15 +1582,15 @@ Item {
 
   // Presence of the `bar-off` flag = bar hidden. Watching the parent toggles
   // directory because FileView can't observe a file that doesn't exist yet,
-  // and the flag is created/removed by `omarchy-toggle-bar`.
+  // and the flag is created/removed by `lunaos-toggle-bar`.
   Process {
     id: barHiddenProbe
     running: true
-    command: ["bash", "-c", "[[ -f $HOME/.local/state/omarchy/toggles/bar-off ]] && echo yes || echo no"]
+    command: ["bash", "-c", "[[ -f $HOME/.local/state/lunaos/toggles/bar-off ]] && echo yes || echo no"]
     stdout: SplitParser { onRead: function(line) { root.barHidden = String(line).trim() === "yes" } }
   }
   FileView {
-    path: root.home + "/.local/state/omarchy/toggles"
+    path: root.home + "/.local/state/lunaos/toggles"
     watchChanges: true
     printErrors: false
     onFileChanged: barHiddenProbe.running = true
@@ -1598,10 +1598,10 @@ Item {
 
   // The directory watch can permanently stop delivering events after flag
   // changes land in quick succession, stranding the bar off screen until the
-  // shell restarts. `omarchy-toggle-bar` nudges this after flipping the flag
+  // shell restarts. `lunaos-toggle-bar` nudges this after flipping the flag
   // so the probe re-reads it even when the watch has gone quiet.
   ShellIpc {
-    target: "omarchy.bar"
+    target: "lunaos.bar"
 
     // Start rather than restart: a probe already in flight was launched by the
     // directory watch after the flag flipped, so its answer is current, and
@@ -1737,7 +1737,7 @@ Item {
     implicitHeight: root.vertical ? 0 : (screen ? screen.height : thickness)
     color: "transparent"
     surfaceFormat.opaque: false
-    WlrLayershell.namespace: "omarchy-bar"
+    WlrLayershell.namespace: "lunaos-bar"
     WlrLayershell.layer: WlrLayer.Top
 
     // Idle, only the strip takes input, so the clear expanse passes clicks
@@ -1940,7 +1940,7 @@ Item {
     visible: (active && sourceItem !== null) || poofShown
     color: "transparent"
     exclusionMode: ExclusionMode.Ignore
-    WlrLayershell.namespace: "omarchy-bar-drag-ghost"
+    WlrLayershell.namespace: "lunaos-bar-drag-ghost"
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
 
@@ -2134,7 +2134,7 @@ Item {
     visible: root.barMoveActive && root.sameScreen(root.barMoveScreen, ghostScreen)
     color: "transparent"
     exclusionMode: ExclusionMode.Ignore
-    WlrLayershell.namespace: "omarchy-bar-move-ghost"
+    WlrLayershell.namespace: "lunaos-bar-move-ghost"
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
 

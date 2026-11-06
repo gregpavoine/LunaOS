@@ -7,8 +7,8 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 tmp_dir=$(mktemp -d)
 trap 'rm -rf "$tmp_dir"' EXIT
 
-baseline_conf="$ROOT/etc/mkinitcpio.conf.d/00-omarchy-hooks.conf"
-hooks_conf="$ROOT/etc/mkinitcpio.conf.d/omarchy_hooks.conf"
+baseline_conf="$ROOT/etc/mkinitcpio.conf.d/00-lunaos-hooks.conf"
+hooks_conf="$ROOT/etc/mkinitcpio.conf.d/lunaos_hooks.conf"
 fake_platform "$tmp_dir/generic" x86
 
 # Each argument is a PCI device as "vendor:class", in sysfs's own format.
@@ -39,7 +39,7 @@ resolved_hooks() {
   # The vconsole block sources the host's /etc/vconsole.conf, which may set
   # only KEYMAP; predefine XKBLAYOUT so its expansion survives set -u and the
   # test stays independent of the machine it runs on.
-  OMARCHY_PCI_DEVICES_PATH="$tmp_dir/devices" OMARCHY_PROC_ROOT="$tmp_dir/generic/proc" \
+  LUNAOS_PCI_DEVICES_PATH="$tmp_dir/devices" LUNAOS_PROC_ROOT="$tmp_dir/generic/proc" \
     PATH="$tmp_dir/generic/bin:$ROOT/bin:$PATH" bash -uc "
     FILES=()
     XKBLAYOUT=us

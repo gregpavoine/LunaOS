@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# lunaos:summary=Edit, set, or reset About branding
+# lunaos:group=branding
+# lunaos:name=about
+# lunaos:args=<image|text|reset>
+# lunaos:examples=lunaos branding about image | lunaos branding about text | lunaos branding about reset
+
+set -euo pipefail
+
+case "${1:-}" in
+image)
+  image=$(lunaos-file-select --title "$(lunaos-i18n branding.pickAboutImage)" --extensions "png svg")
+  if lunaos-transcode-ascii "$image" ~/.config/lunaos/branding/about.txt --width 54 --height 26; then
+    lunaos-launch-about >/dev/null 2>&1
+  fi
+  ;;
+text)
+  lunaos-launch-editor ~/.config/lunaos/branding/about.txt >/dev/null 2>&1 && lunaos-launch-about >/dev/null 2>&1
+  ;;
+reset)
+  cp "$LUNAOS_PATH/icon.txt" ~/.config/lunaos/branding/about.txt && lunaos-launch-about >/dev/null 2>&1
+  ;;
+*)
+  echo "Usage: lunaos-branding-about <image|text|reset>" >&2
+  exit 1
+  ;;
+esac

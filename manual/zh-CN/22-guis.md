@@ -20,11 +20,11 @@ Obsidian 对所有用途免费，包括个人、商业和非营利用途。
 
 Obsidian 还提供了一个[用于同步的商业附加功能](https://obsidian.md/sync)，带有 iOS 和 Android 上的移动应用。(https://obsidian.md/pricing)。
 
-你用 `Super + Shift + O` 启动 Obsidian。要使用主题同步，你必须在设置下选择 `Omarchy` 主题。
+你用 `Super + Shift + O` 启动 Obsidian。要使用主题同步，你必须在设置下选择 `LunaOS` 主题。
 
 ## Omawrite
 
-[Omawrite](https://github.com/omacom-io/omawrite) 是 Omarchy 自家的极简 Markdown 写作应用。没有库，没有插件，只有你和文字。
+[Omawrite](https://github.com/omacom-io/omawrite) 是 LunaOS 自家的极简 Markdown 写作应用。没有库，没有插件，只有你和文字。
 
 你用 `Super + Shift + W` 启动 Omawrite。
 
@@ -44,18 +44,18 @@ Obsidian 还提供了一个[用于同步的商业附加功能](https://obsidian.
 
 [LocalSend](https://localsend.org/) 让你将文件发送到同一网络上运行该应用的其他设备，就像 Apple 的 AirDrop。不过它是跨平台的，所以你可以与 Windows、macOS、Android、iOS，当然还有 Linux 之间互发文件。
 
-你可以在 `Super + Ctrl + S` 或 Omarchy 菜单中的 _Trigger > Share_ 下打开分享菜单。它为你提供四个选项：
+你可以在 `Super + Ctrl + S` 或 LunaOS 菜单中的 _Trigger > Share_ 下打开分享菜单。它为你提供四个选项：
 
 - **Clipboard** 将你复制的任何内容作为文本文件发送。非常适合把链接或代码片段弄到手机上，而不用给自己发邮件。
 - **File** 打开一个文件选择器，你可以一次选择几个。
 - **Folder** 发送整个目录。
 - **Receive** 打开 LocalSend 本体，这样另一台设备可以向你发送东西。
 
-从终端用 `omarchy share clipboard`、`omarchy share file [path]` 和 `omarchy share folder [path]` 也能做同样的事情。省略路径，你会得到选择器。
+从终端用 `lunaos share clipboard`、`lunaos share file [path]` 和 `lunaos share folder [path]` 也能做同样的事情。省略路径，你会得到选择器。
 
 你也可以直接从文件管理器发送：右键点击 Nautilus 中的任何选区并选择 _Send via LocalSend_。
 
-Omarchy 的防火墙默认关闭，仅 LocalSend 的端口例外，所以这在全新安装时开箱即用。见[安全性](48-security.md)。
+LunaOS 的防火墙默认关闭，仅 LocalSend 的端口例外，所以这在全新安装时开箱即用。见[安全性](48-security.md)。
 
 ## LibreOffice
 
@@ -65,19 +65,19 @@ Omarchy 的防火墙默认关闭，仅 LocalSend 的端口例外，所以这在�
 
 ## Hype
 
-[Hype](https://github.com/omacom/hype) 是 Omarchy 自家的极简演示应用。你的演示文稿是一个单独的 Markdown 文件，图片和视频放在它旁边：在实时预览下方写每一张幻灯片，拖动幻灯片调整顺序，然后全屏演示或导出为 PDF 和 PowerPoint。它甚至会采用你的 Omarchy 主题。
+[Hype](https://github.com/omacom/hype) 是 LunaOS 自家的极简演示应用。你的演示文稿是一个单独的 Markdown 文件，图片和视频放在它旁边：在实时预览下方写每一张幻灯片，拖动幻灯片调整顺序，然后全屏演示或导出为 PDF 和 PowerPoint。它甚至会采用你的 LunaOS 主题。
 
 你通过应用程序启动器（`Super + Space`）启动 Hype。在其中按 `?` 查看每个快捷键。
 
 ## Signed
 
-[Signed](https://github.com/omacom/signed) 是 Omarchy 自家的签署 PDF 并填写它们的极简方法。将你保存的签名、文本和今天的日期放在页面上的任何地方，然后在原件旁边保存一份已签署的副本。方法见[填写 PDF](27-filling-out-pdfs.md)。
+[Signed](https://github.com/omacom/signed) 是 LunaOS 自家的签署 PDF 并填写它们的极简方法。将你保存的签名、文本和今天的日期放在页面上的任何地方，然后在原件旁边保存一份已签署的副本。方法见[填写 PDF](27-filling-out-pdfs.md)。
 
 你通过应用程序启动器（`Super + Space`）启动 Signed，或者从文件管理器用它打开 PDF。
 
 ## Omacalc
 
-[Omacalc](https://github.com/omacom-io/omacalc) 是 Omarchy 自家的极简计算器，在浮动窗口中打开。
+[Omacalc](https://github.com/omacom-io/omacalc) 是 LunaOS 自家的极简计算器，在浮动窗口中打开。
 
 你用 `Super + Ctrl + Q`（或者计算器键，如果你的键盘有的话）启动 Omacalc。
 
@@ -85,7 +85,7 @@ Omarchy 的防火墙默认关闭，仅 LocalSend 的端口例外，所以这在�
 
 [Signal](https://signal.org/) 是端到端加密消息的先驱，对于任何不想通过大型科技集团的人来说，都是一个很好的沟通选择。
 
-你用 `Super + Shift + G` 启动 Signal。它不是基础安装的一部分，所以你第一次按下那个快捷键时，Omarchy 会提议为你安装它（它也在 Omarchy 菜单的 _Install > Service_ 下）。
+你用 `Super + Shift + G` 启动 Signal。它不是基础安装的一部分，所以你第一次按下那个快捷键时，LunaOS 会提议为你安装它（它也在 LunaOS 菜单的 _Install > Service_ 下）。
 
 ## mpv
 
@@ -95,13 +95,13 @@ Omarchy 的防火墙默认关闭，仅 LocalSend 的端口例外，所以这在�
 
 ## Omacut
 
-[Omacut](https://github.com/omacom-io/omacut) 是 Omarchy 自家的极简视频修剪器。当你只需要剪掉一段视频的开头和结尾时，它比启动完整的视频编辑器要好。
+[Omacut](https://github.com/omacom-io/omacut) 是 LunaOS 自家的极简视频修剪器。当你只需要剪掉一段视频的开头和结尾时，它比启动完整的视频编辑器要好。
 
 你通过应用程序启动器（`Super + Space`）启动 Omacut。
 
 ## Monologue
 
-[Monologue](https://github.com/omacom/monologue) 是 Omarchy 自家的极简网络摄像头录像机。选择你的摄像头和麦克风一次，然后按 `Space` 开始录制，再按一次暂停和恢复同一段录制。它始终以你的摄像头的最高分辨率录制，并带有一个实时麦克风电平表，这样你可以在开始之前检查你的电平。
+[Monologue](https://github.com/omacom/monologue) 是 LunaOS 自家的极简网络摄像头录像机。选择你的摄像头和麦克风一次，然后按 `Space` 开始录制，再按一次暂停和恢复同一段录制。它始终以你的摄像头的最高分辨率录制，并带有一个实时麦克风电平表，这样你可以在开始之前检查你的电平。
 
 停止录制后，它会立即在内置编辑器中打开。双击剪辑可将其拆分，拖动手柄修剪每个片段，并删除你不需要的部分。然后将其保存为 MP4。你的原始录像会被保留，直到你放弃它，所以你随时可以回来以不同的方式剪辑它。
 

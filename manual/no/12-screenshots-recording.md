@@ -21,7 +21,7 @@ Annoteringseditoren kan tegne piler, linjer, former, uthevinger, nummererte mark
 
 Lagrede skjermbilder havner som standard i `~/Pictures/Screenshots`, med et navn som `screenshot-2026-08-13_14-22-05-firefox.png`. Sett `OMASNAP_SCREENSHOT_DIR` for å bruke en annen mappe — se [FAQ-en](46-faq.md) for hvor øktmiljøvariabler skal legges. Omasnap oppretter mappen når den lagrer det første skuddet. Sett `[output] autosave = false` i `~/.config/omasnap/omasnap.conf` for å deaktivere automatisk lagring.
 
-Fra terminalen åpner `omarchy screenshot` det samme overlegget, og du kan velge startmodusen dens: `omarchy capture screenshot region`, `windows`, `fullscreen` eller `scroll`. Et andre argument `copy` eller `save` hopper over forhåndsvisningen og sender skuddet rett til den destinasjonen. For å redigere før utdata, bruker du `omarchy screenshot --editor=overlay` for en fullskjermeditor eller `omarchy screenshot --editor=window` for et eget vindu.
+Fra terminalen åpner `lunaos screenshot` det samme overlegget, og du kan velge startmodusen dens: `lunaos capture screenshot region`, `windows`, `fullscreen` eller `scroll`. Et andre argument `copy` eller `save` hopper over forhåndsvisningen og sender skuddet rett til den destinasjonen. For å redigere før utdata, bruker du `lunaos screenshot --editor=overlay` for en fullskjermeditor eller `lunaos screenshot --editor=window` for et eget vindu.
 
 ### Styre velgeren fra tastaturet
 
@@ -40,9 +40,9 @@ Disse bindingene finnes bare mens Omasnap er åpen, så de kan ikke kollidere me
 
 ## Skjermopptak
 
-`Alt + Print Screen` åpner _Utløs > Opptak > Skjermopptak_, som spør hva du vil ha på lydsporet: ingen lyd, skrivebordslyd, skrivebord pluss mikrofon, eller skrivebord pluss mikrofon pluss webcam. Den siste vises bare hvis du faktisk har et kamera plugget inn. Velg én, og Omarchys opptaksvelger lar deg dra et område eller klikke et vindu eller en skjerm.
+`Alt + Print Screen` åpner _Utløs > Opptak > Skjermopptak_, som spør hva du vil ha på lydsporet: ingen lyd, skrivebordslyd, skrivebord pluss mikrofon, eller skrivebord pluss mikrofon pluss webcam. Den siste vises bare hvis du faktisk har et kamera plugget inn. Velg én, og LunaOSs opptaksvelger lar deg dra et område eller klikke et vindu eller en skjerm.
 
-Opptaket kjører på gpu-screen-recorder, som koder på GPU-en ved 60 fps og faller tilbake til CPU-en hvis den må. Resultatet er en MP4 i `~/Videos`, kalt `screenrecording-2026-08-13_14-22-05.mp4`. Sett `OMARCHY_SCREENRECORD_DIR` for å endre det — men merk at i motsetning til skjermbildemappen må denne finnes allerede, ellers nekter opptaket å starte.
+Opptaket kjører på gpu-screen-recorder, som koder på GPU-en ved 60 fps og faller tilbake til CPU-en hvis den må. Resultatet er en MP4 i `~/Videos`, kalt `screenrecording-2026-08-13_14-22-05.mp4`. Sett `LUNAOS_SCREENRECORD_DIR` for å endre det — men merk at i motsetning til skjermbildemappen må denne finnes allerede, ellers nekter opptaket å starte.
 
 Mens du tar opp, dukker en liten indikator opp i linjen. Klikk den for å stoppe. Du kan også stoppe med `Alt + Print Screen` igjen, eller med oppføringen _Stopp skjermopptak_ under _Utløs > Opptak > Skjermopptak_, som bare vises mens noe faktisk tar opp.
 
@@ -59,7 +59,7 @@ Når du tar opp med et webcam, vises kameraet som et festet, beskåret portrettv
 
 Det finnes tre størrelser — liten, middels og stor — og snarveiene går mellom dem. Middels er standarden. De er proporsjonale med opptaket, så kameraet tar opp samme andel av rammen enten du tar opp en 1080p-skjerm eller en 6K-skjerm. Og hvis du tok opp et område snarere enn en hel skjerm, forankres overlegget til det områdets hjørne i stedet for skjermens, slik at det forblir inne i skuddet.
 
-Du kan også kalle det direkte med `omarchy-capture-webcam-resize small`, eller `reset` for å gå tilbake til middels.
+Du kan også kalle det direkte med `lunaos-capture-webcam-resize small`, eller `reset` for å gå tilbake til middels.
 
 ## Tekst, QR-koder og farger
 
@@ -75,7 +75,7 @@ Et 4K-skjermopptak eller en rå HEIC fra telefonen er ofte for stor til bare å 
 
 Bilder går til jpg eller png i høy, middels eller lav, som begrenser bredden til 3160, 2160 og 1080 piksler. Videoer går til mp4 eller en animert gif i 4k, 1080p eller 720p. Den konverterte filen skrives ved siden av originalen med oppløsningen i navnet — `demo-1080p.mp4` — og banen kopieres til utklippstavlen som en fil-URI, slik at du kan lime den direkte inn i en app som tar filslipp.
 
-Den fungerer fra terminalen også, hvis du allerede vet hva du vil ha: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Det finnes også `omarchy transcode ascii`, som gjør et bilde om til ASCII-kunst — den er mest for [merkevarebygging](41-branding.md).
+Den fungerer fra terminalen også, hvis du allerede vet hva du vil ha: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Det finnes også `lunaos transcode ascii`, som gjør et bilde om til ASCII-kunst — den er mest for [merkevarebygging](41-branding.md).
 
 ## Sende det et sted
 

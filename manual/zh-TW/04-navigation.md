@@ -1,8 +1,8 @@
 # 導覽
 
-Omarchy 裡的一切都靠鍵盤完成——_每件事都是！_ 系統剛啟動時，你光靠滑鼠真的什麼事都做不了。但你可以按下 `Super + Space` 叫出 Omarchy 選單，從這裡你幾乎什麼都能做。
+LunaOS 裡的一切都靠鍵盤完成——_每件事都是！_ 系統剛啟動時，你光靠滑鼠真的什麼事都做不了。但你可以按下 `Super + Space` 叫出 LunaOS 選單，從這裡你幾乎什麼都能做。
 
-但 Omarchy 選單甚至不是打算讓你在大多數時候用來操作系統的主要方式。我們可以比那更快！所有最重要的應用程式都直接綁定到各自的快捷鍵上。你用 `Super + Return` 啟動終端機，用 `Super + Shift + Return` 啟動瀏覽器。試著一個接著一個按，你就會看到 Hyprland 平鋪的魔法發揮作用：
+但 LunaOS 選單甚至不是打算讓你在大多數時候用來操作系統的主要方式。我們可以比那更快！所有最重要的應用程式都直接綁定到各自的快捷鍵上。你用 `Super + Return` 啟動終端機，用 `Super + Shift + Return` 啟動瀏覽器。試著一個接著一個按，你就會看到 Hyprland 平鋪的魔法發揮作用：
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Omarchy 裡的一切都靠鍵盤完成——_每件事都是！_ 系統剛啟動
 
 ### Dwindle 與捲動式佈局
 
-Omarchy 的預設佈局叫做 dwindle。它讓你在單一工作區開啟的所有視窗隨時都保持可見，即使必須為此把它們縮小也一樣。
+LunaOS 的預設佈局叫做 dwindle。它讓你在單一工作區開啟的所有視窗隨時都保持可見，即使必須為此把它們縮小也一樣。
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 浮動工作區的運作方式像傳統桌面：視窗彼此重疊，由你自行移動和調整大小。每個視窗都會有一個以你的主題顏色顯示的標題列，上面有最小化、最大化和關閉的按鈕。`Super + M` 也會把焦點所在的視窗最小化。最小化的視窗會在 dock 裡等著；點一下它的應用程式就能把它帶回來。點一下視窗把它帶到最前面。從任何邊緣或角落調整它的大小。連點兩下標題列可以最大化視窗，同時保留頂部列可見，再連點兩下就能取回它原來的大小。
 
-浮動工作區也會顯示一個 dock，裡面有你釘選的應用程式、所有正在執行的程式，以及藏在應用程式按鈕後面的所有應用程式格狀清單，`Super + Alt + Space` 和 Omarchy 選單裡的 _Apps_ 也都能開啟它。對格狀清單上的一個應用程式按右鍵，或按下 `Delete`，就能解除安裝它。點一下應用程式就能開啟它，或把它的視窗帶到最前面；再點一下則可依序切換它的各個視窗。中鍵點一下會開啟新的視窗。沿著 dock 拖曳圖示就能移動它；把一個執行中的應用程式拖到其他應用程式中間，就會把它保留在那裡。按右鍵可以把應用程式保留在 dock 裡、把它移除，或結束它。dock 會為全螢幕視窗讓路。對應用程式按鈕按右鍵，可以把 dock 移到另一個邊緣，或讓它一直隱藏，直到指標碰到它的邊緣為止。這個位置也可以在 _Trigger > Appearance > Dock > Dock Position_ 底下設定，而 `omarchy dock position left` 和 `omarchy dock autohide on` 可以從終端機設定這兩者。你保留在 dock 裡的應用程式，在它們沒有執行時會呈現淡化的樣子。
+浮動工作區也會顯示一個 dock，裡面有你釘選的應用程式、所有正在執行的程式，以及藏在應用程式按鈕後面的所有應用程式格狀清單，`Super + Alt + Space` 和 LunaOS 選單裡的 _Apps_ 也都能開啟它。對格狀清單上的一個應用程式按右鍵，或按下 `Delete`，就能解除安裝它。點一下應用程式就能開啟它，或把它的視窗帶到最前面；再點一下則可依序切換它的各個視窗。中鍵點一下會開啟新的視窗。沿著 dock 拖曳圖示就能移動它；把一個執行中的應用程式拖到其他應用程式中間，就會把它保留在那裡。按右鍵可以把應用程式保留在 dock 裡、把它移除，或結束它。dock 會為全螢幕視窗讓路。對應用程式按鈕按右鍵，可以把 dock 移到另一個邊緣，或讓它一直隱藏，直到指標碰到它的邊緣為止。這個位置也可以在 _Trigger > Appearance > Dock > Dock Position_ 底下設定，而 `lunaos dock position left` 和 `lunaos dock autohide on` 可以從終端機設定這兩者。你保留在 dock 裡的應用程式，在它們沒有執行時會呈現淡化的樣子。
 
-新的工作區，以及任何你還沒用 `Super + L` 賦予它們自己佈局的工作區，都會使用預設佈局。變更預設值會把每一個沒有視窗的工作區重設為那個佈局，而有視窗在上面的工作區則會保留它現有的佈局。最小化到 dock 裡的視窗，仍然算作它離開的那個工作區上的一個視窗。在 _Trigger > Appearance > Workspace Layout_ 底下挑選它：Tiling、Scrolling 或 Floating。`omarchy-hyprland-workspace-layout-default scrolling` 可以從終端機設定它。
+新的工作區，以及任何你還沒用 `Super + L` 賦予它們自己佈局的工作區，都會使用預設佈局。變更預設值會把每一個沒有視窗的工作區重設為那個佈局，而有視窗在上面的工作區則會保留它現有的佈局。最小化到 dock 裡的視窗，仍然算作它離開的那個工作區上的一個視窗。在 _Trigger > Appearance > Workspace Layout_ 底下挑選它：Tiling、Scrolling 或 Floating。`lunaos-hyprland-workspace-layout-default scrolling` 可以從終端機設定它。
 
 ### 將視窗分組
 

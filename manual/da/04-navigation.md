@@ -1,8 +1,8 @@
 # Navigation
 
-Alt i Omarchy sker via tastaturet — _ALT!_ Når systemet starter første gang, kan du bogstaveligt talt ikke gøre en eneste ting med musen alene. Men du kan trykke på `Super + Space` for at vise Omarchy-menuen, og herfra kan du gøre stort set alt.
+Alt i LunaOS sker via tastaturet — _ALT!_ Når systemet starter første gang, kan du bogstaveligt talt ikke gøre en eneste ting med musen alene. Men du kan trykke på `Super + Space` for at vise LunaOS-menuen, og herfra kan du gøre stort set alt.
 
-Men Omarchy-menuen er ikke engang tænkt som den primære måde at betjene systemet på det meste af tiden. Vi kan gøre det hurtigere end det! Alle de vigtigste applikationer er bundet direkte til individuelle genvejstaster. Du starter terminalen med `Super + Return` og en browser med `Super + Shift + Return`. Prøv at gøre det ene efter det andet, så ser du magien ved Hyprlands tiling i aktion:
+Men LunaOS-menuen er ikke engang tænkt som den primære måde at betjene systemet på det meste af tiden. Vi kan gøre det hurtigere end det! Alle de vigtigste applikationer er bundet direkte til individuelle genvejstaster. Du starter terminalen med `Super + Return` og en browser med `Super + Shift + Return`. Prøv at gøre det ene efter det andet, så ser du magien ved Hyprlands tiling i aktion:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Du kan også gå i fuld skærm med `Super + F` eller endda bare fuld bredde (med
 
 ### Dwindle vs. scrolling-layout
 
-Omarchys standardlayout hedder dwindle. Det holder alle de vinduer, du åbner på et enkelt arbejdsområde, synlige hele tiden, også selvom det må krympe dem.
+LunaOSs standardlayout hedder dwindle. Det holder alle de vinduer, du åbner på et enkelt arbejdsområde, synlige hele tiden, også selvom det må krympe dem.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Et flydende arbejdsområde fungerer som et traditionelt skrivebord: vinduer overlapper, og du flytter og tilpasser dem selv. Hvert vindue får en titellinje i dit temas farver med knapper til at minimere, maksimere og lukke. `Super + M` minimerer også det fokuserede vindue. Et minimeret vindue venter i docken; klik på dets app for at bringe det tilbage. Klik på et vindue for at bringe det frem. Ændr størrelsen fra enhver kant eller ethvert hjørne. Dobbeltklik på en titellinje for at maksimere vinduet, mens den øverste bar stadig er synlig, og igen for at få dets gamle størrelse tilbage.
 
-Et flydende arbejdsområde viser også en dock med dine fastgjorte apps, alt det, der kører, og et gitter med alle apps bag apps-knappen, som `Super + Alt + Space` og _Apps_ i Omarchy-menuen også åbner. Højreklik på en app i gitteret, eller tryk på `Delete`, for at afinstallere den. Klik på en app for at åbne den eller bringe dens vindue frem; klik igen for at bladre igennem dens vinduer. Midterklik åbner et nyt vindue. Træk et ikon langs docken for at flytte det; hvis du trækker en kørende app ind blandt de andre, bliver den der. Højreklik for at beholde en app i docken, tage den ud eller afslutte den. Docken flytter sig af vejen for et vindue i fuld skærm. Højreklik på apps-knappen for at flytte docken til en anden kant eller få den til at skjule sig, indtil markøren når dens kant. Placeringen findes også under _Trigger > Appearance > Dock > Dock Position_, og `omarchy dock position left` og `omarchy dock autohide on` indstiller begge dele fra en terminal. Apps, du beholder i docken, er nedtonede, mens de ikke kører.
+Et flydende arbejdsområde viser også en dock med dine fastgjorte apps, alt det, der kører, og et gitter med alle apps bag apps-knappen, som `Super + Alt + Space` og _Apps_ i LunaOS-menuen også åbner. Højreklik på en app i gitteret, eller tryk på `Delete`, for at afinstallere den. Klik på en app for at åbne den eller bringe dens vindue frem; klik igen for at bladre igennem dens vinduer. Midterklik åbner et nyt vindue. Træk et ikon langs docken for at flytte det; hvis du trækker en kørende app ind blandt de andre, bliver den der. Højreklik for at beholde en app i docken, tage den ud eller afslutte den. Docken flytter sig af vejen for et vindue i fuld skærm. Højreklik på apps-knappen for at flytte docken til en anden kant eller få den til at skjule sig, indtil markøren når dens kant. Placeringen findes også under _Trigger > Appearance > Dock > Dock Position_, og `lunaos dock position left` og `lunaos dock autohide on` indstiller begge dele fra en terminal. Apps, du beholder i docken, er nedtonede, mens de ikke kører.
 
-Nye arbejdsområder, og ethvert arbejdsområde du ikke har givet dets eget layout med `Super + L`, bruger standardlayoutet. Hvis du ændrer standarden, nulstilles alle arbejdsområder uden vinduer til den, mens et arbejdsområde med vinduer på beholder det layout, det har. Et vindue, der er minimeret til docken, tæller stadig som et vindue på det arbejdsområde, det forlod. Vælg den under _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling eller Floating. `omarchy-hyprland-workspace-layout-default scrolling` indstiller den fra en terminal.
+Nye arbejdsområder, og ethvert arbejdsområde du ikke har givet dets eget layout med `Super + L`, bruger standardlayoutet. Hvis du ændrer standarden, nulstilles alle arbejdsområder uden vinduer til den, mens et arbejdsområde med vinduer på beholder det layout, det har. Et vindue, der er minimeret til docken, tæller stadig som et vindue på det arbejdsområde, det forlod. Vælg den under _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling eller Floating. `lunaos-hyprland-workspace-layout-default scrolling` indstiller den fra en terminal.
 
 ### Gruppering af vinduer
 

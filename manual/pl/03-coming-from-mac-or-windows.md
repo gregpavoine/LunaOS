@@ -1,12 +1,12 @@
 # Przesiadka z Maca lub Windowsa
 
-Jeśli spędziłeś lata na macOS lub Windowsie, twoje palce znają setkę rzeczy, których twój mózg dawno zapomniał, że kiedykolwiek się nauczył. Ten rozdział jest warstwą tłumaczącą: dokąd te nawyki trafiają w Omarchy. Same funkcje są szczegółowo opisane gdzie indziej — tu dostajesz tylko mapę.
+Jeśli spędziłeś lata na macOS lub Windowsie, twoje palce znają setkę rzeczy, których twój mózg dawno zapomniał, że kiedykolwiek się nauczył. Ten rozdział jest warstwą tłumaczącą: dokąd te nawyki trafiają w LunaOS. Same funkcje są szczegółowo opisane gdzie indziej — tu dostajesz tylko mapę.
 
 ### Super jest centrum wszystkiego
 
-Cała pamięć mięśniowa, którą wyrobiłeś wokół klawisza Cmd lub klawisza Windows, przenosi się na jeden klawisz: Super. To klawisz Windows na klawiaturze PC i punkt oparcia dla niemal każdego skrótu w Omarchy.
+Cała pamięć mięśniowa, którą wyrobiłeś wokół klawisza Cmd lub klawisza Windows, przenosi się na jeden klawisz: Super. To klawisz Windows na klawiaturze PC i punkt oparcia dla niemal każdego skrótu w LunaOS.
 
-Twój odruch Spotlight, Raycasta albo menu Start staje się `Super + Space`. Otwiera to menu Omarchy, które uruchamia aplikacje, zmienia ustawienia, instaluje oprogramowanie, przechwytuje ekran — właściwie wszystko. Zacznij pisać, żeby filtrować. `Super + Alt + Space` pokazuje wszystkie aplikacje na jednej siatce, tak jak Launchpad. Zob. [nawigacja](04-navigation.md).
+Twój odruch Spotlight, Raycasta albo menu Start staje się `Super + Space`. Otwiera to menu LunaOS, które uruchamia aplikacje, zmienia ustawienia, instaluje oprogramowanie, przechwytuje ekran — właściwie wszystko. Zacznij pisać, żeby filtrować. `Super + Alt + Space` pokazuje wszystkie aplikacje na jednej siatce, tak jak Launchpad. Zob. [nawigacja](04-navigation.md).
 
 ### Nie ma docka ani ikon na pulpicie
 
@@ -22,27 +22,27 @@ Obszary robocze będą znajome: to odpowiednik Spaces z macOS albo wirtualnych p
 
 ### Kopiuj i wklej po prostu działają
 
-Na Macu wszędzie miałeś Cmd + C. Na Windowsie wszędzie miałeś Ctrl + C — poza terminalem, gdzie zabija twój program. Omarchy daje ci `Super + C`, `Super + X` i `Super + V`, a działają one wszędzie, także w terminalu. Żadnego osobnego odruchu do nauczenia się dla powłoki.
+Na Macu wszędzie miałeś Cmd + C. Na Windowsie wszędzie miałeś Ctrl + C — poza terminalem, gdzie zabija twój program. LunaOS daje ci `Super + C`, `Super + X` i `Super + V`, a działają one wszędzie, także w terminalu. Żadnego osobnego odruchu do nauczenia się dla powłoki.
 
 Użytkownicy Windowsa: wasza historia schowka spod Win + V mieszka pod `Super + Ctrl + V` i trzyma obrazy równie dobrze jak tekst. Zob. [ujednolicony schowek i historia](08-unified-clipboard-history.md).
 
 ### Tabela tłumaczeń
 
-| Sięgasz po | W Omarchy |
+| Sięgasz po | W LunaOS |
 | ------------- | ---------- |
-| Spotlight / Raycast / menu Start | `Super + Space` — menu Omarchy |
+| Spotlight / Raycast / menu Start | `Super + Space` — menu LunaOS |
 | AirDrop | LocalSend, przez `Super + Ctrl + S` — zob. [GUIs](22-guis.md) |
 | Cmd + Shift + 4 / Win + Shift + S | `Print Screen` — zob. [zrzuty ekranu i nagrywanie](12-screenshots-recording.md) |
 | Centrum powiadomień | Historia powiadomień pod `Super + Shift + Alt + ,` |
 | Time Machine (dla systemu) | Automatyczne [migawek systemu](47-system-snapshots.md) przy każdej aktualizacji |
-| App Store / pobieranie instalatora | _Instaluj_ w menu albo `omarchy pkg add` — zob. [inne pakiety](29-other-packages.md) |
+| App Store / pobieranie instalatora | _Instaluj_ w menu albo `lunaos pkg add` — zob. [inne pakiety](29-other-packages.md) |
 | Ustawienia systemu / Panel sterowania | _Ustawienia_ w menu, które edytują zwykłe pliki konfiguracyjne — zob. [dotfiles](31-dotfiles.md) |
 
 ### Niektóre rzeczy naprawdę są inne
 
 Wiele ustawień mieszka w plikach tekstowych, które edytujesz, a nie w panelach, które klikasz. Brzmi prymitywnie, dopóki nie uświadomisz sobie, że to oznacza, iż każdą poprawkę można zobaczyć, skopiować na następną maszynę i trzymać pod kontrolą wersji. Menu _Ustawienia_ wrzuca cię prosto do właściwego pliku i restartuje wszystko, co trzeba zrestartować, gdy skończysz.
 
-Aktualizacje przychodzą przez jedno polecenie — _Aktualizuj > Omarchy_ — które aktualizuje samo Omarchy i każdy pakiet w systemie, najpierw tworząc migawkę. Żadnych osobnych aktualizatorów per aplikacja dręczących cię losowo. Zob. [aktualizacje](30-updates.md).
+Aktualizacje przychodzą przez jedno polecenie — _Aktualizuj > LunaOS_ — które aktualizuje samo LunaOS i każdy pakiet w systemie, najpierw tworząc migawkę. Żadnych osobnych aktualizatorów per aplikacja dręczących cię losowo. Zob. [aktualizacje](30-updates.md).
 
 Oprogramowanie pochodzi z menedżera pakietów, a nie z pobieranych instalatorów.
 
@@ -50,7 +50,7 @@ A gdy zamkniesz okno, aplikacja naprawdę się kończy. Nie ma macowego limbo, w
 
 ### Na sprzęcie Mac
 
-Omarchy działa dobrze na Macach z procesorem Intel — zob. [obsługa Maców](44-mac-support.md). A klawiatura jest dla ciebie łaskawa: Omarchy niczego nie przemapowuje, a Linux traktuje klawisz Command jako Super, więc Super siedzi dokładnie tam, gdzie zawsze był Cmd. Twój kciuk nawet nie zauważy przeprowadzki.
+LunaOS działa dobrze na Macach z procesorem Intel — zob. [obsługa Maców](44-mac-support.md). A klawiatura jest dla ciebie łaskawa: LunaOS niczego nie przemapowuje, a Linux traktuje klawisz Command jako Super, więc Super siedzi dokładnie tam, gdzie zawsze był Cmd. Twój kciuk nawet nie zauważy przeprowadzki.
 
 ### Daj sobie dwa tygodnie
 

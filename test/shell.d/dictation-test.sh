@@ -5,24 +5,24 @@ source "$(dirname "${BASH_SOURCE[0]}")/base-test.sh"
 
 test_tmp=$(mktemp -d)
 trap 'rm -rf "$test_tmp"' EXIT
-export HOME="$test_tmp/home" XDG_CONFIG_HOME="$test_tmp/config" OMARCHY_PATH="$ROOT"
+export HOME="$test_tmp/home" XDG_CONFIG_HOME="$test_tmp/config" LUNAOS_PATH="$ROOT"
 export DICTATION_LOG="$test_tmp/calls" DICTATION_INSTALLED="voxtype superwhisper"
-mkdir -p "$test_tmp/bin" "$XDG_CONFIG_HOME/omarchy/defaults"
+mkdir -p "$test_tmp/bin" "$XDG_CONFIG_HOME/lunaos/defaults"
 export PATH="$test_tmp/bin:$ROOT/bin:$PATH"
-config="$XDG_CONFIG_HOME/omarchy/defaults/dictation"
+config="$XDG_CONFIG_HOME/lunaos/defaults/dictation"
 
-cat > "$test_tmp/bin/omarchy-cmd-present" <<'SH'
+cat > "$test_tmp/bin/lunaos-cmd-present" <<'SH'
 #!/bin/bash
 case "$1" in
-  omarchy-dictation-*|omarchy-install-dictation-*) command -v "$1" >/dev/null ;;
+  lunaos-dictation-*|lunaos-install-dictation-*) command -v "$1" >/dev/null ;;
   *) [[ " $DICTATION_INSTALLED " == *" $1 "* ]] ;;
 esac
 SH
-cat > "$test_tmp/bin/omarchy-cmd-missing" <<'SH'
+cat > "$test_tmp/bin/lunaos-cmd-missing" <<'SH'
 #!/bin/bash
-! omarchy-cmd-present "$1"
+! lunaos-cmd-present "$1"
 SH
-cat > "$test_tmp/bin/omarchy-launch-floating-terminal-with-presentation" <<'SH'
+cat > "$test_tmp/bin/lunaos-launch-floating-terminal-with-presentation" <<'SH'
 #!/bin/bash
 printf '%s\n' "$*" > "$DICTATION_INSTALL_LOG"
 SH
@@ -47,7 +47,7 @@ fi
 exit "${DICTATION_EXIT:-0}"
 SH
 done
-for command in omarchy-pkg-add omarchy-notification-send hyprctl omarchy-restart-shell; do
+for command in lunaos-pkg-add lunaos-notification-send hyprctl lunaos-restart-shell; do
   cat > "$test_tmp/bin/$command" <<'SH'
 #!/bin/bash
 printf '%s %s\n' "${0##*/}" "$*" >> "$DICTATION_LOG"
@@ -63,7 +63,7 @@ else
   exit "${SERVICE_EXIT:-0}"
 fi
 SH
-cat > "$test_tmp/bin/omarchy-hw-vulkan" <<'SH'
+cat > "$test_tmp/bin/lunaos-hw-vulkan" <<'SH'
 #!/bin/bash
 exit 1
 SH
@@ -82,24 +82,24 @@ fi
 SH
 chmod +x "$test_tmp/bin/"*
 
-if omarchy-dictation start 2> "$test_tmp/error"; then
+if lunaos-dictation start 2> "$test_tmp/error"; then
   fail "unset backend must fail even when providers are installed"
 fi
 [[ ! -e $DICTATION_LOG ]] || fail "recording never configures or installs a backend"
 pass "dictation requires explicit configuration"
-omarchy-default-dictation superwhisper
-[[ $(cat "$DICTATION_INSTALL_LOG") == "omarchy-install-dictation-superwhisper" ]] || fail "Defaults launches backend installer"
+lunaos-default-dictation superwhisper
+[[ $(cat "$DICTATION_INSTALL_LOG") == "lunaos-install-dictation-superwhisper" ]] || fail "Defaults launches backend installer"
 [[ ! -e $config ]] || fail "Defaults does not select before setup succeeds"
-if omarchy-default-dictation unknown > "$test_tmp/output" 2>&1; then fail "missing installer must fail"; fi
-if omarchy-default-dictation '../invalid' > "$test_tmp/output" 2>&1; then fail "invalid backend must fail"; fi
+if lunaos-default-dictation unknown > "$test_tmp/output" 2>&1; then fail "missing installer must fail"; fi
+if lunaos-default-dictation '../invalid' > "$test_tmp/output" 2>&1; then fail "invalid backend must fail"; fi
 pass "Defaults delegates setup without prematurely selecting a backend"
 
 
 for backend in voxtype superwhisper; do
   printf '%s\n' "$backend" > "$config"
-  [[ $(omarchy-default-dictation) == "$backend" ]] || fail "configured backend is readable"
+  [[ $(lunaos-default-dictation) == "$backend" ]] || fail "configured backend is readable"
   : > "$DICTATION_LOG"
-  for action in start stop toggle; do omarchy dictation "$action"; done
+  for action in start stop toggle; do lunaos dictation "$action"; done
   if [[ $backend == "voxtype" ]]; then
     expected=$'voxtype record start\nvoxtype status\nvoxtype record stop\nvoxtype record toggle'
   else
@@ -109,88 +109,88 @@ for backend in voxtype superwhisper; do
 done
 pass "built-in adapters implement start stop and toggle"
 
-cat > "$test_tmp/bin/omarchy-dictation-future-backend" <<'SH'
+cat > "$test_tmp/bin/lunaos-dictation-future-backend" <<'SH'
 #!/bin/bash
 [[ ! -e /proc/$$/fd/9 ]] || exit 90
 printf '%s\n' "$1" >> "$DICTATION_LOG"
 exit "${DICTATION_EXIT:-0}"
 SH
-chmod +x "$test_tmp/bin/omarchy-dictation-future-backend"
-cat > "$test_tmp/bin/omarchy-install-dictation-future-backend" <<'SH'
+chmod +x "$test_tmp/bin/lunaos-dictation-future-backend"
+cat > "$test_tmp/bin/lunaos-install-dictation-future-backend" <<'SH'
 #!/bin/bash
 exit 0
 SH
-chmod +x "$test_tmp/bin/omarchy-install-dictation-future-backend"
-omarchy-default-dictation future-backend
-[[ $(cat "$DICTATION_INSTALL_LOG") == "omarchy-install-dictation-future-backend" ]] || fail "third backend installer requires no selector changes"
+chmod +x "$test_tmp/bin/lunaos-install-dictation-future-backend"
+lunaos-default-dictation future-backend
+[[ $(cat "$DICTATION_INSTALL_LOG") == "lunaos-install-dictation-future-backend" ]] || fail "third backend installer requires no selector changes"
 printf '%s\n' future-backend > "$config"
 : > "$DICTATION_LOG"
-for action in start stop toggle; do omarchy-dictation "$action"; done
+for action in start stop toggle; do lunaos-dictation "$action"; done
 [[ $(cat "$DICTATION_LOG") == $'start\nstop\ntoggle' ]] || fail "third backend requires no dispatcher changes"
 result=0
-DICTATION_EXIT=7 omarchy-dictation start || result=$?
+DICTATION_EXIT=7 lunaos-dictation start || result=$?
 (( result == 7 )) || fail "backend failures propagate"
-rm "$test_tmp/bin/omarchy-dictation-future-backend"
-if omarchy-dictation start 2> "$test_tmp/error"; then fail "missing adapter must fail"; fi
+rm "$test_tmp/bin/lunaos-dictation-future-backend"
+if lunaos-dictation start 2> "$test_tmp/error"; then fail "missing adapter must fail"; fi
 printf '%s\n' '../invalid' > "$config"
-if omarchy-dictation start 2> "$test_tmp/error"; then fail "invalid backend must fail"; fi
+if lunaos-dictation start 2> "$test_tmp/error"; then fail "invalid backend must fail"; fi
 pass "external adapters follow the same protocol and errors propagate"
 
 printf '%s\n' voxtype > "$config"
 export SHORTCUT_STATE="$test_tmp/shortcuts.json"
 printf '%s\n' '{"shortcuts":{"hold":"RightAlt","toggle":"","cancel":"Escape"}}' > "$SHORTCUT_STATE"
-if SETUP_EXIT=1 omarchy-install-dictation-superwhisper > "$test_tmp/output" 2>&1; then fail "failed installation must fail"; fi
+if SETUP_EXIT=1 lunaos-install-dictation-superwhisper > "$test_tmp/output" 2>&1; then fail "failed installation must fail"; fi
 [[ $(cat "$config") == "voxtype" ]] || fail "failed setup must preserve selection"
-if DICTATION_EXIT=7 omarchy-install-dictation-superwhisper > "$test_tmp/output" 2>&1; then fail "failed shortcut setup must fail"; fi
+if DICTATION_EXIT=7 lunaos-install-dictation-superwhisper > "$test_tmp/output" 2>&1; then fail "failed shortcut setup must fail"; fi
 [[ $(cat "$config") == "voxtype" ]] || fail "failed shortcuts must preserve selection"
-omarchy-install-dictation-superwhisper
-[[ $(omarchy-default-dictation) == "superwhisper" ]] || fail "installer selects Superwhisper"
+lunaos-install-dictation-superwhisper
+[[ $(lunaos-default-dictation) == "superwhisper" ]] || fail "installer selects Superwhisper"
 jq -e '.shortcuts | .hold == "" and .toggle == "Alt+Space"' "$SHORTCUT_STATE" >/dev/null || fail "installer repairs conflicting hold-only profiles"
 printf '%s\n' '{"shortcuts":{"hold":"RightAlt","toggle":"RightSuper","cancel":"Escape"}}' > "$SHORTCUT_STATE"
-omarchy-install-dictation-superwhisper
+lunaos-install-dictation-superwhisper
 jq -e '.shortcuts | .hold == "" and .toggle == "Alt+Space"' "$SHORTCUT_STATE" >/dev/null || fail "installer repairs conflicting profiles with an existing toggle"
-omarchy-install-dictation-superwhisper
+lunaos-install-dictation-superwhisper
 pass "Superwhisper installer owns setup and saves selection only after success"
 
 DICTATION_INSTALLED=superwhisper
-CONFIRM_EXIT=1 omarchy-install-dictation-voxtype
+CONFIRM_EXIT=1 lunaos-install-dictation-voxtype
 [[ $(cat "$config") == "superwhisper" ]] || fail "cancelled installation preserves selection"
-omarchy-install-dictation-voxtype
-[[ $(omarchy-default-dictation) == "voxtype" ]] || fail "installer selects Voxtype"
+lunaos-install-dictation-voxtype
+[[ $(lunaos-default-dictation) == "voxtype" ]] || fail "installer selects Voxtype"
 DICTATION_INSTALLED="voxtype superwhisper"
 : > "$DICTATION_LOG"
-omarchy-install-dictation-voxtype
+lunaos-install-dictation-voxtype
 grep -q 'voxtype setup --download --no-post-install' "$DICTATION_LOG" || fail "installed Voxtype retries model setup"
 printf '%s\n' 'custom model configuration' > "$XDG_CONFIG_HOME/voxtype/config.toml"
 printf '%s\n' superwhisper > "$config"
 for step in 'setup --download --no-post-install' 'setup systemd'; do
-  if FAIL_SETUP_STEP="$step" omarchy-install-dictation-voxtype > "$test_tmp/output" 2>&1; then fail "incomplete setup must fail"; fi
+  if FAIL_SETUP_STEP="$step" lunaos-install-dictation-voxtype > "$test_tmp/output" 2>&1; then fail "incomplete setup must fail"; fi
   [[ $(cat "$config") == "superwhisper" ]] || fail "incomplete setup preserves selection"
 done
-if SERVICE_EXIT=1 omarchy-install-dictation-voxtype > "$test_tmp/output" 2>&1; then fail "service failure must fail"; fi
+if SERVICE_EXIT=1 lunaos-install-dictation-voxtype > "$test_tmp/output" 2>&1; then fail "service failure must fail"; fi
 [[ $(cat "$config") == "superwhisper" ]] || fail "service failure preserves selection"
-omarchy-install-dictation-voxtype
+lunaos-install-dictation-voxtype
 [[ $(cat "$config") == "voxtype" ]] || fail "retry finishes installed Voxtype setup"
 [[ $(cat "$XDG_CONFIG_HOME/voxtype/config.toml") == "custom model configuration" ]] || fail "retry preserves custom configuration"
 pass "Voxtype retries incomplete model and service setup without replacing configuration"
 
 : > "$DICTATION_LOG"
-if DICTATION_EXIT=7 omarchy-dictation-use superwhisper > "$test_tmp/output" 2>&1; then fail "failed stop must prevent switching"; fi
+if DICTATION_EXIT=7 lunaos-dictation-use superwhisper > "$test_tmp/output" 2>&1; then fail "failed stop must prevent switching"; fi
 [[ $(cat "$config") == "voxtype" ]] || fail "failed stop preserves selection"
-omarchy-dictation-use superwhisper
+lunaos-dictation-use superwhisper
 [[ $(cat "$DICTATION_LOG") == $'voxtype status\nvoxtype record stop\nvoxtype status\nvoxtype record stop' ]] || fail "switch stops the previous backend"
 [[ $(cat "$config") == "superwhisper" ]] || fail "successful stop permits switching"
 : > "$DICTATION_LOG"
-omarchy-dictation-use superwhisper
+lunaos-dictation-use superwhisper
 [[ ! -s $DICTATION_LOG ]] || fail "reselecting does not interrupt recording"
 printf '%s\n' voxtype > "$config"
-VOXTYPE_STATUS=stopped omarchy-dictation-use superwhisper
+VOXTYPE_STATUS=stopped lunaos-dictation-use superwhisper
 [[ $(cat "$config") == "superwhisper" ]] || fail "a stopped Voxtype daemon permits switching"
 printf '%s\n' superwhisper > "$config"
-DICTATION_SERVICE_ACTIVE=0 omarchy-dictation-use voxtype
+DICTATION_SERVICE_ACTIVE=0 lunaos-dictation-use voxtype
 [[ $(cat "$config") == "voxtype" ]] || fail "a stopped Superwhisper service permits switching"
 printf '%s\n' removed-backend > "$config"
-omarchy-dictation-use voxtype
+lunaos-dictation-use voxtype
 [[ $(cat "$config") == "voxtype" ]] || fail "a removed adapter permits recovery"
 pass "switching stops recordings, preserves failed stops, and recovers unavailable providers"
 
@@ -203,8 +203,8 @@ pass "switching stops recordings, preserves failed stops, and recovers unavailab
 ) &
 reader=$!
 for ((i = 0; i < 20; i++)); do
-  omarchy-dictation-use voxtype
-  omarchy-dictation-use superwhisper
+  lunaos-dictation-use voxtype
+  lunaos-dictation-use superwhisper
 done
 wait "$reader" || fail "concurrent readers always see a complete selection"
 printf '%s\n' voxtype > "$config"
@@ -214,7 +214,7 @@ lua <<'LUA'
 local root = os.getenv("ROOT")
 local selected, installed, bindings = nil, true, {}
 io.popen = function(command)
-  assert(command == "omarchy-default-dictation 2>/dev/null")
+  assert(command == "lunaos-default-dictation 2>/dev/null")
   return { read = function() return selected end, close = function() end }
 end
 o = {
@@ -239,7 +239,7 @@ local function binds(keys, command)
   end
 end
 for _, keys in ipairs({ "F9", "ALT + Alt_R" }) do
-  assert(binds(keys, "omarchy-dictation start") and binds(keys, "omarchy-dictation stop"),
+  assert(binds(keys, "lunaos-dictation start") and binds(keys, "lunaos-dictation stop"),
     keys .. " starts dictation on press and stops it on release")
 end
 bindings, installed = {}, false
@@ -249,8 +249,8 @@ LUA
 pass "dictation shortcuts require an installed selection without limiting backend names"
 
 # Fresh users receive the backend choice through the settings package's skel.
-cp "$ROOT/config/omarchy/defaults/dictation" "$config"
-[[ $(omarchy-default-dictation) == "superwhisper" ]] || fail "fresh users default to Superwhisper"
+cp "$ROOT/config/lunaos/defaults/dictation" "$config"
+[[ $(lunaos-default-dictation) == "superwhisper" ]] || fail "fresh users default to Superwhisper"
 printf '%s\n' voxtype > "$config"
 pass "fresh users get Superwhisper as their default backend"
 
@@ -263,7 +263,7 @@ local missing = false
 o = { cmd_missing = function() return missing end }
 local real_open, real_popen, real_dofile = io.open, io.popen, dofile
 io.popen = function(command)
-  assert(command == "omarchy-default-dictation 2>/dev/null")
+  assert(command == "lunaos-default-dictation 2>/dev/null")
   return { read = function() return selected end, close = function() end }
 end
 io.open = function(path)
@@ -305,43 +305,43 @@ cat > "$test_tmp/bin/systemctl" <<'SH'
 #!/bin/bash
 exit 0
 SH
-cat > "$test_tmp/bin/omarchy-pkg-drop" <<'SH'
+cat > "$test_tmp/bin/lunaos-pkg-drop" <<'SH'
 #!/bin/bash
 printf '%s\n' "$*" >> "$DICTATION_LOG"
 exit "${REMOVE_EXIT:-0}"
 SH
-chmod +x "$test_tmp/bin/systemctl" "$test_tmp/bin/omarchy-pkg-drop"
-omarchy-remove-dictation-voxtype
+chmod +x "$test_tmp/bin/systemctl" "$test_tmp/bin/lunaos-pkg-drop"
+lunaos-remove-dictation-voxtype
 [[ ! -e $config ]] || fail "removing Voxtype clears selection"
-if omarchy-default-dictation 2> "$test_tmp/error"; then fail "removal must not auto-select another backend"; fi
+if lunaos-default-dictation 2> "$test_tmp/error"; then fail "removal must not auto-select another backend"; fi
 pass "removal clears selection without automatic fallback"
 
-cat > "$test_tmp/bin/omarchy-shell" <<'SH'
+cat > "$test_tmp/bin/lunaos-shell" <<'SH'
 #!/bin/bash
 printf '%s\n' "$*" >> "$DICTATION_LOG"
 SH
-chmod +x "$test_tmp/bin/omarchy-shell"
+chmod +x "$test_tmp/bin/lunaos-shell"
 export XDG_DATA_HOME="$test_tmp/data"
-mkdir -p "$HOME/.local/bin" "$XDG_DATA_HOME/superwhisper/app" "$XDG_DATA_HOME/superwhisper/models" "$XDG_CONFIG_HOME/omarchy/plugins" "$HOME/.agents/skills" "$HOME/.claude/skills"
+mkdir -p "$HOME/.local/bin" "$XDG_DATA_HOME/superwhisper/app" "$XDG_DATA_HOME/superwhisper/models" "$XDG_CONFIG_HOME/lunaos/plugins" "$HOME/.agents/skills" "$HOME/.claude/skills"
 ln -s /usr/bin/superwhisper "$HOME/.local/bin/superwhisper"
 ln -s /opt/superwhisper "$XDG_DATA_HOME/superwhisper/app/current"
-ln -s /opt/superwhisper/assets/omarchy-plugin/superwhisper-panel "$XDG_CONFIG_HOME/omarchy/plugins/superwhisper-panel"
+ln -s /opt/superwhisper/assets/lunaos-plugin/superwhisper-panel "$XDG_CONFIG_HOME/lunaos/plugins/superwhisper-panel"
 ln -s /opt/superwhisper/assets/agent-skill/superwhisper "$HOME/.agents/skills/superwhisper"
 ln -s /custom/skill "$HOME/.claude/skills/superwhisper"
 printf '%s\n' retained > "$XDG_DATA_HOME/superwhisper/models/model"
 printf '%s\n' superwhisper > "$config"
-if REMOVE_EXIT=1 omarchy-remove-dictation-superwhisper > "$test_tmp/output" 2>&1; then
+if REMOVE_EXIT=1 lunaos-remove-dictation-superwhisper > "$test_tmp/output" 2>&1; then
   fail "failed package removal must fail"
 fi
 [[ -L $HOME/.local/bin/superwhisper && $(cat "$config") == "superwhisper" ]] || fail "failed removal preserves selection and links"
-omarchy-remove-dictation-superwhisper
+lunaos-remove-dictation-superwhisper
 [[ ! -e $config ]] || fail "Superwhisper removal clears its selection"
-for link in "$HOME/.local/bin/superwhisper" "$XDG_DATA_HOME/superwhisper/app/current" "$XDG_CONFIG_HOME/omarchy/plugins/superwhisper-panel" "$HOME/.agents/skills/superwhisper"; do
+for link in "$HOME/.local/bin/superwhisper" "$XDG_DATA_HOME/superwhisper/app/current" "$XDG_CONFIG_HOME/lunaos/plugins/superwhisper-panel" "$HOME/.agents/skills/superwhisper"; do
   [[ ! -L $link ]] || fail "Superwhisper removal unlinks packaged integration"
 done
 [[ $(readlink "$HOME/.claude/skills/superwhisper") == "/custom/skill" ]] || fail "custom skills are preserved"
 [[ -f $XDG_DATA_HOME/superwhisper/models/model ]] || fail "downloaded models are retained"
 printf '%s\n' voxtype > "$config"
-omarchy-remove-dictation-superwhisper
+lunaos-remove-dictation-superwhisper
 [[ $(cat "$config") == "voxtype" ]] || fail "removing Superwhisper preserves another selected backend"
 pass "Superwhisper removal clears its selection and owned links while preserving user data and other backends"

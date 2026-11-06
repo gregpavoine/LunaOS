@@ -1,6 +1,6 @@
 # Prompt
 
-Per impostazione predefinita, Omarchy viene fornito con un prompt [Starship](https://starship.rs/) minimale. È così che mi piace tenere il mio prompt. Non ho bisogno di conoscere l'utente, perché sono sempre io, e non ho bisogno di conoscere l'ora, perché è sempre in alto.
+Per impostazione predefinita, LunaOS viene fornito con un prompt [Starship](https://starship.rs/) minimale. È così che mi piace tenere il mio prompt. Non ho bisogno di conoscere l'utente, perché sono sempre io, e non ho bisogno di conoscere l'ora, perché è sempre in alto.
 
  ![prompt](images/prompt.webp)
 

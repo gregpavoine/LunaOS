@@ -1,10 +1,10 @@
 # mise-managed tools
 
-Read this before adding or changing a mise-managed tool. Default tools belong in `etc/mise/conf.d/omarchy-tools.toml`, which the settings package installs; `install/user/mise.sh` creates their native mise shims during user setup.
+Read this before adding or changing a mise-managed tool. Default tools belong in `etc/mise/conf.d/lunaos-tools.toml`, which the settings package installs; `install/user/mise.sh` creates their native mise shims during user setup.
 
 ## Leave the user's config alone
 
-Omarchy does not write `~/.config/mise/config.toml`; it is the user's, for overriding what Omarchy ships. Settings go in `etc/mise/conf.d/omarchy.toml`, which still loads after a user opts out of the default tools, and tools in `omarchy-tools.toml`. A command that installs a default tool runs `mise install <tool>` when `omarchy-mise-default-tools declares <tool>`, and `mise use -g` only for a user who opted out. `mise use -g` on a declared tool would copy the declaration's options, `lazy = true` included, into the user's config.
+LunaOS does not write `~/.config/mise/config.toml`; it is the user's, for overriding what LunaOS ships. Settings go in `etc/mise/conf.d/lunaos.toml`, which still loads after a user opts out of the default tools, and tools in `lunaos-tools.toml`. A command that installs a default tool runs `mise install <tool>` when `lunaos-mise-default-tools declares <tool>`, and `mise use -g` only for a user who opted out. `mise use -g` on a declared tool would copy the declaration's options, `lazy = true` included, into the user's config.
 
 ## Declare a default tool
 
@@ -15,7 +15,7 @@ Use a registry shorthand and set `lazy = true` so the first command invocation i
 codex = { version = "latest", lazy = true, minimum_release_age = "0s" }
 ```
 
-Lazy defaults need mise 2026.10.11 or newer. Older releases install every lazy tool nobody has run yet. Before 2026.10.11, a bare `mise upgrade`, which `omarchy update` and `mup` run, does it. In 2026.10.7 and 2026.10.8, the `auto_update` check a shell prompt starts did it too.
+Lazy defaults need mise 2026.10.11 or newer. Older releases install every lazy tool nobody has run yet. Before 2026.10.11, a bare `mise upgrade`, which `lunaos update` and `mup` run, does it. In 2026.10.7 and 2026.10.8, the `auto_update` check a shell prompt starts did it too.
 
 Agent CLIs also set `auto_update = "4h"`, so mise upgrades them before they run (at most once every four hours) instead of leaving them on whatever version was installed first. Leave it off for tools that mise itself calls, such as `gh`, which is mise's GitHub credential helper.
 
@@ -32,11 +32,11 @@ Before adding a GitHub- or Aqua-backed tool, run `mise registry <name>` and insp
 
 Use the registry shorthand instead of an explicit `github:` or `aqua:` backend. Shorthands let mise use <https://mise-versions.jdx.dev> for cached version and public GitHub release metadata, reducing GitHub API requests during installation and updates.
 
-If a GitHub- or Aqua-backed tool has no registry entry, request one upstream with the repository or package URL and the required command name. Wait for that entry before adding the tool to Omarchy; do not substitute an explicit `github:` or `aqua:` declaration.
+If a GitHub- or Aqua-backed tool has no registry entry, request one upstream with the repository or package URL and the required command name. Wait for that entry before adding the tool to LunaOS; do not substitute an explicit `github:` or `aqua:` declaration.
 
 ## Handle backend exceptions
 
-Other explicit backends, such as `pipx:`, may be used when their behavior or options are required. Check that a shorthand refers to the intended tool: `cf` names Cloud Foundry in mise's registry, so Omarchy uses `npm:cf` for the Cloudflare CLI.
+Other explicit backends, such as `pipx:`, may be used when their behavior or options are required. Check that a shorthand refers to the intended tool: `cf` names Cloud Foundry in mise's registry, so LunaOS uses `npm:cf` for the Cloudflare CLI.
 
 When an explicit backend has no registry binary metadata, declare the commands mise should create lazy shims for:
 

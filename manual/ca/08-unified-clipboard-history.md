@@ -2,7 +2,7 @@
 
 Normalment a Linux necessiteu `Ctrl + Shift + C/V` per copiar i enganxar al terminal i `Ctrl + C/V` per fer-ho a tot arreu. Això és difícil d'acostumar-hi per a qualsevol que no hagi nascut i crescut amb Linux! I també ho és el canvi de super a ctrl, si veniu del Mac.
 
-Omarchy aborda tots dos problemes amb dreceres unificades de porta-retalls que funcionen (gairebé) a tot arreu. Són:
+LunaOS aborda tots dos problemes amb dreceres unificades de porta-retalls que funcionen (gairebé) a tot arreu. Són:
 
 | Drecera | Ordre |
 | ------- | ----------- |
@@ -15,7 +15,7 @@ _Tingueu en compte que la majoria d'arnesos d'agents faran servir `Ctrl + V` per
 
 ### Historial del porta-retalls
 
-L'historial del porta-retalls el proporciona el shell d'Omarchy i funciona tant per a text com per a imatges. L'activeu amb `Super + Ctrl + V`, seleccioneu l'entrada amb return, i aquesta es col·locarà al porta-retalls a punt per enganxar-la amb `Super + V`.
+L'historial del porta-retalls el proporciona el shell d'LunaOS i funciona tant per a text com per a imatges. L'activeu amb `Super + Ctrl + V`, seleccioneu l'entrada amb return, i aquesta es col·locarà al porta-retalls a punt per enganxar-la amb `Super + V`.
 
  ![clipboard-history](images/clipboard-history.webp)
 

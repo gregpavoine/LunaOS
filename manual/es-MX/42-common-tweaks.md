@@ -1,8 +1,8 @@
 # Ajustes comunes
 
-Esta es una colección de adaptaciones comunes a la configuración de Omarchy. Ten en cuenta que ocasionalmente puede ser necesario que las actualizaciones del sistema restauren ciertas configuraciones a su estado original. Si esto sucede, tus cambios no se perderán, sino que quedarán en un archivo `.bak` en el mismo directorio.
+Esta es una colección de adaptaciones comunes a la configuración de LunaOS. Ten en cuenta que ocasionalmente puede ser necesario que las actualizaciones del sistema restauren ciertas configuraciones a su estado original. Si esto sucede, tus cambios no se perderán, sino que quedarán en un archivo `.bak` en el mismo directorio.
 
-Si arruinas algo, puedes restaurar configuraciones individuales a su configuración original desde _Actualizar > Configuración_ en el menú de Omarchy. Si arruinas _todo_ de verdad, puedes restablecer todas las configuraciones con `omarchy-reinstall`.
+Si arruinas algo, puedes restaurar configuraciones individuales a su configuración original desde _Actualizar > Configuración_ en el menú de LunaOS. Si arruinas _todo_ de verdad, puedes restablecer todas las configuraciones con `lunaos-reinstall`.
 
 ### Mostrar todos los íconos de la bandeja todo el tiempo
 
@@ -10,7 +10,7 @@ Por defecto, los íconos de la bandeja, como Dropbox, 1Password o Steam, están 
 
 ### Esquinas redondeadas en las ventanas
 
-El diseño predeterminado de Omarchy es de esquinas rectas, pero si quieres suavizarlo un poco, puedes cambiar `~/.config/hypr/looknfeel.lua` para que el redondeo ya no esté comentado:
+El diseño predeterminado de LunaOS es de esquinas rectas, pero si quieres suavizarlo un poco, puedes cambiar `~/.config/hypr/looknfeel.lua` para que el redondeo ya no esté comentado:
 
 ```
 hl.config({

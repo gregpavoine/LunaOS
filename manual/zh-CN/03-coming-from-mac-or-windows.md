@@ -1,12 +1,12 @@
 # 从 Mac 或 Windows 迁移过来
 
-如果你在 macOS 或 Windows 上花了多年时间，你的手指知道一百件你的大脑已经忘记曾学过的事情。本章是翻译层：那些本能在 Omarchy 中对应哪里。这些功能本身在其他地方有深入介绍——这里只是一张地图。
+如果你在 macOS 或 Windows 上花了多年时间，你的手指知道一百件你的大脑已经忘记曾学过的事情。本章是翻译层：那些本能在 LunaOS 中对应哪里。这些功能本身在其他地方有深入介绍——这里只是一张地图。
 
 ### Super 是一切的中心
 
-你围绕 Cmd 或 Windows 键建立的所有肌肉记忆都转移到一个键上：Super。那是 PC 键盘上的 Windows 键，它是 Omarchy 中几乎每个快捷键的锚点。
+你围绕 Cmd 或 Windows 键建立的所有肌肉记忆都转移到一个键上：Super。那是 PC 键盘上的 Windows 键，它是 LunaOS 中几乎每个快捷键的锚点。
 
-你的 Spotlight、Raycast 或“开始”菜单反射变成了 `Super + Space`。这会打开 Omarchy 菜单，它可以启动应用、更改设置、安装软件、截取屏幕——几乎一切。开始输入即可筛选。`Super + Alt + Space` 在一个网格中显示每个应用，就像启动台一样。参见[导航](04-navigation.md)。
+你的 Spotlight、Raycast 或“开始”菜单反射变成了 `Super + Space`。这会打开 LunaOS 菜单，它可以启动应用、更改设置、安装软件、截取屏幕——几乎一切。开始输入即可筛选。`Super + Alt + Space` 在一个网格中显示每个应用，就像启动台一样。参见[导航](04-navigation.md)。
 
 ### 没有程序坞，也没有桌面图标
 
@@ -22,27 +22,27 @@
 
 ### 复制粘贴开箱即用
 
-在 Mac 上，你到处都是 Cmd + C。在 Windows 上，你到处都是 Ctrl + C——终端除外，在那里它会终止你的程序。Omarchy 为你提供 `Super + C`、`Super + X` 和 `Super + V`，它们在任何地方都能工作，包括终端。不需要为 shell 学习单独的反射动作。
+在 Mac 上，你到处都是 Cmd + C。在 Windows 上，你到处都是 Ctrl + C——终端除外，在那里它会终止你的程序。LunaOS 为你提供 `Super + C`、`Super + X` 和 `Super + V`，它们在任何地方都能工作，包括终端。不需要为 shell 学习单独的反射动作。
 
 Windows 用户：你的 Win + V 剪贴板历史位于 `Super + Ctrl + V`，它既保存图片，也保存文本。参见[统一剪贴板与历史](08-unified-clipboard-history.md)。
 
 ### 对照表
 
-| 你想用的 | 在 Omarchy 中 |
+| 你想用的 | 在 LunaOS 中 |
 | ------------- | ---------- |
-| Spotlight / Raycast / “开始”菜单 | `Super + Space` — Omarchy 菜单 |
+| Spotlight / Raycast / “开始”菜单 | `Super + Space` — LunaOS 菜单 |
 | 隔空投送 | LocalSend，通过 `Super + Ctrl + S` — 参见 [GUI](22-guis.md) |
 | Cmd + Shift + 4 / Win + Shift + S | `Print Screen` — 参见[截图与录屏](12-screenshots-recording.md) |
 | 通知中心 | 通知历史，位于 `Super + Shift + Alt + ,` |
 | 时间机器（针对系统） | 每次更新时自动创建[系统快照](47-system-snapshots.md) |
-| 应用商店 / 下载安装程序 | 菜单中的_安装_，或 `omarchy pkg add` — 参见[其他软件包](29-other-packages.md) |
+| 应用商店 / 下载安装程序 | 菜单中的_安装_，或 `lunaos pkg add` — 参见[其他软件包](29-other-packages.md) |
 | 系统设置 / 控制面板 | 菜单中的_设置_，它编辑纯文本配置文件 — 参见 [dotfiles](31-dotfiles.md) |
 
 ### 有些东西确实不同
 
 很多设置都存在于你编辑的文本文件中，而不是你点击的面板里。这听起来很原始，直到你意识到这意味着每一个调整都可以被查看、复制到你的下一台机器，并纳入版本控制。_设置_菜单会直接把你带到正确的文件，并在你完成时重启需要重启的东西。
 
-更新通过一个命令完成——_更新 > Omarchy_——它更新 Omarchy 本身和系统上的每个软件包，并事先拍摄快照。不会有每个应用的更新程序随机打扰你。参见[更新](30-updates.md)。
+更新通过一个命令完成——_更新 > LunaOS_——它更新 LunaOS 本身和系统上的每个软件包，并事先拍摄快照。不会有每个应用的更新程序随机打扰你。参见[更新](30-updates.md)。
 
 软件来自包管理器，而不是下载的安装程序。
 
@@ -50,7 +50,7 @@ Windows 用户：你的 Win + V 剪贴板历史位于 `Super + Ctrl + V`，它�
 
 ### 在 Mac 硬件上
 
-Omarchy 在 Intel Mac 上运行良好——参见 [Mac 支持](44-mac-support.md)。而且键盘对你很友好：Omarchy 不重新映射任何东西，Linux 将 Command 键视为 Super，所以 Super 就在 Cmd 一直所在的位置。你的拇指不会注意到变化。
+LunaOS 在 Intel Mac 上运行良好——参见 [Mac 支持](44-mac-support.md)。而且键盘对你很友好：LunaOS 不重新映射任何东西，Linux 将 Command 键视为 Super，所以 Super 就在 Cmd 一直所在的位置。你的拇指不会注意到变化。
 
 ### 给它两周时间
 

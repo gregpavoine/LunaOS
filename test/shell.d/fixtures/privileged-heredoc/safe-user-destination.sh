@@ -1,9 +1,9 @@
-mkdir -p ~/.config/omarchy
+mkdir -p ~/.config/lunaos
 
-cat >~/.config/omarchy/agent.conf <<EOF
-helper=$HOME/.local/share/omarchy/bin/omarchy-agent
+cat >~/.config/lunaos/agent.conf <<EOF
+helper=$HOME/.local/share/lunaos/bin/lunaos-agent
 EOF
 
-cat >"$HOME/.local/bin/omarchy-shim" <<EOF
-exec "$OMARCHY_PATH/bin/omarchy-agent" "$@"
+cat >"$HOME/.local/bin/lunaos-shim" <<EOF
+exec "$LUNAOS_PATH/bin/lunaos-agent" "$@"
 EOF

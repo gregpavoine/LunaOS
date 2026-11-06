@@ -6,7 +6,7 @@ Als je helemaal nieuw bent met vim-stijl bewerken, raad ik je aan om [ThePrimeag
 
 Nu is Neovim in principe oneindig configureerbaar. Als je echt helemaal los wilt gaan, kun je je eigen Neovim-configuratie vanaf nul maken. Er is een geweldige cursus van [Typecraft over het opzetten van Neovim vanaf nul](https://www.youtube.com/watch?v=zHTeCSVAFNY). En [ThePrimeagen heeft er ook een](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Maar Omarchy wordt geleverd met een complete Neovim-setup — het `omarchy-nvim`-pakket — dat liefdevol is afgestemd om het beste te laten zien van wat er direct uit de doos mogelijk is. Zonder dat je een enkele regel configuratie hoeft te schrijven! Het is gebouwd op [LazyVim](https://www.lazyvim.org/), een distributie van Neovim-plugins en configuraties. Het is geweldig.
+Maar LunaOS wordt geleverd met een complete Neovim-setup — het `omarchy-nvim`-pakket — dat liefdevol is afgestemd om het beste te laten zien van wat er direct uit de doos mogelijk is. Zonder dat je een enkele regel configuratie hoeft te schrijven! Het is gebouwd op [LazyVim](https://www.lazyvim.org/), een distributie van Neovim-plugins en configuraties. Het is geweldig.
 
 ## LazyVim-basis
 

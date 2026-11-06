@@ -3,7 +3,7 @@
 set -euo pipefail
 
 ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
-CLI="$ROOT/bin/omarchy"
+CLI="$ROOT/bin/lunaos"
 TMPDIRS=()
 
 export PATH="$ROOT/bin:$PATH"
@@ -52,7 +52,7 @@ cleanup() {
 trap cleanup EXIT
 
 output=$("$CLI" --help)
-assert_output_contains "main help renders" "$output" "Omarchy command center"
+assert_output_contains "main help renders" "$output" "LunaOS command center"
 assert_output_contains "main help includes hardware group" "$output" "hw"
 assert_output_contains "main help includes package group" "$output" "pkg"
 if grep -Eq '^  [a-z0-9-]+[[:space:]].*\([0-9]+\)$' <<<"$output"; then
@@ -61,7 +61,7 @@ fi
 pass "main help does not show group counts"
 
 output=$("$CLI" commands)
-assert_output_contains "commands lists documented commands" "$output" "omarchy theme set <theme-name>"
+assert_output_contains "commands lists documented commands" "$output" "lunaos theme set <theme-name>"
 
 "$CLI" commands --json | jq -e '.ok == true and (.commands | length >= 200)' >/dev/null
 pass "commands --json is valid JSON with full bin coverage"
@@ -78,34 +78,34 @@ pass "commands --check passes"
 "$CLI" commands --all >/dev/null
 pass "commands --all does not crash"
 
-"$CLI" commands --all --json | jq -e '.commands[] | select(.route == "omarchy hyprland window gaps toggle" and .summary != "undocumented")' >/dev/null
+"$CLI" commands --all --json | jq -e '.commands[] | select(.route == "lunaos hyprland window gaps toggle" and .summary != "undocumented")' >/dev/null
 pass "fallback commands are inferred and documented"
 
-"$CLI" commands --all --json | jq -e '.commands[] | select(.route == "omarchy dev benchmark cli")' >/dev/null
+"$CLI" commands --all --json | jq -e '.commands[] | select(.route == "lunaos dev benchmark cli")' >/dev/null
 pass "benchmark command is discoverable in all commands"
 
-"$CLI" commands --json | jq -e '.commands[] | select(.binary == "omarchy-pkg-add" and .route == "omarchy pkg add" and .filename_route == "omarchy pkg add" and (.routes | index("omarchy pkg add")))' >/dev/null
+"$CLI" commands --json | jq -e '.commands[] | select(.binary == "lunaos-pkg-add" and .route == "lunaos pkg add" and .filename_route == "lunaos pkg add" and (.routes | index("lunaos pkg add")))' >/dev/null
 pass "JSON exposes direct pkg add route"
 
-"$CLI" commands --json | jq -e '.commands[] | select(.binary == "omarchy-install-gaming-xbox-cloud" and .route == "omarchy install gaming xbox-cloud" and .filename_route == "omarchy install gaming xbox cloud" and (.routes | index("omarchy install gaming xbox cloud")))' >/dev/null
+"$CLI" commands --json | jq -e '.commands[] | select(.binary == "lunaos-install-gaming-xbox-cloud" and .route == "lunaos install gaming xbox-cloud" and .filename_route == "lunaos install gaming xbox cloud" and (.routes | index("lunaos install gaming xbox cloud")))' >/dev/null
 pass "Xbox Cloud installer keeps hyphenated canonical route"
 
-"$CLI" commands --json | jq -e '.commands[] | select(.binary == "omarchy-install-gaming-xbox-controllers" and .route == "omarchy install gaming xbox-controllers" and .filename_route == "omarchy install gaming xbox controllers" and (.routes | index("omarchy install gaming xbox controllers")))' >/dev/null
+"$CLI" commands --json | jq -e '.commands[] | select(.binary == "lunaos-install-gaming-xbox-controllers" and .route == "lunaos install gaming xbox-controllers" and .filename_route == "lunaos install gaming xbox controllers" and (.routes | index("lunaos install gaming xbox controllers")))' >/dev/null
 pass "Xbox controller installer keeps hyphenated canonical route"
 
-"$CLI" commands --json | jq -e '.commands[] | select(.binary == "omarchy-remove-gaming-xbox-controllers" and .route == "omarchy remove gaming xbox-controllers" and .filename_route == "omarchy remove gaming xbox controllers" and (.routes | index("omarchy remove gaming xbox controllers")))' >/dev/null
+"$CLI" commands --json | jq -e '.commands[] | select(.binary == "lunaos-remove-gaming-xbox-controllers" and .route == "lunaos remove gaming xbox-controllers" and .filename_route == "lunaos remove gaming xbox controllers" and (.routes | index("lunaos remove gaming xbox controllers")))' >/dev/null
 pass "Xbox controller remover keeps hyphenated canonical route"
 
-"$CLI" commands --json | jq -e '.commands[] | select(.binary == "omarchy-install-gaming-geforce-now" and .route == "omarchy install gaming geforce-now" and .filename_route == "omarchy install gaming geforce now" and (.routes | index("omarchy install gaming geforce now")))' >/dev/null
+"$CLI" commands --json | jq -e '.commands[] | select(.binary == "lunaos-install-gaming-geforce-now" and .route == "lunaos install gaming geforce-now" and .filename_route == "lunaos install gaming geforce now" and (.routes | index("lunaos install gaming geforce now")))' >/dev/null
 pass "GeForce NOW installer keeps hyphenated canonical route"
 
-"$CLI" commands --json | jq -e '.commands[] | select(.binary == "omarchy-remove-gaming-geforce-now" and .route == "omarchy remove gaming geforce-now" and .filename_route == "omarchy remove gaming geforce now" and (.routes | index("omarchy remove gaming geforce now")))' >/dev/null
+"$CLI" commands --json | jq -e '.commands[] | select(.binary == "lunaos-remove-gaming-geforce-now" and .route == "lunaos remove gaming geforce-now" and .filename_route == "lunaos remove gaming geforce now" and (.routes | index("lunaos remove gaming geforce now")))' >/dev/null
 pass "GeForce NOW remover keeps hyphenated canonical route"
 
-"$CLI" commands --json | jq -e '.commands[] | select(.binary == "omarchy-install-gaming-gpu-lib32" and .route == "omarchy install gaming gpu-lib32" and .filename_route == "omarchy install gaming gpu lib32" and (.routes | index("omarchy install gaming gpu lib32")))' >/dev/null
+"$CLI" commands --json | jq -e '.commands[] | select(.binary == "lunaos-install-gaming-gpu-lib32" and .route == "lunaos install gaming gpu-lib32" and .filename_route == "lunaos install gaming gpu lib32" and (.routes | index("lunaos install gaming gpu lib32")))' >/dev/null
 pass "GPU lib32 installer keeps hyphenated canonical route"
 
-"$CLI" commands --json | jq -e '.commands[] | select(.binary == "omarchy-refresh-pacman" and .requires_sudo == true)' >/dev/null
+"$CLI" commands --json | jq -e '.commands[] | select(.binary == "lunaos-refresh-pacman" and .requires_sudo == true)' >/dev/null
 pass "sudo metadata marks sudo commands"
 
 output=$("$CLI" theme --help)
@@ -113,49 +113,49 @@ assert_output_contains "group help renders" "$output" "Theme commands"
 
 output=$("$CLI" install --help)
 assert_output_contains "install group help renders" "$output" "Install commands"
-assert_output_contains "install group includes browser route" "$output" "omarchy install browser"
+assert_output_contains "install group includes browser route" "$output" "lunaos install browser"
 
 output=$("$CLI" install)
 assert_output_contains "bare group renders help instead of picker" "$output" "Install commands"
-assert_output_contains "bare group includes browser route" "$output" "omarchy install browser"
+assert_output_contains "bare group includes browser route" "$output" "lunaos install browser"
 
 output=$("$CLI" toggle)
 assert_output_contains "bare root command with children renders help" "$output" "Toggle commands"
-assert_output_contains "bare toggle help includes child route" "$output" "omarchy toggle nightlight"
+assert_output_contains "bare toggle help includes child route" "$output" "lunaos toggle nightlight"
 
 output=$("$CLI" pkg --help)
-assert_output_contains "package group includes pkg add fallback route" "$output" "omarchy pkg add <packages...>"
+assert_output_contains "package group includes pkg add fallback route" "$output" "lunaos pkg add <packages...>"
 
 output=$("$CLI" restart --help)
-assert_output_contains "restart group includes inferred commands" "$output" "omarchy restart btop"
-assert_output_contains "restart group includes all restart commands" "$output" "omarchy restart wifi"
+assert_output_contains "restart group includes inferred commands" "$output" "lunaos restart btop"
+assert_output_contains "restart group includes all restart commands" "$output" "lunaos restart wifi"
 
 output=$("$CLI" hw --help)
-assert_output_contains "hardware group help renders" "$output" "omarchy hw asus rog"
-assert_output_contains "hardware group includes touchpad" "$output" "omarchy hw touchpad"
+assert_output_contains "hardware group help renders" "$output" "lunaos hw asus rog"
+assert_output_contains "hardware group includes touchpad" "$output" "lunaos hw touchpad"
 
 output=$("$CLI" hw asus)
-assert_output_contains "partial hardware prefix renders matching commands" "$output" "omarchy hw asus rog"
-assert_output_contains "partial hardware prefix includes nested match" "$output" "omarchy hw asus zenbook ux5406aa"
+assert_output_contains "partial hardware prefix renders matching commands" "$output" "lunaos hw asus rog"
+assert_output_contains "partial hardware prefix includes nested match" "$output" "lunaos hw asus zenbook ux5406aa"
 
-# omarchy-agent takes only flags, so a word after it names the account
+# lunaos-agent takes only flags, so a word after it names the account
 # commands rather than reaching the agent launcher.
 output=$("$CLI" agent account)
-assert_output_contains "a family under a flags-only command renders its commands" "$output" "omarchy agent account use"
+assert_output_contains "a family under a flags-only command renders its commands" "$output" "lunaos agent account use"
 output=$("$CLI" agent account --help)
-assert_output_contains "a family under a flags-only command renders its help" "$output" "omarchy agent account add"
+assert_output_contains "a family under a flags-only command renders its help" "$output" "lunaos agent account add"
 output=$("$CLI" agent --help)
-assert_output_contains "the flags-only command keeps its own help" "$output" "omarchy agent [--inline] [--pick]"
+assert_output_contains "the flags-only command keeps its own help" "$output" "lunaos agent [--inline] [--pick]"
 
 output=$("$CLI" menu --help)
-assert_output_contains "menu group includes share fallback route" "$output" "omarchy menu share"
+assert_output_contains "menu group includes share fallback route" "$output" "lunaos menu share"
 
 output=$("$CLI" share)
 assert_output_contains "bare required-arg alias renders CLI help" "$output" "Usage:"
-assert_output_contains "bare share help uses canonical route" "$output" "omarchy share <clipboard|file|folder> [path...]"
+assert_output_contains "bare share help uses canonical route" "$output" "lunaos share <clipboard|file|folder> [path...]"
 
 output=$("$CLI" menu share)
-assert_output_contains "bare required-arg filename route renders CLI help" "$output" "omarchy share <clipboard|file|folder> [path...]"
+assert_output_contains "bare required-arg filename route renders CLI help" "$output" "lunaos share <clipboard|file|folder> [path...]"
 
 CLI="$CLI" python3 <<'PY'
 import json
@@ -168,9 +168,9 @@ commands = json.loads(subprocess.check_output([cli, 'commands', '--json'], text=
 by_group = {}
 for command in commands:
   binary = command['binary']
-  stem = binary.removeprefix('omarchy-')
+  stem = binary.removeprefix('lunaos-')
   group = stem.split('-', 1)[0]
-  filename_route = 'omarchy ' + stem.replace('-', ' ')
+  filename_route = 'lunaos ' + stem.replace('-', ' ')
   by_group.setdefault(group, []).append((binary, filename_route, command['route']))
 
 missing = []
@@ -193,11 +193,11 @@ pass "every filename-derived group help represents its bins"
 
 output=$(timeout 5 "$CLI" theme set --help)
 assert_output_contains "command help renders without executing" "$output" "Binary:"
-assert_output_contains "theme set help names binary" "$output" "omarchy-theme-set"
+assert_output_contains "theme set help names binary" "$output" "lunaos-theme-set"
 
 output=$(timeout 5 "$CLI" update --help)
-assert_output_contains "mutating command help does not execute target" "$output" "omarchy-update"
-if [[ $output == *"omarchy update perform"* ]]; then
+assert_output_contains "mutating command help does not execute target" "$output" "lunaos-update"
+if [[ $output == *"lunaos update perform"* ]]; then
   fail "hidden update perform compatibility wrapper is not shown"
 fi
 pass "hidden update perform compatibility wrapper is not shown"
@@ -213,7 +213,7 @@ if [[ $output == *"apply"* ]]; then
 fi
 pass "a group whose commands are all hidden stays out of the top-level listing"
 
-for internal in omarchy-apply-system omarchy-apply-hardware omarchy-apply-lock; do
+for internal in lunaos-apply-system lunaos-apply-hardware lunaos-apply-lock; do
   if "$CLI" commands --json | jq -e --arg binary "$internal" \
     '.commands[] | select(.binary == $binary)' >/dev/null; then
     fail "$internal stays out of the default command listing"
@@ -226,23 +226,23 @@ done
 pass "install-time setup plumbing is hidden from the setup wizards"
 
 output=$(timeout 5 "$CLI" apply hardware --help)
-assert_output_contains "hidden setup plumbing still routes" "$output" "omarchy-apply-hardware"
+assert_output_contains "hidden setup plumbing still routes" "$output" "lunaos-apply-hardware"
 
 output=$("$CLI" screenshot --help)
-assert_output_contains "root alias resolves to command help" "$output" "omarchy-capture-screenshot"
+assert_output_contains "root alias resolves to command help" "$output" "lunaos-capture-screenshot"
 
-"$CLI" commands --json | jq -e '.commands[] | select(.binary == "omarchy-capture-screenshot") | .aliases | index("omarchy screenshot")' >/dev/null
+"$CLI" commands --json | jq -e '.commands[] | select(.binary == "lunaos-capture-screenshot") | .aliases | index("lunaos screenshot")' >/dev/null
 pass "aliases are included in JSON metadata"
 
 output=$("$CLI" pkg add --help)
-assert_output_contains "pkg add help resolves" "$output" "omarchy-pkg-add"
-assert_output_contains "pkg add help shows direct route" "$output" "omarchy pkg add <packages...>"
+assert_output_contains "pkg add help resolves" "$output" "lunaos-pkg-add"
+assert_output_contains "pkg add help shows direct route" "$output" "lunaos pkg add <packages...>"
 
 output=$("$CLI" system reboot --help)
-assert_output_contains "system command help is safe" "$output" "omarchy-system"
+assert_output_contains "system command help is safe" "$output" "lunaos-system"
 
 output=$("$CLI" dev benchmark cli --repeat=1)
-assert_output_contains "benchmark command runs" "$output" "Omarchy CLI benchmark"
+assert_output_contains "benchmark command runs" "$output" "LunaOS CLI benchmark"
 
 "$CLI" theme list >/dev/null
 pass "safe dispatch works for theme list"
@@ -257,9 +257,9 @@ pass "safe dispatch works for font list"
 pass "safe dispatch works for font current"
 
 make_tmpdir PI_TMPDIR
-NEXT_THEME="$PI_TMPDIR/.local/state/omarchy/current/next-theme"
-CURRENT_THEME="$PI_TMPDIR/.local/state/omarchy/current/theme"
-USER_THEMED="$PI_TMPDIR/.config/omarchy/themed"
+NEXT_THEME="$PI_TMPDIR/.local/state/lunaos/current/next-theme"
+CURRENT_THEME="$PI_TMPDIR/.local/state/lunaos/current/theme"
+USER_THEMED="$PI_TMPDIR/.config/lunaos/themed"
 mkdir -p "$NEXT_THEME" "$CURRENT_THEME" "$USER_THEMED"
 
 cat >"$NEXT_THEME/colors.toml" <<'EOF'
@@ -345,7 +345,7 @@ placeholder = "#ffffff"
 border = "#ffffff"
 EOF
 
-OMARCHY_PATH="$ROOT" HOME="$PI_TMPDIR" "$ROOT/bin/omarchy-theme-set-templates"
+LUNAOS_PATH="$ROOT" HOME="$PI_TMPDIR" "$ROOT/bin/lunaos-theme-set-templates"
 grep -qx 'mix=#808080' "$NEXT_THEME/mix-test.txt" || fail "theme template mix helper works"
 grep -qx 'strip=808080' "$NEXT_THEME/mix-test.txt" || fail "theme template mix_strip helper works"
 grep -qx 'rgb=128,128,128' "$NEXT_THEME/mix-test.txt" || fail "theme template mix_rgb helper works"
@@ -403,7 +403,7 @@ bright_cyan = "#11ffff"
 EOF
 
 while read -r canonical expected; do
-  actual=$("$ROOT/bin/omarchy-theme-color" --file "$LEGACY_COLORS_FILE" "$canonical")
+  actual=$("$ROOT/bin/lunaos-theme-color" --file "$LEGACY_COLORS_FILE" "$canonical")
   [[ $actual == "$expected" ]] || fail "legacy palette resolves $canonical"
 done <<'EOF'
 background #101010
@@ -418,10 +418,10 @@ EOF
 pass "legacy short palette resolves every canonical neutral color"
 
 LEGACY_THEME_HOME="$PI_TMPDIR/legacy-theme-home"
-LEGACY_NEXT_THEME="$LEGACY_THEME_HOME/.local/state/omarchy/current/next-theme"
+LEGACY_NEXT_THEME="$LEGACY_THEME_HOME/.local/state/lunaos/current/next-theme"
 mkdir -p "$LEGACY_NEXT_THEME"
 cp "$LEGACY_COLORS_FILE" "$LEGACY_NEXT_THEME/colors.toml"
-OMARCHY_PATH="$ROOT" HOME="$LEGACY_THEME_HOME" "$ROOT/bin/omarchy-theme-set-templates"
+LUNAOS_PATH="$ROOT" HOME="$LEGACY_THEME_HOME" "$ROOT/bin/lunaos-theme-set-templates"
 grep -qx 'background = #101010' "$LEGACY_NEXT_THEME/ghostty.conf" || fail "legacy theme generates terminal background"
 grep -qx 'foreground = #f0f0f0' "$LEGACY_NEXT_THEME/ghostty.conf" || fail "legacy theme generates terminal foreground"
 grep -Fq 'dark_bg = "#111111"' "$LEGACY_NEXT_THEME/neovim.lua" || fail "legacy theme preserves dark_bg in generated editor theme"
@@ -433,11 +433,11 @@ if rg -q '\{\{[^}]+\}\}' "$LEGACY_NEXT_THEME"; then
 fi
 pass "legacy short palette renders the complete generated theme"
 
-osc_summary=$("$ROOT/bin/omarchy-theme-osc" "$NEXT_THEME/colors.toml" | python -c 'import sys; data = sys.stdin.buffer.read(); print(data.count(b"]4;"), b"]4;1;#ff0000" in data, b"]4;7;#ffffff" in data, b"]4;15;#eeeeee" in data, b"]12;#eeeeee" in data, b"]17;#808080" in data, b"]19;#eeeeee" in data)')
+osc_summary=$("$ROOT/bin/lunaos-theme-osc" "$NEXT_THEME/colors.toml" | python -c 'import sys; data = sys.stdin.buffer.read(); print(data.count(b"]4;"), b"]4;1;#ff0000" in data, b"]4;7;#ffffff" in data, b"]4;15;#eeeeee" in data, b"]12;#eeeeee" in data, b"]17;#808080" in data, b"]19;#eeeeee" in data)')
 [[ $osc_summary == "16 True True True True True True" ]] || fail "theme OSC aliases semantic colors to ANSI palette"
 pass "theme OSC aliases semantic colors to ANSI palette"
 
-preview_output=$(OMARCHY_PATH="$ROOT" HOME="$PI_TMPDIR" "$ROOT/bin/omarchy-dev-theme-preview" "$NEXT_THEME/colors.toml" --no-color)
+preview_output=$(LUNAOS_PATH="$ROOT" HOME="$PI_TMPDIR" "$ROOT/bin/lunaos-dev-theme-preview" "$NEXT_THEME/colors.toml" --no-color)
 assert_output_contains "theme preview shows background to bright_foreground gradient" "$preview_output" "background -> bright_foreground gradient"
 assert_output_contains "theme preview orders light mode ramp light to dark" "$preview_output" "Neutral ramp (lightest -> darkest)"
 assert_output_contains "theme preview includes dark background slots" "$preview_output" "darker_background"
@@ -474,58 +474,58 @@ awk '
 ' "$NEXT_THEME/shell.toml" || fail "theme shell section override is merged"
 pass "theme shell section override is merged"
 
-jq -e '.name == "omarchy-system" and .vars.panel == "#0f0f0f" and .vars.border == "#4d4d4d" and .colors.accent == "accent"' "$NEXT_THEME/pi.json" >/dev/null
+jq -e '.name == "lunaos-system" and .vars.panel == "#0f0f0f" and .vars.border == "#4d4d4d" and .colors.accent == "accent"' "$NEXT_THEME/pi.json" >/dev/null
 pass "pi theme template is generated from standard themed templates"
 cp "$NEXT_THEME/pi.json" "$CURRENT_THEME/pi.json"
 
-echo '{"name":"omarchy-system","vars":{"custom":"yes"}}' >"$NEXT_THEME/pi.json"
-OMARCHY_PATH="$ROOT" HOME="$PI_TMPDIR" "$ROOT/bin/omarchy-theme-set-templates"
-jq -e '.name == "omarchy-system" and .vars.custom == "yes"' "$NEXT_THEME/pi.json" >/dev/null
+echo '{"name":"lunaos-system","vars":{"custom":"yes"}}' >"$NEXT_THEME/pi.json"
+LUNAOS_PATH="$ROOT" HOME="$PI_TMPDIR" "$ROOT/bin/lunaos-theme-set-templates"
+jq -e '.name == "lunaos-system" and .vars.custom == "yes"' "$NEXT_THEME/pi.json" >/dev/null
 pass "theme-specific pi.json overrides the default template"
 
-HOME="$PI_TMPDIR" "$ROOT/bin/omarchy-theme-set-pi"
+HOME="$PI_TMPDIR" "$ROOT/bin/lunaos-theme-set-pi"
 [[ ! -d $PI_TMPDIR/.pi ]] || fail "pi theme sync skips missing Pi agent when not activating"
 pass "pi theme sync skips missing Pi agent when not activating"
 
-HOME="$PI_TMPDIR" "$ROOT/bin/omarchy-theme-set-pi" --activate
-[[ -f $PI_TMPDIR/.pi/agent/themes/omarchy-system.json ]] || fail "pi theme file is synced"
+HOME="$PI_TMPDIR" "$ROOT/bin/lunaos-theme-set-pi" --activate
+[[ -f $PI_TMPDIR/.pi/agent/themes/lunaos-system.json ]] || fail "pi theme file is synced"
 pass "pi theme file is synced"
 [[ -f $PI_TMPDIR/.pi/agent/settings.json ]] || fail "pi settings file is generated"
 pass "pi settings file is generated"
-jq -e '.name == "omarchy-system" and .vars.panel == "#0f0f0f"' "$PI_TMPDIR/.pi/agent/themes/omarchy-system.json" >/dev/null
+jq -e '.name == "lunaos-system" and .vars.panel == "#0f0f0f"' "$PI_TMPDIR/.pi/agent/themes/lunaos-system.json" >/dev/null
 pass "pi synced theme JSON is valid"
-jq -e '.theme == "omarchy-system"' "$PI_TMPDIR/.pi/agent/settings.json" >/dev/null
+jq -e '.theme == "lunaos-system"' "$PI_TMPDIR/.pi/agent/settings.json" >/dev/null
 pass "pi generated theme is activated"
 
 jq '.model = "keep-me"' "$PI_TMPDIR/.pi/agent/settings.json" >"$PI_TMPDIR/settings.json.tmp"
 mv "$PI_TMPDIR/settings.json.tmp" "$PI_TMPDIR/.pi/agent/settings.json"
-HOME="$PI_TMPDIR" "$ROOT/bin/omarchy-theme-set-pi" --activate
-jq -e '.theme == "omarchy-system" and .model == "keep-me"' "$PI_TMPDIR/.pi/agent/settings.json" >/dev/null
+HOME="$PI_TMPDIR" "$ROOT/bin/lunaos-theme-set-pi" --activate
+jq -e '.theme == "lunaos-system" and .model == "keep-me"' "$PI_TMPDIR/.pi/agent/settings.json" >/dev/null
 pass "pi theme activation preserves existing settings"
 
-jq -e '.name == "Omarchy" and .base == "light" and .overrides.text == "#ffffff"' "$NEXT_THEME/claude.json" >/dev/null
+jq -e '.name == "LunaOS" and .base == "light" and .overrides.text == "#ffffff"' "$NEXT_THEME/claude.json" >/dev/null
 pass "claude theme template is generated from standard themed templates"
 cp "$NEXT_THEME/claude.json" "$CURRENT_THEME/claude.json"
 
 CLAUDE_TEST_CONFIG="$PI_TMPDIR/.claude-work"
 mkdir -p "$CLAUDE_TEST_CONFIG"
-HOME="$PI_TMPDIR" CLAUDE_CONFIG_DIR="$CLAUDE_TEST_CONFIG" "$ROOT/bin/omarchy-theme-set-claude"
-[[ -f $CLAUDE_TEST_CONFIG/themes/omarchy.json ]] || fail "claude theme is synced to the configured directory"
+HOME="$PI_TMPDIR" CLAUDE_CONFIG_DIR="$CLAUDE_TEST_CONFIG" "$ROOT/bin/lunaos-theme-set-claude"
+[[ -f $CLAUDE_TEST_CONFIG/themes/lunaos.json ]] || fail "claude theme is synced to the configured directory"
 [[ ! -d $PI_TMPDIR/.claude ]] || fail "claude theme sync avoids the default directory when configured"
 pass "claude theme sync respects CLAUDE_CONFIG_DIR"
 
 echo '{"model":"keep-me"}' >"$CLAUDE_TEST_CONFIG/settings.json"
-HOME="$PI_TMPDIR" CLAUDE_CONFIG_DIR="$CLAUDE_TEST_CONFIG" "$ROOT/bin/omarchy-theme-set-claude" --activate
-jq -e '.theme == "custom:omarchy" and .model == "keep-me"' "$CLAUDE_TEST_CONFIG/settings.json" >/dev/null
+HOME="$PI_TMPDIR" CLAUDE_CONFIG_DIR="$CLAUDE_TEST_CONFIG" "$ROOT/bin/lunaos-theme-set-claude" --activate
+jq -e '.theme == "custom:lunaos" and .model == "keep-me"' "$CLAUDE_TEST_CONFIG/settings.json" >/dev/null
 pass "claude theme activation preserves configured settings"
 
 make_tmpdir THEME_TMPDIR
-OMARCHY_PATH="$ROOT" HOME="$THEME_TMPDIR" OMARCHY_THEME_HEADLESS=1 "$ROOT/bin/omarchy-theme-set" "Tokyo Night"
-background_path=$(readlink -f "$THEME_TMPDIR/.local/state/omarchy/current/background" 2>/dev/null || true)
-expected_background="$THEME_TMPDIR/.local/state/omarchy/current/theme/backgrounds/0-liftoff.webp"
+LUNAOS_PATH="$ROOT" HOME="$THEME_TMPDIR" LUNAOS_THEME_HEADLESS=1 "$ROOT/bin/lunaos-theme-set" "Tokyo Night"
+background_path=$(readlink -f "$THEME_TMPDIR/.local/state/lunaos/current/background" 2>/dev/null || true)
+expected_background="$THEME_TMPDIR/.local/state/lunaos/current/theme/backgrounds/0-liftoff.webp"
 [[ $background_path == "$expected_background" ]] || fail "headless theme set creates current background symlink"
 [[ -f $background_path ]] || fail "headless theme background target exists"
-[[ ! -e $THEME_TMPDIR/.config/omarchy/current ]] || fail "headless theme set avoids config current state"
+[[ ! -e $THEME_TMPDIR/.config/lunaos/current ]] || fail "headless theme set avoids config current state"
 pass "headless theme set creates current background symlink"
 
 cp "$NEXT_THEME/colors.toml" "$CURRENT_THEME/colors.toml"
@@ -559,7 +559,7 @@ esac
 EOF
 chmod +x "$FAKE_BIN/tmux"
 
-TMUX_LOG="$PI_TMPDIR/tmux.log" PATH="$FAKE_BIN:$ROOT/bin:$PATH" HOME="$PI_TMPDIR" "$ROOT/bin/omarchy-theme-set-tmux"
+TMUX_LOG="$PI_TMPDIR/tmux.log" PATH="$FAKE_BIN:$ROOT/bin:$PATH" HOME="$PI_TMPDIR" "$ROOT/bin/lunaos-theme-set-tmux"
 grep -Fxq "'set-environment' '-g' 'COLORFGBG' '0;15'" "$PI_TMPDIR/tmux.log" || fail "tmux sync reads mode from colors.toml"
 pass "tmux sync reads mode from colors.toml"
 
@@ -583,7 +583,7 @@ done
 EOF
 chmod +x "$FAKE_BIN/sleep"
 
-HUNK_RUNNING=1 HUNK_SETTLED="$PI_TMPDIR/hunk-settled" PKILL_LOG="$PI_TMPDIR/pkill.log" PATH="$FAKE_BIN:$ROOT/bin:$PATH" HOME="$PI_TMPDIR" "$ROOT/bin/omarchy-theme-set-hunk"
+HUNK_RUNNING=1 HUNK_SETTLED="$PI_TMPDIR/hunk-settled" PKILL_LOG="$PI_TMPDIR/pkill.log" PATH="$FAKE_BIN:$ROOT/bin:$PATH" HOME="$PI_TMPDIR" "$ROOT/bin/lunaos-theme-set-hunk"
 [[ $(grep -c -- '-WINCH -x hunk' "$PI_TMPDIR/pkill.log") == "1" ]] || fail "hunk sync returns before its settled nudge"
 touch "$PI_TMPDIR/hunk-settled"
 for _ in {1..200}; do
@@ -593,7 +593,7 @@ done
 [[ $(grep -c -- '-WINCH -x hunk' "$PI_TMPDIR/pkill.log") == "2" ]] || fail "hunk sync signals running hunk sessions"
 pass "hunk sync signals running hunk sessions"
 
-PKILL_LOG="$PI_TMPDIR/pkill-idle.log" PATH="$FAKE_BIN:$ROOT/bin:$PATH" HOME="$PI_TMPDIR" "$ROOT/bin/omarchy-theme-set-hunk"
+PKILL_LOG="$PI_TMPDIR/pkill-idle.log" PATH="$FAKE_BIN:$ROOT/bin:$PATH" HOME="$PI_TMPDIR" "$ROOT/bin/lunaos-theme-set-hunk"
 [[ ! -e $PI_TMPDIR/pkill-idle.log ]] || fail "hunk sync skips signaling without running hunk"
 pass "hunk sync skips signaling without running hunk"
 rm -f "$FAKE_BIN/pgrep" "$FAKE_BIN/pkill" "$FAKE_BIN/sleep"
@@ -604,42 +604,42 @@ echo "$*" >>"${GSETTINGS_LOG:-/dev/null}"
 EOF
 chmod +x "$FAKE_BIN/gsettings"
 
-GSETTINGS_LOG="$PI_TMPDIR/gsettings.log" DBUS_SESSION_BUS_ADDRESS="unix:path=$PI_TMPDIR/bus" PATH="$FAKE_BIN:$ROOT/bin:$PATH" HOME="$PI_TMPDIR" "$ROOT/bin/omarchy-theme-set-gnome"
+GSETTINGS_LOG="$PI_TMPDIR/gsettings.log" DBUS_SESSION_BUS_ADDRESS="unix:path=$PI_TMPDIR/bus" PATH="$FAKE_BIN:$ROOT/bin:$PATH" HOME="$PI_TMPDIR" "$ROOT/bin/lunaos-theme-set-gnome"
 grep -q 'org.gnome.desktop.interface color-scheme prefer-light' "$PI_TMPDIR/gsettings.log" || fail "gnome sync reads mode from colors.toml"
 pass "gnome sync reads mode from colors.toml"
 
-cat >"$FAKE_BIN/omarchy-cmd-present" <<'EOF'
+cat >"$FAKE_BIN/lunaos-cmd-present" <<'EOF'
 #!/bin/bash
 [[ $1 == "code" ]]
 EOF
-chmod +x "$FAKE_BIN/omarchy-cmd-present"
+chmod +x "$FAKE_BIN/lunaos-cmd-present"
 
-cat >"$FAKE_BIN/omarchy-toggle-enabled" <<'EOF'
+cat >"$FAKE_BIN/lunaos-toggle-enabled" <<'EOF'
 #!/bin/bash
 exit 1
 EOF
-chmod +x "$FAKE_BIN/omarchy-toggle-enabled"
+chmod +x "$FAKE_BIN/lunaos-toggle-enabled"
 
 mkdir -p "$PI_TMPDIR/.vscode/extensions"
-generated_version="1.0.$(cksum "$PI_TMPDIR/.local/state/omarchy/current/theme/vscode-theme.json" | cut -d' ' -f1)"
-jq -n --arg key "local.omarchy-theme-$generated_version" '{($key):true}' >"$PI_TMPDIR/.vscode/extensions/.obsolete"
-PATH="$FAKE_BIN:$ROOT/bin:$PATH" HOME="$PI_TMPDIR" "$ROOT/bin/omarchy-theme-set-vscode"
-jq -e '.contributes.themes[0].uiTheme == "vs"' "$PI_TMPDIR/.vscode/extensions/omarchy-theme/package.json" >/dev/null || fail "vscode generated light theme uses VS Code light uiTheme"
+generated_version="1.0.$(cksum "$PI_TMPDIR/.local/state/lunaos/current/theme/vscode-theme.json" | cut -d' ' -f1)"
+jq -n --arg key "local.lunaos-theme-$generated_version" '{($key):true}' >"$PI_TMPDIR/.vscode/extensions/.obsolete"
+PATH="$FAKE_BIN:$ROOT/bin:$PATH" HOME="$PI_TMPDIR" "$ROOT/bin/lunaos-theme-set-vscode"
+jq -e '.contributes.themes[0].uiTheme == "vs"' "$PI_TMPDIR/.vscode/extensions/lunaos-theme/package.json" >/dev/null || fail "vscode generated light theme uses VS Code light uiTheme"
 pass "vscode generated light theme uses VS Code light uiTheme"
-[[ ! -L $PI_TMPDIR/.vscode/extensions/omarchy-theme/themes/omarchy-color-theme.json ]] || fail "vscode generated theme survives current theme replacement"
-cmp "$PI_TMPDIR/.local/state/omarchy/current/theme/vscode-theme.json" "$PI_TMPDIR/.vscode/extensions/omarchy-theme/themes/omarchy-color-theme.json" || fail "vscode generated theme contains the current palette"
+[[ ! -L $PI_TMPDIR/.vscode/extensions/lunaos-theme/themes/lunaos-color-theme.json ]] || fail "vscode generated theme survives current theme replacement"
+cmp "$PI_TMPDIR/.local/state/lunaos/current/theme/vscode-theme.json" "$PI_TMPDIR/.vscode/extensions/lunaos-theme/themes/lunaos-color-theme.json" || fail "vscode generated theme contains the current palette"
 pass "vscode generated theme contains a copy of the current palette"
 [[ ! -f $PI_TMPDIR/.vscode/extensions/.obsolete ]] || fail "vscode generated theme clears obsolete extension marker"
 pass "vscode generated theme clears obsolete extension marker"
-jq -e '.[] | select(.identifier.id == "local.omarchy-theme" and .relativeLocation == "omarchy-theme")' "$PI_TMPDIR/.vscode/extensions/extensions.json" >/dev/null || fail "vscode generated theme registers local extension"
+jq -e '.[] | select(.identifier.id == "local.lunaos-theme" and .relativeLocation == "lunaos-theme")' "$PI_TMPDIR/.vscode/extensions/extensions.json" >/dev/null || fail "vscode generated theme registers local extension"
 pass "vscode generated theme registers local extension"
 
 for binary in \
-  omarchy-update \
-  omarchy-theme-set \
-  omarchy-capture-screenshot \
-  omarchy-system \
-  omarchy-pkg-add; do
+  lunaos-update \
+  lunaos-theme-set \
+  lunaos-capture-screenshot \
+  lunaos-system \
+  lunaos-pkg-add; do
   [[ -x $ROOT/bin/$binary ]] || fail "binary is executable: $binary"
   pass "binary is executable: $binary"
 done
@@ -652,62 +652,62 @@ while IFS= read -r binary_path; do
     { exit }
   ' "$binary_path")
 
-  grep -q '^# omarchy:summary=' <<<"$header" || fail "metadata summary is present: $binary_path"
-  ! grep -q '^# omarchy:binary=' <<<"$header" || fail "metadata does not repeat inferred binary: $binary_path"
-  ! grep -q '^# omarchy:args=$' <<<"$header" || fail "metadata does not include empty args: $binary_path"
-  ! grep -Eq '^# omarchy:(legacy|usage|visibility|mutates|interactive)=' <<<"$header" || fail "metadata avoids removed fields: $binary_path"
-  ! grep -Eq '^# omarchy:requires-sudo=false$' <<<"$header" || fail "metadata omits false booleans: $binary_path"
-done < <(find "$ROOT/bin" -maxdepth 1 -type f -executable -name 'omarchy-*' | sort)
+  grep -q '^# lunaos:summary=' <<<"$header" || fail "metadata summary is present: $binary_path"
+  ! grep -q '^# lunaos:binary=' <<<"$header" || fail "metadata does not repeat inferred binary: $binary_path"
+  ! grep -q '^# lunaos:args=$' <<<"$header" || fail "metadata does not include empty args: $binary_path"
+  ! grep -Eq '^# lunaos:(legacy|usage|visibility|mutates|interactive)=' <<<"$header" || fail "metadata avoids removed fields: $binary_path"
+  ! grep -Eq '^# lunaos:requires-sudo=false$' <<<"$header" || fail "metadata omits false booleans: $binary_path"
+done < <(find "$ROOT/bin" -maxdepth 1 -type f -executable -name 'lunaos-*' | sort)
 pass "all executable bins have slim self-documenting metadata"
 
 make_tmpdir TMPDIR
-ln -s "$CLI" "$TMPDIR/omarchy"
+ln -s "$CLI" "$TMPDIR/lunaos"
 
 {
   printf '#!/bin/bash\n\n'
   printf '# ordinary comments are fine\n'
-  printf '# omarchy:this malformed line should be ignored\n'
-  printf '# omarchy:group=weird\n'
-  printf '# omarchy:name=test\n'
-  printf '# omarchy:summary=Survives malformed metadata comments\n'
-  printf '# omarchy:made-up=value\n'
+  printf '# lunaos:this malformed line should be ignored\n'
+  printf '# lunaos:group=weird\n'
+  printf '# lunaos:name=test\n'
+  printf '# lunaos:summary=Survives malformed metadata comments\n'
+  printf '# lunaos:made-up=value\n'
   printf 'echo weird-ok\n'
-} >"$TMPDIR/omarchy-weird-test"
-chmod +x "$TMPDIR/omarchy-weird-test"
+} >"$TMPDIR/lunaos-weird-test"
+chmod +x "$TMPDIR/lunaos-weird-test"
 
 {
   printf '#!/bin/bash\n\n'
   printf '# a partial metadata header should not destroy fallback routing\n'
-  printf '# omarchy:summary=Partial metadata keeps inferred route\n'
-  printf '# omarchy:made-up=value\n'
+  printf '# lunaos:summary=Partial metadata keeps inferred route\n'
+  printf '# lunaos:made-up=value\n'
   printf 'echo partial-ok\n'
-} >"$TMPDIR/omarchy-partial-meta-test"
-chmod +x "$TMPDIR/omarchy-partial-meta-test"
+} >"$TMPDIR/lunaos-partial-meta-test"
+chmod +x "$TMPDIR/lunaos-partial-meta-test"
 
 {
   printf '#!/bin/bash\n\n'
   printf 'echo body-metadata-ok\n'
-  printf '# omarchy:group=wrong\n'
-  printf '# omarchy:name=wrong\n'
-} >"$TMPDIR/omarchy-body-metadata-test"
-chmod +x "$TMPDIR/omarchy-body-metadata-test"
+  printf '# lunaos:group=wrong\n'
+  printf '# lunaos:name=wrong\n'
+} >"$TMPDIR/lunaos-body-metadata-test"
+chmod +x "$TMPDIR/lunaos-body-metadata-test"
 
-"$TMPDIR/omarchy" commands --all --json | jq -e '.commands[] | select(.route == "omarchy weird test" and .summary == "Survives malformed metadata comments")' >/dev/null
+"$TMPDIR/lunaos" commands --all --json | jq -e '.commands[] | select(.route == "lunaos weird test" and .summary == "Survives malformed metadata comments")' >/dev/null
 pass "unknown metadata values are non-fatal"
 
-"$TMPDIR/omarchy" commands --all --json | jq -e '.commands[] | select(.route == "omarchy partial meta test" and .summary == "Partial metadata keeps inferred route")' >/dev/null
+"$TMPDIR/lunaos" commands --all --json | jq -e '.commands[] | select(.route == "lunaos partial meta test" and .summary == "Partial metadata keeps inferred route")' >/dev/null
 pass "partial metadata keeps inferred fallback route"
 
-"$TMPDIR/omarchy" commands --all --json | jq -e '.commands[] | select(.route == "omarchy body metadata test" and .summary == "Run the body metadata test command")' >/dev/null
+"$TMPDIR/lunaos" commands --all --json | jq -e '.commands[] | select(.route == "lunaos body metadata test" and .summary == "Run the body metadata test command")' >/dev/null
 pass "metadata-looking comments after script body are ignored"
 
-output=$("$TMPDIR/omarchy" weird test)
+output=$("$TMPDIR/lunaos" weird test)
 assert_output_contains "temporary metadata command dispatches" "$output" "weird-ok"
 
-output=$("$TMPDIR/omarchy" partial meta test)
+output=$("$TMPDIR/lunaos" partial meta test)
 assert_output_contains "partial metadata command dispatches" "$output" "partial-ok"
 
-output=$("$TMPDIR/omarchy" body metadata test)
+output=$("$TMPDIR/lunaos" body metadata test)
 assert_output_contains "body metadata command dispatches by filename" "$output" "body-metadata-ok"
 
 # A trailing --help must render help even when the route only partially
@@ -715,108 +715,108 @@ assert_output_contains "body metadata command dispatches by filename" "$output" 
 # used to start a real update because only the first leftover token was checked).
 {
   printf '#!/bin/bash\n\n'
-  printf '# omarchy:summary=Partial resolution help test parent\n'
-  printf '# omarchy:alias=omarchy parenthelp-alias\n'
+  printf '# lunaos:summary=Partial resolution help test parent\n'
+  printf '# lunaos:alias=lunaos parenthelp-alias\n'
   printf 'echo "parenthelp-parent-ran args=[$*]"\n'
-} >"$TMPDIR/omarchy-parenthelp"
-chmod +x "$TMPDIR/omarchy-parenthelp"
+} >"$TMPDIR/lunaos-parenthelp"
+chmod +x "$TMPDIR/lunaos-parenthelp"
 
 {
   printf '#!/bin/bash\n\n'
-  printf '# omarchy:summary=Partial resolution help test child\n'
+  printf '# lunaos:summary=Partial resolution help test child\n'
   printf 'echo parenthelp-child-ran\n'
-} >"$TMPDIR/omarchy-parenthelp-child"
-chmod +x "$TMPDIR/omarchy-parenthelp-child"
+} >"$TMPDIR/lunaos-parenthelp-child"
+chmod +x "$TMPDIR/lunaos-parenthelp-child"
 
-output=$("$TMPDIR/omarchy" parenthelp bogus --help)
-assert_output_contains "trailing --help after an unresolved word renders help" "$output" "omarchy-parenthelp"
-assert_output_contains "partial resolution help lists related commands" "$output" "omarchy parenthelp child"
+output=$("$TMPDIR/lunaos" parenthelp bogus --help)
+assert_output_contains "trailing --help after an unresolved word renders help" "$output" "lunaos-parenthelp"
+assert_output_contains "partial resolution help lists related commands" "$output" "lunaos parenthelp child"
 if [[ $output == *"parenthelp-parent-ran"* ]]; then
   fail "trailing --help after an unresolved word does not execute the command"
 fi
 pass "trailing --help after an unresolved word does not execute the command"
 
-output=$("$TMPDIR/omarchy" parenthelp bogus -h)
-assert_output_contains "trailing -h after an unresolved word renders help" "$output" "omarchy-parenthelp"
+output=$("$TMPDIR/lunaos" parenthelp bogus -h)
+assert_output_contains "trailing -h after an unresolved word renders help" "$output" "lunaos-parenthelp"
 
-output=$("$TMPDIR/omarchy" parenthelp-alias bogus --help)
-assert_output_contains "trailing --help after an unresolved word renders help via alias route" "$output" "omarchy-parenthelp"
+output=$("$TMPDIR/lunaos" parenthelp-alias bogus --help)
+assert_output_contains "trailing --help after an unresolved word renders help via alias route" "$output" "lunaos-parenthelp"
 if [[ $output == *"parenthelp-parent-ran"* ]]; then
   fail "trailing --help on an alias route does not execute the command"
 fi
 pass "trailing --help on an alias route does not execute the command"
 
-output=$("$TMPDIR/omarchy" parenthelp bogus --json --help)
+output=$("$TMPDIR/lunaos" parenthelp bogus --json --help)
 grep -q '"ok": true' <<<"$output" || fail "--json with --help renders JSON help"
 pass "--json with --help renders JSON help"
 
-output=$("$TMPDIR/omarchy" parenthelp "explain --json output" --help)
+output=$("$TMPDIR/lunaos" parenthelp "explain --json output" --help)
 assert_output_contains "a --json embedded inside one argument does not switch help to JSON" "$output" "Partial resolution help test parent"
 
-output=$("$TMPDIR/omarchy" parenthelp bogus trailing)
+output=$("$TMPDIR/lunaos" parenthelp bogus trailing)
 assert_output_contains "leftover args without a help flag still forward" "$output" "parenthelp-parent-ran args=[bogus trailing]"
 
-output=$("$TMPDIR/omarchy" parenthelp run -- --help)
+output=$("$TMPDIR/lunaos" parenthelp run -- --help)
 assert_output_contains "a --help behind -- belongs to the command and still forwards" "$output" "parenthelp-parent-ran args=[run -- --help]"
 
-output=$("$TMPDIR/omarchy" parenthelp --helpme x--help)
+output=$("$TMPDIR/lunaos" parenthelp --helpme x--help)
 assert_output_contains "help lookalike tokens do not trigger help" "$output" "parenthelp-parent-ran args=[--helpme x--help]"
 
 # Alias and metadata-moved routes resolve by loading only the commands that can
 # own a route under their first word, then dispatch exactly like a full load.
 {
   printf '#!/bin/bash\n\n'
-  printf '# omarchy:summary=Fast alias test\n'
-  printf '# omarchy:aliases=omarchy fastalias | omarchy fastalias deep\n'
+  printf '# lunaos:summary=Fast alias test\n'
+  printf '# lunaos:aliases=lunaos fastalias | lunaos fastalias deep\n'
   printf 'echo "fastalias-ran args=[$*]"\n'
-} >"$TMPDIR/omarchy-zz-fastalias-target"
+} >"$TMPDIR/lunaos-zz-fastalias-target"
 {
   printf '#!/bin/bash\n\n'
-  printf '# omarchy:summary=Fast group test\n'
-  printf '# omarchy:group=fastgroup\n'
-  printf '# omarchy:name=moved\n'
+  printf '# lunaos:summary=Fast group test\n'
+  printf '# lunaos:group=fastgroup\n'
+  printf '# lunaos:name=moved\n'
   printf 'echo "fastgroup-ran args=[$*]"\n'
-} >"$TMPDIR/omarchy-zz-elsewhere"
-chmod +x "$TMPDIR/omarchy-zz-fastalias-target" "$TMPDIR/omarchy-zz-elsewhere"
+} >"$TMPDIR/lunaos-zz-elsewhere"
+chmod +x "$TMPDIR/lunaos-zz-fastalias-target" "$TMPDIR/lunaos-zz-elsewhere"
 
-output=$("$TMPDIR/omarchy" fastalias one two)
+output=$("$TMPDIR/lunaos" fastalias one two)
 assert_output_contains "an alias route dispatches with its arguments" "$output" "fastalias-ran args=[one two]"
-output=$("$TMPDIR/omarchy" fastalias deep three)
+output=$("$TMPDIR/lunaos" fastalias deep three)
 assert_output_contains "the longest alias route wins" "$output" "fastalias-ran args=[three]"
-output=$("$TMPDIR/omarchy" fastgroup moved four)
+output=$("$TMPDIR/lunaos" fastgroup moved four)
 assert_output_contains "a metadata-moved route dispatches" "$output" "fastgroup-ran args=[four]"
-output=$("$TMPDIR/omarchy" fastalias --help)
-assert_output_contains "help on an alias route still renders from the full table" "$output" "omarchy-zz-fastalias-target"
+output=$("$TMPDIR/lunaos" fastalias --help)
+assert_output_contains "help on an alias route still renders from the full table" "$output" "lunaos-zz-fastalias-target"
 
 # The candidates-only path must agree with a full load on every edge of the
 # metadata parser: tabs in an alias count as spaces, and colliding routes are
 # won by whichever command the full load's glob registers first.
 {
-  printf '#!/bin/bash\n\n# omarchy:summary=Tab alias root\n# omarchy:aliases=omarchy tabroute\n'
+  printf '#!/bin/bash\n\n# lunaos:summary=Tab alias root\n# lunaos:aliases=lunaos tabroute\n'
   printf 'echo "tabroute-root-ran args=[$*]"\n'
-} >"$TMPDIR/omarchy-zz-tabroute-root"
+} >"$TMPDIR/lunaos-zz-tabroute-root"
 {
-  printf '#!/bin/bash\n\n# omarchy:summary=Tab alias deep\n# omarchy:aliases=omarchy\ttabroute deep\n'
+  printf '#!/bin/bash\n\n# lunaos:summary=Tab alias deep\n# lunaos:aliases=lunaos\ttabroute deep\n'
   printf 'echo "tabroute-deep-ran args=[$*]"\n'
-} >"$TMPDIR/omarchy-zz-tabroute-deep"
+} >"$TMPDIR/lunaos-zz-tabroute-deep"
 {
-  printf '#!/bin/bash\n\n# omarchy:summary=Collision first\n# omarchy:aliases=omarchy collideprobe\n'
+  printf '#!/bin/bash\n\n# lunaos:summary=Collision first\n# lunaos:aliases=lunaos collideprobe\n'
   printf 'echo "collide-a-b-ran"\n'
-} >"$TMPDIR/omarchy-zz-a-b"
+} >"$TMPDIR/lunaos-zz-a-b"
 {
-  printf '#!/bin/bash\n\n# omarchy:summary=Collision second\n# omarchy:aliases=omarchy collideprobe\n'
+  printf '#!/bin/bash\n\n# lunaos:summary=Collision second\n# lunaos:aliases=lunaos collideprobe\n'
   printf 'echo "collide-aa-ran"\n'
-} >"$TMPDIR/omarchy-zz-aa"
-chmod +x "$TMPDIR"/omarchy-zz-tabroute-* "$TMPDIR/omarchy-zz-a-b" "$TMPDIR/omarchy-zz-aa"
+} >"$TMPDIR/lunaos-zz-aa"
+chmod +x "$TMPDIR"/lunaos-zz-tabroute-* "$TMPDIR/lunaos-zz-a-b" "$TMPDIR/lunaos-zz-aa"
 
-output=$("$TMPDIR/omarchy" tabroute deep payload)
+output=$("$TMPDIR/lunaos" tabroute deep payload)
 assert_output_contains "a tab-separated alias still wins as the longer route" "$output" "tabroute-deep-ran args=[payload]"
 
 for locale in C "$(locale -a 2>/dev/null | grep -iE '^en_US\.utf-?8$' | head -1)"; do
   [[ -n $locale ]] || continue
-  ran=$(LC_ALL=$locale "$TMPDIR/omarchy" collideprobe)
-  helped=$(LC_ALL=$locale "$TMPDIR/omarchy" collideprobe --help)
-  expected=$( [[ $helped == *omarchy-zz-aa* ]] && echo collide-aa-ran || echo collide-a-b-ran )
+  ran=$(LC_ALL=$locale "$TMPDIR/lunaos" collideprobe)
+  helped=$(LC_ALL=$locale "$TMPDIR/lunaos" collideprobe --help)
+  expected=$( [[ $helped == *lunaos-zz-aa* ]] && echo collide-aa-ran || echo collide-a-b-ran )
   [[ $ran == "$expected" ]] || fail "a colliding alias runs the command help names under LC_ALL=$locale"
 done
 pass "a colliding alias runs the command help names"
@@ -827,14 +827,14 @@ pass "a colliding alias runs the command help names"
 # Root reads through the permission, so this check only means something for
 # an ordinary user.
 if (( EUID != 0 )); then
-  printf '#!/bin/bash\n\n# omarchy:summary=Unreadable unrelated command\necho unrelated\n' >"$TMPDIR/omarchy-zz-unreadable"
-  chmod 111 "$TMPDIR/omarchy-zz-unreadable"
-  stderr=$("$TMPDIR/omarchy" fastalias one 2>&1 >/dev/null)
+  printf '#!/bin/bash\n\n# lunaos:summary=Unreadable unrelated command\necho unrelated\n' >"$TMPDIR/lunaos-zz-unreadable"
+  chmod 111 "$TMPDIR/lunaos-zz-unreadable"
+  stderr=$("$TMPDIR/lunaos" fastalias one 2>&1 >/dev/null)
   [[ $stderr != *"Permission denied"* ]] || fail "an alias dispatch reads only the commands that can own its route"
-  stderr=$("$TMPDIR/omarchy" fastalias --help 2>&1 >/dev/null)
+  stderr=$("$TMPDIR/lunaos" fastalias --help 2>&1 >/dev/null)
   [[ $stderr == *"Permission denied"* ]] || fail "alias help still loads the whole table"
-  chmod 755 "$TMPDIR/omarchy-zz-unreadable"
-  rm -f "$TMPDIR/omarchy-zz-unreadable"
+  chmod 755 "$TMPDIR/lunaos-zz-unreadable"
+  rm -f "$TMPDIR/lunaos-zz-unreadable"
   pass "an alias dispatch reads only the commands that can own its route"
 fi
 
@@ -847,9 +847,9 @@ cp -a "$ROOT/bin/." "$ROUTER_BIN/"
 # The real header, so the alias resolves as shipped, over a body that takes no
 # screenshot.
 {
-  awk 'NR == 1 || /^#/ || /^[[:space:]]*$/ { print; next } { exit }' "$ROOT/bin/omarchy-capture-screenshot"
+  awk 'NR == 1 || /^#/ || /^[[:space:]]*$/ { print; next } { exit }' "$ROOT/bin/lunaos-capture-screenshot"
   printf 'echo screenshot-stub-ran\n'
-} >"$ROUTER_BIN/omarchy-capture-screenshot"
+} >"$ROUTER_BIN/lunaos-capture-screenshot"
 
 fastest_ms() {
   local best="" start end elapsed
@@ -866,11 +866,11 @@ fastest_ms() {
   echo "$best"
 }
 
-[[ $("$ROUTER_BIN/omarchy" screenshot) == "screenshot-stub-ran" ]] || fail "omarchy screenshot dispatches to the capture command"
-alias_ms=$(fastest_ms "$ROUTER_BIN/omarchy" screenshot)
-full_ms=$(fastest_ms "$ROUTER_BIN/omarchy" screenshot --help)
+[[ $("$ROUTER_BIN/lunaos" screenshot) == "screenshot-stub-ran" ]] || fail "lunaos screenshot dispatches to the capture command"
+alias_ms=$(fastest_ms "$ROUTER_BIN/lunaos" screenshot)
+full_ms=$(fastest_ms "$ROUTER_BIN/lunaos" screenshot --help)
 if (( alias_ms * 4 > full_ms )); then
-  printf 'omarchy screenshot took %dms; loading the whole table for its help took %dms.\n' "$alias_ms" "$full_ms" >&2
+  printf 'lunaos screenshot took %dms; loading the whole table for its help took %dms.\n' "$alias_ms" "$full_ms" >&2
   fail "an alias dispatch costs a fraction of loading the whole command table"
 fi
 pass "an alias dispatch costs a fraction of loading the whole command table (${alias_ms}ms vs ${full_ms}ms)"

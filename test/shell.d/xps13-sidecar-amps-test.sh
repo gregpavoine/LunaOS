@@ -4,7 +4,7 @@ set -euo pipefail
 
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
-detector="$ROOT/bin/omarchy-hw-dell-xps13-sidecar-amps"
+detector="$ROOT/bin/lunaos-hw-dell-xps13-sidecar-amps"
 leaf="$ROOT/install/hardware/dell-xps13-sidecar-amps.sh"
 all="$ROOT/install/hardware/all.sh"
 
@@ -16,12 +16,12 @@ test_tmp=$(mktemp -d)
 trap 'rm -rf "$test_tmp"' EXIT
 mkdir -p "$test_tmp/bin"
 
-cat >"$test_tmp/bin/omarchy-hw-match" <<'SH'
+cat >"$test_tmp/bin/lunaos-hw-match" <<'SH'
 #!/bin/bash
 [[ ${TEST_PRODUCT_NAME:-} == *"$1"* ]]
 SH
 
-cat >"$test_tmp/bin/omarchy-pkg-add" <<'SH'
+cat >"$test_tmp/bin/lunaos-pkg-add" <<'SH'
 #!/bin/bash
 printf 'pkg-add %s\n' "$*" >>"$CALL_LOG"
 exit "${TEST_PKG_ADD_STATUS:-0}"
@@ -47,7 +47,7 @@ run_detector() {
   printf '%s\n' "${2-0E53}" >"$sku_file"
   PATH="$test_tmp/bin:$PATH" \
     TEST_PRODUCT_NAME="${1-XPS 13 DX13260}" \
-    OMARCHY_DMI_PRODUCT_SKU="${3-$sku_file}" \
+    LUNAOS_DMI_PRODUCT_SKU="${3-$sku_file}" \
     bash "$detector"
 }
 
@@ -77,7 +77,7 @@ run_leaf() {
     TEST_PRODUCT_NAME="${1-XPS 13 DX13260}" \
     TEST_PKG_ADD_STATUS="${2:-0}" \
     TEST_APPLY_STATUS="${3:-0}" \
-    OMARCHY_DMI_PRODUCT_SKU="$sku_file" \
+    LUNAOS_DMI_PRODUCT_SKU="$sku_file" \
     bash -c 'source "$1"' bash "$leaf"
 }
 

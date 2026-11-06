@@ -1,8 +1,8 @@
 # Navegació
 
-Tot a Omarchy passa per mitjà del teclat — _TOT!_ Quan el sistema arrenca per primera vegada, literalment no pots fer res només amb el ratolí. Però pots prémer `Super + Space` per mostrar el menú d'Omarchy i des d'aquí pots fer pràcticament de tot.
+Tot a LunaOS passa per mitjà del teclat — _TOT!_ Quan el sistema arrenca per primera vegada, literalment no pots fer res només amb el ratolí. Però pots prémer `Super + Space` per mostrar el menú d'LunaOS i des d'aquí pots fer pràcticament de tot.
 
-Però el menú d'Omarchy ni tan sols està pensat per ser la manera principal de fer funcionar el sistema la major part del temps. Podem anar més de pressa que això! Totes les aplicacions més importants estan vinculades directament a dreceres de teclat individuals. Inicies el terminal amb `Super + Return` i un navegador amb `Super + Shift + Return`. Prova de fer una cosa després de l'altra i veuràs la màgia de la disposició en mosaic de Hyprland en acció:
+Però el menú d'LunaOS ni tan sols està pensat per ser la manera principal de fer funcionar el sistema la major part del temps. Podem anar més de pressa que això! Totes les aplicacions més importants estan vinculades directament a dreceres de teclat individuals. Inicies el terminal amb `Super + Return` i un navegador amb `Super + Shift + Return`. Prova de fer una cosa després de l'altra i veuràs la màgia de la disposició en mosaic de Hyprland en acció:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ També pots passar a pantalla completa amb `Super + F` o fins i tot només a amp
 
 ### Disposició dwindle contra scrolling
 
-La disposició predeterminada d'Omarchy s'anomena dwindle. Manté totes les finestres que obres en un sol espai de treball visibles en tot moment, encara que hagi de reduir-les.
+La disposició predeterminada d'LunaOS s'anomena dwindle. Manté totes les finestres que obres en un sol espai de treball visibles en tot moment, encara que hagi de reduir-les.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Un espai de treball flotant funciona com un escriptori tradicional: les finestres se superposen, i les mous i les dimensionis tu mateix. Cada finestra rep una barra de títol amb els colors del teu tema, amb botons per minimitzar, maximitzar i tancar. `Super + M` també minimitza la finestra que té el focus. Una finestra minimitzada espera al dock; fes clic a la seva aplicació per tornar-la. Fes clic en una finestra per portar-la al davant. Redimensiona-la des de qualsevol vora o cantonada. Fes doble clic en una barra de títol per maximitzar la finestra mantenint la barra superior a la vista, i de nou per recuperar la seva mida antiga.
 
-Un espai de treball flotant també mostra un dock, amb les teves aplicacions fixades, tot el que s'està executant i una graella de totes les aplicacions darrere del botó d'aplicacions, que `Super + Alt + Space` i _Apps_ al menú d'Omarchy també obren. Fes clic amb el botó dret en una aplicació de la graella, o prem `Delete`, per desinstal·lar-la. Fes clic en una aplicació per obrir-la, o per portar la seva finestra al davant; torna a fer clic per recórrer les seves finestres. El clic amb el botó del mig obre una finestra nova. Arrossega una icona al llarg del dock per moure-la; arrossegar una aplicació en execució entre les altres la manté allà. Fes clic amb el botó dret per mantenir una aplicació al dock, treure-la'n o tancar-la. El dock s' aparta del camí d'una finestra a pantalla completa. Fes clic amb el botó dret al botó d'aplicacions per moure el dock a una altra vora o perquè s'oculti fins que el punter arribi a la seva vora. La posició també és a _Trigger > Appearance > Dock > Dock Position_, i `omarchy dock position left` i `omarchy dock autohide on` defineixen totes dues coses des d'un terminal. Les aplicacions que mantens al dock apareixen atenuades mentre no s'estan executant.
+Un espai de treball flotant també mostra un dock, amb les teves aplicacions fixades, tot el que s'està executant i una graella de totes les aplicacions darrere del botó d'aplicacions, que `Super + Alt + Space` i _Apps_ al menú d'LunaOS també obren. Fes clic amb el botó dret en una aplicació de la graella, o prem `Delete`, per desinstal·lar-la. Fes clic en una aplicació per obrir-la, o per portar la seva finestra al davant; torna a fer clic per recórrer les seves finestres. El clic amb el botó del mig obre una finestra nova. Arrossega una icona al llarg del dock per moure-la; arrossegar una aplicació en execució entre les altres la manté allà. Fes clic amb el botó dret per mantenir una aplicació al dock, treure-la'n o tancar-la. El dock s' aparta del camí d'una finestra a pantalla completa. Fes clic amb el botó dret al botó d'aplicacions per moure el dock a una altra vora o perquè s'oculti fins que el punter arribi a la seva vora. La posició també és a _Trigger > Appearance > Dock > Dock Position_, i `lunaos dock position left` i `lunaos dock autohide on` defineixen totes dues coses des d'un terminal. Les aplicacions que mantens al dock apareixen atenuades mentre no s'estan executant.
 
-Els espais de treball nous, i qualsevol a què no hagis donat una disposició pròpia amb `Super + L`, fan servir la disposició predeterminada. Canviar la predeterminada restableix a aquesta disposició tots els espais de treball sense finestres, mentre que un que té finestres manté la disposició que té. Una finestra minimitzada al dock continua comptant com a finestra de l'espai de treball que va deixar. Tria-la a _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling o Floating. `omarchy-hyprland-workspace-layout-default scrolling` la defineix des d'un terminal.
+Els espais de treball nous, i qualsevol a què no hagis donat una disposició pròpia amb `Super + L`, fan servir la disposició predeterminada. Canviar la predeterminada restableix a aquesta disposició tots els espais de treball sense finestres, mentre que un que té finestres manté la disposició que té. Una finestra minimitzada al dock continua comptant com a finestra de l'espai de treball que va deixar. Tria-la a _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling o Floating. `lunaos-hyprland-workspace-layout-default scrolling` la defineix des d'un terminal.
 
 ### Agrupar finestres
 

@@ -1,6 +1,6 @@
 # Prompt
 
-Omarchy prema zadanim postavkama dolazi s minimalnim [Starship](https://starship.rs/) promptom. Tako volim da moj prompt ostane. Ne trebam znati korisnika, jer sam to uvijek ja, i ne trebam znati vrijeme, jer je uvijek na vrhu.
+LunaOS prema zadanim postavkama dolazi s minimalnim [Starship](https://starship.rs/) promptom. Tako volim da moj prompt ostane. Ne trebam znati korisnika, jer sam to uvijek ja, i ne trebam znati vrijeme, jer je uvijek na vrhu.
 
  ![prompt](images/prompt.webp)
 

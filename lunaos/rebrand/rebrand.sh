@@ -6,15 +6,24 @@
 #
 # Exit codes: 0 ok, 1 --check found occurrences, 2 precondition (usage, not a
 # clean git work tree), 3 unknown casing of "omarchy" (tree left unchanged),
-# 4 a renamed path would collide with an existing one (tree left unchanged).
+# 4 a renamed path would collide with an existing one or with another renamed
+# path (tree left unchanged), 5 an internal step failed (perl, git or mktemp;
+# the tree may be half rewritten, discard it with git checkout/reset).
 #
 # <tree>/lunaos/ and .git/ are never entered; binary files only have their path
-# renamed. Exceptions live in exceptions.txt, the LICENSE skip and the update
-# repository rewrite are in the perl program below.
+# renamed. Exceptions live in exceptions.txt; the LICENSE and upstream fixture
+# skips and the update repository rewrite are in the perl program below.
 set -uo pipefail
 
 HERE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 EXCEPTIONS="$HERE/exceptions.txt"
+
+FAILED=5
+
+die() {
+  echo "rebrand: $*" >&2
+  exit "$FAILED"
+}
 
 usage() {
   echo "usage: rebrand.sh [--check] <tree>" >&2
@@ -26,8 +35,11 @@ if [[ ${1:-} == "--check" ]]; then
   check_only=1
   shift
 fi
-(( $# == 1 )) || usage
-tree=$1
+if (( $# == 1 )); then
+  tree=$1
+else
+  usage
+fi
 
 if [[ ! -d $tree ]] || [[ $(git -C "$tree" rev-parse --is-inside-work-tree 2>/dev/null) != "true" ]]; then
   echo "rebrand: $tree is not a git work tree" >&2
@@ -38,7 +50,7 @@ if [[ -n $(git -C "$tree" rev-parse --show-prefix) ]]; then
   exit 2
 fi
 
-work=$(mktemp -d "${TMPDIR:-/tmp}/rebrand.XXXXXX")
+work=$(mktemp -d "${TMPDIR:-/tmp}/rebrand.XXXXXX") || die "cannot create a temporary directory"
 trap 'rm -rf "$work"' EXIT
 
 cat >"$work/rebrand.pl" <<'PERL'
@@ -47,13 +59,17 @@ use warnings;
 
 my ($mode, $excfile, $tree, $listfile) = @ARGV;
 
-# Data: explicit substitutions (not exceptions), applied before the casings.
+# Data: explicit substitutions (not exceptions), applied before the exceptions are
+# masked, so a broad exception such as omacom/omarchy keeps every other upstream link.
 my @REPO_SUBSTITUTIONS = (
   ['https://github.com/omacom/omarchy.git',      'https://github.com/gregpavoine/LunaOS.git'],
   ['https://github.com/omacom/omarchy/releases', 'https://github.com/gregpavoine/LunaOS/releases'],
 );
 # Data: paths (relative to the tree) whose contents are never rewritten.
 my %SKIPPED = ('LICENSE' => 1);
+# Data: directories (relative to the tree) whose contents are never rewritten:
+# verbatim copies of files shipped by upstream packages.
+my @SKIPPED_DIRS = ('test/shell.d/fixtures/omarchy-mac-boot-mkinitcpio/');
 
 my @exc;
 open my $fh, '<', $excfile or die "cannot read $excfile: $!";
@@ -107,7 +123,12 @@ sub unknown_casing {
   return 0;
 }
 
-sub skipped { my ($p) = @_; return $p =~ m{^lunaos/} || $SKIPPED{$p}; }
+sub skipped {
+  my ($p) = @_;
+  return 1 if $p =~ m{^lunaos/} || $SKIPPED{$p};
+  for my $d (@SKIPPED_DIRS) { return 1 if index($p, $d) == 0; }
+  return 0;
+}
 
 sub read_list {
   open my $l, '<:raw', $listfile or die "cannot read $listfile: $!";
@@ -129,25 +150,25 @@ sub slurp {
 
 if ($mode eq 'contents-unknown' || $mode eq 'contents-check') {
   for my $f (read_list()) {
-    next if skipped($f);
+    next if skipped($f) || -l "$tree/$f";
     my $s = slurp("$tree/$f");
     next unless defined $s;
-    my @lines = split /\n/, ($mode eq 'contents-unknown' ? repo_substitute(protect($s)) : protect($s)), -1;
+    my @lines = split /\n/, ($mode eq 'contents-unknown' ? protect(repo_substitute($s)) : protect($s)), -1;
     for my $i (0 .. $#lines) {
       if ($mode eq 'contents-unknown') {
         print "$f:" . ($i + 1) . "\n" if unknown_casing($lines[$i]);
       } elsif ($lines[$i] =~ /omarchy/i) {
-        print "$f:" . ($i + 1) . ":$lines[$i]\n";
+        print "$f:" . ($i + 1) . ":" . restore($lines[$i]) . "\n";
       }
     }
   }
 } elsif ($mode eq 'rewrite') {
   my $count = 0;
   for my $f (read_list()) {
-    next if skipped($f);
+    next if skipped($f) || -l "$tree/$f";
     my $s = slurp("$tree/$f");
     next unless defined $s;
-    my $t = restore(casings(repo_substitute(protect($s))));
+    my $t = restore(casings(protect(repo_substitute($s))));
     next if $t eq $s;
     open my $out, '>:raw', "$tree/$f" or die "cannot write $f: $!";
     print $out $t;
@@ -191,13 +212,17 @@ if ($mode eq 'contents-unknown' || $mode eq 'contents-check') {
 }
 PERL
 
+# run_perl <mode> <list>: output goes to stdout; a perl failure is fatal.
 run_perl() {
-  perl "$work/rebrand.pl" "$1" "$EXCEPTIONS" "$tree" "$2"
+  perl "$work/rebrand.pl" "$1" "$EXCEPTIONS" "$tree" "$2" || die "internal failure in step $1"
 }
 
 # Text files that mention omarchy (binary files are excluded by -I), and all tracked paths.
-git -C "$tree" grep -z -lI -i omarchy -- . ':!lunaos' >"$work/contents.lst" || true
-git -C "$tree" ls-files -z >"$work/paths.lst"
+# git grep exits 1 when nothing matches; anything above 1 is an error.
+grep_rc=0
+git -C "$tree" grep -z -lI -i omarchy -- . ':!lunaos' >"$work/contents.lst" || grep_rc=$?
+(( grep_rc <= 1 )) || die "git grep failed ($grep_rc)"
+git -C "$tree" ls-files -z >"$work/paths.lst" || die "git ls-files failed"
 
 if (( check_only )); then
   run_perl contents-check "$work/contents.lst" >"$work/remaining.txt"
@@ -211,7 +236,8 @@ if (( check_only )); then
   fi
 fi
 
-if [[ -n $(git -C "$tree" status --porcelain) ]]; then
+status=$(git -C "$tree" status --porcelain) || die "git status failed"
+if [[ -n $status ]]; then
   echo "rebrand: $tree has uncommitted changes" >&2
   exit 2
 fi
@@ -233,15 +259,20 @@ while IFS=$'\t' read -r old new; do
     collision=1
   fi
 done <"$work/plan.txt"
+cut -f2 "$work/plan.txt" | sort | uniq -d >"$work/duplicates.txt" || die "cannot check duplicate targets"
+while IFS= read -r new; do
+  echo "rebrand: several paths would be renamed to $new" >&2
+  collision=1
+done <"$work/duplicates.txt"
 if (( collision )); then
   exit 4
 fi
 
-modified=$(run_perl rewrite "$work/contents.lst")
+modified=$(run_perl rewrite "$work/contents.lst") || die "rewrite failed"
 
 renamed=0
 while IFS=$'\t' read -r old new; do
-  git -C "$tree" mv -- "$old" "$new" || exit 1
+  git -C "$tree" mv -- "$old" "$new" || die "git mv $old $new failed"
   renamed=$((renamed + 1))
 done <"$work/plan.txt"
 

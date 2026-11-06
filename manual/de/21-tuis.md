@@ -12,28 +12,28 @@ Zwischen den verschiedenen Panes springst du mit `Tab`. Im Pane Files wählst du
 
 [Btop](https://github.com/aristocratos/btop) ist ein schöner Ressourcenmanager, der Speicher-, CPU-, Platten- und Netzwerkauslastung zeigt. Er listet auch alle aktiven Prozesse auf und erlaubt dir, sie zu verwalten.
 
-Omarchy nennt es Activity, und du startest es mit `Super + Ctrl + T`. Es öffnet sich als schwebendes Fenster, das du mit `Super + T` kacheln kannst.
+LunaOS nennt es Activity, und du startest es mit `Super + Ctrl + T`. Es öffnet sich als schwebendes Fenster, das du mit `Super + T` kacheln kannst.
 
 ## Herdr
 
 [Herdr](https://github.com/omacom-io/herdr) ist ein Terminal-Workspace-Manager, der dir Arbeitsflächen, Tabs und Panes bietet und sie alle in einer dauerhaften Sitzung laufen lässt, von der du dich trennen und zu der du später zurückkehren kannst.
 
-Du startest es (oder verbindest dich wieder mit deiner bestehenden Sitzung) mit `Super + Ctrl + Return`. Omarchy liefert eine Herdr-Konfiguration mit, die seiner Tmux-Konfiguration entspricht, sodass die Präfix-Taste hier ebenfalls `Ctrl + Space` ist. Alle Tastenkürzel kannst du mit `Super + Ctrl + K` durchsuchen.
+Du startest es (oder verbindest dich wieder mit deiner bestehenden Sitzung) mit `Super + Ctrl + Return`. LunaOS liefert eine Herdr-Konfiguration mit, die seiner Tmux-Konfiguration entspricht, sodass die Präfix-Taste hier ebenfalls `Ctrl + Space` ist. Alle Tastenkürzel kannst du mit `Super + Ctrl + K` durchsuchen.
 
 ## Fastfetch
 
 [Fastfetch](https://github.com/fastfetch-cli/fastfetch) zeigt Systeminformationen wie Kernelversion, Laufzeit, Design, CPU, Speicher und mehr. Es ist ein Nachfolger des beliebten Werkzeugs neofetch.
 
-Omarchy hat dies als _Über_ im Omarchy-Menü (`Super + Space`) verpackt.
+LunaOS hat dies als _Über_ im LunaOS-Menü (`Super + Space`) verpackt.
 
 ## Cliamp
 
-[Cliamp](https://www.cliamp.stream/) ist ein Retro-Musikplayer fürs Terminal, inspiriert von Winamp 2.x, komplett mit eingebauten Radiosendern für Lo-Fi-Beats. Starte ihn mit `Super + Shift + Alt + M` oder aus dem Omarchy-Menü unter _Apps_. Drücke `?` für die vollständige Liste der Tastenkürzel.
+[Cliamp](https://www.cliamp.stream/) ist ein Retro-Musikplayer fürs Terminal, inspiriert von Winamp 2.x, komplett mit eingebauten Radiosendern für Lo-Fi-Beats. Starte ihn mit `Super + Shift + Alt + M` oder aus dem LunaOS-Menü unter _Apps_. Drücke `?` für die vollständige Liste der Tastenkürzel.
 
 ## Was ist mit WLAN und Bluetooth?
 
-Für WLAN und Bluetooth findest du keine TUIs — diese Aufgaben gehören zur Omarchy-Shell. Klicke auf das WLAN-Symbol in der Menüleiste (oder drücke `Super + Ctrl + W`), um Netzwerke zu sehen und dich zu verbinden, und klicke auf das Bluetooth-Symbol (oder drücke `Super + Ctrl + B`), um Geräte zu koppeln und zu verbinden. Siehe [Networking](35-networking.md) für die ganze Geschichte.
+Für WLAN und Bluetooth findest du keine TUIs — diese Aufgaben gehören zur LunaOS-Shell. Klicke auf das WLAN-Symbol in der Menüleiste (oder drücke `Super + Ctrl + W`), um Netzwerke zu sehen und dich zu verbinden, und klicke auf das Bluetooth-Symbol (oder drücke `Super + Ctrl + B`), um Geräte zu koppeln und zu verbinden. Siehe [Networking](35-networking.md) für die ganze Geschichte.
 
 ## Eigene hinzufügen
 
-Jedes Terminalprogramm kann die volle App-Behandlung erhalten. Gehe im Omarchy-Menü (`Super + Space`) zu _Installieren > TUI_, gib ihm einen Namen, einen Startbefehl, einen Fensterstil und ein Symbol, und es erscheint wie jede andere Anwendung im App-Launcher. Unter _Entfernen > TUI_ kannst du es wieder entfernen.
+Jedes Terminalprogramm kann die volle App-Behandlung erhalten. Gehe im LunaOS-Menü (`Super + Space`) zu _Installieren > TUI_, gib ihm einen Namen, einen Startbefehl, einen Fensterstil und ein Symbol, und es erscheint wie jede andere Anwendung im App-Launcher. Unter _Entfernen > TUI_ kannst du es wieder entfernen.

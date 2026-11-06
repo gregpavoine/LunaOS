@@ -1,6 +1,6 @@
 # Shell 工具
 
-除了标准的 Linux 工具，Omarchy 还自带一大堆增强的 shell 工具。以下是关键的几个。
+除了标准的 Linux 工具，LunaOS 还自带一大堆增强的 shell 工具。以下是关键的几个。
 
 ## fzf
 
@@ -14,7 +14,7 @@
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) 是 cd 的替代品。它会记住你去过的目录，这样下次你就能更轻松地跳过去。比如你执行一次 `cd ~/.config/omarchy`。下次，你只需执行 `cd omarchy`（甚至只是 `cd oma`），Zoxide 就会直接带你到那里。
+[Zoxide](https://github.com/ajeetdsouza/zoxide) 是 cd 的替代品。它会记住你去过的目录，这样下次你就能更轻松地跳过去。比如你执行一次 `cd ~/.config/lunaos`。下次，你只需执行 `cd lunaos`（甚至只是 `cd oma`），Zoxide 就会直接带你到那里。
 
 完整手册可以通过 `man zoxide` 找到。
 
@@ -58,4 +58,4 @@
 
 [try](https://github.com/tobi/try) 让你轻松管理带日期戳目录的编程实验。所有实验都放在 `~/Work/tries` 中，你可以通过 `try` 访问它们。
 
-Omarchy 不会自动将项目的 `bin/` 目录添加到 `PATH`。运行受信任的项目本地工具时使用显式相对路径，例如 `bin/rails` 或 `./bin/dev`。
+LunaOS 不会自动将项目的 `bin/` 目录添加到 `PATH`。运行受信任的项目本地工具时使用显式相对路径，例如 `bin/rails` 或 `./bin/dev`。

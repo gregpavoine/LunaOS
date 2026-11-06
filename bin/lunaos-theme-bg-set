@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# lunaos:summary=Set the current background image or video
+# lunaos:args=<path-to-media>
+# lunaos:examples=lunaos theme bg set ~/Pictures/background.png
+
+if [[ -z $1 ]]; then
+  echo "Usage: lunaos-theme-bg-set <path-to-media>" >&2
+  exit 1
+fi
+
+BACKGROUND="$(realpath "$1")"
+CURRENT_BACKGROUND_LINK="$HOME/.local/state/lunaos/current/background"
+
+if [[ ! -f $BACKGROUND ]]; then
+  echo "File does not exist: $BACKGROUND" >&2
+  exit 1
+fi
+
+# Create symlink to the new background media
+ln -nsf "$BACKGROUND" "$CURRENT_BACKGROUND_LINK"
+
+# Update the live shell background when it is running. Nothing watches the
+# symlink, so this is how the shell learns of the new background.
+lunaos-shell -q background set "$BACKGROUND"

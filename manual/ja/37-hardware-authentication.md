@@ -2,7 +2,7 @@
 
 ### 指紋認証
 
-多くのノートパソコンには、認証用の指紋センサーが搭載されています。Omarchyでも、Omarchyメニュー（`Super + Space`）で_Setup > Security > Fingerprint_を実行すれば使えます。
+多くのノートパソコンには、認証用の指紋センサーが搭載されています。LunaOSでも、LunaOSメニュー（`Super + Space`）で_Setup > Security > Fingerprint_を実行すれば使えます。
 
 これで指紋用パッケージがインストールされ、指紋が登録・確認されます。あとは指紋で、ロック画面（`Super + Ctrl + L`で呼び出せます）の解除、sudoモードへの移行、システムの確認プロンプトへの許可ができるようになります。
 
@@ -10,10 +10,10 @@
 
 ノートパソコンの蓋が閉じているときは、指紋のプロンプトは自動的にスキップされます。手の届かないセンサーを待つことなく、そのままパスワードのプロンプトに進みます。それ以外の場合でも、センサーのない外付けキーボードで作業する必要があるときは、`sudo`で指紋を求められた際に`CTRL + C`を押すだけです。
 
-指紋認証は、Omarchyメニューの_Remove > Security > Fingerprint_から削除できます。
+指紋認証は、LunaOSメニューの_Remove > Security > Fingerprint_から削除できます。
 
 ### Fido2認証
 
-Fido2デバイスを使っているなら、Omarchyメニュー（`Super + Space`）の_Setup > Security > Fido2_を使って、`sudo`認証用に設定できます。ただし、対象になるのは`sudo`とシステムの許可プロンプトで、コンピューターのロック解除ではありません。
+Fido2デバイスを使っているなら、LunaOSメニュー（`Super + Space`）の_Setup > Security > Fido2_を使って、`sudo`認証用に設定できます。ただし、対象になるのは`sudo`とシステムの許可プロンプトで、コンピューターのロック解除ではありません。
 
-fido2認証は、Omarchyメニューの_Remove > Security > Fido2_から削除できます。
+fido2認証は、LunaOSメニューの_Remove > Security > Fido2_から削除できます。

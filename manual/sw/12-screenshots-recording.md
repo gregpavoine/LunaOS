@@ -21,7 +21,7 @@ Kihariri cha maelezo kinaweza kuchora mishale, mistari, maumbo, vivutio, vialama
 
 Picha za skrini zilizohifadhiwa huishia katika `~/Pictures/Screenshots` kwa chaguomsingi, na jina kama `screenshot-2026-08-13_14-22-05-firefox.png`. Weka `OMASNAP_SCREENSHOT_DIR` kutumia saraka nyingine — tazama [FAQ](46-faq.md) kwa mahali pa kuweka vigezo vya mazingira ya kipindi. Omasnap huunda saraka hiyo inapohifadhi picha ya kwanza. Weka `[output] autosave = false` katika `~/.config/omasnap/omasnap.conf` kuzima uokolewaji otomatiki.
 
-Kutoka terminali, `omarchy screenshot` hufungua kiwekeleo hicho hicho, na unaweza kuchagua hali yake ya kuanza: `omarchy capture screenshot region`, `windows`, `fullscreen`, au `scroll`. Hoja ya pili ya `copy` au `save` huruka onyesho la kukagua na kutuma picha moja kwa moja hadi lengo hilo. Kuhariri kabla ya kutoa, tumia `omarchy screenshot --editor=overlay` kwa kihariri cha skrini kamili au `omarchy screenshot --editor=window` kwa dirisha tofauti.
+Kutoka terminali, `lunaos screenshot` hufungua kiwekeleo hicho hicho, na unaweza kuchagua hali yake ya kuanza: `lunaos capture screenshot region`, `windows`, `fullscreen`, au `scroll`. Hoja ya pili ya `copy` au `save` huruka onyesho la kukagua na kutuma picha moja kwa moja hadi lengo hilo. Kuhariri kabla ya kutoa, tumia `lunaos screenshot --editor=overlay` kwa kihariri cha skrini kamili au `lunaos screenshot --editor=window` kwa dirisha tofauti.
 
 ### Kuendesha kichaguzi kutoka kibodi
 
@@ -40,9 +40,9 @@ Ufungaji huu upo tu wakati Omasnap iko wazi, hivyo hauwezi kugongana na chochote
 
 ## Kurekodi skrini
 
-`Alt + Print Screen` hufungua _Anzisha > Nasa > Rekodi skrini_, ambayo huuliza unataka nini kwenye sauti: bila sauti, sauti ya eneo-kazi, eneo-kazi pamoja na maikrofoni, au eneo-kazi pamoja na maikrofoni pamoja na kamera ya wavuti. Hiyo ya mwisho huonekana tu ikiwa kweli una kamera iliyochomekwa. Chagua moja na kichaguzi cha kurekodi cha Omarchy hukuruhusu kuburuta eneo au kubofya dirisha au skrini.
+`Alt + Print Screen` hufungua _Anzisha > Nasa > Rekodi skrini_, ambayo huuliza unataka nini kwenye sauti: bila sauti, sauti ya eneo-kazi, eneo-kazi pamoja na maikrofoni, au eneo-kazi pamoja na maikrofoni pamoja na kamera ya wavuti. Hiyo ya mwisho huonekana tu ikiwa kweli una kamera iliyochomekwa. Chagua moja na kichaguzi cha kurekodi cha LunaOS hukuruhusu kuburuta eneo au kubofya dirisha au skrini.
 
-Kurekodi hufanya kazi kwenye gpu-screen-recorder, ambayo husimba kwenye GPU katika 60fps na hurudi kwenye CPU ikilazimika. Matokeo ni MP4 katika `~/Videos`, inayoitwa `screenrecording-2026-08-13_14-22-05.mp4`. Weka `OMARCHY_SCREENRECORD_DIR` kubadilisha hiyo — lakini kumbuka kwamba tofauti na saraka ya picha za skrini, hii lazima iwepo tayari, vinginevyo rekodi hukataa kuanza.
+Kurekodi hufanya kazi kwenye gpu-screen-recorder, ambayo husimba kwenye GPU katika 60fps na hurudi kwenye CPU ikilazimika. Matokeo ni MP4 katika `~/Videos`, inayoitwa `screenrecording-2026-08-13_14-22-05.mp4`. Weka `LUNAOS_SCREENRECORD_DIR` kubadilisha hiyo — lakini kumbuka kwamba tofauti na saraka ya picha za skrini, hii lazima iwepo tayari, vinginevyo rekodi hukataa kuanza.
 
 Unaporegodi, kiashiria kidogo huonekana kwenye upau. Bofya kusimamisha. Unaweza pia kusimamisha kwa `Alt + Print Screen` tena, au kwa ingizo la _Acha Kurekodi Skrini_ chini ya _Anzisha > Nasa > Rekodi skrini_, ambalo huonekana tu wakati kitu kweli kinaregodiwa.
 
@@ -59,7 +59,7 @@ Unaporegodi na kamera ya wavuti, kamera huonekana kama dirisha la picha lililoba
 
 Kuna ukubwa tatu — mdogo, wa kati, na mkubwa — na mikato ya vitufe hupitia kati yake. Wa kati ndio chaguomsingi. Ni sawia na rekodi, hivyo kamera huchukua sehemu sawa ya fremu uwe unarekodi skrini ya 1080p au ya 6K. Na ikiwa ulirekodi eneo badala ya skrini yote, kiwekeleo hutia nanga kwenye kona ya eneo hilo badala ya ya skrini, hivyo hubaki ndani ya picha.
 
-Unaweza pia kuiita moja kwa moja kwa `omarchy-capture-webcam-resize small`, au `reset` kurudi wa kati.
+Unaweza pia kuiita moja kwa moja kwa `lunaos-capture-webcam-resize small`, au `reset` kurudi wa kati.
 
 ## Maandishi, misimbo ya QR, na rangi
 
@@ -75,7 +75,7 @@ Rekodi ya skrini ya 4K au HEIC mbichi kutoka simu yako mara nyingi ni kubwa sana
 
 Picha huenda jpg au png katika juu, kati, au chini, ambazo hupunguza upana kuwa pikseli 3160, 2160, na 1080. Video huenda mp4 au gif ya uhuishaji katika 4k, 1080p, au 720p. Faili iliyobadilishwa huandikwa karibu na asili na azimio katika jina — `demo-1080p.mp4` — na njia hunakiliwa kwenye ubao wa kunakili kama URI ya faili, hivyo unaweza kuibandika moja kwa moja katika programu inayochukua kudondosha faili.
 
-Inafanya kazi kutoka terminali pia, ukijua tayari unachotaka: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Kuna pia `omarchy transcode ascii`, ambayo hubadilisha picha kuwa sanaa ya ASCII — hiyo ni zaidi kwa [utambulisho](41-branding.md).
+Inafanya kazi kutoka terminali pia, ukijua tayari unachotaka: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Kuna pia `lunaos transcode ascii`, ambayo hubadilisha picha kuwa sanaa ya ASCII — hiyo ni zaidi kwa [utambulisho](41-branding.md).
 
 ## Kuituma mahali fulani
 

@@ -1,8 +1,8 @@
 # Nazoratsiz oʻrnatishlar
 
-Omarchy ISO klaviaturada hech kim boʻlmasa ham oʻzini oʻrnata oladi. Agar oʻrnatuvchi konfiguratsiya fayllarini olib yuruvchi `cidata` deb etiketlangan ikkinchi drayvni topsa, ularni nusxalab oladi, sozlash ustasini butunlay oʻtkazib yuboradi va oʻzi yopilgan tizimga qayta yuklanadi. Maxsus ISO qurilishi yoʻq, qoʻshimcha yuklash menyusi yozuvi yoʻq — bunday drayv biriktirilmagan boʻlsa, hech narsa oʻzgarmaydi va siz oddiy ustani olasiz.
+LunaOS ISO klaviaturada hech kim boʻlmasa ham oʻzini oʻrnata oladi. Agar oʻrnatuvchi konfiguratsiya fayllarini olib yuruvchi `cidata` deb etiketlangan ikkinchi drayvni topsa, ularni nusxalab oladi, sozlash ustasini butunlay oʻtkazib yuboradi va oʻzi yopilgan tizimga qayta yuklanadi. Maxsus ISO qurilishi yoʻq, qoʻshimcha yuklash menyusi yozuvi yoʻq — bunday drayv biriktirilmagan boʻlsa, hech narsa oʻzgarmaydi va siz oddiy ustani olasiz.
 
-Bu Omarchy ni bir martalik dev muhitlari uchun asosiy tasvir sifatida ajoyib qiladi: Proxmox da yoki Packer bilan VM yarating, uni yuklang, keting, SSH kiring. `cidata` cloud-init `NoCloud` etiketi, shuning uchun barcha keng tarqalgan virtualizatsiya vositalari allaqachon bunday drayvni qanday biriktirishni biladi.
+Bu LunaOS ni bir martalik dev muhitlari uchun asosiy tasvir sifatida ajoyib qiladi: Proxmox da yoki Packer bilan VM yarating, uni yuklang, keting, SSH kiring. `cidata` cloud-init `NoCloud` etiketi, shuning uchun barcha keng tarqalgan virtualizatsiya vositalari allaqachon bunday drayvni qanday biriktirishni biladi.
 
 ## Konfiguratsiya fayllari
 
@@ -24,7 +24,7 @@ Siz shuningdek `user_credentials.json` oʻrniga `defer-provisioning` deb nomlang
 
 ## SSH kirish
 
-`authorized_keys` mavjud boʻlganda, oʻrnatish kalitlarni foydalanuvchining `~/.ssh/authorized_keys` sifatida sozlaydi, `sshd` ni yoqadi va u uchun firewallni ochadi. (Birja Omarchy oʻrnatishi xizmat oʻchirilgan va port yopiq holatda openssh ni joʻnatadi, shuning uchun nazoratsiz mashina boshqacha boʻlmaganda yetib boʻlmaydigan boʻlardi.) Oʻrnatish faqat kalitlaringizni qoʻshadi — u SSH demonining boshqa autentifikatsiya sozlamalaridan hech birini yumshatmaydi.
+`authorized_keys` mavjud boʻlganda, oʻrnatish kalitlarni foydalanuvchining `~/.ssh/authorized_keys` sifatida sozlaydi, `sshd` ni yoqadi va u uchun firewallni ochadi. (Birja LunaOS oʻrnatishi xizmat oʻchirilgan va port yopiq holatda openssh ni joʻnatadi, shuning uchun nazoratsiz mashina boshqacha boʻlmaganda yetib boʻlmaydigan boʻlardi.) Oʻrnatish faqat kalitlaringizni qoʻshadi — u SSH demonining boshqa autentifikatsiya sozlamalaridan hech birini yumshatmaydi.
 
 `tailscale_authkey` mavjud boʻlganda, mashina uning oʻrniga birinchi yuklashda tarmogʻingizga qoʻshiladi: Tailscale ISO ning birlashtirilgan paketlaridan oʻrnatiladi, firewall tailnet interfeysiga ruxsat beradi va orqa fon ishi mashina aslida tarmoqqa ega boʻlishi bilanoq qoʻshilishni ishlatadi, muvaffaqiyatli boʻlguncha qayta urinib koʻradi. Bitta drayv tasviri koʻp mashinlarga xizmat qila olishi uchun qayta ishlatiladigan, oldindan avtorizatsiya qilingan kalitdan foydalaning.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Keyin uni Omarchy ISO bilan birga VM ga biriktiring. Mana toʻliq Proxmox misoli:
+Keyin uni LunaOS ISO bilan birga VM ga biriktiring. Mana toʻliq Proxmox misoli:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

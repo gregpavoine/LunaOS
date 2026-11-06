@@ -7,10 +7,10 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 test_tmp=$(mktemp -d)
 trap 'rm -rf "$test_tmp"' EXIT
 
-check=omarchy_security_require_privileged_bash_startup
-printf '#!/bin/bash -p\nsource "%s"\n%s && ( %s )\n' "$ROOT/bin/omarchy-security-functions" "$check" "$check" >"$test_tmp/entrypoint"
+check=lunaos_security_require_privileged_bash_startup
+printf '#!/bin/bash -p\nsource "%s"\n%s && ( %s )\n' "$ROOT/bin/lunaos-security-functions" "$check" "$check" >"$test_tmp/entrypoint"
 # Privileged mode turned on after startup: the mode is set, the proof is not.
-printf 'set -p\nsource "%s"\n%s\n' "$ROOT/bin/omarchy-security-functions" "$check" >"$test_tmp/late"
+printf 'set -p\nsource "%s"\n%s\n' "$ROOT/bin/lunaos-security-functions" "$check" >"$test_tmp/late"
 chmod +x "$test_tmp/entrypoint"
 
 "$test_tmp/entrypoint" || fail "a script started as bash -p passes the startup check, from a subshell too"

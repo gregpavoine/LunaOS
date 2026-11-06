@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Name=X
-Exec=omarchy-launch-webapp https://x.com/
+Exec=lunaos-launch-webapp https://x.com/
 StartupWMClass=chrome-x.com__-Default
 Terminal=false
 Type=Application

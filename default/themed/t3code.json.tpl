@@ -1,5 +1,5 @@
 {
-  "name": "Omarchy",
+  "name": "LunaOS",
   "appearance": "{{ mode }}",
   "canvas": "{{ background }}",
   "accent": "{{ accent }}",

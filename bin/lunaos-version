@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# lunaos:summary=Print the installed LunaOS version
+
+lunaos_path=${LUNAOS_PATH:-/usr/share/lunaos}
+lunaos_path=${lunaos_path%/}
+
+if [[ $lunaos_path != "/usr/share/lunaos" ]]; then
+  hash=$(git -C "$lunaos_path" rev-parse --short HEAD 2>/dev/null || true)
+
+  if [[ -n $hash ]]; then
+    echo "dev ($hash)"
+  else
+    echo "dev"
+  fi
+
+  exit 0
+fi
+
+# The edge channel installs lunaos-dev instead of lunaos, so check both.
+for package in lunaos-dev lunaos; do
+  version=$(pacman -Q "$package" 2>/dev/null | awk '{ print $2 }')
+  [[ -n $version ]] && break
+done
+
+[[ -n $version ]] || exit 1
+
+echo "$version"

@@ -1,8 +1,8 @@
 # Terminal
 
-Ang [Foot](https://codeberg.org/dnkl/foot) ang default na terminal para sa Omarchy. Mabilis ito, magaan, at tugma kahit sa mga lumang computer. Hindi nito, gayunpaman, sinusuportahan ang mga native na tab o split.
+Ang [Foot](https://codeberg.org/dnkl/foot) ang default na terminal para sa LunaOS. Mabilis ito, magaan, at tugma kahit sa mga lumang computer. Hindi nito, gayunpaman, sinusuportahan ang mga native na tab o split.
 
-Kung gumagamit ka ng Tmux, maaaring hindi mo ito alintanain, ngunit kung hindi, ganap naming sinusuportahan ang _Alacritty_, _Ghostty_, at _Kitty_ bilang mga opsyon din. Piliin ang iyong kagustuhan sa ilalim ng _I-install > Terminal_ sa menu ng Omarchy.
+Kung gumagamit ka ng Tmux, maaaring hindi mo ito alintanain, ngunit kung hindi, ganap naming sinusuportahan ang _Alacritty_, _Ghostty_, at _Kitty_ bilang mga opsyon din. Piliin ang iyong kagustuhan sa ilalim ng _I-install > Terminal_ sa menu ng LunaOS.
 
 Nagsisimula ka ng bagong terminal gamit ang `Super + Return`. (Awtomatikong tuturo ang binding na ito sa anumang Terminal na na-install mo sa pamamagitan ng _I-install > Terminal_, at maaari kang lumipat sa pagitan ng mga naka-install na terminal sa ilalim ng _Pag-setup > Mga Default > Terminal_.)
 
@@ -12,11 +12,11 @@ Nagbibigay ang Tmux ng isang pare-pareho, programmable na interface para sa mga 
 
 Nagsisimula ka ng bagong session ng Tmux sa isang bagong terminal gamit ang `Super + Alt + Return`, at dahil ang Tmux ay isang persistent na proseso, maaari mong ipagpatuloy ang iyong session kahit isara mo ang terminal na iyon. Pindutin lang ang `Ctrl + Space` (tinatawag na prefix key) pagkatapos ang `s` para makita ang lahat ng iyong aktibong session.
 
-Ang Omarchy ay ipinapadala na may ergonomically-optimized na configuration ng Tmux, na maraming keybinding na matututunan, kaya panatilihing madaling maabot ang [cheatsheet](07-hotkeys.md#tmux).
+Ang LunaOS ay ipinapadala na may ergonomically-optimized na configuration ng Tmux, na maraming keybinding na matututunan, kaya panatilihing madaling maabot ang [cheatsheet](07-hotkeys.md#tmux).
 
 ## Mga function ng layout ng Tmux
 
-Dahil programmable ang Tmux, maaari tayong gumamit ng mga function para gumawa ng mga layout. Ang Omarchy ay ipinapadala na may apat na magkakaibang function para sa mga karaniwang layout ng developer.
+Dahil programmable ang Tmux, maaari tayong gumamit ng mga function para gumawa ng mga layout. Ang LunaOS ay ipinapadala na may apat na magkakaibang function para sa mga karaniwang layout ng developer.
 
 Ang `tdl [agent]` ay nagsisimula ng isang three-way split na istilong IDE na interface na may `$EDITOR` sa kaliwa, ang iyong napiling AI agent sa kanan (tulad ng `c` para sa opencode o `cx` para sa Claude o `codex` para sa OpenAI), at pagkatapos ay isang terminal sa ibaba.
 

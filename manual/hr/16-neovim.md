@@ -6,7 +6,7 @@ Ako ste posve novi u uređivanju u vim stilu, preporučujem da pogledate [ThePri
 
 Sada je Neovim u osnovi beskonačno podesiv. Ako doista želite poludjeti, možete izraditi vlastitu konfiguraciju Neovima od nule. Postoji sjajan tečaj od [Typecrafta o postavljanju Neovima od nule](https://www.youtube.com/watch?v=zHTeCSVAFNY). A [ThePrimeagen također ima jedan](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Ali Omarchy dolazi s cjelovitim postavkama Neovima — paketom `omarchy-nvim` — pomno podešenim da pokaže najbolje od onoga što je moguće odmah iz kutije. Bez da morate napisati ijedan redak konfiguracije! Izgrađen je na [LazyVimu](https://www.lazyvim.org/), distribuciji dodataka i konfiguracija za Neovim. Sjajan je.
+Ali LunaOS dolazi s cjelovitim postavkama Neovima — paketom `omarchy-nvim` — pomno podešenim da pokaže najbolje od onoga što je moguće odmah iz kutije. Bez da morate napisati ijedan redak konfiguracije! Izgrađen je na [LazyVimu](https://www.lazyvim.org/), distribuciji dodataka i konfiguracija za Neovim. Sjajan je.
 
 ## Osnove LazyVima
 

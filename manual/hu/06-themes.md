@@ -1,8 +1,8 @@
 # Témák
 
-Az Omarchy huszonkét gyönyörű témával érkezik. Közülük az Omarchy menüben (`Super + Space`) a _Stílus > Téma_ pontból választhatsz, vagy a `Super + Ctrl + Shift + Space` kombinációval egyenesen a témaválasztóhoz ugorhatsz.
+Az LunaOS huszonkét gyönyörű témával érkezik. Közülük az LunaOS menüben (`Super + Space`) a _Stílus > Téma_ pontból választhatsz, vagy a `Super + Ctrl + Shift + Space` kombinációval egyenesen a témaválasztóhoz ugorhatsz.
 
-Minden téma formázza az asztalt, a terminált, a neovimet, az activity képernyőt (btop), a Chromiumot és a teljes Omarchy shellt: a felső sávot, a menüt, az értesítéseket, az OSD-t és a zárolási képernyőt. (Az Obsidian esetén az alkalmazáson belül az _Appearance > Themes_ pontban kézzel kell kiválasztanod az Omarchy témát).
+Minden téma formázza az asztalt, a terminált, a neovimet, az activity képernyőt (btop), a Chromiumot és a teljes LunaOS shellt: a felső sávot, a menüt, az értesítéseket, az OSD-t és a zárolási képernyőt. (Az Obsidian esetén az alkalmazáson belül az _Appearance > Themes_ pontban kézzel kell kiválasztanod az LunaOS témát).
 
 A témáknak háttérképek készlete is van, amelyek között a `Super + Ctrl + Space` kombinációval választhatsz.
 

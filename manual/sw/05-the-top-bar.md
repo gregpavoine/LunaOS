@@ -1,14 +1,14 @@
 # Upau wa Juu
 
-Ukanda wa juu wa skrini yako ndio upau wa Omarchy. Si upau wa hali uliobanwa bali ni sehemu ya shell ya Omarchy, mchakato mmoja wa muda mrefu wa Quickshell unaochora pia menyu, arifa, ibukia za OSD, na skrini ya kufunga. Ndiyo sababu huweka mandhari kikamilifu na kila kitu kingine na kwa nini paneli hufunguka mara moja badala ya kuzaa programu mpya.
+Ukanda wa juu wa skrini yako ndio upau wa LunaOS. Si upau wa hali uliobanwa bali ni sehemu ya shell ya LunaOS, mchakato mmoja wa muda mrefu wa Quickshell unaochora pia menyu, arifa, ibukia za OSD, na skrini ya kufunga. Ndiyo sababu huweka mandhari kikamilifu na kila kitu kingine na kwa nini paneli hufunguka mara moja badala ya kuzaa programu mpya.
 
 Pia ndicho kipande kimoja cha eneo-kazi kinachokuwa kwenye skrini daima, kwa hiyo inafaa kujua glifu hizo ndogo zote hufanya nini.
 
 ## Kilichopo kwa chaguomsingi
 
-Upau una sehemu tatu. Kushoto hukaa nembo ya Omarchy (kizinduzi cha menyu) na viashiria vya nafasi ya kazi. Katikati unapata viashiria vya hali, saa, Elsewhen (saa ya dunia), hali ya hewa, na beji ya sasisho la Omarchy. Kulia: umbo la kibodi (zaidi ya moja ikisanidiwa), trei ya mfumo, maajenti, bluetooth, mtandao, sauti, skrini, na nguvu.
+Upau una sehemu tatu. Kushoto hukaa nembo ya LunaOS (kizinduzi cha menyu) na viashiria vya nafasi ya kazi. Katikati unapata viashiria vya hali, saa, Elsewhen (saa ya dunia), hali ya hewa, na beji ya sasisho la LunaOS. Kulia: umbo la kibodi (zaidi ya moja ikisanidiwa), trei ya mfumo, maajenti, bluetooth, mtandao, sauti, skrini, na nguvu.
 
-Baadhi ya hizo huonekana tu zinapokuwa na cha kusema. Umbo la kibodi huonekana tu ikiwa umesanidi zaidi ya umbo moja. Beji ya sasisho huonekana tu kuna sasisho la Omarchy linalongoja. Na aikoni ya maajenti huonekana mara ya kwanza Omarchy inapopata matumizi ya usimbaji wa AI kwenye mashine (tazama [AI](17-ai.md)).
+Baadhi ya hizo huonekana tu zinapokuwa na cha kusema. Umbo la kibodi huonekana tu ikiwa umesanidi zaidi ya umbo moja. Beji ya sasisho huonekana tu kuna sasisho la LunaOS linalongoja. Na aikoni ya maajenti huonekana mara ya kwanza LunaOS inapopata matumizi ya usimbaji wa AI kwenye mashine (tazama [AI](17-ai.md)).
 
 ## Kubofya huku na huko
 
@@ -16,7 +16,7 @@ Karibu kila wijeti hufanya kitu kwa kubofya kushoto, kulia, na katikati, na kadh
 
 | Wijeti | Kushoto | Kulia | Katikati / kusogeza |
 | --- | --- | --- | --- |
-| Menyu | Menyu ya Omarchy | Terminali mpya | — |
+| Menyu | Menyu ya LunaOS | Terminali mpya | — |
 | Nafasi za kazi | Zingatia nafasi hiyo ya kazi | — | Kusogeza: nafasi ya kazi inayofuata/ilitangulia |
 | Saa | Kalenda ibukia | Badilisha umbizo la lebo | Katikati: kichaguzi cha eneo la saa |
 | Hali ya hewa | Utabiri ibukia | Hali ya hewa kamili kama arifa | Katikati: onyesha upya |
@@ -29,7 +29,7 @@ Karibu kila wijeti hufanya kitu kwa kubofya kushoto, kulia, na katikati, na kadh
 | Vyombo | Cheza/sitisha | Picha ya jalada ibukia | Katikati: inayofuata · kusogeza: ilitangulia/inayofuata |
 | Maajenti | Paneli ya maajenti | Zindua ajenti wako | Katikati: usajili unaofuata |
 | Trei | Elea kufungua droo | Kulia kwenye chevron kudhibiti | — |
-| Sasisho la Omarchy | Endesha sasisho | — | — |
+| Sasisho la LunaOS | Endesha sasisho | — | — |
 
 Si kila kitu katika jedwali hilo kiko kwenye upau wako mara moja. Wijeti ya vyombo (MPRIS inayocheza sasa, na wimbo na msanii vinavyosogeza) na wijeti ya maikrofoni zote mbili zimejengwa ndani lakini zimezimwa kwa chaguomsingi — ziongeze ukizitaka, kama ilivyoelezwa hapa chini.
 
@@ -65,7 +65,7 @@ Kila paneli huchukua kibodi pamoja na kipanya: mishale husogeza, Return huamsha,
 
 Wijeti mbili zaidi huonekana kwenye upau mara tu unaposakinisha huduma inayolingana kutoka **Sakinisha → Huduma**, na zote mbili zinafaa kujulikana kwa sababu hufanya zaidi ya kuripoti hali.
 
-Paneli ya **Tailscale** huunganisha na kutenganisha tailnet, hubadilisha kati ya akaunti, na huchagua nodi ya kutoka (mashine zako mwenyewe na maeneo ya Mullvad yote huonekana katika orodha hiyo). Pia huvinjari mashine zako — na moja ikichaguliwa, `s` hutuma faili kwake kupitia Taildrop, ambayo ndiyo njia ya haraka zaidi ya kusogeza faili kwenda simu yako au kompyuta mpakato nyingine. `c` hunakili IP ya mashine, `n` jina lake, na `d` jina lake kamili la DNS. Kuna kitufe cha kutuma kwenye kila safu ya mashine pia, ikiwa unapendelea kubofya. Jambo hilo hilo kutoka terminali ni `omarchy tailscale send <machine> [file...]`.
+Paneli ya **Tailscale** huunganisha na kutenganisha tailnet, hubadilisha kati ya akaunti, na huchagua nodi ya kutoka (mashine zako mwenyewe na maeneo ya Mullvad yote huonekana katika orodha hiyo). Pia huvinjari mashine zako — na moja ikichaguliwa, `s` hutuma faili kwake kupitia Taildrop, ambayo ndiyo njia ya haraka zaidi ya kusogeza faili kwenda simu yako au kompyuta mpakato nyingine. `c` hunakili IP ya mashine, `n` jina lake, na `d` jina lake kamili la DNS. Kuna kitufe cha kutuma kwenye kila safu ya mashine pia, ikiwa unapendelea kubofya. Jambo hilo hilo kutoka terminali ni `lunaos tailscale send <machine> [file...]`.
 
 Paneli ya **Dropbox** hushughulikia kuingia, huonyesha hifadhi kiasi gani umetumia, na huorodhesha faili zilizosawazishwa hivi karibuni.
 
@@ -90,19 +90,19 @@ Ikiwa unapendelea kuchagua kutoka menyu, **Anzisha → Muonekano → Upau wa men
 Mambo hayo hayo yana amri, ambayo ndiyo unayoitaka kwa usanidi wa [dotfiles](31-dotfiles.md):
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Kuongeza au kuondoa wijeti kabisa, tumia amri za programu-jalizi. `omarchy plugin list` huchapisha kila wijeti ambayo shell inajua na kitambulisho chake, na kisha:
+Kuongeza au kuondoa wijeti kabisa, tumia amri za programu-jalizi. `lunaos plugin list` huchapisha kila wijeti ambayo shell inajua na kitambulisho chake, na kisha:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Kuficha upau
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Faili ya usanidi
 
-Yote huhifadhiwa katika `~/.config/omarchy/shell.json`, chini ya ufunguo `bar`. Hapa kuna toleo lililopunguzwa:
+Yote huhifadhiwa katika `~/.config/lunaos/shell.json`, chini ya ufunguo `bar`. Hapa kuna toleo lililopunguzwa:
 
 ```json
 {
@@ -119,20 +119,20 @@ Yote huhifadhiwa katika `~/.config/omarchy/shell.json`, chini ya ufunguo `bar`. 
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Kila wijeti ni ingizo moja katika moja ya safu tatu za mpangilio, na mipangilio yake hukaa ndani ya mstari kwenye ingizo hilo — hakuna faili tofauti ya mipangilio na hakuna kitu kidogo cha `config`. `format` ya saa, `formatAlt` (kile ambacho kubofya kulia hubadilisha kwenda), na `verticalFormat` yote huishi pale pale kwenye `{ "id": "omarchy.clock" }`.
+Kila wijeti ni ingizo moja katika moja ya safu tatu za mpangilio, na mipangilio yake hukaa ndani ya mstari kwenye ingizo hilo — hakuna faili tofauti ya mipangilio na hakuna kitu kidogo cha `config`. `format` ya saa, `formatAlt` (kile ambacho kubofya kulia hubadilisha kwenda), na `verticalFormat` yote huishi pale pale kwenye `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` hutaja wijeti moja ya katikati inayobanwa kwenye katikati kamili ya skrini, na nyingine kuizunguka. Hivyo ndivyo saa inavyobaki katikati kabisa hata hali ya hewa na beji ya sasisho vinapokuja na kuondoka. Iweke kuwa mfuatano tupu na orodha ya katikati huwekwa katikati tu kama kundi badala yake.
 
-Kanuni moja inayofaa kuingiza ndani: **ukishakuwa na `shell.json` yako mwenyewe, ni rasmi**. Hadi ubinafsishe chochote, shell husoma faili chaguomsingi ya Omarchy. Wakati unapoburuta wijeti, kuendesha `omarchy bar`, au kuhariri faili mwenyewe, unakuwa mmiliki wake — hakuna uunganishaji wa kina, hivyo wijeti mpya chaguomsingi katika matoleo ya baadaye ya Omarchy hazitaonekana kwenye upau wako kiotomatiki. `omarchy bar defaults` hurejesha mpangilio uliotumwa wakati wowote unapotaka ukurasa safi.
+Kanuni moja inayofaa kuingiza ndani: **ukishakuwa na `shell.json` yako mwenyewe, ni rasmi**. Hadi ubinafsishe chochote, shell husoma faili chaguomsingi ya LunaOS. Wakati unapoburuta wijeti, kuendesha `lunaos bar`, au kuhariri faili mwenyewe, unakuwa mmiliki wake — hakuna uunganishaji wa kina, hivyo wijeti mpya chaguomsingi katika matoleo ya baadaye ya LunaOS hazitaonekana kwenye upau wako kiotomatiki. `lunaos bar defaults` hurejesha mpangilio uliotumwa wakati wowote unapotaka ukurasa safi.
 
 Faili hiyo hiyo pia huhifadhi nyakati zako za uvivu katika kiwango cha juu, nje ya ufunguo `bar`: `idle.screensaver` na `idle.lock`, zote katika sekunde tangu ulipokuwa mvivu. Kwa hiyo kiokozi cha skrini chaguomsingi huanza katika sekunde 150 na kufunga katika 300.

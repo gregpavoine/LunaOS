@@ -1,6 +1,6 @@
 # Prompt
 
-Omarchy liefert standardmäßig einen minimalen [Starship](https://starship.rs/)-Prompt. So mag ich meinen Prompt. Ich muss den Benutzer nicht wissen, weil ich es immer bin, und ich muss die Zeit nicht wissen, weil sie immer oben steht.
+LunaOS liefert standardmäßig einen minimalen [Starship](https://starship.rs/)-Prompt. So mag ich meinen Prompt. Ich muss den Benutzer nicht wissen, weil ich es immer bin, und ich muss die Zeit nicht wissen, weil sie immer oben steht.
 
  ![prompt](images/prompt.webp)
 

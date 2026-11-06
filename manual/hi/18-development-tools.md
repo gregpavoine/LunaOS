@@ -2,7 +2,7 @@
 
 ## वैकल्पिक संपादक
 
-Omarchy डिफ़ॉल्ट रूप से [Neovim](https://neovim.io/) के साथ आता है, लेकिन अगर आप कुछ अधिक मुख्यधारा का और परिचित चाहते हैं, तो आप Omarchy मेनू (`Super + Space`) चला सकते हैं और _Install > Editor_ के अंतर्गत विकल्प देख सकते हैं। वहाँ VSCode, Cursor, Zed, Sublime Text, Helix, Vim और Emacs सूचीबद्ध हैं। अगर आपको वह नहीं मिलता जो आप खोज रहे हैं, तो _Install > Package_ देखें और देखें कि क्या यह किसी Arch पैकेज में नहीं है (और अगर नहीं है, तो AUR की जाँच के लिए _Install > AUR_ आज़माएँ)।
+LunaOS डिफ़ॉल्ट रूप से [Neovim](https://neovim.io/) के साथ आता है, लेकिन अगर आप कुछ अधिक मुख्यधारा का और परिचित चाहते हैं, तो आप LunaOS मेनू (`Super + Space`) चला सकते हैं और _Install > Editor_ के अंतर्गत विकल्प देख सकते हैं। वहाँ VSCode, Cursor, Zed, Sublime Text, Helix, Vim और Emacs सूचीबद्ध हैं। अगर आपको वह नहीं मिलता जो आप खोज रहे हैं, तो _Install > Package_ देखें और देखें कि क्या यह किसी Arch पैकेज में नहीं है (और अगर नहीं है, तो AUR की जाँच के लिए _Install > AUR_ आज़माएँ)।
 
 मूल `vi` संपादक भी बॉक्स से बाहर उपलब्ध है। टर्मिनल में किसी फ़ाइल को संपादित करने के लिए `vi filename` चलाएँ।
 
@@ -12,7 +12,7 @@ Omarchy डिफ़ॉल्ट रूप से [Neovim](https://neovim.io/) �
 
 ## Environment
 
-Omarchy, Omarchy मेनू (`Super + Space`) के _Install > Development_ अनुभाग के माध्यम से कई डेवलपमेंट Environment स्थापित करने का समर्थन करता है। आपको निश्चित रूप से _Ruby on Rails_ मिलेगा, लेकिन JavaScript के सभी तीन प्रमुख रनटाइम (Node.js, Bun, Deno) भी मिलेंगे, साथ ही Laravel और Symfony जैसे लोकप्रिय PHP फ़्रेमवर्क भी। ओह, और Go, Rust, Python, Java, Elixir (Phoenix के साथ), .NET, OCaml, Zig, Clojure और Scala भी हैं। यह एक बहुत व्यापक चयन है!
+LunaOS, LunaOS मेनू (`Super + Space`) के _Install > Development_ अनुभाग के माध्यम से कई डेवलपमेंट Environment स्थापित करने का समर्थन करता है। आपको निश्चित रूप से _Ruby on Rails_ मिलेगा, लेकिन JavaScript के सभी तीन प्रमुख रनटाइम (Node.js, Bun, Deno) भी मिलेंगे, साथ ही Laravel और Symfony जैसे लोकप्रिय PHP फ़्रेमवर्क भी। ओह, और Go, Rust, Python, Java, Elixir (Phoenix के साथ), .NET, OCaml, Zig, Clojure और Scala भी हैं। यह एक बहुत व्यापक चयन है!
 
 इनमें से अधिकांश Environment [Mise](https://mise.jdx.dev/) द्वारा प्रबंधित किए जाते हैं। यह एक ऐसा टूल है जो आपको एक ही मशीन पर किसी प्रोग्रामिंग भाषा के कई संस्करण इंस्टॉल करने और चलाने देता है। यह Ruby के लिए rbenv या rvm या Python के लिए virtualenv जैसा है, लेकिन यह कई अलग-अलग Environment के लिए काम करता है।
 
@@ -20,11 +20,11 @@ Omarchy, Omarchy मेनू (`Super + Space`) के _Install > Development_ �
 
 ## Docker
 
-[Docker](https://www.docker.com/) को शायद ही किसी परिचय की आवश्यकता है। यह आपको अलग-थलग कंटेनर चलाने देता है, और Omarchy इसे अच्छी तरह चलाने के लिए आवश्यक सब कुछ इंस्टॉल करता है, जिसमें Docker स्वयं और [Docker Compose](https://docs.docker.com/compose/) शामिल हैं।
+[Docker](https://www.docker.com/) को शायद ही किसी परिचय की आवश्यकता है। यह आपको अलग-थलग कंटेनर चलाने देता है, और LunaOS इसे अच्छी तरह चलाने के लिए आवश्यक सब कुछ इंस्टॉल करता है, जिसमें Docker स्वयं और [Docker Compose](https://docs.docker.com/compose/) शामिल हैं।
 
-डिफ़ॉल्ट रूप से आपका उपयोगकर्ता `docker` समूह में *नहीं* है। वह समूह व्यावहारिक रूप से पासवर्ड रहित root है — इसमें कुछ भी `docker run -v /:/host` कर सकता है और मशीन पर क़ब्ज़ा कर सकता है — इसलिए आपके रूप में चलने वाली एक भटकी हुई स्क्रिप्ट या डिपेंडेंसी अन्यथा root से एक कमांड दूर होती। इसलिए कमांड लाइन पर आप Docker को `sudo` के साथ चलाते हैं (`sudo docker ps`, `sudo docker compose up`), और डेमॉन से बात करने वाले ग्राफ़िकल टूल — Windows VM — आवश्यकता पड़ने पर प्राधिकरण माँगते हैं। अगर आप समूह-रहित सेटअप की सुविधा वापस चाहते हैं और समझौते को समझते हैं, तो इसे **Setup > Security > Sudoless Docker** से सक्षम करें (या `omarchy-setup-security-sudoless-docker` चलाएँ), जो चेतावनी के बाद आपको `docker` समूह में जोड़ देता है; फिर सादा `docker` और `d` उपनाम `sudo` के बिना फिर से काम करते हैं।
+डिफ़ॉल्ट रूप से आपका उपयोगकर्ता `docker` समूह में *नहीं* है। वह समूह व्यावहारिक रूप से पासवर्ड रहित root है — इसमें कुछ भी `docker run -v /:/host` कर सकता है और मशीन पर क़ब्ज़ा कर सकता है — इसलिए आपके रूप में चलने वाली एक भटकी हुई स्क्रिप्ट या डिपेंडेंसी अन्यथा root से एक कमांड दूर होती। इसलिए कमांड लाइन पर आप Docker को `sudo` के साथ चलाते हैं (`sudo docker ps`, `sudo docker compose up`), और डेमॉन से बात करने वाले ग्राफ़िकल टूल — Windows VM — आवश्यकता पड़ने पर प्राधिकरण माँगते हैं। अगर आप समूह-रहित सेटअप की सुविधा वापस चाहते हैं और समझौते को समझते हैं, तो इसे **Setup > Security > Sudoless Docker** से सक्षम करें (या `lunaos-setup-security-sudoless-docker` चलाएँ), जो चेतावनी के बाद आपको `docker` समूह में जोड़ देता है; फिर सादा `docker` और `d` उपनाम `sudo` के बिना फिर से काम करते हैं।
 
-आप Omarchy मेनू में _Install > Development > Docker DB_ का उपयोग करके Docker में स्थानीय डेवलपमेंट के लिए सामान्य डेटाबेस स्थापित कर सकते हैं।
+आप LunaOS मेनू में _Install > Development > Docker DB_ का उपयोग करके Docker में स्थानीय डेवलपमेंट के लिए सामान्य डेटाबेस स्थापित कर सकते हैं।
 
 ## GitHub CLI
 

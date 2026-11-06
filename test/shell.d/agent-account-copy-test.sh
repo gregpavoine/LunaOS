@@ -9,14 +9,14 @@ require_command jq
 test_tmp=$(mktemp -d)
 trap 'rm -rf "$test_tmp"' EXIT
 mkdir -p "$test_tmp/bin"
-cat >"$test_tmp/bin/omarchy-agent-usage-update" <<'SH'
+cat >"$test_tmp/bin/lunaos-agent-usage-update" <<'SH'
 #!/bin/bash
-printf '%s\n' "$*" >>"$OMARCHY_TEST_REFRESH"
+printf '%s\n' "$*" >>"$LUNAOS_TEST_REFRESH"
 SH
 chmod +x "$test_tmp/bin"/*
-export OMARCHY_PATH="$ROOT"
-export OMARCHY_TEST_ROOT="$test_tmp"
-export OMARCHY_TEST_REFRESH="$test_tmp/refresh"
+export LUNAOS_PATH="$ROOT"
+export LUNAOS_TEST_ROOT="$test_tmp"
+export LUNAOS_TEST_REFRESH="$test_tmp/refresh"
 export PATH="$test_tmp/bin:$ROOT/bin:$PATH"
 unset CLAUDE_CONFIG_DIR CODEX_HOME GROK_HOME
 
@@ -24,12 +24,12 @@ python3 - <<'PY'
 import base64, contextlib, copy, ctypes, importlib.machinery, importlib.util, io, json, os, subprocess, sys
 from pathlib import Path
 
-loader = importlib.machinery.SourceFileLoader("transfer", str(Path(os.environ["OMARCHY_PATH"]) / "bin/omarchy-agent-account-transfer"))
+loader = importlib.machinery.SourceFileLoader("transfer", str(Path(os.environ["LUNAOS_PATH"]) / "bin/lunaos-agent-account-transfer"))
 spec = importlib.util.spec_from_loader(loader.name, loader)
 transfer = importlib.util.module_from_spec(spec)
 loader.exec_module(transfer)
 state = transfer.accounts
-root = Path(os.environ["OMARCHY_TEST_ROOT"])
+root = Path(os.environ["LUNAOS_TEST_ROOT"])
 
 def machine(name):
   os.environ["HOME"] = str(root / name)
@@ -154,7 +154,7 @@ finally:
   child.wait()
 
 # A pinned primary session is detected even with an unrelated process name.
-child_env = dict(os.environ, OMARCHY_AGENT_CLAUDE_HOME="")
+child_env = dict(os.environ, LUNAOS_AGENT_CLAUDE_HOME="")
 child = subprocess.Popen([sys.executable, "-c", 'import time; print("ready",flush=True); time.sleep(30)'], env=child_env, stdout=subprocess.PIPE, text=True)
 try:
   assert child.stdout.readline().strip() == "ready"
@@ -165,7 +165,7 @@ finally:
 
 # Native release names and interpreter-hosted CLIs are also recognized.
 child_env = dict(os.environ)
-for key in ["OMARCHY_AGENT_CLAUDE_HOME", "OMARCHY_AGENT_CODEX_HOME", "CLAUDE_CONFIG_DIR", "CODEX_HOME"]:
+for key in ["LUNAOS_AGENT_CLAUDE_HOME", "LUNAOS_AGENT_CODEX_HOME", "CLAUDE_CONFIG_DIR", "CODEX_HOME"]:
   child_env.pop(key, None)
 release = root / "codex-x86_64-release"
 release.symlink_to(sys.executable)
@@ -196,7 +196,7 @@ transfer.write_json(Path.home() / ".claude.json", {"mcpServers": {"local": "inte
 code = """
 import importlib.machinery, importlib.util, json, os, sys
 from pathlib import Path
-loader = importlib.machinery.SourceFileLoader("transfer", str(Path(os.environ["OMARCHY_PATH"]) / "bin/omarchy-agent-account-transfer"))
+loader = importlib.machinery.SourceFileLoader("transfer", str(Path(os.environ["LUNAOS_PATH"]) / "bin/lunaos-agent-account-transfer"))
 spec = importlib.util.spec_from_loader(loader.name, loader)
 transfer = importlib.util.module_from_spec(spec)
 loader.exec_module(transfer)
@@ -273,17 +273,17 @@ assert state.load("claude")["switch"] == "manual" and state.load("claude")["thre
 # An older installed receiver lacks name synchronization. Use the destination's
 # own backend for the new receiver so additional registry fields survive.
 machine("newer-backend")
-backend_root = root / "newer-omarchy"
+backend_root = root / "newer-lunaos"
 (backend_root / "bin").mkdir(parents=True)
-backend_source = (Path(os.environ["OMARCHY_PATH"]) / "bin/omarchy-agent-account-state").read_text()
+backend_source = (Path(os.environ["LUNAOS_PATH"]) / "bin/lunaos-agent-account-state").read_text()
 backend_source = backend_source.replace('return {"active": "main",', 'return {"futureSetting": "keep", "active": "main",')
-(backend_root / "bin/omarchy-agent-account-state").write_text(backend_source)
+(backend_root / "bin/lunaos-agent-account-state").write_text(backend_source)
 old_receiver = root / "old-receiver-bin"
 old_receiver.mkdir()
-command = old_receiver / "omarchy-agent-account-transfer"
+command = old_receiver / "lunaos-agent-account-transfer"
 command.write_text("#!/bin/bash\nexit 1\n")
 command.chmod(0o755)
-child_env = dict(os.environ, OMARCHY_PATH=str(backend_root), PATH=str(old_receiver) + ":" + str(root / "bin"))
+child_env = dict(os.environ, LUNAOS_PATH=str(backend_root), PATH=str(old_receiver) + ":" + str(root / "bin"))
 bundle = {"version": 1, "backend": "raise RuntimeError('sender backend must not run')", "receiver": Path(transfer.__file__).read_text(), "accounts": payload}
 result = subprocess.run(["/usr/bin/python3", "-I", "-c", transfer.RECEIVER_BOOTSTRAP], input=json.dumps(bundle), text=True, capture_output=True, env=child_env)
 assert result.returncode == 0, result.stderr
@@ -292,7 +292,7 @@ assert state.read_json(state.registry_path("claude"))["futureSetting"] == "keep"
 # A missing optional refresh command must not undo a completed import.
 machine("no-updater")
 no_updater_env = dict(os.environ, PATH="")
-bundle["backend"] = (Path(os.environ["OMARCHY_PATH"]) / "bin/omarchy-agent-account-state").read_text()
+bundle["backend"] = (Path(os.environ["LUNAOS_PATH"]) / "bin/lunaos-agent-account-state").read_text()
 result = subprocess.run(["/usr/bin/python3", "-I", "-c", transfer.RECEIVER_BOOTSTRAP], input=json.dumps(bundle), text=True, capture_output=True, env=no_updater_env)
 assert result.returncode == 0, result.stderr
 assert "usage refresh could not start" in result.stderr
@@ -330,9 +330,9 @@ pass "account transfer copies all providers, rebuilds homes, preserves settings,
 
 cat >"$test_tmp/bin/ssh" <<'SH'
 #!/bin/bash
-printf '%s\n' "$@" >"$OMARCHY_TEST_ROOT/ssh-args"
+printf '%s\n' "$@" >"$LUNAOS_TEST_ROOT/ssh-args"
 [[ $1 == "-T" && $2 == "--" && $3 == "user@remote" ]] || exit 99
-exec env HOME="$OMARCHY_TEST_ROOT/ssh-destination" XDG_STATE_HOME="$OMARCHY_TEST_ROOT/ssh-destination/state" python3 "$OMARCHY_TEST_ROOT/run-receiver.py" "$4"
+exec env HOME="$LUNAOS_TEST_ROOT/ssh-destination" XDG_STATE_HOME="$LUNAOS_TEST_ROOT/ssh-destination/state" python3 "$LUNAOS_TEST_ROOT/run-receiver.py" "$4"
 SH
 # Model an old destination with no transfer command or backend on PATH.
 # Decode the login-shell command without sourcing the developer's profiles.
@@ -340,15 +340,15 @@ cat >"$test_tmp/run-receiver.py" <<'PYRECEIVER'
 import os, shlex, subprocess, sys
 outer = shlex.split(sys.argv[1])
 assert outer[:5] == ["/bin/bash", "--noprofile", "--norc", "-p", "-c"]
-prefix = ". /etc/profile.d/omarchy.sh 2>/dev/null; exec "
+prefix = ". /etc/profile.d/lunaos.sh 2>/dev/null; exec "
 assert outer[5].startswith(prefix)
 inner = shlex.split(outer[5][len(prefix):])
 assert inner[:3] == ["/usr/bin/python3", "-I", "-c"]
 assert "fake-personal" not in sys.argv[1]
-os.environ.pop("OMARCHY_PATH", None)
+os.environ.pop("LUNAOS_PATH", None)
 # Only the preexisting usage updater remains available on the destination.
-os.environ["PATH"] = os.environ["OMARCHY_TEST_ROOT"] + "/bin"
-os.environ["BASH_ENV"] = os.environ["OMARCHY_TEST_ROOT"] + "/bash-env"
+os.environ["PATH"] = os.environ["LUNAOS_TEST_ROOT"] + "/bin"
+os.environ["BASH_ENV"] = os.environ["LUNAOS_TEST_ROOT"] + "/bash-env"
 os.chdir(os.environ["HOME"])
 # Test actual shell isolation, without loading this machine's system profile.
 outer[5] = "exec " + outer[5][len(prefix):]
@@ -362,42 +362,42 @@ exit 99
 SH
 printf 'raise RuntimeError("unexpected home module")\n' >"$test_tmp/ssh-destination/json.py"
 # The mock SSH receiver sets BASH_ENV; the sender keeps its normal environment.
-HOME="$test_tmp/source" XDG_STATE_HOME="$test_tmp/source/state" omarchy-agent-account-copy user@remote claude >"$test_tmp/copy-output"
+HOME="$test_tmp/source" XDG_STATE_HOME="$test_tmp/source/state" lunaos-agent-account-copy user@remote claude >"$test_tmp/copy-output"
 [[ $(sed -n '4p' "$test_tmp/ssh-args") == "/bin/bash --noprofile --norc -p -c "* ]] || fail "SSH invokes an isolated receiver shell"
-[[ $(jq '.accounts | length' "$test_tmp/ssh-destination/state/omarchy/agents/accounts/claude.json") == 3 ]] || fail "SSH copy imports all three Claude subscriptions"
+[[ $(jq '.accounts | length' "$test_tmp/ssh-destination/state/lunaos/agents/accounts/claude.json") == 3 ]] || fail "SSH copy imports all three Claude subscriptions"
 [[ $(cat "$test_tmp/copy-output") != *fake-* ]] || fail "copy output contains no tokens"
-[[ ! -e $test_tmp/ssh-destination/state/omarchy/agents/accounts/codex.json ]] || fail "provider selection excludes other subscriptions"
+[[ ! -e $test_tmp/ssh-destination/state/lunaos/agents/accounts/codex.json ]] || fail "provider selection excludes other subscriptions"
 pass "SSH streams selected accounts to the receiver without exposing tokens"
 
-HOME="$test_tmp/source" XDG_STATE_HOME="$test_tmp/source/state" omarchy-agent-account-copy --replace user@remote claude >"$test_tmp/replace-output"
+HOME="$test_tmp/source" XDG_STATE_HOME="$test_tmp/source/state" lunaos-agent-account-copy --replace user@remote claude >"$test_tmp/replace-output"
 [[ $(cat "$test_tmp/ssh-args") == *"--replace"* ]] || fail "replacement requires an explicit option"
 pass "SSH copy forwards explicit replacement"
 
 rm -f "$test_tmp/ssh-args"
-if HOME="$test_tmp/source" XDG_STATE_HOME="$test_tmp/source/state" omarchy-agent-account-copy user@remote unknown >"$test_tmp/bad-output" 2>&1; then
+if HOME="$test_tmp/source" XDG_STATE_HOME="$test_tmp/source/state" lunaos-agent-account-copy user@remote unknown >"$test_tmp/bad-output" 2>&1; then
   fail "invalid providers fail before SSH"
 fi
 [[ ! -e $test_tmp/ssh-args ]] || fail "invalid providers do not start SSH"
 pass "invalid providers do not start SSH"
 
-HOME="$test_tmp/source" XDG_STATE_HOME="$test_tmp/source/state" omarchy-agent-account-copy user@remote --replace claude >"$test_tmp/replace-after-output"
+HOME="$test_tmp/source" XDG_STATE_HOME="$test_tmp/source/state" lunaos-agent-account-copy user@remote --replace claude >"$test_tmp/replace-after-output"
 [[ $(cat "$test_tmp/ssh-args") == *"--replace"* ]] || fail "replacement can appear after the host"
 pass "replacement can appear after the host"
 
 # Prefer an installed destination receiver rather than an older bundled backend.
-cat >"$test_tmp/bin/omarchy-agent-account-transfer" <<'SH'
+cat >"$test_tmp/bin/lunaos-agent-account-transfer" <<'SH'
 #!/bin/bash
 if [[ $1 == "capabilities" ]]; then
   printf '{"streamVersion":1,"sourceNames":true}\n'
   exit 0
 fi
-printf '%s\n' "$*" >"$OMARCHY_TEST_ROOT/preferred-receiver"
+printf '%s\n' "$*" >"$LUNAOS_TEST_ROOT/preferred-receiver"
 /usr/bin/python3 -c 'import json,sys; assert json.load(sys.stdin)["version"] == 1'
 SH
-chmod +x "$test_tmp/bin/omarchy-agent-account-transfer"
-HOME="$test_tmp/source" XDG_STATE_HOME="$test_tmp/source/state" "$ROOT/bin/omarchy-agent-account-transfer" bundle claude | /usr/bin/python3 -I -c "$(HOME="$test_tmp/source" XDG_STATE_HOME="$test_tmp/source/state" /usr/bin/python3 - <<'PYBOOT'
+chmod +x "$test_tmp/bin/lunaos-agent-account-transfer"
+HOME="$test_tmp/source" XDG_STATE_HOME="$test_tmp/source/state" "$ROOT/bin/lunaos-agent-account-transfer" bundle claude | /usr/bin/python3 -I -c "$(HOME="$test_tmp/source" XDG_STATE_HOME="$test_tmp/source/state" /usr/bin/python3 - <<'PYBOOT'
 import importlib.machinery, importlib.util, os
-loader=importlib.machinery.SourceFileLoader("transfer",os.environ["OMARCHY_PATH"]+"/bin/omarchy-agent-account-transfer")
+loader=importlib.machinery.SourceFileLoader("transfer",os.environ["LUNAOS_PATH"]+"/bin/lunaos-agent-account-transfer")
 spec=importlib.util.spec_from_loader(loader.name,loader)
 m=importlib.util.module_from_spec(spec);loader.exec_module(m)
 print(m.RECEIVER_BOOTSTRAP)

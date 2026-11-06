@@ -14,7 +14,7 @@ Pomoću prečaca za obavijesti možete brzo pristupiti datumu i vremenu, statusu
 
  ![notice-weather](images/notice-weather.webp)
 
-Lokacija se otkriva iz vaše IP adrese, što je obično dovoljno blizu, ali ne uvijek. Možete je preciznije odrediti s `omarchy weather location --set Malibu` ili biti posve precizni dodavanjem koordinata: `omarchy weather location --set Malibu 34.0259,-118.7798`. Pokrenite samo `omarchy weather location` da vidite gdje misli da se nalazite, a `--clear` za povratak na automatsko otkrivanje.
+Lokacija se otkriva iz vaše IP adrese, što je obično dovoljno blizu, ali ne uvijek. Možete je preciznije odrediti s `lunaos weather location --set Malibu` ili biti posve precizni dodavanjem koordinata: `lunaos weather location --set Malibu 34.0259,-118.7798`. Pokrenite samo `lunaos weather location` da vidite gdje misli da se nalazite, a `--clear` za povratak na automatsko otkrivanje.
 
 ### Baterija
 

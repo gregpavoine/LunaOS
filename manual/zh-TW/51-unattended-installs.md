@@ -1,8 +1,8 @@
 # 無人值守安裝
 
-Omarchy ISO 可以在無人在鍵盤旁的情況下自行完成安裝。如果安裝程式找到一顆標籤為 `cidata`、攜帶其設定檔的第二磁碟，它就會把設定檔複製出來，完全跳過設定精靈，並自己重新開機進入完成的系統。不需要特殊建置的 ISO，也不需要額外的開機選單項目——沒有接上這類磁碟時，一切照舊，你會得到一般的精靈流程。
+LunaOS ISO 可以在無人在鍵盤旁的情況下自行完成安裝。如果安裝程式找到一顆標籤為 `cidata`、攜帶其設定檔的第二磁碟，它就會把設定檔複製出來，完全跳過設定精靈，並自己重新開機進入完成的系統。不需要特殊建置的 ISO，也不需要額外的開機選單項目——沒有接上這類磁碟時，一切照舊，你會得到一般的精靈流程。
 
-這讓 Omarchy 非常適合作為拋棄式開發環境的基礎映像：在 Proxmox 中或用 Packer 建立一台 VM，開機，轉身離開，再用 SSH 連進去。`cidata` 是 cloud-init 的 `NoCloud` 標籤，所以所有常見的虛擬化工具都已經知道如何掛接這種磁碟。
+這讓 LunaOS 非常適合作為拋棄式開發環境的基礎映像：在 Proxmox 中或用 Packer 建立一台 VM，開機，轉身離開，再用 SSH 連進去。`cidata` 是 cloud-init 的 `NoCloud` 標籤，所以所有常見的虛擬化工具都已經知道如何掛接這種磁碟。
 
 ## 設定檔案
 
@@ -24,7 +24,7 @@ Omarchy ISO 可以在無人在鍵盤旁的情況下自行完成安裝。如果�
 
 ## SSH 存取
 
-當 `authorized_keys` 存在時，安裝會把這些金鑰設定為使用者的 `~/.ssh/authorized_keys`，啟用 `sshd`，並為它開啟防火牆。（原版 Omarchy 安裝置有 openssh，但服務停用、連接埠關閉，所以無人值守的機器否則會連不進來。）安裝只會加入你的金鑰——它不會放寬 SSH 守護程式其他任何驗證設定。
+當 `authorized_keys` 存在時，安裝會把這些金鑰設定為使用者的 `~/.ssh/authorized_keys`，啟用 `sshd`，並為它開啟防火牆。（原版 LunaOS 安裝置有 openssh，但服務停用、連接埠關閉，所以無人值守的機器否則會連不進來。）安裝只會加入你的金鑰——它不會放寬 SSH 守護程式其他任何驗證設定。
 
 當 `tailscale_authkey` 存在時，機器改為在首次開機時加入你的 tailnet：Tailscale 會從 ISO 內附的套件安裝，防火牆會允許 tailnet 介面，而一個背景工作會在機器真正連上網路後立刻執行加入動作，並持續重試直到成功。使用一把可重複使用、預先授權的金鑰，這樣一份磁碟映像就能服務許多台機器。
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-然後把它連同 Omarchy ISO 一起掛接給 VM。以下是一個完整的 Proxmox 範例：
+然後把它連同 LunaOS ISO 一起掛接給 VM。以下是一個完整的 Proxmox 範例：
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

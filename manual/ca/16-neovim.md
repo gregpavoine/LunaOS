@@ -6,7 +6,7 @@ Si sou completament nous en l'edició estil vim, us recomano que feu un cop d'ul
 
 Ara bé, Neovim és bàsicament infinitament configurable. Si realment voleu tornar-vos bojos, podeu crear la vostra pròpia configuració de Neovim des de zero. Hi ha un curs fantàstic de [Typecraft on setting up Neovim from scratch](https://www.youtube.com/watch?v=zHTeCSVAFNY). I [ThePrimeagen també en té un](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Però Omarchy ve amb una configuració completa de Neovim — el paquet `omarchy-nvim` — que s'ha ajustat amb estima per mostrar el millor del que és possible de sèrie. Sense que hàgiu d'escriure ni una sola línia de configuració! Està construït sobre [LazyVim](https://www.lazyvim.org/), una distribució de complements i configuracions de Neovim. És impressionant.
+Però LunaOS ve amb una configuració completa de Neovim — el paquet `omarchy-nvim` — que s'ha ajustat amb estima per mostrar el millor del que és possible de sèrie. Sense que hàgiu d'escriure ni una sola línia de configuració! Està construït sobre [LazyVim](https://www.lazyvim.org/), una distribució de complements i configuracions de Neovim. És impressionant.
 
 ## Fonaments de LazyVim
 

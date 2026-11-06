@@ -21,7 +21,7 @@ Urejevalnik obvestil lahko riše puščice, črte, oblike, osvetlitve, označene
 
 Shranjeni posnetki zaslona pristanejo privzeto v `~/Pictures/Screenshots` z imenom, kot je `screenshot-2026-08-13_14-22-05-firefox.png`. Nastavite `OMASNAP_SCREENSHOT_DIR`, da uporabite drug imenik — glejte [FAQ](46-faq.md), kam postaviti okoljske spremenljivke seje. Omasnap imenik ustvari, ko shrani prvi posnetek. V `~/.config/omasnap/omasnap.conf` nastavite `[output] autosave = false`, da onemogočite samodejno shranjevanje.
 
-Iz terminala `omarchy screenshot` odpre enako prekrivanje, izberete pa lahko njegov začetni način: `omarchy capture screenshot region`, `windows`, `fullscreen` ali `scroll`. Drugi argument `copy` ali `save` preskoči predogled in posnetek pošlje naravnost na ta cilj. Za urejanje pred izhodom uporabite `omarchy screenshot --editor=overlay` za celozaslonski urejevalnik ali `omarchy screenshot --editor=window` za ločeno okno.
+Iz terminala `lunaos screenshot` odpre enako prekrivanje, izberete pa lahko njegov začetni način: `lunaos capture screenshot region`, `windows`, `fullscreen` ali `scroll`. Drugi argument `copy` ali `save` preskoči predogled in posnetek pošlje naravnost na ta cilj. Za urejanje pred izhodom uporabite `lunaos screenshot --editor=overlay` za celozaslonski urejevalnik ali `lunaos screenshot --editor=window` za ločeno okno.
 
 ### Vodenje izbirnika s tipkovnico
 
@@ -40,9 +40,9 @@ Te vezave obstajajo le, medtem ko je Omasnap odprt, zato ne morejo trčiti z ni�
 
 ## Snemanje zaslona
 
-`Alt + Print Screen` odpre _Trigger > Capture > Screenrecord_, ki vpraša, kaj želite imeti na zvočnem posnetku: brez zvoka, zvok namizja, namizje plus mikrofon ali namizje plus mikrofon plus spletna kamera. Zadnja se prikaže le, če imate dejansko priklopljeno kamero. Izberite eno in Omarchyjev izbirnik snemanja vam omogoči, da povlečete območje ali kliknete okno ali zaslon.
+`Alt + Print Screen` odpre _Trigger > Capture > Screenrecord_, ki vpraša, kaj želite imeti na zvočnem posnetku: brez zvoka, zvok namizja, namizje plus mikrofon ali namizje plus mikrofon plus spletna kamera. Zadnja se prikaže le, če imate dejansko priklopljeno kamero. Izberite eno in LunaOSjev izbirnik snemanja vam omogoči, da povlečete območje ali kliknete okno ali zaslon.
 
-Snemanje teče na gpu-screen-recorderju, ki kodira na GPU pri 60 fps in pade nazaj na CPU, če mora. Rezultat je MP4 v `~/Videos` z imenom `screenrecording-2026-08-13_14-22-05.mp4`. To spremenite z `OMARCHY_SCREENRECORD_DIR` — vendar upoštevajte, da mora za razliko od imenika za posnetke zaslona ta že obstajati, sicer snemanje noče začeti.
+Snemanje teče na gpu-screen-recorderju, ki kodira na GPU pri 60 fps in pade nazaj na CPU, če mora. Rezultat je MP4 v `~/Videos` z imenom `screenrecording-2026-08-13_14-22-05.mp4`. To spremenite z `LUNAOS_SCREENRECORD_DIR` — vendar upoštevajte, da mora za razliko od imenika za posnetke zaslona ta že obstajati, sicer snemanje noče začeti.
 
 Med snemanjem se v vrstici pojavi majhen kazalnik. Kliknite ga, da ustavite. Ustavite lahko tudi z vnovičnim `Alt + Print Screen` ali z vnosom _Stop Screenrecording_ pod _Trigger > Capture > Screenrecord_, ki se pojavi le, medtem ko se nekaj dejansko snema.
 
@@ -59,7 +59,7 @@ Ko snemate s spletno kamero, se kamera pojavi kot pripeto, obrezano portretno ok
 
 Obstajajo tri velikosti — majhna, srednja in velika — in bližnjice stopajo med njimi. Srednja je privzeta. So sorazmerne s posnetkom, tako da kamera zasede enak delež okvirja, ne glede na to, ali snemate 1080p zaslon ali 6K zaslon. In če ste posneli območje in ne celotnega zaslona, se prekrivanje sidra na vogal tega območja in ne na vogal zaslona, tako da ostane znotraj posnetka.
 
-Pokličete ga lahko tudi neposredno z `omarchy-capture-webcam-resize small` ali `reset`, da se vrnete na srednjo.
+Pokličete ga lahko tudi neposredno z `lunaos-capture-webcam-resize small` ali `reset`, da se vrnete na srednjo.
 
 ## Besedila, kode QR in barve
 
@@ -75,7 +75,7 @@ Posnetek zaslona 4K ali surovi HEIC iz telefona je pogosto prevelik, da bi ga ka
 
 Slike gredo v jpg ali png pri visoki, srednji ali nizki kakovosti, ki širino omejijo na 3160, 2160 in 1080 slikovnih pik. Videi gredo v mp4 ali animirani gif pri 4k, 1080p ali 720p. Pretvorjena datoteka se zapiše poleg izvirnika z ločljivostjo v imenu — `demo-1080p.mp4` — pot pa se kopira v odložišče kot URI datoteke, tako da jo lahko prilepite neposredno v aplikacijo, ki sprejema puščanje datotek.
 
-Deluje tudi iz terminala, če že veste, kaj želite: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Tu je tudi `omarchy transcode ascii`, ki sliko spremeni v umetnost ASCII — ta je večinoma za [blagovno znamko](41-branding.md).
+Deluje tudi iz terminala, če že veste, kaj želite: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Tu je tudi `lunaos transcode ascii`, ki sliko spremeni v umetnost ASCII — ta je večinoma za [blagovno znamko](41-branding.md).
 
 ## Pošiljanje nekam
 

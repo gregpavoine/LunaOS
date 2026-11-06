@@ -1,8 +1,8 @@
 # Mavzular
 
-Omarchy yigirma ikkita goʻzal mavzu bilan keladi. Ular orasida Omarchy menyusidagi (`Super + Space`) _Uslub > Mavzu_ orqali tanlashingiz yoki `Super + Ctrl + Shift + Space` yordamida toʻgʻridan-toʻgʻri mavzu tanlovchiga sakrashingiz mumkin.
+LunaOS yigirma ikkita goʻzal mavzu bilan keladi. Ular orasida LunaOS menyusidagi (`Super + Space`) _Uslub > Mavzu_ orqali tanlashingiz yoki `Super + Ctrl + Shift + Space` yordamida toʻgʻridan-toʻgʻri mavzu tanlovchiga sakrashingiz mumkin.
 
-Har bir mavzu ish stoli, terminal, neovim, faoliyat ekrani (btop), Chromium va butun Omarchy shellini bezatadi: yuqori panel, menyu, bildirishnomalar, OSD va qulf ekran. (Obsidian uchun siz ilova ichidagi _Koʻrinish > Mavzular_ orqali Omarchy mavzusini qoʻlda tanlashingiz kerak).
+Har bir mavzu ish stoli, terminal, neovim, faoliyat ekrani (btop), Chromium va butun LunaOS shellini bezatadi: yuqori panel, menyu, bildirishnomalar, OSD va qulf ekran. (Obsidian uchun siz ilova ichidagi _Koʻrinish > Mavzular_ orqali LunaOS mavzusini qoʻlda tanlashingiz kerak).
 
 Mavzularning `Super + Ctrl + Space` yordamida tanlash mumkin boʻlgan fon rasmlari toʻplami bor.
 

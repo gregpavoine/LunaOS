@@ -1,13 +1,13 @@
-echo "Move Elsewhen, the world clock, into Omarchy as omarchy.elsewhen"
+echo "Move Elsewhen, the world clock, into LunaOS as lunaos.elsewhen"
 
 # The widget keeps its entry, and with it the cities and settings stored there.
-config_file="$HOME/.config/omarchy/shell.json"
+config_file="$HOME/.config/lunaos/shell.json"
 if [[ -s $config_file ]]; then
   tmp=$(mktemp)
   jq '
     def rename:
-      if . == "omacom.elsewhen" then "omarchy.elsewhen"
-      elif type == "object" and .id == "omacom.elsewhen" then .id = "omarchy.elsewhen"
+      if . == "omacom.elsewhen" then "lunaos.elsewhen"
+      elif type == "object" and .id == "omacom.elsewhen" then .id = "lunaos.elsewhen"
       end;
 
     if (.bar.layout | type) == "object" then .bar.layout |= map_values(if type == "array" then map(rename) end) end
@@ -20,11 +20,11 @@ fi
 
 # Dev checkouts found the packaged plugin through this link; one the user made
 # elsewhere is left alone.
-user_plugin="$HOME/.config/omarchy/plugins/omacom.elsewhen"
-if [[ -L $user_plugin && $(readlink "$user_plugin") == /usr/share/omarchy/* ]]; then
+user_plugin="$HOME/.config/lunaos/plugins/omacom.elsewhen"
+if [[ -L $user_plugin && $(readlink "$user_plugin") == /usr/share/lunaos/* ]]; then
   rm "$user_plugin"
 fi
 
 rm -rf "${XDG_CACHE_HOME:-$HOME/.cache}/omacom-elsewhen"
 
-omarchy-pkg-drop elsewhen
+lunaos-pkg-drop elsewhen

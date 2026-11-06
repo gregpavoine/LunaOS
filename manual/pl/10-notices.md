@@ -14,7 +14,7 @@ Możesz szybko sprawdzić datę i godzinę, status baterii oraz bieżącą pogod
 
  ![notice-weather](images/notice-weather.webp)
 
-Lokalizacja jest wykrywana z twojego adresu IP, co zwykle wystarcza, ale nie zawsze. Możesz ją doprecyzować przez `omarchy weather location --set Malibu` albo być dokładnym, dodając współrzędne: `omarchy weather location --set Malibu 34.0259,-118.7798`. Uruchom `omarchy weather location` samodzielnie, żeby zobaczyć, gdzie twój system myśli, że jesteś, oraz `--clear`, żeby wrócić do automatycznego wykrywania.
+Lokalizacja jest wykrywana z twojego adresu IP, co zwykle wystarcza, ale nie zawsze. Możesz ją doprecyzować przez `lunaos weather location --set Malibu` albo być dokładnym, dodając współrzędne: `lunaos weather location --set Malibu 34.0259,-118.7798`. Uruchom `lunaos weather location` samodzielnie, żeby zobaczyć, gdzie twój system myśli, że jesteś, oraz `--clear`, żeby wrócić do automatycznego wykrywania.
 
 ### Bateria
 

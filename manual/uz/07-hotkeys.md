@@ -6,7 +6,7 @@ Barcha asosiy klaviatura bogʻlanishlarini `Super + K` bilan koʻrishingiz mumki
 
 | Hotkey                  | Funksiya              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy menyusi (ilovalar va boshqa hamma narsa)    |
+| `Super + Space`           | LunaOS menyusi (ilovalar va boshqa hamma narsa)    |
 | `Super + Alt + Space` | Ilovalar panjarasi |
 | `Super + Escape` | Tizim menyusi (kutish, qayta yuklash va hokazo)  |
 | `Super + Ctrl + L` | Kompyuterni qulflash |
@@ -136,7 +136,7 @@ Bogʻlanishlarni oʻzgartiring/qoʻshing: `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Qoʻyish    |
 | `Super + Ctrl + V`           | Bufer boshqaruvchi    |
 
-Odatda Linuxda terminalda nusxalash va qoʻyish uchun `Ctrl + Shift + C/V`, boshqa hamma joyda esa `Ctrl + C/V` kerak. Ushbu Omarchy yagona bufer hotkeylari hamma joyda ishlaydi.
+Odatda Linuxda terminalda nusxalash va qoʻyish uchun `Ctrl + Shift + C/V`, boshqa hamma joyda esa `Ctrl + C/V` kerak. Ushbu LunaOS yagona bufer hotkeylari hamma joyda ishlaydi.
 
 ## Yozib olish
 
@@ -156,7 +156,7 @@ Odatda Linuxda terminalda nusxalash va qoʻyish uchun `Ctrl + Shift + C/V`, bosh
 
 Ekran yozuvlari bilan hotkey avval qaysi ovozni xohlashingizni soʻraydi, keyin yozishni boshlaydi. Toʻxtatish uchun uni yana bosing. Tafsilotlar uchun [skrinshotlar va yozuv](12-screenshots-recording.md) ga qarang.
 
-Barcha yozib olish variantlari Omarchy menyusidagi (`Super + Space`) _Ishga tushirish > Yozib olish_ ostida ham mavjud.
+Barcha yozib olish variantlari LunaOS menyusidagi (`Super + Space`) _Ishga tushirish > Yozib olish_ ostida ham mavjud.
 
 ## Bildirishnomalar
 
@@ -177,9 +177,9 @@ Barcha yozib olish variantlari Omarchy menyusidagi (`Super + Space`) _Ishga tush
 | `Super + Backspace` | Oynada shaffoflikni almashtirish |
 | `Super + Ctrl + Backspace` | Bitta oyna kvadrat nisbatini almashtirish |
 
-Qoʻshimcha fon rasmlari quyida yashaydi: `~/.config/omarchy/backgrounds/<theme name>`. Omarchy menyusidagi _Oʻrnatish > Uslub > Fon_ orqali ham mavjud.
+Qoʻshimcha fon rasmlari quyida yashaydi: `~/.config/lunaos/backgrounds/<theme name>`. LunaOS menyusidagi _Oʻrnatish > Uslub > Fon_ orqali ham mavjud.
 
-Barcha uslub variantlari Omarchy menyusidagi (`Super + Space`) _Uslub_ ostida ham mavjud.
+Barcha uslub variantlari LunaOS menyusidagi (`Super + Space`) _Uslub_ ostida ham mavjud.
 
 ## Almashtirishlar
 
@@ -281,7 +281,7 @@ Bu funksiyalar Tmux sessiyasi ichida ishga tushirilishi kerak.
 
 ## Ghostty terminali
 
-Ghostty terminali Omarchy menyusi orqali _Oʻrnatish > Terminal_ yordamida oʻrnatiladi.
+Ghostty terminali LunaOS menyusi orqali _Oʻrnatish > Terminal_ yordamida oʻrnatiladi.
 
 | Hotkey                  | Funksiya              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Siz tanlovni buferga qoʻyadigan toʻliq emoji tanlagichni koʻrsatish uchun `Su
 | `Shift + CapsLock Space N` | Ismingiz (sozlashda kiritilganidek)  |
 | `Shift + CapsLock Space E` | Elektron pochtangiz (sozlashda kiritilganidek)  |
 
-Oʻzlaringizdan koʻprogʻini `~/.XCompose` ni tahrirlab, keyin oʻzgarishlar olinishi uchun terminalda `omarchy-restart-xcompose` ni ishga tushirib qoʻshishingiz mumkin.
+Oʻzlaringizdan koʻprogʻini `~/.XCompose` ni tahrirlab, keyin oʻzgarishlar olinishi uchun terminalda `lunaos-restart-xcompose` ni ishga tushirib qoʻshishingiz mumkin.

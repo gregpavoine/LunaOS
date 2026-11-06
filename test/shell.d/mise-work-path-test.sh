@@ -18,7 +18,7 @@ chmod +x "$test_dir/bin/mise"
 env \
   HOME="$install_home" \
   MISE_TEST_LOG="$install_log" \
-  OMARCHY_SETUP_CONTEXT=runtime \
+  LUNAOS_SETUP_CONTEXT=runtime \
   PATH="$test_dir/bin:/usr/bin" \
   bash -euo pipefail -c 'source "$1"' bash "$ROOT/install/user/mise-work.sh"
 

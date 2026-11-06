@@ -4,12 +4,12 @@ set -euo pipefail
 
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
-# omarchy-hw-platform answers with the image-target manifest while a root is
+# lunaos-hw-platform answers with the image-target manifest while a root is
 # being built, and with the hardware once it boots. Each world below is what one
 # detector run sees: image/ is the root, proc/ its /proc (the host's device tree
 # and PID 1), bin/ a uname for the CPU it runs on.
 
-detector="$ROOT/bin/omarchy-hw-platform"
+detector="$ROOT/bin/lunaos-hw-platform"
 umask 022
 test_tmp=$(mktemp -d)
 trap 'rm -rf "$test_tmp"' EXIT
@@ -56,7 +56,7 @@ systemd_runs() {
 
 # $1 world, $2 manifest body.
 manifest() {
-  local image_dir="$test_tmp/worlds/$1/image/var/lib/omarchy/image"
+  local image_dir="$test_tmp/worlds/$1/image/var/lib/lunaos/image"
   mkdir -p "$image_dir"
   chmod 0755 "$image_dir"
   printf '%s' "$2" >"$image_dir/target"
@@ -66,7 +66,7 @@ manifest() {
 in_world() {
   local dir="$test_tmp/worlds/$1"
   shift
-  OMARCHY_PROC_ROOT="$dir/proc" OMARCHY_IMAGE_ROOT="$dir/image" PATH="$dir/bin:$ROOT/bin:$PATH" "$@"
+  LUNAOS_PROC_ROOT="$dir/proc" LUNAOS_IMAGE_ROOT="$dir/image" PATH="$dir/bin:$ROOT/bin:$PATH" "$@"
 }
 
 detect() {
@@ -99,7 +99,7 @@ fi
 if (( EUID == 0 )) || unshare --user --map-root-user true 2>/dev/null; then
   live=$("${root_runner[@]}" "$detector") || fail "root detects the live platform"
   apple_live=0
-  "${root_runner[@]}" "$ROOT/bin/omarchy-hw-aarch64-apple" || apple_live=$?
+  "${root_runner[@]}" "$ROOT/bin/lunaos-hw-aarch64-apple" || apple_live=$?
 
   # A world that would make any environment-led detector answer with another
   # platform than the live one.
@@ -120,15 +120,15 @@ if (( EUID == 0 )) || unshare --user --map-root-user true 2>/dev/null; then
   # BASH_ENV runs before its first line; --clean-environment is what the
   # detector passes itself once it has restarted.
   hostile_env=(
-    OMARCHY_PROC_ROOT="$hostile_dir/proc" OMARCHY_SYS_ROOT="$hostile_dir/sys" OMARCHY_IMAGE_ROOT="$hostile_dir/image"
+    LUNAOS_PROC_ROOT="$hostile_dir/proc" LUNAOS_SYS_ROOT="$hostile_dir/sys" LUNAOS_IMAGE_ROOT="$hostile_dir/image"
     PATH="$hostile_dir/bin:$ROOT/bin:$PATH" BASH_ENV="$test_tmp/bash-env"
     'BASH_FUNC_uname%%=() { echo aarch64; }'
     'BASH_FUNC_mapfile%%=() { tokens=('"${hostile_tokens[0]}"'); }'
     'BASH_FUNC_stat%%=() { echo 0 644; }'
     'BASH_FUNC_dirname%%=() { echo '"$hostile_dir/bin"'; }'
   )
-  printf '#!/bin/bash\necho %s\n' "$hostile" >"$hostile_dir/bin/omarchy-hw-platform"
-  chmod +x "$hostile_dir/bin/omarchy-hw-platform"
+  printf '#!/bin/bash\necho %s\n' "$hostile" >"$hostile_dir/bin/lunaos-hw-platform"
+  chmod +x "$hostile_dir/bin/lunaos-hw-platform"
   for flag in "" --clean-environment; do
     args=()
     [[ -z $flag ]] || args=("$flag")
@@ -139,7 +139,7 @@ if (( EUID == 0 )) || unshare --user --map-root-user true 2>/dev/null; then
 hostile: $overridden"
   done
   apple_hostile=0
-  env "${hostile_env[@]}" "${root_runner[@]}" "$ROOT/bin/omarchy-hw-aarch64-apple" || apple_hostile=$?
+  env "${hostile_env[@]}" "${root_runner[@]}" "$ROOT/bin/lunaos-hw-aarch64-apple" || apple_hostile=$?
   (( apple_hostile == apple_live )) || fail "the Apple predicate ignores a hostile root environment"
   pass "root ignores fixture roots, PATH, BASH_ENV and exported functions"
 else
@@ -159,7 +159,7 @@ if (( EUID != 0 )) && "$test_tmp/init/bash" -c true 2>/dev/null &&
     local fixture=$1 init=$2 owner_file=${3:-}
     unshare --user --map-root-user --mount --pid --fork --mount-proc "$test_tmp/init/$init" -c '
       mount --bind "$1/var/lib" /var/lib && mount --bind "$1/run" /run || exit 99
-      if [[ -n $3 ]]; then mount --bind "$3" /var/lib/omarchy/image/target || exit 99; fi
+      if [[ -n $3 ]]; then mount --bind "$3" /var/lib/lunaos/image/target || exit 99; fi
       "$2"
       status=$?
       exit "$status"
@@ -172,8 +172,8 @@ if (( EUID != 0 )) && "$test_tmp/init/bash" -c true 2>/dev/null &&
   target=aarch64-apple
   [[ $baseline != "aarch64-apple" ]] || target=aarch64
   fixture="$test_tmp/live-root"
-  mkdir -p "$fixture/var/lib/omarchy/image" "$fixture/run"
-  printf 'format=1\nplatform=%s\n' "$target" >"$fixture/var/lib/omarchy/image/target"
+  mkdir -p "$fixture/var/lib/lunaos/image" "$fixture/run"
+  printf 'format=1\nplatform=%s\n' "$target" >"$fixture/var/lib/lunaos/image/target"
 
   expect_live_manifest() {
     local description=$1 actual
@@ -185,7 +185,7 @@ actual:   $actual"
       if live_root "$fixture" bash >/dev/null; then
         fail "$description, and a $target target on $(uname -m) contradicts it"
       fi
-      grep -Fq "/var/lib/omarchy/image/target names $target hardware but the CPU is" "$test_tmp/error" ||
+      grep -Fq "/var/lib/lunaos/image/target names $target hardware but the CPU is" "$test_tmp/error" ||
         fail "$description" "$(cat "$test_tmp/error")"
     fi
     pass "$description"
@@ -339,7 +339,7 @@ expect installer aarch64-apple "a chroot without a manifest uses the hardware"
 world retired aarch64 linux,dummy-virt
 pid1 retired chroot
 manifest retired "$apple_manifest"
-mv "$test_tmp/worlds/retired/image/var/lib/omarchy/image/target" "$test_tmp/worlds/retired/image/var/lib/omarchy/image/target.booted"
+mv "$test_tmp/worlds/retired/image/var/lib/lunaos/image/target" "$test_tmp/worlds/retired/image/var/lib/lunaos/image/target.booted"
 expect retired aarch64 "a retired manifest is not read"
 
 # --- Invalid manifests stop a build -------------------------------------------
@@ -372,32 +372,32 @@ untrusted="is not a root-owned regular file"
 world symlink aarch64
 pid1 symlink chroot
 manifest symlink "$apple_manifest"
-image_dir="$test_tmp/worlds/symlink/image/var/lib/omarchy/image"
+image_dir="$test_tmp/worlds/symlink/image/var/lib/lunaos/image"
 mv "$image_dir/target" "$image_dir/real-target"
 ln -s real-target "$image_dir/target"
 expect_refused symlink "$untrusted" "a symlinked manifest is refused"
 
 world dangling aarch64
 pid1 dangling chroot
-mkdir -p "$test_tmp/worlds/dangling/image/var/lib/omarchy/image"
-ln -s missing "$test_tmp/worlds/dangling/image/var/lib/omarchy/image/target"
+mkdir -p "$test_tmp/worlds/dangling/image/var/lib/lunaos/image"
+ln -s missing "$test_tmp/worlds/dangling/image/var/lib/lunaos/image/target"
 expect_refused dangling "$untrusted" "a dangling manifest symlink is refused"
 
 world directory aarch64
 pid1 directory chroot
-mkdir -p "$test_tmp/worlds/directory/image/var/lib/omarchy/image/target"
+mkdir -p "$test_tmp/worlds/directory/image/var/lib/lunaos/image/target"
 expect_refused directory "$untrusted" "a manifest that is a directory is refused"
 
 world writable aarch64
 pid1 writable chroot
 manifest writable "$apple_manifest"
-chmod 0664 "$test_tmp/worlds/writable/image/var/lib/omarchy/image/target"
+chmod 0664 "$test_tmp/worlds/writable/image/var/lib/lunaos/image/target"
 expect_refused writable "$untrusted" "a group-writable manifest is refused"
 
 world writable-dir aarch64
 pid1 writable-dir chroot
 manifest writable-dir "$apple_manifest"
-chmod 0777 "$test_tmp/worlds/writable-dir/image/var/lib/omarchy/image"
+chmod 0777 "$test_tmp/worlds/writable-dir/image/var/lib/lunaos/image"
 expect_refused writable-dir "$untrusted" "a manifest in a world-writable directory is refused"
 
 # Another owner: a fixture is trusted when the test's own user owns it, so a
@@ -408,7 +408,7 @@ manifest other-owner "$apple_manifest"
 real_stat=$(command -v stat)
 cat >"$test_tmp/worlds/other-owner/bin/stat" <<SH
 #!/bin/bash
-[[ \${!#} == */var/lib/omarchy/image/target ]] && { echo "0 644"; exit 0; }
+[[ \${!#} == */var/lib/lunaos/image/target ]] && { echo "0 644"; exit 0; }
 exec $real_stat "\$@"
 SH
 chmod +x "$test_tmp/worlds/other-owner/bin/stat"
@@ -418,27 +418,27 @@ expect_refused other-owner "$untrusted" "a manifest another user owns is refused
 
 # The Apple predicate of an Apple image built on an x86 host, and of a generic
 # image built on a Mac.
-in_world x86-host "$ROOT/bin/omarchy-hw-aarch64-apple" || fail "the Apple predicate accepts an Apple image build"
-if in_world on-a-mac "$ROOT/bin/omarchy-hw-aarch64-apple"; then
+in_world x86-host "$ROOT/bin/lunaos-hw-aarch64-apple" || fail "the Apple predicate accepts an Apple image build"
+if in_world on-a-mac "$ROOT/bin/lunaos-hw-aarch64-apple"; then
   fail "the Apple predicate rejects a plain aarch64 image built on a Mac"
 fi
 pass "the Apple predicate follows the image target"
 
 # omarchy-mac's packages and units still call the predicate by its old name.
-in_world x86-host "$ROOT/bin/omarchy-hw-apple-silicon" || fail "the old Apple predicate name accepts an Apple image build"
-if in_world on-a-mac "$ROOT/bin/omarchy-hw-apple-silicon"; then
+in_world x86-host "$ROOT/bin/lunaos-hw-apple-silicon" || fail "the old Apple predicate name accepts an Apple image build"
+if in_world on-a-mac "$ROOT/bin/lunaos-hw-apple-silicon"; then
   fail "the old Apple predicate name rejects a plain aarch64 image built on a Mac"
 fi
-pass "the old Apple predicate name answers as omarchy-hw-aarch64-apple"
+pass "the old Apple predicate name answers as lunaos-hw-aarch64-apple"
 
-packages=$(in_world x86-host env OMARCHY_PATH="$ROOT" "$ROOT/bin/omarchy-pkg-defaults") || fail "an Apple image build composes its packages"
-[[ $packages == "$(OMARCHY_PATH="$ROOT" "$ROOT/bin/omarchy-pkg-defaults" aarch64-apple)" ]] ||
+packages=$(in_world x86-host env LUNAOS_PATH="$ROOT" "$ROOT/bin/lunaos-pkg-defaults") || fail "an Apple image build composes its packages"
+[[ $packages == "$(LUNAOS_PATH="$ROOT" "$ROOT/bin/lunaos-pkg-defaults" aarch64-apple)" ]] ||
   fail "an Apple image build installs the Apple Silicon package set"
-packages=$(in_world on-a-mac env OMARCHY_PATH="$ROOT" "$ROOT/bin/omarchy-pkg-defaults") || fail "a plain aarch64 image build composes its packages"
-[[ $packages == "$(OMARCHY_PATH="$ROOT" "$ROOT/bin/omarchy-pkg-defaults" aarch64)" ]] ||
+packages=$(in_world on-a-mac env LUNAOS_PATH="$ROOT" "$ROOT/bin/lunaos-pkg-defaults") || fail "a plain aarch64 image build composes its packages"
+[[ $packages == "$(LUNAOS_PATH="$ROOT" "$ROOT/bin/lunaos-pkg-defaults" aarch64)" ]] ||
   fail "a plain aarch64 image built on a Mac installs the plain aarch64 package set"
-packages=$(in_world odd-host env OMARCHY_PATH="$ROOT" "$ROOT/bin/omarchy-pkg-defaults") || fail "an image built on a contradictory host composes its packages"
-[[ $packages == "$(OMARCHY_PATH="$ROOT" "$ROOT/bin/omarchy-pkg-defaults" aarch64)" ]] ||
+packages=$(in_world odd-host env LUNAOS_PATH="$ROOT" "$ROOT/bin/lunaos-pkg-defaults") || fail "an image built on a contradictory host composes its packages"
+[[ $packages == "$(LUNAOS_PATH="$ROOT" "$ROOT/bin/lunaos-pkg-defaults" aarch64)" ]] ||
   fail "an image built on a contradictory host installs its target's package set"
 pass "the default package set follows the image target"
 
@@ -454,14 +454,14 @@ if (( EUID == 0 )); then
 else
   for platform in x86 aarch64 aarch64-apple aarch64-qualcomm aarch64-n1x aarch64-gb10; do
     image_root="$test_tmp/image-names/$platform"
-    mkdir -p "$image_root/var/lib/omarchy/image"
-    chmod 755 "$image_root/var/lib/omarchy/image"
-    printf 'format=1\nplatform=%s\n' "$platform" >"$image_root/var/lib/omarchy/image/target"
-    chmod 644 "$image_root/var/lib/omarchy/image/target"
+    mkdir -p "$image_root/var/lib/lunaos/image"
+    chmod 755 "$image_root/var/lib/lunaos/image"
+    printf 'format=1\nplatform=%s\n' "$platform" >"$image_root/var/lib/lunaos/image/target"
+    chmod 644 "$image_root/var/lib/lunaos/image/target"
     (
       source "$ROOT/install/helpers/image-target.sh"
-      OMARCHY_IMAGE_ROOT=$image_root
-      omarchy_image_init && omarchy_image_read_manifest && [[ $omarchy_image_platform == "$platform" ]]
+      LUNAOS_IMAGE_ROOT=$image_root
+      lunaos_image_init && lunaos_image_read_manifest && [[ $lunaos_image_platform == "$platform" ]]
     ) 2>"$test_tmp/error" || fail "the image setup reads platform=$platform from a manifest" "$(cat "$test_tmp/error")"
   done
   pass "the image setup reads every platform name"

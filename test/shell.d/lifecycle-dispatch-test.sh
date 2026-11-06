@@ -4,7 +4,7 @@ set -euo pipefail
 
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
-dispatch="$ROOT/bin/omarchy-lifecycle-dispatch"
+dispatch="$ROOT/bin/lunaos-lifecycle-dispatch"
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 
@@ -20,7 +20,7 @@ cp -r "$tmp/aarch64-apple/bin" "$tmp/contradiction/bin"
 
 # A root-owned directory of entrypoints stands in for the boot package; in a
 # fixture root the caller's own files count as root's.
-implementation=usr/lib/omarchy/mac-boot
+implementation=usr/lib/lunaos/mac-boot
 install_implementation() {
   local root=$1 operation
   rm -rf "$root"
@@ -41,7 +41,7 @@ SH
 on() {
   local platform=$1 root=$2
   shift 2
-  OMARCHY_PROC_ROOT="$tmp/$platform/proc" OMARCHY_LIFECYCLE_ROOT="$root" PATH="$tmp/$platform/bin:$PATH" \
+  LUNAOS_PROC_ROOT="$tmp/$platform/proc" LUNAOS_LIFECYCLE_ROOT="$root" PATH="$tmp/$platform/bin:$PATH" \
     "$dispatch" "$@"
 }
 
@@ -152,7 +152,7 @@ chmod o+w "$full/$implementation/provision-commit"
 untrusted "a world-writable entrypoint" provision-commit
 
 install_implementation "$full"
-chmod o+w "$full/usr/lib/omarchy"
+chmod o+w "$full/usr/lib/lunaos"
 untrusted "an entrypoint in a world-writable directory" provision-verify
 
 install_implementation "$full"
@@ -196,7 +196,7 @@ rm -f "$tmp/ran"
 if output=$(cd "$tmp" && on aarch64-apple full provision-commit 2>&1); then
   fail "a relative fixture root is refused"
 fi
-[[ ! -e $tmp/ran && $output == "Error: OMARCHY_LIFECYCLE_ROOT must be an absolute path" ]] ||
+[[ ! -e $tmp/ran && $output == "Error: LUNAOS_LIFECYCLE_ROOT must be an absolute path" ]] ||
   fail "a relative fixture root runs nothing and says why" "$output"
 pass "a relative fixture root is refused"
 
@@ -206,11 +206,11 @@ pass "a relative fixture root is refused"
 if unshare --user --map-root-user true 2>/dev/null; then
   mkdir -p "$tmp/rootbin"
   cp "$dispatch" "$tmp/rootbin/"
-  printf '#!/bin/bash\necho aarch64-apple\n' >"$tmp/rootbin/omarchy-hw-platform"
-  chmod +x "$tmp/rootbin/omarchy-hw-platform"
+  printf '#!/bin/bash\necho aarch64-apple\n' >"$tmp/rootbin/lunaos-hw-platform"
+  chmod +x "$tmp/rootbin/lunaos-hw-platform"
   rm -f "$tmp/ran"
   status=0
-  output=$(OMARCHY_LIFECYCLE_ROOT="$full" unshare --user --map-root-user "$tmp/rootbin/omarchy-lifecycle-dispatch" reset-prepare 2>&1) ||
+  output=$(LUNAOS_LIFECYCLE_ROOT="$full" unshare --user --map-root-user "$tmp/rootbin/lunaos-lifecycle-dispatch" reset-prepare 2>&1) ||
     status=$?
   (( status != 0 )) && [[ ! -e $tmp/ran && $output != *"$tmp"* && $output == *" /usr/lib/omarchy/mac-boot/reset-prepare"* ]] ||
     fail "root ignores a fixture root in its environment" "status $status: $output"
@@ -234,7 +234,7 @@ fi
 # optional everywhere.
 setup_operations=(setup-system setup-user post-install pre-remove enable-fingerprint disable-fingerprint)
 user_operations=(setup-user post-install pre-remove)
-setup_implementation=usr/lib/omarchy/mac
+setup_implementation=usr/lib/lunaos/mac
 install_setup() {
   local root=$1 dir=$2 operation
   mkdir -p "$root/$dir"
@@ -282,18 +282,18 @@ done
 pass "apple: setup and the app-install hooks resolve in omarchy-mac's directory, and are no-ops without omarchy-mac"
 
 session=(CALLER_SECRET=leak HOME=/home/owner USER=owner XDG_RUNTIME_DIR=/run/user/1000 XDG_CONFIG_HOME=/home/owner/.cfg
-  XDG_STATE_HOME=/home/owner/.st XDG_DATA_HOME=/home/owner/.data DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus OMARCHY_PATH=/usr/share/omarchy)
+  XDG_STATE_HOME=/home/owner/.st XDG_DATA_HOME=/home/owner/.data DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus LUNAOS_PATH=/usr/share/lunaos)
 rm -f "$tmp/ran"
-env -u WAYLAND_DISPLAY "${session[@]}" OMARCHY_PROC_ROOT="$tmp/aarch64-apple/proc" OMARCHY_LIFECYCLE_ROOT="$with_mac" \
+env -u WAYLAND_DISPLAY "${session[@]}" LUNAOS_PROC_ROOT="$tmp/aarch64-apple/proc" LUNAOS_LIFECYCLE_ROOT="$with_mac" \
   PATH="$tmp/aarch64-apple/bin:$PATH" "$dispatch" setup-system image-first-boot || fail "apple: setup-system runs"
 [[ $(cat "$tmp/ran") == "setup-system image-first-boot" ]] || fail "apple: setup-system gets its argument" "$(cat "$tmp/ran")"
 [[ $(grep -Ev '^(_|PWD|OLDPWD|SHLVL)=' "$tmp/env" | sort) == "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin" ]] ||
   fail "apple: setup-system gets PATH alone" "$(cat "$tmp/env")"
-expected=$(printf '%s\n' DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus HOME=/home/owner OMARCHY_PATH=/usr/share/omarchy \
+expected=$(printf '%s\n' DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus HOME=/home/owner LUNAOS_PATH=/usr/share/lunaos \
   PATH=/usr/local/sbin:/usr/local/bin:/usr/bin USER=owner XDG_CONFIG_HOME=/home/owner/.cfg XDG_RUNTIME_DIR=/run/user/1000 XDG_STATE_HOME=/home/owner/.st)
 for invocation in "setup-user" "post-install steam" "pre-remove steam"; do
   rm -f "$tmp/ran"
-  env -u WAYLAND_DISPLAY "${session[@]}" OMARCHY_PROC_ROOT="$tmp/aarch64-apple/proc" OMARCHY_LIFECYCLE_ROOT="$with_mac" \
+  env -u WAYLAND_DISPLAY "${session[@]}" LUNAOS_PROC_ROOT="$tmp/aarch64-apple/proc" LUNAOS_LIFECYCLE_ROOT="$with_mac" \
     PATH="$tmp/aarch64-apple/bin:$PATH" "$dispatch" $invocation || fail "apple: $invocation runs"
   [[ $(cat "$tmp/ran") == "$invocation" ]] || fail "apple: $invocation runs its entrypoint with its argument" "$(cat "$tmp/ran")"
   [[ $(grep -Ev '^(_|PWD|OLDPWD|SHLVL)=' "$tmp/env" | sort) == "$expected" ]] ||
@@ -323,14 +323,14 @@ if unshare --user --map-root-user true 2>/dev/null; then
   for platform in aarch64-apple x86 aarch64; do
     mkdir -p "$tmp/root-$platform"
     cp "$dispatch" "$tmp/root-$platform/"
-    printf '#!/bin/bash\necho %s\n' "$platform" >"$tmp/root-$platform/omarchy-hw-platform"
-    chmod +x "$tmp/root-$platform/omarchy-hw-platform"
+    printf '#!/bin/bash\necho %s\n' "$platform" >"$tmp/root-$platform/lunaos-hw-platform"
+    chmod +x "$tmp/root-$platform/lunaos-hw-platform"
     for operation in "${user_operations[@]}"; do
       for arguments in "$operation" "--resolve $operation" "$operation steam"; do
         rm -f "$tmp/ran"
         status=0
-        output=$(OMARCHY_LIFECYCLE_ROOT="$with_mac" unshare --user --map-root-user \
-          "$tmp/root-$platform/omarchy-lifecycle-dispatch" $arguments 2>&1) || status=$?
+        output=$(LUNAOS_LIFECYCLE_ROOT="$with_mac" unshare --user --map-root-user \
+          "$tmp/root-$platform/lunaos-lifecycle-dispatch" $arguments 2>&1) || status=$?
         [[ ! -e $tmp/ran ]] || fail "$platform: root never runs '$arguments'"
         if [[ $platform == "aarch64-apple" ]]; then
           (( status == 1 )) && [[ $output == "Error: $operation runs as the user, never as root" ]] ||

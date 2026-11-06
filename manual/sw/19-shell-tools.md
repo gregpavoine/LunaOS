@@ -1,6 +1,6 @@
 # Zana za Shell
 
-Mbali na zana za kawaida za Linux, Omarchy pia huja na zana nyingi za shell zilizoboreshwa. Hizi hapa ndizo muhimu zaidi.
+Mbali na zana za kawaida za Linux, LunaOS pia huja na zana nyingi za shell zilizoboreshwa. Hizi hapa ndizo muhimu zaidi.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Mwongozo kamili unaweza kupatikana kupitia `man fzf`.
 
 ## Zoxide
 
-[Zoxide](https://github.com/ajeetdsouza/zoxide) ni mbadala wa cd. Inakumbuka saraka ambazo umekuwamo, hivyo unaweza kuruka kwake kwa urahisi zaidi wakati mwingine. Tuseme unafanya `cd ~/.config/omarchy` mara moja. Wakati ujao, unaweza kufanya tu `cd omarchy` (au hata tu `cd oma`), na Zoxide itakupeleka huko moja kwa moja.
+[Zoxide](https://github.com/ajeetdsouza/zoxide) ni mbadala wa cd. Inakumbuka saraka ambazo umekuwamo, hivyo unaweza kuruka kwake kwa urahisi zaidi wakati mwingine. Tuseme unafanya `cd ~/.config/lunaos` mara moja. Wakati ujao, unaweza kufanya tu `cd lunaos` (au hata tu `cd oma`), na Zoxide itakupeleka huko moja kwa moja.
 
 Mwongozo kamili unaweza kupatikana kupitia `man zoxide`.
 
@@ -58,4 +58,4 @@ Mwongozo kamili unaweza kupatikana kupitia `man yt-dlp`.
 
 [try](https://github.com/tobi/try) hufanya iwe rahisi kusimamia majaribio ya programu yenye saraka zenye muhuri wa tarehe. Majaribio yote hukaa katika `~/Work/tries` na unaweza kuyafikia kupitia `try`.
 
-Omarchy haiongezi saraka ya `bin/` ya mradi kwenye `PATH` kiotomatiki. Endesha zana za ndani za mradi zinazoaminika kwa njia dhahiri ya uhusiano, kama `bin/rails` au `./bin/dev`.
+LunaOS haiongezi saraka ya `bin/` ya mradi kwenye `PATH` kiotomatiki. Endesha zana za ndani za mradi zinazoaminika kwa njia dhahiri ya uhusiano, kama `bin/rails` au `./bin/dev`.

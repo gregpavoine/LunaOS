@@ -1,6 +1,6 @@
 # Izpolnjevanje PDF-jev
 
-Omarchy dobavlja lep, osnoven pregledovalnik PDF-jev z imenom Document Viewer. To je program, ki bo odprl vse PDF-je, ki jih preprosto dvokliknete.
+LunaOS dobavlja lep, osnoven pregledovalnik PDF-jev z imenom Document Viewer. To je program, ki bo odprl vse PDF-je, ki jih preprosto dvokliknete.
 
 Vendar Document Viewer lahko uporabite le za izpolnjevanje PDF-jev, ki so nastavljeni kot obrazci. Če morate izpolniti PDF-je, ki niso, ali morate PDF podpisati, uporabite [Signed](https://github.com/omacom/signed). Zaženite ga prek zaganjalnika aplikacij (`Super + Space`) ali z desno tipko kliknite datoteko, izberite _Open With..._ in izberite Signed.
 

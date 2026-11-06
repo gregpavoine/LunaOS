@@ -2,17 +2,17 @@
 
 ### Zepsułem system aktualizacją!
 
-Najpierw spróbuj [wycofać system](47-system-snapshots.md) do wersji sprzed ostatniej aktualizacji. Jeśli to nie zadziała, użyj `omarchy-debug`, aby podzielić się swoim problemem na kanale #omarchy-help na Discordzie. A jeśli to wszystko zawiedzie, możesz ponownie zainstalować domyślne konfiguracje i pakiety poleceniem `omarchy-reinstall`.
+Najpierw spróbuj [wycofać system](47-system-snapshots.md) do wersji sprzed ostatniej aktualizacji. Jeśli to nie zadziała, użyj `lunaos-debug`, aby podzielić się swoim problemem na kanale #lunaos-help na Discordzie. A jeśli to wszystko zawiedzie, możesz ponownie zainstalować domyślne konfiguracje i pakiety poleceniem `lunaos-reinstall`.
 
 ### Dlaczego niektóre aplikacje są tak duże na moim wyświetlaczu?
 
-Omarchy zakłada wyświetlacz o wysokiej rozdzielczości 2x, co wymaga ustawienia `GDK_SCALE` na 2 w `~/.config/hypr/monitors.lua`. Ale jeśli masz wyświetlacz 1x, możesz zmienić `local omarchy_gdk_scale = 2` na 1 (a potem zrestartować każdą zbyt dużą aplikację). Zobacz [podręcznik o monitorach](33-monitors.md).
+LunaOS zakłada wyświetlacz o wysokiej rozdzielczości 2x, co wymaga ustawienia `GDK_SCALE` na 2 w `~/.config/hypr/monitors.lua`. Ale jeśli masz wyświetlacz 1x, możesz zmienić `local lunaos_gdk_scale = 2` na 1 (a potem zrestartować każdą zbyt dużą aplikację). Zobacz [podręcznik o monitorach](33-monitors.md).
 
 W przypadku Spotify możesz użyć `Ctrl + Minus`, aby zmniejszyć interfejs (a `Ctrl + Plus`, aby go powiększyć).
 
 ### Moje Wi-Fi, Bluetooth, dźwięk albo gładzik właśnie przestały działać
 
-Zanim zrestartujesz komputer, spróbuj zrestartować sam sprawiający problemy podsystem. _Aktualizuj > Sprzęt_ w menu Omarchy ma Wi-Fi, Bluetooth, Dźwięk i Gładzik, a ponowne załadowanie jednego z nich rozwiązuje większość sytuacji typu „przecież pięć minut temu działało” — słuchawki Bluetooth, które nie chcą się ponownie połączyć, gładzik, który przestał działać po wstrzymaniu, dźwięk, który zniknął po odłączeniu monitora.
+Zanim zrestartujesz komputer, spróbuj zrestartować sam sprawiający problemy podsystem. _Aktualizuj > Sprzęt_ w menu LunaOS ma Wi-Fi, Bluetooth, Dźwięk i Gładzik, a ponowne załadowanie jednego z nich rozwiązuje większość sytuacji typu „przecież pięć minut temu działało” — słuchawki Bluetooth, które nie chcą się ponownie połączyć, gładzik, który przestał działać po wstrzymaniu, dźwięk, który zniknął po odłączeniu monitora.
 
 ### Dlaczego moje zewnętrzne głośniki nie grają?
 
@@ -20,7 +20,7 @@ Prawdopodobnie dlatego, że nie są ustawione jako główne wyjście. Kliknij ik
 
 ### Głośniki mojego laptopa brzmią źle
 
-Na niektórych laptopach Omarchy automatycznie stosuje strojenie głośników, które koryguje charakterystykę częstotliwościową wbudowanych głośników. `omarchy audio tuning status` mówi ci, czy jakieś jest aktywne na twoim komputerze, a `omarchy audio tuning off` je wyłącza, jeśli wolisz słyszeć głośniki bez korekcji.
+Na niektórych laptopach LunaOS automatycznie stosuje strojenie głośników, które koryguje charakterystykę częstotliwościową wbudowanych głośników. `lunaos audio tuning status` mówi ci, czy jakieś jest aktywne na twoim komputerze, a `lunaos audio tuning off` je wyłącza, jeśli wolisz słyszeć głośniki bez korekcji.
 
 ### Dlaczego nie mogę zalogować się ani użyć sudo swoim hasłem?
 

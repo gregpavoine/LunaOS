@@ -1,8 +1,8 @@
 # Yaygın ince ayarlar
 
-Bu, Omarchy kurulumuna yapılan yaygın kişiselleştirmelerin bir koleksiyonudur. Şunu bilin ki sistem güncelleştirmelerinin zaman zaman belirli yapılandırmaları özgün durumlarına geri yüklemesi gerekebilir. Bu olursa, değişiklikleriniz kaybolmaz, aynı dizinde bir `.bak` dosyasına konur.
+Bu, LunaOS kurulumuna yapılan yaygın kişiselleştirmelerin bir koleksiyonudur. Şunu bilin ki sistem güncelleştirmelerinin zaman zaman belirli yapılandırmaları özgün durumlarına geri yüklemesi gerekebilir. Bu olursa, değişiklikleriniz kaybolmaz, aynı dizinde bir `.bak` dosyasına konur.
 
-Bir şeyi bozarsanız, tek tek yapılandırmaları Omarchy menüsündeki _Güncelle > Yapılandırma_ aracılığıyla özgün kurulumlarına geri yükleyebilirsiniz. Her şeyi _gerçekten_ bozarsanız, tüm yapılandırmaları `omarchy-reinstall` aracılığıyla sıfırlayabilirsiniz.
+Bir şeyi bozarsanız, tek tek yapılandırmaları LunaOS menüsündeki _Güncelle > Yapılandırma_ aracılığıyla özgün kurulumlarına geri yükleyebilirsiniz. Her şeyi _gerçekten_ bozarsanız, tüm yapılandırmaları `lunaos-reinstall` aracılığıyla sıfırlayabilirsiniz.
 
 ### Tüm tepsi simgelerini her zaman göster
 
@@ -10,7 +10,7 @@ Varsayılan olarak, Dropbox, 1password veya Steam gibi tepsi simgeleri, üzerini
 
 ### Yuvarlak pencere köşeleri
 
-Omarchy'nin varsayılan tasarımı kare köşelerden oluşur, ancak bunu biraz yumuşatmayı seviyorsanız, `~/.config/hypr/looknfeel.lua` dosyasını yuvarlatma artık yorum dışı olmayacak şekilde değiştirebilirsiniz:
+LunaOS'nin varsayılan tasarımı kare köşelerden oluşur, ancak bunu biraz yumuşatmayı seviyorsanız, `~/.config/hypr/looknfeel.lua` dosyasını yuvarlatma artık yorum dışı olmayacak şekilde değiştirebilirsiniz:
 
 ```
 hl.config({

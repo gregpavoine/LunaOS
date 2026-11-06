@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ hl.config({
 右键点击栏中的时钟，以循环切换到常见格式，包括 12 小时制。你也可以直接设置格式：
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 这会显示 Sunday 10:55 AM。
 
 ### 如何更改我的时区？
 
-在 Omarchy 菜单里运行 _更新 > 时区_ 并从列表中选择。如果时区是对的但时钟本身漂移了，_更新 > 时间_ 会为你重启时间同步。
+在 LunaOS 菜单里运行 _更新 > 时区_ 并从列表中选择。如果时区是对的但时钟本身漂移了，_更新 > 时间_ 会为你重启时间同步。
 
 ### 如何更改我的 DNS、分享我的 Wi-Fi，或检查我的连接速度？
 
@@ -36,11 +36,11 @@ omarchy bar set omarchy.clock format "dddd h:mm AP"
 
 ### 如何检查我的磁盘速度？
 
-_触发 > 测速 > 磁盘测速_ 测量你硬盘的实时读写速度，或在终端中运行 `omarchy disk speedtest`。
+_触发 > 测速 > 磁盘测速_ 测量你硬盘的实时读写速度，或在终端中运行 `lunaos disk speedtest`。
 
 ### 为什么我无法在 Chromium 中登录我的 Google 账户？
 
-纯开源的 Chromium 构建版本不附带 Google 账户登录所要求的 OAuth 凭据。在 Omarchy 菜单里运行 _安装 > 服务 > Chromium 账户_ 添加它们，重启浏览器，登录就会成功。
+纯开源的 Chromium 构建版本不附带 Google 账户登录所要求的 OAuth 凭据。在 LunaOS 菜单里运行 _安装 > 服务 > Chromium 账户_ 添加它们，重启浏览器，登录就会成功。
 
 ### 如何添加打印机？
 
@@ -60,15 +60,15 @@ _触发 > 测速 > 磁盘测速_ 测量你硬盘的实时读写速度，或在�
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-你也可以对录屏使用 `OMARCHY_SCREENRECORD_DIR` 做同样的事。
+你也可以对录屏使用 `LUNAOS_SCREENRECORD_DIR` 做同样的事。
 
-Omasnap 会自动创建其截图目录。录屏目录需要你自己创建，然后重启 Omarchy 使环境更改生效。
+Omasnap 会自动创建其截图目录。录屏目录需要你自己创建，然后重启 LunaOS 使环境更改生效。
 
 ### 如何让我的 Apple Studio Display 上的扬声器 + 摄像头工作？
 
 你可能会以为插上 USB C 就该全部工作，但不幸的是并非如此。我找到的可靠解决方案是使用 [WJESOG DisplayPort + USB-A => USB-C 线缆](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/)。然后扬声器和摄像头就都能完美工作了。
 
-记住，Omarchy 内置了对 Apple Displays（包括 Studio 和 XDR）的亮度控制，使用普通的键盘亮度按钮即可。
+记住，LunaOS 内置了对 Apple Displays（包括 Studio 和 XDR）的亮度控制，使用普通的键盘亮度按钮即可。
 
 ### 如何去除所有额外软件？
 
@@ -76,7 +76,7 @@ Omasnap 会自动创建其截图目录。录屏目录需要你自己创建，然
 
 运行 _移除 > 软件包_ 查看每一个已安装的软件包。然后你可以按 tab 选择任何你想要移除的软件包，并按 return 开始移除所有已选内容。
 
-你也可以从 Omarchy 菜单使用 _移除 > 网页应用_ 移除任何你不想要的预装网页应用。
+你也可以从 LunaOS 菜单使用 _移除 > 网页应用_ 移除任何你不想要的预装网页应用。
 
 或者运行 _移除 > 预装应用_ 一次性扫除所有预装的额外项——网页应用、TUI 和可选应用程序。启动它们的快捷键也会随之消失，这样你就会得到一片干净的快捷键画布，可以在 `~/.config/hypr/bindings.lua` 里填入你自己的内容。
 

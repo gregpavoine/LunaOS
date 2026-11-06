@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# lunaos:summary=Check whether LunaOS has turned off system sleep on this machine.
+# lunaos:hidden=true
+
+[[ -f ${LUNAOS_SLEEP_CONFIG_DIR:-/etc/systemd/sleep.conf.d}/lunaos-sleep-disabled.conf ]]

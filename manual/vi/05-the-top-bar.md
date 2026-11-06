@@ -1,14 +1,14 @@
 # Thanh trên cùng
 
-Dải dọc theo cạnh trên màn hình của bạn là thanh Omarchy. Nó không phải là một thanh trạng thái gắn thêm mà là một phần của shell Omarchy, tiến trình Quickshell chạy dài hạn duy nhất cũng vẽ menu, thông báo, các cửa sổ bật lên OSD và màn hình khóa. Đó là lý do nó hòa hợp hoàn hảo với mọi thứ khác và lý do một bảng mở ra tức thì thay vì tạo ra một ứng dụng mới.
+Dải dọc theo cạnh trên màn hình của bạn là thanh LunaOS. Nó không phải là một thanh trạng thái gắn thêm mà là một phần của shell LunaOS, tiến trình Quickshell chạy dài hạn duy nhất cũng vẽ menu, thông báo, các cửa sổ bật lên OSD và màn hình khóa. Đó là lý do nó hòa hợp hoàn hảo với mọi thứ khác và lý do một bảng mở ra tức thì thay vì tạo ra một ứng dụng mới.
 
 Nó cũng là phần duy nhất của desktop luôn hiện trên màn hình, vì vậy đáng để biết tất cả những ký tự nhỏ đó làm gì.
 
 ## Những gì có trên đó theo mặc định
 
-Thanh có ba phần. Ở phía trái là logo Omarchy (trình khởi chạy menu) và các chỉ báo không gian làm việc. Ở giữa bạn có các chỉ báo trạng thái, đồng hồ, Elsewhen (một đồng hồ thế giới), thời tiết và huy hiệu cập nhật Omarchy. Ở phía phải: bố cục bàn phím (khi có nhiều hơn một bố cục được cấu hình), khay hệ thống, agent, bluetooth, mạng, âm thanh, màn hình và nguồn điện.
+Thanh có ba phần. Ở phía trái là logo LunaOS (trình khởi chạy menu) và các chỉ báo không gian làm việc. Ở giữa bạn có các chỉ báo trạng thái, đồng hồ, Elsewhen (một đồng hồ thế giới), thời tiết và huy hiệu cập nhật LunaOS. Ở phía phải: bố cục bàn phím (khi có nhiều hơn một bố cục được cấu hình), khay hệ thống, agent, bluetooth, mạng, âm thanh, màn hình và nguồn điện.
 
-Một vài trong số đó chỉ xuất hiện khi chúng có điều gì đó để nói. Bố cục bàn phím chỉ xuất hiện nếu bạn đã cấu hình nhiều hơn một bố cục. Huy hiệu cập nhật chỉ xuất hiện khi có một bản cập nhật Omarchy đang chờ. Và biểu tượng agent xuất hiện lần đầu tiên Omarchy tìm thấy việc sử dụng AI coding trên máy (xem [AI](17-ai.md)).
+Một vài trong số đó chỉ xuất hiện khi chúng có điều gì đó để nói. Bố cục bàn phím chỉ xuất hiện nếu bạn đã cấu hình nhiều hơn một bố cục. Huy hiệu cập nhật chỉ xuất hiện khi có một bản cập nhật LunaOS đang chờ. Và biểu tượng agent xuất hiện lần đầu tiên LunaOS tìm thấy việc sử dụng AI coding trên máy (xem [AI](17-ai.md)).
 
 ## Nhấp chuột xung quanh
 
@@ -16,7 +16,7 @@ Gần như mọi tiện ích đều làm điều gì đó khi nhấp chuột tr�
 
 | Tiện ích | Trái | Phải | Giữa / cuộn |
 | --- | --- | --- | --- |
-| Menu | Menu Omarchy | Terminal mới | — |
+| Menu | Menu LunaOS | Terminal mới | — |
 | Không gian làm việc | Tập trung vào không gian làm việc đó | — | Cuộn: không gian làm việc tiếp theo/trước đó |
 | Đồng hồ | Cửa sổ bật lên lịch | Chuyển đổi định dạng nhãn | Giữa: bộ chọn múi giờ |
 | Thời tiết | Cửa sổ bật lên dự báo | Thời tiết đầy đủ dưới dạng thông báo | Giữa: làm mới |
@@ -29,7 +29,7 @@ Gần như mọi tiện ích đều làm điều gì đó khi nhấp chuột tr�
 | Phương tiện | Phát/tạm dừng | Cửa sổ bật lên ảnh bìa | Giữa: tiếp theo · cuộn: trước/tiếp theo |
 | Agent | Bảng agent | Khởi chạy agent của bạn | Giữa: gói đăng ký tiếp theo |
 | Khay | Di chuột để hiện ngăn kéo | Nhấp phải vào dấu chevron để quản lý | — |
-| Cập nhật Omarchy | Chạy bản cập nhật | — | — |
+| Cập nhật LunaOS | Chạy bản cập nhật | — | — |
 
 Không phải mọi thứ trong bảng đó đều có trên thanh của bạn ngay khi mở hộp. Tiện ích phương tiện (MPRIS đang phát, với bản nhạc và nghệ sĩ cuộn) và tiện ích micro đều được tích hợp sẵn nhưng tắt theo mặc định — thêm chúng nếu bạn muốn, như mô tả bên dưới.
 
@@ -65,7 +65,7 @@ Mọi bảng đều nhận bàn phím cũng như chuột: các phím mũi tên d
 
 Hai tiện ích nữa chỉ xuất hiện trên thanh khi bạn cài đặt dịch vụ tương ứng từ **Cài đặt → Dịch vụ**, và cả hai đều đáng biết vì chúng làm nhiều hơn việc báo cáo trạng thái.
 
-Bảng **Tailscale** kết nối và ngắt kết nối tailnet, chuyển đổi giữa các tài khoản, và chọn một nút thoát (các máy của chính bạn và các khu vực Mullvad đều xuất hiện trong danh sách đó). Nó cũng duyệt các máy của bạn — và khi một máy được chọn, `s` gửi tệp tới nó qua Taildrop, đó là cách nhanh nhất để di chuyển một tệp tới điện thoại hoặc một laptop khác của bạn. `c` sao chép IP của máy, `n` sao chép tên của nó, và `d` sao chép tên DNS đầy đủ của nó. Cũng có một nút gửi trên mỗi hàng máy, nếu bạn thích nhấp chuột hơn. Điều tương tự từ terminal là `omarchy tailscale send <machine> [file...]`.
+Bảng **Tailscale** kết nối và ngắt kết nối tailnet, chuyển đổi giữa các tài khoản, và chọn một nút thoát (các máy của chính bạn và các khu vực Mullvad đều xuất hiện trong danh sách đó). Nó cũng duyệt các máy của bạn — và khi một máy được chọn, `s` gửi tệp tới nó qua Taildrop, đó là cách nhanh nhất để di chuyển một tệp tới điện thoại hoặc một laptop khác của bạn. `c` sao chép IP của máy, `n` sao chép tên của nó, và `d` sao chép tên DNS đầy đủ của nó. Cũng có một nút gửi trên mỗi hàng máy, nếu bạn thích nhấp chuột hơn. Điều tương tự từ terminal là `lunaos tailscale send <machine> [file...]`.
 
 Bảng **Dropbox** xử lý đăng nhập, hiển thị lượng lưu trữ bạn đã dùng, và liệt kê các tệp đã đồng bộ gần đây.
 
@@ -90,19 +90,19 @@ Nếu bạn thích chọn từ một menu hơn, **Kích hoạt → Giao diện �
 Những điều tương tự cũng có lệnh, đó là điều bạn muốn cho một thiết lập [dotfiles](31-dotfiles.md):
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Để thêm hoặc gỡ bỏ hoàn toàn một tiện ích, dùng các lệnh plugin. `omarchy plugin list` in ra mọi tiện ích mà shell biết cùng với id của nó, và sau đó:
+Để thêm hoặc gỡ bỏ hoàn toàn một tiện ích, dùng các lệnh plugin. `lunaos plugin list` in ra mọi tiện ích mà shell biết cùng với id của nó, và sau đó:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Ẩn thanh
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Tệp cấu hình
 
-Tất cả được lưu trữ trong `~/.config/omarchy/shell.json`, dưới khóa `bar`. Đây là một phiên bản đã rút gọn:
+Tất cả được lưu trữ trong `~/.config/lunaos/shell.json`, dưới khóa `bar`. Đây là một phiên bản đã rút gọn:
 
 ```json
 {
@@ -119,20 +119,20 @@ Tất cả được lưu trữ trong `~/.config/omarchy/shell.json`, dưới kh�
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Mỗi tiện ích là một mục trong một trong ba mảng bố cục, và các cài đặt của nó nằm trực tiếp trên mục đó — không có tệp cài đặt riêng và không có đối tượng con `config`. `format`, `formatAlt` (thứ mà nhấp chuột phải chuyển đổi tới) và `verticalFormat` của đồng hồ đều nằm ngay tại đó trên `{ "id": "omarchy.clock" }`.
+Mỗi tiện ích là một mục trong một trong ba mảng bố cục, và các cài đặt của nó nằm trực tiếp trên mục đó — không có tệp cài đặt riêng và không có đối tượng con `config`. `format`, `formatAlt` (thứ mà nhấp chuột phải chuyển đổi tới) và `verticalFormat` của đồng hồ đều nằm ngay tại đó trên `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` đặt tên cho tiện ích ở giữa duy nhất được ghim vào chính giữa màn hình, với các tiện ích khác ở hai bên nó. Đó là cách đồng hồ ở chính giữa ngay cả khi thời tiết và huy hiệu cập nhật đến rồi đi. Đặt nó thành một chuỗi rỗng và danh sách ở giữa chỉ được căn giữa dưới dạng một nhóm thay vào đó.
 
-Một quy tắc đáng ghi nhớ: **một khi bạn có `shell.json` của riêng mình, nó là chuẩn mực**. Cho đến khi bạn tùy chỉnh bất cứ thứ gì, shell đọc tệp mặc định của Omarchy. Ngay khi bạn kéo một tiện ích, chạy `omarchy bar`, hoặc tự chỉnh sửa tệp, bạn sở hữu nó — không có hợp nhất sâu, vì vậy các tiện ích mặc định mới trong các bản phát hành Omarchy trong tương lai sẽ không tự động xuất hiện trên thanh của bạn. `omarchy bar defaults` đưa bố cục đã xuất xưởng trở lại bất cứ khi nào bạn muốn một khởi đầu sạch sẽ.
+Một quy tắc đáng ghi nhớ: **một khi bạn có `shell.json` của riêng mình, nó là chuẩn mực**. Cho đến khi bạn tùy chỉnh bất cứ thứ gì, shell đọc tệp mặc định của LunaOS. Ngay khi bạn kéo một tiện ích, chạy `lunaos bar`, hoặc tự chỉnh sửa tệp, bạn sở hữu nó — không có hợp nhất sâu, vì vậy các tiện ích mặc định mới trong các bản phát hành LunaOS trong tương lai sẽ không tự động xuất hiện trên thanh của bạn. `lunaos bar defaults` đưa bố cục đã xuất xưởng trở lại bất cứ khi nào bạn muốn một khởi đầu sạch sẽ.
 
 Cùng tệp đó cũng chứa các thời gian nhàn rỗi của bạn ở cấp cao nhất, bên ngoài khóa `bar`: `idle.screensaver` và `idle.lock`, cả hai đều tính bằng giây kể từ khi bạn nhàn rỗi. Vì vậy trình bảo vệ màn hình mặc định kích hoạt ở 150 giây và khóa ở 300 giây.

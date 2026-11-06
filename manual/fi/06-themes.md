@@ -1,8 +1,8 @@
 # Teemat
 
-Omarchyssa on kaksikymmentäkaksi kaunista teemaa. Voit valita niiden välillä Omarchy-valikon kohdasta _Tyyli > Teema_ (`Super + Space`) tai hypätä suoraan teeman valitsimeen yhdistelmällä `Super + Ctrl + Shift + Space`.
+LunaOSssa on kaksikymmentäkaksi kaunista teemaa. Voit valita niiden välillä LunaOS-valikon kohdasta _Tyyli > Teema_ (`Super + Space`) tai hypätä suoraan teeman valitsimeen yhdistelmällä `Super + Ctrl + Shift + Space`.
 
-Jokainen teema tyylittelee työpöydän, päätteen, neovimin, aktiivisuusnäytön (btop), Chromiumin ja koko Omarchyn kuoren: yläpalkin, valikon, ilmoitukset, OSD:n ja lukitusruudun. (Obsidianissa sinun on valittava Omarchy-teema manuaalisesti sovelluksen kohdasta _Ulkoasu > Teemat_.)
+Jokainen teema tyylittelee työpöydän, päätteen, neovimin, aktiivisuusnäytön (btop), Chromiumin ja koko LunaOSn kuoren: yläpalkin, valikon, ilmoitukset, OSD:n ja lukitusruudun. (Obsidianissa sinun on valittava LunaOS-teema manuaalisesti sovelluksen kohdasta _Ulkoasu > Teemat_.)
 
 Teemoissa on joukko taustakuvia, joista voit valita yhdistelmällä `Super + Ctrl + Space`.
 

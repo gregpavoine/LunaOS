@@ -1,8 +1,8 @@
 # 無人インストール
 
-Omarchy ISOは、キーボードの前に誰もいなくても自分自身をインストールできます。インストーラーが、設定ファイルを含み`cidata`というラベルの付いた2つ目のドライブを見つけると、それをコピーし、セットアップウィザードを完全にスキップし、完成したシステムへ自動的に再起動します。特別なISOビルドも、追加のブートメニューエントリもありません。そのようなドライブが接続されていなければ何も変わらず、通常のウィザードが表示されます。
+LunaOS ISOは、キーボードの前に誰もいなくても自分自身をインストールできます。インストーラーが、設定ファイルを含み`cidata`というラベルの付いた2つ目のドライブを見つけると、それをコピーし、セットアップウィザードを完全にスキップし、完成したシステムへ自動的に再起動します。特別なISOビルドも、追加のブートメニューエントリもありません。そのようなドライブが接続されていなければ何も変わらず、通常のウィザードが表示されます。
 
-これにより、Omarchyは使い捨て開発環境のベースイメージとして最適になります。ProxmoxやPackerでVMを作成し、起動し、離席して、SSHで接続できます。`cidata`はcloud-initの`NoCloud`ラベルです。そのため、一般的な仮想化ツールはすべてそのようなドライブの接続方法をすでに知っています。
+これにより、LunaOSは使い捨て開発環境のベースイメージとして最適になります。ProxmoxやPackerでVMを作成し、起動し、離席して、SSHで接続できます。`cidata`はcloud-initの`NoCloud`ラベルです。そのため、一般的な仮想化ツールはすべてそのようなドライブの接続方法をすでに知っています。
 
 ## 設定ファイル
 
@@ -24,7 +24,7 @@ Omarchy ISOは、キーボードの前に誰もいなくても自分自身をイ
 
 ## SSHアクセス
 
-`authorized_keys`が存在する場合、インストールにより鍵はユーザーの`~/.ssh/authorized_keys`として設定され、`sshd`が有効化され、そのためのファイアウォールが開きます。（標準のOmarchyインストールでは、opensshはサービスが無効でポートが閉じた状態で出荷されます。そのため、無人マシンはそうでなければ到達不能になります。）インストールはあなたの鍵を追加するだけであり、SSHデーモンの他の認証設定を緩めることはありません。
+`authorized_keys`が存在する場合、インストールにより鍵はユーザーの`~/.ssh/authorized_keys`として設定され、`sshd`が有効化され、そのためのファイアウォールが開きます。（標準のLunaOSインストールでは、opensshはサービスが無効でポートが閉じた状態で出荷されます。そのため、無人マシンはそうでなければ到達不能になります。）インストールはあなたの鍵を追加するだけであり、SSHデーモンの他の認証設定を緩めることはありません。
 
 `tailscale_authkey`が存在する場合、代わりにマシンは初回起動時にtailnetに参加します。TailscaleはISOに同梱されたパッケージからインストールされ、ファイアウォールはtailnetインターフェースを許可し、バックグラウンドジョブはマシンが実際にネットワークに接続するとすぐに参加処理を実行し、成功するまで再試行します。1つのドライブイメージで多くのマシンに対応できるよう、再利用可能で事前承認済みの鍵を使ってください。
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-次に、Omarchy ISOと並べてVMに接続します。完全なProxmoxの例は次のとおりです。
+次に、LunaOS ISOと並べてVMに接続します。完全なProxmoxの例は次のとおりです。
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

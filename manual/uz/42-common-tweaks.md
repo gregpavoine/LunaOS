@@ -1,8 +1,8 @@
 # Keng tarqalgan tuzatishlar
 
-Bu Omarchy sozlashiga keng tarqalgan moslashtirishlar toʻplami. Shuni bilingki, baʼzan tizim yangilanishlarida muayyan konfiguratsiyalarni dastlabki holatiga qaytarish kerak boʻlishi mumkin. Agar bu sodir boʻlsa, sizning oʻzgarishlaringiz yoʻqolmaydi, lekin bir xil katalogdagi `.bak` fayliga qoʻyiladi.
+Bu LunaOS sozlashiga keng tarqalgan moslashtirishlar toʻplami. Shuni bilingki, baʼzan tizim yangilanishlarida muayyan konfiguratsiyalarni dastlabki holatiga qaytarish kerak boʻlishi mumkin. Agar bu sodir boʻlsa, sizning oʻzgarishlaringiz yoʻqolmaydi, lekin bir xil katalogdagi `.bak` fayliga qoʻyiladi.
 
-Agar biror narsani buzib qoʻysangiz, Omarchy menyusidagi _Yangilash > Config_ orqali alohida konfiguratsiyalarni dastlabki sozlashga qaytarishingiz mumkin. Agar hamma narsani _haqiqatan_ buzib qoʻysangiz, `omarchy-reinstall` orqali barcha konfiguratsiyalarni qayta oʻrnatishingiz mumkin.
+Agar biror narsani buzib qoʻysangiz, LunaOS menyusidagi _Yangilash > Config_ orqali alohida konfiguratsiyalarni dastlabki sozlashga qaytarishingiz mumkin. Agar hamma narsani _haqiqatan_ buzib qoʻysangiz, `lunaos-reinstall` orqali barcha konfiguratsiyalarni qayta oʻrnatishingiz mumkin.
 
 ### Barcha laganda belgilarini har doim koʻrsatish
 
@@ -10,7 +10,7 @@ Standart holatda, Dropbox, 1password yoki Steam kabi laganda belgilari lagandani
 
 ### Yumaloq oyna burchaklari
 
-Omarchy ning standart dizayni kvadrat burchaklardan biri, ammo agar uni ozgina yumshoq qilishni yoqtirsangiz, `~/.config/hypr/looknfeel.lua` ni oʻzgartirishingiz mumkin, yumaloqlash izohlangan holatda qolmasin:
+LunaOS ning standart dizayni kvadrat burchaklardan biri, ammo agar uni ozgina yumshoq qilishni yoqtirsangiz, `~/.config/hypr/looknfeel.lua` ni oʻzgartirishingiz mumkin, yumaloqlash izohlangan holatda qolmasin:
 
 ```
 hl.config({

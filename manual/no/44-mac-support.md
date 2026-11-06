@@ -1,16 +1,16 @@
 # Mac-støtte
 
-Omarchy har innebygd støtte for **Intel Mac-er**. Det er et par kjente begrensninger for øyeblikket, men så lenge du er klar over og OK med dem, kan du puste nytt liv i de gamle Mac-ene dine ved å laste inn Omarchy.
+LunaOS har innebygd støtte for **Intel Mac-er**. Det er et par kjente begrensninger for øyeblikket, men så lenge du er klar over og OK med dem, kan du puste nytt liv i de gamle Mac-ene dine ved å laste inn LunaOS.
 
-Vær oppmerksom på at installasjon på en M-serie Mac ikke støttes direkte for øyeblikket. Du kan finne ut mer om statusen for dette i #omarchy-on-other på [Discorden](https://discord.gg/tXFUdasqhY) vår.
+Vær oppmerksom på at installasjon på en M-serie Mac ikke støttes direkte for øyeblikket. Du kan finne ut mer om statusen for dette i #lunaos-on-other på [Discorden](https://discord.gg/tXFUdasqhY) vår.
 
-I en enkel test klarte vi å oppnå 36 % ytelsesgevinst på en 2019 MacBook Pro bare ved å installere Omarchy.
+I en enkel test klarte vi å oppnå 36 % ytelsesgevinst på en 2019 MacBook Pro bare ved å installere LunaOS.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Installere Omarchy på Mac
+### Installere LunaOS på Mac
 
-Omarchy støtter for øyeblikket bare å være det **eneste** operativsystemet installert. Under installasjonen vil disken bli slettet, og MacOS vil ikke lenger være oppstartbar.
+LunaOS støtter for øyeblikket bare å være det **eneste** operativsystemet installert. Under installasjonen vil disken bli slettet, og MacOS vil ikke lenger være oppstartbar.
 
 Du kan fortsatt gjenopprette det senere via Internet Recovery hvis du vil.
 
@@ -39,7 +39,7 @@ Installasjonsprogrammet oppdager Mac-maskinvare og bruker de nødvendige rettels
 
 ### Kjente begrensninger
 
-Medlemmer av fellesskapet jobber stadig med løsninger på disse utfordringene, så hvis disse er problematiske for deg, bli med i #omarchy-on-other på [Discorden](https://discord.gg/tXFUdasqhY) vår og se om det finnes oppdaterte metoder for å løse dem.
+Medlemmer av fellesskapet jobber stadig med løsninger på disse utfordringene, så hvis disse er problematiske for deg, bli med i #lunaos-on-other på [Discorden](https://discord.gg/tXFUdasqhY) vår og se om det finnes oppdaterte metoder for å løse dem.
 
 #### Enheter med T1-brikke
 

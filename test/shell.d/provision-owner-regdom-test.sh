@@ -14,15 +14,15 @@ tmp=$(cd -- "$(mktemp -d)" && pwd -P)
 trap 'rm -rf "$tmp"' EXIT
 
 root=$tmp/root
-omarchy=$tmp/omarchy
+lunaos=$tmp/lunaos
 stub_bin=$tmp/bin
 conf=$root/etc/conf.d/wireless-regdom
 calls=$tmp/calls
-mkdir -p "$stub_bin" "$omarchy/bin" "$omarchy/install/hardware"
+mkdir -p "$stub_bin" "$lunaos/bin" "$lunaos/install/hardware"
 
-ln -s "$ROOT/bin/omarchy-cmd-present" "$omarchy/bin/omarchy-cmd-present"
+ln -s "$ROOT/bin/lunaos-cmd-present" "$lunaos/bin/lunaos-cmd-present"
 sed -e "s|/etc/|$root/etc/|g" -e "s|/usr/share/zoneinfo|$root/usr/share/zoneinfo|g" \
-  "$ROOT/install/hardware/set-wireless-regdom.sh" >"$omarchy/install/hardware/set-wireless-regdom.sh"
+  "$ROOT/install/hardware/set-wireless-regdom.sh" >"$lunaos/install/hardware/set-wireless-regdom.sh"
 
 cat >"$stub_bin/timedatectl" <<SH
 #!/bin/bash
@@ -58,14 +58,14 @@ fresh_root() {
   : >"$calls"
 }
 
-export PATH="$stub_bin:$omarchy/bin:$PATH"
-export OMARCHY_PATH=$omarchy
+export PATH="$stub_bin:$lunaos/bin:$PATH"
+export LUNAOS_PATH=$lunaos
 
-# The setup functions as omarchy-provision-owner defines them, with its fixed
+# The setup functions as lunaos-provision-owner defines them, with its fixed
 # paths moved into the fixture root.
-sed -n '/^configure_timezone() {/,/^}/p; /^configure_wireless_regdom() {/,/^}/p; /^configure_region() {/,/^}/p' "$ROOT/bin/omarchy-provision-owner" |
+sed -n '/^configure_timezone() {/,/^}/p; /^configure_wireless_regdom() {/,/^}/p; /^configure_region() {/,/^}/p' "$ROOT/bin/lunaos-provision-owner" |
   sed -e "s|/usr/share/zoneinfo|$root/usr/share/zoneinfo|g" -e "s|/etc/|$root/etc/|g" >"$tmp/setup.sh"
-grep -q '^configure_wireless_regdom() {' "$tmp/setup.sh" || fail "omarchy-provision-owner sets the regulatory domain in setup"
+grep -q '^configure_wireless_regdom() {' "$tmp/setup.sh" || fail "lunaos-provision-owner sets the regulatory domain in setup"
 # shellcheck disable=SC1091
 source "$tmp/setup.sh"
 
@@ -77,13 +77,13 @@ regdom_lines() {
 # the radios untouched until the reboot that follows an install.
 fresh_root
 ln -sfn ../usr/share/zoneinfo/America/New_York "$root/etc/localtime"
-bash "$omarchy/install/hardware/set-wireless-regdom.sh"
+bash "$lunaos/install/hardware/set-wireless-regdom.sh"
 [[ $(regdom_lines) == 'WIRELESS_REGDOM="US"' ]] || fail "an up-front install persists its timezone's country" "$(cat "$conf")"
 [[ ! -s $calls ]] || fail "an up-front install leaves the radios alone" "$(cat "$calls")"
 pass "an up-front install persists its timezone's country and leaves the radios to the reboot"
 
 fresh_root
-bash "$omarchy/install/hardware/set-wireless-regdom.sh"
+bash "$lunaos/install/hardware/set-wireless-regdom.sh"
 [[ -z $(regdom_lines) ]] || fail "the UTC placeholder names no country" "$(cat "$conf")"
 pass "a deferred install's hardware step sets nothing from the UTC placeholder"
 
@@ -122,7 +122,7 @@ configure_timezone >/dev/null || fail "setup goes on on a machine without Wi-Fi"
 pass "a machine without Wi-Fi finishes setup with the domain persisted for its next boot"
 
 fresh_root
-timezone=Omarchy/Nowhere
+timezone=LunaOS/Nowhere
 configure_timezone >/dev/null || fail "setup goes on after a timezone it cannot apply"
 [[ -z $(regdom_lines) && ! -s $calls ]] || fail "a timezone that did not apply sets no domain" "$(cat "$conf" "$calls")"
 pass "a timezone that could not be applied sets no regulatory domain"

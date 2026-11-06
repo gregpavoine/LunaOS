@@ -2,7 +2,7 @@
 
 ## עורכים חלופיים
 
-Omarchy מגיעה עם [Neovim](https://neovim.io/) כברירת מחדל, אבל אם ברצונכם במשהו קצת יותר מקובל ומוכר, תוכלו להפעיל את תפריט Omarchy (`Super + Space`) ולראות את האפשרויות תחת _התקנה > עורך_. שם מופיעים VSCode, Cursor, Zed, Sublime Text, Helix, Vim ו-Emacs. אם לא מצאתם את מה שחיפשתם, בדקו את _התקנה > חבילה_ וראו אם הוא נמצא בחבילת Arch (ואם לא, נסו את _התקנה > AUR_ כדי לבדוק ב-AUR).
+LunaOS מגיעה עם [Neovim](https://neovim.io/) כברירת מחדל, אבל אם ברצונכם במשהו קצת יותר מקובל ומוכר, תוכלו להפעיל את תפריט LunaOS (`Super + Space`) ולראות את האפשרויות תחת _התקנה > עורך_. שם מופיעים VSCode, Cursor, Zed, Sublime Text, Helix, Vim ו-Emacs. אם לא מצאתם את מה שחיפשתם, בדקו את _התקנה > חבילה_ וראו אם הוא נמצא בחבילת Arch (ואם לא, נסו את _התקנה > AUR_ כדי לבדוק ב-AUR).
 
 העורך המקורי `vi` זמין גם הוא מהקופסה. הריצו `vi filename` כדי לערוך קובץ במסוף.
 
@@ -12,7 +12,7 @@ Omarchy מגיעה עם [Neovim](https://neovim.io/) כברירת מחדל, אב
 
 ## סביבה
 
-Omarchy תומכת בהגדרת שפע שלם של סביבות פיתוח דרך הסעיף _התקנה > פיתוח_ בתפריט Omarchy (`Super + Space`). כמובן תמצאו שם את _Ruby on Rails_, אבל גם את שלוש סביבות הריצה העיקריות ל-JavaScript (Node.js, Bun, Deno), וכן מסגרות PHP פופולריות כמו Laravel ו-Symfony. אה, ויש גם Go, Rust, Python, Java, Elixir (עם Phoenix), .NET, OCaml, Zig, Clojure ו-Scala. זה מבחר רחב מאוד!
+LunaOS תומכת בהגדרת שפע שלם של סביבות פיתוח דרך הסעיף _התקנה > פיתוח_ בתפריט LunaOS (`Super + Space`). כמובן תמצאו שם את _Ruby on Rails_, אבל גם את שלוש סביבות הריצה העיקריות ל-JavaScript (Node.js, Bun, Deno), וכן מסגרות PHP פופולריות כמו Laravel ו-Symfony. אה, ויש גם Go, Rust, Python, Java, Elixir (עם Phoenix), .NET, OCaml, Zig, Clojure ו-Scala. זה מבחר רחב מאוד!
 
 רוב הסביבות האלה מנוהלות על ידי [Mise](https://mise.jdx.dev/). זהו כלי שמאפשר להתקין ולהפעיל גרסאות מרובות של שפת תכנות על אותו מכונה. הוא כמו rbenv או rvm ל-Ruby או virtualenv ל-Python, אבל הוא עובד עבור מגוון שלם של סביבות שונות.
 
@@ -20,11 +20,11 @@ Omarchy תומכת בהגדרת שפע שלם של סביבות פיתוח דר�
 
 ## Docker
 
-[Docker](https://www.docker.com/) בקושי זקוק להקדמה. הוא מאפשר להפעיל קונטיינרים מבודדים, ו-Omarchy מתקינה את כל מה שצריך כדי להפעיל אותו היטב, כולל Docker עצמו ו-[Docker Compose](https://docs.docker.com/compose/).
+[Docker](https://www.docker.com/) בקושי זקוק להקדמה. הוא מאפשר להפעיל קונטיינרים מבודדים, ו-LunaOS מתקינה את כל מה שצריך כדי להפעיל אותו היטב, כולל Docker עצמו ו-[Docker Compose](https://docs.docker.com/compose/).
 
-כברירת מחדל המשתמש שלכם *אינו* בקבוצת `docker`. קבוצה זו היא למעשה root ללא סיסמה — כל דבר שנמצא בה יכול להריץ `docker run -v /:/host` ולהשתלט על המכונה — כך שסקריפט או תלות סוררים אחד שפועלים כמוכם היו אחרת במרחק פקודה אחת מ-root. לכן בשורת הפקודה אתם מפעילים את Docker עם `sudo` (`sudo docker ps`, `sudo docker compose up`), והכלים הגרפיים שמדברים עם ה-daemon — מכונת Windows הווירטואלית — מבקשים אישור כשהם זקוקים לו. אם תרצו את הנוחות של הגדרה ללא קבוצה בחזרה ואתם מבינים את הוויתור הכרוך בכך, אפשרו אותה מ-**Setup > Security > Sudoless Docker** (או הריצו `omarchy-setup-security-sudoless-docker`), מה שמוסיף אתכם לקבוצת `docker` לאחר אזהרה; אזי `docker` רגיל וכינוי ה-`d` עובדים שוב ללא `sudo`.
+כברירת מחדל המשתמש שלכם *אינו* בקבוצת `docker`. קבוצה זו היא למעשה root ללא סיסמה — כל דבר שנמצא בה יכול להריץ `docker run -v /:/host` ולהשתלט על המכונה — כך שסקריפט או תלות סוררים אחד שפועלים כמוכם היו אחרת במרחק פקודה אחת מ-root. לכן בשורת הפקודה אתם מפעילים את Docker עם `sudo` (`sudo docker ps`, `sudo docker compose up`), והכלים הגרפיים שמדברים עם ה-daemon — מכונת Windows הווירטואלית — מבקשים אישור כשהם זקוקים לו. אם תרצו את הנוחות של הגדרה ללא קבוצה בחזרה ואתם מבינים את הוויתור הכרוך בכך, אפשרו אותה מ-**Setup > Security > Sudoless Docker** (או הריצו `lunaos-setup-security-sudoless-docker`), מה שמוסיף אתכם לקבוצת `docker` לאחר אזהרה; אזי `docker` רגיל וכינוי ה-`d` עובדים שוב ללא `sudo`.
 
-תוכלו להגדיר את מסדי הנתונים הנפוצים לפיתוח מקומי ב-Docker באמצעות _התקנה > פיתוח > Docker DB_ בתפריט Omarchy.
+תוכלו להגדיר את מסדי הנתונים הנפוצים לפיתוח מקומי ב-Docker באמצעות _התקנה > פיתוח > Docker DB_ בתפריט LunaOS.
 
 ## GitHub CLI
 

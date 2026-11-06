@@ -21,7 +21,7 @@ Editační editor umí kreslit šipky, čáry, tvary, zvýraznění, číslovan�
 
 Uložené snímky obrazovky ve výchozím nastavení končí v `~/Pictures/Screenshots` s názvem jako `screenshot-2026-08-13_14-22-05-firefox.png`. Nastavte `OMASNAP_SCREENSHOT_DIR` pro použití jiného adresáře — kde umístit proměnné prostředí relace, viz [FAQ](46-faq.md). Omasnap adresář vytvoří, když ukládá první snímek. Nastavte `[output] autosave = false` v `~/.config/omasnap/omasnap.conf` pro zakázání automatického ukládání.
 
-Z terminálu `omarchy screenshot` otevře tentýž překryv a můžete si vybrat jeho počáteční režim: `omarchy capture screenshot region`, `windows`, `fullscreen`, nebo `scroll`. Druhý argument `copy` nebo `save` přeskočí náhled a pošle snímek přímo do tohoto cíle. Chcete-li před výstupem upravovat, použijte `omarchy screenshot --editor=overlay` pro editor na celou obrazovku nebo `omarchy screenshot --editor=window` pro samostatné okno.
+Z terminálu `lunaos screenshot` otevře tentýž překryv a můžete si vybrat jeho počáteční režim: `lunaos capture screenshot region`, `windows`, `fullscreen`, nebo `scroll`. Druhý argument `copy` nebo `save` přeskočí náhled a pošle snímek přímo do tohoto cíle. Chcete-li před výstupem upravovat, použijte `lunaos screenshot --editor=overlay` pro editor na celou obrazovku nebo `lunaos screenshot --editor=window` pro samostatné okno.
 
 ### Ovládání výběru z klávesnice
 
@@ -40,9 +40,9 @@ Tyto zkratky existují, jen dokud je Omasnap otevřený, takže nemohou kolidova
 
 ## Nahrávání obrazovky
 
-`Alt + Print Screen` otevře _Akce > Zachytit > Nahrávání obrazovky_, které se zeptá, co chcete mít na zvukové stopě: žádný zvuk, zvuk plochy, plochu plus mikrofon, nebo plochu plus mikrofon plus webovou kameru. Poslední možnost se ukáže, jen pokud máte skutečně připojenou kameru. Vyberte jednu a nahrávací výběr Omarchy vám umožní přetáhnout oblast nebo kliknout na okno či monitor.
+`Alt + Print Screen` otevře _Akce > Zachytit > Nahrávání obrazovky_, které se zeptá, co chcete mít na zvukové stopě: žádný zvuk, zvuk plochy, plochu plus mikrofon, nebo plochu plus mikrofon plus webovou kameru. Poslední možnost se ukáže, jen pokud máte skutečně připojenou kameru. Vyberte jednu a nahrávací výběr LunaOS vám umožní přetáhnout oblast nebo kliknout na okno či monitor.
 
-Nahrávání běží na gpu-screen-recorder, který kóduje na GPU při 60 fps a v případě potřeby se vrátí k CPU. Výsledkem je MP4 v `~/Videos` s názvem `screenrecording-2026-08-13_14-22-05.mp4`. Nastavte `OMARCHY_SCREENRECORD_DIR` a změňte to — ale všimněte si, že na rozdíl od adresáře snímků obrazovky tento už musí existovat, jinak se nahrávání odmítne spustit.
+Nahrávání běží na gpu-screen-recorder, který kóduje na GPU při 60 fps a v případě potřeby se vrátí k CPU. Výsledkem je MP4 v `~/Videos` s názvem `screenrecording-2026-08-13_14-22-05.mp4`. Nastavte `LUNAOS_SCREENRECORD_DIR` a změňte to — ale všimněte si, že na rozdíl od adresáře snímků obrazovky tento už musí existovat, jinak se nahrávání odmítne spustit.
 
 Během nahrávání se na panelu objeví malý ukazatel. Klikněte na něj pro zastavení. Zastavit můžete také opětovným stisknutím `Alt + Print Screen` nebo položkou _Zastavit nahrávání_ v _Akce > Zachytit > Nahrávání obrazovky_, která se objeví, jen když se něco skutečně nahrává.
 
@@ -59,7 +59,7 @@ Když nahráváte s webovou kamerou, kamera se objeví jako připnuté, oříznu
 
 Existují tři velikosti — malá, střední a velká — a klávesové zkratky mezi nimi krokují. Výchozí je střední. Jsou úměrné nahrávání, takže kamera zabírá stejný podíl snímku, ať už nahráváte monitor 1080p nebo 6K. A pokud jste nahrávali oblast místo celého displeje, překryv se ukotví do rohu této oblasti místo rohu monitoru, takže zůstane uvnitř záběru.
 
-Můžete ho také volat přímo pomocí `omarchy-capture-webcam-resize small`, nebo `reset` pro návrat ke střední.
+Můžete ho také volat přímo pomocí `lunaos-capture-webcam-resize small`, nebo `reset` pro návrat ke střední.
 
 ## Text, QR kódy a barvy
 
@@ -75,7 +75,7 @@ Nahrávání obrazovky ve 4K nebo surový HEIC z telefonu je často příliš ve
 
 Obrázky jdou do jpg nebo png ve vysoké, střední nebo nízké kvalitě, které omezují šířku na 3160, 2160 a 1080 pixelů. Videa jdou do mp4 nebo animovaného gifu ve 4k, 1080p nebo 720p. Převedený soubor se zapíše vedle originálu s rozlišením v názvu — `demo-1080p.mp4` — a cesta se zkopíruje do schránky jako URI souboru, takže ho můžete vložit přímo do aplikace, která přijímá upouštění souborů.
 
-Funguje to i z terminálu, pokud už víte, co chcete: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Existuje také `omarchy transcode ascii`, který promění obrázek v ASCII art — ten je hlavně pro [branding](41-branding.md).
+Funguje to i z terminálu, pokud už víte, co chcete: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Existuje také `lunaos transcode ascii`, který promění obrázek v ASCII art — ten je hlavně pro [branding](41-branding.md).
 
 ## Odeslání někam jinam
 

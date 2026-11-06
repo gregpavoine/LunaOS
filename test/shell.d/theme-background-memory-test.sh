@@ -9,13 +9,13 @@ trap 'rm -rf "$test_tmp"' EXIT
 
 test_home="$test_tmp/home"
 runtime_dir="$test_tmp/runtime"
-current_state="$test_home/.local/state/omarchy/current"
-background_state="$test_home/.local/state/omarchy/theme-backgrounds"
+current_state="$test_home/.local/state/lunaos/current"
+background_state="$test_home/.local/state/lunaos/theme-backgrounds"
 mkdir -p "$test_home" "$runtime_dir"
 
 set_theme() {
-  HOME="$test_home" XDG_RUNTIME_DIR="$runtime_dir" OMARCHY_PATH="$ROOT" PATH="$ROOT/bin:$PATH" \
-    OMARCHY_THEME_HEADLESS=1 "$ROOT/bin/omarchy-theme-set" "$1" >/dev/null
+  HOME="$test_home" XDG_RUNTIME_DIR="$runtime_dir" LUNAOS_PATH="$ROOT" PATH="$ROOT/bin:$PATH" \
+    LUNAOS_THEME_HEADLESS=1 "$ROOT/bin/lunaos-theme-set" "$1" >/dev/null
 }
 
 current_background_name() {
@@ -69,7 +69,7 @@ set_theme "$theme_b"
 pass "reapplying a theme with an external background falls back to the first image"
 
 set_theme "$theme_a"
-user_background_dir="$test_home/.config/omarchy/backgrounds/$theme_a"
+user_background_dir="$test_home/.config/lunaos/backgrounds/$theme_a"
 user_background="$user_background_dir/$theme_a_first"
 mkdir -p "$user_background_dir"
 cp "${theme_a_backgrounds[0]}" "$user_background"
@@ -92,7 +92,7 @@ pass "reapplying the active theme still cycles backgrounds"
 
 printf '%s\n' "../escaped" >"$current_state/theme.name"
 set_theme "$theme_b"
-[[ ! -e $test_home/.local/state/omarchy/escaped ]] || fail "invalid theme names cannot escape the background state directory"
+[[ ! -e $test_home/.local/state/lunaos/escaped ]] || fail "invalid theme names cannot escape the background state directory"
 pass "invalid theme names cannot escape the background state directory"
 
 # Interactive switches choose before swapping the staged theme into place.
@@ -100,7 +100,7 @@ source <(awk '
   /^(theme_background_state_file|choose_theme_background|choose_staged_theme_background)\(\) \{/ { copying=1 }
   copying { print }
   copying && /^}$/ { copying=0 }
-' "$ROOT/bin/omarchy-theme-set")
+' "$ROOT/bin/lunaos-theme-set")
 
 HOME="$test_home"
 CURRENT_THEME_PATH="$current_state/theme"
@@ -128,3 +128,11 @@ ln -nsf "$CURRENT_THEME_PATH/backgrounds/first.png" "$CURRENT_BACKGROUND_LINK"
 choose_staged_theme_background
 [[ $CHOSEN_THEME_BACKGROUND == "$CURRENT_THEME_PATH/backgrounds/selected.mp4" ]] || fail "staged same-theme selection still cycles backgrounds"
 pass "staged same-theme selection still cycles backgrounds"
+
+set_theme "Luna"
+[[ $(<"$current_state/theme.name") == "luna" ]] || fail "Luna theme is applied by name"
+[[ $(current_background_name) == "0-black.png" ]] || fail "Luna starts on the black background"
+set_theme "Tokyo Night"
+set_theme "Luna"
+[[ $(current_background_name) == "0-black.png" ]] || fail "Luna brings the black background back after another theme"
+pass "Luna theme keeps its black background across theme switches"

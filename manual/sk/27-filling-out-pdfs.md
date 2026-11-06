@@ -1,6 +1,6 @@
 # Vypĺňanie PDF
 
-Omarchy sa dodáva s pekným, základným prehliadačom PDF s názvom Document Viewer. Toto je program, ktorý otvorí všetky PDF, na ktoré jednoducho dvakrát klikneš.
+LunaOS sa dodáva s pekným, základným prehliadačom PDF s názvom Document Viewer. Toto je program, ktorý otvorí všetky PDF, na ktoré jednoducho dvakrát klikneš.
 
 Document Viewer však môžeš použiť len na vypĺňanie PDF, ktoré boli nastavené ako formuláre. Ak potrebuješ vyplniť PDF, ktoré neboli nastavené takto, alebo potrebuješ PDF podpísať, použi [Signed](https://github.com/omacom/signed). Spusti ho prostredníctvom spúšťača aplikácií (`Super + Space`) alebo klikni pravým tlačidlom myši na súbor, vyber _Open With..._ a zvoľ Signed.
 

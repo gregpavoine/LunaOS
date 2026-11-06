@@ -1,8 +1,8 @@
 # Terminal
 
-[Foot](https://codeberg.org/dnkl/foot) on Omarchy vaiketerminal. See on kiire, kergekaaluline ja ühildub isegi vanade arvutitega. See ei toeta aga natiivseid vahelehti ega jagamisi.
+[Foot](https://codeberg.org/dnkl/foot) on LunaOS vaiketerminal. See on kiire, kergekaaluline ja ühildub isegi vanade arvutitega. See ei toeta aga natiivseid vahelehti ega jagamisi.
 
-Kui kasutad Tmuxi, ei pruugi sellest olenevalt, kuid kui mitte, toetame täielikult ka _Alacritty_, _Ghostty_ ja _Kitty_ valikutena. Vali oma eelistus Omarchy menüüs _Paigalda > Terminal_ alt.
+Kui kasutad Tmuxi, ei pruugi sellest olenevalt, kuid kui mitte, toetame täielikult ka _Alacritty_, _Ghostty_ ja _Kitty_ valikutena. Vali oma eelistus LunaOS menüüs _Paigalda > Terminal_ alt.
 
 Käivitad uue terminali `Super + Return` abil. (See seos osutab automaatselt sellele, millise terminali oled _Paigalda > Terminal_ kaudu paigaldanud, ja saad paigaldatud terminalide vahel lülituda _Seaded > Vaikimisi > Terminal_ all.)
 
@@ -12,11 +12,11 @@ Tmux pakub järjepidevat, programmeeritavat liidest paanide, akende (ehk vaheleh
 
 Käivitad uue Tmuxi seansi värskes terminalis `Super + Alt + Return` abil ja kuna Tmux on püsiv protsess, saad oma seansi taastada isegi siis, kui selle terminali sulged. Vajuta lihtsalt `Ctrl + Space` (nimetatakse eesliite klahviks), seejärel `s`, et näha kõiki oma aktiivseid seansse.
 
-Omarchy tarnitakse ergonoomiliselt optimeeritud Tmuxi seadistusega, millel on palju klahviseoseid õppimiseks, nii et hoia [spikker käepärast](07-hotkeys.md#tmux).
+LunaOS tarnitakse ergonoomiliselt optimeeritud Tmuxi seadistusega, millel on palju klahviseoseid õppimiseks, nii et hoia [spikker käepärast](07-hotkeys.md#tmux).
 
 ## Tmuxi paigutusfunktsioonid
 
-Kuna Tmux on programmeeritav, saame kasutada funktsioone paigutuste loomiseks. Omarchy tarnib nelja erineva funktsiooniga levinud arendajapaigutuste jaoks.
+Kuna Tmux on programmeeritav, saame kasutada funktsioone paigutuste loomiseks. LunaOS tarnib nelja erineva funktsiooniga levinud arendajapaigutuste jaoks.
 
 `tdl [agent]` käivitab kolmikjagamise IDE-laadse liidese `$EDITOR`-iga vasakul, sinu valitud AI agendiga paremal (nagu `c` opencode'i jaoks või `cx` Claude'i jaoks või `codex` OpenAI jaoks) ja seejärel terminali allosas.
 

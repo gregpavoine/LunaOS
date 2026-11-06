@@ -1,12 +1,12 @@
 echo "Boot N1x laptops quietly so Plymouth stays up from the LUKS prompt to login"
 
 # Early N1x installs added loglevel=7, systemd.show_status=1 and friends to the
-# default boot entry for bring-up. They come after Omarchy's quiet splash on the
+# default boot entry for bring-up. They come after LunaOS's quiet splash on the
 # command line and win, so kernel and systemd messages print over Plymouth after
 # unlocking and during shutdown. The rescue entry keeps its own verbose line.
-console_conf="${OMARCHY_N1X_CONSOLE_CONF:-/etc/limine-entry-tool.d/00-omarchy-n1x-console.conf}"
-running_cmdline="${OMARCHY_RUNNING_CMDLINE:-/proc/cmdline}"
-rebuild_marker="${OMARCHY_LIMINE_REBUILD_MARKER:-/var/lib/omarchy/migrations/1790917773}"
+console_conf="${LUNAOS_N1X_CONSOLE_CONF:-/etc/limine-entry-tool.d/00-lunaos-n1x-console.conf}"
+running_cmdline="${LUNAOS_RUNNING_CMDLINE:-/proc/cmdline}"
+rebuild_marker="${LUNAOS_LIMINE_REBUILD_MARKER:-/var/lib/lunaos/migrations/1790917773}"
 
 [[ -f $console_conf ]] || exit 0
 

@@ -1,6 +1,6 @@
 # Mga Function ng Shell
 
-May kasamang hanay ng mga function ng shell ang Omarchy para pasimplihin ang mga karaniwang gawain at i-encapsulate ang mga masalimuot na parameter call.
+May kasamang hanay ng mga function ng shell ang LunaOS para pasimplihin ang mga karaniwang gawain at i-encapsulate ang mga masalimuot na parameter call.
 
 ## Compression
 

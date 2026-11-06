@@ -1,14 +1,14 @@
 # Yuqori panel
 
-Ekraningiz tepasidagi chiziq — Omarchy paneli. Bu mahkamlangan holat paneli emas, menyu, bildirishnomalar, OSD oynalari va qulf ekranni ham chizadigan yagona uzoq ishlaydigan Quickshell jarayoni — Omarchy shellining bir qismi. Shuning uchun u boshqa hamma narsa bilan mukammal mavzulashadi va panel yangi ilova ochmasdan bir zumda ochiladi.
+Ekraningiz tepasidagi chiziq — LunaOS paneli. Bu mahkamlangan holat paneli emas, menyu, bildirishnomalar, OSD oynalari va qulf ekranni ham chizadigan yagona uzoq ishlaydigan Quickshell jarayoni — LunaOS shellining bir qismi. Shuning uchun u boshqa hamma narsa bilan mukammal mavzulashadi va panel yangi ilova ochmasdan bir zumda ochiladi.
 
 Bu shuningdek har doim ekranda boʻladigan ish stolining yagona qismi, shuning uchun oʻsha kichik gliflarning hammasi nima qilishini bilishga arziydi.
 
 ## Standartda unda nimalar bor
 
-Panel uchta boʻlimga ega. Chapda Omarchy logotipi (menyu ishga tushirgichi) va ish maydoni koʻrsatkichlari oʻtiradi. Markazda holat koʻrsatkichlari, soat, Elsewhen (dunyo soati), ob-havo va Omarchy yangilanish belgisi. Oʻngda: klaviatura tartibi (bittadan koʻproq sozlangan boʻlsa), tizim laganda, agentlar, bluetooth, tarmoq, ovoz, displey va quvvat.
+Panel uchta boʻlimga ega. Chapda LunaOS logotipi (menyu ishga tushirgichi) va ish maydoni koʻrsatkichlari oʻtiradi. Markazda holat koʻrsatkichlari, soat, Elsewhen (dunyo soati), ob-havo va LunaOS yangilanish belgisi. Oʻngda: klaviatura tartibi (bittadan koʻproq sozlangan boʻlsa), tizim laganda, agentlar, bluetooth, tarmoq, ovoz, displey va quvvat.
 
-Ulardan bir nechtasi faqat aytadigan narsasi boʻlganda paydo boʻladi. Klaviatura tartibi faqat bittadan koʻproq tartib sozlagan boʻlsangiz paydo boʻladi. Yangilanish belgisi faqat Omarchy yangilanishi kutayotgan boʻlsa paydo boʻladi. Va agentlar ikonkasi Omarchy mashinada AI kodlash ishlatilishini birinchi topganda paydo boʻladi ([AI](17-ai.md) ga qarang).
+Ulardan bir nechtasi faqat aytadigan narsasi boʻlganda paydo boʻladi. Klaviatura tartibi faqat bittadan koʻproq tartib sozlagan boʻlsangiz paydo boʻladi. Yangilanish belgisi faqat LunaOS yangilanishi kutayotgan boʻlsa paydo boʻladi. Va agentlar ikonkasi LunaOS mashinada AI kodlash ishlatilishini birinchi topganda paydo boʻladi ([AI](17-ai.md) ga qarang).
 
 ## Atrofni bosish
 
@@ -16,7 +16,7 @@ Deyarli har bir vidjet chap, oʻng va oʻrta bosishda nimadir qiladi va bir nech
 
 | Vidjet | Chap | Oʻng | Oʻrta / aylantirish |
 | --- | --- | --- | --- |
-| Menyu | Omarchy menyusi | Yangi terminal | — |
+| Menyu | LunaOS menyusi | Yangi terminal | — |
 | Ish maydonlari | Oʻsha ish maydoniga fokus | — | Aylantirish: keyingi/oldingi ish maydoni |
 | Soat | Kalendar oynasi | Yorliq formatini aylantirish | Oʻrta: vaqt zonasi tanlogichi |
 | Ob-havo | Prognoz oynasi | Toʻliq ob-havo bildirishnoma sifatida | Oʻrta: yangilash |
@@ -29,7 +29,7 @@ Deyarli har bir vidjet chap, oʻng va oʻrta bosishda nimadir qiladi va bir nech
 | Media | Oʻynatish/pauza | Albom muqovasi oynasi | Oʻrta: keyingi · aylantirish: oldingi/keyingi |
 | Agentlar | Agentlar paneli | Agentingizni ishga tushirish | Oʻrta: keyingi obuna |
 | Laganda | Tortmani ochish uchun ustiga olib borish | Boshqarish uchun shevronni oʻng bosish | — |
-| Omarchy yangilanish | Yangilanishni ishga tushirish | — | — |
+| LunaOS yangilanish | Yangilanishni ishga tushirish | — | — |
 
 Oʻsha jadvaldagi hamma narsa qutidan chiqiboq panelingizda emas. Media vidjeti (aylanadigan trek va artist bilan MPRIS hozir oʻynalmoqda) va mikrofon vidjeti ikkalasi ham ichki, lekin standartda oʻchiq — xohlasangiz, quyida tasvirlanganidek, ularni qoʻshing.
 
@@ -65,7 +65,7 @@ Har bir panel sichqoncha bilan birga klaviaturani ham oladi: oʻqlar harakatlana
 
 Yana ikkita vidjet panelda faqat mos xizmatni **Oʻrnatish → Xizmat** dan oʻrnatganingizdan keyin paydo boʻladi va ikkalasi ham bilishga arziydi, chunki ular holat xabar qilishdan koʻproq qiladi.
 
-**Tailscale** paneli tailnetni ulaydi va uzadi, hisoblar orasida almashadi va chiqish tugunini tanlaydi (oʻz mashinalaringiz va Mullvad mintaqalari ikkalasi ham oʻsha roʻyxatda paydo boʻladi). U mashinalaringizni ham koʻrib chiqadi — va bittasi tanlangan holda, `s` unga Taildrop orqali fayllar yuboradi, bu faylni telefoningizga yoki boshqa noutbukga koʻchirishning eng tezkor yoʻlidir. `c` mashinaning IP sini, `n` uning nomini va `d` uning toʻliq DNS nomini nusxalaydi. Agar bosishni afzal koʻrsangiz, har bir mashina qatorida yuborish tugmasi ham bor. Terminaldan xuddi shuni `omarchy tailscale send <machine> [file...]` qiladi.
+**Tailscale** paneli tailnetni ulaydi va uzadi, hisoblar orasida almashadi va chiqish tugunini tanlaydi (oʻz mashinalaringiz va Mullvad mintaqalari ikkalasi ham oʻsha roʻyxatda paydo boʻladi). U mashinalaringizni ham koʻrib chiqadi — va bittasi tanlangan holda, `s` unga Taildrop orqali fayllar yuboradi, bu faylni telefoningizga yoki boshqa noutbukga koʻchirishning eng tezkor yoʻlidir. `c` mashinaning IP sini, `n` uning nomini va `d` uning toʻliq DNS nomini nusxalaydi. Agar bosishni afzal koʻrsangiz, har bir mashina qatorida yuborish tugmasi ham bor. Terminaldan xuddi shuni `lunaos tailscale send <machine> [file...]` qiladi.
 
 **Dropbox** paneli kirishni boshqaradi, qancha xotira ishlatganingizni koʻrsatadi va yaqinda sinxronlangan fayllarni roʻyxatlaydi.
 
@@ -90,19 +90,19 @@ Agar menyudan tanlashni afzal koʻrsangiz, **Ishga tushirish → Koʻrinish → 
 Bir xil narsalarning buyruqlari bor, bu [dotfiles](31-dotfiles.md) sozlamasi uchun siz xohlagan narsadir:
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Vidjetni butunlay qoʻshish yoki olib tashlash uchun plagin buyruqlaridan foydalaning. `omarchy plugin list` shell biladigan har bir vidjetni uning id si bilan chop etadi va keyin:
+Vidjetni butunlay qoʻshish yoki olib tashlash uchun plagin buyruqlaridan foydalaning. `lunaos plugin list` shell biladigan har bir vidjetni uning id si bilan chop etadi va keyin:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Panelni yashirish
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Konfiguratsiya fayli
 
-Bularning hammasi `bar` tugmasi ostida `~/.config/omarchy/shell.json` da saqlanadi. Mana qisqartirilgan versiya:
+Bularning hammasi `bar` tugmasi ostida `~/.config/lunaos/shell.json` da saqlanadi. Mana qisqartirilgan versiya:
 
 ```json
 {
@@ -119,20 +119,20 @@ Bularning hammasi `bar` tugmasi ostida `~/.config/omarchy/shell.json` da saqlana
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Har bir vidjet uchta tartib massivlaridan birida bitta yozuvdir va uning sozlamalari oʻsha yozuvda ichki oʻtiradi — alohida sozlamalar fayli va `config` sub-obyekti yoʻq. Soatning `format`, `formatAlt` (oʻng bosish nimaga aylantiradi) va `verticalFormat` hammasi toʻgʻridan-toʻgʻri `{ "id": "omarchy.clock" }` da yashaydi.
+Har bir vidjet uchta tartib massivlaridan birida bitta yozuvdir va uning sozlamalari oʻsha yozuvda ichki oʻtiradi — alohida sozlamalar fayli va `config` sub-obyekti yoʻq. Soatning `format`, `formatAlt` (oʻng bosish nimaga aylantiradi) va `verticalFormat` hammasi toʻgʻridan-toʻgʻri `{ "id": "lunaos.clock" }` da yashaydi.
 
 `centerAnchor` ekranning aniq markaziga mahkamlanadigan bitta markaz vidjetini nomlaydi, boshqalar uni yonlaydi. Shunday qilib ob-havo va yangilanish belgisi kelib-ketib turganda ham soat aynan markazda qoladi. Uni boʻsh satrga oʻrnatsangiz, markaz roʻyxati oʻrniga guruh sifatida shunchaki markazlashtiriladi.
 
-Ichki qabul qilishga arziydigan bitta qoida: **oʻz `shell.json` ingiz boʻlgandan keyin, u kanonikdir**. Hech narsani moslaganingizcha, shell Omarchyning standart faylini oʻqiydi. Vidjetni sudragan, `omarchy bar` ni ishga tushirgan yoki faylni oʻzingiz tahrirlagan paytingizda, siz uning egasisiz — chuqur birlashma yoʻq, shuning uchun kelajakdagi Omarchy relizlardagi yangi standart vidjetlar panelingizda avtomatik paydo boʻlmaydi. `omarchy bar defaults` toza taxta xohlaganingizda joʻnatilgan tartibni qaytaradi.
+Ichki qabul qilishga arziydigan bitta qoida: **oʻz `shell.json` ingiz boʻlgandan keyin, u kanonikdir**. Hech narsani moslaganingizcha, shell LunaOSning standart faylini oʻqiydi. Vidjetni sudragan, `lunaos bar` ni ishga tushirgan yoki faylni oʻzingiz tahrirlagan paytingizda, siz uning egasisiz — chuqur birlashma yoʻq, shuning uchun kelajakdagi LunaOS relizlardagi yangi standart vidjetlar panelingizda avtomatik paydo boʻlmaydi. `lunaos bar defaults` toza taxta xohlaganingizda joʻnatilgan tartibni qaytaradi.
 
 Xuddi shu fayl yuqori darajada, `bar` tugmasidan tashqarida boʻsh vaqtlaringizni ham saqlaydi: `idle.screensaver` va `idle.lock`, ikkalasi ham boʻsh qolganingizdan beri soniyalarda. Demak standart ekran saqlagich 150 soniyada va qulf 300 soniyada ishga tushadi.

@@ -7,7 +7,7 @@ echo "Save workspace layouts as modes, so a default layout keeps them"
 for state_home in "$HOME/.local/state" "${XDG_STATE_HOME:-}"; do
   [[ -n $state_home ]] || continue
 
-  for saved in "$state_home"/omarchy/workspace-layouts/*.lua; do
+  for saved in "$state_home"/lunaos/workspace-layouts/*.lua; do
     [[ -f $saved ]] || continue
     sed -i --follow-symlinks 's/^hl\.workspace_rule({ workspace = "\([0-9]*\)", layout = "\([a-z]*\)" })$/o.workspace_mode({ workspace = "\1", mode = "\2" })/' "$saved"
   done

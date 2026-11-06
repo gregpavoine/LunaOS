@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# lunaos:summary=Enable or disable background intros
+# lunaos:args=<enable|disable|toggle|status>
+# lunaos:examples=lunaos theme bg intro toggle | lunaos theme bg intro disable
+
+set -euo pipefail
+
+toggle="$HOME/.local/state/lunaos/toggles/background-intros-off"
+case ${1:-} in
+  enable)
+    rm -f "$toggle"
+    lunaos-notification-send "$(lunaos-i18n theme.backgroundIntros)" "$(lunaos-i18n common.enabled)"
+    ;;
+  disable)
+    mkdir -p "$(dirname "$toggle")"
+    touch "$toggle"
+    lunaos-notification-send "$(lunaos-i18n theme.backgroundIntros)" "$(lunaos-i18n common.disabled)"
+    ;;
+  toggle)
+    if [[ -f $toggle ]]; then
+      lunaos-theme-bg-intro enable
+    else
+      lunaos-theme-bg-intro disable
+    fi
+    ;;
+  status)
+    [[ ! -f $toggle ]]
+    ;;
+  *)
+    echo "Usage: lunaos-theme-bg-intro <enable|disable|toggle|status>" >&2
+    exit 1
+    ;;
+esac

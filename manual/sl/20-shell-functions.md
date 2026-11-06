@@ -1,6 +1,6 @@
 # Funkcije lupine
 
-Omarchy prinaša nabor funkcij lupine za poenostavitev pogostih opravil in enkapsulacijo zapletenih klicev s parametri.
+LunaOS prinaša nabor funkcij lupine za poenostavitev pogostih opravil in enkapsulacijo zapletenih klicev s parametri.
 
 ## Stiskanje
 

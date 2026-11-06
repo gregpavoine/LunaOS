@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-ROOT = Path(os.environ["OMARCHY_PATH"])
+ROOT = Path(os.environ["LUNAOS_PATH"])
 sys.path.insert(0, str(ROOT / "default/input-methods"))
 spec = importlib.util.spec_from_file_location("typing_setup", ROOT / "default/input-methods/typing_setup.py")
 typing = importlib.util.module_from_spec(spec)
@@ -51,7 +51,7 @@ class TypingSetupTest(unittest.TestCase):
     self.assertEqual(typing.input_items([["keyboard-us-dvorak", ""]], ["hangul", "pinyin"], {}, "us-dvorak"),
                      [["keyboard-us-dvorak", ""], ["hangul", "us"], ["pinyin", ""]])
 
-  def test_a_new_leading_layout_redecides_only_omarchys_engine_overrides(self):
+  def test_a_new_leading_layout_redecides_only_lunaoss_engine_overrides(self):
     with tempfile.TemporaryDirectory() as temporary:
       before = ("Default", "us", [["keyboard-us", ""], ["hangul", ""], ["chewing", "de"]])
       after = ("Default", "us-dvorak", [["keyboard-us-dvorak", ""], ["hangul", "us"], ["chewing", "de"]])
@@ -75,14 +75,14 @@ class TypingSetupTest(unittest.TestCase):
       with patch.dict(os.environ, {"XDG_CONFIG_HOME": temporary}), patch.object(typing.setup, "live_group", return_value=before), patch.object(typing.setup, "available_methods", return_value=[["mozc", "Mozc"]]), patch.object(typing, "set_inputs", side_effect=RuntimeError("rejected")):
         with self.assertRaises(RuntimeError):
           typing.save_inputs(["mozc"])
-      self.assertFalse((Path(temporary) / "fontconfig/conf.d/50-omarchy-input-method.conf").exists())
+      self.assertFalse((Path(temporary) / "fontconfig/conf.d/50-lunaos-input-method.conf").exists())
 
   def test_an_engine_installed_after_fcitx_started_loads_on_selection(self):
     group = ("Default", "us", [["keyboard-us", ""]])
     present = subprocess.CompletedProcess([], 0)
     with patch.object(typing.setup, "live_group", return_value=group), patch.object(typing.setup, "available_methods", return_value=[]), patch.object(typing.subprocess, "run", return_value=present), patch.object(typing.setup, "run") as run, patch.object(typing.setup, "wait_ready") as ready, patch.object(typing, "set_inputs") as save, patch.object(typing.setup, "font_default"):
       typing.save_inputs(["mozc"])
-    run.assert_called_once_with(["omarchy-restart-xcompose"])
+    run.assert_called_once_with(["lunaos-restart-xcompose"])
     ready.assert_called_once_with("mozc")
     self.assertEqual(save.call_args.args[3], [["keyboard-us", ""], ["mozc", ""]])
 
@@ -107,7 +107,7 @@ class TypingSetupTest(unittest.TestCase):
       with patch.object(typing.setup, "live_group", return_value=("Default", "us", [["keyboard-us", ""]])), patch.object(typing, "save_inputs") as save:
         typing.seed_language("mozc")
       save.assert_called_once_with(["mozc"])
-      self.assertIn("Noto Sans CJK JP", (Path(temporary) / "fontconfig/conf.d/50-omarchy-input-method.conf").read_text())
+      self.assertIn("Noto Sans CJK JP", (Path(temporary) / "fontconfig/conf.d/50-lunaos-input-method.conf").read_text())
     with tempfile.TemporaryDirectory() as temporary, patch.dict(os.environ, {"XDG_CONFIG_HOME": temporary}):
       with patch.object(typing.setup, "live_group", return_value=("Default", "us", [["keyboard-us", ""], ["hangul", ""]])), patch.object(typing, "save_inputs") as save:
         typing.seed_language("mozc")
@@ -118,7 +118,7 @@ class TypingSetupTest(unittest.TestCase):
       with patch.object(typing.setup, "live_group", side_effect=subprocess.CalledProcessError(1, "busctl")), patch("sys.stderr") as error:
         typing.seed_language("pinyin")
       self.assertIn("Setup > Typing > Input Methods", "".join(call.args[0] for call in error.write.call_args_list))
-      self.assertIn("Noto Sans CJK SC", (Path(temporary) / "fontconfig/conf.d/50-omarchy-input-method.conf").read_text())
+      self.assertIn("Noto Sans CJK SC", (Path(temporary) / "fontconfig/conf.d/50-lunaos-input-method.conf").read_text())
 
   def test_failed_font_write_restores_the_input_group(self):
     before = [["keyboard-us", ""]]
@@ -172,7 +172,7 @@ class TypingSetupTest(unittest.TestCase):
       target = config / "actual-layouts"
       target.write_text("XKBLAYOUT=de\n")
       target.chmod(0o600)
-      path = config / "omarchy/keyboard-layouts"
+      path = config / "lunaos/keyboard-layouts"
       path.parent.mkdir()
       path.symlink_to(target)
       before = ("Default", "us", [["keyboard-us", ""], ["mozc", "jp"]])
@@ -191,7 +191,7 @@ class TypingSetupTest(unittest.TestCase):
       with patch.dict(os.environ, {"XDG_CONFIG_HOME": temporary}), patch.object(typing.setup, "live_group", side_effect=[before, after]), patch.object(typing.setup, "run", return_value=""), patch.object(typing, "keyboard_selection", return_value=["fr", "us:intl"]), patch.object(typing.setup, "live_set") as setter:
         typing.save_keyboard(["fr", "us:intl"])
       self.assertEqual(setter.call_args.args, after)
-      self.assertEqual((Path(temporary) / "omarchy/keyboard-layouts").read_text(), "XKBLAYOUT=fr,us\nXKBVARIANT=,intl\n")
+      self.assertEqual((Path(temporary) / "lunaos/keyboard-layouts").read_text(), "XKBLAYOUT=fr,us\nXKBVARIANT=,intl\n")
 
 
 if __name__ == "__main__":

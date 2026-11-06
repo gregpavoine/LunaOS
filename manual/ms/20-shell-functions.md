@@ -1,6 +1,6 @@
 # Fungsi Shell
 
-Omarchy dilengkapi dengan set fungsi shell untuk memudahkan tugas biasa dan merangkumkan panggilan parameter yang berbelit.
+LunaOS dilengkapi dengan set fungsi shell untuk memudahkan tugas biasa dan merangkumkan panggilan parameter yang berbelit.
 
 ## Pemampatan
 

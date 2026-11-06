@@ -10,7 +10,7 @@
 # libinput reads only local-overrides.quirks from /etc/libinput, so append a
 # section there instead of writing a file of our own.
 
-if omarchy-hw-match "H7407BA"; then
+if lunaos-hw-match "H7407BA"; then
   quirks=/etc/libinput/local-overrides.quirks
 
   if ! grep -qxF '[ASUS ProArt P14 Touchpad]' "$quirks" 2>/dev/null; then

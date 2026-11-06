@@ -21,7 +21,7 @@ Kommenttieditori voi piirtää nuolia, viivoja, muotoja, korostuksia, numeroituj
 
 Tallennetut kuvakaappaukset päätyvät oletuksena hakemistoon `~/Pictures/Screenshots`, nimellä kuten `screenshot-2026-08-13_14-22-05-firefox.png`. Aseta `OMASNAP_SCREENSHOT_DIR` käyttääksesi toista hakemistoa — katso [usein kysytyt kysymykset](46-faq.md), minne istunnon ympäristömuuttujat laitetaan. Omasnap luo hakemiston, kun se tallentaa ensimmäisen kuvan. Aseta tiedostossa `~/.config/omasnap/omasnap.conf` asetus `[output] autosave = false` poistaaksesi automaattisen tallennuksen käytöstä.
 
-Pääätteestä `omarchy screenshot` avaa saman peiton, ja voit valita sen aloitustilan: `omarchy capture screenshot region`, `windows`, `fullscreen` tai `scroll`. Toinen argumentti `copy` tai `save` ohittaa esikatselun ja lähettää kuvan suoraan kyseiseen kohteeseen. Muokataksesi ennen tulostusta käytä komentoa `omarchy screenshot --editor=overlay` koko ruudun editorille tai `omarchy screenshot --editor=window` erilliselle ikkunalle.
+Pääätteestä `lunaos screenshot` avaa saman peiton, ja voit valita sen aloitustilan: `lunaos capture screenshot region`, `windows`, `fullscreen` tai `scroll`. Toinen argumentti `copy` tai `save` ohittaa esikatselun ja lähettää kuvan suoraan kyseiseen kohteeseen. Muokataksesi ennen tulostusta käytä komentoa `lunaos screenshot --editor=overlay` koko ruudun editorille tai `lunaos screenshot --editor=window` erilliselle ikkunalle.
 
 ### Valitsimen ajaminen näppäimistöstä
 
@@ -40,9 +40,9 @@ Nämä sidokset ovat olemassa vain Omasnapin ollessa avoinna, joten ne eivät vo
 
 ## Ruuduntallennus
 
-`Alt + Print Screen` avaa kohdan _Käynnistä > Kaappaus > Ruuduntallennus_, joka kysyy, mitä haluat ääniraidalle: ei ääntä, työpöydän äänen, työpöydän plus mikrofonin tai työpöydän plus mikrofonin plus verkkokameran. Viimeinen näistä näkyy vain, jos sinulla todella on kamera kytkettynä. Valitse yksi, ja Omarchyn tallennusvalitsin antaa sinun vetää alueen tai napsauttaa ikkunaa tai näyttöä.
+`Alt + Print Screen` avaa kohdan _Käynnistä > Kaappaus > Ruuduntallennus_, joka kysyy, mitä haluat ääniraidalle: ei ääntä, työpöydän äänen, työpöydän plus mikrofonin tai työpöydän plus mikrofonin plus verkkokameran. Viimeinen näistä näkyy vain, jos sinulla todella on kamera kytkettynä. Valitse yksi, ja LunaOSn tallennusvalitsin antaa sinun vetää alueen tai napsauttaa ikkunaa tai näyttöä.
 
-Tallennus pyörii gpu-screen-recorderilla, joka koodaa GPU:lla 60 fps nopeudella ja turvautuu CPU:hun, jos sen on pakko. Tulos on MP4 hakemistossa `~/Videos`, nimeltään `screenrecording-2026-08-13_14-22-05.mp4`. Aseta `OMARCHY_SCREENRECORD_DIR` muuttaaksesi sitä — mutta huomaa, että toisin kuin kuvakaappaushakemiston, tämän on oltava jo olemassa, tai tallennus kieltäytyy alkamasta.
+Tallennus pyörii gpu-screen-recorderilla, joka koodaa GPU:lla 60 fps nopeudella ja turvautuu CPU:hun, jos sen on pakko. Tulos on MP4 hakemistossa `~/Videos`, nimeltään `screenrecording-2026-08-13_14-22-05.mp4`. Aseta `LUNAOS_SCREENRECORD_DIR` muuttaaksesi sitä — mutta huomaa, että toisin kuin kuvakaappaushakemiston, tämän on oltava jo olemassa, tai tallennus kieltäytyy alkamasta.
 
 Tallentaessasi palkkiin ilmestyy pieni ilmaisin. Napsauta sitä pysäyttääksesi. Voit myös pysäyttää painamalla uudelleen `Alt + Print Screen` tai kohdan _Pysäytä ruuduntallennus_ avulla kohdassa _Käynnistä > Kaappaus > Ruuduntallennus_, mikä näkyy vain, kun jokin todella tallentaa.
 
@@ -59,7 +59,7 @@ Kun tallennat verkkokameralla, kamera ilmestyy kiinnitettynä, rajattuna muotoku
 
 Kokoja on kolme — pieni, keskikokoinen ja suuri — ja pikanäppäimet liikkuvat niiden välillä. Keskikokoinen on oletus. Ne ovat suhteessa tallenteeseen, joten kamera vie saman osuuden ruudusta, tallensitpa 1080p-näyttöä tai 6K-näyttöä. Ja jos tallensit alueen koko näytön sijaan, peitto ankkuroituu kyseisen alueen kulmaan näytön kulman sijaan, joten se pysyy kuvan sisällä.
 
-Voit myös kutsua sitä suoraan komennolla `omarchy-capture-webcam-resize small` tai `reset` palataksesi keskikokoiseen.
+Voit myös kutsua sitä suoraan komennolla `lunaos-capture-webcam-resize small` tai `reset` palataksesi keskikokoiseen.
 
 ## Teksti, QR-koodit ja värit
 
@@ -75,7 +75,7 @@ _Käynnistä > Kaappaus > QR-koodi_ tekee saman tempun QR-koodeille. Valitse alu
 
 Kuvat menevät jpg- tai png-muotoon korkeana, keskikokoisena tai matalana, mikä rajaa leveyden 3160, 2160 ja 1080 pikseliin. Videot menevät mp4-muotoon tai animoituun gif-tiedostoon 4k-, 1080p- tai 720p-muodossa. Muunnettu tiedosto kirjoitetaan alkuperäisen viereen resoluutio nimessään — `demo-1080p.mp4` — ja polku kopioidaan leikepöydälle tiedosto-URI:na, joten voit liittää sen suoraan sovellukseen, joka hyväksyy tiedostojen pudotuksen.
 
-Se toimii myös pääätteestä, jos tiedät jo, mitä haluat: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. On myös `omarchy transcode ascii`, joka muuttaa kuvan ASCII-taiteeksi — se on enimmäkseen [brändäystä](41-branding.md) varten.
+Se toimii myös pääätteestä, jos tiedät jo, mitä haluat: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. On myös `lunaos transcode ascii`, joka muuttaa kuvan ASCII-taiteeksi — se on enimmäkseen [brändäystä](41-branding.md) varten.
 
 ## Sen lähettäminen jonnekin
 

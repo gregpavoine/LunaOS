@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ hl.config({
 在選單列的時鐘上按右鍵，即可在常見格式（包括 12 小時制）之間循環切換。你也可以直接設定格式：
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 這樣會顯示 Sunday 10:55 AM。
 
 ### 如何變更我的時區？
 
-在 Omarchy 選單中執行 _更新 > 時區_，並從清單中挑選。如果時區是對的，但時鐘本身跑偏了，_更新 > 時間_ 會為你重新啟動時間同步。
+在 LunaOS 選單中執行 _更新 > 時區_，並從清單中挑選。如果時區是對的，但時鐘本身跑偏了，_更新 > 時間_ 會為你重新啟動時間同步。
 
 ### 如何變更我的 DNS、分享我的 Wi-Fi，或查看我的連線速度？
 
@@ -36,11 +36,11 @@ omarchy bar set omarchy.clock format "dddd h:mm AP"
 
 ### 如何查看我的磁碟速度有多快？
 
-_觸發 > 測速 > 磁碟測速_ 會量測你磁碟的即時讀寫速度，或者在終端機使用 `omarchy disk speedtest`。
+_觸發 > 測速 > 磁碟測速_ 會量測你磁碟的即時讀寫速度，或者在終端機使用 `lunaos disk speedtest`。
 
 ### 為什麼我無法在 Chromium 中登入我的 Google 帳號？
 
-原版的開源 Chromium 建置並不附帶 Google 帳號登入所需的 OAuth 憑證。在 Omarchy 選單中執行 _安裝 > 服務 > Chromium 帳號_ 來加入它們，重新啟動瀏覽器，登入就能順利完成。
+原版的開源 Chromium 建置並不附帶 Google 帳號登入所需的 OAuth 憑證。在 LunaOS 選單中執行 _安裝 > 服務 > Chromium 帳號_ 來加入它們，重新啟動瀏覽器，登入就能順利完成。
 
 ### 如何新增印表機？
 
@@ -60,15 +60,15 @@ _觸發 > 測速 > 磁碟測速_ 會量測你磁碟的即時讀寫速度，或�
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-你也可以用 `OMARCHY_SCREENRECORD_DIR` 對螢幕錄影做同樣的事。
+你也可以用 `LUNAOS_SCREENRECORD_DIR` 對螢幕錄影做同樣的事。
 
-Omasnap 會自動建立它的螢幕截圖目錄。螢幕錄影目錄請自己建立，然後重新啟動 Omarchy，讓任一環境變更生效。
+Omasnap 會自動建立它的螢幕截圖目錄。螢幕錄影目錄請自己建立，然後重新啟動 LunaOS，讓任一環境變更生效。
 
 ### 如何讓我的 Apple Studio Display 的喇叭＋網路攝影機運作？
 
 你會以為只要插上 USB C 就應該全部能用，但很不幸地並非如此。我發現能讓它可靠運作的解決方案，是使用 [WJESOG DisplayPort + USB-A => USB-C 傳輸線](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/)。這樣一來喇叭和網路攝影機就能如魔法般順暢運作。
 
-別忘了，Omarchy 為 Apple 顯示器（Studio 和 XDR 都包括）內建了亮度控制，你可以使用一般的鍵盤亮度按鍵。
+別忘了，LunaOS 為 Apple 顯示器（Studio 和 XDR 都包括）內建了亮度控制，你可以使用一般的鍵盤亮度按鍵。
 
 ### 如何移除所有額外的軟體？
 
@@ -76,7 +76,7 @@ Omasnap 會自動建立它的螢幕截圖目錄。螢幕錄影目錄請自己建
 
 執行 _移除 > 套件_ 可查看每一個已安裝的套件。然後你可以用 tab 選取任何想移除的套件，再用 return 開始移除你選的所有東西。
 
-而且你可以用 Omarchy 選單中的 _Remove > Web App_ 來移除任何你不想要的預先安裝 web app。
+而且你可以用 LunaOS 選單中的 _Remove > Web App_ 來移除任何你不想要的預先安裝 web app。
 
 或者執行 _移除 > 預先安裝_，一口氣掃除所有預先安裝的附加項目——web app、TUI 和選用應用程式。啟動它們的快捷鍵會隨之一起消失，留給你一張乾淨的綁定白紙，讓你在 `~/.config/hypr/bindings.lua` 中填入你自己的設定。
 

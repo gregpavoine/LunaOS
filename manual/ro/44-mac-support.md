@@ -1,16 +1,16 @@
 # Suport pentru Mac
 
-Omarchy are suport integrat pentru **Mac-uri Intel**. Există câteva limitări cunoscute în acest moment, dar atâta timp cât ești conștient de ele și ești de acord cu ele, poți insufla o viață nouă vechilor tale Mac-uri încărcând Omarchy.
+LunaOS are suport integrat pentru **Mac-uri Intel**. Există câteva limitări cunoscute în acest moment, dar atâta timp cât ești conștient de ele și ești de acord cu ele, poți insufla o viață nouă vechilor tale Mac-uri încărcând LunaOS.
 
-Te rugăm să reții că instalarea pe un Mac cu serie M nu este acceptată direct în acest moment. Poți afla mai multe despre starea acestui lucru în #omarchy-on-other în [Discordul](https://discord.gg/tXFUdasqhY) nostru.
+Te rugăm să reții că instalarea pe un Mac cu serie M nu este acceptată direct în acest moment. Poți afla mai multe despre starea acestui lucru în #lunaos-on-other în [Discordul](https://discord.gg/tXFUdasqhY) nostru.
 
-Într-un test simplu, am reușit să obținem câștiguri de performanță de 36% pe un MacBook Pro din 2019 doar instalând Omarchy.
+Într-un test simplu, am reușit să obținem câștiguri de performanță de 36% pe un MacBook Pro din 2019 doar instalând LunaOS.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Instalarea Omarchy pe Mac
+### Instalarea LunaOS pe Mac
 
-Omarchy acceptă în acest moment doar să fie **singurul** sistem de operare instalat. În timpul instalării, unitatea va fi ștearsă, iar MacOS nu va mai putea fi pornit.
+LunaOS acceptă în acest moment doar să fie **singurul** sistem de operare instalat. În timpul instalării, unitatea va fi ștearsă, iar MacOS nu va mai putea fi pornit.
 
 Îl poți totuși restabili ulterior prin Internet Recovery dacă ai vrea.
 
@@ -39,7 +39,7 @@ Programul de instalare detectează hardware-ul Mac și aplică automat corecții
 
 ### Limitări cunoscute
 
-Membrii comunității lucrează constant la soluții pentru aceste provocări, așa că, dacă acestea sunt problematice pentru tine, alătură-te #omarchy-on-other în [Discordul](https://discord.gg/tXFUdasqhY) nostru și vezi dacă există metode actualizate pentru rezolvarea acestora.
+Membrii comunității lucrează constant la soluții pentru aceste provocări, așa că, dacă acestea sunt problematice pentru tine, alătură-te #lunaos-on-other în [Discordul](https://discord.gg/tXFUdasqhY) nostru și vezi dacă există metode actualizate pentru rezolvarea acestora.
 
 #### Dispozitive cu cip T1
 

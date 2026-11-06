@@ -1,16 +1,16 @@
 # Macサポート
 
-Omarchyは**Intel Mac**のサポートを内蔵しています。現時点ではいくつかの既知の制限がありますが、それらを理解し問題ないのであれば、Omarchyをインストールすることで古いMacに新たな命を吹き込むことができます。
+LunaOSは**Intel Mac**のサポートを内蔵しています。現時点ではいくつかの既知の制限がありますが、それらを理解し問題ないのであれば、LunaOSをインストールすることで古いMacに新たな命を吹き込むことができます。
 
-MシリーズMacへのインストールは現時点では直接サポートされていません。その状況の詳細は、[Discord](https://discord.gg/tXFUdasqhY)の#omarchy-on-otherで確認できます。
+MシリーズMacへのインストールは現時点では直接サポートされていません。その状況の詳細は、[Discord](https://discord.gg/tXFUdasqhY)の#lunaos-on-otherで確認できます。
 
-簡単なテストでは、2019年のMacBook ProにOmarchyをインストールするだけで36%のパフォーマンス向上が得られました。
+簡単なテストでは、2019年のMacBook ProにLunaOSをインストールするだけで36%のパフォーマンス向上が得られました。
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### MacにOmarchyをインストールする
+### MacにLunaOSをインストールする
 
-Omarchyは現時点では、インストールされた**唯一の**OSであることのみをサポートしています。インストール中、ドライブは消去され、MacOSは起動できなくなります。
+LunaOSは現時点では、インストールされた**唯一の**OSであることのみをサポートしています。インストール中、ドライブは消去され、MacOSは起動できなくなります。
 
 必要であれば、後からインターネット復元で復旧できます。
 
@@ -39,7 +39,7 @@ Omarchyは現時点では、インストールされた**唯一の**OSである�
 
 ### 既知の制限
 
-コミュニティのメンバーはこれらの課題の解決策に絶えず取り組んでいます。そのため、これらが問題になる場合は、[Discord](https://discord.gg/tXFUdasqhY)の#omarchy-on-otherに参加し、最新の解決方法があるか確認してください。
+コミュニティのメンバーはこれらの課題の解決策に絶えず取り組んでいます。そのため、これらが問題になる場合は、[Discord](https://discord.gg/tXFUdasqhY)の#lunaos-on-otherに参加し、最新の解決方法があるか確認してください。
 
 #### T1チップ搭載デバイス
 

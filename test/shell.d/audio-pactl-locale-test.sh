@@ -13,12 +13,12 @@ cat >"$work/bin/wpctl" <<'SH'
 printf 'wpctl %s\n' "$*" >>"$CALLS"
 SH
 
-cat >"$work/bin/omarchy-osd" <<'SH'
+cat >"$work/bin/lunaos-osd" <<'SH'
 #!/bin/bash
-printf 'omarchy-osd %s\n' "$*" >>"$CALLS"
+printf 'lunaos-osd %s\n' "$*" >>"$CALLS"
 SH
 
-cat >"$work/bin/omarchy-audio-tuning" <<'SH'
+cat >"$work/bin/lunaos-audio-tuning" <<'SH'
 #!/bin/bash
 case ${1:-} in
   fronted-sink) exit 1 ;;
@@ -78,25 +78,25 @@ chmod +x "$work/bin"/*
 
 export CALLS="$work/calls"
 
-# 1. omarchy-audio-output-set-default
+# 1. lunaos-audio-output-set-default
 : >"$CALLS"
-LC_ALL=en_US.UTF-8 PATH="$work/bin:$ROOT/bin:$PATH" "$ROOT/bin/omarchy-audio-output-set-default" 42 alsa_output.speakers 2>/dev/null || true
+LC_ALL=en_US.UTF-8 PATH="$work/bin:$ROOT/bin:$PATH" "$ROOT/bin/lunaos-audio-output-set-default" 42 alsa_output.speakers 2>/dev/null || true
 grep -qx 'C pactl list sink-inputs' "$CALLS" ||
   fail 'audio-output-set-default reads sink-inputs in the C locale' "$(cat "$CALLS")"
 grep -q 'pactl move-sink-input 42 alsa_output.speakers' "$CALLS" ||
   fail 'audio-output-set-default moves streams' "$(cat "$CALLS")"
 pass 'audio-output-set-default reads sink-inputs in the C locale'
 
-# 2. omarchy-audio-output-sink
+# 2. lunaos-audio-output-sink
 : >"$CALLS"
-res=$(LC_ALL=en_US.UTF-8 PATH="$work/bin:$ROOT/bin:$PATH" "$ROOT/bin/omarchy-audio-output-sink" "virtual_sink" 2>/dev/null)
+res=$(LC_ALL=en_US.UTF-8 PATH="$work/bin:$ROOT/bin:$PATH" "$ROOT/bin/lunaos-audio-output-sink" "virtual_sink" 2>/dev/null)
 grep -qx 'C pactl list sink-inputs' "$CALLS" ||
   fail 'audio-output-sink reads sink-inputs in the C locale' "$(cat "$CALLS")"
 pass 'audio-output-sink reads sink-inputs in the C locale'
 
-# 3. omarchy-audio-output-switch
+# 3. lunaos-audio-output-switch
 : >"$CALLS"
-LC_ALL=en_US.UTF-8 PATH="$work/bin:$ROOT/bin:$PATH" "$ROOT/bin/omarchy-audio-output-switch" 2>/dev/null || true
+LC_ALL=en_US.UTF-8 PATH="$work/bin:$ROOT/bin:$PATH" "$ROOT/bin/lunaos-audio-output-switch" 2>/dev/null || true
 grep -qx 'C pactl -f json list sinks' "$CALLS" ||
   fail 'audio-output-switch reads sinks in the C locale' "$(cat "$CALLS")"
 grep -qx 'C pactl get-sink-volume alsa_output.headphones' "$CALLS" ||
@@ -105,19 +105,19 @@ grep -qx 'C pactl get-sink-mute alsa_output.headphones' "$CALLS" ||
   fail 'audio-output-switch reads sink mute in the C locale' "$(cat "$CALLS")"
 pass 'audio-output-switch reads pactl outputs in the C locale'
 
-# 4. omarchy-audio-output-volume
+# 4. lunaos-audio-output-volume
 : >"$CALLS"
-LC_ALL=en_US.UTF-8 PATH="$work/bin:$ROOT/bin:$PATH" "$ROOT/bin/omarchy-audio-output-volume" +5 2>/dev/null || true
+LC_ALL=en_US.UTF-8 PATH="$work/bin:$ROOT/bin:$PATH" "$ROOT/bin/lunaos-audio-output-volume" +5 2>/dev/null || true
 grep -qx 'C pactl get-sink-volume alsa_output.speakers' "$CALLS" ||
   fail 'audio-output-volume reads sink volume in the C locale' "$(cat "$CALLS")"
 grep -qx 'C pactl get-sink-mute alsa_output.speakers' "$CALLS" ||
   fail 'audio-output-volume reads sink mute in the C locale' "$(cat "$CALLS")"
 pass 'audio-output-volume reads pactl outputs in the C locale'
 
-# 5. omarchy-audio-tuning app_streams
+# 5. lunaos-audio-tuning app_streams
 : >"$CALLS"
 (
-  eval "$(sed -n '/^app_streams() {/,/^}/p' "$ROOT/bin/omarchy-audio-tuning")"
+  eval "$(sed -n '/^app_streams() {/,/^}/p' "$ROOT/bin/lunaos-audio-tuning")"
   LC_ALL=en_US.UTF-8 PATH="$work/bin:$ROOT/bin:$PATH" app_streams 2>/dev/null >/dev/null
 )
 grep -qx 'C pactl list sink-inputs' "$CALLS" ||

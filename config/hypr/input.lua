@@ -1,5 +1,5 @@
 -- Keep only your personal input overrides here. Uncommented settings below
--- replace Omarchy's defaults.
+-- replace LunaOS's defaults.
 
 -- Keyboard layout and options.
 -- See https://wiki.hypr.land/Configuring/Basics/Variables/#input
@@ -7,7 +7,7 @@
 --   input = {
 --     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt.
 --     kb_layout = "us,dk,eu",
---     kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+--     kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
 --
 --     -- Use a specific keyboard variant if needed (e.g. intl for international keyboards).
 --     kb_variant = "intl",

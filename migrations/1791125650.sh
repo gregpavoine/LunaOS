@@ -3,11 +3,11 @@ echo "Install the fingerprint resume hook on existing fingerprint setups"
 # Existing enrolled machines never rerun setup. Install only missing files
 # so administrator changes survive an upgrade.
 
-hook_src="${OMARCHY_FPRINTD_RESUME_SRC:-$OMARCHY_PATH/default/systemd/system-sleep/fprintd-resume}"
-hook_dst="${OMARCHY_FPRINTD_RESUME_DST:-/usr/lib/systemd/system-sleep/fprintd-resume}"
-stop_timeout_src="${OMARCHY_FPRINTD_STOP_TIMEOUT_SRC:-$OMARCHY_PATH/default/systemd/system/fprintd.service.d/10-stop-timeout.conf}"
-stop_timeout_dst="${OMARCHY_FPRINTD_STOP_TIMEOUT_DST:-/etc/systemd/system/fprintd.service.d/10-stop-timeout.conf}"
-lock_pam="${OMARCHY_LOCK_FINGERPRINT_PAM:-/etc/pam.d/omarchy-lock-fingerprint}"
+hook_src="${LUNAOS_FPRINTD_RESUME_SRC:-$LUNAOS_PATH/default/systemd/system-sleep/fprintd-resume}"
+hook_dst="${LUNAOS_FPRINTD_RESUME_DST:-/usr/lib/systemd/system-sleep/fprintd-resume}"
+stop_timeout_src="${LUNAOS_FPRINTD_STOP_TIMEOUT_SRC:-$LUNAOS_PATH/default/systemd/system/fprintd.service.d/10-stop-timeout.conf}"
+stop_timeout_dst="${LUNAOS_FPRINTD_STOP_TIMEOUT_DST:-/etc/systemd/system/fprintd.service.d/10-stop-timeout.conf}"
+lock_pam="${LUNAOS_LOCK_FINGERPRINT_PAM:-/etc/pam.d/lunaos-lock-fingerprint}"
 
 [[ -f $lock_pam ]] || exit 0
 

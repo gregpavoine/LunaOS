@@ -1,8 +1,8 @@
 # Téamaí
 
-Tagann dhá théama is fiche áille le Omarchy. Is féidir leat roghnú eatarthu trí _Stíl > Téama_ i Roghchlár Omarchy (`Super + Space`) nó léim go díreach chuig an roghnóir téama le `Super + Ctrl + Shift + Space`.
+Tagann dhá théama is fiche áille le LunaOS. Is féidir leat roghnú eatarthu trí _Stíl > Téama_ i Roghchlár LunaOS (`Super + Space`) nó léim go díreach chuig an roghnóir téama le `Super + Ctrl + Shift + Space`.
 
-Stílíonn gach téama an deasc, an teirminéal, neovim, an scáileán gníomhaíochta (btop), Chromium, agus blaosc iomlán Omarchy: barra barr, roghchlár, fógraí, OSD, agus an scáileán glasa. (Do Obsidian, caithfidh tú téama Omarchy a roghnú de láimh trí _Appearance > Themes_ taobh istigh den aip).
+Stílíonn gach téama an deasc, an teirminéal, neovim, an scáileán gníomhaíochta (btop), Chromium, agus blaosc iomlán LunaOS: barra barr, roghchlár, fógraí, OSD, agus an scáileán glasa. (Do Obsidian, caithfidh tú téama LunaOS a roghnú de láimh trí _Appearance > Themes_ taobh istigh den aip).
 
 Tá tacar íomhánna cúlra ag téamaí ar féidir leat roghnú eatarthu le `Super + Ctrl + Space`.
 

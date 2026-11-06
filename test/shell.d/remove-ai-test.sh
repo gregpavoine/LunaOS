@@ -9,13 +9,13 @@ trap 'rm -rf "$tmp_dir"' EXIT
 
 mkdir -p "$tmp_dir/bin"
 
-cat >"$tmp_dir/bin/omarchy-pkg-drop" <<'SCRIPT'
+cat >"$tmp_dir/bin/lunaos-pkg-drop" <<'SCRIPT'
 #!/bin/bash
 printf 'drop:%s\n' "$*" >>"$TEST_LOG"
 SCRIPT
-chmod +x "$tmp_dir/bin/omarchy-pkg-drop"
+chmod +x "$tmp_dir/bin/lunaos-pkg-drop"
 
-# omarchy-remove-ai-claude quits the running app before deleting its state;
+# lunaos-remove-ai-claude quits the running app before deleting its state;
 # a real pkill here would take the developer's own Claude with it.
 cat >"$tmp_dir/bin/pkill" <<'SCRIPT'
 #!/bin/bash
@@ -23,7 +23,7 @@ printf 'pkill:%s\n' "$*" >>"$TEST_LOG"
 SCRIPT
 chmod +x "$tmp_dir/bin/pkill"
 
-# omarchy-remove-ai-perplexity asks through gum whether the user's data goes
+# lunaos-remove-ai-perplexity asks through gum whether the user's data goes
 # too. The stub answers "no" unless a test says otherwise and logs the call: a
 # real gum would hang the run, and one that answered "yes" on its own would be
 # the data loss the default-no exists to prevent. It logs to its own file
@@ -52,7 +52,7 @@ fresh_home() {
 # ~/.cache/codex-runtimes, so removing the desktop app must not take it.
 fresh_home
 mkdir -p "$HOME/.config/Codex" "$HOME/.cache/Codex" "$HOME/.cache/codex-runtimes/codex-primary-runtime" "$HOME/.codex"
-"$ROOT/bin/omarchy-remove-ai-chatgpt" >/dev/null
+"$ROOT/bin/lunaos-remove-ai-chatgpt" >/dev/null
 
 [[ ! -e $HOME/.config/Codex ]] || fail "ChatGPT removal deletes the desktop app's config"
 pass "ChatGPT removal deletes the desktop app's config"
@@ -69,7 +69,7 @@ pass "ChatGPT removal keeps the Codex CLI's config"
 fresh_home
 mkdir -p "$HOME/.config/Claude" "$HOME/.cache/Claude" "$HOME/.cache/claude-cli-nodejs" "$HOME/.claude"
 touch "$HOME/.claude.json"
-"$ROOT/bin/omarchy-remove-ai-claude" >/dev/null
+"$ROOT/bin/lunaos-remove-ai-claude" >/dev/null
 
 for gone in .config/Claude .cache/Claude; do
   [[ ! -e $HOME/$gone ]] || fail "Claude removal deletes the desktop app's config and caches" "$gone"
@@ -89,7 +89,7 @@ fresh_home
 mkdir -p "$tmp_dir/relocated-models/models"
 printf '%s' "$tmp_dir/relocated-models" >"$HOME/.lmstudio-home-pointer"
 mkdir -p "$HOME/.config/LM Studio"
-"$ROOT/bin/omarchy-remove-ai-lm-studio" >/dev/null
+"$ROOT/bin/lunaos-remove-ai-lm-studio" >/dev/null
 
 [[ ! -e $tmp_dir/relocated-models ]] || fail "LM Studio removal follows a relocated home pointer"
 pass "LM Studio removal follows a relocated home pointer"
@@ -101,7 +101,7 @@ pass "LM Studio removal deletes its config"
 fresh_home
 printf '%s' "$HOME" >"$HOME/.lmstudio-home-pointer"
 mkdir -p "$HOME/Documents"
-"$ROOT/bin/omarchy-remove-ai-lm-studio" >/dev/null
+"$ROOT/bin/lunaos-remove-ai-lm-studio" >/dev/null
 
 [[ -d $HOME/Documents ]] || fail "LM Studio removal refuses a pointer aimed at the home directory"
 pass "LM Studio removal refuses a pointer aimed at the home directory"
@@ -110,7 +110,7 @@ pass "LM Studio removal refuses a pointer aimed at the home directory"
 fresh_home
 mkdir -p "$HOME/.config/t3code" "$HOME/.t3" "$HOME/.grok" "$HOME/.local/share/opencode" "$HOME/.npm"
 touch "$HOME/.claude.json"
-"$ROOT/bin/omarchy-remove-ai-t3-code" >/dev/null
+"$ROOT/bin/lunaos-remove-ai-t3-code" >/dev/null
 
 [[ ! -e $HOME/.t3 ]] || fail "T3 Code removal deletes its own data"
 pass "T3 Code removal deletes its own data"
@@ -129,7 +129,7 @@ touch "$HOME/.local/share/t3code/T3-Code.AppImage" "$HOME/.local/share/applicati
   "$HOME/.local/share/applications/com.t3tools.T3Code.desktop" "$HOME/.local/share/icons/com.t3tools.T3Code.desktop.png" \
   "$HOME/.local/share/icons/hicolor/512x512/apps/t3code.png" "$HOME/.local/share/applications/other.desktop"
 ln -s "$HOME/.t3/bin/t3" "$HOME/.local/bin/t3"
-"$ROOT/bin/omarchy-remove-ai-t3-code" >/dev/null
+"$ROOT/bin/lunaos-remove-ai-t3-code" >/dev/null
 
 for gone in .local/share/t3code .local/share/applications/t3code.desktop .local/share/applications/com.t3tools.T3Code.desktop \
   .local/share/icons/com.t3tools.T3Code.desktop.png .local/share/icons/hicolor/512x512/apps/t3code.png \
@@ -143,7 +143,7 @@ pass "T3 Code removal deletes the app, its launchers, icons, update cache and t3
 fresh_home
 mkdir -p "$HOME/.local/bin"
 echo "#!/bin/sh" >"$HOME/.local/bin/t3"
-"$ROOT/bin/omarchy-remove-ai-t3-code" >/dev/null
+"$ROOT/bin/lunaos-remove-ai-t3-code" >/dev/null
 [[ -f $HOME/.local/bin/t3 ]] || fail "T3 Code removal keeps a t3 the user put there"
 pass "T3 Code removal keeps a t3 the user put there"
 
@@ -161,7 +161,7 @@ seed_perplexity() {
 # </dev/null pins stdin off a terminal, so this run exercises the
 # non-interactive path no matter where the suite itself is running.
 seed_perplexity
-"$ROOT/bin/omarchy-remove-ai-perplexity" </dev/null >/dev/null
+"$ROOT/bin/lunaos-remove-ai-perplexity" </dev/null >/dev/null
 
 for gone in .cache/Perplexity .cache/perplexity-rpc-server .local/share/perplexity-rpc-server; do
   [[ ! -e $HOME/$gone ]] || fail "Perplexity removal deletes the app's runtime and caches" "$gone"
@@ -184,7 +184,7 @@ pass "Perplexity removal keeps the user's data unasked when there is no terminal
 # script(1) puts the remover on a pty, the only way -t 0 answers true in a
 # test; the stubbed gum then supplies the answer.
 seed_perplexity
-script -qec "'$ROOT/bin/omarchy-remove-ai-perplexity'" /dev/null >/dev/null 2>&1
+script -qec "'$ROOT/bin/lunaos-remove-ai-perplexity'" /dev/null >/dev/null 2>&1
 
 [[ -d $HOME/.config/Perplexity && -d $HOME/.local/state/perplexity && -f $HOME/.config/perplexity-flags.conf ]] ||
   fail "Perplexity removal keeps the user's data when the answer is no"
@@ -200,7 +200,7 @@ pass "Perplexity removal asks with the destructive answer defaulted off"
 # the removal between the package and the prompt.
 seed_perplexity
 rm -rf "$HOME/.config/Perplexity" "$HOME/.local/state/perplexity"
-script -qec "'$ROOT/bin/omarchy-remove-ai-perplexity'" /dev/null >/dev/null 2>&1 ||
+script -qec "'$ROOT/bin/lunaos-remove-ai-perplexity'" /dev/null >/dev/null 2>&1 ||
   fail "Perplexity removal survives user-data directories that are already gone"
 pass "Perplexity removal survives user-data directories that are already gone"
 
@@ -208,14 +208,14 @@ pass "Perplexity removal survives user-data directories that are already gone"
 # invisible, so the remover must keep the data instead of blocking on it.
 seed_perplexity
 gum_calls_before=$(wc -l <"$TEST_GUM_LOG")
-script -qec "'$ROOT/bin/omarchy-remove-ai-perplexity' 2>/dev/null" /dev/null >/dev/null 2>&1 ||
+script -qec "'$ROOT/bin/lunaos-remove-ai-perplexity' 2>/dev/null" /dev/null >/dev/null 2>&1 ||
   fail "Perplexity removal completes when stderr is not a terminal"
 [[ -d $HOME/.config/Perplexity ]] && (( $(wc -l <"$TEST_GUM_LOG") == gum_calls_before )) ||
   fail "Perplexity removal keeps the user's data unasked when stderr is not a terminal"
 pass "Perplexity removal keeps the user's data unasked when stderr is not a terminal"
 
 seed_perplexity
-TEST_GUM_STATUS=0 script -qec "'$ROOT/bin/omarchy-remove-ai-perplexity'" /dev/null >/dev/null 2>&1
+TEST_GUM_STATUS=0 script -qec "'$ROOT/bin/lunaos-remove-ai-perplexity'" /dev/null >/dev/null 2>&1
 
 for gone in .config/Perplexity .local/state/perplexity .config/perplexity-flags.conf; do
   [[ ! -e $HOME/$gone ]] || fail "Perplexity removal deletes the user's data on an explicit yes" "$gone"
@@ -224,15 +224,15 @@ pass "Perplexity removal deletes the user's data on an explicit yes"
 
 # Without HOME the rm -rf paths would degrade to /-rooted ones; -u makes that a
 # refusal instead.
-if env -u HOME "$ROOT/bin/omarchy-remove-ai-perplexity" </dev/null >/dev/null 2>&1; then
+if env -u HOME "$ROOT/bin/lunaos-remove-ai-perplexity" </dev/null >/dev/null 2>&1; then
   fail "Perplexity removal refuses to run without HOME"
 fi
 pass "Perplexity removal refuses to run without HOME"
 
-# ~/.grok belongs to the Grok CLI that omarchy-default-agent installs.
+# ~/.grok belongs to the Grok CLI that lunaos-default-agent installs.
 fresh_home
 mkdir -p "$HOME/.config/Grok Bot" "$HOME/.grokbot" "$HOME/.grok"
-"$ROOT/bin/omarchy-remove-ai-grok-bot" >/dev/null
+"$ROOT/bin/lunaos-remove-ai-grok-bot" >/dev/null
 
 [[ ! -e $HOME/.grokbot ]] || fail "Grok Bot removal deletes its own data"
 pass "Grok Bot removal deletes its own data"
@@ -242,9 +242,9 @@ pass "Grok Bot removal keeps the Grok CLI's state"
 
 # Every acceleration variant depends on the base package, so package presence is
 # the test the remover can actually act on; the command alone is also provided by
-# builds omarchy-pkg-drop will not touch.
-ollama_row=$(grep '^  "remove.ai.ollama":' "$ROOT/default/omarchy/omarchy-menu.jsonc")
-[[ $ollama_row == *'"when":"omarchy-pkg-present ollama"'* ]] ||
+# builds lunaos-pkg-drop will not touch.
+ollama_row=$(grep '^  "remove.ai.ollama":' "$ROOT/default/lunaos/lunaos-menu.jsonc")
+[[ $ollama_row == *'"when":"lunaos-pkg-present ollama"'* ]] ||
   fail "Ollama removal is offered only where the package is installed" "$ollama_row"
 pass "Ollama removal is offered only where the package is installed"
 
@@ -270,7 +270,7 @@ fresh_openclaw_home() {
   fresh_home
   mkdir -p "$HOME/.config/systemd/user/default.target.wants" "$HOME/.openclaw" \
     "$HOME/.local/share/applications" "$HOME/.local/share/icons/hicolor/256x256/apps" \
-    "$HOME/.local/state/omarchy/openclaw-stopped"
+    "$HOME/.local/state/lunaos/openclaw-stopped"
   touch "$HOME/.config/systemd/user/openclaw-gateway.service" \
     "$HOME/.config/systemd/user/openclaw-gateway.service.bak" \
     "$HOME/.config/systemd/user/openclaw-gateway.service.reconcile-0f1e.bak" \
@@ -279,7 +279,7 @@ fresh_openclaw_home() {
     "$HOME/.openclaw/openclaw.json" \
     "$HOME/.local/share/applications/OpenClaw.desktop" \
     "$HOME/.local/share/icons/hicolor/256x256/apps/openclaw.png" \
-    "$HOME/.local/state/omarchy/openclaw-stopped/gateway"
+    "$HOME/.local/state/lunaos/openclaw-stopped/gateway"
   ln -s ../openclaw-gateway.service \
     "$HOME/.config/systemd/user/default.target.wants/openclaw-gateway.service"
   ln -s ../openclaw-node.service \
@@ -296,7 +296,7 @@ SCRIPT
 chmod +x "$tmp_dir/bin/gum"
 
 fresh_openclaw_home
-"$ROOT/bin/omarchy-remove-ai-openclaw" >/dev/null
+"$ROOT/bin/lunaos-remove-ai-openclaw" >/dev/null
 
 for gone in .config/systemd/user/openclaw-gateway.service \
   .config/systemd/user/openclaw-gateway.service.bak \
@@ -307,7 +307,7 @@ for gone in .config/systemd/user/openclaw-gateway.service \
   .config/systemd/user/default.target.wants/openclaw-node.service \
   .local/share/applications/OpenClaw.desktop \
   .local/share/icons/hicolor/256x256/apps/openclaw.png \
-  .local/state/omarchy/openclaw-stopped; do
+  .local/state/lunaos/openclaw-stopped; do
   [[ ! -e $HOME/$gone && ! -L $HOME/$gone ]] || fail "OpenClaw removal deletes the service and launcher it installed" "$gone"
 done
 pass "OpenClaw removal deletes the service and launcher it installed"
@@ -330,12 +330,12 @@ pass "OpenClaw removal stops the gateway service"
 pass "OpenClaw removal keeps the user's agent state"
 
 # The command on PATH goes; the OpenClaw it pointed at stays with the state,
-# since only that copy is sure to open it. A link somewhere else is not Omarchy's.
+# since only that copy is sure to open it. A link somewhere else is not LunaOS's.
 fresh_openclaw_home
 mkdir -p "$HOME/.openclaw/bin" "$HOME/.openclaw/tools/node-v24.19.0/lib" "$HOME/.local/bin"
 printf '#!/usr/bin/env bash\n' >"$HOME/.openclaw/bin/openclaw"
 ln -s "$HOME/.openclaw/bin/openclaw" "$HOME/.local/bin/openclaw"
-"$ROOT/bin/omarchy-remove-ai-openclaw" >/dev/null
+"$ROOT/bin/lunaos-remove-ai-openclaw" >/dev/null
 [[ ! -e $HOME/.local/bin/openclaw && ! -L $HOME/.local/bin/openclaw ]] || fail "OpenClaw removal takes openclaw off PATH"
 [[ -f $HOME/.openclaw/bin/openclaw && -d $HOME/.openclaw/tools && -f $HOME/.openclaw/openclaw.json ]] ||
   fail "OpenClaw removal keeps the OpenClaw that can open the state"
@@ -343,7 +343,7 @@ ln -s "$HOME/.openclaw/bin/openclaw" "$HOME/.local/bin/openclaw"
 fresh_openclaw_home
 mkdir -p "$HOME/.local/bin"
 ln -s /opt/openclaw/openclaw "$HOME/.local/bin/openclaw"
-"$ROOT/bin/omarchy-remove-ai-openclaw" >/dev/null
+"$ROOT/bin/lunaos-remove-ai-openclaw" >/dev/null
 [[ -L $HOME/.local/bin/openclaw ]] || fail "OpenClaw removal takes openclaw off PATH" "someone else's link went with it"
 pass "OpenClaw removal takes openclaw off PATH and keeps the copy that can open the state"
 
@@ -359,7 +359,7 @@ chmod +x "$tmp_dir/bin/openclaw"
 
 : >"$TEST_LOG"
 fresh_openclaw_home
-"$ROOT/bin/omarchy-remove-ai-openclaw" >/dev/null
+"$ROOT/bin/lunaos-remove-ai-openclaw" >/dev/null
 
 grep -q '^openclaw:gateway uninstall$' "$TEST_LOG" ||
   fail "OpenClaw removal prefers upstream's own gateway teardown"
@@ -372,7 +372,7 @@ pass "OpenClaw removal prefers upstream's own gateway teardown"
 # Without the unit file there is nothing of ours registered, so systemd stays untouched.
 systemctl_calls_before=$(grep -c '^systemctl:' "$TEST_LOG" || true)
 fresh_home
-"$ROOT/bin/omarchy-remove-ai-openclaw" >/dev/null
+"$ROOT/bin/lunaos-remove-ai-openclaw" >/dev/null
 systemctl_calls_after=$(grep -c '^systemctl:' "$TEST_LOG" || true)
 
 [[ $systemctl_calls_before == "$systemctl_calls_after" ]] ||
@@ -399,7 +399,7 @@ chmod +x "$tmp_dir/bin/systemctl"
 drop_calls_before=$(grep -c '^drop:openclaw$' "$TEST_LOG" || true)
 fresh_openclaw_home
 rc=0
-"$ROOT/bin/omarchy-remove-ai-openclaw" >/dev/null 2>&1 || rc=$?
+"$ROOT/bin/lunaos-remove-ai-openclaw" >/dev/null 2>&1 || rc=$?
 drop_calls_after=$(grep -c '^drop:openclaw$' "$TEST_LOG" || true)
 
 [[ $rc != 0 ]] || fail "OpenClaw removal aborts when the gateway cannot be stopped"
@@ -422,7 +422,7 @@ chmod +x "$tmp_dir/bin/systemctl"
 : >"$TEST_LOG"
 fresh_openclaw_home
 rc=0
-"$ROOT/bin/omarchy-remove-ai-openclaw" >/dev/null 2>&1 || rc=$?
+"$ROOT/bin/lunaos-remove-ai-openclaw" >/dev/null 2>&1 || rc=$?
 
 [[ $rc != 0 ]] || fail "OpenClaw removal aborts when systemd cannot be reached"
 [[ -f $HOME/.config/systemd/user/openclaw-gateway.service ]] ||
@@ -439,13 +439,13 @@ cat >"$tmp_dir/bin/systemctl" <<'SCRIPT'
 printf 'systemctl:%s\n' "$*" >>"$TEST_LOG"
 SCRIPT
 chmod +x "$tmp_dir/bin/systemctl"
-mv "$tmp_dir/bin/omarchy-pkg-drop" "$tmp_dir/omarchy-pkg-drop.real"
-printf '#!/bin/bash\nexit 1\n' >"$tmp_dir/bin/omarchy-pkg-drop"
-chmod +x "$tmp_dir/bin/omarchy-pkg-drop"
-if "$ROOT/bin/omarchy-remove-ai-openclaw" >/dev/null 2>&1; then
+mv "$tmp_dir/bin/lunaos-pkg-drop" "$tmp_dir/lunaos-pkg-drop.real"
+printf '#!/bin/bash\nexit 1\n' >"$tmp_dir/bin/lunaos-pkg-drop"
+chmod +x "$tmp_dir/bin/lunaos-pkg-drop"
+if "$ROOT/bin/lunaos-remove-ai-openclaw" >/dev/null 2>&1; then
   fail "OpenClaw removal fails when the package cannot be dropped"
 fi
-[[ ! -e $HOME/.local/state/omarchy/openclaw-stopped/gateway ]] ||
+[[ ! -e $HOME/.local/state/lunaos/openclaw-stopped/gateway ]] ||
   fail "OpenClaw removal drops a service's restart record with the service, before anything else can fail"
-mv "$tmp_dir/omarchy-pkg-drop.real" "$tmp_dir/bin/omarchy-pkg-drop"
+mv "$tmp_dir/lunaos-pkg-drop.real" "$tmp_dir/bin/lunaos-pkg-drop"
 pass "OpenClaw removal drops a service's restart record with the service, before anything else can fail"

@@ -6,7 +6,7 @@ Alle wichtigsten Tastenzuordnungen siehst du mit `Super + K` (Tmux-Zuordnungen m
 
 | Tastenkürzel                  | Funktion              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy-Menü (Apps und alles andere)    |
+| `Super + Space`           | LunaOS-Menü (Apps und alles andere)    |
 | `Super + Alt + Space` | App-Raster |
 | `Super + Escape` | Systemmenü (Standby, Neustart usw.)  |
 | `Super + Ctrl + L` | Computer sperren |
@@ -136,7 +136,7 @@ Zuordnungen in `~/.config/hypr/bindings.lua` ändern/hinzufügen.
 | `Super + V`           | Einfügen    |
 | `Super + Ctrl + V`           | Zwischenablage-Manager    |
 
-Normalerweise braucht man unter Linux `Ctrl + Shift + C/V`, um im Terminal zu kopieren und einzufügen, und `Ctrl + C/V`, um es überall sonst zu tun. Diese einheitlichen Omarchy-Zwischenablage-Tastenkürzel funktionieren überall.
+Normalerweise braucht man unter Linux `Ctrl + Shift + C/V`, um im Terminal zu kopieren und einzufügen, und `Ctrl + C/V`, um es überall sonst zu tun. Diese einheitlichen LunaOS-Zwischenablage-Tastenkürzel funktionieren überall.
 
 ## Aufnehmen
 
@@ -156,7 +156,7 @@ Normalerweise braucht man unter Linux `Ctrl + Shift + C/V`, um im Terminal zu ko
 
 Bei Bildschirmaufnahmen fragt das Tastenkürzel zuerst, welches Audio du willst, und startet dann die Aufnahme. Drücke es erneut, um zu stoppen. Siehe [Screenshots und Aufnahme](12-screenshots-recording.md) für die Details.
 
-Alle Aufnehmen-Optionen sind auch unter _Auslösen > Aufnehmen_ im Omarchy-Menü (`Super + Space`) erreichbar.
+Alle Aufnehmen-Optionen sind auch unter _Auslösen > Aufnehmen_ im LunaOS-Menü (`Super + Space`) erreichbar.
 
 ## Benachrichtigungen
 
@@ -177,9 +177,9 @@ Alle Aufnehmen-Optionen sind auch unter _Auslösen > Aufnehmen_ im Omarchy-Menü
 | `Super + Backspace` | Transparenz eines Fensters umschalten |
 | `Super + Ctrl + Backspace` | Quadratisches Seitenverhältnis für einzelnes Fenster umschalten |
 
-Zusätzliche Hintergrundbilder leben in `~/.config/omarchy/backgrounds/<theme name>`. Auch über _Installieren > Stil > Hintergrund_ im Omarchy-Menü verfügbar.
+Zusätzliche Hintergrundbilder leben in `~/.config/lunaos/backgrounds/<theme name>`. Auch über _Installieren > Stil > Hintergrund_ im LunaOS-Menü verfügbar.
 
-Alle Stil-Optionen sind auch unter _Stil_ im Omarchy-Menü (`Super + Space`) erreichbar.
+Alle Stil-Optionen sind auch unter _Stil_ im LunaOS-Menü (`Super + Space`) erreichbar.
 
 ## Schalter
 
@@ -281,7 +281,7 @@ Diese Funktionen müssen innerhalb einer Tmux-Sitzung ausgeführt werden.
 
 ## Ghostty Terminal
 
-Das Ghostty-Terminal wird über _Installieren > Terminal_ im Omarchy-Menü installiert.
+Das Ghostty-Terminal wird über _Installieren > Terminal_ im LunaOS-Menü installiert.
 
 | Tastenkürzel                  | Funktion              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Du kannst `Super + Ctrl + E` verwenden, um eine vollständige Emoji-Auswahl zu z
 | `Shift + CapsLock Space N` | Dein Name (wie bei der Einrichtung eingegeben)  |
 | `Shift + CapsLock Space E` | Deine E-Mail (wie bei der Einrichtung eingegeben)  |
 
-Du kannst weitere eigene hinzufügen, indem du `~/.XCompose` bearbeitest und dann `omarchy-restart-xcompose` im Terminal ausführst, damit die Änderungen übernommen werden.
+Du kannst weitere eigene hinzufügen, indem du `~/.XCompose` bearbeitest und dann `lunaos-restart-xcompose` im Terminal ausführst, damit die Änderungen übernommen werden.

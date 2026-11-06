@@ -1,16 +1,16 @@
 # Wsparcie dla Maców
 
-Omarchy ma wbudowane wsparcie dla **Maców z procesorami Intel**. W tej chwili jest kilka znanych ograniczeń, ale o ile masz ich świadomość i ci nie przeszkadzają, możesz tchnąć nowe życie w swoje stare Maki, instalując na nich Omarchy.
+LunaOS ma wbudowane wsparcie dla **Maców z procesorami Intel**. W tej chwili jest kilka znanych ograniczeń, ale o ile masz ich świadomość i ci nie przeszkadzają, możesz tchnąć nowe życie w swoje stare Maki, instalując na nich LunaOS.
 
-Pamiętaj, że instalacja na Macu z serii M nie jest w tej chwili bezpośrednio wspierana. Więcej o stanie tych prac dowiesz się na kanale #omarchy-on-other na naszym [Discordzie](https://discord.gg/tXFUdasqhY).
+Pamiętaj, że instalacja na Macu z serii M nie jest w tej chwili bezpośrednio wspierana. Więcej o stanie tych prac dowiesz się na kanale #lunaos-on-other na naszym [Discordzie](https://discord.gg/tXFUdasqhY).
 
-W prostym teście udało nam się osiągnąć 36% wzrost wydajności na MacBooku Pro z 2019 roku już samą instalacją Omarchy.
+W prostym teście udało nam się osiągnąć 36% wzrost wydajności na MacBooku Pro z 2019 roku już samą instalacją LunaOS.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Instalacja Omarchy na Macu
+### Instalacja LunaOS na Macu
 
-Omarchy wspiera w tej chwili tylko bycie **jedynym** zainstalowanym systemem operacyjnym. Podczas instalacji dysk zostanie wyczyszczony, a MacOS nie będzie już można uruchomić.
+LunaOS wspiera w tej chwili tylko bycie **jedynym** zainstalowanym systemem operacyjnym. Podczas instalacji dysk zostanie wyczyszczony, a MacOS nie będzie już można uruchomić.
 
 Później nadal możesz go przywrócić przez Internet Recovery, jeśli zechcesz.
 
@@ -39,7 +39,7 @@ Instalator wykrywa sprzęt Maca i automatycznie stosuje potrzebne poprawki: ster
 
 ### Znane ograniczenia
 
-Członkowie społeczności stale pracują nad rozwiązaniami tych wyzwań, więc jeśli są one dla ciebie problematyczne, dołącz do kanału #omarchy-on-other na naszym [Discordzie](https://discord.gg/tXFUdasqhY) i zobacz, czy są jakieś aktualne sposoby ich rozwiązania.
+Członkowie społeczności stale pracują nad rozwiązaniami tych wyzwań, więc jeśli są one dla ciebie problematyczne, dołącz do kanału #lunaos-on-other na naszym [Discordzie](https://discord.gg/tXFUdasqhY) i zobacz, czy są jakieś aktualne sposoby ich rozwiązania.
 
 #### Urządzenia z układem T1
 

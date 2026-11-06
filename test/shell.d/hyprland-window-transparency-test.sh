@@ -10,54 +10,54 @@ trap 'rm -rf "$tmpdir"' EXIT
 stub_dir="$tmpdir/bin"
 home_dir="$tmpdir/home"
 state_home="$tmpdir/state"
-toggles_dir="$state_home/omarchy/toggles/hypr"
+toggles_dir="$state_home/lunaos/toggles/hypr"
 mkdir -p "$stub_dir" "$home_dir"
 
-for command in hyprctl omarchy-notification-send omarchy-restart-terminal omarchy-theme-set-foot omarchy-restart-btop; do
+for command in hyprctl lunaos-notification-send lunaos-restart-terminal lunaos-theme-set-foot lunaos-restart-btop; do
   printf '#!/bin/bash\nprintf "%%s\\n" "%s $*" >>"%s/commands.log"\n' "$command" "$tmpdir" >"$stub_dir/$command"
 done
 chmod +x "$stub_dir"/*
 
 run() {
-  HOME="$home_dir" XDG_RUNTIME_DIR="$tmpdir" XDG_STATE_HOME="$state_home" XDG_CONFIG_HOME="$home_dir/.config" OMARCHY_PATH="$ROOT" PATH="$stub_dir:$ROOT/bin:$PATH" "$@"
+  HOME="$home_dir" XDG_RUNTIME_DIR="$tmpdir" XDG_STATE_HOME="$state_home" XDG_CONFIG_HOME="$home_dir/.config" LUNAOS_PATH="$ROOT" PATH="$stub_dir:$ROOT/bin:$PATH" "$@"
 }
 
-[[ $(run omarchy-hyprland-window-transparency) == "transparent" ]] || fail "windows start out transparent"
+[[ $(run lunaos-hyprland-window-transparency) == "transparent" ]] || fail "windows start out transparent"
 pass "windows start out transparent"
 
-run omarchy-hyprland-window-transparency glassy
-[[ $(run omarchy-hyprland-window-transparency) == "glassy" ]] || fail "glassy windows are reported"
+run lunaos-hyprland-window-transparency glassy
+[[ $(run lunaos-hyprland-window-transparency) == "glassy" ]] || fail "glassy windows are reported"
 cmp -s "$ROOT/default/hypr/toggles/window-glassy.lua" "$toggles_dir/window-glassy.lua" || fail "glassy windows are loaded after the theme"
 grep -qx 'hyprctl reload' "$tmpdir/commands.log" || fail "new transparency reloads Hyprland"
-grep -q '^omarchy-restart-btop ' "$tmpdir/commands.log" || fail "new transparency reloads running btop windows"
-! grep -q '^omarchy-notification-send' "$tmpdir/commands.log" || fail "new transparency is shown, not announced"
+grep -q '^lunaos-restart-btop ' "$tmpdir/commands.log" || fail "new transparency reloads running btop windows"
+! grep -q '^lunaos-notification-send' "$tmpdir/commands.log" || fail "new transparency is shown, not announced"
 pass "glassy windows override the theme"
 
-run omarchy-hyprland-window-transparency opaque
-[[ $(run omarchy-hyprland-window-transparency) == "opaque" ]] || fail "opaque windows are reported"
+run lunaos-hyprland-window-transparency opaque
+[[ $(run lunaos-hyprland-window-transparency) == "opaque" ]] || fail "opaque windows are reported"
 [[ ! -e $toggles_dir/window-glassy.lua ]] || fail "opaque windows replace glassy ones"
 pass "opaque windows replace glassy ones"
 
-run omarchy-hyprland-window-transparency transparent
-[[ $(run omarchy-hyprland-window-transparency) == "transparent" ]] || fail "transparent windows are reported"
+run lunaos-hyprland-window-transparency transparent
+[[ $(run lunaos-hyprland-window-transparency) == "transparent" ]] || fail "transparent windows are reported"
 [[ ! -e $toggles_dir/window-opaque.lua ]] || fail "transparent windows drop the override"
 pass "transparent windows drop the override"
 
-if run omarchy-hyprland-window-transparency frosted 2>/dev/null; then
+if run lunaos-hyprland-window-transparency frosted 2>/dev/null; then
   fail "unknown transparency is refused"
 fi
 pass "unknown transparency is refused"
 
 # A failed save keeps the transparency already chosen.
-run omarchy-hyprland-window-transparency glassy
+run lunaos-hyprland-window-transparency glassy
 chmod a-w "$toggles_dir"
-if run omarchy-hyprland-window-transparency opaque 2>/dev/null; then
+if run lunaos-hyprland-window-transparency opaque 2>/dev/null; then
   chmod u+w "$toggles_dir"
   fail "a failed save is reported"
 fi
 chmod u+w "$toggles_dir"
-[[ $(run omarchy-hyprland-window-transparency) == "glassy" ]] || fail "a failed save keeps the transparency already chosen"
-run omarchy-hyprland-window-transparency transparent
+[[ $(run lunaos-hyprland-window-transparency) == "glassy" ]] || fail "a failed save keeps the transparency already chosen"
+run lunaos-hyprland-window-transparency transparent
 pass "a failed save keeps the transparency already chosen"
 
 # GTK apps only ask Hyprland for blur under a CSS backdrop-filter, so glassy
@@ -65,37 +65,37 @@ pass "a failed save keeps the transparency already chosen"
 gtk_css="$home_dir/.config/gtk-4.0/gtk.css"
 mkdir -p "${gtk_css%/*}"
 printf 'label { color: red; }\n' >"$gtk_css"
-run omarchy-hyprland-window-transparency glassy
+run lunaos-hyprland-window-transparency glassy
 grep -qxF "@import url(\"file://$ROOT/default/gtk/glass.css\");" "$gtk_css" || fail "glassy GTK apps import the backdrop blur"
 grep -qx 'label { color: red; }' "$gtk_css" || fail "glassy keeps the user's own GTK CSS"
-run omarchy-hyprland-window-transparency glassy
-(( $(grep -c 'omarchy-glass begin' "$gtk_css") == 1 )) || fail "glassy GTK apps import the backdrop blur once"
-run omarchy-hyprland-window-transparency transparent
+run lunaos-hyprland-window-transparency glassy
+(( $(grep -c 'lunaos-glass begin' "$gtk_css") == 1 )) || fail "glassy GTK apps import the backdrop blur once"
+run lunaos-hyprland-window-transparency transparent
 [[ $(<"$gtk_css") == 'label { color: red; }' ]] || fail "leaving glassy restores the user's GTK CSS"
 grep -qF 'backdrop-filter: blur(' "$ROOT/default/gtk/glass.css" || fail "the GTK glass is a backdrop blur"
 printf 'label { color: red; }' >"$gtk_css"
-run omarchy-hyprland-window-transparency glassy
-run omarchy-hyprland-window-transparency transparent
+run lunaos-hyprland-window-transparency glassy
+run lunaos-hyprland-window-transparency transparent
 [[ $(od -An -c "$gtk_css" | tr -d ' \n') == 'label{color:red;}' ]] || fail "leaving glassy restores GTK CSS without a final newline"
 
 # A GTK config that cannot be written fails the change.
 printf 'label { color: red; }\n' >"$gtk_css"
 chmod a-w "$gtk_css"
 : >"$tmpdir/commands.log"
-if run omarchy-hyprland-window-transparency glassy 2>/dev/null; then
+if run lunaos-hyprland-window-transparency glassy 2>/dev/null; then
   chmod u+w "$gtk_css"
   fail "a GTK config that cannot be written fails the change"
 fi
 chmod u+w "$gtk_css"
-[[ $(run omarchy-hyprland-window-transparency) == "transparent" ]] || fail "a failed change keeps the previous choice"
-run omarchy-hyprland-window-transparency transparent
+[[ $(run lunaos-hyprland-window-transparency) == "transparent" ]] || fail "a failed change keeps the previous choice"
+run lunaos-hyprland-window-transparency transparent
 pass "glassy GTK apps get a backdrop blur, and leaving glassy takes it out"
 
-# Opaque reaches the windows Omarchy makes transparent through their tag.
+# Opaque reaches the windows LunaOS makes transparent through their tag.
 grep -qF 'tag = "+transparent-window"' "$ROOT/default/hypr/helpers.lua" || fail "transparent windows carry a tag"
 grep -qF 'o.window({ tag = "transparent-window" }, { opacity = "1 1" })' "$ROOT/default/hypr/toggles/window-opaque.lua" ||
   fail "opaque windows apply to the tagged windows"
-pass "opaque windows apply to the windows Omarchy makes transparent"
+pass "opaque windows apply to the windows LunaOS makes transparent"
 
 # Terminals turn compositor blur down and fade their text with the window, so
 # glassy gives each theme terminal file a see-through, blurred background.
@@ -108,15 +108,15 @@ printf 'background = #000000\nbackground-opacity = 0.9\n' >"$theme_dir/ghostty.c
 printf 'theme[main_bg]="#102030"\ntheme[main_fg]="#ffffff"\n' >"$theme_dir/btop.theme"
 cp -r "$theme_dir" "$tmpdir/theme-before"
 
-run omarchy-hyprland-window-transparency glassy
-run omarchy-theme-set-glass "$theme_dir"
-run omarchy-theme-set-glass "$theme_dir"
+run lunaos-hyprland-window-transparency glassy
+run lunaos-theme-set-glass "$theme_dir"
+run lunaos-theme-set-glass "$theme_dir"
 grep -qx 'opacity = 0.65' "$theme_dir/alacritty.toml" || fail "glassy alacritty is see-through"
 grep -qx 'alpha=0.65' "$theme_dir/foot.ini" && grep -qx 'blur=yes' "$theme_dir/foot.ini" || fail "glassy foot is see-through and asks for blur"
 grep -qx 'background_opacity 0.65' "$theme_dir/kitty.conf" || fail "glassy kitty is see-through"
-(( $(grep -c 'omarchy-glass begin' "$theme_dir/foot.ini") == 1 )) || fail "glassy terminals get the glass once"
+(( $(grep -c 'lunaos-glass begin' "$theme_dir/foot.ini") == 1 )) || fail "glassy terminals get the glass once"
 [[ $(grep '^theme\[main_bg\]=' "$theme_dir/btop.theme" | tail -1) == 'theme[main_bg]=""' ]] || fail "glassy btop uses the terminal background"
-(( $(grep -c 'omarchy-glass begin' "$theme_dir/btop.theme") == 1 )) || fail "glassy btop gets the glass once"
+(( $(grep -c 'lunaos-glass begin' "$theme_dir/btop.theme") == 1 )) || fail "glassy btop gets the glass once"
 pass "btop follows the glassy terminal background"
 (( $(grep -c 'background-opacity' "$theme_dir/ghostty.conf") == 1 )) &&
   grep -qx 'background-opacity = 0.9' "$theme_dir/ghostty.conf" || fail "a theme's own terminal opacity is kept"
@@ -127,7 +127,7 @@ grep -qx "gtk-custom-css = $ROOT/default/gtk/glass.css" "$theme_dir/ghostty.conf
 own_alpha_dir="$tmpdir/own-alpha-theme"
 mkdir -p "$own_alpha_dir"
 printf '[colors-dark]\nbackground=000000\nalpha=0.8\n' >"$own_alpha_dir/foot.ini"
-run omarchy-theme-set-glass "$own_alpha_dir"
+run lunaos-theme-set-glass "$own_alpha_dir"
 (( $(grep -c '^alpha=' "$own_alpha_dir/foot.ini") == 1 )) && grep -qx 'alpha=0.8' "$own_alpha_dir/foot.ini" &&
   grep -qx 'blur=yes' "$own_alpha_dir/foot.ini" || fail "a foot theme with its own alpha still asks for blur"
 if command -v foot >/dev/null; then
@@ -143,14 +143,14 @@ window_dir="$tmpdir/window-theme"
 mkdir -p "$window_dir"
 printf '[window] # mine\npadding = { x = 4, y = 4 }\nblur = false\n\n[colors.primary]\nbackground = "#000000"\n' >"$window_dir/alacritty.toml"
 cp "$window_dir/alacritty.toml" "$tmpdir/window-before.toml"
-run omarchy-theme-set-glass "$window_dir"
-run omarchy-theme-set-glass "$window_dir"
+run lunaos-theme-set-glass "$window_dir"
+run lunaos-theme-set-glass "$window_dir"
 (( $(grep -c '^\[window\]' "$window_dir/alacritty.toml") == 1 )) || fail "glassy alacritty keeps a single window table"
 if command -v python3 >/dev/null; then
   python3 -c 'import sys, tomllib; c = tomllib.load(open(sys.argv[1], "rb")); assert c["window"]["opacity"] == 0.65 and c["window"]["padding"]["x"] == 4' "$window_dir/alacritty.toml" ||
     fail "glassy alacritty with a window table of its own stays valid TOML"
 fi
-HOME="$home_dir" XDG_STATE_HOME="$tmpdir/no-glass" OMARCHY_PATH="$ROOT" PATH="$stub_dir:$ROOT/bin:$PATH" omarchy-theme-set-glass "$window_dir"
+HOME="$home_dir" XDG_STATE_HOME="$tmpdir/no-glass" LUNAOS_PATH="$ROOT" PATH="$stub_dir:$ROOT/bin:$PATH" lunaos-theme-set-glass "$window_dir"
 cmp -s "$tmpdir/window-before.toml" "$window_dir/alacritty.toml" || fail "leaving glassy restores an alacritty window table"
 pass "glassy alacritty joins a window table the theme already has"
 
@@ -160,10 +160,10 @@ bare_dir="$tmpdir/bare-theme"
 mkdir -p "$bare_dir"
 printf 'background #000000' >"$bare_dir/kitty.conf"
 cp "$bare_dir/kitty.conf" "$tmpdir/bare-before.conf"
-run omarchy-theme-set-glass "$bare_dir"
+run lunaos-theme-set-glass "$bare_dir"
 grep -qx 'background_opacity 0.65' "$bare_dir/kitty.conf" || fail "glassy reaches a file without a final newline"
 grep -qx 'background #000000' "$bare_dir/kitty.conf" || fail "glassy ends the line before its block"
-HOME="$home_dir" XDG_STATE_HOME="$tmpdir/no-glass" OMARCHY_PATH="$ROOT" PATH="$stub_dir:$ROOT/bin:$PATH" omarchy-theme-set-glass "$bare_dir"
+HOME="$home_dir" XDG_STATE_HOME="$tmpdir/no-glass" LUNAOS_PATH="$ROOT" PATH="$stub_dir:$ROOT/bin:$PATH" lunaos-theme-set-glass "$bare_dir"
 cmp -s "$tmpdir/bare-before.conf" "$bare_dir/kitty.conf" || fail "leaving glassy restores a file without a final newline"
 pass "leaving glassy restores a file without a final newline byte for byte"
 
@@ -171,21 +171,21 @@ btop_dir="$tmpdir/transparent-btop-theme"
 mkdir -p "$btop_dir"
 printf 'theme[main_bg]=""\n' >"$btop_dir/btop.theme"
 cp "$btop_dir/btop.theme" "$tmpdir/btop-before.theme"
-run omarchy-theme-set-glass "$btop_dir"
+run lunaos-theme-set-glass "$btop_dir"
 cmp -s "$tmpdir/btop-before.theme" "$btop_dir/btop.theme" || fail "btop themes already using the terminal background are kept"
 pass "btop themes already using the terminal background are kept"
 
 ghostty_dir="$tmpdir/ghostty-theme"
 mkdir -p "$ghostty_dir"
 printf 'background = #000000\n' >"$ghostty_dir/ghostty.conf"
-run omarchy-theme-set-glass "$ghostty_dir"
+run lunaos-theme-set-glass "$ghostty_dir"
 grep -qx 'background-opacity = 0.65' "$ghostty_dir/ghostty.conf" &&
   grep -qx "gtk-custom-css = $ROOT/default/gtk/glass.css" "$ghostty_dir/ghostty.conf" ||
   fail "glassy ghostty is see-through and loads the GTK backdrop blur"
 pass "glassy terminals get a see-through, blurred background"
 
-run omarchy-hyprland-window-transparency transparent
-run omarchy-theme-set-glass "$theme_dir"
+run lunaos-hyprland-window-transparency transparent
+run lunaos-theme-set-glass "$theme_dir"
 diff -r "$tmpdir/theme-before" "$theme_dir" || fail "leaving glassy restores the terminal files"
 pass "leaving glassy restores the terminal files"
 
@@ -195,7 +195,7 @@ pass "leaving glassy restores the terminal files"
 # typescript.
 if command -v script >/dev/null; then
   foot_home="$tmpdir/foot-home"
-  foot_theme="$foot_home/.local/state/omarchy/current/theme"
+  foot_theme="$foot_home/.local/state/lunaos/current/theme"
   mkdir -p "$foot_theme" "$tmpdir/foot-bin"
   printf 'background = "#102030"\nforeground = "#ffffff"\n' >"$foot_theme/colors.toml"
   printf '[colors-dark]\nbackground=102030\n' >"$foot_theme/foot.ini"
@@ -212,7 +212,7 @@ if command -v script >/dev/null; then
 
   set_foot() {
     : >"$tmpdir/pgrep.log"
-    HOME="$foot_home" PATH="$tmpdir/foot-bin:$ROOT/bin:$PATH" omarchy-theme-set-foot
+    HOME="$foot_home" PATH="$tmpdir/foot-bin:$ROOT/bin:$PATH" lunaos-theme-set-foot
     sleep 0.3
     # A kernel without CONFIG_PROC_CHILDREN needs a second scan for the shells.
     scans=1
@@ -222,7 +222,7 @@ if command -v script >/dev/null; then
 
   set_foot
   grep -qF $'\e]11;[100]#102030' "$tmpdir/typescript" || fail "running foot terminals stay opaque without glass"
-  printf '# omarchy-glass begin\n[colors-dark]\nalpha=0.65\nblur=yes\n# omarchy-glass end\n' >>"$foot_theme/foot.ini"
+  printf '# lunaos-glass begin\n[colors-dark]\nalpha=0.65\nblur=yes\n# lunaos-glass end\n' >>"$foot_theme/foot.ini"
   set_foot
   grep -qF $'\e]11;[65]#102030' "$tmpdir/typescript" || fail "running foot terminals turn glassy"
   pass "running foot terminals take the theme's background alpha, found in one process scan"
@@ -237,7 +237,7 @@ if command -v script >/dev/null; then
       "$missing_pid" "$missing_pid" "$shell_pid" >"$tmpdir/no-children-bin/pgrep"
     chmod +x "$tmpdir/no-children-bin/pgrep"
     printf 'background = "#203040"\nforeground = "#ffffff"\n' >"$foot_theme/colors.toml"
-    HOME="$foot_home" PATH="$tmpdir/no-children-bin:$ROOT/bin:$PATH" omarchy-theme-set-foot
+    HOME="$foot_home" PATH="$tmpdir/no-children-bin:$ROOT/bin:$PATH" lunaos-theme-set-foot
     sleep 0.3
     grep -qF '#203040' "$tmpdir/typescript" || fail "foot terminals retint without the kernel's children list"
     pass "foot terminals retint without the kernel's children list"

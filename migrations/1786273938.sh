@@ -1,8 +1,8 @@
-echo "Install herdr from the Omarchy package repo and seed its config"
+echo "Install herdr from the LunaOS package repo and seed its config"
 
 # The package was briefly published as omarchy-herdr; herdr replaces it
-omarchy-pkg-drop omarchy-herdr
-omarchy-pkg-add herdr
+lunaos-pkg-drop omarchy-herdr
+lunaos-pkg-add herdr
 
 # An earlier revision of this migration installed herdr through mise. Drop that
 # install so a stale client can't shadow the packaged /usr/bin/herdr with an
@@ -14,6 +14,6 @@ if mise ls herdr 2>/dev/null | grep -q herdr; then
 fi
 rm -rf "$HOME/.local/share/mise/installs/herdr" "$HOME/.local/share/mise/shims/herdr"
 
-# Only seed. A user who already has a herdr config keeps it; omarchy-refresh-herdr
+# Only seed. A user who already has a herdr config keeps it; lunaos-refresh-herdr
 # is the explicit way to take the shipped defaults.
-[[ -f "$HOME/.config/herdr/config.toml" ]] || omarchy-refresh-config herdr/config.toml
+[[ -f "$HOME/.config/herdr/config.toml" ]] || lunaos-refresh-config herdr/config.toml

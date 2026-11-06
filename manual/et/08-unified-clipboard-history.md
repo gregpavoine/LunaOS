@@ -2,7 +2,7 @@
 
 Tavaliselt on Linuxil vaja `Ctrl + Shift + C/V`, et terminalis kopeerida ja kleepida, ja `Ctrl + C/V`, et teha seda kõikjal mujal. Sellega on raske harjuda igaühel, kes pole Linuxil sündinud ja kasvanud! Nii on ka üleminek superilt ctrl-ile, kui tuled Macilt.
 
-Omarchy lahendab mõlemad probleemid ühtsete lõikelaua kiirklahvidega, mis toimivad (peaaegu) kõikjal. Need on:
+LunaOS lahendab mõlemad probleemid ühtsete lõikelaua kiirklahvidega, mis toimivad (peaaegu) kõikjal. Need on:
 
 | Kiirklahv | Käsk |
 | ------- | ----------- |
@@ -15,7 +15,7 @@ _Pane tähele, et enamik agentide raamistikku kasutab `Ctrl + V` piltide kleepim
 
 ### Lõikelaua ajalugu
 
-Lõikelaua ajalugu pakub Omarchy kest ja see toimib nii teksti kui ka piltide puhul. Käivitad selle `Super + Ctrl + V` abil, valid kirje sisestusklahviga ja see pannakse lõikelauale, valmis `Super + V` abil kleepimiseks.
+Lõikelaua ajalugu pakub LunaOS kest ja see toimib nii teksti kui ka piltide puhul. Käivitad selle `Super + Ctrl + V` abil, valid kirje sisestusklahviga ja see pannakse lõikelauale, valmis `Super + V` abil kleepimiseks.
 
  ![clipboard-history](images/clipboard-history.webp)
 

@@ -1,6 +1,6 @@
 # PDFanna a Líonadh Isteach
 
-Tagann Omarchy le hamharcán PDF deas bunúsach ar a dtugtar Document Viewer. Is é seo an ríomhchlár a osclóidh aon PDFanna a dhúbchliceálann tú orthu.
+Tagann LunaOS le hamharcán PDF deas bunúsach ar a dtugtar Document Viewer. Is é seo an ríomhchlár a osclóidh aon PDFanna a dhúbchliceálann tú orthu.
 
 Ach ní féidir leat Document Viewer a úsáid ach amháin chun PDFanna atá cumraithe mar fhoirmeacha a líonadh isteach. Má theastaíonn uait PDFanna nár cuireadh amhlaidh a líonadh isteach, nó má theastaíonn uait PDF a shíniú, úsáid [Signed](https://github.com/omacom/signed). Tosaigh é tríd an lainseálaí feidhmchlár (`Super + Space`), nó deaschliceáil ar an gcomhad, roghnaigh _Oscail Le..._, agus pioc Signed.
 

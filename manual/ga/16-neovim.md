@@ -6,7 +6,7 @@ Má tá tú go hiomlán nua d'eagarthóireacht ar stíl vim, molaim duit féacha
 
 Anois tá Neovim in-chumraithe gan teorainn go bunúsach. Más mian leat dul ar mire i ndáiríre, is féidir leat do chumraíocht Neovim féin a chruthú ón tús. Tá cúrsa iontach ó [Typecraft ar Neovim a shocrú ón tús](https://www.youtube.com/watch?v=zHTeCSVAFNY). Agus [tá ceann ag ThePrimeagen freisin](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Ach tagann socrú Neovim iomlán le Omarchy — an pacáiste `omarchy-nvim` — atá tiúnta go grámhar chun an chuid is fearr den mhéid is féidir a thaispeáint as an mbosca. Gan ort líne amháin cumraíochta a scríobh! Tá sé tógtha ar [LazyVim](https://www.lazyvim.org/), dáileadh de bhreiseáin agus cumraíochtaí Neovim. Tá sé iontach.
+Ach tagann socrú Neovim iomlán le LunaOS — an pacáiste `omarchy-nvim` — atá tiúnta go grámhar chun an chuid is fearr den mhéid is féidir a thaispeáint as an mbosca. Gan ort líne amháin cumraíochta a scríobh! Tá sé tógtha ar [LazyVim](https://www.lazyvim.org/), dáileadh de bhreiseáin agus cumraíochtaí Neovim. Tá sé iontach.
 
 ## Bunghnéithe LazyVim
 

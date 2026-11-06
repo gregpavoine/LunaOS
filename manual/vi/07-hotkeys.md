@@ -6,7 +6,7 @@ Bạn có thể xem tất cả các phím gán chính trên bàn phím bằng `S
 
 | Phím tắt                  | Chức năng              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Menu Omarchy (ứng dụng và mọi thứ khác)    |
+| `Super + Space`           | Menu LunaOS (ứng dụng và mọi thứ khác)    |
 | `Super + Alt + Space` | Lưới ứng dụng |
 | `Super + Escape` | Menu hệ thống (tạm dừng, khởi động lại, v.v.)  |
 | `Super + Ctrl + L` | Khóa máy tính |
@@ -136,7 +136,7 @@ Thay đổi/thêm phím gán trong `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Dán    |
 | `Super + Ctrl + V`           | Trình quản lý bảng nhớ tạm    |
 
-Thông thường trên Linux, bạn cần `Ctrl + Shift + C/V` để sao chép và dán trong terminal và `Ctrl + C/V` để làm điều đó ở khắp mọi nơi khác. Các phím tắt bảng nhớ tạm thống nhất này của Omarchy hoạt động ở khắp mọi nơi.
+Thông thường trên Linux, bạn cần `Ctrl + Shift + C/V` để sao chép và dán trong terminal và `Ctrl + C/V` để làm điều đó ở khắp mọi nơi khác. Các phím tắt bảng nhớ tạm thống nhất này của LunaOS hoạt động ở khắp mọi nơi.
 
 ## Chụp/ghi
 
@@ -156,7 +156,7 @@ Thông thường trên Linux, bạn cần `Ctrl + Shift + C/V` để sao chép v
 
 Với ghi màn hình, phím tắt trước tiên hỏi bạn muốn âm thanh nào, sau đó bắt đầu ghi. Nhấn lại để dừng. Xem [ảnh chụp màn hình và ghi hình](12-screenshots-recording.md) để biết chi tiết.
 
-Mọi tùy chọn chụp/ghi cũng có thể truy cập trong _Kích hoạt > Chụp/ghi_ trong menu Omarchy (`Super + Space`).
+Mọi tùy chọn chụp/ghi cũng có thể truy cập trong _Kích hoạt > Chụp/ghi_ trong menu LunaOS (`Super + Space`).
 
 ## Thông báo
 
@@ -177,9 +177,9 @@ Mọi tùy chọn chụp/ghi cũng có thể truy cập trong _Kích hoạt > Ch
 | `Super + Backspace` | Bật/tắt độ trong suốt trên một cửa sổ |
 | `Super + Ctrl + Backspace` | Bật/tắt tỷ lệ khung hình vuông một cửa sổ |
 
-Các hình nền bổ sung nằm trong `~/.config/omarchy/backgrounds/<theme name>`. Cũng khả dụng qua _Cài đặt > Phong cách > Hình nền_ trong menu Omarchy.
+Các hình nền bổ sung nằm trong `~/.config/lunaos/backgrounds/<theme name>`. Cũng khả dụng qua _Cài đặt > Phong cách > Hình nền_ trong menu LunaOS.
 
-Mọi tùy chọn phong cách cũng có thể truy cập trong _Phong cách_ trong menu Omarchy (`Super + Space`).
+Mọi tùy chọn phong cách cũng có thể truy cập trong _Phong cách_ trong menu LunaOS (`Super + Space`).
 
 ## Bật/tắt
 
@@ -281,7 +281,7 @@ Các hàm này phải được chạy bên trong một phiên Tmux.
 
 ## Ghostty Terminal
 
-Ghostty terminal được cài đặt bằng _Cài đặt > Terminal_ qua menu Omarchy.
+Ghostty terminal được cài đặt bằng _Cài đặt > Terminal_ qua menu LunaOS.
 
 | Phím tắt                  | Chức năng              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Bạn có thể dùng `Super + Ctrl + E` để hiển thị một bộ chọn em
 | `Shift + CapsLock Space N` | Tên của bạn (như đã nhập khi thiết lập)  |
 | `Shift + CapsLock Space E` | Email của bạn (như đã nhập khi thiết lập)  |
 
-Bạn có thể thêm nhiều hơn của riêng bạn bằng cách chỉnh sửa `~/.XCompose`, sau đó chạy `omarchy-restart-xcompose` trong terminal để các thay đổi được tiếp nhận.
+Bạn có thể thêm nhiều hơn của riêng bạn bằng cách chỉnh sửa `~/.XCompose`, sau đó chạy `lunaos-restart-xcompose` trong terminal để các thay đổi được tiếp nhận.

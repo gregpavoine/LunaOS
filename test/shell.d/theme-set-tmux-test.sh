@@ -8,7 +8,7 @@ REAL_TMUX=$(command -v tmux)
 TEST_HOME=$(mktemp -d) || fail "create a scratch home"
 # A tmux socket path must stay short, so the scratch server's socket lives in
 # /tmp. Every tmux call names it, so none can reach the user's own server.
-SOCKET_DIR=$(mktemp -d /tmp/omarchy-tmux-test.XXXXXX) || fail "create a scratch tmux socket directory"
+SOCKET_DIR=$(mktemp -d /tmp/lunaos-tmux-test.XXXXXX) || fail "create a scratch tmux socket directory"
 TMUX_SOCKET="$SOCKET_DIR/tmux"
 unset TMUX
 trap '"$REAL_TMUX" -S "$TMUX_SOCKET" kill-server 2>/dev/null; rm -rf "$TEST_HOME" "$SOCKET_DIR"' EXIT
@@ -18,7 +18,7 @@ tmux() {
 }
 
 FAKE_BIN="$TEST_HOME/bin"
-CURRENT_THEME="$TEST_HOME/.local/state/omarchy/current/theme"
+CURRENT_THEME="$TEST_HOME/.local/state/lunaos/current/theme"
 TMUX_LOG="$TEST_HOME/tmux.log"
 mkdir -p "$FAKE_BIN" "$CURRENT_THEME"
 
@@ -49,7 +49,7 @@ for session in one two three; do
 done
 : >"$TMUX_LOG"
 
-PATH="$FAKE_BIN:$ROOT/bin:$PATH" HOME="$TEST_HOME" "$ROOT/bin/omarchy-theme-set-tmux"
+PATH="$FAKE_BIN:$ROOT/bin:$PATH" HOME="$TEST_HOME" "$ROOT/bin/lunaos-theme-set-tmux"
 
 for target in -g "-t one" "-t two" "-t three"; do
   [[ $(tmux show-environment $target GUM_VAR_40) == "GUM_VAR_40=#000028" ]] || fail "tmux theme sync sets gum variables ($target)"

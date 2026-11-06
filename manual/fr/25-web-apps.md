@@ -1,10 +1,10 @@
 # Applis web
 
-Vous pouvez ajouter vos propres applis web en utilisant _Installer > Appli web_ dans le menu Omarchy (`Super + Space`). Il vous demandera le nom de l'appli, l'URL de l'appli et l'URL de l'icône, s'il ne peut pas la récupérer via le favicon. Vous pouvez obtenir de superbes icônes PNG pour de nombreuses applis web populaires sur [Dashboard Icons](https://dashboardicons.com).
+Vous pouvez ajouter vos propres applis web en utilisant _Installer > Appli web_ dans le menu LunaOS (`Super + Space`). Il vous demandera le nom de l'appli, l'URL de l'appli et l'URL de l'icône, s'il ne peut pas la récupérer via le favicon. Vous pouvez obtenir de superbes icônes PNG pour de nombreuses applis web populaires sur [Dashboard Icons](https://dashboardicons.com).
 
 Elles seront ensuite accessibles via le lanceur d'applis (`Super + Space`), et utiliseront la belle fenêtre d'appli web sans cadre.
 
-Si vous souhaitez supprimer une appli web, allez simplement dans _Supprimer > Appli web_ dans le menu Omarchy.
+Si vous souhaitez supprimer une appli web, allez simplement dans _Supprimer > Appli web_ dans le menu LunaOS.
 
 Il vaut mieux vous connecter à tous vos comptes avec un navigateur classique avant d'utiliser les raccourcis d'applis web. Le cadre d'enveloppe mince ne fonctionne pas bien avec 1password, donc il est plus facile d'être déjà connecté directement au préalable.
 
@@ -12,17 +12,17 @@ Tous les raccourcis clavier pour ces applis web peuvent être changés dans `~/.
 
 Quand vous êtes dans une appli web, vous pouvez copier l'URL actuelle dans le presse-papiers avec `Shift + Alt + L`.
 
-Par défaut, Omarchy est déjà livré avec un assortiment d'applis par défaut :
+Par défaut, LunaOS est déjà livré avec un assortiment d'applis par défaut :
 
 ## HEY
 
-[HEY](https://www.hey.com/) est un service d'e-mail et de calendrier qui constitue une excellente alternative pour les personnes fatiguées de Gmail, Outlook ou Apple Mail. Il est fait par [37signals](https://37signals.com/) où Omarchy est né.
+[HEY](https://www.hey.com/) est un service d'e-mail et de calendrier qui constitue une excellente alternative pour les personnes fatiguées de Gmail, Outlook ou Apple Mail. Il est fait par [37signals](https://37signals.com/) où LunaOS est né.
 
 Vous pouvez démarrer HEY Email avec `Super + Shift + E`, passer directement à la rédaction d'un nouvel e-mail avec `Super + Shift + Alt + E`, et démarrer HEY Calendar avec `Super + Shift + C`.
 
 ## Basecamp
 
-[Basecamp](https://basecamp.com/) est un service de gestion de projet qui aide les petites équipes à avancer plus vite et à progresser davantage. Au lieu de bricoler un assemblage de Trello, Slack, Asana, Notion ou autres, vous pouvez tout avoir au même endroit avec Basecamp. Il est fait par [37signals](https://37signals.com/) où Omarchy est né.
+[Basecamp](https://basecamp.com/) est un service de gestion de projet qui aide les petites équipes à avancer plus vite et à progresser davantage. Au lieu de bricoler un assemblage de Trello, Slack, Asana, Notion ou autres, vous pouvez tout avoir au même endroit avec Basecamp. Il est fait par [37signals](https://37signals.com/) où LunaOS est né.
 
 Vous pouvez démarrer Basecamp en utilisant le lanceur d'applications (`Super + Space`)
 
@@ -64,19 +64,19 @@ Vous pouvez démarrer YouTube avec `Super + Shift + Y`.
 
 ## Zoom
 
-[Zoom](https://zoom.us/) est le système de discussion vidéo le plus populaire aux États-Unis. D'excellentes connexions dans le monde entier. Et des réunions de 40 minutes peuvent se tenir sans compte payant. Omarchy enveloppe le client web de Zoom, et les liens de réunion zoom s'ouvriront directement dedans.
+[Zoom](https://zoom.us/) est le système de discussion vidéo le plus populaire aux États-Unis. D'excellentes connexions dans le monde entier. Et des réunions de 40 minutes peuvent se tenir sans compte payant. LunaOS enveloppe le client web de Zoom, et les liens de réunion zoom s'ouvriront directement dedans.
 
 Vous démarrez Zoom en utilisant le lanceur d'applications (`Super + Space`).
 
 ## Discord
 
-[Discord](https://discord.com/) est l'endroit où la plupart des communautés de jeux et d'open source se retrouvent, y compris [celle d'Omarchy](https://discord.gg/tXFUdasqhY).
+[Discord](https://discord.com/) est l'endroit où la plupart des communautés de jeux et d'open source se retrouvent, y compris [celle d'LunaOS](https://discord.gg/tXFUdasqhY).
 
 Vous démarrez Discord en utilisant le lanceur d'applications (`Super + Space`).
 
 ## Applis Microsoft
 
-Sélectionnez _Installer > Service > Microsoft_ pour ajouter Outlook, Word, Excel, PowerPoint, Teams et OneDrive comme applis web. Chaque appli a son propre lanceur et s'ouvre directement, en utilisant les URL commerciales de Microsoft 365 et votre profil de navigateur existant. Elles s'ouvrent dans les mêmes fenêtres d'appli de navigateur que les autres applis web d'Omarchy ; elles n'installent pas le client Teams for Linux séparé.
+Sélectionnez _Installer > Service > Microsoft_ pour ajouter Outlook, Word, Excel, PowerPoint, Teams et OneDrive comme applis web. Chaque appli a son propre lanceur et s'ouvre directement, en utilisant les URL commerciales de Microsoft 365 et votre profil de navigateur existant. Elles s'ouvrent dans les mêmes fenêtres d'appli de navigateur que les autres applis web d'LunaOS ; elles n'installent pas le client Teams for Linux séparé.
 
 Supprimez le bundle avec _Supprimer > Service > Microsoft_, ou supprimez des applis individuelles avec _Supprimer > Appli web_. Vous pouvez aussi installer juste les applis que vous voulez via _Installer > Appli web_.
 
@@ -85,7 +85,7 @@ Pour un cloud gouvernemental ou souverain, modifiez l'URL sur la ligne `Exec=` d
 Pour garder les connexions professionnelles séparées, ajoutez un répertoire de données de navigateur à la ligne `Exec=` de chaque lanceur :
 
 ```ini
-Exec=omarchy-launch-webapp "https://teams.cloud.microsoft/" --user-data-dir=/absolute/path/to/work-browser-profile
+Exec=lunaos-launch-webapp "https://teams.cloud.microsoft/" --user-data-dir=/absolute/path/to/work-browser-profile
 ```
 
-Remplacez le répertoire d'exemple par un chemin absolu de votre choix et utilisez le même chemin pour les six lanceurs afin de partager les connexions professionnelles entre eux. Les applis web utilisent le navigateur pris en charge sélectionné par Omarchy, avec Chromium en repli quand le navigateur par défaut n'est pas pris en charge.
+Remplacez le répertoire d'exemple par un chemin absolu de votre choix et utilisez le même chemin pour les six lanceurs afin de partager les connexions professionnelles entre eux. Les applis web utilisent le navigateur pris en charge sélectionné par LunaOS, avec Chromium en repli quand le navigateur par défaut n'est pas pris en charge.

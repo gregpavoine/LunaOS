@@ -1,6 +1,6 @@
 # Dvigubos įkrovos įdiegimas
 
-Gali įdiegti Omarchy į vieną skaidinį šalia Windows ar kitų įdiegimų.
+Gali įdiegti LunaOS į vieną skaidinį šalia Windows ar kitų įdiegimų.
 
 Šis įdiegimo būdas pagal numatytuosius vis tiek turi LUKS šifravimą skaidiniui, todėl iš esmės niekuo nesiskiria nuo pilno disko ir tiesiog reikalauja, kad diske būtų laisvos vietos.
 
@@ -14,17 +14,17 @@ Rask tinkamą skaidinį, spustelėk dešiniuoju pelės klavišu ir pasirink **Sh
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- Įvesk dydį, kuriuo nori sumažinti volumį. Atkreipk dėmesį, kad tai bus tavo būsimo Omarchy įdiegimo dydis įskaitant įkrovos skaidinį.
+ Įvesk dydį, kuriuo nori sumažinti volumį. Atkreipk dėmesį, kad tai bus tavo būsimo LunaOS įdiegimo dydis įskaitant įkrovos skaidinį.
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-Kai baigsi, turėtum matyti kažką panašaus, kur 50GB skiltis šiame pavyzdyje yra ta vieta, kur įdiegsime Omarchy.
+Kai baigsi, turėtum matyti kažką panašaus, kur 50GB skiltis šiame pavyzdyje yra ta vieta, kur įdiegsime LunaOS.
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## Omarchy įdiegimas
+## LunaOS įdiegimas
 
-Omarchy įdiegimo procesas iš esmės toks pat kaip įprastai. Pasirinkęs diską, gausi parinktį **Free space install**. Pasirink tą parinktį, kad neišvalytum viso disko.
+LunaOS įdiegimo procesas iš esmės toks pat kaip įprastai. Pasirinkęs diską, gausi parinktį **Free space install**. Pasirink tą parinktį, kad neišvalytum viso disko.
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Patvirtink, kad viskas atrodo gerai, ir lauk, kol įdiegimas baigsis kaip įpras
 
 ## Kitų įdiegimų pridėjimas į įkroviklį
 
-Baigęs Omarchy įdiegimą, pastebėsi, kad Limine įkroviklis dabar numatytasis. Su juo taip pat gali į Limine pridėti parinkčių kitiems savo įdiegimams, pavyzdžiui, Windows.
+Baigęs LunaOS įdiegimą, pastebėsi, kad Limine įkroviklis dabar numatytasis. Su juo taip pat gali į Limine pridėti parinkčių kitiems savo įdiegimams, pavyzdžiui, Windows.
 
-Kad tai padarytum, paleisk `limine-scan` ir sek raginimus pridėti norimus elementus į savo limine konfigūraciją. Tada įkraunant matysi įprastas Omarchy parinktis, taip pat Windows Boot Manager ar kitas.
+Kad tai padarytum, paleisk `limine-scan` ir sek raginimus pridėti norimus elementus į savo limine konfigūraciją. Tada įkraunant matysi įprastas LunaOS parinktis, taip pat Windows Boot Manager ar kitas.
 
 ## Bitlocker
 

@@ -1,8 +1,8 @@
 # Navigation
 
-Alles in Omarchy läuft über die Tastatur — _ALLES!_ Wenn das System zum ersten Mal startet, kannst du buchstäblich nichts allein mit der Maus tun. Aber du kannst `Super + Space` drücken, um das Omarchy-Menü einzublenden, und von hier aus kannst du so ziemlich alles tun.
+Alles in LunaOS läuft über die Tastatur — _ALLES!_ Wenn das System zum ersten Mal startet, kannst du buchstäblich nichts allein mit der Maus tun. Aber du kannst `Super + Space` drücken, um das LunaOS-Menü einzublenden, und von hier aus kannst du so ziemlich alles tun.
 
-Aber das Omarchy-Menü ist nicht einmal als der Hauptweg gedacht, das System die meiste Zeit zu bedienen. Wir können schneller als das sein! Alle wichtigsten Anwendungen sind direkt an einzelne Hotkeys gebunden. Das Terminal startest du mit `Super + Return` und einen Browser mit `Super + Shift + Return`. Probiere beides nacheinander aus, und du siehst die Magie von Hyprlands Tiling in Aktion:
+Aber das LunaOS-Menü ist nicht einmal als der Hauptweg gedacht, das System die meiste Zeit zu bedienen. Wir können schneller als das sein! Alle wichtigsten Anwendungen sind direkt an einzelne Hotkeys gebunden. Das Terminal startest du mit `Super + Return` und einen Browser mit `Super + Shift + Return`. Probiere beides nacheinander aus, und du siehst die Magie von Hyprlands Tiling in Aktion:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Du kannst auch mit `Super + F` in den Vollbildmodus gehen oder auch nur mit `Sup
 
 ### Dwindle- vs. Scrolling-Layout
 
-Omarchys Standardlayout heißt dwindle. Es hält alle Fenster, die du auf einem einzelnen Arbeitsbereich öffnest, jederzeit sichtbar, selbst wenn es sie dafür verkleinern muss.
+LunaOSs Standardlayout heißt dwindle. Es hält alle Fenster, die du auf einem einzelnen Arbeitsbereich öffnest, jederzeit sichtbar, selbst wenn es sie dafür verkleinern muss.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Ein schwebender Arbeitsbereich funktioniert wie ein traditioneller Desktop: Fenster überlagern sich, und du verschiebst und dimensionierst sie selbst. Jedes Fenster bekommt eine Titelleiste in den Farben deines Themes, mit Schaltflächen zum Minimieren, Maximieren und Schließen. `Super + M` minimiert auch das fokussierte Fenster. Ein minimiertes Fenster wartet im Dock; klicke auf seine App, um es zurückzuholen. Klicke auf ein Fenster, um es in den Vordergrund zu holen. Ziehe es an einer beliebigen Kante oder Ecke auf eine andere Größe. Doppelklicke auf eine Titelleiste, um das Fenster zu maximieren, während die obere Leiste sichtbar bleibt, und noch einmal, um seine alte Größe zurückzubekommen.
 
-Ein schwebender Arbeitsbereich zeigt auch ein Dock, mit deinen angehefteten Apps, allem, was gerade läuft, und einem Raster aller Apps hinter der Apps-Schaltfläche, die auch `Super + Alt + Space` und _Apps_ im Omarchy-Menü öffnen. Klicke mit der rechten Maustaste auf eine App im Raster oder drücke `Delete`, um sie zu deinstallieren. Klicke auf eine App, um sie zu öffnen oder ihr Fenster in den Vordergrund zu holen; klicke erneut, um durch ihre Fenster durchzuschalten. Ein Mittelklick öffnet ein neues Fenster. Ziehe ein Symbol entlang des Docks, um es zu verschieben; eine laufende App zwischen die anderen zu ziehen, behält sie dort. Klicke mit der rechten Maustaste, um eine App im Dock zu behalten, sie herauszunehmen oder sie zu beenden. Das Dock geht einem Vollbildfenster aus dem Weg. Klicke mit der rechten Maustaste auf die Apps-Schaltfläche, um das Dock an eine andere Kante zu verschieben oder es auszublenden, bis der Zeiger seine Kante erreicht. Die Position findest du auch unter _Trigger > Appearance > Dock > Dock Position_, und `omarchy dock position left` und `omarchy dock autohide on` stellen beides von einem Terminal aus ein. Apps, die du im Dock behältst, sind ausgeblasst, solange sie nicht laufen.
+Ein schwebender Arbeitsbereich zeigt auch ein Dock, mit deinen angehefteten Apps, allem, was gerade läuft, und einem Raster aller Apps hinter der Apps-Schaltfläche, die auch `Super + Alt + Space` und _Apps_ im LunaOS-Menü öffnen. Klicke mit der rechten Maustaste auf eine App im Raster oder drücke `Delete`, um sie zu deinstallieren. Klicke auf eine App, um sie zu öffnen oder ihr Fenster in den Vordergrund zu holen; klicke erneut, um durch ihre Fenster durchzuschalten. Ein Mittelklick öffnet ein neues Fenster. Ziehe ein Symbol entlang des Docks, um es zu verschieben; eine laufende App zwischen die anderen zu ziehen, behält sie dort. Klicke mit der rechten Maustaste, um eine App im Dock zu behalten, sie herauszunehmen oder sie zu beenden. Das Dock geht einem Vollbildfenster aus dem Weg. Klicke mit der rechten Maustaste auf die Apps-Schaltfläche, um das Dock an eine andere Kante zu verschieben oder es auszublenden, bis der Zeiger seine Kante erreicht. Die Position findest du auch unter _Trigger > Appearance > Dock > Dock Position_, und `lunaos dock position left` und `lunaos dock autohide on` stellen beides von einem Terminal aus ein. Apps, die du im Dock behältst, sind ausgeblasst, solange sie nicht laufen.
 
-Neue Arbeitsbereiche und alle, denen du mit `Super + L` kein eigenes Layout gegeben hast, verwenden das Standardlayout. Das Ändern des Standards setzt jeden Arbeitsbereich ohne Fenster auf ihn zurück, während einer mit Fenstern das Layout behält, das er hat. Ein in das Dock minimiertes Fenster zählt weiterhin als Fenster auf dem Arbeitsbereich, den es verlassen hat. Wähle es unter _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling oder Floating. `omarchy-hyprland-workspace-layout-default scrolling` stellt es von einem Terminal aus ein.
+Neue Arbeitsbereiche und alle, denen du mit `Super + L` kein eigenes Layout gegeben hast, verwenden das Standardlayout. Das Ändern des Standards setzt jeden Arbeitsbereich ohne Fenster auf ihn zurück, während einer mit Fenstern das Layout behält, das er hat. Ein in das Dock minimiertes Fenster zählt weiterhin als Fenster auf dem Arbeitsbereich, den es verlassen hat. Wähle es unter _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling oder Floating. `lunaos-hyprland-workspace-layout-default scrolling` stellt es von einem Terminal aus ein.
 
 ### Fenster gruppieren
 

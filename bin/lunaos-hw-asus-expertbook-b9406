@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# lunaos:summary=Detect ASUS ExpertBook B9406 series laptops on Intel Panther Lake.
+
+lunaos-hw-match "B9406" && lunaos-hw-intel-ptl

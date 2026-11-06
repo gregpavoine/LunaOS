@@ -1,8 +1,8 @@
 # Elsewhen
 
-A world clock for the Omarchy shell: a globe in the bar that opens a panel of clocks, one row per city, with a spinnable globe behind it. It lives in `shell/plugins/panels/elsewhen/` under the plugin id `omarchy.elsewhen`, and file names below are relative to that directory. Its checks live in `test/shell.d/elsewhen/` and run as part of `./test/shell` through `test/shell.d/elsewhen-test.sh`.
+A world clock for the LunaOS shell: a globe in the bar that opens a panel of clocks, one row per city, with a spinnable globe behind it. It lives in `shell/plugins/panels/elsewhen/` under the plugin id `lunaos.elsewhen`, and file names below are relative to that directory. Its checks live in `test/shell.d/elsewhen/` and run as part of `./test/shell` through `test/shell.d/elsewhen-test.sh`.
 
-Everything it needs is already on an Omarchy install: `date` and `timedatectl` for zone offsets, `curl` for weather and places, and `jq` for reading GitHub profiles. The network is touched for three things only: [Open-Meteo](https://open-meteo.com) geocoding and forecasts, without an API key, and the public GitHub profile of anyone added to a city by handle. The globe's coastlines are [Natural Earth](https://www.naturalearthdata.com) 110m (public domain), shipped as `world.json`. Settings live inline on the widget's `shell.json` entry; see [Settings](#settings).
+Everything it needs is already on an LunaOS install: `date` and `timedatectl` for zone offsets, `curl` for weather and places, and `jq` for reading GitHub profiles. The network is touched for three things only: [Open-Meteo](https://open-meteo.com) geocoding and forecasts, without an API key, and the public GitHub profile of anyone added to a city by handle. The globe's coastlines are [Natural Earth](https://www.naturalearthdata.com) 110m (public domain), shipped as `world.json`. Settings live inline on the widget's `shell.json` entry; see [Settings](#settings).
 
 ## Why it shells out to `date`
 
@@ -40,7 +40,7 @@ Everything is written to `shell.json` as a normal list, so the first thing anyon
 
 ## Adding and removing cities
 
-`+ Add a city` opens an inline search over the system's zone list. Clicking a result adds it; hovering a row reveals a `×` in its top-right corner to remove it. The last row cannot be removed. Changes are written straight back to this widget's entry in `~/.config/omarchy/shell.json`, so they survive a restart.
+`+ Add a city` opens an inline search over the system's zone list. Clicking a result adds it; hovering a row reveals a `×` in its top-right corner to remove it. The last row cannot be removed. Changes are written straight back to this widget's entry in `~/.config/lunaos/shell.json`, so they survive a restart.
 
 The search is driven from the keyboard: type, walk the results with the up and down arrows, Return adds the highlighted one, Escape closes. The selection starts on the first match, so the common case - type three letters, press Return - never needs an arrow at all, and it wraps at both ends because the list is six long and entirely on screen. A changed query puts the selection back on the first row: the list under it has been replaced, and Return should not add a city nobody looked at.
 
@@ -344,7 +344,7 @@ The city name starts as the zone's last segment, and the tz database names zones
 
 Picking a place on this machine's own zone moves everything that meant here together. It is stored as `here`, with its coordinates; the header names it; the globe's home pin and the opening spin land on it; and **the row that stood for the old here is renamed in place**, keeping its position, its people, and gaining the new coordinates, so the first row's weather is your weather. The first run's own home row is that row. A row is only renamed into a city the list does not already hold, and no row is added if none stood for here.
 
-**A place on another zone moves the machine's clock there.** Land in Nashville, pick it, and the system time zone becomes `America/Chicago` - the bar clock, every app, and the header along with it. It goes through the same passwordless `sudo timedatectl set-timezone` rule the timezone menu uses (`etc/sudoers.d/omarchy-tzupdate`), with `sudo -n`, so where that rule is missing the change fails instead of waiting on a password prompt nobody can see. Here only moves once the clock has: a refused change leaves the header, the list and the setting as they were, and says so in a notification. Only here waits on the clock - an edit made to the list in the meantime stands. A successful one says where you are and which zone the clock is on.
+**A place on another zone moves the machine's clock there.** Land in Nashville, pick it, and the system time zone becomes `America/Chicago` - the bar clock, every app, and the header along with it. It goes through the same passwordless `sudo timedatectl set-timezone` rule the timezone menu uses (`etc/sudoers.d/lunaos-tzupdate`), with `sudo -n`, so where that rule is missing the change fails instead of waiting on a password prompt nobody can see. Here only moves once the clock has: a refused change leaves the header, the list and the setting as they were, and says so in a notification. Only here waits on the clock - an edit made to the list in the meantime stands. A successful one says where you are and which zone the clock is on.
 
 That move leaves the list alone. The row that stands for home stays where it is, now an hour ahead, because the point of being away is that home is somewhere else; renaming it to Nashville would lose it. Picking home again on the way back moves the clock back.
 
@@ -358,7 +358,7 @@ Most rows on a world clock are there because of someone. A city can name the peo
 
 **Hover a row and click the person button** beside its `×` (`p` from the keyboard, on the picked city). A field opens in the row for a comma-separated list: plain names, or GitHub handles with an `@`. Return keeps it, leaving the field keeps it too, and Escape puts it back. An empty list clears them.
 
-A plain name gets its first letter on a disc. A handle brings the profile's name and avatar: one `curl` to the public GitHub API per handle, one for its avatar at 96 pixels, both kept in `${XDG_CACHE_HOME:-~/.cache}/omarchy/elsewhen/people/` and refreshed once they are a week old. An avatar that failed to download is tried again next session rather than waiting out the week. Each handle is asked about once per session, so an open panel never repeats the work, and the unauthenticated limit of 60 an hour is far away. A handle GitHub does not know, or a failed request, simply stays a plain name with a monogram until the next session.
+A plain name gets its first letter on a disc. A handle brings the profile's name and avatar: one `curl` to the public GitHub API per handle, one for its avatar at 96 pixels, both kept in `${XDG_CACHE_HOME:-~/.cache}/lunaos/elsewhen/people/` and refreshed once they are a week old. An avatar that failed to download is tried again next session rather than waiting out the week. Each handle is asked about once per session, so an open panel never repeats the work, and the unauthenticated limit of 60 an hour is far away. A handle GitHub does not know, or a failed request, simply stays a plain name with a monogram until the next session.
 
 The avatar is a file on disk rather than a URL handed to `Image`, so curl stays the only thing touching the network and the face is there offline.
 
@@ -443,12 +443,12 @@ Inline on the widget's `shell.json` entry:
 ## IPC
 
 ```bash
-omarchy-shell omarchy.elsewhen toggle
-omarchy-shell omarchy.elsewhen globe                            # switch between list and globe
-omarchy-shell omarchy.elsewhen times                            # JSON, one entry per row
-omarchy-shell omarchy.elsewhen add America/New_York Miami
-omarchy-shell omarchy.elsewhen remove America/New_York
-omarchy-shell omarchy.elsewhen who Cincinnati "Ann, @octocat"   # the people in a city, by name; "" clears
-omarchy-shell omarchy.elsewhen here "Fort Lauderdale"            # where you are, on this machine's zone
-omarchy-shell omarchy.elsewhen refresh                          # re-probe offsets
+lunaos-shell lunaos.elsewhen toggle
+lunaos-shell lunaos.elsewhen globe                            # switch between list and globe
+lunaos-shell lunaos.elsewhen times                            # JSON, one entry per row
+lunaos-shell lunaos.elsewhen add America/New_York Miami
+lunaos-shell lunaos.elsewhen remove America/New_York
+lunaos-shell lunaos.elsewhen who Cincinnati "Ann, @octocat"   # the people in a city, by name; "" clears
+lunaos-shell lunaos.elsewhen here "Fort Lauderdale"            # where you are, on this machine's zone
+lunaos-shell lunaos.elsewhen refresh                          # re-probe offsets
 ```

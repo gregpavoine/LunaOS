@@ -1,8 +1,8 @@
 # Þemu
 
-Omarchy kemur með tuttugu og tvö falleg þemu. Þú getur valið á milli þeirra með _Stíll > Þema_ í Omarchy-valmyndinni (`Super + Space`) eða hoppað beint í þemavalið með `Super + Ctrl + Shift + Space`.
+LunaOS kemur með tuttugu og tvö falleg þemu. Þú getur valið á milli þeirra með _Stíll > Þema_ í LunaOS-valmyndinni (`Super + Space`) eða hoppað beint í þemavalið með `Super + Ctrl + Shift + Space`.
 
-Hvert þema stílar skjáborðið, terminal, neovim, virkniskjáinn (btop), Chromium og alla Omarchy-skelina: valmyndastikuna, valmyndina, tilkynningar, OSD og læsingarskjáinn. (Fyrir Obsidian verður þú að velja Omarchy-þemað handvirkt með _Appearance > Themes_ inni í forritinu).
+Hvert þema stílar skjáborðið, terminal, neovim, virkniskjáinn (btop), Chromium og alla LunaOS-skelina: valmyndastikuna, valmyndina, tilkynningar, OSD og læsingarskjáinn. (Fyrir Obsidian verður þú að velja LunaOS-þemað handvirkt með _Appearance > Themes_ inni í forritinu).
 
 Þemu hafa safn af bakgrunnsmyndum sem þú getur valið á milli með `Super + Ctrl + Space`.
 

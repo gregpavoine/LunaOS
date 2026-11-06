@@ -1,16 +1,16 @@
 # Mac qoʻllab-quvvatlash
 
-Omarchy **Intel Maclar** uchun ichki qoʻllab-quvvatlashga ega. Hozirgi vaqtda maʼlum cheklovlar mavjud, ammo siz xabardor boʻlsangiz va ular bilan rozi boʻlsangiz; Omarchy ni yuklash orqali eski Mac-laringizga yangi hayot bera olasiz.
+LunaOS **Intel Maclar** uchun ichki qoʻllab-quvvatlashga ega. Hozirgi vaqtda maʼlum cheklovlar mavjud, ammo siz xabardor boʻlsangiz va ular bilan rozi boʻlsangiz; LunaOS ni yuklash orqali eski Mac-laringizga yangi hayot bera olasiz.
 
-Iltimos, hozirgi vaqtda M-seriyali Macga oʻrnatish toʻgʻridan-toʻgʻri qoʻllab-quvvatlanmasligini unutmang. Buning holati haqida bizning [Discord](https://discord.gg/tXFUdasqhY) dagi #omarchy-on-other da koʻproq bilib olishingiz mumkin.
+Iltimos, hozirgi vaqtda M-seriyali Macga oʻrnatish toʻgʻridan-toʻgʻri qoʻllab-quvvatlanmasligini unutmang. Buning holati haqida bizning [Discord](https://discord.gg/tXFUdasqhY) dagi #lunaos-on-other da koʻproq bilib olishingiz mumkin.
 
-Oddiy testda biz 2019 MacBook Pro da shunchaki Omarchy ni oʻrnatish bilan 36% unumdorlikka erisha oldik.
+Oddiy testda biz 2019 MacBook Pro da shunchaki LunaOS ni oʻrnatish bilan 36% unumdorlikka erisha oldik.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Omarchy ni Macga oʻrnatish
+### LunaOS ni Macga oʻrnatish
 
-Omarchy hozirda **yagona** OT oʻrnatilishini qoʻllab-quvvatlaydi. Oʻrnatish davomida drayv tozalanadi va MacOS endi yuklanmaydi.
+LunaOS hozirda **yagona** OT oʻrnatilishini qoʻllab-quvvatlaydi. Oʻrnatish davomida drayv tozalanadi va MacOS endi yuklanmaydi.
 
 Agar istasangiz, uni keyinchalik Internet Recovery orqali tiklashingiz mumkin.
 
@@ -39,7 +39,7 @@ Oʻrnatuvchi Mac uskunani aniqlaydi va kerakli tuzatishlarni avtomatik qoʻllayd
 
 ### Maʼlum cheklovlar
 
-Hamjamiyat aʼzolari doimiy ravishda ushbu muammolarga yechimlar ustida ishlashmoqda, shuning uchun agar ular siz uchun muammoli boʻlsa, [Discord](https://discord.gg/tXFUdasqhY) dagi #omarchy-on-other ga qoʻshiling va ularni hal qilishning dolzarb usullari mavjudligini koʻring.
+Hamjamiyat aʼzolari doimiy ravishda ushbu muammolarga yechimlar ustida ishlashmoqda, shuning uchun agar ular siz uchun muammoli boʻlsa, [Discord](https://discord.gg/tXFUdasqhY) dagi #lunaos-on-other ga qoʻshiling va ularni hal qilishning dolzarb usullari mavjudligini koʻring.
 
 #### T1 chipi bor qurilmalar
 

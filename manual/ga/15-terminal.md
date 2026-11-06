@@ -1,8 +1,8 @@
 # Teirminéal
 
-Is é [Foot](https://codeberg.org/dnkl/foot) an teirminéal réamhshocraithe do Omarchy. Tá sé tapa, éadrom, agus comhoiriúnach le ríomhairí sean fiú. Ní thacaíonn sé, áfach, le cluaisíní ná scoilteanna dúchasacha.
+Is é [Foot](https://codeberg.org/dnkl/foot) an teirminéal réamhshocraithe do LunaOS. Tá sé tapa, éadrom, agus comhoiriúnach le ríomhairí sean fiú. Ní thacaíonn sé, áfach, le cluaisíní ná scoilteanna dúchasacha.
 
-Má úsáideann tú Tmux, b'fhéidir nach cuma leat, ach mura n-úsáideann, tacaímid go hiomlán le _Alacritty_, _Ghostty_, agus _Kitty_ mar roghanna freisin. Roghnaigh do rogha faoi _Suiteáil > Teirminéal_ i roghchlár Omarchy.
+Má úsáideann tú Tmux, b'fhéidir nach cuma leat, ach mura n-úsáideann, tacaímid go hiomlán le _Alacritty_, _Ghostty_, agus _Kitty_ mar roghanna freisin. Roghnaigh do rogha faoi _Suiteáil > Teirminéal_ i roghchlár LunaOS.
 
 Tosaíonn tú teirminéal nua le `Super + Return`. (Léireoidh an ceangal seo go huathoibríoch chuig cibé Teirminéal atá suiteáilte agat trí _Suiteáil > Teirminéal_, agus is féidir leat athrú idir teirminéil suiteáilte faoi _Socrú > Réamhshocruithe > Teirminéal_.)
 
@@ -12,11 +12,11 @@ Soláthraíonn Tmux comhéadan comhsheasmhach, in-ríomhchláraithe do phánaí,
 
 Tosaíonn tú seisiún Tmux nua i teirminéal úr le `Super + Alt + Return`, agus toisc gur próiseas leanúnach é Tmux, is féidir leat do sheisiún a atosú fiú má dhúnann tú an teirminéal sin. Ní gá duit ach `Ctrl + Space` a bhualadh (ar a dtugtar an eochair réimíre) ansin `s` chun do sheisiúin ghníomhacha uile a fheiceáil.
 
-Tagann cumraíocht Tmux eirgeanamaíochta-optamaithe le Omarchy, a bhfuil go leor ceangail eochracha le foghlaim aici, mar sin coinnigh [an bhileog caimiléireachta ar láimh](07-hotkeys.md#tmux).
+Tagann cumraíocht Tmux eirgeanamaíochta-optamaithe le LunaOS, a bhfuil go leor ceangail eochracha le foghlaim aici, mar sin coinnigh [an bhileog caimiléireachta ar láimh](07-hotkeys.md#tmux).
 
 ## Feidhmeanna leagan amach Tmux
 
-Toisc go bhfuil Tmux in-ríomhchláraithe, is féidir linn feidhmeanna a úsáid chun leaganacha amach a chruthú. Tagann ceithre fheidhm dhifriúla le Omarchy do leaganacha amach forbróra coitianta.
+Toisc go bhfuil Tmux in-ríomhchláraithe, is féidir linn feidhmeanna a úsáid chun leaganacha amach a chruthú. Tagann ceithre fheidhm dhifriúla le LunaOS do leaganacha amach forbróra coitianta.
 
 Tosaíonn `tdl [agent]` comhéadan cosúil le IDE trí-bhealach scoilte leis an `$EDITOR` ar chlé, do ghníomhaire AI roghnaithe ar dheis (cosúil le `c` do opencode nó `cx` do Claude nó `codex` do OpenAI), agus ansin teirminéal ag an mbun.
 

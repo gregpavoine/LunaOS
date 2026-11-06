@@ -14,11 +14,11 @@ mkdir -p "$test_tmp/home/.claude" "$test_tmp/bin" "$test_tmp/runtime"
 export HOME="$test_tmp/home"
 export XDG_STATE_HOME="$test_tmp/state"
 export XDG_RUNTIME_DIR="$test_tmp/runtime"
-export OMARCHY_PATH="$ROOT"
+export LUNAOS_PATH="$ROOT"
 export PATH="$test_tmp/bin:$ROOT/bin:$PATH"
 unset CLAUDE_CONFIG_DIR CODEX_HOME GROK_HOME
 
-STATE="$ROOT/bin/omarchy-agent-account-state" python3 - <<'PY'
+STATE="$ROOT/bin/lunaos-agent-account-state" python3 - <<'PY'
 import importlib.machinery, importlib.util, json, os, subprocess, sys
 from pathlib import Path
 
@@ -187,10 +187,10 @@ signed_in(pending, "retry", "retry@example.com")
 PY
 pass "refresh recovers interrupted sign-ins and failed writes without taking over live logins"
 
-cat >"$test_tmp/bin/omarchy-agent-usage-update" <<'SH'
+cat >"$test_tmp/bin/lunaos-agent-usage-update" <<'SH'
 #!/bin/bash
 SH
-cat >"$test_tmp/bin/omarchy-notification-send" <<'SH'
+cat >"$test_tmp/bin/lunaos-notification-send" <<'SH'
 #!/bin/bash
 SH
 cat >"$test_tmp/bin/claude" <<'SH'
@@ -200,8 +200,8 @@ exit 99
 SH
 chmod +x "$test_tmp/bin"/*
 
-output=$(omarchy-agent-account-add --events claude Retry </dev/null)
-[[ $output == "@@omarchy done Added Retry (retry@example.com)." ]] || fail "retry adds the saved sign-in without another browser login" "$output"
+output=$(lunaos-agent-account-add --events claude Retry </dev/null)
+[[ $output == "@@lunaos done Added Retry (retry@example.com)." ]] || fail "retry adds the saved sign-in without another browser login" "$output"
 pass "retry adds the saved sign-in without another browser login"
 
 # Kill the actual add process after the CLI saves credentials, while the
@@ -210,10 +210,10 @@ cat >"$test_tmp/bin/claude" <<'SH'
 #!/bin/bash
 printf '{"oauthAccount":{"accountUuid":"killed","emailAddress":"killed@example.com"}}' >"$CLAUDE_CONFIG_DIR/.claude.json"
 printf '{"claudeAiOauth":{"accessToken":"test-token"}}' >"$CLAUDE_CONFIG_DIR/.credentials.json"
-echo $$ >"$OMARCHY_TEST_LOGIN_PID"
+echo $$ >"$LUNAOS_TEST_LOGIN_PID"
 exec sleep 30
 SH
-OMARCHY_TEST_LOGIN_PID="$test_tmp/login.pid" omarchy-agent-account-add --events claude Killed </dev/null >"$test_tmp/killed-output" 2>&1 &
+LUNAOS_TEST_LOGIN_PID="$test_tmp/login.pid" lunaos-agent-account-add --events claude Killed </dev/null >"$test_tmp/killed-output" 2>&1 &
 adding=$!
 for _ in {1..50}; do
   [[ -s $test_tmp/login.pid ]] && break
@@ -223,15 +223,15 @@ done
 login_pid=$(cat "$test_tmp/login.pid")
 kill -KILL "$adding"
 wait "$adding" 2>/dev/null || true
-[[ $(omarchy-agent-account-state recover claude) == "[]" ]] || fail "recovery waits for the surviving CLI"
+[[ $(lunaos-agent-account-state recover claude) == "[]" ]] || fail "recovery waits for the surviving CLI"
 kill "$login_pid"
 for _ in {1..50}; do
   kill -0 "$login_pid" 2>/dev/null || break
   sleep 0.05
 done
 login_pid=""
-omarchy-agent-account-state refresh
-[[ $(omarchy-agent-account-list claude --json | jq -r '.[0].accounts[] | select(.id == "killed") | .email') == "killed@example.com" ]] || fail "refresh recovers a completed login after the add process is killed"
+lunaos-agent-account-state refresh
+[[ $(lunaos-agent-account-list claude --json | jq -r '.[0].accounts[] | select(.id == "killed") | .email') == "killed@example.com" ]] || fail "refresh recovers a completed login after the add process is killed"
 pass "refresh recovers a completed login after the add process is killed"
 
 # A browser helper that cannot be created must stop before launching login.
@@ -241,8 +241,8 @@ echo "unexpected browser login" >&2
 exit 99
 SH
 export XDG_RUNTIME_DIR="$test_tmp/missing"
-if output=$(omarchy-agent-account-add --events claude Browser </dev/null 2>&1); then
+if output=$(lunaos-agent-account-add --events claude Browser </dev/null 2>&1); then
   fail "a private browser setup failure stops the add"
 fi
-[[ $output == *"@@omarchy error"* && $output != *"unexpected browser login"* ]] || fail "private browser setup fails visibly before login" "$output"
+[[ $output == *"@@lunaos error"* && $output != *"unexpected browser login"* ]] || fail "private browser setup fails visibly before login" "$output"
 pass "private browser setup fails visibly before login"

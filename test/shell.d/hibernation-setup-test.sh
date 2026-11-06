@@ -13,7 +13,7 @@ tmpdir=$(mktemp -d)
 trap 'rm -rf "$tmpdir"' EXIT
 mkdir -p "$tmpdir/bin"
 
-cat >"$tmpdir/bin/omarchy-cmd-missing" <<'EOF'
+cat >"$tmpdir/bin/lunaos-cmd-missing" <<'EOF'
 #!/bin/bash
 exit 1
 EOF
@@ -41,7 +41,7 @@ EOF
 chmod +x "$tmpdir/bin/"*
 
 env -u LC_ALL PROMPT_LOG="$tmpdir/prompt" PATH="$tmpdir/bin:$PATH" \
-  "$ROOT/bin/omarchy-hibernation-setup"
+  "$ROOT/bin/lunaos-hibernation-setup"
 
 [[ $(<"$tmpdir/prompt") == "confirm Use 31Gi on boot drive to make hibernation available?" ]] ||
   fail "hibernation setup reads memory size independently of the user's locale"

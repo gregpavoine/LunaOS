@@ -1,8 +1,8 @@
 # Temalar
 
-Omarchy yirmi iki güzel temasıyla birlikte gelir. Bunlar arasında Omarchy Menüsündeki (`Super + Space`) _Stil > Tema_ yoluyla seçim yapabilir veya `Super + Ctrl + Shift + Space` kullanarak doğrudan tema seçiciye atlayabilirsiniz.
+LunaOS yirmi iki güzel temasıyla birlikte gelir. Bunlar arasında LunaOS Menüsündeki (`Super + Space`) _Stil > Tema_ yoluyla seçim yapabilir veya `Super + Ctrl + Shift + Space` kullanarak doğrudan tema seçiciye atlayabilirsiniz.
 
-Her tema masaüstünü, terminali, neovim'i, aktivite ekranını (btop), Chromium'u ve tüm Omarchy kabuğunu stilize eder: üst çubuk, menü, bildirimler, OSD ve kilit ekranı. (Obsidian için, uygulama içindeki _Appearance > Themes_ yoluyla Omarchy temasını elle seçmelisiniz).
+Her tema masaüstünü, terminali, neovim'i, aktivite ekranını (btop), Chromium'u ve tüm LunaOS kabuğunu stilize eder: üst çubuk, menü, bildirimler, OSD ve kilit ekranı. (Obsidian için, uygulama içindeki _Appearance > Themes_ yoluyla LunaOS temasını elle seçmelisiniz).
 
 Temaların, `Super + Ctrl + Space` kullanarak aralarından seçim yapabileceğiniz bir dizi arka plan görüntüsü vardır.
 

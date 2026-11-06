@@ -1,8 +1,8 @@
 # Flakk
 
-Allt í Omarchy gerist með lyklaborðinu — _ALLT!_ Þegar kerfið ræsir sig í fyrsta sinn geturðu bókstaflega ekki gert neitt með músinni einni saman. En þú getur ýtt á `Super + Space` til að birta Omarchy-valmyndina og þaðan geturðu gert svo til allt.
+Allt í LunaOS gerist með lyklaborðinu — _ALLT!_ Þegar kerfið ræsir sig í fyrsta sinn geturðu bókstaflega ekki gert neitt með músinni einni saman. En þú getur ýtt á `Super + Space` til að birta LunaOS-valmyndina og þaðan geturðu gert svo til allt.
 
-En Omarchy-valmyndin er ekki einu sinni ætluð sem helsta leiðin til að stjórna kerfinu mestan tímann. Við getum gert þetta hraðar en það! Öll mikilvægustu forritin eru bundin beint við staka flýtilykla. Þú ræsir skjáherminn með `Super + Return` og vafra með `Super + Shift + Return`. Prófaðu að gera annað á eftir hinu og þú sérð töfra flísaröðunar Hyprland í verki:
+En LunaOS-valmyndin er ekki einu sinni ætluð sem helsta leiðin til að stjórna kerfinu mestan tímann. Við getum gert þetta hraðar en það! Öll mikilvægustu forritin eru bundin beint við staka flýtilykla. Þú ræsir skjáherminn með `Super + Return` og vafra með `Super + Shift + Return`. Prófaðu að gera annað á eftir hinu og þú sérð töfra flísaröðunar Hyprland í verki:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Ef þú heldur `Super` niðri og smellir á glugga með músinni geturðu endurr
 
 ### Dwindle á móti skrunuppröðun
 
-Sjálfgefna uppröðunin í Omarchy kallast dwindle. Hún heldur öllum gluggum sem þú opnar á einu vinnusvæði sýnilegum öllum stundum, jafnvel þótt hún þurfi að minnka þá.
+Sjálfgefna uppröðunin í LunaOS kallast dwindle. Hún heldur öllum gluggum sem þú opnar á einu vinnusvæði sýnilegum öllum stundum, jafnvel þótt hún þurfi að minnka þá.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Fljótandi vinnusvæði virkar eins og hefðbundið skjáborð: gluggar skarast, og þú færir þá og breytir stærð þeirra sjálfur. Hver gluggi fær titilslá í litunum í þemanu þínu, með hnöppum til að lágmarka, hámarka og loka. `Super + M` lágmarkar líka gluggann sem er í fókus. Lágmarkaður gluggi bíður í bryggjunni; smelltu á forritið hans til að ná honum aftur. Smelltu á glugga til að færa hann fram. Breyttu stærð hans frá hvaða brún eða horni sem er. Tvísmelltu á titilslá til að hámarka gluggann en halda efstu slánni sýnilegri, og aftur til að fá gömlu stærðina hans til baka.
 
-Fljótandi vinnusvæði sýnir líka bryggju, með föstu forritunum þínum, öllu sem er í gangi, og hnitaneti með öllum forritum á bak við forritahnappinn, sem `Super + Alt + Space` og _Forrit_ í Omarchy-valmyndinni opna líka. Hægrismelltu á forrit í hnitanetinu, eða ýttu á `Delete`, til að fjarlægja það. Smelltu á forrit til að opna það, eða til að færa gluggann þess fram; smelltu aftur til að fara í gegnum glugga þess. Miðjusmellur opnar nýjan glugga. Dragðu tákn eftir bryggjunni til að færa það; að draga forrit í gangi inn á milli hinna heldur því þar. Hægrismelltu til að halda forriti í bryggjunni, taka það út, eða hætta í því. Bryggjan víkur fyrir glugga í fullum skjá. Hægrismelltu á forritahnappinn til að færa bryggjuna að annarri brún eða láta hana fela sig þangað til bendillinn nær að brún hennar. Staðsetningin er líka undir _Trigger > Útlit > Bryggja > Staðsetning bryggju_, og `omarchy dock position left` og `omarchy dock autohide on` stilla hvort tveggja úr skjáhermi. Forrit sem þú heldur í bryggjunni eru dofnuð á meðan þau eru ekki í gangi.
+Fljótandi vinnusvæði sýnir líka bryggju, með föstu forritunum þínum, öllu sem er í gangi, og hnitaneti með öllum forritum á bak við forritahnappinn, sem `Super + Alt + Space` og _Forrit_ í LunaOS-valmyndinni opna líka. Hægrismelltu á forrit í hnitanetinu, eða ýttu á `Delete`, til að fjarlægja það. Smelltu á forrit til að opna það, eða til að færa gluggann þess fram; smelltu aftur til að fara í gegnum glugga þess. Miðjusmellur opnar nýjan glugga. Dragðu tákn eftir bryggjunni til að færa það; að draga forrit í gangi inn á milli hinna heldur því þar. Hægrismelltu til að halda forriti í bryggjunni, taka það út, eða hætta í því. Bryggjan víkur fyrir glugga í fullum skjá. Hægrismelltu á forritahnappinn til að færa bryggjuna að annarri brún eða láta hana fela sig þangað til bendillinn nær að brún hennar. Staðsetningin er líka undir _Trigger > Útlit > Bryggja > Staðsetning bryggju_, og `lunaos dock position left` og `lunaos dock autohide on` stilla hvort tveggja úr skjáhermi. Forrit sem þú heldur í bryggjunni eru dofnuð á meðan þau eru ekki í gangi.
 
-Ný vinnusvæði, og öll sem þú hefur ekki gefið þeirra eigin uppröðun með `Super + L`, nota sjálfgefnu uppröðunina. Að breyta sjálfgefinni uppröðun endurstillir hvert vinnusvæði án glugga í hana, á meðan vinnusvæði með glugga á því heldur uppröðuninni sem það hefur. Gluggi sem er lágmarkaður í bryggjuna telst áfram sem gluggi á vinnusvæðinu sem hann fór frá. Veldu hana undir _Trigger > Útlit > Uppröðun vinnusvæðis_: Flísaröðun, Skrun, eða Fljótandi. `omarchy-hyprland-workspace-layout-default scrolling` stillir hana úr skjáhermi.
+Ný vinnusvæði, og öll sem þú hefur ekki gefið þeirra eigin uppröðun með `Super + L`, nota sjálfgefnu uppröðunina. Að breyta sjálfgefinni uppröðun endurstillir hvert vinnusvæði án glugga í hana, á meðan vinnusvæði með glugga á því heldur uppröðuninni sem það hefur. Gluggi sem er lágmarkaður í bryggjuna telst áfram sem gluggi á vinnusvæðinu sem hann fór frá. Veldu hana undir _Trigger > Útlit > Uppröðun vinnusvæðis_: Flísaröðun, Skrun, eða Fljótandi. `lunaos-hyprland-workspace-layout-default scrolling` stillir hana úr skjáhermi.
 
 ### Að hópa glugga
 

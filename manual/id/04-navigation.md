@@ -1,8 +1,8 @@
 # Navigasi
 
-Semua hal di Omarchy terjadi lewat keyboard — _SEMUA!_ Saat sistem pertama kali dimulai, kamu benar-benar tidak bisa melakukan apa pun hanya dengan mouse. Tapi kamu bisa menekan `Super + Space` untuk menampilkan Menu Omarchy dan dari sini kamu bisa melakukan hampir semua hal.
+Semua hal di LunaOS terjadi lewat keyboard — _SEMUA!_ Saat sistem pertama kali dimulai, kamu benar-benar tidak bisa melakukan apa pun hanya dengan mouse. Tapi kamu bisa menekan `Super + Space` untuk menampilkan Menu LunaOS dan dari sini kamu bisa melakukan hampir semua hal.
 
-Tapi menu Omarchy bahkan tidak dimaksudkan menjadi cara utama untuk mengoperasikan sistem ini sepanjang waktu. Kita bisa lebih cepat dari itu! Semua aplikasi yang paling penting terikat langsung ke hotkey masing-masing. Kamu memulai terminal dengan `Super + Return` dan browser dengan `Super + Shift + Return`. Coba lakukan satu demi satu, dan kamu akan melihat keajaiban tiling Hyprland beraksi:
+Tapi menu LunaOS bahkan tidak dimaksudkan menjadi cara utama untuk mengoperasikan sistem ini sepanjang waktu. Kita bisa lebih cepat dari itu! Semua aplikasi yang paling penting terikat langsung ke hotkey masing-masing. Kamu memulai terminal dengan `Super + Return` dan browser dengan `Super + Shift + Return`. Coba lakukan satu demi satu, dan kamu akan melihat keajaiban tiling Hyprland beraksi:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Kamu juga bisa masuk ke layar penuh dengan `Super + F` atau bahkan hanya selebar
 
 ### Tata letak dwindle vs scrolling
 
-Tata letak default Omarchy disebut dwindle. Tata letak ini menjaga semua jendela yang kamu buka di satu workspace tetap terlihat setiap saat, meski harus menyusutkannya.
+Tata letak default LunaOS disebut dwindle. Tata letak ini menjaga semua jendela yang kamu buka di satu workspace tetap terlihat setiap saat, meski harus menyusutkannya.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Workspace mengambang bekerja seperti desktop tradisional: jendela-jendela saling tumpang tindih, dan kamu memindahkan serta mengatur ukurannya sendiri. Setiap jendela mendapatkan titlebar dalam warna temamu, dengan tombol untuk meminimalkan, memaksimalkan, dan menutup. `Super + M` juga meminimalkan jendela yang terfokus. Jendela yang diminimalkan menunggu di dock; klik aplikasinya untuk membawanya kembali. Klik sebuah jendela untuk membawanya ke depan. Ubah ukurannya dari tepi atau sudut mana pun. Klik dua kali titlebar untuk memaksimalkan jendela sambil tetap menjaga bar atas terlihat, dan lakukan lagi untuk mendapatkan kembali ukuran lamanya.
 
-Workspace mengambang juga menampilkan dock, dengan aplikasi yang kamu sematkan, semua yang sedang berjalan, dan grid berisi setiap aplikasi di balik tombol aplikasi, yang juga bisa dibuka dengan `Super + Alt + Space` dan _Apps_ di menu Omarchy. Klik kanan sebuah aplikasi di grid, atau tekan `Delete`, untuk menghapus instalasinya. Klik sebuah aplikasi untuk membukanya, atau untuk membawa jendelanya ke depan; klik lagi untuk beralih di antara jendela-jendelanya. Klik tengah membuka jendela baru. Seret ikon di sepanjang dock untuk memindahkannya; menyeret aplikasi yang sedang berjalan ke antara aplikasi-aplikasi lain akan menyimpannya di sana. Klik kanan untuk menyimpan aplikasi di dock, mengeluarkannya, atau menutupnya. Dock akan menyingkir dari jendela layar penuh. Klik kanan tombol aplikasi untuk memindahkan dock ke tepi lain atau membuatnya bersembunyi sampai pointer mencapai tepinya. Posisinya juga ada di bawah _Trigger > Appearance > Dock > Dock Position_, dan `omarchy dock position left` serta `omarchy dock autohide on` mengatur keduanya dari terminal. Aplikasi yang kamu simpan di dock akan tampak pudar saat tidak berjalan.
+Workspace mengambang juga menampilkan dock, dengan aplikasi yang kamu sematkan, semua yang sedang berjalan, dan grid berisi setiap aplikasi di balik tombol aplikasi, yang juga bisa dibuka dengan `Super + Alt + Space` dan _Apps_ di menu LunaOS. Klik kanan sebuah aplikasi di grid, atau tekan `Delete`, untuk menghapus instalasinya. Klik sebuah aplikasi untuk membukanya, atau untuk membawa jendelanya ke depan; klik lagi untuk beralih di antara jendela-jendelanya. Klik tengah membuka jendela baru. Seret ikon di sepanjang dock untuk memindahkannya; menyeret aplikasi yang sedang berjalan ke antara aplikasi-aplikasi lain akan menyimpannya di sana. Klik kanan untuk menyimpan aplikasi di dock, mengeluarkannya, atau menutupnya. Dock akan menyingkir dari jendela layar penuh. Klik kanan tombol aplikasi untuk memindahkan dock ke tepi lain atau membuatnya bersembunyi sampai pointer mencapai tepinya. Posisinya juga ada di bawah _Trigger > Appearance > Dock > Dock Position_, dan `lunaos dock position left` serta `lunaos dock autohide on` mengatur keduanya dari terminal. Aplikasi yang kamu simpan di dock akan tampak pudar saat tidak berjalan.
 
-Workspace baru, dan workspace apa pun yang belum kamu beri tata letaknya sendiri dengan `Super + L`, menggunakan tata letak default. Mengubah default akan mengatur ulang setiap workspace tanpa jendela ke tata letak tersebut, sementara workspace yang memiliki jendela tetap mempertahankan tata letak yang dimilikinya. Jendela yang diminimalkan ke dock tetap dihitung sebagai jendela di workspace yang ditinggalkannya. Pilih tata letaknya di bawah _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling, atau Floating. `omarchy-hyprland-workspace-layout-default scrolling` mengaturnya dari terminal.
+Workspace baru, dan workspace apa pun yang belum kamu beri tata letaknya sendiri dengan `Super + L`, menggunakan tata letak default. Mengubah default akan mengatur ulang setiap workspace tanpa jendela ke tata letak tersebut, sementara workspace yang memiliki jendela tetap mempertahankan tata letak yang dimilikinya. Jendela yang diminimalkan ke dock tetap dihitung sebagai jendela di workspace yang ditinggalkannya. Pilih tata letaknya di bawah _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling, atau Floating. `lunaos-hyprland-workspace-layout-default scrolling` mengaturnya dari terminal.
 
 ### Mengelompokkan jendela
 

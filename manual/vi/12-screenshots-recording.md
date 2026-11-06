@@ -21,7 +21,7 @@ Trình soạn thảo chú thích có thể vẽ mũi tên, đường thẳng, h�
 
 Ảnh chụp màn hình đã lưu nằm trong `~/Pictures/Screenshots` theo mặc định, với một cái tên như `screenshot-2026-08-13_14-22-05-firefox.png`. Đặt `OMASNAP_SCREENSHOT_DIR` để dùng một thư mục khác — xem [FAQ](46-faq.md) để biết nơi đặt các biến môi trường phiên. Omasnap tạo thư mục khi nó lưu ảnh đầu tiên. Đặt `[output] autosave = false` trong `~/.config/omasnap/omasnap.conf` để tắt lưu tự động.
 
-Từ terminal, `omarchy screenshot` mở cùng lớp phủ đó, và bạn có thể chọn chế độ bắt đầu của nó: `omarchy capture screenshot region`, `windows`, `fullscreen` hoặc `scroll`. Một đối số thứ hai là `copy` hoặc `save` bỏ qua bản xem trước và gửi ảnh thẳng tới đích đó. Để chỉnh sửa trước khi xuất, dùng `omarchy screenshot --editor=overlay` cho một trình soạn thảo toàn màn hình hoặc `omarchy screenshot --editor=window` cho một cửa sổ riêng.
+Từ terminal, `lunaos screenshot` mở cùng lớp phủ đó, và bạn có thể chọn chế độ bắt đầu của nó: `lunaos capture screenshot region`, `windows`, `fullscreen` hoặc `scroll`. Một đối số thứ hai là `copy` hoặc `save` bỏ qua bản xem trước và gửi ảnh thẳng tới đích đó. Để chỉnh sửa trước khi xuất, dùng `lunaos screenshot --editor=overlay` cho một trình soạn thảo toàn màn hình hoặc `lunaos screenshot --editor=window` cho một cửa sổ riêng.
 
 ### Điều khiển bộ chọn từ bàn phím
 
@@ -40,9 +40,9 @@ Các phím gán này chỉ tồn tại trong khi Omasnap đang mở, vì vậy c
 
 ## Ghi màn hình
 
-`Alt + Print Screen` mở _Kích hoạt > Chụp/ghi > Ghi màn hình_, nơi hỏi bạn muốn gì trên bản nhạc nền: không có âm thanh, âm thanh desktop, desktop cộng micro, hoặc desktop cộng micro cộng webcam. Tùy chọn cuối cùng đó chỉ xuất hiện nếu bạn thực sự có một camera được cắm vào. Chọn một tùy chọn và bộ chọn ghi của Omarchy cho phép bạn kéo một vùng hoặc nhấp vào một cửa sổ hoặc màn hình.
+`Alt + Print Screen` mở _Kích hoạt > Chụp/ghi > Ghi màn hình_, nơi hỏi bạn muốn gì trên bản nhạc nền: không có âm thanh, âm thanh desktop, desktop cộng micro, hoặc desktop cộng micro cộng webcam. Tùy chọn cuối cùng đó chỉ xuất hiện nếu bạn thực sự có một camera được cắm vào. Chọn một tùy chọn và bộ chọn ghi của LunaOS cho phép bạn kéo một vùng hoặc nhấp vào một cửa sổ hoặc màn hình.
 
-Việc ghi chạy trên gpu-screen-recorder, mã hóa trên GPU ở 60fps và quay lại CPU nếu phải làm vậy. Kết quả là một tệp MP4 trong `~/Videos`, có tên `screenrecording-2026-08-13_14-22-05.mp4`. Đặt `OMARCHY_SCREENRECORD_DIR` để thay đổi điều đó — nhưng lưu ý rằng không giống thư mục ảnh chụp màn hình, thư mục này phải tồn tại sẵn, nếu không bản ghi từ chối bắt đầu.
+Việc ghi chạy trên gpu-screen-recorder, mã hóa trên GPU ở 60fps và quay lại CPU nếu phải làm vậy. Kết quả là một tệp MP4 trong `~/Videos`, có tên `screenrecording-2026-08-13_14-22-05.mp4`. Đặt `LUNAOS_SCREENRECORD_DIR` để thay đổi điều đó — nhưng lưu ý rằng không giống thư mục ảnh chụp màn hình, thư mục này phải tồn tại sẵn, nếu không bản ghi từ chối bắt đầu.
 
 Trong khi bạn đang ghi, một chỉ báo nhỏ xuất hiện trên thanh. Nhấp vào nó để dừng. Bạn cũng có thể dừng bằng `Alt + Print Screen` lần nữa, hoặc bằng mục _Dừng ghi màn hình_ trong _Kích hoạt > Chụp/ghi > Ghi màn hình_, mục này chỉ xuất hiện trong khi có thứ gì đó thực sự đang ghi.
 
@@ -59,7 +59,7 @@ Khi bạn ghi với một webcam, camera xuất hiện dưới dạng một cử
 
 Có ba kích thước — nhỏ, vừa và lớn — và các phím tắt bước qua chúng. Vừa là mặc định. Chúng tỷ lệ với bản ghi, vì vậy camera chiếm cùng một phần của khung hình dù bạn đang ghi một màn hình 1080p hay một màn hình 6K. Và nếu bạn ghi một vùng thay vì toàn bộ màn hình, lớp phủ neo vào góc của vùng đó thay vì góc của màn hình, vì vậy nó ở bên trong khung hình.
 
-Bạn cũng có thể gọi nó trực tiếp bằng `omarchy-capture-webcam-resize small`, hoặc `reset` để quay lại vừa.
+Bạn cũng có thể gọi nó trực tiếp bằng `lunaos-capture-webcam-resize small`, hoặc `reset` để quay lại vừa.
 
 ## Văn bản, mã QR và màu sắc
 
@@ -75,7 +75,7 @@ Một bản ghi màn hình 4K hoặc một tệp HEIC thô từ điện thoại 
 
 Hình ảnh đi tới jpg hoặc png ở mức cao, vừa hoặc thấp, giới hạn chiều rộng ở 3160, 2160 và 1080 pixel. Video đi tới mp4 hoặc một tệp gif động ở 4k, 1080p hoặc 720p. Tệp đã chuyển đổi được ghi bên cạnh tệp gốc với độ phân giải trong tên — `demo-1080p.mp4` — và đường dẫn được sao chép vào bảng nhớ tạm dưới dạng một URI tệp, vì vậy bạn có thể dán nó trực tiếp vào một ứng dụng nhận tệp thả vào.
 
-Nó cũng hoạt động từ terminal, nếu bạn đã biết mình muốn gì: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Ngoài ra còn có `omarchy transcode ascii`, biến một hình ảnh thành nghệ thuật ASCII — cái đó chủ yếu dành cho [thương hiệu](41-branding.md).
+Nó cũng hoạt động từ terminal, nếu bạn đã biết mình muốn gì: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Ngoài ra còn có `lunaos transcode ascii`, biến một hình ảnh thành nghệ thuật ASCII — cái đó chủ yếu dành cho [thương hiệu](41-branding.md).
 
 ## Gửi nó đi đâu đó
 

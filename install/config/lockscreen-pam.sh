@@ -1,1 +1,1 @@
-omarchy-apply-lock
+lunaos-apply-lock

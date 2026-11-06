@@ -1,6 +1,6 @@
 # Instal·lació d'arrencada dual
 
-Pots instal·lar Omarchy en una sola partició al costat de Windows o d'altres instal·lacions.
+Pots instal·lar LunaOS en una sola partició al costat de Windows o d'altres instal·lacions.
 
 Aquest mètode d'instal·lació encara ve amb xifratge LUKS per a la partició per defecte, de manera que efectivament no és gens diferent d'una unitat completa i simplement requereix que hi hagi espai lliure disponible al disc.
 
@@ -14,17 +14,17 @@ Troba la partició adequada, fes-hi clic amb el botó dret i tria **Shrink Volum
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- Introdueix la quantitat amb què vols encongir el volum. Tingues en compte que aquesta serà la mida de la teva futura instal·lació d'Omarchy, inclosa la partició d'arrencada.
+ Introdueix la quantitat amb què vols encongir el volum. Tingues en compte que aquesta serà la mida de la teva futura instal·lació d'LunaOS, inclosa la partició d'arrencada.
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-Quan hagis acabat, hauries de veure alguna cosa com això, on la secció de 50 GB és on instal·larem Omarchy en aquest exemple.
+Quan hagis acabat, hauries de veure alguna cosa com això, on la secció de 50 GB és on instal·larem LunaOS en aquest exemple.
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## Instal·lar Omarchy
+## Instal·lar LunaOS
 
-El procés d'instal·lació d'Omarchy és efectivament el mateix que el normal. Després de seleccionar el disc, se't donarà l'opció d'**Free space install**. Selecciona aquesta opció per evitar esborrar tot el disc.
+El procés d'instal·lació d'LunaOS és efectivament el mateix que el normal. Després de seleccionar el disc, se't donarà l'opció d'**Free space install**. Selecciona aquesta opció per evitar esborrar tot el disc.
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Confirma que tot té bona pinta i espera que la instal·lació acabi com de cost
 
 ## Afegir altres instal·lacions al carregador d'arrencada
 
-Quan acabis la instal·lació d'Omarchy, notaràs que ara el carregador d'arrencada per defecte és Limine. Amb això, també pots afegir opcions a Limine per a les teves altres instal·lacions, com Windows.
+Quan acabis la instal·lació d'LunaOS, notaràs que ara el carregador d'arrencada per defecte és Limine. Amb això, també pots afegir opcions a Limine per a les teves altres instal·lacions, com Windows.
 
-Per fer-ho, executa `limine-scan` i segueix les indicacions per afegir a la teva configuració de Limine els elements que vulguis. Aleshores, quan arrenquis, veuràs les teves opcions normals per a Omarchy, a més de Windows Boot Manager o altres.
+Per fer-ho, executa `limine-scan` i segueix les indicacions per afegir a la teva configuració de Limine els elements que vulguis. Aleshores, quan arrenquis, veuràs les teves opcions normals per a LunaOS, a més de Windows Boot Manager o altres.
 
 ## Bitlocker
 

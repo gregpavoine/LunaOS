@@ -6,11 +6,11 @@ TEST_HOME=$(mktemp -d)
 trap 'rm -rf "$TEST_HOME"' EXIT
 
 FAKE_BIN="$TEST_HOME/bin"
-CURRENT_THEME="$TEST_HOME/.local/state/omarchy/current/theme"
+CURRENT_THEME="$TEST_HOME/.local/state/lunaos/current/theme"
 QMK_LOG="$TEST_HOME/qmk.log"
 mkdir -p "$FAKE_BIN" "$CURRENT_THEME"
 
-cat >"$FAKE_BIN/omarchy-cmd-present" <<'EOF'
+cat >"$FAKE_BIN/lunaos-cmd-present" <<'EOF'
 #!/bin/bash
 [[ $1 == "qmk_hid" ]]
 EOF
@@ -30,7 +30,7 @@ chmod +x "$FAKE_BIN"/*
 
 apply_keyboard_color() {
   rm -f "$QMK_LOG"
-  QMK_LOG="$QMK_LOG" PATH="$FAKE_BIN:$ROOT/bin:$PATH" HOME="$TEST_HOME" "$ROOT/bin/omarchy-theme-set-keyboard-f16"
+  QMK_LOG="$QMK_LOG" PATH="$FAKE_BIN:$ROOT/bin:$PATH" HOME="$TEST_HOME" "$ROOT/bin/lunaos-theme-set-keyboard-f16"
 }
 
 qmk_calls() {

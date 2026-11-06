@@ -1,12 +1,15 @@
 # Themes
 
-Omarchy comes with twenty-two beautiful themes. You can select between them via _Appearance > Theme_ in the Omarchy Menu (`Super + Space`) or hop directly to the theme selector using `Super + Ctrl + T`.
+LunaOS comes with twenty-two beautiful themes. You can select between them via _Appearance > Theme_ in the LunaOS Menu (`Super + Space`) or hop directly to the theme selector using `Super + Ctrl + T`.
 
-Each theme styles the desktop, terminal, neovim, activity screen (btop), Chromium, and the entire Omarchy shell: top bar, menu, notifications, OSD, and the lock screen. (For Obsidian, you must manually select the Omarchy theme via _Appearance > Themes_ inside the app).
+Each theme styles the desktop, terminal, neovim, activity screen (btop), Chromium, and the entire LunaOS shell: the bar, menu, notifications, OSD, and the lock screen. (For Obsidian, you must manually select the LunaOS theme via _Appearance > Themes_ inside the app).
 
 Themes have a set of background images that you can pick between using `Super + Ctrl + W`.
 
 You can find even more themes on [the extra themes page](https://omarchy.org/themes/) or even [make your own theme](43-making-your-own-theme.md).
+
+ ![luna](../themes/luna/preview.png)
+_Luna (the default)_
 
  ![tokyo-night](../themes/tokyo-night/preview.png)
 _Tokyo Night_

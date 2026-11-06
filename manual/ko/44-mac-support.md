@@ -1,16 +1,16 @@
 # Mac 지원
 
-Omarchy는 **Intel Mac**을 기본으로 지원합니다. 현재 알려진 제한이 몇 가지 있지만, 이를 알고 있고 괜찮다면 Omarchy를 설치해 낡은 Mac에 새 생명을 불어넣을 수 있습니다.
+LunaOS는 **Intel Mac**을 기본으로 지원합니다. 현재 알려진 제한이 몇 가지 있지만, 이를 알고 있고 괜찮다면 LunaOS를 설치해 낡은 Mac에 새 생명을 불어넣을 수 있습니다.
 
-M 시리즈 Mac에 설치하는 것은 현재 직접 지원되지 않는다는 점에 유의하세요. 이에 대한 상황은 [Discord](https://discord.gg/tXFUdasqhY)의 #omarchy-on-other 채널에서 더 알아볼 수 있습니다.
+M 시리즈 Mac에 설치하는 것은 현재 직접 지원되지 않는다는 점에 유의하세요. 이에 대한 상황은 [Discord](https://discord.gg/tXFUdasqhY)의 #lunaos-on-other 채널에서 더 알아볼 수 있습니다.
 
-간단한 테스트에서 Omarchy를 설치하는 것만으로 2019년 MacBook Pro에서 36%의 성능 향상을 달성할 수 있었습니다.
+간단한 테스트에서 LunaOS를 설치하는 것만으로 2019년 MacBook Pro에서 36%의 성능 향상을 달성할 수 있었습니다.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Mac에 Omarchy 설치하기
+### Mac에 LunaOS 설치하기
 
-Omarchy는 현재 설치된 **유일한** OS인 경우만 지원합니다. 설치 중에 드라이브가 지워지고 MacOS는 더 이상 부팅할 수 없게 됩니다.
+LunaOS는 현재 설치된 **유일한** OS인 경우만 지원합니다. 설치 중에 드라이브가 지워지고 MacOS는 더 이상 부팅할 수 없게 됩니다.
 
 나중에 필요하다면 인터넷 복구(Internet Recovery)를 통해 복원할 수는 있습니다.
 
@@ -39,7 +39,7 @@ Omarchy는 현재 설치된 **유일한** OS인 경우만 지원합니다. 설�
 
 ### 알려진 제한 사항
 
-커뮤니티 회원들은 이러한 어려움에 대한 해결책을 계속 찾고 있으므로, 이런 것들이 문제가 된다면 [Discord](https://discord.gg/tXFUdasqhY)의 #omarchy-on-other 채널에 참여해 이를 해결할 최신 방법이 있는지 확인해 보세요.
+커뮤니티 회원들은 이러한 어려움에 대한 해결책을 계속 찾고 있으므로, 이런 것들이 문제가 된다면 [Discord](https://discord.gg/tXFUdasqhY)의 #lunaos-on-other 채널에 참여해 이를 해결할 최신 방법이 있는지 확인해 보세요.
 
 #### T1 칩을 탑재한 기기
 

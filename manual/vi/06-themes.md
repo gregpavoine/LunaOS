@@ -1,8 +1,8 @@
 # Chủ đề
 
-Omarchy đi kèm hai mươi hai chủ đề đẹp. Bạn có thể chọn giữa chúng qua _Phong cách > Chủ đề_ trong Menu Omarchy (`Super + Space`) hoặc nhảy trực tiếp tới bộ chọn chủ đề bằng `Super + Ctrl + Shift + Space`.
+LunaOS đi kèm hai mươi hai chủ đề đẹp. Bạn có thể chọn giữa chúng qua _Phong cách > Chủ đề_ trong Menu LunaOS (`Super + Space`) hoặc nhảy trực tiếp tới bộ chọn chủ đề bằng `Super + Ctrl + Shift + Space`.
 
-Mỗi chủ đề tạo kiểu cho desktop, terminal, neovim, màn hình hoạt động (btop), Chromium và toàn bộ shell Omarchy: thanh trên cùng, menu, thông báo, OSD và màn hình khóa. (Đối với Obsidian, bạn phải tự chọn chủ đề Omarchy qua _Appearance > Themes_ bên trong ứng dụng).
+Mỗi chủ đề tạo kiểu cho desktop, terminal, neovim, màn hình hoạt động (btop), Chromium và toàn bộ shell LunaOS: thanh trên cùng, menu, thông báo, OSD và màn hình khóa. (Đối với Obsidian, bạn phải tự chọn chủ đề LunaOS qua _Appearance > Themes_ bên trong ứng dụng).
 
 Các chủ đề có một bộ hình nền mà bạn có thể chọn bằng `Super + Ctrl + Space`.
 

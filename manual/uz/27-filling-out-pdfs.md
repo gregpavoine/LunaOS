@@ -1,6 +1,6 @@
 # PDFlarni toʻldirish
 
-Omarchy Document Viewer deb ataluvchi chiroyli, asosiy PDF koʻruvchisi bilan keladi. Bu shunchaki ikki marta bosadigan har qanday PDFlaringizni ochadigan dasturdir.
+LunaOS Document Viewer deb ataluvchi chiroyli, asosiy PDF koʻruvchisi bilan keladi. Bu shunchaki ikki marta bosadigan har qanday PDFlaringizni ochadigan dasturdir.
 
 Lekin Document Viewer dan faqat shakl sifatida sozlangan PDFlarni toʻldirish uchun foydalanishingiz mumkin. Agar sozlanmagan PDFlarni toʻldirishingiz kerak boʻlsa yoki PDF ni imzolashingiz kerak boʻlsa, [Signed](https://github.com/omacom/signed) dan foydalaning. Uni ilova ishga tushirgichi (`Super + Space`) orqali boshlang yoki faylni oʻng tugma bilan bosing, _Open With..._ ni tanlang va Signed ni tanlang.
 

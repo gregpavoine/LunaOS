@@ -1,6 +1,6 @@
 # Kettős indítású telepítés
 
-Telepítheted az Omarchyt egyetlen partícióra Windows vagy más telepítések mellé.
+Telepítheted az LunaOSt egyetlen partícióra Windows vagy más telepítések mellé.
 
 Ez a telepítési módszer alapértelmezetten továbbra is LUKS-titkosítással érkezik a partícióhoz, így gyakorlatban nem különbözik a teljes meghajtós telepítéstől, és egyszerűen szabad helynek kell lennie a lemezen.
 
@@ -14,17 +14,17 @@ Keresd meg a megfelelő partíciót, kattints rá jobb gombbal, és válaszd a *
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- Add meg, mennyivel szeretnéd zsugorítani a kötetet. Vedd figyelembe, hogy ez lesz a jövőbeli Omarchy-telepítésed mérete a rendszerindító partícióval együtt.
+ Add meg, mennyivel szeretnéd zsugorítani a kötetet. Vedd figyelembe, hogy ez lesz a jövőbeli LunaOS-telepítésed mérete a rendszerindító partícióval együtt.
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-Ha kész vagy, valami ilyesmit kell látnod, ahol az 50 GB-os szakasz az, ahová ebben a példában az Omarchyt telepítjük.
+Ha kész vagy, valami ilyesmit kell látnod, ahol az 50 GB-os szakasz az, ahová ebben a példában az LunaOSt telepítjük.
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## Az Omarchy telepítése
+## Az LunaOS telepítése
 
-Az Omarchy telepítési folyamata gyakorlatban ugyanaz, mint normálisan. Miután kiválasztottad a lemezed, megkapod a **Free space install** lehetőségét. Válaszd azt a lehetőséget, hogy megakadályozd a teljes lemez törlését.
+Az LunaOS telepítési folyamata gyakorlatban ugyanaz, mint normálisan. Miután kiválasztottad a lemezed, megkapod a **Free space install** lehetőségét. Válaszd azt a lehetőséget, hogy megakadályozd a teljes lemez törlését.
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Erősítsd meg, hogy minden rendben néz ki, és várd meg, amíg a telepítés 
 
 ## Más telepítések hozzáadása a rendszerbetöltőhöz
 
-Amikor befejezed az Omarchy-telepítésed, észreveszed, hogy most a Limine rendszerbetöltő az alapértelmezett. Ezzel lehetőségeket is adhatsz a Limine-hez más telepítéseidre, például a Windowsra.
+Amikor befejezed az LunaOS-telepítésed, észreveszed, hogy most a Limine rendszerbetöltő az alapértelmezett. Ezzel lehetőségeket is adhatsz a Limine-hez más telepítéseidre, például a Windowsra.
 
-Ennek érdekében futtasd a `limine-scan` parancsot, és kövesd az utasításokat minden olyan elem hozzáadásához, amelyet a limine-konfigurációdba akarsz. Ezután, amikor elindítod, az Omarchy szokásos lehetőségei mellett a Windows Boot Managert vagy másokat is fogsz látni.
+Ennek érdekében futtasd a `limine-scan` parancsot, és kövesd az utasításokat minden olyan elem hozzáadásához, amelyet a limine-konfigurációdba akarsz. Ezután, amikor elindítod, az LunaOS szokásos lehetőségei mellett a Windows Boot Managert vagy másokat is fogsz látni.
 
 ## Bitlocker
 

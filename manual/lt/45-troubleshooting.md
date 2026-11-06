@@ -2,17 +2,17 @@
 
 ### Sugadinau sistemą naujinimu!
 
-Pirmiausia pabandyk [atkurti savo sistemą](47-system-snapshots.md) į versiją prieš pastarąjį naujinimą. Jei tai neveikia, naudok `omarchy-debug`, kad pasidalytum savo problema #omarchy-help Discord. O jei visa tai nepavyksta, gali iš naujo įdiegti numatytąsias konfigūracijas ir paketus naudodamas `omarchy-reinstall`.
+Pirmiausia pabandyk [atkurti savo sistemą](47-system-snapshots.md) į versiją prieš pastarąjį naujinimą. Jei tai neveikia, naudok `lunaos-debug`, kad pasidalytum savo problema #lunaos-help Discord. O jei visa tai nepavyksta, gali iš naujo įdiegti numatytąsias konfigūracijas ir paketus naudodamas `lunaos-reinstall`.
 
 ### Kodėl kai kurios programos mano ekrane tokios didelės?
 
-Omarchy daro prielaidą, kad ekranas yra 2x didelės raiškos, todėl reikia `GDK_SCALE` nustatyti į 2 faile `~/.config/hypr/monitors.lua`. Bet jei esi 1x ekrane, gali `local omarchy_gdk_scale = 2` pakeisti į 1 (tada iš naujo paleisk bet kurią per didelę programą). Žr. [žinyną apie monitorius](33-monitors.md).
+LunaOS daro prielaidą, kad ekranas yra 2x didelės raiškos, todėl reikia `GDK_SCALE` nustatyti į 2 faile `~/.config/hypr/monitors.lua`. Bet jei esi 1x ekrane, gali `local lunaos_gdk_scale = 2` pakeisti į 1 (tada iš naujo paleisk bet kurią per didelę programą). Žr. [žinyną apie monitorius](33-monitors.md).
 
 Spotify atveju gali naudoti `Ctrl + Minus`, kad sumažintum UI (ir `Ctrl + Plus`, kad ją padidintum).
 
 ### Mano Wi-Fi, Bluetooth, garsas ar jutiklinis kilimėlis tiesiog nustojo veikti
 
-Prieš perkraudamas, pabandyk kaltąją posistemę iš naujo paleisti atskirai. _Atnaujinti > Aparatinė įranga_ Omarchy meniu turi Wi-Fi, Bluetooth, Garsą ir Jutiklinį kilimėlį, o vienos iš jų perkrovimas ištaiso daugumą situacijų „prieš penkias minutes veikė" — Bluetooth ausines, kurios neprisijungia iš naujo, jutiklinį kilimėlį, kuris po pristabdymo mirė, garsą, kuris dingo atjungus monitorių.
+Prieš perkraudamas, pabandyk kaltąją posistemę iš naujo paleisti atskirai. _Atnaujinti > Aparatinė įranga_ LunaOS meniu turi Wi-Fi, Bluetooth, Garsą ir Jutiklinį kilimėlį, o vienos iš jų perkrovimas ištaiso daugumą situacijų „prieš penkias minutes veikė" — Bluetooth ausines, kurios neprisijungia iš naujo, jutiklinį kilimėlį, kuris po pristabdymo mirė, garsą, kuris dingo atjungus monitorių.
 
 ### Kodėl mano išoriniai garsiakalbiai negroja?
 
@@ -20,7 +20,7 @@ Tikriausiai todėl, kad jie nenustatyti kaip pagrindinė išvestis. Spustelėk g
 
 ### Mano nešiojamojo garsiakalbiai skamba keistai
 
-Kai kuriuose nešiojamuosiuose Omarchy automatiškai pritaiko garsiakalbių derinimą, kuris pataiso įmontuotų garsiakalbių dažnių atsaką. `omarchy audio tuning status` pasako, ar tavo kompiuteryje kuris nors aktyvus, o `omarchy audio tuning off` jį išjungia, jei mieliau garsiakalbius girdi neapdorotus.
+Kai kuriuose nešiojamuosiuose LunaOS automatiškai pritaiko garsiakalbių derinimą, kuris pataiso įmontuotų garsiakalbių dažnių atsaką. `lunaos audio tuning status` pasako, ar tavo kompiuteryje kuris nors aktyvus, o `lunaos audio tuning off` jį išjungia, jei mieliau garsiakalbius girdi neapdorotus.
 
 ### Kodėl negaliu prisijungti ar sudo su savo slaptažodžiu?
 

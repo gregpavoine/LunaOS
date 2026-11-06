@@ -1,6 +1,6 @@
 # Shellfunktioner
 
-Omarchy leveres med et sæt shellfunktioner til at forenkle almindelige opgaver og indkapsle indviklede parameterkald.
+LunaOS leveres med et sæt shellfunktioner til at forenkle almindelige opgaver og indkapsle indviklede parameterkald.
 
 ## Komprimering
 

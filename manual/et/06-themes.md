@@ -1,8 +1,8 @@
 # Teemad
 
-Omarchyga tuleb kaasa kakskümmend kaks ilusat teemat. Saad nende vahel valida Omarchy menüüs _Stiil > Teema_ kaudu (`Super + Space`) või hüpata otse teemavalija juurde `Super + Ctrl + Shift + Space` abil.
+LunaOSga tuleb kaasa kakskümmend kaks ilusat teemat. Saad nende vahel valida LunaOS menüüs _Stiil > Teema_ kaudu (`Super + Space`) või hüpata otse teemavalija juurde `Super + Ctrl + Shift + Space` abil.
 
-Iga teema stiilib töölaua, terminali, neovimi, aktiivsusekraani (btop), Chromiumi ja kogu Omarchy kesta: menüüriba, menüü, teavitused, OSD ja lukuekraani. (Obsidiani puhul pead rakenduses käsitsi valima Omarchy teema _Appearance > Themes_ kaudu).
+Iga teema stiilib töölaua, terminali, neovimi, aktiivsusekraani (btop), Chromiumi ja kogu LunaOS kesta: menüüriba, menüü, teavitused, OSD ja lukuekraani. (Obsidiani puhul pead rakenduses käsitsi valima LunaOS teema _Appearance > Themes_ kaudu).
 
 Teemadel on taustapiltide kogum, mille vahel saad valida `Super + Ctrl + Space` abil.
 

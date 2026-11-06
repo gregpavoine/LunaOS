@@ -6,7 +6,7 @@
 
 الآن Neovim قابل للتكوين بشكل لا نهائي أساسًا. إذا رغبت حقًا في الجنون، يمكنك إنشاء تكوين Neovim الخاص بك من الصفر. هناك دورة رائعة من [Typecraft حول إعداد Neovim من الصفر](https://www.youtube.com/watch?v=zHTeCSVAFNY). و[ThePrimeagen لديه واحدة أيضًا](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-لكن Omarchy يأتي مع إعداد Neovim كامل — حزمة `omarchy-nvim` — تم ضبطها بحب لعرض أفضل ما هو ممكن خارج الصندوق. دون أن تضطر لكتابة سطر واحد من التكوين! مبنية على [LazyVim](https://www.lazyvim.org/)، وهي توزيعة من مكونات وتكوينات Neovim. إنها رائعة.
+لكن LunaOS يأتي مع إعداد Neovim كامل — حزمة `omarchy-nvim` — تم ضبطها بحب لعرض أفضل ما هو ممكن خارج الصندوق. دون أن تضطر لكتابة سطر واحد من التكوين! مبنية على [LazyVim](https://www.lazyvim.org/)، وهي توزيعة من مكونات وتكوينات Neovim. إنها رائعة.
 
 ## أساسيات LazyVim
 

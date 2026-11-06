@@ -8,28 +8,28 @@ trap 'rm -rf "$test_tmp"' EXIT
 mock_bin="$test_tmp/bin"
 export HOME="$test_tmp/home with spaces"
 export PATH="$mock_bin:$HOME/.local/bin:$ROOT/bin:/usr/local/bin:/usr/bin"
-export OMARCHY_PATH="$ROOT"
-export OMARCHY_TEST_MISE_LOG="$test_tmp/mise-log"
+export LUNAOS_PATH="$ROOT"
+export LUNAOS_TEST_MISE_LOG="$test_tmp/mise-log"
 mkdir -p "$mock_bin" "$HOME/.local/bin"
 kimi="$HOME/.local/bin/kimi"
 package="npm:@moonshot-ai/kimi-code"
 
 cat >"$mock_bin/mise" <<'SH'
 #!/bin/bash
-printf '%s\0' "$@" >>"$OMARCHY_TEST_MISE_LOG"
+printf '%s\0' "$@" >>"$LUNAOS_TEST_MISE_LOG"
 SH
 cat >"$mock_bin/noop" <<'SH'
 #!/bin/bash
 exit 0
 SH
 chmod +x "$mock_bin/mise" "$mock_bin/noop"
-for command in gum hyprctl omarchy-webapp-remove-all omarchy-tui-remove-all omarchy-pkg-drop; do
+for command in gum hyprctl lunaos-webapp-remove-all lunaos-tui-remove-all lunaos-pkg-drop; do
   ln -s noop "$mock_bin/$command"
 done
 
 apply_kimi() {
   case $1 in
-    removal) omarchy-remove-preinstalls >/dev/null ;;
+    removal) lunaos-remove-preinstalls >/dev/null ;;
   esac
 }
 
@@ -58,7 +58,7 @@ for operation in removal; do
   done
 done
 
-omarchy-mise-install "$package" kimi
+lunaos-mise-install "$package" kimi
 apply_kimi removal
-[[ ! -e $kimi ]] || fail "Remove Preinstalls removes Omarchy's Kimi wrapper"
-pass "Remove Preinstalls removes Omarchy's Kimi wrapper"
+[[ ! -e $kimi ]] || fail "Remove Preinstalls removes LunaOS's Kimi wrapper"
+pass "Remove Preinstalls removes LunaOS's Kimi wrapper"

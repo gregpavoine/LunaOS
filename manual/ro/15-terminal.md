@@ -1,8 +1,8 @@
 # Terminalul
 
-[Foot](https://codeberg.org/dnkl/foot) este terminalul implicit pentru Omarchy. Este rapid, ușor și compatibil chiar și cu calculatoare vechi. Totuși, nu acceptă file native sau divizări.
+[Foot](https://codeberg.org/dnkl/foot) este terminalul implicit pentru LunaOS. Este rapid, ușor și compatibil chiar și cu calculatoare vechi. Totuși, nu acceptă file native sau divizări.
 
-Dacă folosești Tmux, s-ar putea să nu-ți pese, dar, dacă nu, acceptăm pe deplin și _Alacritty_, _Ghostty_ și _Kitty_ ca opțiuni. Alege-ți preferința sub _Instalează > Terminal_ în meniul Omarchy.
+Dacă folosești Tmux, s-ar putea să nu-ți pese, dar, dacă nu, acceptăm pe deplin și _Alacritty_, _Ghostty_ și _Kitty_ ca opțiuni. Alege-ți preferința sub _Instalează > Terminal_ în meniul LunaOS.
 
 Pornești un terminal nou folosind `Super + Return`. (Această mapare va indica automat orice terminal ai instalat prin _Instalează > Terminal_, și poți comuta între terminalele instalate sub _Configurare > Implicite > Terminal_.)
 
@@ -12,11 +12,11 @@ Tmux oferă o interfață consecventă și programabilă pentru panouri, ferestr
 
 Pornești o sesiune Tmux nouă într-un terminal proaspăt folosind `Super + Alt + Return`, și, deoarece Tmux este un proces persistent, îți poți relua sesiunea chiar dacă închizi acel terminal. Apasă doar `Ctrl + Space` (numită tasta prefix), apoi `s` ca să vezi toate sesiunile tale active.
 
-Omarchy vine cu o configurație Tmux optimizată ergonomic, care are multe mapări de învățat, așa că păstrează [fișa de ajutor la îndemână](07-hotkeys.md#tmux).
+LunaOS vine cu o configurație Tmux optimizată ergonomic, care are multe mapări de învățat, așa că păstrează [fișa de ajutor la îndemână](07-hotkeys.md#tmux).
 
 ## Funcții de aranjare Tmux
 
-Deoarece Tmux este programabil, putem folosi funcții ca să creăm aranjări. Omarchy vine cu patru funcții diferite pentru aranjări comune de dezvoltator.
+Deoarece Tmux este programabil, putem folosi funcții ca să creăm aranjări. LunaOS vine cu patru funcții diferite pentru aranjări comune de dezvoltator.
 
 `tdl [agent]` pornește o interfață asemănătoare unui IDE, împărțită în trei, cu `$EDITOR` în stânga, agentul tău AI ales în dreapta (cum ar fi `c` pentru opencode sau `cx` pentru Claude sau `codex` pentru OpenAI) și apoi un terminal în partea de jos.
 

@@ -6,7 +6,7 @@ Unaweza kuona ufungaji wote mkuu wa kibodi kwa `Super + K` (ufungaji wa Tmux kwa
 
 | Mkato wa kitufe                  | Kazi              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Menyu ya Omarchy (programu na kila kitu kingine)    |
+| `Super + Space`           | Menyu ya LunaOS (programu na kila kitu kingine)    |
 | `Super + Alt + Space` | Gridi ya programu |
 | `Super + Escape` | Menyu ya mfumo (sitisha, anzisha upya, n.k.)  |
 | `Super + Ctrl + L` | Funga kompyuta |
@@ -136,7 +136,7 @@ Badilisha/ongeza ufungaji katika `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Bandika    |
 | `Super + Ctrl + V`           | Kidhibiti cha ubao wa kunakili    |
 
-Kwa kawaida kwenye Linux, unahitaji `Ctrl + Shift + C/V` kunakili na kubandika katika terminali na `Ctrl + C/V` kufanya hivyo kila mahali pengine. Mikato hii ya vitufe ya ubao wa kunakili wa pamoja wa Omarchy hufanya kazi kila mahali.
+Kwa kawaida kwenye Linux, unahitaji `Ctrl + Shift + C/V` kunakili na kubandika katika terminali na `Ctrl + C/V` kufanya hivyo kila mahali pengine. Mikato hii ya vitufe ya ubao wa kunakili wa pamoja wa LunaOS hufanya kazi kila mahali.
 
 ## Nasa
 
@@ -156,7 +156,7 @@ Kwa kawaida kwenye Linux, unahitaji `Ctrl + Shift + C/V` kunakili na kubandika k
 
 Kwa rekodi za skrini, mkato wa kitufe huuliza kwanza sauti gani unataka, kisha huanza kurekodi. Uigonge tena kusimamisha. Tazama [picha za skrini na kurekodi](12-screenshots-recording.md) kwa maelezo.
 
-Chaguo zote za kunasa zinapatikana pia chini ya _Anzisha > Nasa_ katika menyu ya Omarchy (`Super + Space`).
+Chaguo zote za kunasa zinapatikana pia chini ya _Anzisha > Nasa_ katika menyu ya LunaOS (`Super + Space`).
 
 ## Arifa
 
@@ -177,9 +177,9 @@ Chaguo zote za kunasa zinapatikana pia chini ya _Anzisha > Nasa_ katika menyu ya
 | `Super + Backspace` | Badilisha uangavu kwenye dirisha |
 | `Super + Ctrl + Backspace` | Badilisha kipengele cha mraba cha dirisha moja |
 
-Picha za ziada za mandhari ya nyuma huishi katika `~/.config/omarchy/backgrounds/<theme name>`. Zinapatikana pia kupitia _Sakinisha > Mtindo > Mandhari ya Nyuma_ katika menyu ya Omarchy.
+Picha za ziada za mandhari ya nyuma huishi katika `~/.config/lunaos/backgrounds/<theme name>`. Zinapatikana pia kupitia _Sakinisha > Mtindo > Mandhari ya Nyuma_ katika menyu ya LunaOS.
 
-Chaguo zote za mtindo zinapatikana pia chini ya _Mtindo_ katika menyu ya Omarchy (`Super + Space`).
+Chaguo zote za mtindo zinapatikana pia chini ya _Mtindo_ katika menyu ya LunaOS (`Super + Space`).
 
 ## Vibadili
 
@@ -281,7 +281,7 @@ Vitendaji hivi lazima viendeshwe ndani ya kipindi cha Tmux.
 
 ## Terminali ya Ghostty
 
-Terminali ya Ghostty husakinishwa ukitumia _Sakinisha > Terminali_ kupitia menyu ya Omarchy.
+Terminali ya Ghostty husakinishwa ukitumia _Sakinisha > Terminali_ kupitia menyu ya LunaOS.
 
 | Mkato wa kitufe                  | Kazi              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Unaweza kutumia `Super + Ctrl + E` kuonyesha kichaguzi kamili cha emoji kitakach
 | `Shift + CapsLock Space N` | Jina lako (kama lilivyoingizwa wakati wa kusanidi)  |
 | `Shift + CapsLock Space E` | Barua pepe yako (kama ilivyoingizwa wakati wa kusanidi)  |
 
-Unaweza kuongeza zaidi ya yako mwenyewe kwa kuhariri `~/.XCompose`, kisha kuendesha `omarchy-restart-xcompose` katika terminali kupata mabadiliko yakachukuliwe.
+Unaweza kuongeza zaidi ya yako mwenyewe kwa kuhariri `~/.XCompose`, kisha kuendesha `lunaos-restart-xcompose` katika terminali kupata mabadiliko yakachukuliwe.

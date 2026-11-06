@@ -3,14 +3,14 @@ echo "Light the N1x panel for Plymouth's LUKS prompt"
 # See install/hardware/n1x.sh: the panel stays at its dim power-on backlight
 # until the NVIDIA backlight is first written, which only happened after unlock.
 # Only N1x installs where the GPU drives the panel have that backlight.
-gpu_conf="${OMARCHY_N1X_GPU_CONF:-/etc/limine-entry-tool.d/00-omarchy-n1x-gpu.conf}"
-initcpio_dir="${OMARCHY_INITCPIO_DIR:-/etc/initcpio}"
-hooks_conf="${OMARCHY_N1X_BRIGHTNESS_HOOKS_CONF:-/etc/mkinitcpio.conf.d/zz-omarchy-n1x-boot-brightness.conf}"
-rebuild_marker="${OMARCHY_LIMINE_REBUILD_MARKER:-/var/lib/omarchy/migrations/1790950659}"
+gpu_conf="${LUNAOS_N1X_GPU_CONF:-/etc/limine-entry-tool.d/00-lunaos-n1x-gpu.conf}"
+initcpio_dir="${LUNAOS_INITCPIO_DIR:-/etc/initcpio}"
+hooks_conf="${LUNAOS_N1X_BRIGHTNESS_HOOKS_CONF:-/etc/mkinitcpio.conf.d/zz-lunaos-n1x-boot-brightness.conf}"
+rebuild_marker="${LUNAOS_LIMINE_REBUILD_MARKER:-/var/lib/lunaos/migrations/1790950659}"
 
 [[ -f $gpu_conf ]] || exit 0
 
-sudo install -Dm644 /dev/stdin "$initcpio_dir/install/omarchy-n1x-boot-brightness" <<'EOF'
+sudo install -Dm644 /dev/stdin "$initcpio_dir/install/lunaos-n1x-boot-brightness" <<'EOF'
 #!/bin/bash
 
 build() {
@@ -24,7 +24,7 @@ HELPEOF
 }
 EOF
 
-sudo install -Dm644 /dev/stdin "$initcpio_dir/hooks/omarchy-n1x-boot-brightness" <<'EOF'
+sudo install -Dm644 /dev/stdin "$initcpio_dir/hooks/lunaos-n1x-boot-brightness" <<'EOF'
 #!/usr/bin/ash
 
 # The panel stays at its dim power-on backlight until the NVIDIA backlight is
@@ -40,14 +40,14 @@ EOF
 
 sudo install -Dm644 /dev/stdin "$hooks_conf" <<'EOF'
 # N1x: light the panel for Plymouth's LUKS prompt; see install/hardware/n1x.sh.
-# Sorts after omarchy_hooks.conf so HOOKS is already set.
-_omarchy_n1x_hooks=()
-for _omarchy_n1x_hook in "${HOOKS[@]}"; do
-  _omarchy_n1x_hooks+=("$_omarchy_n1x_hook")
-  [[ $_omarchy_n1x_hook == plymouth ]] && _omarchy_n1x_hooks+=(omarchy-n1x-boot-brightness)
+# Sorts after lunaos_hooks.conf so HOOKS is already set.
+_lunaos_n1x_hooks=()
+for _lunaos_n1x_hook in "${HOOKS[@]}"; do
+  _lunaos_n1x_hooks+=("$_lunaos_n1x_hook")
+  [[ $_lunaos_n1x_hook == plymouth ]] && _lunaos_n1x_hooks+=(lunaos-n1x-boot-brightness)
 done
-HOOKS=("${_omarchy_n1x_hooks[@]}")
-unset _omarchy_n1x_hooks _omarchy_n1x_hook
+HOOKS=("${_lunaos_n1x_hooks[@]}")
+unset _lunaos_n1x_hooks _lunaos_n1x_hook
 EOF
 
 # The hook only takes effect once it is in the initramfs. A marker records the

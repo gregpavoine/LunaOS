@@ -21,7 +21,7 @@ A jegyzetelő szerkesztő tud nyilakat, vonalakat, alakzatokat, kiemeléseket, s
 
 A mentett képernyőképek alapértelmezetten a `~/Pictures/Screenshots` mappában landolnak, például `screenshot-2026-08-13_14-22-05-firefox.png` néven. Állítsd be az `OMASNAP_SCREENSHOT_DIR` változót egy másik mappához — hogy hova tegyél munkamenet-környezetváltozókat, azt lásd [a FAQ-ban](46-faq.md). Az Omasnap az első felvétel mentésekor létrehozza a mappát. Állítsd a `~/.config/omasnap/omasnap.conf` fájlban az `[output] autosave = false` opciót az automatikus mentés letiltásához.
 
-Terminálból az `omarchy screenshot` ugyanazt a fedvényt nyitja meg, és kiválaszthatod az indulási módját: `omarchy capture screenshot region`, `windows`, `fullscreen` vagy `scroll`. A `copy` vagy `save` második argumentum kihagyja az előnézetet, és egyenesen abba a célba küldi a felvételt. Kimenet előtti szerkesztéshez használd az `omarchy screenshot --editor=overlay` opciót teljes képernyős szerkesztőhöz, vagy az `omarchy screenshot --editor=window` opciót külön ablakhoz.
+Terminálból az `lunaos screenshot` ugyanazt a fedvényt nyitja meg, és kiválaszthatod az indulási módját: `lunaos capture screenshot region`, `windows`, `fullscreen` vagy `scroll`. A `copy` vagy `save` második argumentum kihagyja az előnézetet, és egyenesen abba a célba küldi a felvételt. Kimenet előtti szerkesztéshez használd az `lunaos screenshot --editor=overlay` opciót teljes képernyős szerkesztőhöz, vagy az `lunaos screenshot --editor=window` opciót külön ablakhoz.
 
 ### A választó vezérlése billentyűzetről
 
@@ -40,9 +40,9 @@ Ezek a hozzárendelések csak addig léteznek, amíg az Omasnap nyitva van, így
 
 ## Képernyőfelvétel
 
-Az `Alt + Print Screen` megnyitja a _Trigger > Capture > Screenrecord_ pontot, amely megkérdezi, mit kérsz a hanganyagba: hang nélkül, asztali hang, asztali plusz mikrofonhang, vagy asztali plusz mikrofonhang plusz webkamera. Ez utóbbi csak akkor jelenik meg, ha tényleg be van dugva egy kamerád. Válassz ki egyet, és az Omarchy felvételi választója lehetővé teszi, hogy területet húzz vagy ablakra vagy monitorra kattints.
+Az `Alt + Print Screen` megnyitja a _Trigger > Capture > Screenrecord_ pontot, amely megkérdezi, mit kérsz a hanganyagba: hang nélkül, asztali hang, asztali plusz mikrofonhang, vagy asztali plusz mikrofonhang plusz webkamera. Ez utóbbi csak akkor jelenik meg, ha tényleg be van dugva egy kamerád. Válassz ki egyet, és az LunaOS felvételi választója lehetővé teszi, hogy területet húzz vagy ablakra vagy monitorra kattints.
 
-A felvétel a gpu-screen-recorder-en fut, amely a GPU-n kódol 60fps-sel, és ha kell, visszaesik a CPU-ra. Az eredmény egy MP4 a `~/Videos` mappában, `screenrecording-2026-08-13_14-22-05.mp4` néven. Állítsd be az `OMARCHY_SCREENRECORD_DIR` változót ennek megváltoztatásához — de jegyezd meg, hogy a képernyőképmappától eltérően ennek már léteznie kell, különben a felvétel nem hajlandó elindulni.
+A felvétel a gpu-screen-recorder-en fut, amely a GPU-n kódol 60fps-sel, és ha kell, visszaesik a CPU-ra. Az eredmény egy MP4 a `~/Videos` mappában, `screenrecording-2026-08-13_14-22-05.mp4` néven. Állítsd be az `LUNAOS_SCREENRECORD_DIR` változót ennek megváltoztatásához — de jegyezd meg, hogy a képernyőképmappától eltérően ennek már léteznie kell, különben a felvétel nem hajlandó elindulni.
 
 Amíg felvételt készítesz, egy kis jelző jelenik meg a sávon. Kattints rá a leállításhoz. A leállításhoz használhatod ismét az `Alt + Print Screen` kombinációt, vagy a _Trigger > Capture > Screenrecord_ alatti _Stop Screenrecording_ bejegyzést, amely csak akkor jelenik meg, amikor tényleg történik felvétel.
 
@@ -59,7 +59,7 @@ Ha webkamerával veszel fel, a kamera rögzített, vágott álló ablakként jel
 
 Három méret van — kicsi, közepes és nagy —, és a billentyűparancsok léptetnek köztük. A közepes az alapértelmezett. Arányosak a felvételhez képest, így a kamera ugyanakkora hányadot foglal el a képen, akár egy 1080p monitort, akár egy 6K-st veszel fel. És ha kijelző helyett egy területet vettél fel, a fedvény annak a területnek a sarkához horgonyoz, a monitoré helyett, így a felvételen belül marad.
 
-Közvetlenül is hívhatod az `omarchy-capture-webcam-resize small` paranccsal, vagy a `reset` argumentummal a közepes állapothoz való visszatéréshez.
+Közvetlenül is hívhatod az `lunaos-capture-webcam-resize small` paranccsal, vagy a `reset` argumentummal a közepes állapothoz való visszatéréshez.
 
 ## Szöveg, QR-kódok és színek
 
@@ -75,7 +75,7 @@ Egy 4K képernyőfelvétel vagy egy telefonról érkező nyers HEIC gyakran túl
 
 A képek jpg-be vagy png-be mennek, high, medium vagy low méretben, amelyek a szélességet 3160, 2160 és 1080 pixelre korlátozzák. A videók mp4-be vagy animált gif-be mennek 4k, 1080p vagy 720p méretben. A konvertált fájl az eredeti mellé kerül a nevében szereplő felbontással — `demo-1080p.mp4` —, és az útvonala fájl-URI-ként a vágólapra másolódik, így egyenesen egy fájlbedobást fogadó appba illesztheted be.
 
-Terminálból is működik, ha már tudod, mit szeretnél: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. Van `omarchy transcode ascii` is, amely egy képet ASCII-rajzzá alakít — ez leginkább a [brandinghez](41-branding.md) való.
+Terminálból is működik, ha már tudod, mit szeretnél: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. Van `lunaos transcode ascii` is, amely egy képet ASCII-rajzzá alakít — ez leginkább a [brandinghez](41-branding.md) való.
 
 ## Valahova küldés
 

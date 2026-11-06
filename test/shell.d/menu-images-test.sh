@@ -70,7 +70,7 @@ for name in one two three; do
   printf 'image-%s' "$name" >"$images/$name.png"
 done
 
-cache_dir="$cache_home/omarchy/image-selector"
+cache_dir="$cache_home/lunaos/image-selector"
 mkdir -p "$cache_dir"
 
 stale_tmp=""
@@ -91,7 +91,7 @@ printf 'v2\n%s:%s\n' "$images" "$(stat -Lc '%Y' "$images")" >"$cache_dir/$cache_
 printf 'v1\n%s:%s\n' "$images" "$(stat -Lc '%Y' "$images")" >"$cache_dir/$cache_key.fast-signature"
 
 PATH="$stub_bin:$PATH" XDG_CACHE_HOME="$cache_home" \
-  "$ROOT/bin/omarchy-menu-images" --cache-only "$images"
+  "$ROOT/bin/lunaos-menu-images" --cache-only "$images"
 
 (( $(find "$cache_dir" -maxdepth 1 -name '*.jpg' -type f | wc -l) == 3 )) ||
   fail "image menu recovers thumbnails from stranded locks"
@@ -108,7 +108,7 @@ mkdir -p "$cache_dir"
 mkdir "$live_lock"
 
 PATH="$stub_bin:$PATH" XDG_CACHE_HOME="$cache_home" \
-  "$ROOT/bin/omarchy-menu-images" --cache-only "$images"
+  "$ROOT/bin/lunaos-menu-images" --cache-only "$images"
 
 (( $(find "$cache_dir" -maxdepth 1 -name '*.jpg' -type f | wc -l) == 2 )) ||
   fail "image menu skips a thumbnail whose fresh legacy lock may still be owned"
@@ -123,9 +123,9 @@ mkdir -p "$cache_home"
 printf '%s\n' "$images/two.png" >"$tmp/failures"
 
 PATH="$stub_bin:$PATH" XDG_CACHE_HOME="$cache_home" VIPSTHUMBNAIL_FAIL_FILE="$tmp/failures" \
-  "$ROOT/bin/omarchy-menu-images" --cache-only "$images"
+  "$ROOT/bin/lunaos-menu-images" --cache-only "$images"
 
-cache_dir="$cache_home/omarchy/image-selector"
+cache_dir="$cache_home/lunaos/image-selector"
 [[ ! -e $cache_dir/$cache_key.rows ]] || fail "image menu does not cache incomplete rows"
 [[ ! -e $cache_dir/$cache_key.signature ]] || fail "image menu does not sign incomplete rows"
 [[ ! -e $cache_dir/$cache_key.fast-signature ]] || fail "image menu does not fast-cache incomplete rows"
@@ -133,7 +133,7 @@ pass "image menu leaves failed thumbnail batches uncached"
 
 rm "$tmp/failures"
 PATH="$stub_bin:$PATH" XDG_CACHE_HOME="$cache_home" \
-  "$ROOT/bin/omarchy-menu-images" --cache-only "$images"
+  "$ROOT/bin/lunaos-menu-images" --cache-only "$images"
 
 (( $(find "$cache_dir" -maxdepth 1 -name '*.jpg' -type f | wc -l) == 3 )) ||
   fail "image menu retries a previously failed thumbnail"
@@ -151,7 +151,7 @@ pids=()
 for run in 1 2; do
   PATH="$stub_bin:$PATH" XDG_CACHE_HOME="$cache_home" \
     VIPSTHUMBNAIL_CALLS_FILE="$tmp/calls" VIPSTHUMBNAIL_DELAY=0.25 \
-    "$ROOT/bin/omarchy-menu-images" --cache-only "$images" &
+    "$ROOT/bin/lunaos-menu-images" --cache-only "$images" &
   pids+=($!)
 done
 for pid in "${pids[@]}"; do
@@ -163,7 +163,7 @@ done
 rm -f "$cache_dir"/*.jpg
 rm -f "$cache_dir/$cache_key.rows" "$cache_dir/$cache_key.signature" "$cache_dir/$cache_key.fast-signature"
 PATH="$stub_bin:$PATH" XDG_CACHE_HOME="$cache_home" VIPSTHUMBNAIL_CALLS_FILE="$tmp/calls" \
-  "$ROOT/bin/omarchy-menu-images" --cache-only "$images"
+  "$ROOT/bin/lunaos-menu-images" --cache-only "$images"
 
 (( $(wc -l <"$tmp/calls") == 6 )) || fail "image menu releases thumbnail locks after generation"
 pass "image menu owns locks for exactly one generator lifetime"
@@ -171,7 +171,7 @@ pass "image menu owns locks for exactly one generator lifetime"
 rm -rf "$cache_home"
 mkdir -p "$cache_home"
 rows=$(PATH="$stub_bin:$PATH" XDG_CACHE_HOME="$cache_home" \
-  "$ROOT/bin/omarchy-menu-images" --print-rows "$images")
+  "$ROOT/bin/lunaos-menu-images" --print-rows "$images")
 
 (( $(wc -l <<<"$rows") == 3 )) || fail "image menu prints one row per image"
 while IFS=$'\t' read -r row_image row_thumbnail; do
@@ -221,7 +221,7 @@ chmod +x "$stub_bin/nproc" "$stub_bin/vipsthumbnail"
 
 lazy_rows() {
   setsid env PATH="$stub_bin:$PATH" XDG_CACHE_HOME="$tmp/lazy-cache-$cores" LAZY_STATE="$lazy_state" FAKE_CORES="$cores" \
-    timeout --foreground 10 "$ROOT/bin/omarchy-menu-images" --lazy-thumbnails --print-rows "$lazy_images" >"$lazy_state/rows" &
+    timeout --foreground 10 "$ROOT/bin/lunaos-menu-images" --lazy-thumbnails --print-rows "$lazy_images" >"$lazy_state/rows" &
   local group=$!
   lazy_groups+=("$group")
   wait "$group" || fail "lazy image menu returns rows without waiting for its pool"
@@ -260,7 +260,7 @@ for cores in 1 2 8; do
   for changed in new 0; do
     signature=$(stat -Lc '%s:%Y' "$lazy_images/$changed.png")
     hash=$(printf '%s\t%s' "$lazy_images/$changed.png" "$signature" | md5sum | cut -d ' ' -f 1)
-    [[ ! -e $tmp/lazy-cache-$cores/omarchy/image-selector/$hash.jpg ]] ||
+    [[ ! -e $tmp/lazy-cache-$cores/lunaos/image-selector/$hash.jpg ]] ||
       fail "contended refresh does not start another converter pool"
   done
 
@@ -274,7 +274,7 @@ for cores in 1 2 8; do
   for changed in new 0; do
     signature=$(stat -Lc '%s:%Y' "$lazy_images/$changed.png")
     hash=$(printf '%s\t%s' "$lazy_images/$changed.png" "$signature" | md5sum | cut -d ' ' -f 1)
-    [[ -f $tmp/lazy-cache-$cores/omarchy/image-selector/$hash.jpg ]] ||
+    [[ -f $tmp/lazy-cache-$cores/lunaos/image-selector/$hash.jpg ]] ||
       fail "lazy image menu retains new and changed jobs while its pool is busy"
   done
   pass "lazy image menu workers finish every queued thumbnail after the caller exits"

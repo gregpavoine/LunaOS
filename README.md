@@ -1,14 +1,14 @@
-# Omarchy
+# LunaOS
 
-Omarchy is a beautiful, fun & agentic Linux distribution by DHH.
+LunaOS is a personal fork of [Omarchy](https://omarchy.org), DHH's beautiful, fun & agentic Linux distribution.
 
 Read more at [omarchy.org](https://omarchy.org).
 
-## The Omarchy Manual
+## The LunaOS Manual
 
 The manual lives in [`manual/`](manual/), which is its authoritative source.
 
-- [Welcome to Omarchy!](manual/01-welcome-to-omarchy.md)
+- [Welcome to LunaOS!](manual/01-welcome-to-lunaos.md)
 
 **The Basics**
 
@@ -24,7 +24,7 @@ The manual lives in [`manual/`](manual/), which is its authoritative source.
 - [Text Extraction & Dictation](manual/11-text-extraction-dictation.md)
 - [Screenshots & Recording](manual/12-screenshots-recording.md)
 - [Toggles, idle & screensaver](manual/13-toggles-idle-screensaver.md)
-- [Omarchy CLI](manual/14-omarchy-cli.md)
+- [LunaOS CLI](manual/14-lunaos-cli.md)
 
 **The Applications**
 
@@ -68,10 +68,10 @@ The manual lives in [`manual/`](manual/), which is its authoritative source.
 - [FAQ](manual/46-faq.md)
 - [System snapshots](manual/47-system-snapshots.md)
 - [Security](manual/48-security.md)
-- [Omarchy on...](manual/49-omarchy-on.md)
+- [LunaOS on...](manual/49-lunaos-on.md)
 - [Dual Boot Install](manual/50-dual-boot-install.md)
 - [Unattended Installs](manual/51-unattended-installs.md)
 
 ## License
 
-Omarchy is released under the [MIT License](https://opensource.org/licenses/MIT).
+LunaOS is released under the [MIT License](https://opensource.org/licenses/MIT).

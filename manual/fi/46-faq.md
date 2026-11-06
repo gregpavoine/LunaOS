@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ Palkki näyttää automaattisesti nykyisen näppäinasettelusi, kun sinulla on u
 Napsauta palkissa olevaa kelloa hiiren kakkospainikkeella selataksesi yleisiä muotoja, mukaan lukien 12 tunnin muodot. Voit myös asettaa muodon suoraan:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Tämä näyttää Sunday 10:55 AM.
 
 ### Miten vaihdan aikavyöhykkeeni?
 
-Aja Omarchy-valikossa _Päivitä > Aikavyöhyke_ ja valitse luettelosta. Jos aikavyöhyke on oikein mutta itse kello on ajautunut, _Päivitä > Aika_ käynnistää ajansynkronoinnin uudelleen puolestasi.
+Aja LunaOS-valikossa _Päivitä > Aikavyöhyke_ ja valitse luettelosta. Jos aikavyöhyke on oikein mutta itse kello on ajautunut, _Päivitä > Aika_ käynnistää ajansynkronoinnin uudelleen puolestasi.
 
 ### Miten vaihdan DNS:ni, jaan Wi-Fini tai tarkistan yhteyden nopeuteni?
 
@@ -36,11 +36,11 @@ Ne ovat kaikki kohdassa [verkko](35-networking.md).
 
 ### Miten tarkistan, kuinka nopea levyni on?
 
-_Käynnistä > Nopeustesti > Levyn nopeustesti_ mittaa asemasi reaaliaikaisen luku- ja kirjoitusnopeuden, tai `omarchy disk speedtest` terminaalista.
+_Käynnistä > Nopeustesti > Levyn nopeustesti_ mittaa asemasi reaaliaikaisen luku- ja kirjoitusnopeuden, tai `lunaos disk speedtest` terminaalista.
 
 ### Miksi en voi kirjautua Google-tililleni Chromiumissa?
 
-Pelkkä avoimen lähdekoodin Chromium-koonti ei sisällä OAuth-tunnistetietoja, joita Google vaatii tilin kirjautumiseen. Aja Omarchy-valikossa _Asenna > Palvelu > Chromium Account_ lisätäksesi ne, käynnistä selain uudelleen, ja kirjautuminen menee läpi.
+Pelkkä avoimen lähdekoodin Chromium-koonti ei sisällä OAuth-tunnistetietoja, joita Google vaatii tilin kirjautumiseen. Aja LunaOS-valikossa _Asenna > Palvelu > Chromium Account_ lisätäksesi ne, käynnistä selain uudelleen, ja kirjautuminen menee läpi.
 
 ### Miten lisään tulostimen?
 
@@ -60,15 +60,15 @@ Tallennetut kuvakaappaukset menevät oletuksena kansioon `~/Pictures/Screenshots
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Voit tehdä saman näytöntallennuksille käyttäen muuttujaa `OMARCHY_SCREENRECORD_DIR`.
+Voit tehdä saman näytöntallennuksille käyttäen muuttujaa `LUNAOS_SCREENRECORD_DIR`.
 
-Omasnap luo kuvakaappaushakemistonsa automaattisesti. Luo näytöntallennushakemisto itse ja käynnistä sitten Omarchy uudelleen, jotta ympäristömuutos tulee voimaan.
+Omasnap luo kuvakaappaushakemistonsa automaattisesti. Luo näytöntallennushakemisto itse ja käynnistä sitten LunaOS uudelleen, jotta ympäristömuutos tulee voimaan.
 
 ### Miten saan kaiuttimet ja verkkokameran toimimaan Apple Studio Displayssäni?
 
 Luulisi, että kaiken pitäisi toimia pelkällä USB C:n kytkemisellä, mutta valitettavasti niin ei ole. Ratkaisu, jonka olen löytänyt saadakseni sen toimimaan luotettavasti, on käyttää [WJESOG DisplayPort + USB-A => USB-C -kaapelia](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/). Sitten kaiuttimet ja verkkokamera toimivat kuin hurmio.
 
-Muista, että sinulla on Omarchyssa sisäänrakennettu kirkkaudensäätö Apple-näytöille (sekä Studio että XDR) tavallisilla näppäimistön kirkkauspainikkeilla.
+Muista, että sinulla on LunaOSssa sisäänrakennettu kirkkaudensäätö Apple-näytöille (sekä Studio että XDR) tavallisilla näppäimistön kirkkauspainikkeilla.
 
 ### Miten pääsen eroon kaikesta ylimääräisestä ohjelmistosta?
 
@@ -76,7 +76,7 @@ Jos et halua ohjelmia kuten Obsidian tai LibreOffice tai mitään muuta esiasenn
 
 Aja _Poista > Package_ nähdäksesi jokaisen asennetun paketin. Sitten voit valita minkä tahansa paketin, jonka haluat poistaa, sarkaimella ja alkaa poistaa kaikkia valitsemiasi returnilla.
 
-Ja voit käyttää Omarchy-valikosta _Poista > Web App_ poistaaksesi minkä tahansa esiasennetuista verkkosovelluksista, joita et halua.
+Ja voit käyttää LunaOS-valikosta _Poista > Web App_ poistaaksesi minkä tahansa esiasennetuista verkkosovelluksista, joita et halua.
 
 Tai aja _Poista > Preinstalls_ lakaistaksesi pois kaikki esiasennetut lisät — verkkosovellukset, TUI:t ja valinnaiset sovellukset — yhdellä kertaa. Niitä käynnistäneet pikanäppäimet lähtevät niiden mukana, joten sinulle jää puhdas lähtökohta sidoksille, jotka täytät omillasi tiedostossa `~/.config/hypr/bindings.lua`.
 

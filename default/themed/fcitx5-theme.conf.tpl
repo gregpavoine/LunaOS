@@ -1,8 +1,8 @@
 [Metadata]
-Name=Omarchy
+Name=LunaOS
 Version=1
-Author=Omarchy
-Description=Generated from the current Omarchy theme
+Author=LunaOS
+Description=Generated from the current LunaOS theme
 ScaleWithDPI=True
 
 [InputPanel]

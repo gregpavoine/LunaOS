@@ -1,10 +1,10 @@
 # Spletne aplikacije
 
-Lastne spletne aplikacije lahko dodate z _Namesti > Spletna aplikacija_ v meniju Omarchy (`Super + Space`). Povpraša vas po imenu aplikacije, URL-ju aplikacije in URL-ju ikone, če je ne more pridobiti prek favicon. Odlične ikone PNG za številne priljubljene spletne aplikacije najdete na [Dashboard Icons](https://dashboardicons.com).
+Lastne spletne aplikacije lahko dodate z _Namesti > Spletna aplikacija_ v meniju LunaOS (`Super + Space`). Povpraša vas po imenu aplikacije, URL-ju aplikacije in URL-ju ikone, če je ne more pridobiti prek favicon. Odlične ikone PNG za številne priljubljene spletne aplikacije najdete na [Dashboard Icons](https://dashboardicons.com).
 
 Nato bodo dostopne prek zaganjalnika aplikacij (`Super + Space`) in uporabljale lepo brezokvirno okno spletne aplikacije.
 
-Če želite spletno aplikacijo odstraniti, pojdite v _Odstrani > Spletna aplikacija_ v meniju Omarchy.
+Če želite spletno aplikacijo odstraniti, pojdite v _Odstrani > Spletna aplikacija_ v meniju LunaOS.
 
 Najbolje je, da se v vse račune prijavite v običajnem brskalniku, preden uporabite bližnjice spletnih aplikacij. Tanek ovojni okvir ne deluje dobro z 1password, zato je lažje, če ste najprej prijavljeni neposredno.
 
@@ -12,17 +12,17 @@ Vse tipkovne bližnjice za te spletne aplikacije lahko spremenite v `~/.config/h
 
 Ko ste v spletni aplikaciji, lahko trenutni URL kopirate v odložišče s `Shift + Alt + L`.
 
-Privzeto Omarchy že dobavlja izbor privzetih aplikacij:
+Privzeto LunaOS že dobavlja izbor privzetih aplikacij:
 
 ## HEY
 
-[HEY](https://www.hey.com/) je e-poštna in koledarska storitev, ki služi kot odlična alternativa ljudem, naveličanim Gmaila, Outlooka ali Apple Maila. Izdeluje jo [37signals](https://37signals.com/), kjer je Omarchy nastal.
+[HEY](https://www.hey.com/) je e-poštna in koledarska storitev, ki služi kot odlična alternativa ljudem, naveličanim Gmaila, Outlooka ali Apple Maila. Izdeluje jo [37signals](https://37signals.com/), kjer je LunaOS nastal.
 
 HEY Email lahko zaženete s `Super + Shift + E`, skočite naravnost na sestavljanje nove e-pošte s `Super + Shift + Alt + E` in zaženete HEY Calendar s `Super + Shift + C`.
 
 ## Basecamp
 
-[Basecamp](https://basecamp.com/) je storitev za vodenje projektov, ki malim ekipam pomaga hitreje napredovati in narediti več. Namesto krpanja zmesi Trella, Slacka, Asane, Notiona ali česar koli že lahko imate vse na enem mestu z Basecampom. Izdeluje ga [37signals](https://37signals.com/), kjer je Omarchy nastal.
+[Basecamp](https://basecamp.com/) je storitev za vodenje projektov, ki malim ekipam pomaga hitreje napredovati in narediti več. Namesto krpanja zmesi Trella, Slacka, Asane, Notiona ali česar koli že lahko imate vse na enem mestu z Basecampom. Izdeluje ga [37signals](https://37signals.com/), kjer je LunaOS nastal.
 
 Basecamp lahko zaženete z zaganjalnikom aplikacij (`Super + Space`)
 
@@ -64,19 +64,19 @@ YouTube lahko zaženete s `Super + Shift + Y`.
 
 ## Zoom
 
-[Zoom](https://zoom.us/) je najbolj priljubljen sistem za videoklepet v ZDA. Odlične povezave po vsem svetu. 40-minutna srečanja pa je mogoče izvesti brez plačljivega računa. Omarchy ovija spletni odjemalec Zooma in povezave za sestanke zoom se bodo odprle naravnost vanj.
+[Zoom](https://zoom.us/) je najbolj priljubljen sistem za videoklepet v ZDA. Odlične povezave po vsem svetu. 40-minutna srečanja pa je mogoče izvesti brez plačljivega računa. LunaOS ovija spletni odjemalec Zooma in povezave za sestanke zoom se bodo odprle naravnost vanj.
 
 Zoom zaženete z zaganjalnikom aplikacij (`Super + Space`).
 
 ## Discord
 
-[Discord](https://discord.com/) je kraj, kjer se družijo večinoma igralnih in odprtokodnih skupnosti, vključno z [lastno skupnostjo Omarchy](https://discord.gg/tXFUdasqhY).
+[Discord](https://discord.com/) je kraj, kjer se družijo večinoma igralnih in odprtokodnih skupnosti, vključno z [lastno skupnostjo LunaOS](https://discord.gg/tXFUdasqhY).
 
 Discord zaženete z zaganjalnikom aplikacij (`Super + Space`).
 
 ## Aplikacije Microsoft
 
-Izberite _Namesti > Storitev > Microsoft_, da kot spletne aplikacije dodate Outlook, Word, Excel, PowerPoint, Teams in OneDrive. Vsaka aplikacija ima svoj zaganjalnik in se odpre neposredno, pri čemer uporablja komercialne URL-je Microsoft 365 in vaš obstoječi profil brskalnika. Odprejo se v istih oknih brskalnika kot druge spletne aplikacije Omarchy; ne namestijo ločenega odjemalca Teams for Linux.
+Izberite _Namesti > Storitev > Microsoft_, da kot spletne aplikacije dodate Outlook, Word, Excel, PowerPoint, Teams in OneDrive. Vsaka aplikacija ima svoj zaganjalnik in se odpre neposredno, pri čemer uporablja komercialne URL-je Microsoft 365 in vaš obstoječi profil brskalnika. Odprejo se v istih oknih brskalnika kot druge spletne aplikacije LunaOS; ne namestijo ločenega odjemalca Teams for Linux.
 
 Sveženj odstranite z _Odstrani > Storitev > Microsoft_ ali posamezne aplikacije z _Odstrani > Spletna aplikacija_. Prek _Namesti > Spletna aplikacija_ lahko namestite tudi samo aplikacije, ki jih želite.
 
@@ -85,7 +85,7 @@ Za vladni ali suvereni oblak uredite URL v vrstici `Exec=` v ustreznem zaganjaln
 Da delovne prijave ostanejo ločene, vrstici `Exec=` vsakega zaganjalnika pripnite mapo s podatki brskalnika:
 
 ```ini
-Exec=omarchy-launch-webapp "https://teams.cloud.microsoft/" --user-data-dir=/absolute/path/to/work-browser-profile
+Exec=lunaos-launch-webapp "https://teams.cloud.microsoft/" --user-data-dir=/absolute/path/to/work-browser-profile
 ```
 
-Primer mape zamenjajte z absolutno potjo po svoji izbiri in isto pot uporabite za vseh šest zaganjalnikov, da med njimi delite delovne prijave. Spletne aplikacije uporabljajo izbrani podprti brskalnik Omarchy in se zatečejo k Chromiumu, ko privzeti brskalnik ni podprt.
+Primer mape zamenjajte z absolutno potjo po svoji izbiri in isto pot uporabite za vseh šest zaganjalnikov, da med njimi delite delovne prijave. Spletne aplikacije uporabljajo izbrani podprti brskalnik LunaOS in se zatečejo k Chromiumu, ko privzeti brskalnik ni podprt.

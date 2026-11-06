@@ -1,16 +1,16 @@
 # Hỗ trợ Mac
 
-Omarchy có hỗ trợ tích hợp sẵn cho **Mac Intel**. Hiện tại có một vài hạn chế đã biết, nhưng miễn là bạn nhận thức được và chấp nhận chúng; bạn có thể thổi luồng sinh khí mới vào những chiếc Mac cũ của mình bằng cách nạp Omarchy.
+LunaOS có hỗ trợ tích hợp sẵn cho **Mac Intel**. Hiện tại có một vài hạn chế đã biết, nhưng miễn là bạn nhận thức được và chấp nhận chúng; bạn có thể thổi luồng sinh khí mới vào những chiếc Mac cũ của mình bằng cách nạp LunaOS.
 
-Xin lưu ý rằng việc cài đặt trên Mac dòng M hiện không được hỗ trợ trực tiếp. Bạn có thể tìm hiểu thêm về tình trạng của việc này trong #omarchy-on-other trên [Discord](https://discord.gg/tXFUdasqhY) của chúng tôi.
+Xin lưu ý rằng việc cài đặt trên Mac dòng M hiện không được hỗ trợ trực tiếp. Bạn có thể tìm hiểu thêm về tình trạng của việc này trong #lunaos-on-other trên [Discord](https://discord.gg/tXFUdasqhY) của chúng tôi.
 
-Trong một thử nghiệm đơn giản, chúng tôi đã đạt được mức tăng hiệu năng 36% trên một chiếc MacBook Pro 2019 chỉ bằng cách cài đặt Omarchy.
+Trong một thử nghiệm đơn giản, chúng tôi đã đạt được mức tăng hiệu năng 36% trên một chiếc MacBook Pro 2019 chỉ bằng cách cài đặt LunaOS.
 
- ![macbook-omarchy](images/macbook-omarchy.webp)
+ ![macbook-lunaos](images/macbook-lunaos.webp)
 
-### Cài đặt Omarchy trên Mac
+### Cài đặt LunaOS trên Mac
 
-Omarchy hiện chỉ hỗ trợ là hệ điều hành **duy nhất** được cài đặt. Trong quá trình cài đặt, ổ đĩa sẽ bị xóa sạch và MacOS sẽ không còn khởi động được nữa.
+LunaOS hiện chỉ hỗ trợ là hệ điều hành **duy nhất** được cài đặt. Trong quá trình cài đặt, ổ đĩa sẽ bị xóa sạch và MacOS sẽ không còn khởi động được nữa.
 
 Bạn vẫn có thể khôi phục nó sau này qua Internet Recovery nếu muốn.
 
@@ -39,7 +39,7 @@ Trình cài đặt phát hiện phần cứng Mac và tự động áp dụng c�
 
 ### Các hạn chế đã biết
 
-Các thành viên của cộng đồng liên tục làm việc để tìm giải pháp cho những thách thức này, nên nếu những điều này gây vấn đề cho bạn, hãy tham gia #omarchy-on-other trên [Discord](https://discord.gg/tXFUdasqhY) của chúng tôi và xem có phương pháp cập nhật nào để giải quyết chúng không.
+Các thành viên của cộng đồng liên tục làm việc để tìm giải pháp cho những thách thức này, nên nếu những điều này gây vấn đề cho bạn, hãy tham gia #lunaos-on-other trên [Discord](https://discord.gg/tXFUdasqhY) của chúng tôi và xem có phương pháp cập nhật nào để giải quyết chúng không.
 
 #### Các thiết bị có chip T1
 

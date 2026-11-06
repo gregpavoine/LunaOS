@@ -20,11 +20,11 @@ Obsidian は個人、商用、非営利を含むすべての用途で無料で�
 
 Obsidian は iOS と Android のモバイルアプリとの同期用の [商用アドオン](https://obsidian.md/sync) も提供しています。(https://obsidian.md/pricing)。
 
-Obsidian は `Super + Shift + O` で起動します。テーマ同期を使うには、設定で `Omarchy` テーマを選択しなければなりません。
+Obsidian は `Super + Shift + O` で起動します。テーマ同期を使うには、設定で `LunaOS` テーマを選択しなければなりません。
 
 ## Omawrite
 
-[Omawrite](https://github.com/omacom-io/omawrite) は Omarchy 独自の、極めてシンプルな Markdown 執筆アプリです。Vault もプラグインもなく、あなたと文章だけです。
+[Omawrite](https://github.com/omacom-io/omawrite) は LunaOS 独自の、極めてシンプルな Markdown 執筆アプリです。Vault もプラグインもなく、あなたと文章だけです。
 
 Omawrite は `Super + Shift + W` で起動します。
 
@@ -44,18 +44,18 @@ Aether はアプリランチャー（`Super + Space`）から起動します。
 
 [LocalSend](https://localsend.org/) を使えば、Apple の AirDrop のように、同じネットワーク上でそのアプリを実行している他のデバイスへファイルを送信できます。ただしクロスプラットフォームなので、Windows、macOS、Android、iOS、そしてもちろん Linux との間でファイルを送受信できます。
 
-共有メニューは `Super + Ctrl + S` で、または Omarchy メニューの _実行 > 共有_ で開けます。4つの選択肢があります：
+共有メニューは `Super + Ctrl + S` で、または LunaOS メニューの _実行 > 共有_ で開けます。4つの選択肢があります：
 
 - **クリップボード** はコピーしたものをテキストファイルとして送信します。リンクやスニペットを自分にメールすることなく電話に送るのに最適です。
 - **ファイル** はファイルピッカーを開き、一度に複数選択できます。
 - **フォルダ** はディレクトリ全体を送信します。
 - **受信する** は LocalSend 本体を開くため、他のデバイスがあなたに何かを送信できます。
 
-同じことはターミナルから `omarchy share clipboard`、`omarchy share file [path]`、`omarchy share folder [path]` でもできます。パスを省略すればピッカーが表示されます。
+同じことはターミナルから `lunaos share clipboard`、`lunaos share file [path]`、`lunaos share folder [path]` でもできます。パスを省略すればピッカーが表示されます。
 
 ファイルマネージャーから直接送信することもできます。Nautilus で任意の選択範囲を右クリックして _Send via LocalSend_ を選んでください。
 
-Omarchy のファイアウォールはデフォルトで LocalSend のポート以外は閉じているため、新規インストールでもこれは最初から動作します。[セキュリティ](48-security.md) を参照してください。
+LunaOS のファイアウォールはデフォルトで LocalSend のポート以外は閉じているため、新規インストールでもこれは最初から動作します。[セキュリティ](48-security.md) を参照してください。
 
 ## LibreOffice
 
@@ -65,19 +65,19 @@ LibreOffice はアプリランチャー（`Super + Space`）から起動しま�
 
 ## Hype
 
-[Hype](https://github.com/omacom/hype) は Omarchy 独自の、極めてシンプルなプレゼンテーションアプリです。あなたのデッキは、画像と動画を隣に置いた単一の Markdown ファイルです。ライブプレビューの下に各スライドを書き、スライドをドラッグして並べ替え、それからフルスクリーンで発表するか、PDF と PowerPoint にエクスポートしてください。あなたの Omarchy テーマも拾います。
+[Hype](https://github.com/omacom/hype) は LunaOS 独自の、極めてシンプルなプレゼンテーションアプリです。あなたのデッキは、画像と動画を隣に置いた単一の Markdown ファイルです。ライブプレビューの下に各スライドを書き、スライドをドラッグして並べ替え、それからフルスクリーンで発表するか、PDF と PowerPoint にエクスポートしてください。あなたの LunaOS テーマも拾います。
 
 Hype はアプリランチャー（`Super + Space`）から起動します。中で `?` を押すとすべてのショートカットが表示されます。
 
 ## Signed
 
-[Signed](https://github.com/omacom/signed) は Omarchy 独自の、極めてシンプルな PDF 署名と記入の方法です。保存済みの署名、テキスト、今日の日付をページ上のどこにでも置き、元のファイルの隣に署名済みコピーを保存してください。方法については [PDF への記入](27-filling-out-pdfs.md) を参照してください。
+[Signed](https://github.com/omacom/signed) は LunaOS 独自の、極めてシンプルな PDF 署名と記入の方法です。保存済みの署名、テキスト、今日の日付をページ上のどこにでも置き、元のファイルの隣に署名済みコピーを保存してください。方法については [PDF への記入](27-filling-out-pdfs.md) を参照してください。
 
 Signed はアプリランチャー（`Super + Space`）から起動するか、ファイルマネージャーから PDF をそれで開いてください。
 
 ## Omacalc
 
-[Omacalc](https://github.com/omacom-io/omacalc) は Omarchy 独自の、極めてシンプルな電卓で、フローティングウィンドウで開きます。
+[Omacalc](https://github.com/omacom-io/omacalc) は LunaOS 独自の、極めてシンプルな電卓で、フローティングウィンドウで開きます。
 
 Omacalc は `Super + Ctrl + Q` で起動します（またはキーボードにあれば電卓キーで）。
 
@@ -85,7 +85,7 @@ Omacalc は `Super + Ctrl + Q` で起動します（またはキーボードに�
 
 [Signal](https://signal.org/) は E2E 暗号化メッセージングのパイオニアであり、大手テックコングロマリットを通したくない人にとって優れた連絡手段です。
 
-Signal は `Super + Shift + G` で起動します。ベースインストールには含まれていないため、初めて押したときに Omarchy がインストールを提案します（Omarchy メニューの _インストール > Service_ にもあります）。
+Signal は `Super + Shift + G` で起動します。ベースインストールには含まれていないため、初めて押したときに LunaOS がインストールを提案します（LunaOS メニューの _インストール > Service_ にもあります）。
 
 ## mpv
 
@@ -95,13 +95,13 @@ mpv はアプリランチャー（`Super + Space`）から起動するか、フ�
 
 ## Omacut
 
-[Omacut](https://github.com/omacom-io/omacut) は Omarchy 独自の、極めてシンプルな動画トリマーです。クリップの先頭と末尾を切るだけなら、本格的な動画エディタを起動するより優れています。
+[Omacut](https://github.com/omacom-io/omacut) は LunaOS 独自の、極めてシンプルな動画トリマーです。クリップの先頭と末尾を切るだけなら、本格的な動画エディタを起動するより優れています。
 
 Omacut はアプリランチャー（`Super + Space`）から起動します。
 
 ## Monologue
 
-[Monologue](https://github.com/omacom/monologue) は Omarchy 独自の、極めてシンプルなウェブカメラレコーダーです。カメラとマイクを一度選んだら、`Space` を押して録画し、もう一度押して同じテイクを一時停止・再開してください。常にカメラの最高解像度で録画し、開始前にレベルを確認できるライブマイクメーターがあります。
+[Monologue](https://github.com/omacom/monologue) は LunaOS 独自の、極めてシンプルなウェブカメラレコーダーです。カメラとマイクを一度選んだら、`Space` を押して録画し、もう一度押して同じテイクを一時停止・再開してください。常にカメラの最高解像度で録画し、開始前にレベルを確認できるライブマイクメーターがあります。
 
 テイクを停止すると、内蔵エディタですぐに開きます。クリップをダブルクリックして分割し、ハンドルをドラッグして各部分をトリミングし、要らない部分を取り除いてください。それから MP4 として保存してください。元の録画は破棄するまで保持されるため、いつでも戻って切り方を変えられます。
 

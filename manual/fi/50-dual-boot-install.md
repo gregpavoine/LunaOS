@@ -1,6 +1,6 @@
 # Kaksoiskäynnistysasennus
 
-Voit asentaa Omarchyn yhdelle osiolle Windowsin tai muiden asennusten rinnalle.
+Voit asentaa LunaOSn yhdelle osiolle Windowsin tai muiden asennusten rinnalle.
 
 Tämä asennustapa sisältää silti oletuksena LUKS-salauksen osiolle, joten se ei käytännössä eroa koko aseman asennuksesta ja vaatii vain, että levyllä on vapaata tilaa käytettävissä.
 
@@ -14,17 +14,17 @@ Etsi sopiva osio, napsauta hiiren kakkospainikkeella ja valitse **Shrink Volume*
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- Syötä määrä, jolla haluat osion pienentyvän. Huomaa, että tämä on tulevan Omarchy-asennuksesi koko sisältäen käynnistysosion.
+ Syötä määrä, jolla haluat osion pienentyvän. Huomaa, että tämä on tulevan LunaOS-asennuksesi koko sisältäen käynnistysosion.
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-Kun olet valmis, sinun pitäisi nähdä jotain tällaista, jossa 50 Gt:n osioon asennamme Omarchyn tässä esimerkissä.
+Kun olet valmis, sinun pitäisi nähdä jotain tällaista, jossa 50 Gt:n osioon asennamme LunaOSn tässä esimerkissä.
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## Omarchyn asentaminen
+## LunaOSn asentaminen
 
-Omarchyn asennusprosessi on käytännössä sama kuin normaalisti. Valittuasi levysi sinulle annetaan vaihtoehto **Free space install**. Valitse se välttääksesi koko levyn tyhjentämisen.
+LunaOSn asennusprosessi on käytännössä sama kuin normaalisti. Valittuasi levysi sinulle annetaan vaihtoehto **Free space install**. Valitse se välttääksesi koko levyn tyhjentämisen.
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Vahvista, että kaikki näyttää hyvältä, ja odota asennuksen valmistumista n
 
 ## Muiden asennusten lisääminen käynnistyslataimeen
 
-Kun viimeistelet Omarchy-asennuksesi, huomaat, että Limine-käynnistyslatain on nyt oletus. Sen avulla voit myös lisätä Limineen vaihtoehtoja muille asennuksillesi, kuten Windowsille.
+Kun viimeistelet LunaOS-asennuksesi, huomaat, että Limine-käynnistyslatain on nyt oletus. Sen avulla voit myös lisätä Limineen vaihtoehtoja muille asennuksillesi, kuten Windowsille.
 
-Tehdäksesi niin aja `limine-scan` ja seuraa kehotteita lisätäksesi haluamasi kohteet limine-määritykseesi. Sitten käynnistäessäsi näet normaalit vaihtoehtosi Omarchylle sekä Windows Boot Managerin tai muut.
+Tehdäksesi niin aja `limine-scan` ja seuraa kehotteita lisätäksesi haluamasi kohteet limine-määritykseesi. Sitten käynnistäessäsi näet normaalit vaihtoehtosi LunaOSlle sekä Windows Boot Managerin tai muut.
 
 ## Bitlocker
 

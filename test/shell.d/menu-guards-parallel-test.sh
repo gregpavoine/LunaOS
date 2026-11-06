@@ -17,9 +17,9 @@ rendezvous_script=$(node -e '
   process.stdout.write(menu.guardScript({
     a: { id: "a", when: `(${meet("a", "b")})` },
     b: { id: "b", when: `(${meet("b", "a")})` },
-    dns: { id: "dns", checked: "[[ \"$(omarchy-dns)\" == \"Cloudflare\" ]]" },
-    google: { id: "google", checked: "[[ \"$(omarchy-dns)\" == \"Google\" ]]" },
-    corners: { id: "corners", checked: "[[ \"$(omarchy-hyprland-corners)\" == \"round\" ]]" }
+    dns: { id: "dns", checked: "[[ \"$(lunaos-dns)\" == \"Cloudflare\" ]]" },
+    google: { id: "google", checked: "[[ \"$(lunaos-dns)\" == \"Google\" ]]" },
+    corners: { id: "corners", checked: "[[ \"$(lunaos-hyprland-corners)\" == \"round\" ]]" }
   }))
 ')
 
@@ -27,9 +27,9 @@ rendezvous_script=$(node -e '
 # the captured answer has to drop too.
 mkdir -p "$parallel_root/meet"
 rendezvous_result=$(MEET="$parallel_root/meet" bash -e -c '
-omarchy-dns() { touch "$MEET/dns"; for _ in {1..40}; do [[ -e $MEET/corners ]] && break; sleep 0.05; done; [[ -e $MEET/corners ]] && printf "Cloudflare\n\n"; }
-omarchy-hyprland-corners() { touch "$MEET/corners"; for _ in {1..40}; do [[ -e $MEET/dns ]] && break; sleep 0.05; done; [[ -e $MEET/dns ]] && printf "round\n"; }
-export -f omarchy-dns omarchy-hyprland-corners
+lunaos-dns() { touch "$MEET/dns"; for _ in {1..40}; do [[ -e $MEET/corners ]] && break; sleep 0.05; done; [[ -e $MEET/corners ]] && printf "Cloudflare\n\n"; }
+lunaos-hyprland-corners() { touch "$MEET/corners"; for _ in {1..40}; do [[ -e $MEET/dns ]] && break; sleep 0.05; done; [[ -e $MEET/dns ]] && printf "round\n"; }
+export -f lunaos-dns lunaos-hyprland-corners
 '"$rendezvous_script" | sort | tr '\n' ' ')
 [[ $rendezvous_result == "a:w:1 b:w:1 corners:c:1 dns:c:1 google:c:0 " ]] ||
   fail "guard batch runs guards and readers side by side and reports every row once" "got: $rendezvous_result"
@@ -42,14 +42,14 @@ shape_script=$(node -e '
   const path = require("path")
   const menu = require(path.join(process.env.ROOT, "shell/plugins/menu/MenuModel.js"))
   process.stdout.write(menu.guardScript({
-    shape: { id: "shape", checked: "[[ \"$(omarchy-dns)\" == \"  two  words\"$'"'"'\\n'"'"'\"line\" ]]" },
-    blank: { id: "blank", checked: "[[ -z \"$(omarchy-hyprland-corners)\" ]]" }
+    shape: { id: "shape", checked: "[[ \"$(lunaos-dns)\" == \"  two  words\"$'"'"'\\n'"'"'\"line\" ]]" },
+    blank: { id: "blank", checked: "[[ -z \"$(lunaos-hyprland-corners)\" ]]" }
   }))
 ')
 shape_result=$(bash -c '
-omarchy-dns() { printf "  two  words\nline\n\n\n"; }
-omarchy-hyprland-corners() { printf "\n\n"; }
-export -f omarchy-dns omarchy-hyprland-corners
+lunaos-dns() { printf "  two  words\nline\n\n\n"; }
+lunaos-hyprland-corners() { printf "\n\n"; }
+export -f lunaos-dns lunaos-hyprland-corners
 '"$shape_script" | sort | tr '\n' ' ')
 [[ $shape_result == "blank:c:1 shape:c:1 " ]] ||
   fail "a captured reader keeps exactly what \$(...) keeps" "got: $shape_result"
@@ -76,13 +76,13 @@ nounset_script=$(node -e '
   const path = require("path")
   const menu = require(path.join(process.env.ROOT, "shell/plugins/menu/MenuModel.js"))
   const items = {}
-  for (let i = 0; i < 20; i++) items[`row${i}`] = { id: `row${i}`, when: i === 3 ? "[[ -n $OMARCHY_TEST_UNSET ]]" : "true" }
+  for (let i = 0; i < 20; i++) items[`row${i}`] = { id: `row${i}`, when: i === 3 ? "[[ -n $LUNAOS_TEST_UNSET ]]" : "true" }
   process.stdout.write(menu.guardScript(items))
 ')
 nounset_status=0
-env -u OMARCHY_TEST_UNSET bash -u -c "$nounset_script" >/dev/null 2>&1 || nounset_status=$?
+env -u LUNAOS_TEST_UNSET bash -u -c "$nounset_script" >/dev/null 2>&1 || nounset_status=$?
 ((nounset_status != 0)) || fail "a guard group that dies part way fails the batch"
 bash -c "$nounset_script" >/dev/null 2>&1 || fail "a batch whose groups all finish succeeds"
-OMARCHY_TEST_UNSET=set bash -u -c "$nounset_script" >/dev/null 2>&1 ||
+LUNAOS_TEST_UNSET=set bash -u -c "$nounset_script" >/dev/null 2>&1 ||
   fail "the batch itself runs under set -u when no guard trips it"
 pass "a guard group that dies part way fails the whole batch, so the menu keeps its last answers"

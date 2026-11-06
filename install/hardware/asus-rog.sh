@@ -1,3 +1,3 @@
-if omarchy-hw-asus-rog; then
-  omarchy-pkg-add asusctl
+if lunaos-hw-asus-rog; then
+  lunaos-pkg-add asusctl
 fi

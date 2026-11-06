@@ -1,0 +1,81 @@
+#!/bin/bash
+
+# lunaos:summary=Log out, reboot, or shut down after closing applications
+# lunaos:args=<logout|reboot|shutdown>
+# lunaos:examples=lunaos system logout | lunaos system reboot | lunaos system shutdown
+# lunaos:aliases=lunaos logout | lunaos reboot | lunaos shutdown
+
+usage="Usage: lunaos-system <logout|reboot|shutdown>"
+for arg in "$@"; do
+  case $arg in
+    -h | --help) echo "$usage"; exit 0 ;;
+  esac
+done
+if (( $# > 2 )); then
+  echo "$usage" >&2
+  exit 2
+fi
+
+action=${1:-}
+case $action in
+  logout) command=(uwsm stop) ;;
+  reboot) command=(systemctl reboot --no-wall) ;;
+  shutdown) command=(systemctl poweroff --no-wall) ;;
+  *) echo "$usage" >&2; exit 2 ;;
+esac
+
+# Each action has whole sentences of its own, so a translation can inflect it.
+case $action in
+  logout)
+    message=$(lunaos-i18n system.loggingOut)
+    failed_title=$(lunaos-i18n system.logoutFailed)
+    failed_body=$(lunaos-i18n system.logoutRetry)
+    ;;
+  reboot)
+    message=$(lunaos-i18n system.rebooting)
+    failed_title=$(lunaos-i18n system.rebootFailed)
+    failed_body=$(lunaos-i18n system.rebootRetry)
+    ;;
+  shutdown)
+    message=$(lunaos-i18n system.shuttingDown)
+    failed_title=$(lunaos-i18n system.shutdownFailed)
+    failed_body=$(lunaos-i18n system.shutdownRetry)
+    ;;
+esac
+
+exit_session() {
+  lunaos-osd -i "$action" -m "$message" -d 5000
+  if [[ $action != "logout" ]]; then
+    lunaos-state clear re*-required
+  fi
+
+  # Proceed as soon as apps exit, with a bound for unresponsive windows.
+  timeout 2s lunaos-hyprland-window-close-all --wait
+  "${command[@]}"
+}
+
+if [[ ${2:-} == "--inhibited" ]]; then
+  exit_session
+elif [[ ${2:-} == "--execute" ]]; then
+  if [[ $action == "shutdown" ]]; then
+    # Block lid handling explicitly: it ignores high-level sleep inhibitors.
+    systemd-inhibit --what=sleep:idle:handle-lid-switch \
+      --who=LunaOS --why="Shutdown in progress" --mode=block \
+      "$0" "$action" --inhibited
+  else
+    exit_session
+  fi
+  status=$?
+  if (( status != 0 )); then
+    lunaos-notification-send -u critical "$failed_title" "$failed_body"
+    exit "$status"
+  fi
+elif [[ -z ${2:-} ]]; then
+  # Survive closing the terminal that requested the session exit.
+  systemd-run --user --collect --quiet --property=Type=exec --property=RuntimeMaxSec=30s \
+    --setenv=PATH --setenv=HYPRLAND_INSTANCE_SIGNATURE --setenv=LUNAOS_PATH \
+    "$0" "$action" --execute
+else
+  echo "$usage" >&2
+  exit 2
+fi

@@ -37,11 +37,11 @@ require_command jq
 require_command python3
 
 shell_ipc() {
-  OMARCHY_PATH="$test_root" "$ROOT/bin/omarchy-shell" "$@"
+  LUNAOS_PATH="$test_root" "$ROOT/bin/lunaos-shell" "$@"
 }
 
 shell_ipc_quiet() {
-  OMARCHY_PATH="$test_root" "$ROOT/bin/omarchy-shell" -q "$@"
+  LUNAOS_PATH="$test_root" "$ROOT/bin/lunaos-shell" -q "$@"
 }
 
 fail_with_log() {
@@ -52,7 +52,7 @@ fail_with_log() {
 }
 
 TMPDIR=$(mktemp -d)
-test_root="$TMPDIR/omarchy"
+test_root="$TMPDIR/lunaos"
 test_home="$TMPDIR/home"
 stub_bin="$TMPDIR/bin"
 screenshot_dir="$TMPDIR/screenshots"
@@ -63,18 +63,18 @@ mkdir -p "$test_root" "$test_home" "$stub_bin" "$screenshot_dir"
 # This shell joins an already-running compositor session, like a shell
 # restart. Seed the background-intro session marker so it does not map
 # the solid new-login startup cover over the bar being screenshotted.
-mkdir -p "$test_home/.local/state/omarchy"
-printf '%s\n' "$HYPRLAND_INSTANCE_SIGNATURE" >"$test_home/.local/state/omarchy/background-intro.session-id"
+mkdir -p "$test_home/.local/state/lunaos"
+printf '%s\n' "$HYPRLAND_INSTANCE_SIGNATURE" >"$test_home/.local/state/lunaos/background-intro.session-id"
 cp -a "$ROOT/shell" "$test_root/shell"
 ln -s "$ROOT/config" "$test_root/config"
 ln -s "$ROOT/bin" "$test_root/bin"
 
-cat >"$stub_bin/omarchy-update-available" <<'SH'
+cat >"$stub_bin/lunaos-update-available" <<'SH'
 #!/bin/bash
-echo "Omarchy update available (test)"
+echo "LunaOS update available (test)"
 exit 0
 SH
-chmod +x "$stub_bin/omarchy-update-available"
+chmod +x "$stub_bin/lunaos-update-available"
 
 cat >"$stub_bin/curl" <<'SH'
 #!/bin/bash
@@ -93,7 +93,7 @@ esac
 SH
 chmod +x "$stub_bin/curl"
 
-OMARCHY_PATH="$test_root" \
+LUNAOS_PATH="$test_root" \
 HOME="$test_home" \
 XDG_CONFIG_HOME="$test_home/.config" \
 XDG_CACHE_HOME="$test_home/.cache" \
@@ -112,24 +112,24 @@ for _ in {1..80}; do
   sleep 0.1
 done
 
-shell_ipc_quiet omarchy.system-update refresh >/dev/null 2>&1 || true
+shell_ipc_quiet lunaos.system-update refresh >/dev/null 2>&1 || true
 sleep 0.8
 
 geometry=$(shell_ipc shell debugBarGeometry)
 jq -e '
-  any(.[]; .id == "omarchy.menu" and .visible == true and .width > 0 and .height > 0) and
-  any(.[]; .id == "omarchy.clock" and .visible == true and .width > 0 and .height > 0)
+  any(.[]; .id == "lunaos.menu" and .visible == true and .width > 0 and .height > 0) and
+  any(.[]; .id == "lunaos.clock" and .visible == true and .width > 0 and .height > 0)
 ' <<<"$geometry" >/dev/null || {
   printf 'Geometry:\n' >&2
   jq . <<<"$geometry" >&2
   fail_with_log "screenshot test shell rendered visible bar widgets"
 }
 
-OMARCHY_PATH="$test_root" \
+LUNAOS_PATH="$test_root" \
 OMASNAP_SCREENSHOT_DIR="$screenshot_dir" \
 HOME="$test_home" \
 PATH="$stub_bin:$ROOT/bin:$PATH" \
-  "$ROOT/bin/omarchy" capture screenshot fullscreen save >/dev/null 2>"$screenshot_err"
+  "$ROOT/bin/lunaos" capture screenshot fullscreen save >/dev/null 2>"$screenshot_err"
 
 screenshot=$(find "$screenshot_dir" -maxdepth 1 -type f -name '*.png' -print -quit)
 

@@ -9,8 +9,8 @@ import "Model.js" as Model
 
 Panel {
   id: root
-  moduleName: "omarchy.monitor"
-  ipcTarget: "omarchy.monitor"
+  moduleName: "lunaos.monitor"
+  ipcTarget: "lunaos.monitor"
   manageIpc: false
 
   // manageIpc: false so this panel can own the single IpcHandler the target
@@ -56,7 +56,7 @@ Panel {
   property bool cursorActive: false
 
   // Text size slider — curated macOS-style notches (px). The panel snaps to
-  // these stops; the CLI (omarchy-display-text-size) accepts any integer in range.
+  // these stops; the CLI (lunaos-display-text-size) accepts any integer in range.
   readonly property var textSizeStops: [9, 10, 11, 12, 14, 16, 20]
   // While a change is in flight, the chosen stop index overrides the live
   // base-size so the knob doesn't snap back during the file round-trip. -1 =
@@ -220,7 +220,7 @@ Panel {
   }
 
   ShellIpc {
-    target: "omarchy.monitor"
+    target: "lunaos.monitor"
 
     function brightness(percent: string): string { return root.brightnessIpc(percent) }
     function state(): string { return root.stateIpc() }
@@ -246,7 +246,7 @@ Panel {
     }
 
     root.brightnessSetQueued = false
-    setBrightnessProc.command = ["omarchy-brightness-display", "--no-osd", "--monitor", root.focusedMonitor, percent + "%"]
+    setBrightnessProc.command = ["lunaos-brightness-display", "--no-osd", "--monitor", root.focusedMonitor, percent + "%"]
     setBrightnessProc.running = true
   }
 
@@ -257,7 +257,7 @@ Panel {
 
   function showBrightnessOsd(percent) {
     if (!bar || !bar.shell) return
-    bar.shell.summon("omarchy.osd", JSON.stringify({
+    bar.shell.summon("lunaos.osd", JSON.stringify({
       icon: "brightness",
       value: percent
     }))
@@ -315,7 +315,7 @@ Panel {
   }
 
   function setScale(scale) {
-    actionProc.command = ["bash", "-c", "omarchy-hyprland-monitor-scaling " + scale]
+    actionProc.command = ["bash", "-c", "lunaos-hyprland-monitor-scaling " + scale]
     if (!actionProc.running) actionProc.running = true
   }
 
@@ -343,7 +343,7 @@ Panel {
   }
 
   function setTextSize(px) {
-    textScaleProc.command = ["omarchy-display-text-size", String(px)]
+    textScaleProc.command = ["lunaos-display-text-size", String(px)]
     if (!textScaleProc.running) textScaleProc.running = true
   }
 
@@ -395,7 +395,7 @@ Panel {
 
   Process {
     id: stateProc
-    command: ["omarchy-monitor-state"]
+    command: ["lunaos-monitor-state"]
     stdout: StdioCollector {
       waitForEnd: true
       onStreamFinished: {
@@ -426,7 +426,7 @@ Panel {
     stdout: StdioCollector { waitForEnd: true }
     // Do NOT call refresh() after a brightness set completes. The local
     // brightnessPercent we just wrote is authoritative; re-reading via
-    // `omarchy-brightness-display` races the hardware/driver and can
+    // `lunaos-brightness-display` races the hardware/driver and can
     // return an empty string, which the parser then coerces to 0 —
     // visible as a "bounce to zero" after h/l keypresses. External
     // brightness changes are still picked up by the 5s periodic refresh,

@@ -21,7 +21,7 @@ L'editor d'anotacions pot dibuixar fletxes, línies, formes, ressaltats, marcado
 
 Les captures de pantalla desades van a `~/Pictures/Screenshots` per defecte, amb un nom com `screenshot-2026-08-13_14-22-05-firefox.png`. Definiu `OMASNAP_SCREENSHOT_DIR` per fer servir un altre directori — vegeu [les preguntes freqüents](46-faq.md) per saber on posar les variables d'entorn de la sessió. Omasnap crea el directori quan desa la primera captura. Definiu `[output] autosave = false` a `~/.config/omasnap/omasnap.conf` per desactivar el desament automàtic.
 
-Des del terminal, `omarchy screenshot` obre la mateixa superposició, i en podeu triar el mode inicial: `omarchy capture screenshot region`, `windows`, `fullscreen` o `scroll`. Un segon argument de `copy` o `save` omet la previsualització i envia la captura directament a aquesta destinació. Per editar abans de la sortida, feu servir `omarchy screenshot --editor=overlay` per a un editor a pantalla completa o `omarchy screenshot --editor=window` per a una finestra separada.
+Des del terminal, `lunaos screenshot` obre la mateixa superposició, i en podeu triar el mode inicial: `lunaos capture screenshot region`, `windows`, `fullscreen` o `scroll`. Un segon argument de `copy` o `save` omet la previsualització i envia la captura directament a aquesta destinació. Per editar abans de la sortida, feu servir `lunaos screenshot --editor=overlay` per a un editor a pantalla completa o `lunaos screenshot --editor=window` per a una finestra separada.
 
 ### Conduir el selector des del teclat
 
@@ -40,9 +40,9 @@ Aquestes assignacions només existeixen mentre Omasnap és obert, de manera que 
 
 ## Gravació de pantalla
 
-`Alt + Print Screen` obre _Activa > Captura > Grava la pantalla_, que pregunta què voleu a la banda sonora: sense àudio, àudio d'escriptori, escriptori més micròfon, o escriptori més micròfon més webcam. Aquesta darrera només apareix si realment teniu una càmera connectada. Trieu-ne una i el selector de gravació d'Omarchy us permet arrossegar una regió o fer clic en una finestra o un monitor.
+`Alt + Print Screen` obre _Activa > Captura > Grava la pantalla_, que pregunta què voleu a la banda sonora: sense àudio, àudio d'escriptori, escriptori més micròfon, o escriptori més micròfon més webcam. Aquesta darrera només apareix si realment teniu una càmera connectada. Trieu-ne una i el selector de gravació d'LunaOS us permet arrossegar una regió o fer clic en una finestra o un monitor.
 
-La gravació funciona amb gpu-screen-recorder, que codifica a la GPU a 60 fps i recorre a la CPU si cal. El resultat és un MP4 a `~/Videos`, anomenat `screenrecording-2026-08-13_14-22-05.mp4`. Definiu `OMARCHY_SCREENRECORD_DIR` per canviar-ho — però tingueu en compte que, a diferència del directori de captures de pantalla, aquest ha d'existir ja, o la gravació es nega a començar.
+La gravació funciona amb gpu-screen-recorder, que codifica a la GPU a 60 fps i recorre a la CPU si cal. El resultat és un MP4 a `~/Videos`, anomenat `screenrecording-2026-08-13_14-22-05.mp4`. Definiu `LUNAOS_SCREENRECORD_DIR` per canviar-ho — però tingueu en compte que, a diferència del directori de captures de pantalla, aquest ha d'existir ja, o la gravació es nega a començar.
 
 Mentre graveu, un petit indicador apareix a la barra. Feu-hi clic per aturar-ho. També podeu aturar-ho amb `Alt + Print Screen` de nou, o amb l'entrada _Atura la gravació_ a _Activa > Captura > Grava la pantalla_, que només apareix mentre realment s'està gravant alguna cosa.
 
@@ -59,7 +59,7 @@ Quan graveu amb una webcam, la càmera apareix com una finestra de retrat fixada
 
 Hi ha tres mides — petita, mitjana i gran — i les dreceres hi passen d'una a l'altra. La mitjana és la predeterminada. Són proporcionals a la gravació, de manera que la càmera ocupa la mateixa part del fotograma tant si graveu un monitor de 1080p com un de 6K. I si heu gravat una regió en lloc de tota una pantalla, la superposició s'ancora a la cantonada d'aquesta regió en lloc de la del monitor, de manera que es manté dins de la presa.
 
-També la podeu cridar directament amb `omarchy-capture-webcam-resize small`, o `reset` per tornar a la mitjana.
+També la podeu cridar directament amb `lunaos-capture-webcam-resize small`, o `reset` per tornar a la mitjana.
 
 ## Text, codis QR i colors
 
@@ -75,7 +75,7 @@ Una gravació de pantalla en 4K o un HEIC en brut del telèfon sovint és massa 
 
 Les imatges van a jpg o png a alta, mitjana o baixa, que limiten l'amplada a 3160, 2160 i 1080 píxels. Els vídeos van a mp4 o a un gif animat a 4k, 1080p o 720p. El fitxer convertit s'escriu al costat de l'original amb la resolució al nom — `demo-1080p.mp4` — i la ruta es copia al porta-retalls com a URI de fitxer, de manera que el podeu enganxar directament en una aplicació que accepti fitxers arrossegats.
 
-També funciona des del terminal, si ja sabeu què voleu: `omarchy transcode ~/Videos/demo.mov mp4 1080p`. També hi ha `omarchy transcode ascii`, que converteix una imatge en art ASCII — aquesta és sobretot per a la [marca](41-branding.md).
+També funciona des del terminal, si ja sabeu què voleu: `lunaos transcode ~/Videos/demo.mov mp4 1080p`. També hi ha `lunaos transcode ascii`, que converteix una imatge en art ASCII — aquesta és sobretot per a la [marca](41-branding.md).
 
 ## Enviar-ho en algun lloc
 

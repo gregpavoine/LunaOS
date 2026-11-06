@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# omarchy_hooks.conf leaves a non-Latin keyboard layout out of FILES, so the
+# lunaos_hooks.conf leaves a non-Latin keyboard layout out of FILES, so the
 # LUKS passphrase stays typeable at the Plymouth prompt (#6229). Since
 # 26.134.222-3, Arch's plymouth hook adds vconsole.conf itself (#14246), so
-# omarchy_vconsole.conf refuses the file in add_file unless FILES lists it.
+# lunaos_vconsole.conf refuses the file in add_file unless FILES lists it.
 
 set -euo pipefail
 
@@ -16,10 +16,10 @@ trap 'rm -rf "$test_tmp"' EXIT
 vconsole="$test_tmp/vconsole.conf"
 plymouthd="$test_tmp/plymouthd.conf"
 : >"$plymouthd"
-for conf in omarchy_hooks.conf omarchy_vconsole.conf; do
+for conf in lunaos_hooks.conf lunaos_vconsole.conf; do
   sed "s|/etc/vconsole.conf|$vconsole|g" "$ROOT/etc/mkinitcpio.conf.d/$conf" >"$test_tmp/$conf"
 done
-# An omarchy_hooks.conf from before the package, which pacman keeps over the
+# An lunaos_hooks.conf from before the package, which pacman keeps over the
 # packaged one: it sets HOOKS and never mentions vconsole.conf.
 printf 'HOOKS=(base udev plymouth keyboard autodetect modconf kms keymap block encrypt filesystems fsck)\n' >"$test_tmp/stale_hooks.conf"
 
@@ -27,9 +27,9 @@ printf 'HOOKS=(base udev plymouth keyboard autodetect modconf kms keymap block e
 # drop-ins with add_file already defined, run plymouth's hook, add FILES, then
 # source them again, as parse_config and the systemd hook do, and add a file
 # after that. $1 is XKBLAYOUT; with $2 set, mkinitcpio's own add_file copies
-# into a real build root; $3 replaces omarchy_hooks.conf.
+# into a real build root; $3 replaces lunaos_hooks.conf.
 image_files() {
-  local layout=$1 functions=${2:-} hooks_conf=${3:-$test_tmp/omarchy_hooks.conf}
+  local layout=$1 functions=${2:-} hooks_conf=${3:-$test_tmp/lunaos_hooks.conf}
   printf 'KEYMAP=%s\nXKBLAYOUT=%s\n' "${layout%%,*}" "$layout" >"$vconsole"
   rm -rf "$test_tmp/root"
   mkdir -p "$test_tmp/root"
@@ -44,14 +44,14 @@ image_files() {
       add_file() { printf '%s\n' "${2:-$1}" >>"$BUILDROOT/added"; }
     fi
     source "$hooks_conf"
-    source "$test_tmp/omarchy_vconsole.conf"
+    source "$test_tmp/lunaos_vconsole.conf"
     # What Arch's plymouth hook does since 26.134.222-3, run the way mkinitcpio
     # runs a hook: with FILES local and empty.
     plymouth_build() { local FILES=(); add_file "$vconsole"; }
     plymouth_build
     for file in "${FILES[@]}"; do add_file "$file"; done
     source "$hooks_conf"
-    source "$test_tmp/omarchy_vconsole.conf"
+    source "$test_tmp/lunaos_vconsole.conf"
     add_file "$plymouthd"
   ) >/dev/null || return 1
   if [[ -n $functions ]]; then
@@ -74,12 +74,12 @@ assert_image "a Ukrainian first layout stays out as well" ua,us "$plymouthd"
 assert_image "a Hebrew layout stays out as well" il "$plymouthd"
 assert_image "a Latin layout still reaches the LUKS prompt" de "$latin"
 assert_image "a Latin first layout with a non-Latin second still reaches it" us,ru "$latin"
-assert_image "an omarchy_hooks.conf from before the package still keeps it out" ru,us "$plymouthd" "" "$test_tmp/stale_hooks.conf"
-# Before the package, omarchy_hooks.conf never listed the file, so on such a
+assert_image "an lunaos_hooks.conf from before the package still keeps it out" ru,us "$plymouthd" "" "$test_tmp/stale_hooks.conf"
+# Before the package, lunaos_hooks.conf never listed the file, so on such a
 # machine with a Latin layout Plymouth's own copy is what carries the layout to
 # the prompt since 26.134.222-3. Refusing it would switch a German prompt back
 # to US, and a passphrase typed in German would no longer unlock.
-assert_image "an omarchy_hooks.conf from before the package keeps a Latin layout at the prompt" de "$latin" "" "$test_tmp/stale_hooks.conf"
+assert_image "an lunaos_hooks.conf from before the package keeps a Latin layout at the prompt" de "$latin" "" "$test_tmp/stale_hooks.conf"
 
 # The file is refused wherever a hook copies it from.
 printf 'XKBLAYOUT=ru\n' >"$vconsole"
@@ -87,8 +87,8 @@ added=$(
   set +u
   FILES=()
   add_file() { printf '%s\n' "${2:-$1}"; }
-  source "$test_tmp/omarchy_hooks.conf"
-  source "$test_tmp/omarchy_vconsole.conf"
+  source "$test_tmp/lunaos_hooks.conf"
+  source "$test_tmp/lunaos_vconsole.conf"
   add_file "$plymouthd" "$vconsole"
   add_file "$plymouthd"
 )
@@ -101,21 +101,21 @@ added=$(
   set +u
   FILES=("$vconsole")
   add_file() { printf '%s\n' "${2:-$1}"; }
-  source "$test_tmp/omarchy_hooks.conf"
-  source "$test_tmp/omarchy_vconsole.conf"
+  source "$test_tmp/lunaos_hooks.conf"
+  source "$test_tmp/lunaos_vconsole.conf"
   add_file "$vconsole"
 )
 [[ $added == "$vconsole" ]] || fail "a vconsole.conf the configuration lists in FILES still goes in" "added: $added"
 pass "a vconsole.conf the configuration lists in FILES still goes in"
 
-# A drop-in sorting after omarchy_vconsole.conf can list the file too: FILES is
+# A drop-in sorting after lunaos_vconsole.conf can list the file too: FILES is
 # read when a file is added, and the hook's copy is still refused.
 added=$(
   set +u
   FILES=()
   add_file() { printf '%s\n' "${2:-$1}"; }
-  source "$test_tmp/omarchy_hooks.conf"
-  source "$test_tmp/omarchy_vconsole.conf"
+  source "$test_tmp/lunaos_hooks.conf"
+  source "$test_tmp/lunaos_vconsole.conf"
   FILES+=("$vconsole")
   plymouth_build() { local FILES=(); add_file "$vconsole"; }
   plymouth_build

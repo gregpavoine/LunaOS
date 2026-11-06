@@ -11,12 +11,12 @@ Item {
   id: root
 
   property var shell: null
-  property string omarchyPath: ""
+  property string lunaosPath: ""
 
   readonly property string home: Quickshell.env("HOME")
   readonly property string stateHome: home + "/.local/state"
   readonly property string userName: Quickshell.env("USER") || Quickshell.env("LOGNAME")
-  readonly property string currentBackgroundLink: stateHome + "/omarchy/current/background"
+  readonly property string currentBackgroundLink: stateHome + "/lunaos/current/background"
 
   property bool lockRequested: false
   property bool pendingSessionLock: false
@@ -78,7 +78,7 @@ Item {
     return lockRequested || sessionLock.locked || sessionLock.secure
   }
   readonly property bool authenticating: authenticatingPassword || fingerprintAuthenticating
-  readonly property var batteryService: shell && shell.services ? shell.firstPartyServiceFor("omarchy.battery") : null
+  readonly property var batteryService: shell && shell.services ? shell.firstPartyServiceFor("lunaos.battery") : null
   readonly property bool powerSaverActive: batteryService ? batteryService.powerSaverOnBattery : false
   // A prompt clears the unavailable notice before the attempt finishes.
   readonly property bool fingerprintUnavailable: FingerprintModel.isUnavailable(fingerprintProbeStreak) || (fingerprintConfigured && (!fingerprintAttemptReachedDevice || fingerprintAttemptFastError) && FingerprintModel.isUnavailable(fingerprintUnreachedStreak))
@@ -196,7 +196,7 @@ Item {
   function logEvent(event) {
     lastEvent = event
     lastEventAt = new Date().toISOString()
-    console.log("omarchy lock " + lastEventAt + " " + event)
+    console.log("lunaos lock " + lastEventAt + " " + event)
   }
 
   function resetAuthenticationState() {
@@ -575,7 +575,7 @@ Item {
     visible: root.previewVisible
     anchors { top: true; bottom: true; left: true; right: true }
     color: "transparent"
-    WlrLayershell.namespace: "omarchy-lock-preview"
+    WlrLayershell.namespace: "lunaos-lock-preview"
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
     exclusionMode: ExclusionMode.Ignore
@@ -605,7 +605,7 @@ Item {
 
   PamContext {
     id: passwordPam
-    config: "omarchy-lock-password"
+    config: "lunaos-lock-password"
     user: root.userName
 
     onResponseRequiredChanged: root.respondToPasswordPrompt()
@@ -627,7 +627,7 @@ Item {
 
   PamContext {
     id: fingerprintPam
-    config: "omarchy-lock-fingerprint"
+    config: "lunaos-lock-fingerprint"
     user: root.userName
 
     onPamMessage: {
@@ -749,7 +749,7 @@ Item {
   Process {
     id: posterProc
     property string sourcePath: ""
-    command: ["bash", Quickshell.env("OMARCHY_PATH") + "/shell/plugins/lock/poster.sh", sourcePath]
+    command: ["bash", Quickshell.env("LUNAOS_PATH") + "/shell/plugins/lock/poster.sh", sourcePath]
     stdout: StdioCollector { id: posterOutput; waitForEnd: true }
     onExited: function(exitCode) {
       if (sourcePath !== root.backgroundPath) {
@@ -763,7 +763,7 @@ Item {
   // Keep fprintd errors distinguishable from an explicit empty enrollment.
   Process {
     id: fingerprintCheckProc
-    command: ["bash", "-c", "if [[ -f /etc/pam.d/omarchy-lock-fingerprint ]] && command -v fprintd-list >/dev/null 2>&1; then LC_ALL=C fprintd-list \"$USER\" 2>&1; else echo no; fi"]
+    command: ["bash", "-c", "if [[ -f /etc/pam.d/lunaos-lock-fingerprint ]] && command -v fprintd-list >/dev/null 2>&1; then LC_ALL=C fprintd-list \"$USER\" 2>&1; else echo no; fi"]
     stdout: StdioCollector { id: fingerprintCheckStdout; waitForEnd: true }
     onExited: root.applyFingerprintProbe(fingerprintCheckStdout.text)
   }
@@ -780,7 +780,7 @@ Item {
   Process {
     id: strandedLockCheckProc
     // $PPID is this shell: a crash re-execs in place, so its pid is the one to skip.
-    command: ["bash", "-c", "omarchy-hyprland-session-lock-stranded \"$PPID\""]
+    command: ["bash", "-c", "lunaos-hyprland-session-lock-stranded \"$PPID\""]
     onExited: function(exitCode) {
       // No output to read the lock off yet.
       if (exitCode === 2) return
@@ -795,12 +795,12 @@ Item {
 
   Process {
     id: wakeProcess
-    command: ["bash", "-c", "omarchy-system-wake"]
+    command: ["bash", "-c", "lunaos-system-wake"]
   }
 
   Process {
     id: blankProcess
-    command: ["bash", "-c", "omarchy-brightness-keyboard off; omarchy-brightness-display off"]
+    command: ["bash", "-c", "lunaos-brightness-keyboard off; lunaos-brightness-display off"]
   }
 
   // Quickshell exposes no DPMS signal, so the panel state is polled while a
@@ -909,7 +909,7 @@ Item {
   }
 
   FileView {
-    path: "/etc/pam.d/omarchy-lock-password"
+    path: "/etc/pam.d/lunaos-lock-password"
     watchChanges: true
     printErrors: false
     onLoaded: root.passwordPamConfigured = true
@@ -940,7 +940,7 @@ Item {
 
     function lock(): string {
       if (!root.passwordPamConfigured) return "missing-pam"
-      // omarchy-system-sleep-lock asks for the lock before every suspend.
+      // lunaos-system-sleep-lock asks for the lock before every suspend.
       if (root.currentlyLocked()) root.noteSleepRequested()
       if (!root.currentlyLocked() && !root.beginLock()) return "failed"
       return "ok"

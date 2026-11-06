@@ -1,6 +1,6 @@
 # Prompt
 
-Omarchy leveres med en minimal [Starship](https://starship.rs/)-prompt som standard. Det er sådan, jeg kan lide at holde min prompt. Jeg behøver ikke at kende brugeren, for det er altid mig, og jeg behøver ikke at kende tiden, for den er altid øverst.
+LunaOS leveres med en minimal [Starship](https://starship.rs/)-prompt som standard. Det er sådan, jeg kan lide at holde min prompt. Jeg behøver ikke at kende brugeren, for det er altid mig, og jeg behøver ikke at kende tiden, for den er altid øverst.
 
  ![prompt](images/prompt.webp)
 

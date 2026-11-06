@@ -10,7 +10,7 @@ import unittest
 from unittest.mock import patch
 
 
-ROOT = Path(os.environ["OMARCHY_PATH"])
+ROOT = Path(os.environ["LUNAOS_PATH"])
 spec = importlib.util.spec_from_file_location("input_setup", ROOT / "default/input-methods/configure.py")
 setup = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(setup)
@@ -39,7 +39,7 @@ class InputMethodTest(unittest.TestCase):
     self.preference = self.home / "preference"
     self.vconsole.write_text("XKBLAYOUT=us\n")
     self.preference.write_text("INPUT_METHOD=none\n")
-    env = {"XDG_CONFIG_HOME": str(self.config), "XDG_DATA_HOME": str(self.home / "data"), "OMARCHY_VCONSOLE": str(self.vconsole), "OMARCHY_INPUT_SELECTION": str(self.preference)}
+    env = {"XDG_CONFIG_HOME": str(self.config), "XDG_DATA_HOME": str(self.home / "data"), "LUNAOS_VCONSOLE": str(self.vconsole), "LUNAOS_INPUT_SELECTION": str(self.preference)}
     self.environment = patch.dict(os.environ, env)
     self.environment.start()
     self.addCleanup(self.environment.stop)
@@ -197,7 +197,7 @@ class InputMethodTest(unittest.TestCase):
     with patch.object(setup.subprocess, "run", return_value=subprocess.CompletedProcess([], 0)), patch.object(setup, "run", side_effect=subprocess.CalledProcessError(1, "busctl")) as calls:
       setup.configure(argparse.Namespace(seed=False, defaults=True))
     self.assertEqual(profile.read_bytes(), original)
-    self.assertFalse(any(call.args[0] == ["omarchy-restart-xcompose"] for call in calls.call_args_list))
+    self.assertFalse(any(call.args[0] == ["lunaos-restart-xcompose"] for call in calls.call_args_list))
 
   def test_migration_does_not_add_an_engine_the_old_daemon_cannot_load(self):
     self.seed()
@@ -231,7 +231,7 @@ class InputMethodTest(unittest.TestCase):
 
   def test_font_fallback_does_not_replace_existing_preference(self):
     setup.font_default(self.config, "mozc")
-    font = self.config / "fontconfig/conf.d/50-omarchy-input-method.conf"
+    font = self.config / "fontconfig/conf.d/50-lunaos-input-method.conf"
     self.assertIn("Noto Sans CJK JP", font.read_text())
     self.assertIn("Noto Sans Mono CJK JP", font.read_text())
     original = font.read_bytes()
@@ -240,14 +240,14 @@ class InputMethodTest(unittest.TestCase):
 
   def test_hong_kong_cangjie_reaches_the_hong_kong_glyphs(self):
     setup.font_default(self.config, "cangjie5")
-    font = (self.config / "fontconfig/conf.d/50-omarchy-input-method.conf").read_text()
+    font = (self.config / "fontconfig/conf.d/50-lunaos-input-method.conf").read_text()
     self.assertIn("Noto Sans CJK HK", font)
     self.assertIn("Noto Sans Mono CJK HK", font)
 
   def test_a_chosen_cjk_variant_replaces_the_seeded_one(self):
     setup.font_default(self.config, "mozc")
     setup.font_set(self.config, "HK")
-    font = (self.config / "fontconfig/conf.d/50-omarchy-input-method.conf").read_text()
+    font = (self.config / "fontconfig/conf.d/50-lunaos-input-method.conf").read_text()
     self.assertNotIn("CJK JP", font)
     for family, face in [("Liberation Sans", "Sans"), ("Liberation Serif", "Serif"), ("JetBrainsMono Nerd Font", "Sans Mono")]:
       self.assertIn(f"<alias><family>{family}</family><accept><family>Noto {face} CJK HK</family></accept></alias>", font)
@@ -255,7 +255,7 @@ class InputMethodTest(unittest.TestCase):
       setup.font_set(self.config, "XX")
 
   def test_font_command_sets_seeds_and_clears_the_variant(self):
-    font = self.config / "fontconfig/conf.d/50-omarchy-input-method.conf"
+    font = self.config / "fontconfig/conf.d/50-lunaos-input-method.conf"
     def command(*args):
       with patch.object(sys, "argv", ["configure.py", "font", *args]):
         setup.main()

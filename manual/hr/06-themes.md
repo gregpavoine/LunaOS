@@ -1,8 +1,8 @@
 # Teme
 
-Omarchy dolazi s dvadeset i dvije lijepe teme. Između njih možete birati putem _Stil > Tema_ u Omarchy izborniku (`Super + Space`) ili izravno skočiti u birač tema pomoću `Super + Ctrl + Shift + Space`.
+LunaOS dolazi s dvadeset i dvije lijepe teme. Između njih možete birati putem _Stil > Tema_ u LunaOS izborniku (`Super + Space`) ili izravno skočiti u birač tema pomoću `Super + Ctrl + Shift + Space`.
 
-Svaka tema stilizira radnu površinu, terminal, neovim, zaslon aktivnosti (btop), Chromium i cijelu Omarchy ljusku: gornju traku, izbornik, obavijesti, OSD i zaključani zaslon. (Za Obsidian morate ručno odabrati Omarchy temu putem _Appearance > Themes_ unutar aplikacije).
+Svaka tema stilizira radnu površinu, terminal, neovim, zaslon aktivnosti (btop), Chromium i cijelu LunaOS ljusku: gornju traku, izbornik, obavijesti, OSD i zaključani zaslon. (Za Obsidian morate ručno odabrati LunaOS temu putem _Appearance > Themes_ unutar aplikacije).
 
 Teme imaju skup pozadinskih slika između kojih možete birati pomoću `Super + Ctrl + Space`.
 

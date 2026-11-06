@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ Linjen vil automatisk vise gjeldende tastaturlayout når du har flere layouter k
 Høyreklikk på klokken i linjen for å bla gjennom de vanlige formatene, inkludert 12-timersformatene. Du kan også sette formatet direkte:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Dette vil vise Sunday 10:55 AM.
 
 ### Hvordan endrer jeg tidssonen min?
 
-Kjør _Oppdater > Tidssone_ i Omarchy-menyen og velg fra listen. Hvis tidssonen er riktig, men selve klokken har drevet, starter _Oppdater > Tid_ tidssynkroniseringen på nytt for deg.
+Kjør _Oppdater > Tidssone_ i LunaOS-menyen og velg fra listen. Hvis tidssonen er riktig, men selve klokken har drevet, starter _Oppdater > Tid_ tidssynkroniseringen på nytt for deg.
 
 ### Hvordan endrer jeg DNS-en min, deler Wi-Fi-en min eller sjekker tilkoblingshastigheten min?
 
@@ -36,11 +36,11 @@ Alt det bor i [nettverk](35-networking.md).
 
 ### Hvordan sjekker jeg hvor rask disken min er?
 
-_Utløs > Hastighetstest > Diskhastighetstest_ måler sanntids lese- og skrivehastighet på disken din, eller `omarchy disk speedtest` fra terminalen.
+_Utløs > Hastighetstest > Diskhastighetstest_ måler sanntids lese- og skrivehastighet på disken din, eller `lunaos disk speedtest` fra terminalen.
 
 ### Hvorfor kan jeg ikke logge på Google-kontoen min i Chromium?
 
-Den vanlige åpen kildekode-Chromium-bygget leveres ikke med OAuth-legitimasjonen som Google krever for kontopålogging. Kjør _Installer > Tjeneste > Chromium-konto_ i Omarchy-menyen for å legge dem til, start nettleseren på nytt, og påloggingen går gjennom.
+Den vanlige åpen kildekode-Chromium-bygget leveres ikke med OAuth-legitimasjonen som Google krever for kontopålogging. Kjør _Installer > Tjeneste > Chromium-konto_ i LunaOS-menyen for å legge dem til, start nettleseren på nytt, og påloggingen går gjennom.
 
 ### Hvordan legger jeg til en skriver?
 
@@ -60,15 +60,15 @@ Lagrede skjermbilder går til `~/Pictures/Screenshots` som standard. For å bruk
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Du kan gjøre det samme for skjermopptak med `OMARCHY_SCREENRECORD_DIR`.
+Du kan gjøre det samme for skjermopptak med `LUNAOS_SCREENRECORD_DIR`.
 
-Omasnap oppretter skjermbildemappen sin automatisk. Opprett skjermopptaksmappen selv, og start deretter Omarchy på nytt for at en av miljøendringene skal tre i kraft.
+Omasnap oppretter skjermbildemappen sin automatisk. Opprett skjermopptaksmappen selv, og start deretter LunaOS på nytt for at en av miljøendringene skal tre i kraft.
 
 ### Hvordan får jeg høyttalerne + webkameraet til å fungere på Apple Studio Display-en min?
 
 Man skulle tro at alt bare skulle fungere ved å plugge inn USB C, men dessverre er det ikke tilfellet. Løsningen jeg har funnet for å få det til å fungere pålitelig, er å bruke [WJESOG DisplayPort + USB-A => USB-C-kabelen](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/). Da fungerer høyttalere og webkamera som en drøm.
 
-Husk at du har innebygd lysstyrkekontroll i Omarchy for Apple-skjermene (både Studio og XDR) med de vanlige tastaturlysstyrkeknappene.
+Husk at du har innebygd lysstyrkekontroll i LunaOS for Apple-skjermene (både Studio og XDR) med de vanlige tastaturlysstyrkeknappene.
 
 ### Hvordan blir jeg kvitt all den ekstra programvaren?
 
@@ -76,7 +76,7 @@ Hvis du ikke vil ha programmer som Obsidian eller LibreOffice eller noe av det a
 
 Kjør _Fjern > Pakke_ for å se hver pakke som er installert. Deretter kan du velge enhver pakke du vil fjerne med tab, og begynne å fjerne alt du har valgt med return.
 
-Og du kan bruke _Fjern > Nettapp_ fra Omarchy-menyen for å fjerne enhver av de forhåndsinstallerte nettappene du ikke vil ha.
+Og du kan bruke _Fjern > Nettapp_ fra LunaOS-menyen for å fjerne enhver av de forhåndsinstallerte nettappene du ikke vil ha.
 
 Eller kjør _Fjern > Forhåndsinstallerte_ for å feie ut alle de forhåndsinstallerte ekstratingene — nettapper, TUI-er og valgfrie applikasjoner — i ett jafs. Hurtigtastene som startet dem, forsvinner med dem, så du sitter igjen med en ren tavle med bindinger å fylle med dine egne i `~/.config/hypr/bindings.lua`.
 

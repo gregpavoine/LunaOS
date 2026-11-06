@@ -1,10 +1,10 @@
 # Verkkosovellukset
 
-Voit lisätä omia verkkosovelluksiasi käyttämällä Omarchy-valikon (`Super + Space`) kohtaa _Asenna > Verkkosovellus_. Se kysyy sinulta sovelluksen nimen, sovelluksen URL:n ja kuvakkeen URL:n, jollei se pysty noutamaan sitä faviconin kautta. Voit saada upeita PNG-kuvakkeita monille suosituille verkkosovelluksille sivustolla [Dashboard Icons](https://dashboardicons.com).
+Voit lisätä omia verkkosovelluksiasi käyttämällä LunaOS-valikon (`Super + Space`) kohtaa _Asenna > Verkkosovellus_. Se kysyy sinulta sovelluksen nimen, sovelluksen URL:n ja kuvakkeen URL:n, jollei se pysty noutamaan sitä faviconin kautta. Voit saada upeita PNG-kuvakkeita monille suosituille verkkosovelluksille sivustolla [Dashboard Icons](https://dashboardicons.com).
 
 Niihin pääsee sitten sovellusten käynnistimen kautta (`Super + Space`), ja ne käyttävät kaunista kehyksetöntä verkkosovelluksen ikkunaa.
 
-Jos haluat poistaa verkkosovelluksen, siirry vain Omarchy-valikon kohtaan _Poista > Verkkosovellus_.
+Jos haluat poistaa verkkosovelluksen, siirry vain LunaOS-valikon kohtaan _Poista > Verkkosovellus_.
 
 On parasta, jos kirjaudut kaikille tileillesi tavallisella selaimella ennen verkkosovellusten pikanäppäinten käyttöä. Ohut käärekehys ei toimi hyvin 1passwordin kanssa, joten on vain helpompaa olla kirjautuneena suoraan ensin.
 
@@ -12,17 +12,17 @@ Kaikkia näiden verkkosovellusten pikanäppäimiä voi muuttaa tiedostossa `~/.c
 
 Kun olet verkkosovelluksessa, voit kopioida nykyisen URL:n leikepöydälle näppäimillä `Shift + Alt + L`.
 
-Oletuksena Omarchyssa on jo valikoima oletussovelluksia:
+Oletuksena LunaOSssa on jo valikoima oletussovelluksia:
 
 ## HEY
 
-[HEY](https://www.hey.com/) on sähköposti- ja kalenteripalvelu, joka on erinomainen vaihtoehto Gmailiin, Outlookiin tai Apple Mailiin kyllästyneille. Sen on tehnyt [37signals](https://37signals.com/), jossa Omarchy sai alkunsa.
+[HEY](https://www.hey.com/) on sähköposti- ja kalenteripalvelu, joka on erinomainen vaihtoehto Gmailiin, Outlookiin tai Apple Mailiin kyllästyneille. Sen on tehnyt [37signals](https://37signals.com/), jossa LunaOS sai alkunsa.
 
 Voit käynnistää HEY Emailin näppäimillä `Super + Shift + E`, hypätä suoraan uuden sähköpostin kirjoittamiseen näppäimillä `Super + Shift + Alt + E` ja käynnistää HEY Calendarin näppäimillä `Super + Shift + C`.
 
 ## Basecamp
 
-[Basecamp](https://basecamp.com/) on projektinhallintapalvelu, joka auttaa pieniä tiimejä etenemään nopeammin ja saamaan aikaan enemmän edistystä. Sen sijaan, että kursisit kokoon sekalaisen sekoituksen Trelloa, Slackia, Asanaa, Notionia tai mitä tahansa, voit saada kaiken yhdessä paikassa Basecampilla. Sen on tehnyt [37signals](https://37signals.com/), jossa Omarchy sai alkunsa.
+[Basecamp](https://basecamp.com/) on projektinhallintapalvelu, joka auttaa pieniä tiimejä etenemään nopeammin ja saamaan aikaan enemmän edistystä. Sen sijaan, että kursisit kokoon sekalaisen sekoituksen Trelloa, Slackia, Asanaa, Notionia tai mitä tahansa, voit saada kaiken yhdessä paikassa Basecampilla. Sen on tehnyt [37signals](https://37signals.com/), jossa LunaOS sai alkunsa.
 
 Voit käynnistää Basecampin käyttämällä sovellusten käynnistintä (`Super + Space`)
 
@@ -64,19 +64,19 @@ Voit käynnistää YouTuben näppäimillä `Super + Shift + Y`.
 
 ## Zoom
 
-[Zoom](https://zoom.us/) on Yhdysvalloissa käytetty suosituin videochat-järjestelmä. Erinomaiset yhteydet ympäri maailmaa. Ja 40 minuutin kokouksia voi pitää ilman maksullista tiliä. Omarchy käärii Zoomin verkkoasiakkaan, ja zoom-kokouslinkit avautuvat suoraan siihen.
+[Zoom](https://zoom.us/) on Yhdysvalloissa käytetty suosituin videochat-järjestelmä. Erinomaiset yhteydet ympäri maailmaa. Ja 40 minuutin kokouksia voi pitää ilman maksullista tiliä. LunaOS käärii Zoomin verkkoasiakkaan, ja zoom-kokouslinkit avautuvat suoraan siihen.
 
 Käynnistät Zoomin käyttämällä sovellusten käynnistintä (`Super + Space`).
 
 ## Discord
 
-[Discord](https://discord.com/) on paikka, jossa useimmat peli- ja avoimen lähdekoodin yhteisöt viettävät aikaa, mukaan lukien [Omarchyn oma](https://discord.gg/tXFUdasqhY).
+[Discord](https://discord.com/) on paikka, jossa useimmat peli- ja avoimen lähdekoodin yhteisöt viettävät aikaa, mukaan lukien [LunaOSn oma](https://discord.gg/tXFUdasqhY).
 
 Käynnistät Discordin käyttämällä sovellusten käynnistintä (`Super + Space`).
 
 ## Microsoft-sovellukset
 
-Valitse _Asenna > Palvelu > Microsoft_ lisätäksesi Outlookin, Wordin, Excelin, PowerPointin, Teamsin ja OneDriven verkkosovelluksina. Jokaisella sovelluksella on oma käynnistimensä ja se avautuu suoraan käyttäen kaupallisia Microsoft 365 -URL-osoitteita ja olemassa olevaa selainprofiiliasi. Ne avautuvat samoihin selain-sovellusikkunoihin kuin Omarchyn muut verkkosovellukset; ne eivät asenna erillistä Teams for Linux -asiakasta.
+Valitse _Asenna > Palvelu > Microsoft_ lisätäksesi Outlookin, Wordin, Excelin, PowerPointin, Teamsin ja OneDriven verkkosovelluksina. Jokaisella sovelluksella on oma käynnistimensä ja se avautuu suoraan käyttäen kaupallisia Microsoft 365 -URL-osoitteita ja olemassa olevaa selainprofiiliasi. Ne avautuvat samoihin selain-sovellusikkunoihin kuin LunaOSn muut verkkosovellukset; ne eivät asenna erillistä Teams for Linux -asiakasta.
 
 Poista paketti kohdassa _Poista > Palvelu > Microsoft_ tai poista yksittäisiä sovelluksia kohdassa _Poista > Verkkosovellus_. Voit myös asentaa vain haluamasi sovellukset kohdan _Asenna > Verkkosovellus_ kautta.
 
@@ -85,7 +85,7 @@ Valtion- tai suvereenia pilveä varten muokkaa URL-osoitetta rivillä `Exec=` as
 Pitääksesi työkirjautumiset erillään liitä selaimen datahakemisto jokaisen käynnistimen riville `Exec=`:
 
 ```ini
-Exec=omarchy-launch-webapp "https://teams.cloud.microsoft/" --user-data-dir=/absolute/path/to/work-browser-profile
+Exec=lunaos-launch-webapp "https://teams.cloud.microsoft/" --user-data-dir=/absolute/path/to/work-browser-profile
 ```
 
-Korvaa esimerkkihakemisto valitsemallasi absoluuttisella polulla ja käytä samaa polkua kaikille kuudelle käynnistimelle jakaaksesi työkirjautumiset niiden välillä. Verkkosovellukset käyttävät Omarchyn valittua tuettua selainta ja palaavat Chromiumiin, kun oletusselainta ei tueta.
+Korvaa esimerkkihakemisto valitsemallasi absoluuttisella polulla ja käytä samaa polkua kaikille kuudelle käynnistimelle jakaaksesi työkirjautumiset niiden välillä. Verkkosovellukset käyttävät LunaOSn valittua tuettua selainta ja palaavat Chromiumiin, kun oletusselainta ei tueta.

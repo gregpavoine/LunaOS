@@ -1,6 +1,6 @@
 # Funcions de l'intèrpret d'ordres
 
-Omarchy ve amb un conjunt de funcions de l'intèrpret d'ordres per simplificar tasques habituals i encapsular crides de paràmetres complicades.
+LunaOS ve amb un conjunt de funcions de l'intèrpret d'ordres per simplificar tasques habituals i encapsular crides de paràmetres complicades.
 
 ## Compressió
 

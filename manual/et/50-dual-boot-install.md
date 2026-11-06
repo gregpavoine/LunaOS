@@ -1,6 +1,6 @@
 # Kaksiklaadimise paigaldus
 
-Sa saad Omarchy paigaldada ühele partitsioonile Windowsi või teiste paigalduste kõrvale.
+Sa saad LunaOS paigaldada ühele partitsioonile Windowsi või teiste paigalduste kõrvale.
 
 Selle paigaldusmeetodiga tuleb partitsioonile vaikimisi ikka LUKS krüpteerimine, nii et see ei erine tegelikult täiskettast ja nõuab lihtsalt vaba ruumi kettal.
 
@@ -14,17 +14,17 @@ Leia sobiv partitsioon, tee paremklõps ja vali **Shrink Volume**.
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- Sisesta kogus, mille võrra tahad mahtu kahandada. Pane tähele, et see on sinu tulevase Omarchy paigalduse suurus koos alglaadimispartitsiooniga.
+ Sisesta kogus, mille võrra tahad mahtu kahandada. Pane tähele, et see on sinu tulevase LunaOS paigalduse suurus koos alglaadimispartitsiooniga.
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-Kui oled lõpetanud, peaksid nägema midagi sellist, kus 50GB osa on see, kuhu me selles näites Omarchy paigaldame.
+Kui oled lõpetanud, peaksid nägema midagi sellist, kus 50GB osa on see, kuhu me selles näites LunaOS paigaldame.
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## Omarchy paigaldamine
+## LunaOS paigaldamine
 
-Omarchy paigaldusprotsess on tegelikult sama nagu tavaliselt. Pärast ketta valimist antakse sulle valik **Free space install**. Vali see valik, et vältida kogu ketta pühkimist.
+LunaOS paigaldusprotsess on tegelikult sama nagu tavaliselt. Pärast ketta valimist antakse sulle valik **Free space install**. Vali see valik, et vältida kogu ketta pühkimist.
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Kinnita, et kõik näeb hea välja, ja oota, kuni paigaldus tavapäraselt lõpeb
 
 ## Teiste paigalduste lisamine alglaadurisse
 
-Kui oled Omarchy paigalduse lõpetanud, märkad, et Limine alglaadur on nüüd vaikimisi. Sellega saad Liminesse lisada ka valikuid oma teiste paigalduste jaoks, nagu Windows.
+Kui oled LunaOS paigalduse lõpetanud, märkad, et Limine alglaadur on nüüd vaikimisi. Sellega saad Liminesse lisada ka valikuid oma teiste paigalduste jaoks, nagu Windows.
 
-Selleks käivita `limine-scan` ja järgi päringuid, et lisada oma limine seadistusse soovitud üksused. Siis näed alglaadimisel oma tavalisi Omarchy valikuid, samuti Windows Boot Managerit või muid.
+Selleks käivita `limine-scan` ja järgi päringuid, et lisada oma limine seadistusse soovitud üksused. Siis näed alglaadimisel oma tavalisi LunaOS valikuid, samuti Windows Boot Managerit või muid.
 
 ## Bitlocker
 

@@ -1,6 +1,6 @@
 # Wypełnianie PDF-ów
 
-Omarchy dostarcza miłą, podstawową przeglądarkę PDF o nazwie Document Viewer. To program, który otworzy wszystkie PDF-y, które po prostu dwukrotnie klikniesz.
+LunaOS dostarcza miłą, podstawową przeglądarkę PDF o nazwie Document Viewer. To program, który otworzy wszystkie PDF-y, które po prostu dwukrotnie klikniesz.
 
 Ale Document Viewer możesz używać tylko do wypełniania PDF-ów, które zostały skonfigurowane jako formularze. Jeśli musisz wypełnić PDF-y, które nie zostały, lub musisz podpisać PDF, użyj [Signed](https://github.com/omacom/signed). Uruchom go za pośrednictwem launchera aplikacji (`Super + Space`) lub kliknij plik prawym przyciskiem myszy, wybierz _Open With..._ i wybierz Signed.
 

@@ -1,4 +1,4 @@
-echo "Leave mise's upgrade pruning setting to Omarchy's config instead of the user's"
+echo "Leave mise's upgrade pruning setting to LunaOS's config instead of the user's"
 
 # Setup and an earlier migration wrote upgrade.auto_prune = false into the
 # user's mise config. The settings package ships it in /etc/mise/conf.d now, so

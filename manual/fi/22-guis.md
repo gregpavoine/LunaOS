@@ -20,11 +20,11 @@ Obsidian on ilmainen kaikkiin tarkoituksiin, mukaan lukien henkilökohtaiseen, k
 
 Obsidian tarjoaa myös [kaupallisen lisäosan synkronoimiseen](https://obsidian.md/sync) iOS:n ja Androidin mobiilisovellusten kanssa. (https://obsidian.md/pricing).
 
-Käynnistät Obsidianin näppäimillä `Super + Shift + O`. Käyttääksesi teemojen synkronointia sinun on valittava asetuksissa teema `Omarchy`.
+Käynnistät Obsidianin näppäimillä `Super + Shift + O`. Käyttääksesi teemojen synkronointia sinun on valittava asetuksissa teema `LunaOS`.
 
 ## Omawrite
 
-[Omawrite](https://github.com/omacom-io/omawrite) on Omarchyn oma äärimmäisen yksinkertainen Markdown-kirjoitussovellus. Ei holveja, ei lisäosia, vain sinä ja sanat.
+[Omawrite](https://github.com/omacom-io/omawrite) on LunaOSn oma äärimmäisen yksinkertainen Markdown-kirjoitussovellus. Ei holveja, ei lisäosia, vain sinä ja sanat.
 
 Käynnistät Omawriten näppäimillä `Super + Shift + W`.
 
@@ -44,18 +44,18 @@ Käynnistät Aetherin sovellusten käynnistimen kautta (`Super + Space`).
 
 [LocalSend](https://localsend.org/) antaa sinun lähettää tiedostoja muihin samaa sovellusta ajaviin, samassa verkossa oleviin laitteisiin, kuten Applen AirDrop. Se on kuitenkin alustariippumaton, joten voit lähettää tiedostoja Windowsiin, macOS:ään, Androidiin, iOS:ään ja tietenkin Linuxiin ja niistä pois.
 
-Voit avata Jaa-valikon näppäimillä `Super + Ctrl + S` tai Omarchy-valikon kohdassa _Käynnistä > Jaa_. Se antaa sinulle neljä vaihtoehtoa:
+Voit avata Jaa-valikon näppäimillä `Super + Ctrl + S` tai LunaOS-valikon kohdassa _Käynnistä > Jaa_. Se antaa sinulle neljä vaihtoehtoa:
 
 - **Leikepöytä** lähettää kopioimasi sisällön tekstitiedostona. Erinomainen linkin tai katkelman saamiseen puhelimeesi ilman, että lähetät itsellesi sähköpostia.
 - **Tiedosto** avaa tiedostonvalitsimen, jossa voit valita useita kerralla.
 - **Kansio** lähettää kokonaisen hakemiston.
 - **Vastaanota** avaa itse LocalSendin, jotta toinen laite voi lähettää jotain sinulle.
 
-Sama toimii päätteestä komennoilla `omarchy share clipboard`, `omarchy share file [path]` ja `omarchy share folder [path]`. Jätä polku pois, niin saat valitsimen.
+Sama toimii päätteestä komennoilla `lunaos share clipboard`, `lunaos share file [path]` ja `lunaos share folder [path]`. Jätä polku pois, niin saat valitsimen.
 
 Voit myös lähettää suoraan tiedostonhallinnasta: napsauta mitä tahansa valintaa Nautiluksessa hiiren kakkospainikkeella ja valitse _Send via LocalSend_.
 
-Omarchyn palomuuri on oletuksena suljettu lukuun ottamatta LocalSendin porttia, joten tämä toimii heti käytössä tuoreessa asennuksessa. Katso [turvallisuus](48-security.md).
+LunaOSn palomuuri on oletuksena suljettu lukuun ottamatta LocalSendin porttia, joten tämä toimii heti käytössä tuoreessa asennuksessa. Katso [turvallisuus](48-security.md).
 
 ## LibreOffice
 
@@ -65,19 +65,19 @@ Käynnistät LibreOfficen sovellusten käynnistimen kautta (`Super + Space`).
 
 ## Hype
 
-[Hype](https://github.com/omacom/hype) on Omarchyn oma äärimmäisen yksinkertainen esityssovellus. Esityksesi on yksi Markdown-tiedosto, jonka vieressä ovat sen kuvat ja videot: kirjoita jokainen dia reaaliaikaisen esikatselun alapuolelle, raahaa diat järjestykseen ja esitä sitten koko näytöltä tai vie PDF:ksi ja PowerPointiksi. Se jopa omaksuu Omarchy-teemasi.
+[Hype](https://github.com/omacom/hype) on LunaOSn oma äärimmäisen yksinkertainen esityssovellus. Esityksesi on yksi Markdown-tiedosto, jonka vieressä ovat sen kuvat ja videot: kirjoita jokainen dia reaaliaikaisen esikatselun alapuolelle, raahaa diat järjestykseen ja esitä sitten koko näytöltä tai vie PDF:ksi ja PowerPointiksi. Se jopa omaksuu LunaOS-teemasi.
 
 Käynnistät Hypen sovellusten käynnistimen kautta (`Super + Space`). Paina sen sisällä `?` nähdäksesi jokaisen pikanäppäimen.
 
 ## Signed
 
-[Signed](https://github.com/omacom/signed) on Omarchyn oma äärimmäisen yksinkertainen tapa allekirjoittaa PDF:iä ja täyttää niitä. Aseta tallennettu allekirjoituksesi, tekstiä ja tämän päivän päivämäärä minne tahansa sivulle ja tallenna sitten allekirjoitettu kopio alkuperäisen viereen. Katso ohjeet kohdasta [PDF:ien täyttäminen](27-filling-out-pdfs.md).
+[Signed](https://github.com/omacom/signed) on LunaOSn oma äärimmäisen yksinkertainen tapa allekirjoittaa PDF:iä ja täyttää niitä. Aseta tallennettu allekirjoituksesi, tekstiä ja tämän päivän päivämäärä minne tahansa sivulle ja tallenna sitten allekirjoitettu kopio alkuperäisen viereen. Katso ohjeet kohdasta [PDF:ien täyttäminen](27-filling-out-pdfs.md).
 
 Käynnistät Signedin sovellusten käynnistimen kautta (`Super + Space`) tai avaat PDF:n sillä tiedostonhallinnasta.
 
 ## Omacalc
 
-[Omacalc](https://github.com/omacom-io/omacalc) on Omarchyn oma äärimmäisen yksinkertainen laskin, joka avautuu kelluvaan ikkunaan.
+[Omacalc](https://github.com/omacom-io/omacalc) on LunaOSn oma äärimmäisen yksinkertainen laskin, joka avautuu kelluvaan ikkunaan.
 
 Käynnistät Omacalcin näppäimillä `Super + Ctrl + Q` (tai laskinnäppäimellä, jos näppäimistössäsi on sellainen).
 
@@ -85,7 +85,7 @@ Käynnistät Omacalcin näppäimillä `Super + Ctrl + Q` (tai laskinnäppäimell
 
 [Signal](https://signal.org/) on päästä päähän salatun viestinnän uranuurtaja ja erinomainen viestintävaihtoehto jokaiselle, joka ei haluaisi kulkea jonkin suuren teknologiakonglomeraatin kautta.
 
-Käynnistät Signalin näppäimillä `Super + Shift + G`. Se ei kuulu perusasennukseen, joten ensimmäisellä kerralla, kun painat sitä, Omarchy tarjoaa asentavansa sen puolestasi (se on myös Omarchy-valikon kohdassa _Asenna > Palvelu_).
+Käynnistät Signalin näppäimillä `Super + Shift + G`. Se ei kuulu perusasennukseen, joten ensimmäisellä kerralla, kun painat sitä, LunaOS tarjoaa asentavansa sen puolestasi (se on myös LunaOS-valikon kohdassa _Asenna > Palvelu_).
 
 ## mpv
 
@@ -95,13 +95,13 @@ Käynnistät mpv:n sovellusten käynnistimen kautta (`Super + Space`) tai vain k
 
 ## Omacut
 
-[Omacut](https://github.com/omacom-io/omacut) on Omarchyn oma äärimmäisen yksinkertainen videoleikkuri. Kun sinun tarvitsee vain leikata leikkeen alku ja loppu pois, se päihittää täyden videoeditorin käynnistämisen.
+[Omacut](https://github.com/omacom-io/omacut) on LunaOSn oma äärimmäisen yksinkertainen videoleikkuri. Kun sinun tarvitsee vain leikata leikkeen alku ja loppu pois, se päihittää täyden videoeditorin käynnistämisen.
 
 Käynnistät Omacutin sovellusten käynnistimen kautta (`Super + Space`).
 
 ## Monologue
 
-[Monologue](https://github.com/omacom/monologue) on Omarchyn oma äärimmäisen yksinkertainen verkkokameratallennin. Valitse kamerasi ja mikrofonisi kerran, paina sitten `Space` tallentaaksesi ja uudelleen tauottaaksesi ja jatkaaksesi samaa otosta. Se tallentaa aina kamerasi korkeimmalla resoluutiolla, ja siinä on reaaliaikainen mikrofonimittari, jotta voit tarkistaa tasosi ennen aloittamista.
+[Monologue](https://github.com/omacom/monologue) on LunaOSn oma äärimmäisen yksinkertainen verkkokameratallennin. Valitse kamerasi ja mikrofonisi kerran, paina sitten `Space` tallentaaksesi ja uudelleen tauottaaksesi ja jatkaaksesi samaa otosta. Se tallentaa aina kamerasi korkeimmalla resoluutiolla, ja siinä on reaaliaikainen mikrofonimittari, jotta voit tarkistaa tasosi ennen aloittamista.
 
 Pysäytä otos, niin se avautuu heti sisäänrakennetussa editorissa. Kaksoisnapsauta leikettä halkaistaksesi sen, raahaa kahvoja leikataksesi jokaisen palan ja poista osat, joita et halua. Tallenna se sitten MP4:nä. Alkuperäinen tallenteesi säilytetään, kunnes hylkäät sen, joten voit aina palata ja leikata sen toisin.
 

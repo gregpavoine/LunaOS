@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ Juosta automatiškai rodys tavo dabartinį klaviatūros išdėstymą, kai turės
 Dešiniuoju pelės klavišu spustelėk laikrodį juostoje, kad pereitum per įprastus formatus, įskaitant 12 valandų. Formatą taip pat gali nustatyti tiesiogiai:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Tai rodys Sunday 10:55 AM.
 
 ### Kaip pakeisti laiko juostą?
 
-Omarchy meniu paleisk _Atnaujinti > Laiko juosta_ ir pasirink iš sąrašo. Jei laiko juosta teisinga, bet pats laikrodis nukrypo, _Atnaujinti > Laikas_ tau iš naujo paleidžia laiko sinchronizaciją.
+LunaOS meniu paleisk _Atnaujinti > Laiko juosta_ ir pasirink iš sąrašo. Jei laiko juosta teisinga, bet pats laikrodis nukrypo, _Atnaujinti > Laikas_ tau iš naujo paleidžia laiko sinchronizaciją.
 
 ### Kaip pakeisti DNS, pasidalyti Wi-Fi ar patikrinti ryšio greitį?
 
@@ -36,11 +36,11 @@ Visa tai gyvena [tinkle](35-networking.md).
 
 ### Kaip patikrinti, kaip greitas mano diskas?
 
-_Veiksmai > Greitis > Disko greičio testas_ pamatuoja gyvą skaitymo ir rašymo greitį tavo diske, arba `omarchy disk speedtest` terminale.
+_Veiksmai > Greitis > Disko greičio testas_ pamatuoja gyvą skaitymo ir rašymo greitį tavo diske, arba `lunaos disk speedtest` terminale.
 
 ### Kodėl Chromium negaliu prisijungti prie Google paskyros?
 
-Paprastas atvirojo kodo Chromium build nepateikiamas su OAuth kredencialais, kurių Google reikalauja paskyros prisijungimui. Omarchy meniu paleisk _Įdiegti > Paslauga > Chromium paskyra_, kad juos pridėtum, perkrauk naršyklę ir prisijungimas pavyks.
+Paprastas atvirojo kodo Chromium build nepateikiamas su OAuth kredencialais, kurių Google reikalauja paskyros prisijungimui. LunaOS meniu paleisk _Įdiegti > Paslauga > Chromium paskyra_, kad juos pridėtum, perkrauk naršyklę ir prisijungimas pavyks.
 
 ### Kaip pridėti spausdintuvą?
 
@@ -60,15 +60,15 @@ Išsaugotos ekrano nuotraukos pagal numatytuosius eina į `~/Pictures/Screenshot
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Tą patį ekrano įrašams gali padaryti naudodamas `OMARCHY_SCREENRECORD_DIR`.
+Tą patį ekrano įrašams gali padaryti naudodamas `LUNAOS_SCREENRECORD_DIR`.
 
-Omasnap savo ekrano nuotraukų katalogą sukuria automatiškai. Ekrano įrašų katalogą sukurk pats, tada perkrauk Omarchy, kad bet kuris aplinkos pakeitimas įsigaliotų.
+Omasnap savo ekrano nuotraukų katalogą sukuria automatiškai. Ekrano įrašų katalogą sukurk pats, tada perkrauk LunaOS, kad bet kuris aplinkos pakeitimas įsigaliotų.
 
 ### Kaip priversti veikti garsiakalbius + kamerą mano Apple Studio Display?
 
 Manytum, kad viskas turėtų veikti tiesiog prijungus USB C, bet, deja, taip nėra. Sprendimas, kurį radau, kad veiktų patikimai, yra [WJESOG DisplayPort + USB-A => USB-C kabelis](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/). Tada garsiakalbiai ir kamera veikia kaip iš pypkės.
 
-Atmink, kad Omarchy turi įmontuotą Apple ekranų (tiek Studio, tiek XDR) ryškumo valdymą įprastais klaviatūros ryškumo mygtukais.
+Atmink, kad LunaOS turi įmontuotą Apple ekranų (tiek Studio, tiek XDR) ryškumo valdymą įprastais klaviatūros ryškumo mygtukais.
 
 ### Kaip atsikratyti visos papildomos programinės įrangos?
 
@@ -76,7 +76,7 @@ Jei nenori programų, tokių kaip Obsidian ar LibreOffice, ar bet kurio kito iš
 
 Paleisk _Pašalinti > Paketas_, kad pamatytum kiekvieną įdiegtą paketą. Tada su tab gali pasirinkti bet kurį paketą, kurį norėtum pašalinti, ir su return pradėti šalinti viską, ką pasirinkai.
 
-O iš Omarchy meniu gali naudoti _Pašalinti > Žiniatinklio programa_, kad pašalintum bet kurią iš iš anksto įdiegtų žiniatinklio programų, kurių nenori.
+O iš LunaOS meniu gali naudoti _Pašalinti > Žiniatinklio programa_, kad pašalintum bet kurią iš iš anksto įdiegtų žiniatinklio programų, kurių nenori.
 
 Arba paleisk _Pašalinti > Išankstiniai_, kad vienu kartu iššluotum visas iš anksto įdiegtas papildomas — žiniatinklio programas, TUI ir pasirinktines programas. Spartieji klavišai, kurie jas paleisdavo, išnyksta kartu su jomis, todėl tau lieka švarus surišimų lapas, kurį gali užpildyti savais `~/.config/hypr/bindings.lua`.
 

@@ -139,7 +139,7 @@
   "bar.passwordlessSudo": "Sudo bez hesla",
   "bar.passwordlessSudoDisableFailed": "Nepodarilo sa vypnúť sudo bez hesla",
   "bar.passwordlessSudoDisableFailedBody": "Skontrolujte konfiguráciu sudo a skúste to znova.",
-  "bar.pendingUpdates": "Čakajúce aktualizácie Omarchy",
+  "bar.pendingUpdates": "Čakajúce aktualizácie LunaOS",
   "bar.remoteSession": "Vzdialená relácia",
   "bar.remoteSessionFrom": "Vzdialená relácia z %1",
   "bar.screenRecording": "Nahrávanie obrazovky",

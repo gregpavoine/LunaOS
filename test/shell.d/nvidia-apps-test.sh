@@ -8,9 +8,9 @@ calls="$scratch/calls"
 run_setup() (
   installed=$1
   failure=${2:-}
-  export OMARCHY_IMAGE_DEFERRED_HARDWARE=${3:-}
-  export OMARCHY_INSTALL="$ROOT/install"
-  omarchy-pkg-present() { [[ " $installed " == *" $1 "* ]]; }
+  export LUNAOS_IMAGE_DEFERRED_HARDWARE=${3:-}
+  export LUNAOS_INSTALL="$ROOT/install"
+  lunaos-pkg-present() { [[ " $installed " == *" $1 "* ]]; }
   nvidia-ctk() {
     echo "nvidia-ctk $*" >> "$calls"
     [[ $failure != "nvidia-ctk" ]]
@@ -21,11 +21,11 @@ run_setup() (
   }
   # Exercise installer wiring without running unrelated hardware setup.
   run_logged() {
-    if [[ $1 == "$OMARCHY_INSTALL/hardware/nvidia-apps.sh" ]]; then
+    if [[ $1 == "$LUNAOS_INSTALL/hardware/nvidia-apps.sh" ]]; then
       source "$1"
     fi
   }
-  source "$OMARCHY_INSTALL/hardware/all.sh"
+  source "$LUNAOS_INSTALL/hardware/all.sh"
 )
 
 for deferred in "" 0 1; do

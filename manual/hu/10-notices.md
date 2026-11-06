@@ -14,7 +14,7 @@ A dátumot és időt, az akku állapotát és az aktuális időjárást gyorsan 
 
  ![notice-weather](images/notice-weather.webp)
 
-A hely az IP-címedből derül ki, ami általában elég közeli, de nem mindig. Pontosíthatod az `omarchy weather location --set Malibu` paranccsal, vagy teljesen pontos lehetsz koordináták hozzáadásával: `omarchy weather location --set Malibu 34.0259,-118.7798`. Futtasd önmagában az `omarchy weather location` parancsot, hogy lásd, szerinte hol vagy, és a `--clear` kapcsolóval visszaállhatsz az automatikus felismerésre.
+A hely az IP-címedből derül ki, ami általában elég közeli, de nem mindig. Pontosíthatod az `lunaos weather location --set Malibu` paranccsal, vagy teljesen pontos lehetsz koordináták hozzáadásával: `lunaos weather location --set Malibu 34.0259,-118.7798`. Futtasd önmagában az `lunaos weather location` parancsot, hogy lásd, szerinte hol vagy, és a `--clear` kapcsolóval visszaállhatsz az automatikus felismerésre.
 
 ### Akku
 

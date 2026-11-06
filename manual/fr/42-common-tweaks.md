@@ -1,8 +1,8 @@
 # Ajustements courants
 
-Voici une collection d'adaptations courantes de la configuration Omarchy. Sachez qu'il peut occasionnellement être nécessaire pour les mises à jour système de restaurer certaines configurations dans leur état d'origine. Si cela se produit, vos changements ne seront pas perdus, mais placés dans un fichier `.bak` dans le même répertoire.
+Voici une collection d'adaptations courantes de la configuration LunaOS. Sachez qu'il peut occasionnellement être nécessaire pour les mises à jour système de restaurer certaines configurations dans leur état d'origine. Si cela se produit, vos changements ne seront pas perdus, mais placés dans un fichier `.bak` dans le même répertoire.
 
-Si vous cassez quelque chose, vous pouvez restaurer les configurations individuelles dans leur état d'origine via _Mettre à jour > Config_ dans le menu Omarchy. Si vous cassez _vraiment_ tout, vous pouvez réinitialiser toutes les configurations via `omarchy-reinstall`.
+Si vous cassez quelque chose, vous pouvez restaurer les configurations individuelles dans leur état d'origine via _Mettre à jour > Config_ dans le menu LunaOS. Si vous cassez _vraiment_ tout, vous pouvez réinitialiser toutes les configurations via `lunaos-reinstall`.
 
 ### Révéler toutes les icônes de la zone de notification en permanence
 
@@ -10,7 +10,7 @@ Par défaut, les icônes de la zone de notification, comme Dropbox, 1Password ou
 
 ### Coins de fenêtres arrondis
 
-Le design par défaut d'Omarchy mise sur les coins carrés, mais si vous voulez adoucir un peu cela, vous pouvez modifier `~/.config/hypr/looknfeel.lua` pour que l'arrondi ne soit plus commenté :
+Le design par défaut d'LunaOS mise sur les coins carrés, mais si vous voulez adoucir un peu cela, vous pouvez modifier `~/.config/hypr/looknfeel.lua` pour que l'arrondi ne soit plus commenté :
 
 ```
 hl.config({

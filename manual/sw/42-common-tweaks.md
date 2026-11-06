@@ -1,8 +1,8 @@
 # Marekebisho ya kawaida
 
-Huu ni mkusanyiko wa urekebishaji wa kawaida kwenye usanidi wa Omarchy. Jua kuwa wakati mwingine inaweza kuwa muhimu kwa masasisho ya mfumo kurejesha usanidi fulani kwenye hali yao ya asili. Kama hii inatokea, mabadiliko yako hayatapotea, lakini yatawekwa katika faili ya `.bak` katika saraka hiyo hiyo.
+Huu ni mkusanyiko wa urekebishaji wa kawaida kwenye usanidi wa LunaOS. Jua kuwa wakati mwingine inaweza kuwa muhimu kwa masasisho ya mfumo kurejesha usanidi fulani kwenye hali yao ya asili. Kama hii inatokea, mabadiliko yako hayatapotea, lakini yatawekwa katika faili ya `.bak` katika saraka hiyo hiyo.
 
-Kama unaharibu kitu, unaweza kurejesha usanidi mmojammoja kwenye usanidi wao wa asili kupitia _Sasisha > Usanidi_ katika menyu ya Omarchy. Kama _kweli_ unaharibu kila kitu, unaweza kuweka upya usanidi wote kupitia `omarchy-reinstall`.
+Kama unaharibu kitu, unaweza kurejesha usanidi mmojammoja kwenye usanidi wao wa asili kupitia _Sasisha > Usanidi_ katika menyu ya LunaOS. Kama _kweli_ unaharibu kila kitu, unaweza kuweka upya usanidi wote kupitia `lunaos-reinstall`.
 
 ### Fichua aikoni zote za trei wakati wote
 
@@ -10,7 +10,7 @@ Kwa chaguomsingi, aikoni za trei, kama Dropbox, 1password, au Steam, zimefichwa 
 
 ### Pembeni za madirisha za mviringo
 
-Ubunifu chaguomsingi wa Omarchy ni ule wa pembeni za mraba, lakini kama unapenda kuilainisha kidogo, unaweza kubadilisha `~/.config/hypr/looknfeel.lua` ili umviringo usiwe umetolewa maoni tena:
+Ubunifu chaguomsingi wa LunaOS ni ule wa pembeni za mraba, lakini kama unapenda kuilainisha kidogo, unaweza kubadilisha `~/.config/hypr/looknfeel.lua` ili umviringo usiwe umetolewa maoni tena:
 
 ```
 hl.config({

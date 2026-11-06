@@ -12,7 +12,7 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 scratch=$(mktemp -d)
 trap 'rm -rf "$scratch"' EXIT
 
-eval "$(sed -n '/^verify_limine_hashes() {$/,/^}$/p' "$ROOT/bin/omarchy-system-factory-reset")"
+eval "$(sed -n '/^verify_limine_hashes() {$/,/^}$/p' "$ROOT/bin/lunaos-system-factory-reset")"
 declare -F verify_limine_hashes >/dev/null || fail "factory reset defines verify_limine_hashes"
 fail_reset() { echo "$*"; exit 1; }
 
@@ -23,11 +23,11 @@ boot() {
   shift
   mkdir -p "$case_dir/etc" "$case_dir/boot/EFI/Linux" "$case_dir/boot/abc/linux-aarch64" "$case_dir/boot/abc/limine_history"
   printf 'abc\n' >"$case_dir/etc/machine-id"
-  printf 'uki\n' >"$case_dir/boot/EFI/Linux/omarchy_linux.efi"
+  printf 'uki\n' >"$case_dir/boot/EFI/Linux/lunaos_linux.efi"
   printf 'kernel\n' >"$case_dir/boot/abc/linux-aarch64/vmlinuz-linux-aarch64"
   printf 'initramfs\n' >"$case_dir/boot/abc/linux-aarch64/initramfs-linux-aarch64.img"
   printf 'old\n' >"$case_dir/boot/abc/limine_history/vmlinuz-linux-aarch64_1"
-  printf '/+Omarchy\ncomment: machine-id=abc order-priority=50\n//linux\n' >"$case_dir/boot/limine.conf"
+  printf '/+LunaOS\ncomment: machine-id=abc order-priority=50\n//linux\n' >"$case_dir/boot/limine.conf"
   for line in "$@"; do
     while [[ $line =~ HASH:([^[:space:]]+) ]]; do
       file=${BASH_REMATCH[1]}
@@ -38,7 +38,7 @@ boot() {
 }
 verify() { (fail() { fail_reset "$@"; }; verify_limine_hashes "$scratch/$1" /boot) 2>&1; }
 
-boot uki "    path: boot():/EFI/Linux/omarchy_linux.efi#HASH:/EFI/Linux/omarchy_linux.efi"
+boot uki "    path: boot():/EFI/Linux/lunaos_linux.efi#HASH:/EFI/Linux/lunaos_linux.efi"
 verify uki >/dev/null || fail "a matching UKI passes"
 
 kernel=/abc/linux-aarch64/vmlinuz-linux-aarch64

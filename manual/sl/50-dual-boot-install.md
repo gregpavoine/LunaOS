@@ -1,6 +1,6 @@
 # Namestitev z dvojnim zagonom
 
-Omarchy lahko namestite na eno samo particijo ob Windows ali drugih namestitvah.
+LunaOS lahko namestite na eno samo particijo ob Windows ali drugih namestitvah.
 
 Ta način namestitve je še vedno privzeto opremljen s šifriranjem LUKS za particijo, tako da se dejansko ne razlikuje od celotnega pogona in preprosto zahteva prost prostor na disku.
 
@@ -14,17 +14,17 @@ Poiščite ustrezno particijo, z desno tipko miške kliknite nanjo in izberite *
 
 ![dual-boot-2](images/dual-boot-2.webp)
 
- Vnesite količino, za katero želite skrčiti volumen. Upoštevajte, da bo to velikost vaše prihodnje namestitve Omarchy skupaj z zagonsko particijo.
+ Vnesite količino, za katero želite skrčiti volumen. Upoštevajte, da bo to velikost vaše prihodnje namestitve LunaOS skupaj z zagonsko particijo.
 
  ![dual-boot-3](images/dual-boot-3.webp)
 
-Ko končate, bi morali videti nekaj takega, kjer je odsek 50 GB tisti, kamor bomo namestili Omarchy v tem primeru.
+Ko končate, bi morali videti nekaj takega, kjer je odsek 50 GB tisti, kamor bomo namestili LunaOS v tem primeru.
 
  ![dual-boot-4](images/dual-boot-4.webp)
 
-## Namestitev Omarchyja
+## Namestitev LunaOSja
 
-Postopek namestitve Omarchyja je dejansko enak kot običajno. Potem ko izberete svoj disk, boste dobili možnost **Free space install**. Izberite to možnost, da preprečite brisanje celotnega diska.
+Postopek namestitve LunaOSja je dejansko enak kot običajno. Potem ko izberete svoj disk, boste dobili možnost **Free space install**. Izberite to možnost, da preprečite brisanje celotnega diska.
 
  ![dual-boot-5](images/dual-boot-5.webp)
 
@@ -33,9 +33,9 @@ Potrdite, da vse izgleda dobro, in počakajte, da se namestitev konča kot obič
 
 ## Dodajanje drugih namestitev v zagonski nalagalnik
 
-Ko končate namestitev Omarchyja, boste opazili, da je zdaj privzeti zagonski nalagalnik Limine. S tem lahko v Limine dodate tudi možnosti za svoje druge namestitve, kot je Windows.
+Ko končate namestitev LunaOSja, boste opazili, da je zdaj privzeti zagonski nalagalnik Limine. S tem lahko v Limine dodate tudi možnosti za svoje druge namestitve, kot je Windows.
 
-Če želite to storiti, zaženite `limine-scan` in sledite pozivom, da v svojo konfiguracijo limine dodate poljubne elemente. Ko nato zaženete, boste videli svoje običajne možnosti za Omarchy ter Windows Boot Manager ali druge.
+Če želite to storiti, zaženite `limine-scan` in sledite pozivom, da v svojo konfiguracijo limine dodate poljubne elemente. Ko nato zaženete, boste videli svoje običajne možnosti za LunaOS ter Windows Boot Manager ali druge.
 
 ## Bitlocker
 

@@ -1,8 +1,8 @@
 # Uobičajene prilagodbe
 
-Ovo je zbirka uobičajenih prilagodbi Omarchy postave. Znajte da će ponekad možda biti potrebno da ažuriranja sustava vrate određene konfiguracije u izvorno stanje. Ako se to dogodi, vaše promjene neće biti izgubljene, nego spremljene u `.bak` datoteku u istom direktoriju.
+Ovo je zbirka uobičajenih prilagodbi LunaOS postave. Znajte da će ponekad možda biti potrebno da ažuriranja sustava vrate određene konfiguracije u izvorno stanje. Ako se to dogodi, vaše promjene neće biti izgubljene, nego spremljene u `.bak` datoteku u istom direktoriju.
 
-Ako nešto pokvarite, pojedinačne konfiguracije možete vratiti u izvornu postavu putem _Ažuriraj > Config_ u Omarchy izborniku. Ako _stvarno_ sve pokvarite, sve konfiguracije možete resetirati putem `omarchy-reinstall`.
+Ako nešto pokvarite, pojedinačne konfiguracije možete vratiti u izvornu postavu putem _Ažuriraj > Config_ u LunaOS izborniku. Ako _stvarno_ sve pokvarite, sve konfiguracije možete resetirati putem `lunaos-reinstall`.
 
 ### Uvijek otkrivanje svih ikona ladice
 
@@ -10,7 +10,7 @@ Prema zadanim postavkama ikone ladice, poput Dropboxa, 1passworda ili Steama, sk
 
 ### Zaobljeni kutovi prozora
 
-Zadani dizajn Omarchyja jest onaj četvrtastih kutova, ali ako ga želite malo omekšati, možete promijeniti `~/.config/hypr/looknfeel.lua` tako da zaobljivanje više nije komentirano:
+Zadani dizajn LunaOSja jest onaj četvrtastih kutova, ali ako ga želite malo omekšati, možete promijeniti `~/.config/hypr/looknfeel.lua` tako da zaobljivanje više nije komentirano:
 
 ```
 hl.config({

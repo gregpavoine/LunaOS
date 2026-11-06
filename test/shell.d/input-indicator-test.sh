@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
-OMARCHY_PATH="$ROOT" /usr/bin/python - <<'PY'
+LUNAOS_PATH="$ROOT" /usr/bin/python - <<'PY'
 import importlib.util
 import os
 from unittest.mock import patch
@@ -11,9 +11,9 @@ import json
 import subprocess
 
 # Script-directory imports must not shadow Python's standard typing module.
-subprocess.run(["/usr/bin/python", "-c", "import sys; sys.path.insert(0, sys.argv[1]); import typing; from gi.repository import Gio; assert hasattr(typing, 'TYPE_CHECKING')", os.environ["OMARCHY_PATH"] + "/default/input-methods"], check=True)
+subprocess.run(["/usr/bin/python", "-c", "import sys; sys.path.insert(0, sys.argv[1]); import typing; from gi.repository import Gio; assert hasattr(typing, 'TYPE_CHECKING')", os.environ["LUNAOS_PATH"] + "/default/input-methods"], check=True)
 
-spec = importlib.util.spec_from_file_location("indicator", os.environ["OMARCHY_PATH"] + "/default/input-methods/indicator.py")
+spec = importlib.util.spec_from_file_location("indicator", os.environ["LUNAOS_PATH"] + "/default/input-methods/indicator.py")
 indicator = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(indicator)
 
@@ -389,26 +389,26 @@ PY
 stubs=$(mktemp -d)
 trap 'rm -rf "$stubs"' EXIT
 calls="$stubs/calls"
-cat >"$stubs/omarchy-shell" <<'SH'
+cat >"$stubs/lunaos-shell" <<'SH'
 #!/bin/bash
 echo "shell $*" >>"$CALLS"
 echo "$SHELL_REPLY"
 SH
-chmod +x "$stubs/omarchy-shell"
+chmod +x "$stubs/lunaos-shell"
 
-CALLS=$calls SHELL_REPLY=ok PATH="$stubs:$PATH" OMARCHY_PATH="$ROOT" "$ROOT/bin/omarchy-input-method" cycle
+CALLS=$calls SHELL_REPLY=ok PATH="$stubs:$PATH" LUNAOS_PATH="$ROOT" "$ROOT/bin/lunaos-input-method" cycle
 [[ $(<"$calls") == "shell shell cycleInput next" ]] || fail "Super+I goes through the shell's reader" "$(<"$calls")"
 pass "Super+I goes through the shell's reader, which retains a choice made without focus"
 
-if CALLS=$calls SHELL_REPLY="not running" PATH="$stubs:$PATH" OMARCHY_PATH="$ROOT" "$ROOT/bin/omarchy-input-method" cycle 2>/dev/null; then
+if CALLS=$calls SHELL_REPLY="not running" PATH="$stubs:$PATH" LUNAOS_PATH="$ROOT" "$ROOT/bin/lunaos-input-method" cycle 2>/dev/null; then
   fail "Super+I reports a missing input reader"
 fi
 pass "Super+I reports a missing input reader instead of silently doing nothing"
 
 : >"$calls"
-CALLS=$calls SHELL_REPLY=ok PATH="$stubs:$PATH" OMARCHY_PATH="$ROOT" "$ROOT/bin/omarchy-input-method" cycle back
+CALLS=$calls SHELL_REPLY=ok PATH="$stubs:$PATH" LUNAOS_PATH="$ROOT" "$ROOT/bin/lunaos-input-method" cycle back
 [[ $(<"$calls") == "shell shell cycleInput back" ]] || fail "Super+Shift+I cycles back" "$(<"$calls")"
-if CALLS=$calls PATH="$stubs:$PATH" OMARCHY_PATH="$ROOT" "$ROOT/bin/omarchy-input-method" cycle sideways 2>/dev/null; then
+if CALLS=$calls PATH="$stubs:$PATH" LUNAOS_PATH="$ROOT" "$ROOT/bin/lunaos-input-method" cycle sideways 2>/dev/null; then
   fail "an unknown cycle direction is rejected"
 fi
 pass "Super+Shift+I cycles back through the shell, and other directions are rejected"

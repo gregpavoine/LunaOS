@@ -14,7 +14,7 @@
 
  ![notice-weather](images/notice-weather.webp)
 
-مقام آپ کے IP ایڈریس سے detect کیا جاتا ہے، جو عام طور پر کافی قریب ہوتا ہے، لیکن ہمیشہ نہیں۔ آپ اسے `omarchy weather location --set Malibu` کے ساتھ پِن کر سکتے ہیں، یا نقاط (coordinates) شامل کر کے اس کے بارے میں عین درست ہو سکتے ہیں: `omarchy weather location --set Malibu 34.0259,-118.7798`۔ یہ دیکھنے کے لیے کہ اسے لگتا ہے آپ کہاں ہیں، `omarchy weather location` کو اکیلے چلائیں، اور خودکار پتہ لگانے پر واپس جانے کے لیے `--clear` استعمال کریں۔
+مقام آپ کے IP ایڈریس سے detect کیا جاتا ہے، جو عام طور پر کافی قریب ہوتا ہے، لیکن ہمیشہ نہیں۔ آپ اسے `lunaos weather location --set Malibu` کے ساتھ پِن کر سکتے ہیں، یا نقاط (coordinates) شامل کر کے اس کے بارے میں عین درست ہو سکتے ہیں: `lunaos weather location --set Malibu 34.0259,-118.7798`۔ یہ دیکھنے کے لیے کہ اسے لگتا ہے آپ کہاں ہیں، `lunaos weather location` کو اکیلے چلائیں، اور خودکار پتہ لگانے پر واپس جانے کے لیے `--clear` استعمال کریں۔
 
 ### بیٹری
 

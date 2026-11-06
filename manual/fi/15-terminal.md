@@ -1,8 +1,8 @@
 # Pääte
 
-[Foot](https://codeberg.org/dnkl/foot) on Omarchyn oletuspääte. Se on nopea, kevyt ja yhteensopiva jopa vanhojen tietokoneiden kanssa. Se ei kuitenkaan tue kotoperäisiä välilehtiä tai jakoja.
+[Foot](https://codeberg.org/dnkl/foot) on LunaOSn oletuspääte. Se on nopea, kevyt ja yhteensopiva jopa vanhojen tietokoneiden kanssa. Se ei kuitenkaan tue kotoperäisiä välilehtiä tai jakoja.
 
-Jos käytät Tmuxia, sinulle ei ehkä ole väliä, mutta jos et, tuemme myös täysin vaihtoehtoja _Alacritty_, _Ghostty_ ja _Kitty_. Valitse suosikkisi Omarchy-valikon kohdasta _Asenna > Pääte_.
+Jos käytät Tmuxia, sinulle ei ehkä ole väliä, mutta jos et, tuemme myös täysin vaihtoehtoja _Alacritty_, _Ghostty_ ja _Kitty_. Valitse suosikkisi LunaOS-valikon kohdasta _Asenna > Pääte_.
 
 Käynnistät uuden päätteen yhdistelmällä `Super + Return`. (Tämä sidos osoittaa automaattisesti siihen päätteeseen, jonka olet asentanut kohdasta _Asenna > Pääte_, ja voit vaihtaa asennettujen päätteet välillä kohdasta _Asetukset > Oletukset > Pääte_.)
 
@@ -12,11 +12,11 @@ Tmux tarjoaa yhtenäisen, ohjelmoitavan käyttöliittymän paneeleille, ikkunoil
 
 Käynnistät uuden Tmux-istunnon tuoreessa pääätteessä yhdistelmällä `Super + Alt + Return`, ja koska Tmux on pysyvä prosessi, voit jatkaa istuntoasi, vaikka sulkisit kyseisen päätteen. Paina vain `Ctrl + Space` (jota kutsutaan etuliitenäppäimeksi) ja sitten `s` nähdäksesi kaikki aktiiviset istuntosi.
 
-Omarchyssa on ergonomisesti optimoitu Tmux-määritys, jossa on paljon opiskeltavia pikanäppäimiä, joten pidä [huijausarkki käden ulottuvilla](07-hotkeys.md#tmux).
+LunaOSssa on ergonomisesti optimoitu Tmux-määritys, jossa on paljon opiskeltavia pikanäppäimiä, joten pidä [huijausarkki käden ulottuvilla](07-hotkeys.md#tmux).
 
 ## Tmux-asettelufunktiot
 
-Koska Tmux on ohjelmoitava, voimme käyttää funktioita asetteluiden luomiseen. Omarchyssa on neljä erilaista funktiota yleisiin kehittäjäasetteluihin.
+Koska Tmux on ohjelmoitava, voimme käyttää funktioita asetteluiden luomiseen. LunaOSssa on neljä erilaista funktiota yleisiin kehittäjäasetteluihin.
 
 `tdl [agent]` käynnistää kolmiosaisen IDE-mäisen käyttöliittymän, jossa `$EDITOR` on vasemmalla, valitsemasi tekoälyagentti oikealla (kuten `c` opencodea varten tai `cx` Claudelle tai `codex` OpenAI:ta varten) ja sitten pääte alareunassa.
 

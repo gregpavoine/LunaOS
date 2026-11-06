@@ -6,7 +6,7 @@ Je kunt alle belangrijkste toetsenbordbindingen zien met `Super + K` (Tmux-bindi
 
 | Sneltoets                  | Functie              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy-menu (apps en al het andere)    |
+| `Super + Space`           | LunaOS-menu (apps en al het andere)    |
 | `Super + Alt + Space` | App-raster |
 | `Super + Escape` | Systeemmenu (slaapstand, herstarten, etc)  |
 | `Super + Ctrl + L` | Computer vergrendelen |
@@ -136,7 +136,7 @@ Verander/voeg bindingen toe in `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Plakken    |
 | `Super + Ctrl + V`           | Klembordbeheerder    |
 
-Meestal heb je op Linux `Ctrl + Shift + C/V` nodig om te kopiëren en plakken in de terminal en `Ctrl + C/V` om het overal anders te doen. Deze Omarchy uniforme klembord-sneltoetsen werken overal.
+Meestal heb je op Linux `Ctrl + Shift + C/V` nodig om te kopiëren en plakken in de terminal en `Ctrl + C/V` om het overal anders te doen. Deze LunaOS uniforme klembord-sneltoetsen werken overal.
 
 ## Vastleggen
 
@@ -156,7 +156,7 @@ Meestal heb je op Linux `Ctrl + Shift + C/V` nodig om te kopiëren en plakken in
 
 Bij schermopnames vraagt de sneltoets eerst welke audio je wilt, en start dan met opnemen. Druk er opnieuw op om te stoppen. Zie [schermafbeeldingen en opname](12-screenshots-recording.md) voor de details.
 
-Alle vastleg-opties zijn ook toegankelijk onder _Activeren > Vastleggen_ in het Omarchy-menu (`Super + Space`).
+Alle vastleg-opties zijn ook toegankelijk onder _Activeren > Vastleggen_ in het LunaOS-menu (`Super + Space`).
 
 ## Meldingen
 
@@ -177,9 +177,9 @@ Alle vastleg-opties zijn ook toegankelijk onder _Activeren > Vastleggen_ in het 
 | `Super + Backspace` | Schakel transparantie op een venster |
 | `Super + Ctrl + Backspace` | Schakel enkel-venster vierkante aspectverhouding |
 
-Extra achtergrondafbeeldingen leven in `~/.config/omarchy/backgrounds/<theme name>`. Ook beschikbaar via _Installeren > Stijl > Achtergrond_ in het Omarchy-menu.
+Extra achtergrondafbeeldingen leven in `~/.config/lunaos/backgrounds/<theme name>`. Ook beschikbaar via _Installeren > Stijl > Achtergrond_ in het LunaOS-menu.
 
-Alle stijlopties zijn ook toegankelijk onder _Stijl_ in het Omarchy-menu (`Super + Space`).
+Alle stijlopties zijn ook toegankelijk onder _Stijl_ in het LunaOS-menu (`Super + Space`).
 
 ## Schakelaars
 
@@ -281,7 +281,7 @@ Deze functies moeten binnen een Tmux-sessie worden uitgevoerd.
 
 ## Ghostty Terminal
 
-Ghostty-terminal wordt geïnstalleerd via _Installeren > Terminal_ in het Omarchy-menu.
+Ghostty-terminal wordt geïnstalleerd via _Installeren > Terminal_ in het LunaOS-menu.
 
 | Sneltoets                  | Functie              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Je kunt `Super + Ctrl + E` gebruiken om een volledige emoji-kiezer te tonen die 
 | `Shift + CapsLock Space N` | Je naam (zoals ingevoerd bij setup)  |
 | `Shift + CapsLock Space E` | Je e-mail (zoals ingevoerd bij setup)  |
 
-Je kunt er meer van jezelf toevoegen door `~/.XCompose` te bewerken en vervolgens `omarchy-restart-xcompose` uit te voeren in de terminal om de wijzigingen opgepikt te krijgen.
+Je kunt er meer van jezelf toevoegen door `~/.XCompose` te bewerken en vervolgens `lunaos-restart-xcompose` uit te voeren in de terminal om de wijzigingen opgepikt te krijgen.

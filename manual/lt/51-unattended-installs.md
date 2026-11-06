@@ -1,8 +1,8 @@
 # Neprižiūrimi įdiegimai
 
-Omarchy ISO gali pats save įdiegti niekam nebūnant prie klaviatūros. Jei įdiegyklė randa antrą diską, pažymėtą `cidata`, nešantį jos konfigūracijos failus, ji nukopijuoja juos, visiškai praleidžia sąrankos vediklį ir pati perkraunasi į baigtą sistemą. Jokio specialaus ISO build, jokio papildomo įkrovos meniu įrašo — kai tokio disko neprijungta, niekas nesikeičia ir gauni įprastą vediklį.
+LunaOS ISO gali pats save įdiegti niekam nebūnant prie klaviatūros. Jei įdiegyklė randa antrą diską, pažymėtą `cidata`, nešantį jos konfigūracijos failus, ji nukopijuoja juos, visiškai praleidžia sąrankos vediklį ir pati perkraunasi į baigtą sistemą. Jokio specialaus ISO build, jokio papildomo įkrovos meniu įrašo — kai tokio disko neprijungta, niekas nesikeičia ir gauni įprastą vediklį.
 
-Dėl to Omarchy puiki kaip bazinis atvaizdas vienkartinėms kūrimo aplinkoms: sukuri VM Proxmox ar su Packer, įkrauni ją, nueini, prisijungi per SSH. `cidata` yra cloud-init `NoCloud` etiketė, todėl visi įprasti virtualizacijos įrankiai jau žino, kaip tokį diską prijungti.
+Dėl to LunaOS puiki kaip bazinis atvaizdas vienkartinėms kūrimo aplinkoms: sukuri VM Proxmox ar su Packer, įkrauni ją, nueini, prisijungi per SSH. `cidata` yra cloud-init `NoCloud` etiketė, todėl visi įprasti virtualizacijos įrankiai jau žino, kaip tokį diską prijungti.
 
 ## Konfigūracijos failai
 
@@ -24,7 +24,7 @@ Taip pat vietoj `user_credentials.json` gali įmesti tuščią failą pavadinimu
 
 ## SSH prieiga
 
-Kai yra `authorized_keys`, įdiegimas nustato raktus kaip vartotojo `~/.ssh/authorized_keys`, įjungia `sshd` ir atidaro ugniasienę jam. (Standartinis Omarchy įdiegimas pateikia openssh su išjungta paslauga ir uždarytu prievadu, todėl neprižiūrimas kompiuteris kitaip būtų nepasiekiamas.) Įdiegimas tik prideda tavo raktus — jis neatpalaiduoja jokių kitų SSH demono tapatybės patvirtinimo nuostatų.
+Kai yra `authorized_keys`, įdiegimas nustato raktus kaip vartotojo `~/.ssh/authorized_keys`, įjungia `sshd` ir atidaro ugniasienę jam. (Standartinis LunaOS įdiegimas pateikia openssh su išjungta paslauga ir uždarytu prievadu, todėl neprižiūrimas kompiuteris kitaip būtų nepasiekiamas.) Įdiegimas tik prideda tavo raktus — jis neatpalaiduoja jokių kitų SSH demono tapatybės patvirtinimo nuostatų.
 
 Kai yra `tailscale_authkey`, kompiuteris vietoj to pirmosios įkrovos metu prisijungia prie tavo tailnet: Tailscale įdiegiama iš ISO pateiktų paketų, ugniasienė leidžia tailnet sąsają, o foninis darbas paleidžia prisijungimą, kai tik kompiuteris iš tikrųjų turi tinklą, kartodamas, kol pavyksta. Naudok daugkartinį, iš anksto autorizuotą raktą, kad vienas disko atvaizdas galėtų tarnauti daugeliui kompiuterių.
 
@@ -38,16 +38,16 @@ cp user_configuration.json user_credentials.json authorized_keys cidata/
 genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
 ```
 
-Tada prijunk jį prie VM šalia Omarchy ISO. Štai pilnas Proxmox pavyzdys:
+Tada prijunk jį prie VM šalia LunaOS ISO. Štai pilnas Proxmox pavyzdys:
 
 ```bash
-qm create 101 --name my-omarchy \
+qm create 101 --name my-lunaos \
   --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
   --ostype l26 --scsihw virtio-scsi-single \
   --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
   --scsi0 local-lvm:40,discard=on,iothread=1 \
   --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
-  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide2 local:iso/lunaos.iso,media=cdrom \
   --ide3 local:iso/cidata.iso,media=cdrom \
   --boot order='scsi0;ide2'
 

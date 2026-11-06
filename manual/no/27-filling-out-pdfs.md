@@ -1,6 +1,6 @@
 # Fylle ut PDF-er
 
-Omarchy leveres med en fin, enkel PDF-viser kalt Dokumentviser. Dette er programmet som åpner alle PDF-er du dobbeltklikker på.
+LunaOS leveres med en fin, enkel PDF-viser kalt Dokumentviser. Dette er programmet som åpner alle PDF-er du dobbeltklikker på.
 
 Men du kan bare bruke Dokumentviser til å fylle ut PDF-er som er satt opp som skjemaer. Hvis du må fylle ut PDF-er som ikke er det, eller du må signere en PDF, bruk [Signed](https://github.com/omacom/signed). Start den via appstarteren (`Super + Space`), eller høyreklikk filen, velg _Åpne med …_ og velg Signed.
 

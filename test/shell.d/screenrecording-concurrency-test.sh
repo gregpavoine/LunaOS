@@ -13,7 +13,7 @@ trap cleanup EXIT
 mkdir -p "$tmp/bin" "$tmp/runtime" "$tmp/recordings"
 mkfifo "$tmp/release"
 
-cat >"$tmp/bin/omarchy-capture-screenrecording-process" <<'SH'
+cat >"$tmp/bin/lunaos-capture-screenrecording-process" <<'SH'
 #!/bin/bash
 if [[ ${1:-} != "--pid" || $2 == "123" ]]; then
   if [[ ${TEST_ROLE:-} == "old-status" && ${2:-} == "123" ]]; then
@@ -70,11 +70,11 @@ case "${1:-}" in
   *) exec /usr/bin/sleep "$@" ;;
 esac
 SH
-cat >"$tmp/bin/omarchy-cmd-present" <<'SH'
+cat >"$tmp/bin/lunaos-cmd-present" <<'SH'
 #!/bin/bash
 [[ $1 == "wf-recorder" ]]
 SH
-cat >"$tmp/bin/omarchy-hyprland-monitor-focused" <<'SH'
+cat >"$tmp/bin/lunaos-hyprland-monitor-focused" <<'SH'
 #!/bin/bash
 echo Virtual-1
 SH
@@ -86,18 +86,18 @@ if [[ ${TEST_ROLE:-} == "old-stop" && ! -e $TEST_STATE/checked ]]; then
 fi
 touch "${@: -3:1}"
 SH
-for command in omarchy-shell omarchy-notification-send ffprobe pkill; do
+for command in lunaos-shell lunaos-notification-send ffprobe pkill; do
   printf '#!/bin/bash\nexit 0\n' >"$tmp/bin/$command"
 done
-cat >"$tmp/bin/omarchy-shell" <<'SH'
+cat >"$tmp/bin/lunaos-shell" <<'SH'
 #!/bin/bash
 # A stop that finds no start pending while the start is finishing.
 if [[ -n ${TEST_LATE_STOP:-} && ! -e $TEST_STATE/late-stop-sent ]]; then
   touch "$TEST_STATE/late-stop-sent"
-  rm -f "$XDG_RUNTIME_DIR/omarchy-screenrecord-starting"
+  rm -f "$XDG_RUNTIME_DIR/lunaos-screenrecord-starting"
   TEST_LATE_STOP= "$TEST_RECORD" --stop-recording 9>&- >/dev/null 2>&1 &
   echo $! >"$TEST_STATE/late-stop-pid"
-  until [[ -e $XDG_RUNTIME_DIR/omarchy-screenrecord-cancel ]]; do sleep 0.05; done
+  until [[ -e $XDG_RUNTIME_DIR/lunaos-screenrecord-cancel ]]; do sleep 0.05; done
 fi
 if [[ -n ${TEST_PAUSE_INDICATOR:-} && ! -e $TEST_STATE/indicator-paused ]]; then
   touch "$TEST_STATE/indicator-paused"
@@ -107,8 +107,8 @@ exit 0
 SH
 chmod +x "$tmp/bin/"*
 export PATH="$tmp/bin:$ROOT/bin:$PATH" TEST_STATE="$tmp" XDG_RUNTIME_DIR="$tmp/runtime"
-export OMARCHY_SCREENRECORD_DIR="$tmp/recordings"
-record="$ROOT/bin/omarchy-capture-screenrecording"
+export LUNAOS_SCREENRECORD_DIR="$tmp/recordings"
+record="$ROOT/bin/lunaos-capture-screenrecording"
 export TEST_RECORD=$record
 
 wait_for() {
@@ -120,16 +120,16 @@ wait_for() {
 }
 
 assert_recording() {
-  [[ -s $XDG_RUNTIME_DIR/omarchy-screenrecord-pid && -s $XDG_RUNTIME_DIR/omarchy-screenrecord-filename ]] ||
+  [[ -s $XDG_RUNTIME_DIR/lunaos-screenrecord-pid && -s $XDG_RUNTIME_DIR/lunaos-screenrecord-filename ]] ||
     fail "the new recording retains its saved state"
-  [[ -f $XDG_RUNTIME_DIR/omarchy-screenrecord-pa-modules ]] || fail "the new recording retains its audio mix"
-  for module in $(<"$XDG_RUNTIME_DIR/omarchy-screenrecord-pa-modules"); do
+  [[ -f $XDG_RUNTIME_DIR/lunaos-screenrecord-pa-modules ]] || fail "the new recording retains its audio mix"
+  for module in $(<"$XDG_RUNTIME_DIR/lunaos-screenrecord-pa-modules"); do
     [[ -f $tmp/module-$module ]] || fail "the new recording's audio module stays loaded" "$module"
   done
 }
 
-echo 123 >"$XDG_RUNTIME_DIR/omarchy-screenrecord-pid"
-printf '10\n11\n12\n' >"$XDG_RUNTIME_DIR/omarchy-screenrecord-pa-modules"
+echo 123 >"$XDG_RUNTIME_DIR/lunaos-screenrecord-pid"
+printf '10\n11\n12\n' >"$XDG_RUNTIME_DIR/lunaos-screenrecord-pa-modules"
 touch "$tmp/module-10" "$tmp/module-11" "$tmp/module-12"
 echo 20 >"$tmp/next-module"
 TEST_ROLE=old-status "$record" --status >/dev/null 2>&1 & old=$!
@@ -137,12 +137,12 @@ wait_for "$tmp/checked"
 TEST_ROLE=new-start "$record" --fullscreen --resolution=1280x800 --with-desktop-audio --with-microphone-audio >/dev/null 2>&1 & new=$!
 wait_for "$tmp/lock-attempted" "$tmp/recorder-pid"
 if [[ ! -e $tmp/lock-attempted ]]; then
-  wait_for "$XDG_RUNTIME_DIR/omarchy-screenrecord-pid"
+  wait_for "$XDG_RUNTIME_DIR/lunaos-screenrecord-pid"
   for _ in {1..200}; do
-    [[ $(<"$XDG_RUNTIME_DIR/omarchy-screenrecord-pid") == 123 ]] || break
+    [[ $(<"$XDG_RUNTIME_DIR/lunaos-screenrecord-pid") == 123 ]] || break
     sleep 0.01
   done
-  [[ $(<"$XDG_RUNTIME_DIR/omarchy-screenrecord-pid") != 123 ]] || fail "the concurrent recording saves its PID"
+  [[ $(<"$XDG_RUNTIME_DIR/lunaos-screenrecord-pid") != 123 ]] || fail "the concurrent recording saves its PID"
 fi
 echo release >"$tmp/release"
 status=0
@@ -157,7 +157,7 @@ TEST_ROLE=old-stop "$record" --stop-recording >/dev/null 2>&1 & old=$!
 wait_for "$tmp/checked"
 rm "$tmp/recorder-pid"
 stop_locked=0
-if ! /usr/bin/flock -n "$XDG_RUNTIME_DIR/omarchy-screenrecord.lock" true; then stop_locked=1; fi
+if ! /usr/bin/flock -n "$XDG_RUNTIME_DIR/lunaos-screenrecord.lock" true; then stop_locked=1; fi
 TEST_ROLE=new-start "$record" --fullscreen --resolution=1280x800 --with-desktop-audio --with-microphone-audio >/dev/null 2>&1 & new=$!
 wait_for "$tmp/lock-attempted" "$tmp/recorder-pid"
 if (( ! stop_locked )); then
@@ -193,7 +193,7 @@ for second in toggle stop; do
   ! kill -0 "$waiting" 2>/dev/null || fail "a cancelled start stops its recorder"
   [[ $(<"$tmp/recorder-pid") == "$waiting" ]] || fail "a $second during a pending start does not begin another recording"
   for state in pid filename pa-modules starting cancel; do
-    [[ ! -e $XDG_RUNTIME_DIR/omarchy-screenrecord-$state ]] || fail "a cancelled start leaves no $state behind"
+    [[ ! -e $XDG_RUNTIME_DIR/lunaos-screenrecord-$state ]] || fail "a cancelled start leaves no $state behind"
   done
   pass "a $second during a start that is still waiting on its recorder cancels it"
 done
@@ -210,7 +210,7 @@ timeout 5 tail --pid="$pending" -f /dev/null || fail "the start finishes after i
 wait "$pending" || true
 ! kill -0 "$committed" 2>/dev/null || fail "a stop during the start's last step ends the recording"
 for state in pid filename pa-modules starting cancel; do
-  [[ ! -e $XDG_RUNTIME_DIR/omarchy-screenrecord-$state ]] || fail "a stop during the start's last step leaves no $state behind"
+  [[ ! -e $XDG_RUNTIME_DIR/lunaos-screenrecord-$state ]] || fail "a stop during the start's last step leaves no $state behind"
 done
 pass "a stop while the start saves its recording as started still ends it"
 
@@ -221,7 +221,7 @@ TEST_LATE_STOP=1 "$record" --fullscreen --resolution=1280x800 >/dev/null 2>&1 ||
 started=$(<"$tmp/recorder-pid")
 timeout 10 tail --pid="$(<"$tmp/late-stop-pid")" -f /dev/null || fail "the late stop finishes"
 ! kill -0 "$started" 2>/dev/null || fail "a stop waiting behind a finishing start still ends the recording"
-[[ ! -e $XDG_RUNTIME_DIR/omarchy-screenrecord-pid && ! -e $XDG_RUNTIME_DIR/omarchy-screenrecord-cancel ]] ||
+[[ ! -e $XDG_RUNTIME_DIR/lunaos-screenrecord-pid && ! -e $XDG_RUNTIME_DIR/lunaos-screenrecord-cancel ]] ||
   fail "a late stop leaves no state behind"
 pass "a stop that waits behind a finishing start still ends the recording"
 
@@ -230,15 +230,15 @@ pass "a stop that waits behind a finishing start still ends the recording"
 # A start that was killed leaves its marker behind. A toggle that waits on the
 # lock (held here as a stop would) does not take that stale marker for a start
 # still in progress: it waits its turn and starts the recording.
-rm -f "$tmp/recorder-pid" "$tmp/recordings/"* "$XDG_RUNTIME_DIR/omarchy-screenrecord-cancel"
+rm -f "$tmp/recorder-pid" "$tmp/recordings/"* "$XDG_RUNTIME_DIR/lunaos-screenrecord-cancel"
 true & dead=$!
 wait "$dead"
-echo "$dead" >"$XDG_RUNTIME_DIR/omarchy-screenrecord-starting"
-/usr/bin/flock "$XDG_RUNTIME_DIR/omarchy-screenrecord.lock" sleep 1 & holder=$!
+echo "$dead" >"$XDG_RUNTIME_DIR/lunaos-screenrecord-starting"
+/usr/bin/flock "$XDG_RUNTIME_DIR/lunaos-screenrecord.lock" sleep 1 & holder=$!
 sleep 0.3
 timeout 15 "$record" --fullscreen --resolution=1280x800 >/dev/null 2>&1 || fail "a toggle behind a stale start marker finishes"
 wait "$holder" || true
-[[ -s $XDG_RUNTIME_DIR/omarchy-screenrecord-pid ]] && kill -0 "$(<"$tmp/recorder-pid")" 2>/dev/null ||
+[[ -s $XDG_RUNTIME_DIR/lunaos-screenrecord-pid ]] && kill -0 "$(<"$tmp/recorder-pid")" 2>/dev/null ||
   fail "a toggle behind a stale start marker starts the recording instead of cancelling a start that is gone"
 "$record" --stop-recording >/dev/null 2>&1 || true
 pass "a killed start's leftover marker does not swallow a later toggle"

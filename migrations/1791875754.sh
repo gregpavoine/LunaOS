@@ -15,15 +15,15 @@ for desktop_file in "$applications"/*.desktop; do
   exec_line=$(grep -m1 '^Exec=' "$desktop_file" || true)
   url=""
 
-  if [[ $exec_line =~ ^Exec=omarchy-webapp-handler-hey ]]; then
+  if [[ $exec_line =~ ^Exec=lunaos-webapp-handler-hey ]]; then
     url="https://app.hey.com"
-  elif [[ $exec_line =~ ^Exec=omarchy-launch-webapp[[:space:]]+\"?([^\"[:space:]]+) ]]; then
+  elif [[ $exec_line =~ ^Exec=lunaos-launch-webapp[[:space:]]+\"?([^\"[:space:]]+) ]]; then
     url=${BASH_REMATCH[1]}
   fi
 
   [[ -n $url ]] || continue
 
-  window_class=$(omarchy-webapp-window-class "$url") || continue
+  window_class=$(lunaos-webapp-window-class "$url") || continue
   if [[ -n $window_class ]]; then
     printf 'StartupWMClass=%s\n' "$window_class" >>"$desktop_file"
   fi

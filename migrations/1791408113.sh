@@ -2,10 +2,10 @@ echo "Make the ASUS ProArt P14 keyboard's top row send media keys by default"
 
 # See install/hardware/asus/fix-asus-proart-p14-fkeys.sh. hid-asus loads from
 # the initramfs, so the option needs a rebuild to reach it.
-conf="${OMARCHY_HID_ASUS_CONF:-/etc/modprobe.d/hid_asus.conf}"
-rebuild_marker="${OMARCHY_LIMINE_REBUILD_MARKER:-/var/lib/omarchy/migrations/1791408113}"
+conf="${LUNAOS_HID_ASUS_CONF:-/etc/modprobe.d/hid_asus.conf}"
+rebuild_marker="${LUNAOS_LIMINE_REBUILD_MARKER:-/var/lib/lunaos/migrations/1791408113}"
 
-if ! omarchy-hw-match "H7407BA"; then
+if ! lunaos-hw-match "H7407BA"; then
   exit 0
 fi
 

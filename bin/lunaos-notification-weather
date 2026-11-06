@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# lunaos:summary=Toggle the current weather panel
+
+lunaos-shell shell toggle lunaos.weather

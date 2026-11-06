@@ -20,11 +20,11 @@ Obsidian är gratis för alla ändamål, inklusive personlig, kommersiell och id
 
 Obsidian erbjuder också ett [kommersiellt tillägg för synkronisering](https://obsidian.md/sync) med mobilappar på iOS och Android. (https://obsidian.md/pricing).
 
-Du startar Obsidian med `Super + Shift + O`. För att använda temasynk måste du välja temat `Omarchy` under inställningar.
+Du startar Obsidian med `Super + Shift + O`. För att använda temasynk måste du välja temat `LunaOS` under inställningar.
 
 ## Omawrite
 
-[Omawrite](https://github.com/omacom-io/omawrite) är Omarchys egen dödsenkla Markdown-skrivapp. Inga vaults, inga plugins, bara du och orden.
+[Omawrite](https://github.com/omacom-io/omawrite) är LunaOSs egen dödsenkla Markdown-skrivapp. Inga vaults, inga plugins, bara du och orden.
 
 Du startar Omawrite med `Super + Shift + W`.
 
@@ -44,18 +44,18 @@ Du startar Aether via app-launchern (`Super + Space`).
 
 [LocalSend](https://localsend.org/) låter dig skicka filer till andra enheter på samma nätverk som kör appen, som Apples AirDrop. Den är dock plattformsoberoende, så du kan skicka filer till och från Windows, macOS, Android, iOS och förstås Linux.
 
-Du kan öppna menyn Dela på `Super + Ctrl + S` eller under _Utlös > Dela_ i Omarchy-menyn. Den ger dig fyra alternativ:
+Du kan öppna menyn Dela på `Super + Ctrl + S` eller under _Utlös > Dela_ i LunaOS-menyn. Den ger dig fyra alternativ:
 
 - **Urklipp** skickar det du har kopierat som en textfil. Utmärkt för att få en länk eller ett utdrag till din telefon utan att mejla dig själv.
 - **Fil** öppnar en filväljare där du kan välja flera samtidigt.
 - **Mapp** skickar en hel katalog.
 - **Ta emot** öppnar själva LocalSend så att en annan enhet kan skicka något till dig.
 
-Samma sak fungerar från terminalen med `omarchy share clipboard`, `omarchy share file [path]` och `omarchy share folder [path]`. Utelämna sökvägen så får du väljaren.
+Samma sak fungerar från terminalen med `lunaos share clipboard`, `lunaos share file [path]` och `lunaos share folder [path]`. Utelämna sökvägen så får du väljaren.
 
 Du kan också skicka direkt från filhanteraren: högerklicka på en markering i Nautilus och välj _Send via LocalSend_.
 
-Omarchys brandvägg är stängd som standard förutom LocalSends port, så det här fungerar direkt på en färsk installation. Se [säkerhet](48-security.md).
+LunaOSs brandvägg är stängd som standard förutom LocalSends port, så det här fungerar direkt på en färsk installation. Se [säkerhet](48-security.md).
 
 ## LibreOffice
 
@@ -65,19 +65,19 @@ Du startar LibreOffice via app-launchern (`Super + Space`).
 
 ## Hype
 
-[Hype](https://github.com/omacom/hype) är Omarchys egen dödsenkla presentationsapp. Din presentation är en enda Markdown-fil med sina bilder och videor bredvid den: skriv varje bild nedanför en liveförhandsvisning, dra bilderna i ordning, presentera sedan i helskärm eller exportera till PDF och PowerPoint. Den plockar till och med upp ditt Omarchy-tema.
+[Hype](https://github.com/omacom/hype) är LunaOSs egen dödsenkla presentationsapp. Din presentation är en enda Markdown-fil med sina bilder och videor bredvid den: skriv varje bild nedanför en liveförhandsvisning, dra bilderna i ordning, presentera sedan i helskärm eller exportera till PDF och PowerPoint. Den plockar till och med upp ditt LunaOS-tema.
 
 Du startar Hype via app-launchern (`Super + Space`). Tryck `?` inne i den för att se varje genväg.
 
 ## Signed
 
-[Signed](https://github.com/omacom/signed) är Omarchys eget dödsenkla sätt att signera PDF:er och fylla i dem. Placera din sparade signatur, text och dagens datum var som helst på en sida, spara sedan en signerad kopia bredvid originalet. Se [Fylla i PDF:er](27-filling-out-pdfs.md) för hur.
+[Signed](https://github.com/omacom/signed) är LunaOSs eget dödsenkla sätt att signera PDF:er och fylla i dem. Placera din sparade signatur, text och dagens datum var som helst på en sida, spara sedan en signerad kopia bredvid originalet. Se [Fylla i PDF:er](27-filling-out-pdfs.md) för hur.
 
 Du startar Signed via app-launchern (`Super + Space`), eller öppna en PDF med det från filhanteraren.
 
 ## Omacalc
 
-[Omacalc](https://github.com/omacom-io/omacalc) är Omarchys egen dödsenkla miniräknare, som öppnas i ett flytande fönster.
+[Omacalc](https://github.com/omacom-io/omacalc) är LunaOSs egen dödsenkla miniräknare, som öppnas i ett flytande fönster.
 
 Du startar Omacalc med `Super + Ctrl + Q` (eller kalkylatortangenten, om ditt tangentbord har en sådan).
 
@@ -85,7 +85,7 @@ Du startar Omacalc med `Super + Ctrl + Q` (eller kalkylatortangenten, om ditt ta
 
 [Signal](https://signal.org/) är pionjären inom E2E-krypterade meddelanden, och ett utmärkt kommunikationsalternativ för alla som hellre inte går via en av de stora techjättarna.
 
-Du startar Signal med `Super + Shift + G`. Det är inte en del av basinstallationen, så första gången du trycker på det kommer Omarchy att erbjuda sig att installera det åt dig (det finns också under _Installera > Service_ i Omarchy-menyn).
+Du startar Signal med `Super + Shift + G`. Det är inte en del av basinstallationen, så första gången du trycker på det kommer LunaOS att erbjuda sig att installera det åt dig (det finns också under _Installera > Service_ i LunaOS-menyn).
 
 ## mpv
 
@@ -95,13 +95,13 @@ Du startar mpv via app-launchern (`Super + Space`) eller dubbelklickar bara på 
 
 ## Omacut
 
-[Omacut](https://github.com/omacom-io/omacut) är Omarchys egen dödsenkla videotrimmare. När allt du behöver är att klippa bort början och slutet av ett klipp slår den att starta en full videoredigerare.
+[Omacut](https://github.com/omacom-io/omacut) är LunaOSs egen dödsenkla videotrimmare. När allt du behöver är att klippa bort början och slutet av ett klipp slår den att starta en full videoredigerare.
 
 Du startar Omacut via app-launchern (`Super + Space`).
 
 ## Monologue
 
-[Monologue](https://github.com/omacom/monologue) är Omarchys egen dödsenkla webbkamerainspelare. Välj din kamera och mikrofon en gång, tryck sedan `Space` för att spela in, och igen för att pausa och återuppta samma tagning. Den spelar alltid in med din kameras högsta upplösning, med en live-mikrofonmätare så att du kan kontrollera dina nivåer innan du börjar.
+[Monologue](https://github.com/omacom/monologue) är LunaOSs egen dödsenkla webbkamerainspelare. Välj din kamera och mikrofon en gång, tryck sedan `Space` för att spela in, och igen för att pausa och återuppta samma tagning. Den spelar alltid in med din kameras högsta upplösning, med en live-mikrofonmätare så att du kan kontrollera dina nivåer innan du börjar.
 
 Stoppa tagningen så öppnas den direkt i en inbyggd editor. Dubbelklicka på ett klipp för att dela det, dra handtagen för att trimma varje bit, och ta bort de delar du inte vill ha. Spara den sedan som en MP4. Din originalinspelning bevaras tills du kasserar den, så du kan alltid komma tillbaka och klippa den annorlunda.
 

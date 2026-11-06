@@ -18,12 +18,12 @@ stub curl 'printf "curl %s\n" "${@: -1}" >> "$TEST_LOG"; exit "${TEST_CURL_STATU
 # Records the launch apart from the main log, since the command starts it in
 # the background. With TEST_WEBAPP_BLOCKS it then stays in the foreground, as
 # the real launcher does when no browser is running to take the handoff.
-stub omarchy-launch-webapp 'printf "webapp %s\n" "$*" >> "$TEST_WEBAPP_LOG"
+stub lunaos-launch-webapp 'printf "webapp %s\n" "$*" >> "$TEST_WEBAPP_LOG"
 if [[ -n ${TEST_WEBAPP_BLOCKS:-} ]]; then exec -a captive-portal-test-browser /usr/bin/sleep 30; fi
 # The real fallback with no browser running: exec setsid of the browser.
 if [[ -n ${TEST_WEBAPP_FALLBACK_STATUS:-} ]]; then exec setsid /bin/sh -c "exit $TEST_WEBAPP_FALLBACK_STATUS"; fi
 exit "${TEST_WEBAPP_STATUS:-0}"'
-stub omarchy-notification-send 'printf "notify %s\n" "$*" >> "$TEST_LOG"'
+stub lunaos-notification-send 'printf "notify %s\n" "$*" >> "$TEST_LOG"'
 stub sleep ':'
 # Lists the portal window from the TEST_WINDOW_AFTER-th look (the first by
 # default), as a window that maps late would, until a close is dispatched.
@@ -46,7 +46,7 @@ run_portal() {
   rm -f "$stage/log" "$stage/webapp" "$stage/count" "$stage/closed" "$stage/looks"
   TEST_LOG="$stage/log" TEST_WEBAPP_LOG="$stage/webapp" TEST_NMCLI_COUNT="$stage/count" TEST_CLOSED="$stage/closed" TEST_LOOKS="$stage/looks" XDG_RUNTIME_DIR="$stage" \
     TEST_TAILSCALE_STATUS="$1" TEST_CURL_STATUS="${2:-0}" LC_ALL=C.UTF-8 \
-    OMARCHY_PATH="$ROOT" PATH="$stage/bin:$ROOT/bin:$PATH" timeout 20 "$ROOT/bin/omarchy-network-captive-portal" "http://ping.omacom.io/nm-check.txt"
+    LUNAOS_PATH="$ROOT" PATH="$stage/bin:$ROOT/bin:$PATH" timeout 20 "$ROOT/bin/lunaos-network-captive-portal" "http://ping.omacom.io/nm-check.txt"
 }
 
 toggle="http://local-tailscaled.sock/localapi/v0/set-use-exit-node-enabled"
@@ -89,7 +89,7 @@ TEST_NMCLI_PORTAL_CHECKS=400 run_portal '{"ExitNodeStatus":{"ID":"node","Online"
 pass "keeps the exit node paused until a slow sign-in completes"
 
 # A second click while the first is still watching only reopens the portal.
-exec 8>"$stage/omarchy-network-captive-portal.lock"
+exec 8>"$stage/lunaos-network-captive-portal.lock"
 flock -n 8
 run_portal '{"ExitNodeStatus":{"ID":"node","Online":true}}'
 exec 8>&-

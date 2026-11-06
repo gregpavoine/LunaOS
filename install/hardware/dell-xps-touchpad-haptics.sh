@@ -1,3 +1,3 @@
-if omarchy-hw-dell-xps-haptic-touchpad; then
-  omarchy-pkg-add dell-xps-touchpad-haptics
+if lunaos-hw-dell-xps-haptic-touchpad; then
+  lunaos-pkg-add dell-xps-touchpad-haptics
 fi

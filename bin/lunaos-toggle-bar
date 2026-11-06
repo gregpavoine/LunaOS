@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# lunaos:summary=Toggle bar visibility without killing the LunaOS shell (on hides the bar, off shows it)
+# lunaos:args=[toggle|on|off]
+# lunaos:examples=lunaos toggle bar | lunaos toggle bar off | lunaos toggle bar on
+
+lunaos-toggle bar-off "${1:-toggle}"
+
+# The shell's watch on the toggles directory can miss flag changes that land in
+# quick succession, stranding the bar off screen until the shell restarts.
+# Nudge the bar to re-read the flag; quiet best-effort so the toggle still
+# works when the shell is not up.
+lunaos-shell -q lunaos.bar syncHidden

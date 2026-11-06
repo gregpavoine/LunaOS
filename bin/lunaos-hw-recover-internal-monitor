@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# lunaos:summary=Clear the internal-monitor-disable toggle if no external display is connected.
+
+TOGGLE="$HOME/.local/state/lunaos/toggles/hypr/internal-monitor-disable.lua"
+
+if [[ -f $TOGGLE ]] && ! lunaos-hw-external-monitors; then
+  rm -f "$TOGGLE"
+fi

@@ -5,8 +5,8 @@ import qs.Commons
 ShellRoot {
   id: root
 
-  readonly property string resultPath: Quickshell.env("OMARCHY_QML_TEST_RESULT")
-  readonly property string rootPath: Quickshell.env("OMARCHY_PATH")
+  readonly property string resultPath: Quickshell.env("LUNAOS_QML_TEST_RESULT")
+  readonly property string rootPath: Quickshell.env("LUNAOS_PATH")
   property var failures: []
   property var createdIds: []
   property var createdObjects: []
@@ -41,7 +41,7 @@ ShellRoot {
 
   function widgets() {
     try {
-      return JSON.parse(Qt.atob(Quickshell.env("OMARCHY_QML_BAR_WIDGETS") || "W10="))
+      return JSON.parse(Qt.atob(Quickshell.env("LUNAOS_QML_BAR_WIDGETS") || "W10="))
     } catch (error) {
       fail("bar widget list failed to parse: " + error)
       return []
@@ -98,7 +98,7 @@ ShellRoot {
     if (typeof item.setting === "function") {
       root.assertEqual(item.setting("missing", "fallback"), "fallback", entry.id + " exposes setting fallback")
     }
-    if (entry.id === "omarchy.agents") {
+    if (entry.id === "lunaos.agents") {
       root.assertTrue(typeof item.iconCandidatesForProvider === "function", entry.id + " resolves provider marks by convention")
       var darkIcons = item.iconCandidatesForProvider({ providerId: "codex" }, Qt.color("#1a1b26")).join(" ")
       var lightIcons = item.iconCandidatesForProvider({ providerId: "codex" }, Qt.color("#ffffff")).join(" ")
@@ -132,7 +132,7 @@ ShellRoot {
     id: fakeBar
     property bool vertical: false
     property int barSize: 26
-    property string omarchyPath: root.rootPath
+    property string lunaosPath: root.rootPath
     property string fontFamily: "monospace"
     property color foreground: "white"
     property color background: "black"
@@ -171,9 +171,9 @@ ShellRoot {
           for (var k = 0; k < root.createdObjects.length; k++) {
             var verticalItem = root.createdObjects[k]
             var verticalId = root.createdIds[k]
-            if (verticalId === "omarchy.clock")
+            if (verticalId === "lunaos.clock")
               root.assertEqual(verticalItem.implicitHeight, Style.bar.iconSlot * 3, verticalId + " uses one slot per line")
-            else if (verticalId === "omarchy.weather" || verticalId === "omarchy.system-update")
+            else if (verticalId === "lunaos.weather" || verticalId === "lunaos.system-update")
               root.assertEqual(verticalItem.implicitHeight, Style.bar.statusSlot, verticalId + " uses one compact status slot")
             if (verticalItem && typeof verticalItem.destroy === "function") verticalItem.destroy()
           }

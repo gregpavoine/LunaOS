@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# lunaos:summary=Toggle suspend availability in the system menu
+
+if lunaos-sleep-disabled; then
+  lunaos-notification-send -g 󰒲 "$(lunaos-i18n suspend.turnedOffOnMachine)"
+  exit 0
+fi
+
+lunaos-toggle suspend-off
+
+if lunaos-toggle-enabled suspend-off; then
+  lunaos-notification-send -g 󰒲 "$(lunaos-i18n suspend.removedFromMenu)"
+else
+  lunaos-notification-send -g 󰒲 "$(lunaos-i18n suspend.availableInMenu)"
+fi

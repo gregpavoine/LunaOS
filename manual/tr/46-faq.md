@@ -9,7 +9,7 @@ hl.config({
   input = {
     -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
     kb_layout = "us,fr",
-    kb_options = "omarchy:shift_caps_compose,grp:alts_toggle",
+    kb_options = "lunaos:shift_caps_compose,grp:alts_toggle",
   },
 })
 ```
@@ -21,14 +21,14 @@ hl.config({
 12 saatlik olanlar da dahil olmak üzere yaygın biçimler arasında geçiş yapmak için çubuktaki saate sağ tıklayın. Biçimi doğrudan da ayarlayabilirsiniz:
 
 ```
-omarchy bar set omarchy.clock format "dddd h:mm AP"
+lunaos bar set lunaos.clock format "dddd h:mm AP"
 ```
 
 Bu, Pazar 10:55 AM gösterecektir.
 
 ### Saat dilimimi nasıl değiştiririm?
 
-Omarchy menüsünde _Güncelle > Saat Dilimi_ yolunu çalıştırın ve listeden seçin. Saat dilimi doğru ama saatin kendisi kaymışsa, _Güncelle > Saat_ zaman eşitlemesini sizin için yeniden başlatır.
+LunaOS menüsünde _Güncelle > Saat Dilimi_ yolunu çalıştırın ve listeden seçin. Saat dilimi doğru ama saatin kendisi kaymışsa, _Güncelle > Saat_ zaman eşitlemesini sizin için yeniden başlatır.
 
 ### DNS'imi nasıl değiştiririm, Wi-Fi'imi nasıl paylaşırım veya bağlantı hızımı nasıl kontrol ederim?
 
@@ -36,11 +36,11 @@ Bunların hepsi [ağ](35-networking.md) bölümünde yer alır.
 
 ### Diskimin ne kadar hızlı olduğunu nasıl kontrol ederim?
 
-_Tetikle > Hız Testi > Disk Hız Testi_ sürücünüzdeki canlı okuma ve yazma hızını ölçer veya terminalden `omarchy disk speedtest` komutunu kullanabilirsiniz.
+_Tetikle > Hız Testi > Disk Hız Testi_ sürücünüzdeki canlı okuma ve yazma hızını ölçer veya terminalden `lunaos disk speedtest` komutunu kullanabilirsiniz.
 
 ### Chromium'da neden Google hesabıma giriş yapamıyorum?
 
-Sade açık kaynaklı Chromium yapısı, Google'ın hesap girişi için istediği OAuth kimlik bilgileriyle birlikte gelmez. Bunları eklemek için Omarchy menüsünde _Kur > Servis > Chromium Hesabı_ yolunu çalıştırın, tarayıcıyı yeniden başlatın ve giriş tamamlanacaktır.
+Sade açık kaynaklı Chromium yapısı, Google'ın hesap girişi için istediği OAuth kimlik bilgileriyle birlikte gelmez. Bunları eklemek için LunaOS menüsünde _Kur > Servis > Chromium Hesabı_ yolunu çalıştırın, tarayıcıyı yeniden başlatın ve giriş tamamlanacaktır.
 
 ### Nasıl yazıcı eklerim?
 
@@ -60,15 +60,15 @@ Kaydedilen ekran görüntüleri varsayılan olarak `~/Pictures/Screenshots` klas
 export OMASNAP_SCREENSHOT_DIR="$HOME/Pictures/Captures"
 ```
 
-Aynısını ekran kayıtları için `OMARCHY_SCREENRECORD_DIR` kullanarak yapabilirsiniz.
+Aynısını ekran kayıtları için `LUNAOS_SCREENRECORD_DIR` kullanarak yapabilirsiniz.
 
-Omasnap ekran görüntüsü dizinini otomatik olarak oluşturur. Ekran kaydı dizinini kendiniz oluşturun, ardından herhangi bir ortam değişikliğinin etkili olması için Omarchy'yi yeniden başlatın.
+Omasnap ekran görüntüsü dizinini otomatik olarak oluşturur. Ekran kaydı dizinini kendiniz oluşturun, ardından herhangi bir ortam değişikliğinin etkili olması için LunaOS'yi yeniden başlatın.
 
 ### Apple Studio Display'imde hoparlörleri + web kamerasını nasıl çalıştırabilirim?
 
 Her şeyin yalnızca USB C takılarak çalışması gerektiğini düşünürsünüz, ancak ne yazık ki durum böyle değildir. Güvenilir şekilde çalışması için bulduğum çözüm [WJESOG DisplayPort + USB-A => USB-C kablosunu](https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/) kullanmaktır. Ardından hoparlörler ve web kamerası kusursuz çalışır.
 
-Normal klavye parlaklık düğmelerini kullanarak Apple Ekranları (hem Studio hem de XDR) için Omarchy'de yerleşik parlaklık denetiminiz olduğunu unutmayın.
+Normal klavye parlaklık düğmelerini kullanarak Apple Ekranları (hem Studio hem de XDR) için LunaOS'de yerleşik parlaklık denetiminiz olduğunu unutmayın.
 
 ### Tüm ekstra yazılımlardan nasıl kurtulurum?
 
@@ -76,7 +76,7 @@ Obsidian veya LibreOffice gibi programları veya önceden kurulu başka şeylerd
 
 Kurulu olan her paketi görmek için _Kaldır > Paket_ yolunu çalıştırın. Ardından kaldırmak istediğiniz herhangi bir paketi tab tuşuyla seçebilir ve return tuşuyla seçtiğiniz her şeyi kaldırmaya başlayabilirsiniz.
 
-Ve istemediğiniz önceden kurulu web uygulamalarından herhangi birini kaldırmak için Omarchy menüsünden _Kaldır > Web Uygulaması_ yolunu kullanabilirsiniz.
+Ve istemediğiniz önceden kurulu web uygulamalarından herhangi birini kaldırmak için LunaOS menüsünden _Kaldır > Web Uygulaması_ yolunu kullanabilirsiniz.
 
 Veya tüm önceden kurulu ekstraları — web uygulamaları, TUI'ler ve isteğe bağlı uygulamalar — tek seferde süpürmek için _Kaldır > Önceden Kurulanlar_ yolunu çalıştırın. Onları başlatan kısayollar onlarla birlikte gider, böylece `~/.config/hypr/bindings.lua` içinde kendinizinkilerle doldurmak üzere temiz bir bağlama sayfasıyla kalırsınız.
 

@@ -1,0 +1,6 @@
+#!/bin/bash
+# lunaos:summary=Launch emojis
+# lunaos:group=menu
+# lunaos:examples=lunaos menu emoji
+
+lunaos-shell shell toggle lunaos.emojis

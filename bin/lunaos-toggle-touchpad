@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# lunaos:summary=Enable, disable, or toggle the touchpad
+# lunaos:args=[on|off|toggle]
+
+exec lunaos-toggle-input-device touchpad "${1:-toggle}"

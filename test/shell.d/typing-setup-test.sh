@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/base-test.sh"
 
-OMARCHY_PATH="$ROOT" python "$ROOT/test/shell.d/typing-setup-checks.py"
+LUNAOS_PATH="$ROOT" python "$ROOT/test/shell.d/typing-setup-checks.py"
 
 run_node_test <<'JS'
 const menu = requireFromRoot('shell/plugins/menu/MenuModel.js')

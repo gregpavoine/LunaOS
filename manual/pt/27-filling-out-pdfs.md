@@ -1,6 +1,6 @@
 # Preencher PDF
 
-O Omarchy vem com um visualizador de PDF simples e agradável chamado Document Viewer. É este o programa que abre todos os PDF em que simplesmente fazes duplo clique.
+O LunaOS vem com um visualizador de PDF simples e agradável chamado Document Viewer. É este o programa que abre todos os PDF em que simplesmente fazes duplo clique.
 
 Mas só podes usar o Document Viewer para preencher PDF que tenham sido configurados como formulários. Se precisares de preencher PDF que não o tenham sido, ou se precisares de assinar um PDF, usa o [Signed](https://github.com/omacom/signed). Inicia-o através do lançador de aplicações (`Super + Space`), ou clica com o botão direito no ficheiro, seleciona _Abrir Com..._ e escolhe o Signed.
 

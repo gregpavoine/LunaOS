@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# lunaos:summary=Toggle mirroring theme changes to and from your herdr machines
+
+lunaos-toggle herdr-theme-sync
+
+if lunaos-toggle-enabled herdr-theme-sync; then
+  lunaos-notification-send -g 󰸌 "$(lunaos-i18n themeSync.enabled)"
+else
+  lunaos-notification-send -g 󰸌 "$(lunaos-i18n themeSync.disabled)"
+fi

@@ -1,14 +1,14 @@
 # Menulinjen
 
-Striben langs toppen af din skærm er Omarchy-linjen. Den er ikke en påspændt statuslinje, men en del af Omarchy-shell'en, den ene langvarige Quickshell-proces, som også tegner menuen, notifikationerne, OSD-popups og låseskærmen. Det er derfor, den har perfekt tema med alt andet, og hvorfor et panel åbner øjeblikkeligt i stedet for at starte en ny app.
+Striben langs toppen af din skærm er LunaOS-linjen. Den er ikke en påspændt statuslinje, men en del af LunaOS-shell'en, den ene langvarige Quickshell-proces, som også tegner menuen, notifikationerne, OSD-popups og låseskærmen. Det er derfor, den har perfekt tema med alt andet, og hvorfor et panel åbner øjeblikkeligt i stedet for at starte en ny app.
 
 Den er også det eneste stykke af skrivebordet, der altid er på skærmen, så det er værd at vide, hvad alle de små tegn gør.
 
 ## Hvad der er på den som standard
 
-Linjen har tre sektioner. Til venstre sidder Omarchy-logoet (menustarteren) og arbejdsområdeindikatorerne. I midten får du statusindikatorerne, uret, Elsewhen (et verdensuret), vejret og et Omarchy-opdateringsbadge. Til højre: tastaturlayoutet (når mere end ét er konfigureret), systembakken, agenter, bluetooth, netværk, lyd, skærm og strøm.
+Linjen har tre sektioner. Til venstre sidder LunaOS-logoet (menustarteren) og arbejdsområdeindikatorerne. I midten får du statusindikatorerne, uret, Elsewhen (et verdensuret), vejret og et LunaOS-opdateringsbadge. Til højre: tastaturlayoutet (når mere end ét er konfigureret), systembakken, agenter, bluetooth, netværk, lyd, skærm og strøm.
 
-Nogle af dem vises kun, når de har noget at sige. Tastaturlayoutet vises kun, hvis du har konfigureret mere end ét layout. Opdateringsbadget vises kun, når der venter en Omarchy-opdatering. Og agentikonet vises første gang, Omarchy finder AI-kodningsforbrug på maskinen (se [AI](17-ai.md)).
+Nogle af dem vises kun, når de har noget at sige. Tastaturlayoutet vises kun, hvis du har konfigureret mere end ét layout. Opdateringsbadget vises kun, når der venter en LunaOS-opdatering. Og agentikonet vises første gang, LunaOS finder AI-kodningsforbrug på maskinen (se [AI](17-ai.md)).
 
 ## At klikke rundt
 
@@ -16,7 +16,7 @@ Næsten alle widgets gør noget ved venstre-, højre- og midterklik, og flere re
 
 | Widget | Venstre | Højre | Midter / rul |
 | --- | --- | --- | --- |
-| Menu | Omarchy-menu | Ny terminal | — |
+| Menu | LunaOS-menu | Ny terminal | — |
 | Arbejdsområder | Fokusér det arbejdsområde | — | Rul: næste/forrige arbejdsområde |
 | Ur | Kalender-popup | Bladr igennem etiketformatet | Midter: tidszonevælger |
 | Vejr | Udsigt-popup | Fuldt vejr som notifikation | Midter: opdater |
@@ -29,7 +29,7 @@ Næsten alle widgets gør noget ved venstre-, højre- og midterklik, og flere re
 | Medier | Afspil/pause | Cover-popup | Midter: næste · rul: forrige/næste |
 | Agenter | Agentpanel | Start din agent | Midter: næste abonnement |
 | Bakke | Hold musen over for at afsløre skuffen | Højreklik på chevronen for at administrere | — |
-| Omarchy-opdatering | Kør opdateringen | — | — |
+| LunaOS-opdatering | Kør opdateringen | — | — |
 
 Ikke alt i den tabel er på din linje fra start. Mediewidget'en (MPRIS-nu-kørende med et rullende nummer og kunstner) og mikrofonwidget'en er begge indbyggede, men slået fra som standard — tilføj dem, hvis du vil, som beskrevet nedenfor.
 
@@ -65,7 +65,7 @@ Hvert panel tager tastaturet såvel som musen: pilene flytter, Return aktiverer,
 
 To widgets mere vises på linjen, først når du installerer den matchende tjeneste fra **Installer → Service**, og begge er værd at kende, fordi de gør mere end at rapportere status.
 
-**Tailscale**-panelet tilslutter og frakobler tailnet'et, skifter mellem konti og vælger en exit-node (både dine egne maskiner og Mullvad-regioner vises på den liste). Den gennemser også dine maskiner — og når én er valgt, sender `s` filer til den via Taildrop, hvilket er den hurtigste måde at flytte en fil til din telefon eller en anden bærbar på. `c` kopierer maskinens IP, `n` dens navn og `d` dens fulde DNS-navn. Der er også en sendeknap på hver maskinrække, hvis du hellere vil klikke. Det samme fra terminalen er `omarchy tailscale send <machine> [file...]`.
+**Tailscale**-panelet tilslutter og frakobler tailnet'et, skifter mellem konti og vælger en exit-node (både dine egne maskiner og Mullvad-regioner vises på den liste). Den gennemser også dine maskiner — og når én er valgt, sender `s` filer til den via Taildrop, hvilket er den hurtigste måde at flytte en fil til din telefon eller en anden bærbar på. `c` kopierer maskinens IP, `n` dens navn og `d` dens fulde DNS-navn. Der er også en sendeknap på hver maskinrække, hvis du hellere vil klikke. Det samme fra terminalen er `lunaos tailscale send <machine> [file...]`.
 
 **Dropbox**-panelet håndterer login, viser, hvor meget lagerplads du har brugt, og lister nyligt synkroniserede filer.
 
@@ -90,19 +90,19 @@ Hvis du hellere vil vælge fra en menu, har **Udløs → Udseende → Menulinje*
 De samme ting har kommandoer, hvilket er det, du vil have til en [dotfiles](31-dotfiles.md)-opsætning:
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-For at tilføje eller fjerne en widget helt skal du bruge plugin-kommandoerne. `omarchy plugin list` udskriver alle widgets, shell'en kender, med deres id, og derefter:
+For at tilføje eller fjerne en widget helt skal du bruge plugin-kommandoerne. `lunaos plugin list` udskriver alle widgets, shell'en kender, med deres id, og derefter:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## At skjule linjen
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Konfigurationsfilen
 
-Det hele gemmes i `~/.config/omarchy/shell.json` under nøglen `bar`. Her er en beskåret version:
+Det hele gemmes i `~/.config/lunaos/shell.json` under nøglen `bar`. Her er en beskåret version:
 
 ```json
 {
@@ -119,20 +119,20 @@ Det hele gemmes i `~/.config/omarchy/shell.json` under nøglen `bar`. Her er en 
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Hver widget er én post i ét af de tre layout-arrays, og dets indstillinger sidder inline på den post — der er ingen separat indstillingsfil og intet `config`-underobjekt. Urets `format`, `formatAlt` (hvad højreklik bladrer til) og `verticalFormat` bor alle lige der på `{ "id": "omarchy.clock" }`.
+Hver widget er én post i ét af de tre layout-arrays, og dets indstillinger sidder inline på den post — der er ingen separat indstillingsfil og intet `config`-underobjekt. Urets `format`, `formatAlt` (hvad højreklik bladrer til) og `verticalFormat` bor alle lige der på `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` navngiver den ene midterwidget, der fastgøres til skærmens nøjagtige midte, med de andre ved dens side. Det er sådan, uret forbliver præcis i midten, selv når vejret og opdateringsbadget kommer og går. Sæt det til en tom streng, og midterlisten centreres bare som en gruppe i stedet.
 
-Én regel, der er værd at internalisere: **når du først har din egen `shell.json`, er den kanonisk**. Indtil du tilpasser noget, læser shell'en Omarchys standardfil. I det øjeblik du trækker en widget, kører `omarchy bar` eller redigerer filen selv, ejer du den — der er ingen dyb sammenfletning, så nye standardwidgets i fremtidige Omarchy-udgivelser vises ikke automatisk på din linje. `omarchy bar defaults` sætter det leverede layout tilbage, når du vil have en ren tavle.
+Én regel, der er værd at internalisere: **når du først har din egen `shell.json`, er den kanonisk**. Indtil du tilpasser noget, læser shell'en LunaOSs standardfil. I det øjeblik du trækker en widget, kører `lunaos bar` eller redigerer filen selv, ejer du den — der er ingen dyb sammenfletning, så nye standardwidgets i fremtidige LunaOS-udgivelser vises ikke automatisk på din linje. `lunaos bar defaults` sætter det leverede layout tilbage, når du vil have en ren tavle.
 
 Den samme fil rummer også dine ledig-tider på øverste niveau, uden for nøglen `bar`: `idle.screensaver` og `idle.lock`, begge i sekunder, siden du gik i ledig. Så standardpauseskærmen sætter ind ved 150 sekunder, og låsen ved 300.

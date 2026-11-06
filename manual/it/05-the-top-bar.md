@@ -1,14 +1,14 @@
 # La barra superiore
 
-La striscia lungo la parte superiore dello schermo è la barra di Omarchy. Non è una barra di stato aggiunta in un secondo momento, ma parte della shell di Omarchy, l'unico processo Quickshell a lunga esecuzione che disegna anche il menu, le notifiche, i popup OSD e la schermata di blocco. Ecco perché si tematizza perfettamente con tutto il resto e perché un pannello si apre istantaneamente invece di avviare una nuova app.
+La striscia lungo la parte superiore dello schermo è la barra di LunaOS. Non è una barra di stato aggiunta in un secondo momento, ma parte della shell di LunaOS, l'unico processo Quickshell a lunga esecuzione che disegna anche il menu, le notifiche, i popup OSD e la schermata di blocco. Ecco perché si tematizza perfettamente con tutto il resto e perché un pannello si apre istantaneamente invece di avviare una nuova app.
 
 È anche l'unico pezzo del desktop sempre sullo schermo, quindi vale la pena sapere cosa fanno tutti quei piccoli glifi.
 
 ## Cosa c'è per impostazione predefinita
 
-La barra ha tre sezioni. A sinistra sta il logo Omarchy (l'avviatore del menu) e gli indicatori dei workspace. Al centro hai gli indicatori di stato, l'orologio, Elsewhen (un orologio mondiale), il meteo e un distintivo di aggiornamento Omarchy. A destra: il layout tastiera (quando ne è configurato più di uno), l'area di notifica, gli agenti, il bluetooth, la rete, l'audio, il display e l'alimentazione.
+La barra ha tre sezioni. A sinistra sta il logo LunaOS (l'avviatore del menu) e gli indicatori dei workspace. Al centro hai gli indicatori di stato, l'orologio, Elsewhen (un orologio mondiale), il meteo e un distintivo di aggiornamento LunaOS. A destra: il layout tastiera (quando ne è configurato più di uno), l'area di notifica, gli agenti, il bluetooth, la rete, l'audio, il display e l'alimentazione.
 
-Alcuni di questi compaiono solo quando hanno qualcosa da dire. Il layout tastiera appare solo se ne hai configurato più di uno. Il distintivo di aggiornamento appare solo quando c'è un aggiornamento Omarchy in attesa. E l'icona degli agenti appare la prima volta che Omarchy trova un utilizzo di codifica AI sulla macchina (vedi [AI](17-ai.md)).
+Alcuni di questi compaiono solo quando hanno qualcosa da dire. Il layout tastiera appare solo se ne hai configurato più di uno. Il distintivo di aggiornamento appare solo quando c'è un aggiornamento LunaOS in attesa. E l'icona degli agenti appare la prima volta che LunaOS trova un utilizzo di codifica AI sulla macchina (vedi [AI](17-ai.md)).
 
 ## Cliccare in giro
 
@@ -16,7 +16,7 @@ Quasi ogni widget fa qualcosa con clic sinistro, destro e centrale, e diversi ri
 
 | Widget | Sinistro | Destro | Centrale / scorrimento |
 | --- | --- | --- | --- |
-| Menu | Menu Omarchy | Nuovo terminale | — |
+| Menu | Menu LunaOS | Nuovo terminale | — |
 | Workspace | Focalizza quel workspace | — | Scorrimento: workspace successivo/precedente |
 | Orologio | Popup calendario | Cambia formato etichetta a ciclo | Centrale: selettore fuso orario |
 | Meteo | Popup previsioni | Meteo completo come notifica | Centrale: aggiorna |
@@ -29,7 +29,7 @@ Quasi ogni widget fa qualcosa con clic sinistro, destro e centrale, e diversi ri
 | Media | Riproduci/pausa | Popup copertina | Centrale: successivo · scorrimento: prec./succ. |
 | Agenti | Pannello agenti | Avvia il tuo agente | Centrale: abbonamento successivo |
 | Area di notifica | Passa sopra per mostrare il cassetto | Destro sulla freccia per gestirla | — |
-| Aggiornamento Omarchy | Esegui l'aggiornamento | — | — |
+| Aggiornamento LunaOS | Esegui l'aggiornamento | — | — |
 
 Non tutto ciò che è in quella tabella è sulla barra di serie. Il widget media (MPRIS in riproduzione, con brano e artista a scorrimento) e il widget microfono sono entrambi integrati ma disattivati per impostazione predefinita — aggiungili se li vuoi, come descritto sotto.
 
@@ -65,7 +65,7 @@ Ogni pannello accetta la tastiera oltre al mouse: le frecce muovono, Return atti
 
 Altri due widget compaiono sulla barra solo una volta installato il servizio corrispondente da **Installa → Servizio**, ed entrambi vale la pena conoscerli perché fanno più che riportare lo stato.
 
-Il pannello **Tailscale** connette e disconnette la tailnet, cambia account e sceglie un nodo di uscita (le tue macchine e le regioni Mullvad compaiono entrambe in quell'elenco). Sfoglia anche le tue macchine — e con una selezionata, `s` le invia file tramite Taildrop, che è il modo più veloce per spostare un file sul telefono o su un altro portatile. `c` copia l'IP della macchina, `n` il suo nome e `d` il suo nome DNS completo. C'è anche un pulsante di invio su ogni riga macchina, se preferisci cliccare. La stessa cosa da terminale è `omarchy tailscale send <machine> [file...]`.
+Il pannello **Tailscale** connette e disconnette la tailnet, cambia account e sceglie un nodo di uscita (le tue macchine e le regioni Mullvad compaiono entrambe in quell'elenco). Sfoglia anche le tue macchine — e con una selezionata, `s` le invia file tramite Taildrop, che è il modo più veloce per spostare un file sul telefono o su un altro portatile. `c` copia l'IP della macchina, `n` il suo nome e `d` il suo nome DNS completo. C'è anche un pulsante di invio su ogni riga macchina, se preferisci cliccare. La stessa cosa da terminale è `lunaos tailscale send <machine> [file...]`.
 
 Il pannello **Dropbox** gestisce l'accesso, mostra quanto spazio hai usato ed elenca i file sincronizzati di recente.
 
@@ -90,19 +90,19 @@ Se preferisci scegliere da un menu, **Azioni → Aspetto → Barra menu** ha la 
 Le stesse cose hanno comandi, che è ciò che vuoi per una configurazione [dotfiles](31-dotfiles.md):
 
 ```bash
-omarchy bar position bottom
-omarchy bar background glassy  # opaque, glassy, none, or cycle
-omarchy bar move omarchy.clock --section center --index 0
-omarchy bar move omarchy.bluetooth --section tray  # into the tray's drawer
-omarchy bar set omarchy.clock format "HH:mm"
-omarchy bar defaults          # back to the shipped layout
+lunaos bar position bottom
+lunaos bar background glassy  # opaque, glassy, none, or cycle
+lunaos bar move lunaos.clock --section center --index 0
+lunaos bar move lunaos.bluetooth --section tray  # into the tray's drawer
+lunaos bar set lunaos.clock format "HH:mm"
+lunaos bar defaults          # back to the shipped layout
 ```
 
-Per aggiungere o rimuovere del tutto un widget, usa i comandi plugin. `omarchy plugin list` stampa ogni widget che la shell conosce con il suo id, e poi:
+Per aggiungere o rimuovere del tutto un widget, usa i comandi plugin. `lunaos plugin list` stampa ogni widget che la shell conosce con il suo id, e poi:
 
 ```bash
-omarchy plugin enable omarchy.media --section center
-omarchy plugin disable omarchy.weather
+lunaos plugin enable lunaos.media --section center
+lunaos plugin disable lunaos.weather
 ```
 
 ## Nascondere la barra
@@ -111,7 +111,7 @@ omarchy plugin disable omarchy.weather
 
 ## Il file di configurazione
 
-Tutto è memorizzato in `~/.config/omarchy/shell.json`, sotto la chiave `bar`. Ecco una versione ridotta:
+Tutto è memorizzato in `~/.config/lunaos/shell.json`, sotto la chiave `bar`. Ecco una versione ridotta:
 
 ```json
 {
@@ -119,20 +119,20 @@ Tutto è memorizzato in `~/.config/omarchy/shell.json`, sotto la chiave `bar`. E
   "bar": {
     "position": "top",
     "background": "opaque",
-    "centerAnchor": "omarchy.clock",
+    "centerAnchor": "lunaos.clock",
     "layout": {
-      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
-      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
-      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+      "left": [{ "id": "lunaos.menu" }, { "id": "lunaos.workspaces" }],
+      "center": [{ "id": "lunaos.clock", "format": "HH:mm" }],
+      "right": [{ "id": "lunaos.audio" }, { "id": "lunaos.power" }]
     }
   }
 }
 ```
 
-Ogni widget è una voce in uno dei tre array di layout, e le sue impostazioni stanno in linea su quella voce — non c'è un file di impostazioni separato né un sotto-oggetto `config`. Il `format` dell'orologio, `formatAlt` (ciò a cui il clic destro passa a ciclo) e `verticalFormat` vivono tutti proprio lì su `{ "id": "omarchy.clock" }`.
+Ogni widget è una voce in uno dei tre array di layout, e le sue impostazioni stanno in linea su quella voce — non c'è un file di impostazioni separato né un sotto-oggetto `config`. Il `format` dell'orologio, `formatAlt` (ciò a cui il clic destro passa a ciclo) e `verticalFormat` vivono tutti proprio lì su `{ "id": "lunaos.clock" }`.
 
 `centerAnchor` nomina l'unico widget centrale che viene fissato al centro esatto dello schermo, con gli altri ai suoi lati. È così che l'orologio resta morto al centro anche mentre il meteo e il distintivo di aggiornamento vanno e vengono. Impostalo a una stringa vuota e l'elenco centrale viene semplicemente centrato come gruppo.
 
-Una regola che vale la pena interiorizzare: **una volta che hai il tuo `shell.json`, è canonico**. Finché non personalizzi nulla, la shell legge il file predefinito di Omarchy. Nell'istante in cui trascini un widget, esegui `omarchy bar` o modifichi tu stesso il file, è tuo — non c'è unione profonda, quindi i nuovi widget predefiniti nelle future versioni di Omarchy non appariranno automaticamente sulla tua barra. `omarchy bar defaults` rimette il layout fornito ogni volta che vuoi ripartire da zero.
+Una regola che vale la pena interiorizzare: **una volta che hai il tuo `shell.json`, è canonico**. Finché non personalizzi nulla, la shell legge il file predefinito di LunaOS. Nell'istante in cui trascini un widget, esegui `lunaos bar` o modifichi tu stesso il file, è tuo — non c'è unione profonda, quindi i nuovi widget predefiniti nelle future versioni di LunaOS non appariranno automaticamente sulla tua barra. `lunaos bar defaults` rimette il layout fornito ogni volta che vuoi ripartire da zero.
 
 Lo stesso file contiene anche le tempistiche di inattività al livello superiore, fuori dalla chiave `bar`: `idle.screensaver` e `idle.lock`, entrambi in secondi da quando sei diventato inattivo. Quindi il salvaschermo predefinito entra a 150 secondi e il blocco a 300.

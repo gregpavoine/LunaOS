@@ -1,8 +1,8 @@
 # Navigatsiya
 
-Omarchy’da hamma narsa klaviatura orqali amalga oshiriladi — _HAMMA NARSA!_ Tizim birinchi marta ishga tushganida, sichqonchaning o‘zi bilan tom ma’noda hech narsa qila olmaysiz. Lekin Omarchy menyusini ochish uchun `Super + Space` ni bosishingiz mumkin va bu yerdan deyarli hamma narsani qila olasiz.
+LunaOS’da hamma narsa klaviatura orqali amalga oshiriladi — _HAMMA NARSA!_ Tizim birinchi marta ishga tushganida, sichqonchaning o‘zi bilan tom ma’noda hech narsa qila olmaysiz. Lekin LunaOS menyusini ochish uchun `Super + Space` ni bosishingiz mumkin va bu yerdan deyarli hamma narsani qila olasiz.
 
-Lekin Omarchy menyusi ko‘p vaqt davomida tizimni boshqarishning asosiy usuli bo‘lishi hatto mo‘ljallanmagan ham. Biz undan tezroq ishlay olamiz! Barcha eng muhim ilovalar to‘g‘ridan-to‘g‘ri alohida tezkor tugmalarga bog‘langan. Siz terminalni `Super + Return` bilan, brauzerni esa `Super + Shift + Return` bilan ishga tushirasiz. Ularni ketma-ket bajarib ko‘ring, shunda Hyprland plitkalashining sehrini amalda ko‘rasiz:
+Lekin LunaOS menyusi ko‘p vaqt davomida tizimni boshqarishning asosiy usuli bo‘lishi hatto mo‘ljallanmagan ham. Biz undan tezroq ishlay olamiz! Barcha eng muhim ilovalar to‘g‘ridan-to‘g‘ri alohida tezkor tugmalarga bog‘langan. Siz terminalni `Super + Return` bilan, brauzerni esa `Super + Shift + Return` bilan ishga tushirasiz. Ularni ketma-ket bajarib ko‘ring, shunda Hyprland plitkalashining sehrini amalda ko‘rasiz:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Shuningdek, `Super + F` bilan to‘liq ekranga yoki `Super + Alt + F` bilan faqa
 
 ### Dwindle va scrolling tartibi
 
-Omarchy’ning standart tartibi dwindle deb ataladi. U bitta ish maydonida ochgan barcha oynalaringizni har doim ko‘rinadigan holatda saqlaydi, hatto ularni kichraytirishiga to‘g‘ri kelsa ham.
+LunaOS’ning standart tartibi dwindle deb ataladi. U bitta ish maydonida ochgan barcha oynalaringizni har doim ko‘rinadigan holatda saqlaydi, hatto ularni kichraytirishiga to‘g‘ri kelsa ham.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Suzuvchi ish maydoni an’anaviy ish stoli kabi ishlaydi: oynalar bir-birining ustiga chiqadi, ularni o‘zingiz ko‘chirasiz va o‘lchamini o‘zingiz belgilaysiz. Har bir oyna mavzuingiz ranglaridagi sarlavha paneliga ega bo‘ladi, unda kichraytirish, kattalashtirish va yopish tugmalari bo‘ladi. `Super + M` ham fokuslangan oynani kichraytiradi. Kichraytirilgan oyna dock’da kutadi; uni qaytarish uchun uning ilovasini bosing. Oynani oldinga chiqarish uchun uni bosing. Uning o‘lchamini istalgan chetidan yoki burchagidan o‘zgartiring. Yuqori panelni ko‘rinishda saqlab qolgan holda oynani kattalashtirish uchun sarlavha panelini ikki marta bosing, eski o‘lchamini qaytarish uchun esa yana bosing.
 
-Suzuvchi ish maydoni, shuningdek, biriktirib qo‘yilgan ilovalaringiz, ishlayotgan hamma narsa va ilovalar tugmasi ortidagi har bir ilovaning to‘ri joylashgan dock’ni ham ko‘rsatadi, uni `Super + Alt + Space` va Omarchy menyusidagi _Apps_ ham ochadi. Ilovani o‘chirib tashlash uchun to‘rdagi ilovani o‘ng tugma bilan bosing yoki `Delete` ni bosing. Ilovani ochish yoki uning oynasini oldinga chiqarish uchun uni bosing; uning oynalari bo‘ylab aylanish uchun yana bosing. O‘rta tugma bilan bosish yangi oyna ochadi. Belgini ko‘chirish uchun uni dock bo‘ylab torting; ishlayotgan ilovani boshqalar orasiga tortib kiritsangiz, u o‘sha yerda qoladi. Ilovani dock’da saqlash, undan olib tashlash yoki undan chiqish uchun o‘ng tugma bilan bosing. Dock to‘liq ekranli oynaga yo‘l bo‘shatib beradi. Dock’ni boshqa chetga ko‘chirish yoki ko‘rsatkich uning chetiga yetguniga qadar uni yashirib turish uchun ilovalar tugmasini o‘ng tugma bilan bosing. Holat, shuningdek, _Trigger > Appearance > Dock > Dock Position_ ostida ham bor, va `omarchy dock position left` hamda `omarchy dock autohide on` ularning ikkalasini ham terminaldan sozlaydi. Siz dock’da saqlaydigan ilovalar ishlamayotgan paytida xiralashgan bo‘ladi.
+Suzuvchi ish maydoni, shuningdek, biriktirib qo‘yilgan ilovalaringiz, ishlayotgan hamma narsa va ilovalar tugmasi ortidagi har bir ilovaning to‘ri joylashgan dock’ni ham ko‘rsatadi, uni `Super + Alt + Space` va LunaOS menyusidagi _Apps_ ham ochadi. Ilovani o‘chirib tashlash uchun to‘rdagi ilovani o‘ng tugma bilan bosing yoki `Delete` ni bosing. Ilovani ochish yoki uning oynasini oldinga chiqarish uchun uni bosing; uning oynalari bo‘ylab aylanish uchun yana bosing. O‘rta tugma bilan bosish yangi oyna ochadi. Belgini ko‘chirish uchun uni dock bo‘ylab torting; ishlayotgan ilovani boshqalar orasiga tortib kiritsangiz, u o‘sha yerda qoladi. Ilovani dock’da saqlash, undan olib tashlash yoki undan chiqish uchun o‘ng tugma bilan bosing. Dock to‘liq ekranli oynaga yo‘l bo‘shatib beradi. Dock’ni boshqa chetga ko‘chirish yoki ko‘rsatkich uning chetiga yetguniga qadar uni yashirib turish uchun ilovalar tugmasini o‘ng tugma bilan bosing. Holat, shuningdek, _Trigger > Appearance > Dock > Dock Position_ ostida ham bor, va `lunaos dock position left` hamda `lunaos dock autohide on` ularning ikkalasini ham terminaldan sozlaydi. Siz dock’da saqlaydigan ilovalar ishlamayotgan paytida xiralashgan bo‘ladi.
 
-Yangi ish maydonlari va `Super + L` bilan o‘z tartibini bermagan har qanday ish maydoni standart tartibdan foydalanadi. Standartni o‘zgartirish oynalari bo‘lmagan har bir ish maydonini unga qayta sozlaydi, oynalari bor ish maydoni esa o‘zidagi tartibni saqlab qoladi. Dock’ga kichraytirilgan oyna hamon o‘zi tark etgan ish maydonidagi oyna sifatida hisoblanadi. Uni _Trigger > Appearance > Workspace Layout_ ostida tanlang: Tiling, Scrolling yoki Floating. `omarchy-hyprland-workspace-layout-default scrolling` uni terminaldan sozlaydi.
+Yangi ish maydonlari va `Super + L` bilan o‘z tartibini bermagan har qanday ish maydoni standart tartibdan foydalanadi. Standartni o‘zgartirish oynalari bo‘lmagan har bir ish maydonini unga qayta sozlaydi, oynalari bor ish maydoni esa o‘zidagi tartibni saqlab qoladi. Dock’ga kichraytirilgan oyna hamon o‘zi tark etgan ish maydonidagi oyna sifatida hisoblanadi. Uni _Trigger > Appearance > Workspace Layout_ ostida tanlang: Tiling, Scrolling yoki Floating. `lunaos-hyprland-workspace-layout-default scrolling` uni terminaldan sozlaydi.
 
 ### Oynalarni guruhlash
 

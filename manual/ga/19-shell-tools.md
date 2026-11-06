@@ -1,6 +1,6 @@
 # Uirlisí Blaoisce
 
-Chomh maith leis na huirlisí caighdeánacha Linux, tagann Omarchy le go leor uirlisí blaoisce feabhsaithe freisin. Seo na príomhcinn.
+Chomh maith leis na huirlisí caighdeánacha Linux, tagann LunaOS le go leor uirlisí blaoisce feabhsaithe freisin. Seo na príomhcinn.
 
 ## fzf
 
@@ -14,7 +14,7 @@ Is féidir an lámhleabhar iomlán a fháil trí `man fzf`.
 
 ## Zoxide
 
-Is ionadach do cd é [Zoxide](https://github.com/ajeetdsouza/zoxide). Cuimhníonn sé ar na heolairí a raibh tú iontu, ionas gur féidir leat léim chucu níos éasca an chéad uair eile. Abair go ndéanann tú `cd ~/.config/omarchy` uair amháin. An chéad uair eile, is féidir leat `cd omarchy` a dhéanamh (nó fiú `cd oma` amháin), agus tabharfaidh Zoxide tú díreach ann.
+Is ionadach do cd é [Zoxide](https://github.com/ajeetdsouza/zoxide). Cuimhníonn sé ar na heolairí a raibh tú iontu, ionas gur féidir leat léim chucu níos éasca an chéad uair eile. Abair go ndéanann tú `cd ~/.config/lunaos` uair amháin. An chéad uair eile, is féidir leat `cd lunaos` a dhéanamh (nó fiú `cd oma` amháin), agus tabharfaidh Zoxide tú díreach ann.
 
 Is féidir an lámhleabhar iomlán a fháil trí `man zoxide`.
 
@@ -58,4 +58,4 @@ Is féidir an lámhleabhar iomlán a fháil trí `man yt-dlp`.
 
 Éascaíonn [try](https://github.com/tobi/try) turgnaimh ríomhchlárúcháin a bhainistiú le heolairí le stampa dáta. Cónaíonn na turgnaimh go léir in `~/Work/tries` agus is féidir leat rochtain a fháil orthu trí `try`.
 
-Ní chuireann Omarchy eolaire `bin/` tionscadail le `PATH` go huathoibríoch. Rith uirlisí áitiúla iontaofa tionscadail le conair choibhneasta shonrach, ar nós `bin/rails` nó `./bin/dev`.
+Ní chuireann LunaOS eolaire `bin/` tionscadail le `PATH` go huathoibríoch. Rith uirlisí áitiúla iontaofa tionscadail le conair choibhneasta shonrach, ar nós `bin/rails` nó `./bin/dev`.

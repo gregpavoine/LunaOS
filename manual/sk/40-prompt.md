@@ -1,6 +1,6 @@
 # Výzva príkazového riadka
 
-Omarchy sa predvolene dodáva s minimálnou výzvou [Starship](https://starship.rs/). Takto rád udržujem svoju výzvu. Nepotrebujem vedieť používateľa, pretože som to vždy ja, a nepotrebujem vedieť čas, pretože je vždy hore.
+LunaOS sa predvolene dodáva s minimálnou výzvou [Starship](https://starship.rs/). Takto rád udržujem svoju výzvu. Nepotrebujem vedieť používateľa, pretože som to vždy ja, a nepotrebujem vedieť čas, pretože je vždy hore.
 
  ![prompt](images/prompt.webp)
 

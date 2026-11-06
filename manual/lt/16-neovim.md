@@ -6,7 +6,7 @@ Jei esate visiškai naujas vim stiliaus redagavime, rekomenduoju pažiūrėti [T
 
 Dabar Neovim galima konfigūruoti iš esmės be galo. Jei tikrai norite išprotėti, galite susikurti savo Neovim konfigūraciją nuo nulio. Yra puikus kursas iš [Typecraft apie Neovim nustatymą nuo nulio](https://www.youtube.com/watch?v=zHTeCSVAFNY). Ir [ThePrimeagen taip pat turi vieną](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-Bet Omarchy pateikiama su visa Neovim sąranka — `omarchy-nvim` paketu — kuri su meile sureguliuota, kad parodytų geriausia, kas įmanoma iš karto. Jums nereikia parašyti nė vienos konfigūracijos eilutės! Ji sukurta ant [LazyVim](https://www.lazyvim.org/), Neovim papildinių ir konfigūracijų distribucijos. Tai nuostabu.
+Bet LunaOS pateikiama su visa Neovim sąranka — `omarchy-nvim` paketu — kuri su meile sureguliuota, kad parodytų geriausia, kas įmanoma iš karto. Jums nereikia parašyti nė vienos konfigūracijos eilutės! Ji sukurta ant [LazyVim](https://www.lazyvim.org/), Neovim papildinių ir konfigūracijų distribucijos. Tai nuostabu.
 
 ## LazyVim pagrindai
 

@@ -1,6 +1,6 @@
 # Prompt
 
-Omarchy standart holatda minimal [Starship](https://starship.rs/) prompt bilan keladi. Promptimni shunday saqlamoqchiman. Foydalanuvchini bilishim shart emas, chunki har doim men oʻzim va vaqtni bilishim shart emas, chunki har doim tepada.
+LunaOS standart holatda minimal [Starship](https://starship.rs/) prompt bilan keladi. Promptimni shunday saqlamoqchiman. Foydalanuvchini bilishim shart emas, chunki har doim men oʻzim va vaqtni bilishim shart emas, chunki har doim tepada.
 
  ![prompt](images/prompt.webp)
 

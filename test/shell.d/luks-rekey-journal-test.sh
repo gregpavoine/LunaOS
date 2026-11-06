@@ -5,11 +5,11 @@ set -euo pipefail
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 
 # Owner provisioning's LUKS re-key, killed after every durable step and rerun.
-# Each attempt is its own process, like a reboot: omarchy-provision-owner's
+# Each attempt is its own process, like a reboot: lunaos-provision-owner's
 # setup attempt from the accepted owner form on, the shared re-key, and a
 # cryptsetup that is either a slot-table fake or the real binary on a
 # file-backed LUKS2 or LUKS1 volume. The callbacks reach the platform through
-# the real omarchy-lifecycle-dispatch: on an x86 fixture it is a no-op and the
+# the real lunaos-lifecycle-dispatch: on an x86 fixture it is a no-op and the
 # Limine UKI path runs; on an Apple fixture a fake boot package with
 # provisioning and luks-slots entrypoints owns an unlock kept on a boot
 # partition and the kernel command line and records the kept slot.
@@ -26,7 +26,7 @@ platform=x86
 # for x86 only where no boot package is registered.
 platforms=(x86 apple)
 if (( EUID == 0 )); then
-  if [[ $("$ROOT/bin/omarchy-hw-platform") == "aarch64-apple" ]]; then
+  if [[ $("$ROOT/bin/lunaos-hw-platform") == "aarch64-apple" ]]; then
     skip "running as root on Apple Silicon, where dispatch ignores fixtures; skipping"
     exit 0
   fi
@@ -61,14 +61,14 @@ fi
 SH
 mac_boot_entrypoint provision-commit <<'SH'
 [[ ! -e $TMP/rebuild-fail ]] || exit 1
-rm -f "$TMP/boot/omarchy/luks-key"
+rm -f "$TMP/boot/lunaos/luks-key"
 crash "boot-partition key removed"
 sed -i 's/ rd\.luks\.key=[^" ]*//' "$TMP/etc/default/grub"
 echo rebuild >>"$TMP/rebuilds"
 crash "boot rebuilt"
 SH
 mac_boot_entrypoint provision-verify <<'SH'
-[[ ! -e $TMP/boot/omarchy/luks-key ]] && ! grep -q 'rd\.luks\.key=' "$TMP/etc/default/grub"
+[[ ! -e $TMP/boot/lunaos/luks-key ]] && ! grep -q 'rd\.luks\.key=' "$TMP/etc/default/grub"
 SH
 mac_boot_entrypoint luks-slots <<'SH'
 [[ ! -e $TMP/record-fail ]] || exit 1
@@ -85,24 +85,24 @@ owner_password=owner-password
 sed -n '/^PROVISIONING_UNLOCK_FILES=(/,/^)/p; /^UNLOCK_OWNER=/p; /^limine_auto_unlock_present() {/,/^}/p; /^limine_auto_unlock_drop() {/,/^}/p
   /^unlock_owner() {/,/^}/p; /^luks_auto_unlock_present() {/,/^}/p; /^luks_auto_unlock_drop() {/,/^}/p
   /^luks_record_slots() {/,/^}/p' \
-  "$ROOT/bin/omarchy-provision-owner" | sed "s|/etc/|$tmp/etc/|g" >"$tmp/unlock.sh"
+  "$ROOT/bin/lunaos-provision-owner" | sed "s|/etc/|$tmp/etc/|g" >"$tmp/unlock.sh"
 grep -q '^luks_auto_unlock_drop() {' "$tmp/unlock.sh" && grep -q '^limine_auto_unlock_drop() {' "$tmp/unlock.sh" &&
   grep -q '^luks_record_slots() {' "$tmp/unlock.sh" ||
-  fail "omarchy-provision-owner defines the dispatched and Limine auto-unlock callbacks and the slot record"
+  fail "lunaos-provision-owner defines the dispatched and Limine auto-unlock callbacks and the slot record"
 sed -n '/^rekey_luks() {/,/^}/p; /^run_provisioning() {/,/^}/p; /^cleanup_oem_state() {/,/^}/p
   /^platform_ready() {/,/^}/p; /^run_setup() {/,/^}/p
   /^rekey_accepts_password() {/,/^}/p' \
-  "$ROOT/bin/omarchy-provision-owner" |
+  "$ROOT/bin/lunaos-provision-owner" |
   sed "s|/etc/|$tmp/etc/|g" >"$tmp/provision.sh"
 grep -q '^run_provisioning() {' "$tmp/provision.sh" && grep -q '^run_setup() {' "$tmp/provision.sh" ||
-  fail "omarchy-provision-owner defines its setup and provisioning worker"
+  fail "lunaos-provision-owner defines its setup and provisioning worker"
 
 cat >"$tmp/attempt.sh" <<'SH'
 set -euo pipefail
 
 source "$ROOT/install/provisioning/luks-rekey.sh"
 source "$TMP/unlock.sh"
-source <(sed -n '/^luks_boot_layout() {/,/^}/p' "$ROOT/bin/omarchy-provision-owner" | sed "s|/etc/|$TMP/etc/|g")
+source <(sed -n '/^luks_boot_layout() {/,/^}/p' "$ROOT/bin/lunaos-provision-owner" | sed "s|/etc/|$TMP/etc/|g")
 declare -F luks_boot_layout >/dev/null
 
 PROVISIONING_DIR=$TMP/provisioning
@@ -228,7 +228,7 @@ cryptsetup() {
   esac
 }
 
-# omarchy-provision-owner's setup functions, with account and boot setup and
+# lunaos-provision-owner's setup functions, with account and boot setup and
 # the screen stubbed.
 setup_functions() {
   source "$TMP/provision.sh"
@@ -304,7 +304,7 @@ run() {
   echo "$crash_at" >"$tmp/crash-at"
   {
     ROOT=$ROOT TMP=$tmp BACKEND=$backend DEVICE=$device MODE=$mode PASSWORD=$password CRASH_AT=$crash_at \
-      OMARCHY_PATH=$runtime OMARCHY_PROC_ROOT=$tmp/$platform/proc OMARCHY_LIFECYCLE_ROOT=$tmp/lifecycle \
+      LUNAOS_PATH=$runtime LUNAOS_PROC_ROOT=$tmp/$platform/proc LUNAOS_LIFECYCLE_ROOT=$tmp/lifecycle \
       PATH="$tmp/$platform/bin:$PATH" bash "$tmp/attempt.sh"
   } >>"$tmp/output" 2>&1
 }
@@ -336,15 +336,15 @@ fixture() {
   touch "$tmp/provisioning/pending"
   printf '%s' "$staged_key" >"$tmp/provisioning/luks-key"
   if [[ $platform == "apple" ]]; then
-    mkdir -p "$tmp/boot/omarchy" "$tmp/etc/default"
-    printf '%s' "$staged_key" >"$tmp/boot/omarchy/luks-key"
-    echo 'GRUB_CMDLINE_LINUX="rd.luks.name=root-uuid=root rd.luks.key=root-uuid=/omarchy/luks-key:UUID=boot-uuid"' >"$tmp/etc/default/grub"
+    mkdir -p "$tmp/boot/lunaos" "$tmp/etc/default"
+    printf '%s' "$staged_key" >"$tmp/boot/lunaos/luks-key"
+    echo 'GRUB_CMDLINE_LINUX="rd.luks.name=root-uuid=root rd.luks.key=root-uuid=/lunaos/luks-key:UUID=boot-uuid"' >"$tmp/etc/default/grub"
   else
-    mkdir -p "$tmp/etc/omarchy" "$tmp/etc/limine-entry-tool.d" "$tmp/etc/mkinitcpio.conf.d"
-    printf '%s' "$staged_key" >"$tmp/etc/omarchy/provisioning.key"
-    echo 'KERNEL_CMDLINE[default]+=" cryptkey=rootfs:/etc/omarchy/provisioning.key"' \
-      >"$tmp/etc/limine-entry-tool.d/99-omarchy-provisioning-unlock.conf"
-    echo 'FILES+=(/etc/omarchy/provisioning.key)' >"$tmp/etc/mkinitcpio.conf.d/99-omarchy-provisioning-key.conf"
+    mkdir -p "$tmp/etc/lunaos" "$tmp/etc/limine-entry-tool.d" "$tmp/etc/mkinitcpio.conf.d"
+    printf '%s' "$staged_key" >"$tmp/etc/lunaos/provisioning.key"
+    echo 'KERNEL_CMDLINE[default]+=" cryptkey=rootfs:/etc/lunaos/provisioning.key"' \
+      >"$tmp/etc/limine-entry-tool.d/99-lunaos-provisioning-unlock.conf"
+    echo 'FILES+=(/etc/lunaos/provisioning.key)' >"$tmp/etc/mkinitcpio.conf.d/99-lunaos-provisioning-key.conf"
   fi
   echo 0 >"$tmp/steps"
   : >"$tmp/log"
@@ -371,7 +371,7 @@ fixture() {
 # container's seccomp profile), so that a bare cryptsetup open does not take the
 # token in place of any key.
 enroll_tokens() {
-  local slot=$1 key=$2 description=omarchy-test-token-$$
+  local slot=$1 key=$2 description=lunaos-test-token-$$
   command -v keyctl >/dev/null || return 1
   token_key=$(printf '%s' "$key" | keyctl padd user "$description" @s 2>/dev/null) || return 1
   keyctl timeout "$token_key" 600 >/dev/null 2>&1 || true
@@ -382,8 +382,8 @@ enroll_tokens() {
 }
 
 unlock_files_present() {
-  [[ -e $tmp/etc/omarchy/provisioning.key || -e $tmp/etc/limine-entry-tool.d/99-omarchy-provisioning-unlock.conf ||
-    -e $tmp/etc/mkinitcpio.conf.d/99-omarchy-provisioning-key.conf || -e $tmp/boot/omarchy/luks-key ]] ||
+  [[ -e $tmp/etc/lunaos/provisioning.key || -e $tmp/etc/limine-entry-tool.d/99-lunaos-provisioning-unlock.conf ||
+    -e $tmp/etc/mkinitcpio.conf.d/99-lunaos-provisioning-key.conf || -e $tmp/boot/lunaos/luks-key ]] ||
     grep -qs 'rd\.luks\.key=' "$tmp/etc/default/grub"
 }
 
@@ -539,7 +539,7 @@ fixture
 touch "$tmp/rebuild-fail"
 if run rekey "$owner_password"; then fail "a failed boot rebuild fails the attempt"; fi
 unlock_files_present || fail "a failed boot rebuild restores the auto-unlock"
-[[ $(cat "$tmp/etc/omarchy/provisioning.key") == "$staged_key" ]] || fail "the restored keyfile is the staged key"
+[[ $(cat "$tmp/etc/lunaos/provisioning.key") == "$staged_key" ]] || fail "the restored keyfile is the staged key"
 [[ -n $(opens "$staged_key") && -n $(opens "$seller_key") ]] || fail "a failed boot rebuild retires no slot"
 rm "$tmp/rebuild-fail"
 run rekey "$owner_password" || fail "the retry after a failed rebuild completes" "$(cat "$tmp/log")"
@@ -867,12 +867,12 @@ fi
 # A boot package that implements only one of the commit/verify pair owns
 # nothing: provisioning fails closed rather than mixing it with the Limine path.
 mkdir -p "$tmp/half/bin"
-cat >"$tmp/half/bin/omarchy-lifecycle-dispatch" <<SH
+cat >"$tmp/half/bin/lunaos-lifecycle-dispatch" <<SH
 #!/bin/bash
 echo "\$*" >>"$tmp/half-ran"
 [[ \$* != "--resolve provision-commit" ]] || echo /usr/lib/omarchy/mac-boot/provision-commit
 SH
-chmod +x "$tmp/half/bin/omarchy-lifecycle-dispatch"
+chmod +x "$tmp/half/bin/lunaos-lifecycle-dispatch"
 runtime=$tmp/half
 fixture
 rm -f "$tmp/limine-ran" "$tmp/half-ran"

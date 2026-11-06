@@ -16,7 +16,7 @@ QS_PID=""
 
 # Same leftover discipline as the runtime smoke test: Quickshell leaves
 # children behind when it stops, so stop whatever still runs with this
-# test's scratch OMARCHY_PATH once the shell is down.
+# test's scratch LUNAOS_PATH once the shell is down.
 leftover_pids() {
   local environ pid
 
@@ -24,7 +24,7 @@ leftover_pids() {
   while IFS= read -r environ; do
     pid=${environ#/proc/}
     echo "${pid%/environ}"
-  done < <(grep -lzxF -- "OMARCHY_PATH=$test_root" /proc/[0-9]*/environ 2>/dev/null || true)
+  done < <(grep -lzxF -- "LUNAOS_PATH=$test_root" /proc/[0-9]*/environ 2>/dev/null || true)
 }
 
 signal_leftovers() {
@@ -75,18 +75,18 @@ require_command jq
 command -v quickshell >/dev/null 2>&1 || { skip "quickshell not installed; skipping menu open budget"; exit 0; }
 require_comparable_speed "menu open budget"
 
-BUDGET_MS=$(( ${OMARCHY_MENU_OPEN_BUDGET_MS:-150} * SPEED_PERCENT / 100 ))
+BUDGET_MS=$(( ${LUNAOS_MENU_OPEN_BUDGET_MS:-150} * SPEED_PERCENT / 100 ))
 
 TMPDIR=$(mktemp -d)
-test_root="$TMPDIR/omarchy"
+test_root="$TMPDIR/lunaos"
 test_home="$TMPDIR/home"
 stub_bin="$TMPDIR/bin"
 log="$TMPDIR/quickshell.log"
 mkdir -p "$test_root" "$test_home" "$stub_bin"
 # Nobody touches the seat during a run, so without this the scratch
 # shell's idle service would eventually screensave/lock the real desktop.
-mkdir -p "$test_home/.local/state/omarchy/indicators"
-touch "$test_home/.local/state/omarchy/indicators/stay-awake"
+mkdir -p "$test_home/.local/state/lunaos/indicators"
+touch "$test_home/.local/state/lunaos/indicators/stay-awake"
 cp -a "$ROOT/shell" "$test_root/shell"
 ln -s "$ROOT/config" "$test_root/config"
 ln -s "$ROOT/bin" "$test_root/bin"
@@ -102,23 +102,23 @@ for name in pkill killall; do
 done
 # Nor may it change system state over D-Bus: the battery service applies a
 # power profile when UPower reports one.
-for name in omarchy-powerprofiles-set powerprofilesctl; do
+for name in lunaos-powerprofiles-set powerprofilesctl; do
   printf '#!/bin/bash\nexit 0\n' >"$stub_bin/$name"
   chmod +x "$stub_bin/$name"
 done
 # The shell runs some commands under `bash -lc`, and a login shell resets
-# PATH and OMARCHY_PATH from /etc/omarchy.conf, which would put the
+# PATH and LUNAOS_PATH from /etc/lunaos.conf, which would put the
 # session's checkout and its real commands back ahead of these stubs.
 printf '#!/bin/bash\n[[ ${1:-} == "-lc" ]] && shift && set -- -c "$@"\nexec /bin/bash "$@"\n' >"$stub_bin/bash"
 chmod +x "$stub_bin/bash"
 
 
 shell_ipc() {
-  OMARCHY_PATH="$test_root" "$ROOT/bin/omarchy-shell" "$@"
+  LUNAOS_PATH="$test_root" "$ROOT/bin/lunaos-shell" "$@"
 }
 
 shell_ipc_quiet() {
-  OMARCHY_PATH="$test_root" "$ROOT/bin/omarchy-shell" -q "$@"
+  LUNAOS_PATH="$test_root" "$ROOT/bin/lunaos-shell" -q "$@"
 }
 
 # mapped|absent|unknown: a failed compositor query proves nothing.
@@ -127,7 +127,7 @@ menu_state() {
   layers=$(hyprctl -j layers 2>/dev/null) || { echo unknown; return; }
   [[ -n $layers ]] || { echo unknown; return; }
   if jq -e --argjson pid "$QS_PID" '
-    [.. | objects | select(.namespace? == "omarchy-menu" and .pid == $pid and .w > 0 and .h > 0)] | length > 0
+    [.. | objects | select(.namespace? == "lunaos-menu" and .pid == $pid and .w > 0 and .h > 0)] | length > 0
   ' <<<"$layers" >/dev/null 2>&1; then
     echo mapped
   else
@@ -145,7 +145,7 @@ wait_menu() { # mapped|absent
   return 1
 }
 
-OMARCHY_PATH="$test_root" \
+LUNAOS_PATH="$test_root" \
 HOME="$test_home" \
 XDG_CONFIG_HOME="$test_home/.config" \
 XDG_CACHE_HOME="$test_home/.cache" \
@@ -165,23 +165,23 @@ done
 # registration itself is asynchronous, so summon until it lands.
 summoned=""
 for _ in {1..80}; do
-  [[ $(shell_ipc shell summon omarchy.menu '{"menu":"root"}' 2>/dev/null || true) == "ok" ]] && { summoned=1; break; }
+  [[ $(shell_ipc shell summon lunaos.menu '{"menu":"root"}' 2>/dev/null || true) == "ok" ]] && { summoned=1; break; }
   kill -0 "$QS_PID" 2>/dev/null || break
   sleep 0.1
 done
 [[ -n $summoned ]] || { sed -n '1,120p' "$log" >&2; fail "menu summons in a scratch shell"; }
 wait_menu mapped || fail "menu maps after warm-up summon"
-shell_ipc_quiet shell hide omarchy.menu >/dev/null 2>&1 || true
+shell_ipc_quiet shell hide lunaos.menu >/dev/null 2>&1 || true
 wait_menu absent || fail "menu hides after warm-up"
 
 open_ms() {
   local start end
   start=$EPOCHREALTIME
-  [[ $(shell_ipc shell summon omarchy.menu '{"menu":"root"}') == "ok" ]] || return 1
+  [[ $(shell_ipc shell summon lunaos.menu '{"menu":"root"}') == "ok" ]] || return 1
   wait_menu mapped || return 1
   end=$EPOCHREALTIME
   echo $(( (${end/[.,]/} - ${start/[.,]/}) / 1000 ))
-  shell_ipc_quiet shell hide omarchy.menu >/dev/null 2>&1 || true
+  shell_ipc_quiet shell hide lunaos.menu >/dev/null 2>&1 || true
   wait_menu absent || return 1
 }
 

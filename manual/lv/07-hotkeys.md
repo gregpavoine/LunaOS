@@ -6,7 +6,7 @@ Tu vari redzēt visas galvenās tastatūras piesaistes ar `Super + K` (Tmux pies
 
 | Karstā taustiņa kombinācija                  | Funkcija              |
 | ----------------------- | --------------------- |
-| `Super + Space`           | Omarchy izvēlne (lietotnes un viss pārējais)    |
+| `Super + Space`           | LunaOS izvēlne (lietotnes un viss pārējais)    |
 | `Super + Alt + Space` | Lietotņu režģis |
 | `Super + Escape` | Sistēmas izvēlne (iemidzināt, restartēt utt.)  |
 | `Super + Ctrl + L` | Bloķēt datoru |
@@ -136,7 +136,7 @@ Maini/pievieno piesaistes failā `~/.config/hypr/bindings.lua`.
 | `Super + V`           | Ielīmēt    |
 | `Super + Ctrl + V`           | Starpliktuves pārvaldnieks    |
 
-Parasti Linux tev ir nepieciešams `Ctrl + Shift + C/V`, lai kopētu un ielīmētu terminālī, un `Ctrl + C/V`, lai to darītu visur citur. Šīs Omarchy vienotās starpliktuves karstās taustiņu kombinācijas darbojas visur.
+Parasti Linux tev ir nepieciešams `Ctrl + Shift + C/V`, lai kopētu un ielīmētu terminālī, un `Ctrl + C/V`, lai to darītu visur citur. Šīs LunaOS vienotās starpliktuves karstās taustiņu kombinācijas darbojas visur.
 
 ## Uzņemšana
 
@@ -156,7 +156,7 @@ Parasti Linux tev ir nepieciešams `Ctrl + Shift + C/V`, lai kopētu un ielīmē
 
 Ekrāna ierakstiem karstā taustiņa kombinācija vispirms jautā, kādu audio tu vēlies, pēc tam sāk ierakstīšanu. Nospied to vēlreiz, lai apturētu. Skat. [ekrānuzņēmumi un ierakstīšana](12-screenshots-recording.md) detalēm.
 
-Visām uzņemšanas opcijām var piekļūt arī zem _Palaist > Uzņemt_ Omarchy izvēlnē (`Super + Space`).
+Visām uzņemšanas opcijām var piekļūt arī zem _Palaist > Uzņemt_ LunaOS izvēlnē (`Super + Space`).
 
 ## Paziņojumi
 
@@ -177,9 +177,9 @@ Visām uzņemšanas opcijām var piekļūt arī zem _Palaist > Uzņemt_ Omarchy 
 | `Super + Backspace` | Pārslēgt caurspīdīgumu logam |
 | `Super + Ctrl + Backspace` | Pārslēgt viena loga kvadrāta attiecību |
 
-Papildu fona attēli dzīvo `~/.config/omarchy/backgrounds/<theme name>`. Pieejami arī, izmantojot _Instalēt > Stils > Fons_ Omarchy izvēlnē.
+Papildu fona attēli dzīvo `~/.config/lunaos/backgrounds/<theme name>`. Pieejami arī, izmantojot _Instalēt > Stils > Fons_ LunaOS izvēlnē.
 
-Visām stila opcijām var piekļūt arī zem _Stils_ Omarchy izvēlnē (`Super + Space`).
+Visām stila opcijām var piekļūt arī zem _Stils_ LunaOS izvēlnē (`Super + Space`).
 
 ## Pārslēgi
 
@@ -281,7 +281,7 @@ Prefiksa taustiņš ir `Ctrl + Space` (`Ctrl + B` arī darbojas). Tu vari mainī
 
 ## Ghostty terminālis
 
-Ghostty terminālis tiek instalēts, izmantojot _Instalēt > Terminālis_, izmantojot Omarchy izvēlni.
+Ghostty terminālis tiek instalēts, izmantojot _Instalēt > Terminālis_, izmantojot LunaOS izvēlni.
 
 | Karstā taustiņa kombinācija                  | Funkcija              |
 | ----------------------- | --------------------- |
@@ -372,4 +372,4 @@ Tu vari izmantot `Super + Ctrl + E`, lai parādītu pilnīgu emocijzīmju atlas�
 | `Shift + CapsLock Space N` | Tavs vārds (kā ievadīts iestatīšanā)  |
 | `Shift + CapsLock Space E` | Tavs e-pasts (kā ievadīts iestatīšanā)  |
 
-Tu vari pievienot vairāk savu, rediģējot `~/.XCompose`, pēc tam palaižot `omarchy-restart-xcompose` terminālī, lai izmaiņas tiktu uztvertas.
+Tu vari pievienot vairāk savu, rediģējot `~/.XCompose`, pēc tam palaižot `lunaos-restart-xcompose` terminālī, lai izmaiņas tiktu uztvertas.

@@ -1,8 +1,8 @@
 # Navigazione
 
-Tutto in Omarchy avviene tramite la tastiera — _TUTTO!_ Quando il sistema si avvia per la prima volta, letteralmente non puoi fare nulla con il solo mouse. Ma puoi premere `Super + Space` per aprire il Menu di Omarchy e da lì puoi fare praticamente tutto.
+Tutto in LunaOS avviene tramite la tastiera — _TUTTO!_ Quando il sistema si avvia per la prima volta, letteralmente non puoi fare nulla con il solo mouse. Ma puoi premere `Super + Space` per aprire il Menu di LunaOS e da lì puoi fare praticamente tutto.
 
-Ma il menu di Omarchy non è nemmeno pensato per essere il modo principale di usare il sistema la maggior parte del tempo. Possiamo fare più in fretta! Tutte le applicazioni più importanti sono assegnate direttamente a singoli tasti di scelta rapida. Avvii il terminale con `Super + Return` e un browser con `Super + Shift + Return`. Prova a farlo uno dopo l'altro e vedrai la magia del tiling di Hyprland in azione:
+Ma il menu di LunaOS non è nemmeno pensato per essere il modo principale di usare il sistema la maggior parte del tempo. Possiamo fare più in fretta! Tutte le applicazioni più importanti sono assegnate direttamente a singoli tasti di scelta rapida. Avvii il terminale con `Super + Return` e un browser con `Super + Shift + Return`. Prova a farlo uno dopo l'altro e vedrai la magia del tiling di Hyprland in azione:
 
  ![navigation-browser-terminal](images/navigation-browser-terminal.webp)
 
@@ -28,7 +28,7 @@ Puoi anche andare a schermo intero con `Super + F` o persino solo a tutta larghe
 
 ### Dwindle vs layout scorrevole
 
-Il layout predefinito di Omarchy si chiama dwindle. Mantiene tutte le finestre che apri su un singolo workspace sempre visibili, anche se deve rimpicciolirle.
+Il layout predefinito di LunaOS si chiama dwindle. Mantiene tutte le finestre che apri su un singolo workspace sempre visibili, anche se deve rimpicciolirle.
 
  ![navigation-dwindle-layout](images/navigation-dwindle-layout.webp)
 
@@ -54,9 +54,9 @@ hl.config({
 
 Un workspace fluttuante funziona come un desktop tradizionale: le finestre si sovrappongono, e le sposti e le dimensioni tu. Ogni finestra riceve una barra del titolo nei colori del tuo tema, con pulsanti per minimizzare, massimizzare e chiudere. Anche `Super + M` minimizza la finestra attiva. Una finestra minimizzata aspetta nel dock; fai clic sulla sua app per riportarla. Fai clic su una finestra per portarla in primo piano. Ridimensionala da qualsiasi bordo o angolo. Fai doppio clic su una barra del titolo per massimizzare la finestra mantenendo visibile la barra superiore, e di nuovo per riottenere le sue vecchie dimensioni.
 
-Un workspace fluttuante mostra anche un dock, con le tue app fissate, tutto ciò che è in esecuzione e una griglia di ogni app dietro il pulsante delle app, che aprono anche `Super + Alt + Space` e _Apps_ nel menu di Omarchy. Fai clic con il pulsante destro su un'app nella griglia, o premi `Delete`, per disinstallarla. Fai clic su un'app per aprirla, o per portare in primo piano la sua finestra; fai di nuovo clic per scorrere le sue finestre. Il clic centrale apre una nuova finestra. Trascina un'icona lungo il dock per spostarla; trascinare un'app in esecuzione in mezzo alle altre la mantiene lì. Fai clic con il pulsante destro per mantenere un'app nel dock, toglierla o chiuderla. Il dock si toglie di mezzo davanti a una finestra a schermo intero. Fai clic con il pulsante destro sul pulsante delle app per spostare il dock su un altro bordo o farlo nascondere finché il puntatore non raggiunge il suo bordo. La posizione si trova anche in _Trigger > Appearance > Dock > Dock Position_, e `omarchy dock position left` e `omarchy dock autohide on` impostano entrambe le cose da un terminale. Le app che mantieni nel dock sono sbiadite mentre non sono in esecuzione.
+Un workspace fluttuante mostra anche un dock, con le tue app fissate, tutto ciò che è in esecuzione e una griglia di ogni app dietro il pulsante delle app, che aprono anche `Super + Alt + Space` e _Apps_ nel menu di LunaOS. Fai clic con il pulsante destro su un'app nella griglia, o premi `Delete`, per disinstallarla. Fai clic su un'app per aprirla, o per portare in primo piano la sua finestra; fai di nuovo clic per scorrere le sue finestre. Il clic centrale apre una nuova finestra. Trascina un'icona lungo il dock per spostarla; trascinare un'app in esecuzione in mezzo alle altre la mantiene lì. Fai clic con il pulsante destro per mantenere un'app nel dock, toglierla o chiuderla. Il dock si toglie di mezzo davanti a una finestra a schermo intero. Fai clic con il pulsante destro sul pulsante delle app per spostare il dock su un altro bordo o farlo nascondere finché il puntatore non raggiunge il suo bordo. La posizione si trova anche in _Trigger > Appearance > Dock > Dock Position_, e `lunaos dock position left` e `lunaos dock autohide on` impostano entrambe le cose da un terminale. Le app che mantieni nel dock sono sbiadite mentre non sono in esecuzione.
 
-I nuovi workspace, e tutti quelli a cui non hai dato un layout proprio con `Super + L`, usano il layout predefinito. Cambiare il predefinito reimposta su di esso ogni workspace senza finestre, mentre uno con finestre su di esso mantiene il layout che ha. Una finestra minimizzata nel dock conta ancora come una finestra sul workspace che ha lasciato. Sceglilo in _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling o Floating. `omarchy-hyprland-workspace-layout-default scrolling` lo imposta da un terminale.
+I nuovi workspace, e tutti quelli a cui non hai dato un layout proprio con `Super + L`, usano il layout predefinito. Cambiare il predefinito reimposta su di esso ogni workspace senza finestre, mentre uno con finestre su di esso mantiene il layout che ha. Una finestra minimizzata nel dock conta ancora come una finestra sul workspace che ha lasciato. Sceglilo in _Trigger > Appearance > Workspace Layout_: Tiling, Scrolling o Floating. `lunaos-hyprland-workspace-layout-default scrolling` lo imposta da un terminale.
 
 ### Raggruppare le finestre
 

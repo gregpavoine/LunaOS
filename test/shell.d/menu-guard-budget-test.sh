@@ -32,8 +32,8 @@ require_comparable_speed "menu guard budgets"
 # guards were made cheap, the batch took 380ms, and five guards alone took
 # 130-150ms each. The budgets leave several times today's cost and still catch
 # either, and grow with how much slower this machine starts processes.
-BATCH_BUDGET_MS=$(( ${OMARCHY_MENU_GUARD_BUDGET_MS:-200} * SPEED_PERCENT / 100 ))
-GUARD_BUDGET_MS=$(( ${OMARCHY_MENU_SINGLE_GUARD_BUDGET_MS:-100} * SPEED_PERCENT / 100 ))
+BATCH_BUDGET_MS=$(( ${LUNAOS_MENU_GUARD_BUDGET_MS:-200} * SPEED_PERCENT / 100 ))
+GUARD_BUDGET_MS=$(( ${LUNAOS_MENU_SINGLE_GUARD_BUDGET_MS:-100} * SPEED_PERCENT / 100 ))
 
 # Prints the batch for the whole shipped menu, then one batch per guarded row,
 # each as a NUL-terminated id and script.
@@ -42,7 +42,7 @@ guard_scripts() {
     const path = require("path")
     const fs = require("fs")
     const menu = require(path.join(process.env.ROOT, "shell/plugins/menu/MenuModel.js"))
-    const shipped = menu.parseMenuJsonc(fs.readFileSync(path.join(process.env.ROOT, "default/omarchy/omarchy-menu.jsonc"), "utf8"))
+    const shipped = menu.parseMenuJsonc(fs.readFileSync(path.join(process.env.ROOT, "default/lunaos/lunaos-menu.jsonc"), "utf8"))
     const all = {}
     for (const item of shipped) all[item.id] = item
     process.stdout.write(`menu\0${menu.guardScript(all)}\0`)
@@ -63,7 +63,7 @@ fastest_ms() {
   for _ in 1 2 3; do
     start=$EPOCHREALTIME
     status=0
-    OMARCHY_PATH="$ROOT" PATH="$ROOT/bin:$PATH" timeout --kill-after=1s 10s bash -c "$1" >"$output" 2>/dev/null || status=$?
+    LUNAOS_PATH="$ROOT" PATH="$ROOT/bin:$PATH" timeout --kill-after=1s 10s bash -c "$1" >"$output" 2>/dev/null || status=$?
     end=$EPOCHREALTIME
     elapsed=$(( (${end/[.,]/} - ${start/[.,]/}) / 1000 ))
     if (( status == 124 || status == 137 )); then

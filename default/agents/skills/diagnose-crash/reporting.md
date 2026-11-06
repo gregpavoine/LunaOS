@@ -1,31 +1,31 @@
-# Reporting a Crash Upstream to Omarchy
+# Reporting a Crash Upstream to LunaOS
 
-Read this only after concluding that a crash is genuinely Omarchy's to fix.
+Read this only after concluding that a crash is genuinely LunaOS's to fix.
 
-## Is it even Omarchy's bug?
+## Is it even LunaOS's bug?
 
-Be strict here. Omarchy is a configuration layer over Arch Linux, so a crash
+Be strict here. LunaOS is a configuration layer over Arch Linux, so a crash
 inside a third-party application — a file manager, a browser, a GNOME or Qt
-library — is almost always an upstream bug in **that** project, not in Omarchy.
+library — is almost always an upstream bug in **that** project, not in LunaOS.
 
-Omarchy's sphere of control is roughly:
+LunaOS's sphere of control is roughly:
 
-- the `omarchy-*` commands
+- the `lunaos-*` commands
 - the Quickshell shell and its plugins
 - the Hyprland and terminal configuration it ships
 - its themes
 - its install and migration scripts
 - how it packages and configures what it installs
 
-A crash in a program Omarchy merely installs is **not** an Omarchy bug unless
-Omarchy's own packaging or configuration is implicated.
+A crash in a program LunaOS merely installs is **not** an LunaOS bug unless
+LunaOS's own packaging or configuration is implicated.
 
-If it is not Omarchy's, say so and stop. Suggesting the right upstream project is
+If it is not LunaOS's, say so and stop. Suggesting the right upstream project is
 useful; filing there yourself is not part of this.
 
 ## Three conditions, all required
 
-1. **It is a verified bug in Omarchy's sphere**, established on evidence. Issues
+1. **It is a verified bug in LunaOS's sphere**, established on evidence. Issues
    are for verified bugs only. An "is this even a bug?" belongs on the Discord at
    <https://omarchy.org/discord>; a feature idea belongs in GitHub Discussions
    under Suggestions.
@@ -40,8 +40,8 @@ useful; filing there yourself is not part of this.
 A duplicate issue costs a maintainer more time than no report at all.
 
 ```bash
-gh search issues --repo omacom/omarchy "<program> crash"
-gh issue list --repo omacom/omarchy --state all --search "<signal> <program>"
+gh search issues --repo gregpavoine/LunaOS "<program> crash"
+gh issue list --repo gregpavoine/LunaOS --state all --search "<signal> <program>"
 ```
 
 Search on the crashing program, the signal, and distinctive symbols from the
@@ -59,7 +59,7 @@ more than another duplicate.
 If a plausible match comes back, read it properly first:
 
 ```bash
-gh issue view <number> --repo omacom/omarchy --comments
+gh issue view <number> --repo gregpavoine/LunaOS --comments
 ```
 
 Confirm it is genuinely the same failure. The same program crashing is not the
@@ -74,7 +74,7 @@ A comment that only says the bug happens to you too is noise. If that is all you
 have, tell the user so and file nothing.
 
 ```bash
-gh issue comment <number> --repo omacom/omarchy --body "..."
+gh issue comment <number> --repo gregpavoine/LunaOS --body "..."
 ```
 
 ## Filing a new issue
@@ -82,12 +82,12 @@ gh issue comment <number> --repo omacom/omarchy --body "..."
 Only when the search turns up nothing that matches:
 
 ```bash
-gh issue create --repo omacom/omarchy --title "..." --body "..."
+gh issue create --repo gregpavoine/LunaOS --title "..." --body "..."
 ```
 
 Include what happened, what was expected, steps to reproduce, system details from
-`omarchy version`, and diagnostics from `omarchy debug --no-sudo --print` (which
-also writes `/tmp/omarchy-debug.log`; the interactive `omarchy debug` can upload
+`lunaos version`, and diagnostics from `lunaos debug --no-sudo --print` (which
+also writes `/tmp/lunaos-debug.log`; the interactive `lunaos debug` can upload
 it and print a shareable URL worth including).
 
 `gh` cannot attach media. If a screenshot would help, save one and give the user

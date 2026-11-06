@@ -1,6 +1,6 @@
 # Preenchendo PDFs
 
-O Omarchy vem com um visualizador de PDFs agradável e básico chamado Visualizador de Documentos. É esse o programa que abrirá qualquer PDF em que você simplesmente clicar duas vezes.
+O LunaOS vem com um visualizador de PDFs agradável e básico chamado Visualizador de Documentos. É esse o programa que abrirá qualquer PDF em que você simplesmente clicar duas vezes.
 
 Mas você só pode usar o Visualizador de Documentos para preencher PDFs que tiverem sido configurados como formulários. Se você precisar preencher PDFs que não tiverem, ou se precisar assinar um PDF, use o [Signed](https://github.com/omacom/signed). Inicie-o pelo inicializador de aplicativos (`Super + Space`), ou clique com o botão direito no arquivo, selecione _Abrir com..._ e escolha o Signed.
 

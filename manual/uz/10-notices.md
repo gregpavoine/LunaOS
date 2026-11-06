@@ -14,7 +14,7 @@ Siz hotkey maʼlumotlari yordamida sana va vaqt, batareya holati va joriy ob-hav
 
  ![notice-weather](images/notice-weather.webp)
 
-Joylashuv IP manzilingizdan aniqlanadi, bu odatda yetarlicha yaqin, lekin har doim emas. Uni `omarchy weather location --set Malibu` bilan aniqlashtirishingiz yoki koordinatalarni qoʻshib aniq belgilashingiz mumkin: `omarchy weather location --set Malibu 34.0259,-118.7798`. Qayerda ekanligingizni oʻylayotganini koʻrish uchun `omarchy weather location` ni oʻzicha ishga tushiring va avto-aniqlashga qaytish uchun `--clear` qiling.
+Joylashuv IP manzilingizdan aniqlanadi, bu odatda yetarlicha yaqin, lekin har doim emas. Uni `lunaos weather location --set Malibu` bilan aniqlashtirishingiz yoki koordinatalarni qoʻshib aniq belgilashingiz mumkin: `lunaos weather location --set Malibu 34.0259,-118.7798`. Qayerda ekanligingizni oʻylayotganini koʻrish uchun `lunaos weather location` ni oʻzicha ishga tushiring va avto-aniqlashga qaytish uchun `--clear` qiling.
 
 ### Batareya
 

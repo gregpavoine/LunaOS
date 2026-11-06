@@ -1,8 +1,8 @@
 # Ajustes comuns
 
-Isto é uma coleção de personalizações comuns à configuração do Omarchy. Saiba que pode ser ocasionalmente necessário que atualizações do sistema restaurem certas configurações ao seu estado original. Se isso acontecer, as suas alterações não se perdem, mas são colocadas num ficheiro `.bak` no mesmo diretório.
+Isto é uma coleção de personalizações comuns à configuração do LunaOS. Saiba que pode ser ocasionalmente necessário que atualizações do sistema restaurem certas configurações ao seu estado original. Se isso acontecer, as suas alterações não se perdem, mas são colocadas num ficheiro `.bak` no mesmo diretório.
 
-Se estragar alguma coisa, pode restaurar configurações individuais para a sua configuração original através de _Atualizar > Configuração_ no menu Omarchy. Se estragar _mesmo_ tudo, pode repor todas as configurações através de `omarchy-reinstall`.
+Se estragar alguma coisa, pode restaurar configurações individuais para a sua configuração original através de _Atualizar > Configuração_ no menu LunaOS. Se estragar _mesmo_ tudo, pode repor todas as configurações através de `lunaos-reinstall`.
 
 ### Mostrar todos os ícones do tabuleiro sempre
 
@@ -10,7 +10,7 @@ Por predefinição, os ícones do tabuleiro, como o Dropbox, o 1password ou o St
 
 ### Cantos arredondados das janelas
 
-O design predefinido do Omarchy é de cantos retos, mas se gostar de o suavizar um pouco, pode alterar `~/.config/hypr/looknfeel.lua` para o arredondamento deixar de estar comentado:
+O design predefinido do LunaOS é de cantos retos, mas se gostar de o suavizar um pouco, pode alterar `~/.config/hypr/looknfeel.lua` para o arredondamento deixar de estar comentado:
 
 ```
 hl.config({

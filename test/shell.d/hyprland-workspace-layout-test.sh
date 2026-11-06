@@ -31,22 +31,22 @@ fi
 EOF
 chmod +x "$stub_dir/hyprctl"
 
-cat >"$stub_dir/omarchy-notification-send" <<'EOF'
+cat >"$stub_dir/lunaos-notification-send" <<'EOF'
 #!/bin/bash
 printf '%s\n' "$*" >>"$NOTIFICATION_LOG"
 [[ " $* " == *" -p "* ]] && echo 42
 exit 0
 EOF
-chmod +x "$stub_dir/omarchy-notification-send"
+chmod +x "$stub_dir/lunaos-notification-send"
 
 # The toggle asks the bar to show the new layout; never reach a live shell.
-cat >"$stub_dir/omarchy-shell" <<'EOF'
+cat >"$stub_dir/lunaos-shell" <<'EOF'
 #!/bin/bash
 printf '%s\n' "$*" >>"$NOTIFICATION_LOG"
 EOF
-chmod +x "$stub_dir/omarchy-shell"
+chmod +x "$stub_dir/lunaos-shell"
 
-layout_file="$home_dir/.local/state/omarchy/workspace-layouts/3.lua"
+layout_file="$home_dir/.local/state/lunaos/workspace-layouts/3.lua"
 notification_log="$tmpdir/notifications.log"
 
 # XDG_STATE_HOME is named explicitly rather than left to be inherited: a machine
@@ -56,13 +56,13 @@ notification_log="$tmpdir/notifications.log"
 toggle() {
   env HOME="$home_dir" XDG_STATE_HOME="$home_dir/.local/state" \
     HYPRCTL_LOG="$log_file" NOTIFICATION_LOG="$notification_log" \
-    PATH="$stub_dir:$ROOT/bin:$PATH" "$@" "$ROOT/bin/omarchy-hyprland-workspace-layout-toggle"
+    PATH="$stub_dir:$ROOT/bin:$PATH" "$@" "$ROOT/bin/lunaos-hyprland-workspace-layout-toggle"
 }
 
 toggle_back() {
   env HOME="$home_dir" XDG_STATE_HOME="$home_dir/.local/state" \
     HYPRCTL_LOG="$log_file" NOTIFICATION_LOG="$notification_log" \
-    PATH="$stub_dir:$ROOT/bin:$PATH" "$ROOT/bin/omarchy-hyprland-workspace-layout-toggle" "$@"
+    PATH="$stub_dir:$ROOT/bin:$PATH" "$ROOT/bin/lunaos-hyprland-workspace-layout-toggle" "$@"
 }
 
 saved_mode() {
@@ -81,9 +81,9 @@ toggle
 applied scrolling || fail "scrolling is applied immediately" "$(cat "$log_file")"
 grep -q "set to scrolling" "$notification_log" ||
   fail "the new mode is announced" "$(cat "$notification_log")"
-grep -qx -- "-q omarchy.workspaces refresh" "$notification_log" ||
+grep -qx -- "-q lunaos.workspaces refresh" "$notification_log" ||
   fail "the bar is asked to show the new layout" "$(cat "$notification_log")"
-grep -qx -- "-q omarchy.dock refresh" "$notification_log" ||
+grep -qx -- "-q lunaos.dock refresh" "$notification_log" ||
   fail "the dock is asked to follow the new layout" "$(cat "$notification_log")"
 if grep -q "could not be saved" "$notification_log"; then
   fail "a saved mode is announced as saved" "$(cat "$notification_log")"
@@ -179,7 +179,7 @@ fi
 if grep -q "workspace_mode" "$log_file"; then
   fail "workspace layout toggle applies nothing for a named workspace" "$(cat "$log_file")"
 fi
-if [[ -f $home_dir/.local/state/omarchy/workspace-layouts/-1337.lua ]]; then
+if [[ -f $home_dir/.local/state/lunaos/workspace-layouts/-1337.lua ]]; then
   fail "workspace layout toggle does not persist a mode for a named workspace"
 fi
 pass "workspace layout toggle leaves a named workspace alone"
@@ -187,7 +187,7 @@ pass "workspace layout toggle leaves a named workspace alone"
 if toggle HYPRCTL_BROKEN=1 2>/dev/null; then
   fail "workspace layout toggle exits nonzero without a workspace id"
 fi
-if [[ -f $home_dir/.local/state/omarchy/workspace-layouts/null.lua ]]; then
+if [[ -f $home_dir/.local/state/lunaos/workspace-layouts/null.lua ]]; then
   fail "workspace layout toggle does not persist a mode without a workspace id"
 fi
 pass "workspace layout toggle ignores broken hyprctl output"
@@ -197,7 +197,7 @@ pass "workspace layout toggle ignores broken hyprctl output"
 # mode that silently never comes back.
 state_home="$tmpdir/state"
 toggle XDG_STATE_HOME="$state_home"
-[[ -f $state_home/omarchy/workspace-layouts/3.lua ]] ||
+[[ -f $state_home/lunaos/workspace-layouts/3.lua ]] ||
   fail "workspace layout toggle honours XDG_STATE_HOME"
 
 # A decoy of the same name under the home directory, saying something else. The
@@ -227,7 +227,7 @@ hl = {
   config = function() end,
 }
 
-dofile(os.getenv("OMARCHY_PATH") .. "/default/hypr/bootstrap.lua")
+dofile(os.getenv("LUNAOS_PATH") .. "/default/hypr/bootstrap.lua")
 require("default.hypr.helpers")
 require("default.hypr.workspace-layouts")
 
@@ -236,7 +236,7 @@ assert(applied[1].workspace == "3", "the restored mode named the wrong workspace
 assert(applied[1].layout == "scrolling", "the restored mode was not the one saved")
 LUA
 
-if ! HOME="$home_dir" XDG_STATE_HOME="$state_home" OMARCHY_PATH="$ROOT" lua "$xdg_probe"; then
+if ! HOME="$home_dir" XDG_STATE_HOME="$state_home" LUNAOS_PATH="$ROOT" lua "$xdg_probe"; then
   fail "a mode saved under XDG_STATE_HOME is restored from there"
 fi
 pass "workspace layout toggle saves and restores through XDG_STATE_HOME"
@@ -371,11 +371,11 @@ hl = {
   plugin = { load = function() end },
 }
 
-dofile(os.getenv("OMARCHY_PATH") .. "/default/hypr/bootstrap.lua")
+dofile(os.getenv("LUNAOS_PATH") .. "/default/hypr/bootstrap.lua")
 require("default.hypr.helpers")
 require("default.hypr.workspace-layouts")
 
-local CLAIMED = "omarchy-mode-floated"
+local CLAIMED = "lunaos-mode-floated"
 
 -- Floating is not a layout, so the saved file must not have asked Hyprland for
 -- one by that name: Hyprland takes an unknown layout in silence and falls back
@@ -478,7 +478,7 @@ LUA
 # XDG_STATE_HOME is named here for the same reason the toggle helper names it:
 # the loader reads the saved modes from paths.state_home, so a machine that
 # exports it would load its own saved layouts instead of the fixture below.
-if ! HOME="$home_dir" XDG_STATE_HOME="$home_dir/.local/state" OMARCHY_PATH="$ROOT" \
+if ! HOME="$home_dir" XDG_STATE_HOME="$home_dir/.local/state" LUNAOS_PATH="$ROOT" \
   lua "$lua_script"; then
   fail "a saved floating mode floats the workspace without inventing a layout"
 fi

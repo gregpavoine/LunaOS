@@ -1,6 +1,6 @@
 # Prompt
 
-Omarchy wordt standaard geleverd met een minimale [Starship](https://starship.rs/)-prompt. Zo houd ik mijn prompt graag. Ik hoef de gebruiker niet te kennen, want dat ben ik altijd, en ik hoef de tijd niet te kennen, want die staat altijd bovenaan.
+LunaOS wordt standaard geleverd met een minimale [Starship](https://starship.rs/)-prompt. Zo houd ik mijn prompt graag. Ik hoef de gebruiker niet te kennen, want dat ben ik altijd, en ik hoef de tijd niet te kennen, want die staat altijd bovenaan.
 
  ![prompt](images/prompt.webp)
 

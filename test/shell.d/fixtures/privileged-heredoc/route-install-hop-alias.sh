@@ -1,6 +1,6 @@
-tmp=/tmp/omarchy-generated
+tmp=/tmp/lunaos-generated
 copy=$tmp
 cat >"$tmp" <<EOF
-command=$HOME/.local/share/omarchy/bin/example
+command=$HOME/.local/share/lunaos/bin/example
 EOF
-sudo install -m644 "$copy" /etc/omarchy/example.conf
+sudo install -m644 "$copy" /etc/lunaos/example.conf

@@ -6,23 +6,23 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 scratch=$(mktemp -d)
 trap 'rm -rf "$scratch"' EXIT
 export TARGET_ROOT="$scratch/target root"
-mkdir -p "$TARGET_ROOT/etc/omarchy"
+mkdir -p "$TARGET_ROOT/etc/lunaos"
 
 # The platform is pinned, so no test reads the host's hardware: x86 unless a
 # test says otherwise.
 mkdir -p "$scratch/bin"
-printf '#!/bin/bash\necho "${REGION_TEST_PLATFORM:-x86}"\n' > "$scratch/bin/omarchy-hw-platform"
-chmod +x "$scratch/bin/omarchy-hw-platform"
+printf '#!/bin/bash\necho "${REGION_TEST_PLATFORM:-x86}"\n' > "$scratch/bin/lunaos-hw-platform"
+chmod +x "$scratch/bin/lunaos-hw-platform"
 export PATH="$scratch/bin:$PATH"
 fixture_root() {
   mkdir -p "$1/install/helpers"
   cp "$ROOT/install/helpers/pacman.sh" "$1/install/helpers/"
 }
-export OMARCHY_PATH="$scratch/root"
-fixture_root "$OMARCHY_PATH"
-cp -a "$ROOT/default" "$OMARCHY_PATH/"
+export LUNAOS_PATH="$scratch/root"
+fixture_root "$LUNAOS_PATH"
+cp -a "$ROOT/default" "$LUNAOS_PATH/"
 
-apply() { "$ROOT/bin/omarchy-apply-pacman" "$1" "$TARGET_ROOT"; }
+apply() { "$ROOT/bin/lunaos-apply-pacman" "$1" "$TARGET_ROOT"; }
 
 for channel in stable rc edge; do
   apply "$channel"
@@ -37,12 +37,12 @@ apply stable
 chmod 644 "$TARGET_ROOT/etc/pacman.conf"
 pass "refresh keeps existing config file modes"
 
-printf 'cn\n' > "$TARGET_ROOT/etc/omarchy/region"
+printf 'cn\n' > "$TARGET_ROOT/etc/lunaos/region"
 for channel in stable rc edge; do
   case "$channel" in
-    stable) host=stable-mirror.omarchy ;;
-    rc) host=rc-mirror.omarchy ;;
-    edge) host=mirror.omarchy ;;
+    stable) host=stable-mirror.lunaos ;;
+    rc) host=rc-mirror.lunaos ;;
+    edge) host=mirror.lunaos ;;
   esac
   apply "$channel"
   expected=$(printf 'Server = https://%s.cn/$repo/os/$arch\nServer = https://%s.org/$repo/os/$arch' "$host" "$host")
@@ -62,7 +62,7 @@ pass "China puts its channel and [omarchy] mirrors first, keeps the global ones 
 cp "$TARGET_ROOT/etc/pacman.conf" "$scratch/before.conf"
 cp "$TARGET_ROOT/etc/pacman.d/mirrorlist" "$scratch/before.mirrors"
 for region in '' CN chn zz '../cn' '$(touch NEVER_EXECUTE)'; do
-  printf '%s\n' "$region" > "$TARGET_ROOT/etc/omarchy/region"
+  printf '%s\n' "$region" > "$TARGET_ROOT/etc/lunaos/region"
   if apply stable > "$scratch/error" 2>&1; then
     fail "invalid region accepted: $region"
   fi
@@ -71,12 +71,12 @@ for region in '' CN chn zz '../cn' '$(touch NEVER_EXECUTE)'; do
 done
 pass "unsupported and malformed regions fail before replacing either config"
 
-printf 'cn\n' > "$TARGET_ROOT/etc/omarchy/region"
+printf 'cn\n' > "$TARGET_ROOT/etc/lunaos/region"
 fixture_root "$scratch/incomplete"
 mkdir -p "$scratch/incomplete/default/regions/cn/pacman"
 cp -a "$ROOT/default/pacman" "$scratch/incomplete/default/"
-cp "$ROOT/default/regions/cn/pacman/omarchy-stable.prepend" "$scratch/incomplete/default/regions/cn/pacman/"
-if OMARCHY_PATH="$scratch/incomplete" apply stable > "$scratch/error" 2>&1; then
+cp "$ROOT/default/regions/cn/pacman/lunaos-stable.prepend" "$scratch/incomplete/default/regions/cn/pacman/"
+if LUNAOS_PATH="$scratch/incomplete" apply stable > "$scratch/error" 2>&1; then
   fail "incomplete region profile accepted"
 fi
 rg -q 'mirrorlist-stable.prepend' "$scratch/error" || fail "incomplete profile fails on the missing fragment" "$(<"$scratch/error")"
@@ -88,7 +88,7 @@ pass "missing fragment cannot leave a half-generated config"
 # privileged path is covered in the sudo-boundary sandbox, never on the host.
 cp "$TARGET_ROOT/etc/pacman.conf" "$scratch/before.conf"
 mkdir -p "$scratch/rendered"
-"$ROOT/bin/omarchy-apply-pacman" --render rc "$scratch/rendered" "$TARGET_ROOT"
+"$ROOT/bin/lunaos-apply-pacman" --render rc "$scratch/rendered" "$TARGET_ROOT"
 rg -qxF 'Server = https://pkgs.omarchy.org/rc/$arch' "$scratch/rendered/pacman.conf"
 [[ $(grep -A2 -xF '[omarchy]' "$scratch/rendered/pacman.conf") == $'[omarchy]\nServer = https://pkgs.omarchy.cn/rc/$arch\nServer = https://pkgs.omarchy.org/rc/$arch' ]] ||
   fail "render puts the China [omarchy] server first"
@@ -97,7 +97,7 @@ rg -qxF 'Server = https://pkgs.omarchy.org/rc/$arch' "$scratch/rendered/pacman.c
 cmp "$scratch/before.conf" "$TARGET_ROOT/etc/pacman.conf"
 pass "render builds the regional channel files without touching the target"
 
-if "$ROOT/bin/omarchy-apply-pacman" --render dev "$scratch/rendered" "$TARGET_ROOT" > "$scratch/error" 2>&1; then
+if "$ROOT/bin/lunaos-apply-pacman" --render dev "$scratch/rendered" "$TARGET_ROOT" > "$scratch/error" 2>&1; then
   fail "render accepts a nonexistent dev pacman template"
 fi
 pass "render rejects channels without pacman templates"
@@ -118,7 +118,7 @@ for platform in aarch64 aarch64-apple; do
 done
 pass "ARM platforms apply their own templates and keep regional x86 mirrors out"
 
-printf 'global\n' > "$TARGET_ROOT/etc/omarchy/region"
+printf 'global\n' > "$TARGET_ROOT/etc/lunaos/region"
 apply stable
 cmp "$ROOT/default/pacman/pacman-stable.conf" "$TARGET_ROOT/etc/pacman.conf"
 cmp "$ROOT/default/pacman/mirrorlist-stable" "$TARGET_ROOT/etc/pacman.d/mirrorlist"

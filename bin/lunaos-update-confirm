@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# lunaos:summary=Prompt for confirmation before starting an update
+
+gum style --border normal --padding "1 2" \
+  "$(lunaos-i18n update.ready)" \
+  "" \
+  "• $(lunaos-i18n update.cannotStop)" \
+  "• $(lunaos-i18n update.connectPower)" \
+  "" \
+  "$(lunaos-i18n update.whatsNew "https://github.com/gregpavoine/LunaOS/releases/latest")"
+
+echo
+
+if ! gum confirm --affirmative "$(lunaos-i18n common.yes)" --negative "$(lunaos-i18n common.no)" "$(lunaos-i18n update.continue)"; then
+  echo "Update cancelled"
+  exit 1
+fi

@@ -6,7 +6,7 @@ vim 스타일 편집이 완전히 처음이라면 YouTube에서 [ThePrimeagen의
 
 이제 Neovim은 기본적으로 무한히 구성할 수 있습니다. 정말 끝까지 파고들고 싶다면 Neovim 구성을 처음부터 직접 만들 수도 있습니다. [Typecraft의 Neovim 처음부터 설정하기](https://www.youtube.com/watch?v=zHTeCSVAFNY) 강의가 훌륭합니다. 그리고 [ThePrimeagen에게도 하나 있습니다](https://www.youtube.com/watch?v=w7i4amO_zaE).
 
-하지만 Omarchy는 완전한 Neovim 설정 — `omarchy-nvim` 패키지 — 와 함께 제공됩니다. 이 패키지는 기본 상태에서 가능한 최선의 모습을 보여 주도록 정성껏 조정되었습니다. 구성 한 줄도 쓰지 않아도 됩니다! Neovim 플러그인과 구성의 배포판인 [LazyVim](https://www.lazyvim.org/)을 기반으로 합니다. 끝내줍니다.
+하지만 LunaOS는 완전한 Neovim 설정 — `omarchy-nvim` 패키지 — 와 함께 제공됩니다. 이 패키지는 기본 상태에서 가능한 최선의 모습을 보여 주도록 정성껏 조정되었습니다. 구성 한 줄도 쓰지 않아도 됩니다! Neovim 플러그인과 구성의 배포판인 [LazyVim](https://www.lazyvim.org/)을 기반으로 합니다. 끝내줍니다.
 
 ## LazyVim 기본기
 

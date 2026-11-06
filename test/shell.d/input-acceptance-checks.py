@@ -91,7 +91,7 @@ busctl() { :; }
 """
     result = subprocess.run(["bash", "-ec", commands + cleanup + "\ncleanup", "test", str(self.root)], capture_output=True, text=True)
     self.assertEqual(result.returncode, 1)
-    self.assertIn("start omarchy-fcitx5.service", (self.root / "service.log").read_text())
+    self.assertIn("start lunaos-fcitx5.service", (self.root / "service.log").read_text())
     self.assertIn("snapshot retained", result.stderr)
 
   def test_unchanged_link_targets_are_not_rewritten(self):
