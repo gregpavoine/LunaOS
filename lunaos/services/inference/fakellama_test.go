@@ -20,10 +20,16 @@ import (
 //	FAKE_CRASH_AFTER_MS=n    exit(3) n ms after listening
 //	FAKE_PIDFILE=path        append "<pid>\n" to path at startup
 //
-// Extend the mux in main (e.g. POST /completion) for further tests.
+// POST /completion decodes {"prompt","n_predict"} strictly and answers
+// {"content":"echo(<n_predict>):<prompt>"}. Its switches:
+//
+//	FAKE_COMPLETION_GATE=path    answer only once path exists (polled, 30 s cap)
+//	FAKE_COMPLETION_STATUS=n     answer with HTTP status n and an empty body
+//	FAKE_COMPLETION_BODY=raw     answer 200 with this raw body
 const fakeLlamaSource = `package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"net"
@@ -74,6 +80,38 @@ func main() {
 			return
 		}
 		w.Write([]byte("{\"status\":\"ok\"}"))
+	})
+	mux.HandleFunc("POST /completion", func(w http.ResponseWriter, r *http.Request) {
+		var req struct {
+			Prompt   string ` + "`json:\"prompt\"`" + `
+			NPredict int    ` + "`json:\"n_predict\"`" + `
+		}
+		dec := json.NewDecoder(r.Body)
+		dec.DisallowUnknownFields()
+		if err := dec.Decode(&req); err != nil || req.NPredict <= 0 {
+			http.Error(w, "bad completion request", http.StatusBadRequest)
+			return
+		}
+		if g := os.Getenv("FAKE_COMPLETION_GATE"); g != "" {
+			for i := 0; i < 3000; i++ {
+				if _, err := os.Stat(g); err == nil {
+					break
+				}
+				time.Sleep(10 * time.Millisecond)
+			}
+		}
+		if n, ok := envInt("FAKE_COMPLETION_STATUS"); ok {
+			w.WriteHeader(n)
+			return
+		}
+		if b, ok := os.LookupEnv("FAKE_COMPLETION_BODY"); ok {
+			w.Write([]byte(b))
+			return
+		}
+		json.NewEncoder(w).Encode(map[string]any{
+			"content": fmt.Sprintf("echo(%d):%s", req.NPredict, req.Prompt),
+			"stop":    true,
+		})
 	})
 	ln, err := net.Listen("tcp", net.JoinHostPort(*host, strconv.Itoa(*port)))
 	if err != nil {
