@@ -80,7 +80,7 @@ func backoff(attempt int) time.Duration {
 }
 
 // retry runs one request up to maxAttempts times. It returns nil, the context
-// error, ErrUnauthorized (never retried), a longLimit, or the last error once
+// error, ErrUnauthorized or ErrCursorExpired (never retried), a longLimit, or the last error once
 // the attempts are spent. A rate limit counts as an attempt; one on the last
 // attempt becomes a longLimit so its Retry-After is persisted, not dropped.
 func (e *Engine) retry(ctx context.Context, call func() error) error {
@@ -92,8 +92,8 @@ func (e *Engine) retry(ctx context.Context, call func() error) error {
 		if ctx.Err() != nil {
 			return ctx.Err()
 		}
-		if errors.Is(err, ErrUnauthorized) {
-			return ErrUnauthorized
+		if errors.Is(err, ErrUnauthorized) || errors.Is(err, ErrCursorExpired) {
+			return err
 		}
 		wait := backoff(attempt)
 		if rl, ok := asRateLimited(err); ok {
@@ -239,6 +239,15 @@ func (p *providerRun) syncScope(ctx context.Context, scope string) bool {
 			page, err = p.c.Fetch(ctx, scope, cursor)
 			return err
 		})
+		if errors.Is(err, ErrCursorExpired) && ctx.Err() == nil {
+			// The provider will not continue this cursor: restart the scope
+			// from the beginning next sync, without a dead letter.
+			if err = p.e.Store.SaveCursor(ctx, p.name, scope, ""); err != nil {
+				p.pr.raise("failed")
+				return false
+			}
+			return true
+		}
 		if err != nil {
 			return p.fail(ctx, err, DeadLetter{Scope: scope, Cursor: cursor})
 		}

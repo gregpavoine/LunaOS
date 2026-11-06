@@ -539,3 +539,31 @@ func TestRejectedCandidatesAreNeverDownloaded(t *testing.T) {
 		t.Fatalf("no downloader = %+v", pr)
 	}
 }
+
+func TestExpiredCursorResetsScope(t *testing.T) {
+	s, _ := newTestStore(t)
+	clock := newFakeClock()
+	ctx := context.Background()
+	if err := s.SaveCursor(ctx, "civitai", "tag:a", "stale"); err != nil {
+		t.Fatal(err)
+	}
+	conn := &fakeConnector{name: "civitai", scopes: []string{"tag:a", "tag:b"}, clock: clock, fetch: func(scope, cursor string, n int) (Page, error) {
+		if cursor == "stale" {
+			return Page{}, ErrCursorExpired
+		}
+		return Page{Items: []Candidate{meta("civitai", scope+cursor)}}, nil
+	}}
+	rep := newTestEngine(t, s, clock, nil, conn).Sync(ctx)
+	if pr := rep.PerProvider["civitai"]; pr.State != "ok" || pr.Stored != 1 {
+		t.Fatalf("report = %+v", pr)
+	}
+	if got := conn.Calls(); len(got) != 2 || got[0].Cursor != "stale" || got[1].Scope != "tag:b" {
+		t.Fatalf("an expired cursor must not be retried and must end only its scope: %+v", got)
+	}
+	if c, err := s.Cursor(ctx, "civitai", "tag:a"); err != nil || c != "" {
+		t.Fatalf("cursor = %q %v, want reset", c, err)
+	}
+	if dl := deadLetters(t, s, "civitai"); len(dl) != 0 || len(clock.Sleeps()) != 0 {
+		t.Fatalf("dead letters = %v sleeps = %v", dl, clock.Sleeps())
+	}
+}

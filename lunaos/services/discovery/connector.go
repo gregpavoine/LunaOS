@@ -47,6 +47,9 @@ var (
 	ErrUnauthorized = errors.New("DISCOVERY_UNAUTHORIZED")
 	// ErrTransient is a retryable failure (network, 5xx).
 	ErrTransient = errors.New("DISCOVERY_TRANSIENT")
+	// ErrCursorExpired means the provider refuses to continue a saved cursor;
+	// the scope restarts from the beginning on the next sync.
+	ErrCursorExpired = errors.New("DISCOVERY_CURSOR_EXPIRED")
 )
 
 func asRateLimited(err error) (ErrRateLimited, bool) {
@@ -71,6 +74,8 @@ func errorCode(err error) string {
 		return "hash_mismatch"
 	case errors.Is(err, ErrTransient):
 		return "transient"
+	case errors.Is(err, ErrCursorExpired):
+		return "cursor_expired"
 	}
 	if _, ok := asRateLimited(err); ok {
 		return "rate_limited"

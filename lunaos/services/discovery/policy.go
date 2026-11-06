@@ -21,9 +21,9 @@ type Policy struct {
 	Reddit  RedditPolicy  `json:"reddit"`
 }
 
-// CivitaiPolicy lists the Civitai tag IDs, uploader usernames and base models
-// to query, the highest content level to accept and the licence tokens the
-// owner accepts. Tags are numeric tag IDs, as the images endpoint's `tags`
+// CivitaiPolicy lists the Civitai tag IDs and uploader usernames to query, the
+// base models that narrow them, the highest content level to accept and the
+// licence tokens the owner accepts. Tags are numeric tag IDs, as the images endpoint's `tags`
 // parameter requires.
 type CivitaiPolicy struct {
 	Tags            []string `json:"tags"`
@@ -106,7 +106,7 @@ func (p Policy) validate() error {
 			return errPolicyTag
 		}
 	}
-	if len(c.Tags)+len(c.Creators)+len(c.ModelFamilies) > 0 {
+	if len(c.Tags)+len(c.Creators) > 0 {
 		if _, ok := contentLevels[c.MaxContentLevel]; !ok {
 			return errPolicyLevel
 		}
@@ -141,19 +141,22 @@ func (p CivitaiPolicy) admit(c Candidate) (bool, string) {
 	if !known || !maxKnown || level > max {
 		return false, "content_level"
 	}
-	if containsFold(p.Creators, c.Creator) {
-		return true, ""
-	}
+	listed, familyOK := containsFold(p.Creators, c.Creator), len(p.ModelFamilies) == 0
 	for _, tag := range c.Tags {
 		if family, isFamily := strings.CutPrefix(tag, baseModelTag); isFamily {
-			if containsFold(p.ModelFamilies, family) {
-				return true, ""
-			}
+			familyOK = familyOK || containsFold(p.ModelFamilies, family)
 		} else if containsFold(p.Tags, tag) {
-			return true, ""
+			listed = true
 		}
 	}
-	return false, "not_allowlisted"
+	// ModelFamilies only narrows the creator and tag allowlist.
+	if !listed {
+		return false, "not_allowlisted"
+	}
+	if !familyOK {
+		return false, "model_family"
+	}
+	return true, ""
 }
 
 // admit accepts Reddit link metadata only: nothing is downloaded, so no

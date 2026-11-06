@@ -97,7 +97,8 @@ func TestEmptyAllowlistMakesNoRequest(t *testing.T) {
 		t.Error("no request may be sent without an allowlist")
 		return ok(page(""))
 	})
-	p := CivitaiPolicy{MaxContentLevel: "X", AllowedLicenses: []string{civitaiLicense}}
+	// Model families only narrow tag and creator scopes; alone they query nothing.
+	p := CivitaiPolicy{ModelFamilies: []string{"SDXL 1.0"}, MaxContentLevel: "X", AllowedLicenses: []string{civitaiLicense}}
 	conn := NewCivitai(srv.URL, testAPIKey, p, srv.Client())
 	if got := conn.Scopes(); len(got) != 0 {
 		t.Fatalf("scopes = %v", got)
@@ -109,7 +110,7 @@ func TestEmptyAllowlistMakesNoRequest(t *testing.T) {
 		t.Fatalf("report = %+v", pr)
 	}
 	// A scope outside the allowlist is refused without a request.
-	for _, scope := range []string{"", "tag:", "user:", "tag:4", "nsfw:X", "user:Ajuro"} {
+	for _, scope := range []string{"", "tag:", "user:", "tag:4", "nsfw:X", "user:Ajuro", "model_family:SDXL 1.0"} {
 		if _, err := conn.Fetch(context.Background(), scope, ""); err == nil {
 			t.Errorf("scope %q fetched", scope)
 		}
@@ -123,48 +124,37 @@ func TestEachRequestCarriesAllowlistFilter(t *testing.T) {
 	api, srv := newCivitaiAPI(t, func(q url.Values) (int, http.Header, any) {
 		switch {
 		case q.Get("tags") == "4":
-			return ok(page("", image(1, "Mature", "someone", "Pony")))
+			// Item 3 ignores the baseModels filter and must be rejected.
+			return ok(page("", image(1, "Mature", "someone", "SDXL 1.0"), image(3, "Soft", "other", "Pony")))
 		case q.Get("username") == "Ajuro":
-			return ok(page("", image(2, "X", "Ajuro", "Pony")))
-		case q.Get("baseModels") == "SDXL 1.0":
-			return ok(page("", image(3, "Soft", "other", "SDXL 1.0"), image(4, "Soft", "other", "Pony")))
+			return ok(page("", image(2, "X", "Ajuro", "SDXL 1.0")))
 		}
 		return ok(page(""))
 	})
-	p := CivitaiPolicy{Tags: []string{"4"}, Creators: []string{"Ajuro"}, ModelFamilies: []string{"SDXL 1.0"}, MaxContentLevel: "X", AllowedLicenses: []string{civitaiLicense}}
+	p := CivitaiPolicy{Tags: []string{"4"}, Creators: []string{"Ajuro"}, ModelFamilies: []string{"SDXL 1.0", "Flux.1 D"}, MaxContentLevel: "X", AllowedLicenses: []string{civitaiLicense}}
 	conn := NewCivitai(srv.URL, testAPIKey, p, srv.Client())
-	if got, want := conn.Scopes(), []string{"tag:4", "user:Ajuro", "model_family:SDXL 1.0"}; !reflect.DeepEqual(got, want) {
-		t.Fatalf("scopes = %v", got)
+	if got, want := conn.Scopes(), []string{"tag:4", "user:Ajuro"}; !reflect.DeepEqual(got, want) {
+		t.Fatalf("scopes = %v: model families are never a scope of their own", got)
 	}
 	s, _ := newTestStore(t)
 	d := newDownloader(t)
 	rep := civitaiEngine(t, s, d, conn, p).Sync(context.Background())
-	if pr := rep.PerProvider["civitai"]; pr.State != "ok" || pr.Stored != 3 || pr.Rejected != 1 {
+	if pr := rep.PerProvider["civitai"]; pr.State != "ok" || pr.Stored != 2 || pr.Rejected != 1 {
 		t.Fatalf("report = %+v", pr)
 	}
-	if got := externalIDs(t, s, "civitai"); !reflect.DeepEqual(got, []string{"1", "2", "3"}) {
+	if got := externalIDs(t, s, "civitai"); !reflect.DeepEqual(got, []string{"1", "2"}) {
 		t.Fatalf("ids = %v", got)
 	}
 	qs := api.Queries()
-	if len(qs) != 3 {
+	if len(qs) != 2 {
 		t.Fatalf("%d requests, want one per allowlist entry", len(qs))
 	}
 	for _, q := range qs {
-		filters := 0
-		for _, k := range []string{"tags", "username", "baseModels"} {
-			if q.Get(k) != "" {
-				filters++
-			}
-		}
-		if filters != 1 || q.Get("nsfw") != "X" || q.Has("cursor") {
-			t.Errorf("query %v lacks exactly one allowlist filter or the level cap", q)
+		if (q.Get("tags") == "") == (q.Get("username") == "") || q.Get("baseModels") != "SDXL 1.0,Flux.1 D" || q.Get("nsfw") != "X" || q.Has("cursor") {
+			t.Errorf("query %v lacks exactly one tag or username filter, the base models or the level cap", q)
 		}
 	}
-	// Stored items carry the documented fields and the provider-terms licence.
-	ids, err := s.ExternalIDs(context.Background(), "civitai")
-	if err != nil || len(ids) != 3 {
-		t.Fatal(ids, err)
-	}
+	// Candidates carry the documented fields and the provider-terms licence.
 	cands := map[string]Candidate{}
 	for _, scope := range conn.Scopes() {
 		pg, err := conn.Fetch(context.Background(), scope, "")
@@ -176,10 +166,9 @@ func TestEachRequestCarriesAllowlistFilter(t *testing.T) {
 		}
 	}
 	want := map[string]Candidate{
-		"1": {Item: Item{Provider: "civitai", ExternalID: "1", Creator: "someone", License: civitaiLicense, ContentLevel: "Mature", Tags: []string{"4"}}, MediaURL: "https://image.civitai.test/1.jpeg"},
-		"2": {Item: Item{Provider: "civitai", ExternalID: "2", Creator: "Ajuro", License: civitaiLicense, ContentLevel: "X"}, MediaURL: "https://image.civitai.test/2.jpeg"},
-		"3": {Item: Item{Provider: "civitai", ExternalID: "3", Creator: "other", License: civitaiLicense, ContentLevel: "Soft", Tags: []string{baseModelTag + "SDXL 1.0"}}, MediaURL: "https://image.civitai.test/3.jpeg"},
-		"4": {Item: Item{Provider: "civitai", ExternalID: "4", Creator: "other", License: civitaiLicense, ContentLevel: "Soft", Tags: []string{baseModelTag + "Pony"}}, MediaURL: "https://image.civitai.test/4.jpeg"},
+		"1": {Item: Item{Provider: "civitai", ExternalID: "1", Creator: "someone", License: civitaiLicense, ContentLevel: "Mature", Tags: []string{"4", baseModelTag + "SDXL 1.0"}}, MediaURL: "https://image.civitai.test/1.jpeg"},
+		"2": {Item: Item{Provider: "civitai", ExternalID: "2", Creator: "Ajuro", License: civitaiLicense, ContentLevel: "X", Tags: []string{baseModelTag + "SDXL 1.0"}}, MediaURL: "https://image.civitai.test/2.jpeg"},
+		"3": {Item: Item{Provider: "civitai", ExternalID: "3", Creator: "other", License: civitaiLicense, ContentLevel: "Soft", Tags: []string{"4", baseModelTag + "Pony"}}, MediaURL: "https://image.civitai.test/3.jpeg"},
 	}
 	if !reflect.DeepEqual(cands, want) {
 		t.Fatalf("candidates = %+v", cands)
@@ -214,7 +203,7 @@ func TestCursorPagination(t *testing.T) {
 	var cursors []string
 	for _, q := range api.Queries() {
 		cursors = append(cursors, q.Get("cursor"))
-		if q.Get("username") != "Ajuro" || q.Get("nsfw") != "Mature" {
+		if q.Get("username") != "Ajuro" || q.Get("nsfw") != "Mature" || q.Has("baseModels") {
 			t.Errorf("query %v", q)
 		}
 	}
@@ -226,8 +215,9 @@ func TestCursorPagination(t *testing.T) {
 func TestCivitaiStatusMapping(t *testing.T) {
 	var status int
 	var header http.Header
+	var body any = map[string]string{"error": "secret body Ajuro"}
 	_, srv := newCivitaiAPI(t, func(q url.Values) (int, http.Header, any) {
-		return status, header, map[string]string{"error": "secret body Ajuro"}
+		return status, header, body
 	})
 	conn := NewCivitai(srv.URL, testAPIKey, CivitaiPolicy{Creators: []string{"Ajuro"}, MaxContentLevel: "X"}, srv.Client())
 	at := time.Now().Add(90 * time.Second).UTC().Format(http.TimeFormat)
@@ -259,6 +249,21 @@ func TestCivitaiStatusMapping(t *testing.T) {
 		if err != nil && (strings.Contains(err.Error(), "Ajuro") || strings.Contains(err.Error(), "127.0.0.1") || strings.Contains(err.Error(), "secret")) {
 			t.Errorf("status %d: error leaks content: %q", c.status, err)
 		}
+	}
+	// The documented cursor refusals reset the cursor; any other 400 does not.
+	status, header = 400, nil
+	for _, msg := range []string{"This cursor can no longer be continued; start again without it", "This cursor cannot be continued with these filters"} {
+		body = map[string]string{"message": msg}
+		if _, err := conn.Fetch(context.Background(), "user:Ajuro", "feed:1:2"); !errors.Is(err, ErrCursorExpired) {
+			t.Errorf("%q: err = %v", msg, err)
+		}
+		if _, err := conn.Fetch(context.Background(), "user:Ajuro", ""); err == nil || errors.Is(err, ErrCursorExpired) {
+			t.Errorf("%q without a cursor: err = %v", msg, err)
+		}
+	}
+	body = map[string]string{"message": "Invalid tags"}
+	if _, err := conn.Fetch(context.Background(), "user:Ajuro", "feed:1:2"); err == nil || errors.Is(err, ErrCursorExpired) {
+		t.Errorf("other 400: err = %v", err)
 	}
 	// Network errors are transient and never carry the URL.
 	srv.Close()

@@ -23,12 +23,15 @@ const (
 	// baseModelTag prefixes the documented item field `baseModel` in Tags.
 	baseModelTag = "base_model:"
 
+	// The documented 400 messages for a cursor the API will not continue.
+	cursorExpiredMsg = "This cursor can no longer be continued"
+	cursorFiltersMsg = "This cursor cannot be continued with these filters"
+
 	civitaiMaxBody          = 8 << 20
 	civitaiDefaultRateLimit = 60 * time.Second
 
-	scopeTag    = "tag:"
-	scopeUser   = "user:"
-	scopeFamily = "model_family:"
+	scopeTag  = "tag:"
+	scopeUser = "user:"
 )
 
 var (
@@ -36,6 +39,10 @@ var (
 	errCivitaiResponse = errors.New("DISCOVERY_CIVITAI_BAD_RESPONSE")
 	errCivitaiTooLarge = errors.New("DISCOVERY_CIVITAI_RESPONSE_TOO_LARGE")
 	errCivitaiRequest  = errors.New("DISCOVERY_CIVITAI_REQUEST")
+	// errCivitaiBadCursor is a 400 refusing the cursor; Fetch turns it into
+	// ErrCursorExpired when a cursor was sent.
+	errCivitaiBadCursor  = errors.New("DISCOVERY_CIVITAI_BAD_CURSOR")
+	errCivitaiBadRequest = errors.New("DISCOVERY_CIVITAI_STATUS_400")
 )
 
 type civitai struct {
@@ -46,8 +53,9 @@ type civitai struct {
 	now    func() time.Time
 }
 
-// NewCivitai returns the allowlisted Civitai connector. Every request carries
-// exactly one allowlist filter (tag ID, uploader or base model) and the owner's
+// NewCivitai returns the allowlisted Civitai connector. Every listing request
+// carries exactly one allowlist filter (tag ID or uploader), the owner's base
+// models when listed (they only narrow, never form a scope) and the
 // content-level cap; an empty allowlist yields no scopes and no request.
 func NewCivitai(baseURL, apiKey string, p CivitaiPolicy, hc *http.Client) Connector {
 	if hc == nil {
@@ -65,9 +73,6 @@ func (c *civitai) Scopes() []string {
 	}
 	for _, u := range c.policy.Creators {
 		scopes = append(scopes, scopeUser+u)
-	}
-	for _, f := range c.policy.ModelFamilies {
-		scopes = append(scopes, scopeFamily+f)
 	}
 	return scopes
 }
@@ -100,27 +105,34 @@ func (c *civitai) Fetch(ctx context.Context, scope, cursor string) (Page, error)
 		q.Set("tags", tag)
 	case strings.HasPrefix(scope, scopeUser):
 		q.Set("username", strings.TrimPrefix(scope, scopeUser))
-	case strings.HasPrefix(scope, scopeFamily):
-		q.Set("baseModels", strings.TrimPrefix(scope, scopeFamily))
 	default:
 		return Page{}, errCivitaiScope
+	}
+	if len(c.policy.ModelFamilies) > 0 {
+		q.Set("baseModels", strings.Join(c.policy.ModelFamilies, ","))
 	}
 	if cursor != "" {
 		q.Set("cursor", cursor)
 	}
 	resp, err := c.get(ctx, q)
+	if errors.Is(err, errCivitaiBadCursor) {
+		if cursor != "" {
+			return Page{}, ErrCursorExpired
+		}
+		return Page{}, errCivitaiBadRequest
+	}
 	if err != nil {
 		return Page{}, err
 	}
 	page := Page{NextCursor: resp.Metadata.NextCursor}
 	for _, img := range resp.Items {
 		cand := c.candidate(img)
-		switch {
-		case tag != "":
-			cand.Tags = []string{tag}
-		case strings.HasPrefix(scope, scopeFamily) && img.BaseModel != "":
-			// The item's own base model, so a mismatched result is rejected.
-			cand.Tags = []string{baseModelTag + img.BaseModel}
+		if tag != "" {
+			cand.Tags = append(cand.Tags, tag)
+		}
+		// The item's own base model, so a result outside ModelFamilies is rejected.
+		if img.BaseModel != "" {
+			cand.Tags = append(cand.Tags, baseModelTag+img.BaseModel)
 		}
 		page.Items = append(page.Items, cand)
 	}
@@ -185,6 +197,8 @@ func (c *civitai) get(ctx context.Context, q url.Values) (civitaiResponse, error
 		return civitaiResponse{}, ErrUnauthorized
 	case res.StatusCode >= 500:
 		return civitaiResponse{}, ErrTransient
+	case res.StatusCode == http.StatusBadRequest:
+		return civitaiResponse{}, badRequest(res.Body)
 	case res.StatusCode != http.StatusOK:
 		return civitaiResponse{}, fmt.Errorf("DISCOVERY_CIVITAI_STATUS_%d", res.StatusCode)
 	}
@@ -208,6 +222,20 @@ func (c *civitai) get(ctx context.Context, q url.Values) (civitaiResponse, error
 		}
 	}
 	return out, nil
+}
+
+// badRequest classifies a 400 by its documented `message`; the body is never
+// surfaced.
+func badRequest(body io.Reader) error {
+	var msg struct {
+		Message string `json:"message"`
+	}
+	data, _ := io.ReadAll(io.LimitReader(body, 64<<10))
+	if json.Unmarshal(data, &msg) == nil &&
+		(strings.HasPrefix(msg.Message, cursorExpiredMsg) || strings.HasPrefix(msg.Message, cursorFiltersMsg)) {
+		return errCivitaiBadCursor
+	}
+	return errCivitaiBadRequest
 }
 
 // retryAfter reads Retry-After as seconds or an HTTP date, defaulting to 60 s.

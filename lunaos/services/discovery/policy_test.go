@@ -79,7 +79,7 @@ func TestLoadPolicyRejectsInvalid(t *testing.T) {
 
 func civitaiCand(level string) Candidate {
 	return Candidate{
-		Item:     Item{Provider: "civitai", ExternalID: "1", Creator: "Ajuro", License: civitaiLicense, ContentLevel: level},
+		Item:     Item{Provider: "civitai", ExternalID: "1", Creator: "Ajuro", License: civitaiLicense, ContentLevel: level, Tags: []string{baseModelTag + "SDXL 1.0"}},
 		MediaURL: "https://image.civitai.test/1.jpeg",
 	}
 }
@@ -165,23 +165,26 @@ func TestContentLevelAboveMaxRejected(t *testing.T) {
 		t.Error("an unset maximum must admit nothing")
 	}
 
-	// The allowlist binds as well: creator (any case), tag id or base model.
+	// The allowlist binds as well: creator (any case) or tag id, and the base
+	// model must be listed when ModelFamilies narrows the allowlist.
 	p = testPolicy("X")
 	c := civitaiCand("X")
 	c.Creator = "someone"
 	if ok, reason := p.Admit(c); ok || reason != "not_allowlisted" {
-		t.Fatalf("unlisted creator: %v %q", ok, reason)
+		t.Fatalf("a listed base model alone must not admit: %v %q", ok, reason)
 	}
-	c.Tags = []string{"4"}
+	c.Tags = []string{"4", baseModelTag + "sdxl 1.0"}
 	if ok, _ := p.Admit(c); !ok {
-		t.Fatal("listed tag must be admitted")
+		t.Fatal("listed tag and base model must be admitted")
 	}
-	c.Tags = []string{baseModelTag + "sdxl 1.0"}
+	for _, tags := range [][]string{{"4", baseModelTag + "Pony"}, {"4"}} {
+		c.Tags = tags
+		if ok, reason := p.Admit(c); ok || reason != "model_family" {
+			t.Fatalf("tags %q: %v %q", tags, ok, reason)
+		}
+	}
+	p.Civitai.ModelFamilies = nil
 	if ok, _ := p.Admit(c); !ok {
-		t.Fatal("listed base model must be admitted")
-	}
-	c.Tags = []string{baseModelTag + "Pony"}
-	if ok, _ := p.Admit(c); ok {
-		t.Fatal("unlisted base model must be rejected")
+		t.Fatal("without ModelFamilies any base model is admitted")
 	}
 }
