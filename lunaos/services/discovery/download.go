@@ -70,11 +70,13 @@ func Download(ctx context.Context, hc *http.Client, c Candidate, maxBytes int64,
 
 	id := sha256.Sum256([]byte(c.Provider + "\x00" + c.ExternalID))
 	base := filepath.Join(tmpDir, hex.EncodeToString(id[:]))
-	part, final := base+".part", base+".media"
+	part, final, side := base+".part", base+".media", base+".validator"
+	urlSum := sha256.Sum256([]byte(u.String()))
+	tag := hex.EncodeToString(urlSum[:])
 
 	// A second pass runs only after a resume the server could not honour.
 	for pass := 0; pass < 2; pass++ {
-		restart, err := fetchPart(ctx, &client, u.String(), part, maxBytes, pass == 1)
+		restart, err := fetchPart(ctx, &client, u.String(), part, side, tag, maxBytes, pass == 1)
 		if err != nil {
 			return "", "", err
 		}
@@ -86,7 +88,7 @@ func Download(ctx context.Context, hc *http.Client, c Candidate, maxBytes int64,
 			return "", "", ErrTransient
 		}
 		if c.DeclaredSHA256 != "" && !strings.EqualFold(c.DeclaredSHA256, sha) {
-			_ = os.Remove(part)
+			removePart(part, side)
 			return "", "", ErrHashMismatch
 		}
 		if err := ctx.Err(); err != nil {
@@ -95,6 +97,7 @@ func Download(ctx context.Context, hc *http.Client, c Candidate, maxBytes int64,
 		if err := os.Rename(part, final); err != nil {
 			return "", "", ErrTransient
 		}
+		_ = os.Remove(side)
 		return final, sha, nil
 	}
 	return "", "", ErrTransient
@@ -102,7 +105,7 @@ func Download(ctx context.Context, hc *http.Client, c Candidate, maxBytes int64,
 
 // fetchPart appends the media to part. restart reports that the part was
 // discarded and the request must be repeated from byte zero.
-func fetchPart(ctx context.Context, hc *http.Client, rawURL, part string, maxBytes int64, fromZero bool) (restart bool, err error) {
+func fetchPart(ctx context.Context, hc *http.Client, rawURL, part, side, tag string, maxBytes int64, fromZero bool) (restart bool, err error) {
 	flags := os.O_RDWR | os.O_CREATE
 	if fromZero {
 		flags |= os.O_TRUNC
@@ -117,11 +120,17 @@ func fetchPart(ctx context.Context, hc *http.Client, rawURL, part string, maxByt
 		return false, ErrTransient
 	}
 	have := info.Size()
-	if have > maxBytes {
+	// A part resumes only under a validator recorded for this exact URL.
+	validator := readValidator(side, tag)
+	if have > maxBytes || (have > 0 && validator == "") {
 		have = 0
 		if err = f.Truncate(0); err != nil {
 			return false, ErrTransient
 		}
+	}
+	if have == 0 {
+		validator = ""
+		_ = os.Remove(side)
 	}
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, rawURL, nil)
@@ -130,6 +139,7 @@ func fetchPart(ctx context.Context, hc *http.Client, rawURL, part string, maxByt
 	}
 	if have > 0 {
 		req.Header.Set("Range", "bytes="+strconv.FormatInt(have, 10)+"-")
+		req.Header.Set("If-Range", validator)
 	}
 	res, err := hc.Do(req)
 	if err != nil {
@@ -143,6 +153,7 @@ func fetchPart(ctx context.Context, hc *http.Client, rawURL, part string, maxByt
 	}
 	defer res.Body.Close()
 
+	want := int64(-1) // total size the server promised, when known
 	switch {
 	case res.StatusCode == http.StatusOK:
 		if have > 0 {
@@ -152,19 +163,25 @@ func fetchPart(ctx context.Context, hc *http.Client, rawURL, part string, maxByt
 			have = 0
 		}
 		if res.ContentLength > maxBytes {
-			return false, tooLarge(f, part)
+			return false, tooLarge(f, part, side)
 		}
+		writeValidator(side, tag, res.Header)
+		want = res.ContentLength
 	case res.StatusCode == http.StatusPartialContent && have > 0:
 		start, total, ok := parseContentRange(res.Header.Get("Content-Range"))
 		if !ok || start != have {
-			return true, resetPart(f)
+			return true, resetPart(f, side)
 		}
 		if total > maxBytes || (res.ContentLength >= 0 && have+res.ContentLength > maxBytes) {
-			return false, tooLarge(f, part)
+			return false, tooLarge(f, part, side)
+		}
+		want = total
+		if want < 0 && res.ContentLength >= 0 {
+			want = have + res.ContentLength
 		}
 	case res.StatusCode == http.StatusPartialContent || res.StatusCode == http.StatusRequestedRangeNotSatisfiable:
 		if have > 0 {
-			return true, resetPart(f)
+			return true, resetPart(f, side)
 		}
 		return false, ErrTransient
 	case res.StatusCode == http.StatusTooManyRequests:
@@ -172,6 +189,7 @@ func fetchPart(ctx context.Context, hc *http.Client, rawURL, part string, maxByt
 	case res.StatusCode >= 500:
 		return false, ErrTransient
 	case res.StatusCode == http.StatusNotFound || res.StatusCode == http.StatusGone:
+		removePart(part, side)
 		return false, ErrDownloadGone
 	default:
 		return false, ErrDownloadRefused
@@ -182,7 +200,7 @@ func fetchPart(ctx context.Context, hc *http.Client, rawURL, part string, maxByt
 	}
 	n, err := io.Copy(f, io.LimitReader(res.Body, maxBytes-have+1))
 	if have+n > maxBytes {
-		return false, tooLarge(f, part)
+		return false, tooLarge(f, part, side)
 	}
 	if err != nil {
 		if ctx.Err() != nil {
@@ -190,22 +208,60 @@ func fetchPart(ctx context.Context, hc *http.Client, rawURL, part string, maxByt
 		}
 		return false, ErrTransient
 	}
-	// A body shorter than declared surfaces as an error from the reader; a
-	// context cancelled right at the end must not yield a final file.
+	// A short body keeps the part and validator for the next attempt.
+	if want >= 0 && have+n != want {
+		return false, ErrTransient
+	}
+	// A context cancelled right at the end must not yield a final file.
 	return false, ctx.Err()
 }
 
-func resetPart(f *os.File) error {
+func resetPart(f *os.File, side string) error {
+	_ = os.Remove(side)
 	if err := f.Truncate(0); err != nil {
 		return ErrTransient
 	}
 	return nil
 }
 
-func tooLarge(f *os.File, part string) error {
+func tooLarge(f *os.File, part, side string) error {
 	_ = f.Close()
-	_ = os.Remove(part)
+	removePart(part, side)
 	return ErrTooLarge
+}
+
+func removePart(part, side string) {
+	_ = os.Remove(part)
+	_ = os.Remove(side)
+}
+
+// readValidator returns the stored validator when it was recorded for this URL.
+func readValidator(side, tag string) string {
+	b, err := os.ReadFile(side)
+	if err != nil {
+		return ""
+	}
+	got, validator, ok := strings.Cut(string(b), "\n")
+	if !ok || got != tag {
+		return ""
+	}
+	return validator
+}
+
+// writeValidator records a strong ETag, else Last-Modified; with neither (or a
+// weak ETag only) the part can never be resumed.
+func writeValidator(side, tag string, h http.Header) {
+	v := strings.TrimSpace(h.Get("ETag"))
+	if v == "" || strings.HasPrefix(v, "W/") {
+		v = strings.TrimSpace(h.Get("Last-Modified"))
+	}
+	if v == "" || strings.ContainsAny(v, "\r\n") {
+		_ = os.Remove(side)
+		return
+	}
+	if err := os.WriteFile(side, []byte(tag+"\n"+v), 0600); err != nil {
+		_ = os.Remove(side)
+	}
 }
 
 // parseContentRange reads "bytes start-end/total"; total is -1 when unknown.
@@ -265,7 +321,7 @@ func sweepStaleParts(dir string) {
 		return
 	}
 	for _, e := range entries {
-		if e.IsDir() || !strings.HasSuffix(e.Name(), ".part") {
+		if e.IsDir() || !(strings.HasSuffix(e.Name(), ".part") || strings.HasSuffix(e.Name(), ".validator")) {
 			continue
 		}
 		if info, err := e.Info(); err == nil && time.Since(info.ModTime()) > stalePartAge {

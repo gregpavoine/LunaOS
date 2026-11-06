@@ -36,6 +36,19 @@ func partPath(dir string, c Candidate) string {
 	return filepath.Join(dir, hex.EncodeToString(h[:])+".part")
 }
 
+// seedPart leaves a resumable part plus its validator, as a failed attempt would.
+func seedPart(t *testing.T, dir string, c Candidate, data []byte, validator string) {
+	t.Helper()
+	if err := os.WriteFile(partPath(dir, c), data, 0600); err != nil {
+		t.Fatal(err)
+	}
+	sum := sha256.Sum256([]byte(c.MediaURL))
+	side := strings.TrimSuffix(partPath(dir, c), ".part") + ".validator"
+	if err := os.WriteFile(side, []byte(hex.EncodeToString(sum[:])+"\n"+validator), 0600); err != nil {
+		t.Fatal(err)
+	}
+}
+
 func sumHex(b []byte) string { h := sha256.Sum256(b); return hex.EncodeToString(h[:]) }
 
 func dirEntries(t *testing.T, dir string) []string {
@@ -57,6 +70,10 @@ func rangeServer(t *testing.T, body []byte, ranges *[]string) *httptest.Server {
 	var mu sync.Mutex
 	srv := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		rg := r.Header.Get("Range")
+		w.Header().Set("ETag", `"v1"`)
+		if rg != "" && r.Header.Get("If-Range") != `"v1"` {
+			rg = ""
+		}
 		mu.Lock()
 		*ranges = append(*ranges, rg)
 		mu.Unlock()
@@ -85,9 +102,7 @@ func TestResumeWithRange(t *testing.T) {
 	srv := rangeServer(t, body, &ranges)
 	dir := dlTmp(t)
 	c := dlCandidate(srv.URL + "/m")
-	if err := os.WriteFile(partPath(dir, c), body[:300], 0600); err != nil {
-		t.Fatal(err)
-	}
+	seedPart(t, dir, c, body[:300], `"v1"`)
 	path, sha, err := Download(context.Background(), srv.Client(), c, 0, dir)
 	if err != nil {
 		t.Fatalf("Download: %v", err)
@@ -116,7 +131,7 @@ func TestServerIgnoringRangeRestartsFromZero(t *testing.T) {
 	defer srv.Close()
 	dir := dlTmp(t)
 	c := dlCandidate(srv.URL)
-	_ = os.WriteFile(partPath(dir, c), []byte("stale-garbage"), 0600)
+	seedPart(t, dir, c, []byte("stale-garbage"), `"v1"`)
 	path, sha, err := Download(context.Background(), srv.Client(), c, 0, dir)
 	if err != nil || sha != sumHex(body) {
 		t.Fatalf("err=%v", err)
@@ -140,7 +155,7 @@ func TestRangeNotSatisfiableRestartsOnce(t *testing.T) {
 	defer srv.Close()
 	dir := dlTmp(t)
 	c := dlCandidate(srv.URL)
-	_ = os.WriteFile(partPath(dir, c), []byte("xxxxx"), 0600)
+	seedPart(t, dir, c, []byte("xxxxx"), `"v1"`)
 	_, sha, err := Download(context.Background(), srv.Client(), c, 0, dir)
 	if err != nil || sha != sumHex(body) || len(calls) != 2 {
 		t.Fatalf("err=%v calls=%v", err, calls)
@@ -163,7 +178,7 @@ func TestMisalignedContentRangeRestarts(t *testing.T) {
 	defer srv.Close()
 	dir := dlTmp(t)
 	c := dlCandidate(srv.URL)
-	_ = os.WriteFile(partPath(dir, c), []byte("zzzzz"), 0600)
+	seedPart(t, dir, c, []byte("zzzzz"), `"v1"`)
 	path, _, err := Download(context.Background(), srv.Client(), c, 0, dir)
 	if err != nil {
 		t.Fatal(err)
@@ -389,5 +404,126 @@ func TestTooLargeIsNotRetried(t *testing.T) {
 	}
 	if dl := deadLetters(t, s, "civitai"); len(dl) != 1 || dl[0].Code != "too_large" {
 		t.Fatalf("dead letters = %+v", dl)
+	}
+}
+
+func TestResourceChangeRestartsFromZero(t *testing.T) {
+	oldBody := []byte(strings.Repeat("old-", 100))
+	newBody := []byte(strings.Repeat("new-", 100))
+	var ranges []string
+	srv := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ranges = append(ranges, r.Header.Get("Range"))
+		w.Header().Set("ETag", `"v2"`)
+		if r.Header.Get("Range") != "" && r.Header.Get("If-Range") == `"v2"` {
+			w.WriteHeader(http.StatusPartialContent)
+			return
+		}
+		_, _ = w.Write(newBody)
+	}))
+	defer srv.Close()
+	dir := dlTmp(t)
+	c := dlCandidate(srv.URL)
+	seedPart(t, dir, c, oldBody[:150], `"v1"`)
+	path, sha, err := Download(context.Background(), srv.Client(), c, 0, dir)
+	if err != nil || sha != sumHex(newBody) {
+		t.Fatalf("err=%v", err)
+	}
+	if got, _ := os.ReadFile(path); string(got) != string(newBody) {
+		t.Fatal("spliced file")
+	}
+	if len(ranges) != 1 || ranges[0] != "bytes=150-" {
+		t.Fatalf("ranges = %v", ranges)
+	}
+	if names := dirEntries(t, dir); len(names) != 1 {
+		t.Fatalf("dir = %v", names)
+	}
+}
+
+func TestChangedURLDoesNotResume(t *testing.T) {
+	body := []byte(strings.Repeat("q", 100))
+	var ranges []string
+	srv := rangeServer(t, body, &ranges)
+	dir := dlTmp(t)
+	c := dlCandidate(srv.URL + "/new")
+	other := dlCandidate("https://elsewhere.test/old")
+	seedPart(t, dir, other, []byte("prefix-from-another-url"), `"v1"`)
+	if _, _, err := Download(context.Background(), srv.Client(), c, 0, dir); err != nil {
+		t.Fatal(err)
+	}
+	if len(ranges) != 1 || ranges[0] != "" {
+		t.Fatalf("ranges = %v", ranges)
+	}
+}
+
+func TestNoValidatorMeansNoRange(t *testing.T) {
+	body := []byte(strings.Repeat("v", 200))
+	var ranges []string
+	var attempts int
+	srv := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ranges = append(ranges, r.Header.Get("Range"))
+		attempts++
+		w.Header().Set("Content-Length", strconv.Itoa(len(body)))
+		if attempts == 1 {
+			_, _ = w.Write(body[:50])
+			return
+		}
+		_, _ = w.Write(body)
+	}))
+	defer srv.Close()
+	dir := dlTmp(t)
+	c := dlCandidate(srv.URL)
+	if _, _, err := Download(context.Background(), srv.Client(), c, 0, dir); !errors.Is(err, ErrTransient) {
+		t.Fatalf("err = %v", err)
+	}
+	_, sha, err := Download(context.Background(), srv.Client(), c, 0, dir)
+	if err != nil || sha != sumHex(body) {
+		t.Fatalf("err=%v", err)
+	}
+	if ranges[1] != "" {
+		t.Fatalf("ranges = %v", ranges)
+	}
+}
+
+func TestShortBodyKeepsPartThenResumes(t *testing.T) {
+	body := []byte(strings.Repeat("0123456789", 30))
+	var attempts int
+	var ranges []string
+	srv := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		attempts++
+		ranges = append(ranges, r.Header.Get("Range"))
+		w.Header().Set("ETag", `"v1"`)
+		if rg := r.Header.Get("Range"); rg != "" {
+			var n int
+			_, _ = fmt.Sscanf(rg, "bytes=%d-", &n)
+			w.Header().Set("Content-Range", fmt.Sprintf("bytes %d-%d/%d", n, len(body)-1, len(body)))
+			w.Header().Set("Content-Length", strconv.Itoa(len(body)-n))
+			w.WriteHeader(http.StatusPartialContent)
+			_, _ = w.Write(body[n:])
+			return
+		}
+		w.Header().Set("Content-Length", strconv.Itoa(len(body)))
+		_, _ = w.Write(body[:100]) // handler returns early: body cut short
+	}))
+	defer srv.Close()
+	dir := dlTmp(t)
+	c := dlCandidate(srv.URL)
+	path, _, err := Download(context.Background(), srv.Client(), c, 0, dir)
+	if !errors.Is(err, ErrTransient) || path != "" {
+		t.Fatalf("path=%q err=%v", path, err)
+	}
+	for _, n := range dirEntries(t, dir) {
+		if strings.HasSuffix(n, ".media") {
+			t.Fatal("final file after short body")
+		}
+	}
+	if fi, err := os.Stat(partPath(dir, c)); err != nil || fi.Size() != 100 {
+		t.Fatalf("part not kept: %v", err)
+	}
+	_, sha, err := Download(context.Background(), srv.Client(), c, 0, dir)
+	if err != nil || sha != sumHex(body) || ranges[1] != "bytes=100-" {
+		t.Fatalf("err=%v ranges=%v", err, ranges)
+	}
+	if names := dirEntries(t, dir); len(names) != 1 || !strings.HasSuffix(names[0], ".media") {
+		t.Fatalf("dir = %v", names)
 	}
 }
