@@ -44,4 +44,4 @@ Credits link to each reporter’s X profile and show their avatar. For duplicate
 
 ## Regular bugs and support
 
-For anything that isn’t a security vulnerability, please use the [LunaOS issue tracker](https://github.com/omacom/omarchy/issues).
+For anything that isn’t a security vulnerability, please use the [LunaOS issue tracker](https://github.com/gregpavoine/LunaOS/issues).

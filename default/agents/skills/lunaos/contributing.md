@@ -3,12 +3,13 @@
 Read this when the user wants to report an LunaOS bug, suggest a feature, or
 contribute a fix upstream.
 
-LunaOS lives at https://github.com/omacom/omarchy. Route requests to the
+LunaOS lives at https://github.com/gregpavoine/LunaOS, a personal fork of
+upstream Omarchy (https://github.com/omacom/omarchy). Route requests to the
 right place:
 
 - **Verified bugs** -> GitHub issues. Issues are for validated bugs only, not
   support requests.
-- **Feature ideas and suggestions** ->
+- **Feature ideas and suggestions** for upstream Omarchy ->
   https://github.com/omacom/omarchy/discussions/categories/suggestions
 - **Support and "is this a bug?" questions** -> the Discord community at
   https://omarchy.org/discord. Start here when the problem isn't clearly a bug
@@ -43,7 +44,7 @@ For screen-recording failures specifically, rerun with
 File the issue with `gh` when available:
 
 ```bash
-gh issue create --repo omacom/omarchy --title "..." --body "..."
+gh issue create --repo gregpavoine/LunaOS --title "..." --body "..."
 ```
 
 Include: what happened, what was expected, steps to reproduce, system details,
@@ -54,8 +55,8 @@ the debug log URL (or attached log), and the capture.
 Never develop against `/usr/share/lunaos`. Clone a working copy instead:
 
 ```bash
-gh repo fork omacom/omarchy --clone
-cd lunaos
+gh repo fork gregpavoine/LunaOS --clone
+cd LunaOS
 ```
 
 Follow the repository's own `AGENTS.md` for style, testing, and commit

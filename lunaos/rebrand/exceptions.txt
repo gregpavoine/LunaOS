@@ -56,3 +56,4 @@ fc-match omarchy	Family name inside the icon font binary
 signwriting|omarchy	Family name inside the icon font binary (font-list filters the icon font out of the selectable fonts)
 private `omarchy` font	Family name inside the icon font binary
 personal fork of [Omarchy]	README attribution to the project LunaOS forks
+upstream Omarchy	LunaOS-owned text that names the project it forks
