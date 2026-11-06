@@ -60,7 +60,7 @@ Verified on macOS: the Go test suite, `go vet` for Linux, and the rebrand check 
 
 Still open:
 
-- The integration track is not finished: the `lunaos-luna` CLI, the STOP LUNA hotkey, and the Core route that sends generation to the inference service are not in the tree yet.
+- The desktop integration is in the tree (the `lunaos-luna` CLI, the `lunaos.luna` bar widget, the STOP LUNA hotkey, the install hook and the Core route to inference), but nothing packages the binaries, manifest and units yet. The full record is in [`lunaos/docs/STATUS.md`](lunaos/docs/STATUS.md).
 - The Linux-only suites, including the process test and `systemd-analyze verify`.
 - The real `llama-server` test, which needs a model from the manifest and a llama.cpp package for the platform.
 - Live Reddit and Civitai checks. The connectors are tested against fakes only.
