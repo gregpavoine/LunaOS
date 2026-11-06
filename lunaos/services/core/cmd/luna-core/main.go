@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"lunaos.local/lunaos/services/core"
+	"lunaos.local/lunaos/services/inference"
 	"lunaos.local/lunaos/services/intimacy"
 )
 
@@ -99,7 +100,13 @@ func run() error {
 		return err
 	}
 	defer ownerListener.Close()
-	handler := core.NewHTTPHandler(engine, token, vault)
+	// The inference socket is optional: without it the generation route answers
+	// INFERENCE_UNAVAILABLE and the rest of the Core runs unchanged.
+	var inferenceClient core.InferenceClient
+	if socket := os.Getenv("LUNA_INFERENCE_SOCKET"); socket != "" {
+		inferenceClient = inference.NewClient(socket)
+	}
+	handler := core.NewHTTPHandlerWithInference(engine, token, inferenceClient, vault)
 	server := &http.Server{
 		Handler:           handler,
 		ReadHeaderTimeout: 2 * time.Second,
