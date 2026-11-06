@@ -1,12 +1,52 @@
 # LunaOS
 
-LunaOS is a personal fork of [Omarchy](https://omarchy.org), DHH's beautiful, fun & agentic Linux distribution.
+LunaOS is a personal fork of [Omarchy](https://omarchy.org), DHH's beautiful, fun & agentic Linux distribution. It keeps the upstream base (Arch, Hyprland, the command set, the Quickshell desktop) and adds LUNA: a local control plane that decides what the assistant may do, keeps sensitive data on the machine, and runs its language model locally.
 
-Read more at [omarchy.org](https://omarchy.org).
+Read more about the upstream project at [omarchy.org](https://omarchy.org).
 
-## The LunaOS Manual
+## What the fork adds
 
-The manual lives in [`manual/`](manual/), which is its authoritative source.
+- **LUNA brain (Go)**: `luna-core` runs goals, `luna-policy-broker` grants or refuses each action, and `luna-owner-setup` handles identity. The broker denies by default, keeps every budget at zero, refuses any `payment.*` action, and only accepts the `general` privacy class.
+- **Privacy**: a BLIND mode that stops capture, a per-person consent model with 13 scopes, and an encrypted vault (AES-GCM) for sensitive records. Consent is never given on someone else's behalf.
+- **Local inference**: `luna-inference` supervises `llama-server` on loopback only, loads only models whose SHA-256 matches the manifest in [`lunaos/models/manifest.json`](lunaos/models/manifest.json), and marks every output as untrusted. There is no cloud fallback.
+- **Intimacy and discovery**: the relationship and library features, plus discovery connectors for Reddit and Civitai that honour `Retry-After`. Nothing is fetched from those services in tests.
+- **Series 26 defaults and LUNA visuals**: the Series 26 choices are the defaults, with a black theme and a bottom bar.
+- **Systemd units**: the LUNA services run with hardened units (`NoNewPrivileges`, `ProtectSystem=strict`, dedicated users) and a restart budget.
+
+## Repository layout
+
+- [`lunaos/`](lunaos/): the Go control plane (`services/`), shared contracts (`contracts/`), systemd units (`systemd/`, `services/inference/systemd/`), and the rebrand tooling (`rebrand/`).
+- [`lunaos/docs/design/`](lunaos/docs/design/): the fork design.
+- [`lunaos/docs/plans/`](lunaos/docs/plans/): the implementation plans per track, and [`OWNERSHIP.md`](lunaos/docs/plans/OWNERSHIP.md), which says who owns which files.
+- [`lunaos/contracts/`](lunaos/contracts/README.md): the frozen action and consent-scope registries, and the Core OpenAPI description.
+- [`lunaos/rebrand/`](lunaos/rebrand/README.md): the replayable Omarchy-to-LunaOS rename and the upstream sync procedure.
+- Everything else is the Omarchy base, including `bin/`, `config/`, `default/`, `install/`, and `shell/`.
+
+## Building and testing the control plane
+
+The Go module is `lunaos.local/lunaos`, under `lunaos/`. It pins Go 1.24.13 (`toolchain go1.24.13` in `go.mod`).
+
+```bash
+make -C lunaos test check
+GOOS=linux go vet ./...   # run from lunaos/
+```
+
+`test-process-linux` runs the process-level test and needs Linux. `systemd-analyze verify` on the units needs a disposable Linux container; the local check reports it as skipped.
+
+## Status
+
+Verified on macOS: the Go test suite, `go vet` for Linux, and the rebrand check (`lunaos/rebrand/rebrand.sh --check .`).
+
+Still open:
+
+- The integration track is not finished: the `lunaos-luna` CLI, the STOP LUNA hotkey, and the Core route that sends generation to the inference service are not in the tree yet.
+- The Linux-only suites, including the process test and `systemd-analyze verify`.
+- The real `llama-server` test, which needs a model from the manifest and a llama.cpp package for the platform.
+- Live Reddit and Civitai checks. The connectors are tested against fakes only.
+
+## The Omarchy manual
+
+The manual lives in [`manual/`](manual/). It is inherited from Omarchy and is being rewritten for LunaOS; where it still describes upstream behaviour, the code is the reference.
 
 - [Welcome to LunaOS!](manual/01-welcome-to-lunaos.md)
 
