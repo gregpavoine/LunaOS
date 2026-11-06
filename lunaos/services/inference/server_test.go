@@ -285,14 +285,18 @@ func TestGenerateWhileDegradedReturns503(t *testing.T) {
 	t.Run("crash loop", func(t *testing.T) {
 		t.Setenv("FAKE_EXIT_CODE", "1")
 		env := newTestServer(t, nil, nil)
+		// A failure that leaves the budget is retryable; only the one that
+		// exhausts it reports degraded, matching /v1/health.
 		for i := 0; i < maxFailures; i++ {
-			status, reply := env.do(t, "POST", "/v1/generate", genBody("hi", 4))
-			if status != http.StatusServiceUnavailable || reply["code"] != "INFERENCE_DEGRADED" {
-				t.Fatalf("generate %d = %d %v", i, status, reply)
+			code, state := "INFERENCE_UNAVAILABLE", "stopped"
+			if i == maxFailures-1 {
+				code, state = "INFERENCE_DEGRADED", "degraded"
 			}
-		}
-		if _, health := env.do(t, "GET", "/v1/health", ""); health["state"] != "degraded" {
-			t.Fatalf("health = %v, want degraded", health)
+			status, reply := env.do(t, "POST", "/v1/generate", genBody("hi", 4))
+			wantCode(t, fmt.Sprintf("generate %d", i), status, reply, http.StatusServiceUnavailable, code)
+			if _, health := env.do(t, "GET", "/v1/health", ""); health["state"] != state {
+				t.Fatalf("health after generate %d = %v, want %s", i, health, state)
+			}
 		}
 		status, reply := env.do(t, "POST", "/v1/generate", genBody("hi", 4))
 		wantCode(t, "generate while degraded", status, reply, http.StatusServiceUnavailable, "INFERENCE_DEGRADED")

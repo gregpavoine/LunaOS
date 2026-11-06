@@ -297,11 +297,16 @@ func (s *Server) generate(w http.ResponseWriter, r *http.Request) {
 	waited := startCtx.Err() != nil
 	cancel()
 	if err != nil {
-		if waited {
+		switch {
+		case waited:
 			fail(w, http.StatusServiceUnavailable, "INFERENCE_TIMEOUT")
-		} else {
+		case s.sup.State() == StateDegraded: // set before Connect returned
 			s.logf("llama-server start failed: %v", err)
 			fail(w, http.StatusServiceUnavailable, "INFERENCE_DEGRADED")
+		default:
+			// Within the failure budget: the next request starts it again.
+			s.logf("llama-server start failed: %v", err)
+			fail(w, http.StatusServiceUnavailable, "INFERENCE_UNAVAILABLE")
 		}
 		return
 	}
