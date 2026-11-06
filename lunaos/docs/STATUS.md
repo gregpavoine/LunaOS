@@ -26,6 +26,7 @@ Environnement : macOS (Darwin, arm64), Go 1.24.13 local au projet, bash 3.2 du s
 | `GOOS=linux go vet ./...` | OK |
 | `lunaos/rebrand/rebrand.sh --check .` | OK (code 0) |
 | `lunaos/rebrand/rebrand-test.sh` | OK |
+| `go test -count=3 -race ./services/... ./contracts/...` (Go 1.24.13, macOS) | OK, trois passes sans échec ni course détectée |
 | `bash test/shell.d/luna-test.sh` | OK pour les cas sans Core réel (CLI sans Core, validation d'id, hook d'installation) ; la partie Core réel est sautée hors Linux |
 | `bash test/shell.d/{plugins,plugin-manifest-scan,plugin-registry-contract,plugin-validate,provisioning-groups,systemd}-test.sh` | OK |
 
