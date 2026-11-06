@@ -1,5 +1,7 @@
 # Welcome to LunaOS!
 
+LunaOS is a personal fork of [Omarchy](https://omarchy.org), DHH's beautiful, fun & agentic Linux distribution. The text below is adapted from the upstream Omarchy welcome by DHH, so the "I" is the original author.
+
 LunaOS is an [omakase](https://manuals.omamix.org/3/omacom/76/omakase-computing) Linux distribution based on [Arch](https://archlinux.org/), the tiling window manager [Hyprland](https://hypr.land/), and the desktop construction-kit [Quickshell](https://quickshell.org/). It ships with everything a modern, savvy computer user needs to be productive immediately. From [Neovim](https://neovim.io/) (btw) to Chromium, [Obsidian](https://obsidian.md/) to [Hype](https://github.com/omacom/hype) and [Monologue](https://github.com/omacom/monologue). Hell, even a retro Winamp-style music player is there!
 
 This isn't just a grab bag of preinstalled packages, though. It's a complete system designed with both aesthetics and productivity in mind. Because a _beautiful_ system is a _motivating_ system, and productivity has always been [downstream from motivation](https://world.hey.com/dhh/beautiful-motivations-6fef7c73). There's zero bloat here: Just everything I use.
