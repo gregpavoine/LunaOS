@@ -325,6 +325,28 @@ func (p *providerRun) process(ctx context.Context, cand Candidate) bool {
 		p.pr.Rejected++
 		return true
 	}
+	// Known items are never fetched again: each sync restarts every scope.
+	known, err := p.e.Store.Has(ctx, p.name, cand.ExternalID)
+	if err != nil {
+		p.pr.raise("failed")
+		return false
+	}
+	if known {
+		p.pr.Duplicates++
+		return true
+	}
+	if cand.MediaURL != "" {
+		// A download that failed for good is not retried, nor re-lettered.
+		final, err := p.e.Store.HasFinalDeadLetter(ctx, p.name, cand.ExternalID)
+		if err != nil {
+			p.pr.raise("failed")
+			return false
+		}
+		if final {
+			p.pr.Rejected++
+			return true
+		}
+	}
 	item := cand.Item
 	if cand.MediaURL == "" {
 		stored, err := p.e.Store.Put(ctx, item, nil)
@@ -339,7 +361,7 @@ func (p *providerRun) process(ctx context.Context, cand Candidate) bool {
 		return true
 	}
 	var path, sha string
-	err := p.e.retry(ctx, func() (err error) {
+	err = p.e.retry(ctx, func() (err error) {
 		path, sha, err = p.e.Download(ctx, cand)
 		if err != nil && path != "" {
 			_ = os.Remove(path)

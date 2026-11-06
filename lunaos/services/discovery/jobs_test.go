@@ -609,3 +609,55 @@ func TestTakedownGuardKeepsLibrary(t *testing.T) {
 		})
 	}
 }
+
+func TestSecondSyncDownloadsNothingKnown(t *testing.T) {
+	s, _ := newTestStore(t)
+	clock := newFakeClock()
+	d := newDownloader(t)
+	conn := &fakeConnector{name: "civitai", scopes: []string{"tag:a"}, clock: clock, fetch: func(scope, cursor string, n int) (Page, error) {
+		return Page{Items: []Candidate{media("civitai", "m1"), media("civitai", "m2"), meta("civitai", "t1")}}, nil
+	}}
+	e := newTestEngine(t, s, clock, d, conn)
+	if pr := e.Sync(context.Background()).PerProvider["civitai"]; pr.Stored != 3 {
+		t.Fatalf("first sync = %+v", pr)
+	}
+	d.calls = map[string]int{}
+	pr := e.Sync(context.Background()).PerProvider["civitai"]
+	if len(d.calls) != 0 {
+		t.Fatalf("second sync downloaded known items: %v", d.calls)
+	}
+	if pr.State != "ok" || pr.Stored != 0 || pr.Duplicates != 3 {
+		t.Fatalf("second sync = %+v", pr)
+	}
+	d.assertCleaned()
+}
+
+func TestFinalDeadLetterIsNotDownloadedAgain(t *testing.T) {
+	s, _ := newTestStore(t)
+	clock := newFakeClock()
+	d := newDownloader(t)
+	d.fail = func(c Candidate, n int) error {
+		if c.ExternalID == "big" {
+			return ErrTooLarge
+		}
+		return nil
+	}
+	conn := &fakeConnector{name: "civitai", scopes: []string{"tag:a"}, clock: clock, fetch: func(scope, cursor string, n int) (Page, error) {
+		return Page{Items: []Candidate{media("civitai", "big")}}, nil
+	}}
+	e := newTestEngine(t, s, clock, d, conn)
+	e.Sync(context.Background())
+	if d.calls["big"] != 1 || len(deadLetters(t, s, "civitai")) != 1 {
+		t.Fatalf("first sync: calls=%v dead letters=%+v", d.calls, deadLetters(t, s, "civitai"))
+	}
+	pr := e.Sync(context.Background()).PerProvider["civitai"]
+	if d.calls["big"] != 1 {
+		t.Fatalf("a too_large item was downloaded again: %v", d.calls)
+	}
+	if dl := deadLetters(t, s, "civitai"); len(dl) != 1 {
+		t.Fatalf("dead letters = %+v", dl)
+	}
+	if pr.State != "ok" || pr.Rejected != 1 {
+		t.Fatalf("second sync = %+v", pr)
+	}
+}

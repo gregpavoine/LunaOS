@@ -496,6 +496,25 @@ func (s *Store) deleteItem(ctx context.Context, provider, externalID string) (bo
 	return true, nil
 }
 
+// Has reports whether (provider, externalID) is already stored.
+func (s *Store) Has(ctx context.Context, provider, externalID string) (bool, error) {
+	var n int
+	err := s.db.QueryRowContext(ctx, `SELECT COUNT(*) FROM items WHERE provider=? AND external_id=?`, provider, externalID).Scan(&n)
+	return n > 0, err
+}
+
+// finalDownloadCodes are dead-letter codes no later attempt can change.
+var finalDownloadCodes = []any{"too_large", "gone", "refused", "hash_mismatch"}
+
+// HasFinalDeadLetter reports whether a download of (provider, externalID)
+// already failed with a code a retry cannot change.
+func (s *Store) HasFinalDeadLetter(ctx context.Context, provider, externalID string) (bool, error) {
+	var n int
+	args := append([]any{provider, externalID}, finalDownloadCodes...)
+	err := s.db.QueryRowContext(ctx, `SELECT COUNT(*) FROM dead_letter WHERE provider=? AND external_id=? AND scope='' AND code IN (?,?,?,?)`, args...).Scan(&n)
+	return n > 0, err
+}
+
 // ExternalIDs lists the provider's stored external IDs.
 func (s *Store) ExternalIDs(ctx context.Context, provider string) ([]string, error) {
 	rows, err := s.db.QueryContext(ctx, `SELECT external_id FROM items WHERE provider=? ORDER BY external_id`, provider)
