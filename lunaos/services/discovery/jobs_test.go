@@ -250,6 +250,42 @@ func TestRetryAfterIsHonoured(t *testing.T) {
 			t.Fatalf("report after the limit = %+v", pr)
 		}
 	})
+
+	t.Run("rate limited on every attempt stops the provider", func(t *testing.T) {
+		s, _ := newTestStore(t)
+		clock := newFakeClock()
+		ctx := context.Background()
+		start := clock.Now()
+		conn := &fakeConnector{name: "civitai", scopes: []string{"tag:a", "tag:b"}, clock: clock, fetch: func(scope, cursor string, n int) (Page, error) {
+			if scope == "tag:b" {
+				t.Fatal("next scope fetched while the provider is rate limited")
+			}
+			return Page{}, ErrRateLimited{RetryAfter: 60 * time.Second}
+		}}
+		if err := s.SaveCursor(ctx, "civitai", "tag:a", "c3"); err != nil {
+			t.Fatal(err)
+		}
+		e := newTestEngine(t, s, clock, nil, conn)
+		rep := e.Sync(ctx)
+		if pr := rep.PerProvider["civitai"]; pr.State != "rate_limited" {
+			t.Fatalf("report = %+v", pr)
+		}
+		if len(conn.Calls()) != 5 {
+			t.Fatalf("want 5 attempts, got %d", len(conn.Calls()))
+		}
+		if len(deadLetters(t, s, "civitai")) != 0 {
+			t.Fatal("a rate limit is not a dead letter")
+		}
+		if c, _ := s.Cursor(ctx, "civitai", "tag:a"); c != "c3" {
+			t.Fatalf("cursor moved to %q", c)
+		}
+		// The four in-sync waits took 240 s; the last limit holds until +300 s.
+		clock.t = start.Add(299 * time.Second)
+		rep = e.Sync(ctx)
+		if len(conn.Calls()) != 5 || rep.PerProvider["civitai"].State != "rate_limited" {
+			t.Fatalf("called before the provider's Retry-After: calls=%d", len(conn.Calls()))
+		}
+	})
 }
 
 func TestResumesFromSavedCursor(t *testing.T) {

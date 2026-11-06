@@ -81,7 +81,8 @@ func backoff(attempt int) time.Duration {
 
 // retry runs one request up to maxAttempts times. It returns nil, the context
 // error, ErrUnauthorized (never retried), a longLimit, or the last error once
-// the attempts are spent. A rate limit counts as an attempt.
+// the attempts are spent. A rate limit counts as an attempt; one on the last
+// attempt becomes a longLimit so its Retry-After is persisted, not dropped.
 func (e *Engine) retry(ctx context.Context, call func() error) error {
 	for attempt := 1; ; attempt++ {
 		err := call()
@@ -96,8 +97,10 @@ func (e *Engine) retry(ctx context.Context, call func() error) error {
 		}
 		wait := backoff(attempt)
 		if rl, ok := asRateLimited(err); ok {
-			if rl.RetryAfter > maxWait {
-				return longLimit{until: e.now().Add(rl.RetryAfter)}
+			// Too long to wait out, or out of attempts: the provider's
+			// Retry-After still binds the next request, so persist it.
+			if rl.RetryAfter > maxWait || attempt == maxAttempts {
+				return longLimit{until: e.now().Add(max(rl.RetryAfter, 0))}
 			}
 			wait = max(rl.RetryAfter, 0)
 		}
