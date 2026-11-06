@@ -162,9 +162,65 @@ test_check_mode() {
   assert_eq "check: line listed" "yes" "$([[ $out == *notes.txt:2* ]] && echo yes || echo no)"
 }
 
+test_dirty_tree_refused() {
+  local repo
+  repo=$(new_repo dirty)
+  write_file "$repo" a.txt "omarchy"
+  commit_all "$repo"
+  printf 'x\n' >>"$repo/a.txt"
+  run_rebrand "$repo"
+  assert_eq "dirty: exit code" 2 "$rc"
+  run_rebrand "$ROOT"
+  assert_eq "not a git tree: exit code" 2 "$rc"
+}
+
+test_internal_failure_is_fatal() {
+  local repo saved="$HERE/exceptions.txt.rebrand-test-saved"
+  repo=$(new_repo failure)
+  write_file "$repo" a.txt "omarchy"
+  commit_all "$repo"
+  mv "$HERE/exceptions.txt" "$saved"
+  run_rebrand "$repo"
+  assert_eq "failure: rewrite exit code" 5 "$rc"
+  run_rebrand --check "$repo"
+  mv "$saved" "$HERE/exceptions.txt"
+  assert_eq "failure: --check exit code" 5 "$rc"
+  assert_eq "failure: tree unchanged" "" "$(git -C "$repo" status --porcelain)"
+}
+
+test_check_restores_exception_in_listing() {
+  local repo
+  repo=$(new_repo restore)
+  write_file "$repo" a.txt "omarchy-nvim and omarchy"
+  commit_all "$repo"
+  run_rebrand --check "$repo"
+  assert_eq "restore: exit code" 1 "$rc"
+  assert_eq "restore: line unmasked" "yes" "$([[ $out == *'omarchy-nvim and omarchy'* ]] && echo yes || echo no)"
+}
+
+test_symlink_and_target_collision() {
+  local repo
+  repo=$(new_repo symlink)
+  write_file "$repo" real.txt "omarchy"
+  ln -s real.txt "$repo/link.txt"
+  write_file "$repo" "x/omarchy-a" "x"
+  write_file "$repo" "x/lunaos-a" "y"
+  commit_all "$repo"
+  run_rebrand "$repo"
+  assert_eq "existing target: exit code" 4 "$rc"
+  git -C "$repo" rm -q -f "x/lunaos-a"
+  git -C "$repo" commit -q -m drop
+  run_rebrand "$repo"
+  assert_eq "symlink: exit code" 0 "$rc"
+  assert_eq "symlink: still a link" "yes" "$([[ -L $repo/link.txt ]] && echo yes || echo no)"
+  assert_eq "symlink: target rewritten once" "lunaos" "$(cat "$repo/real.txt")"
+}
+
 for t in test_renames_paths_and_contents test_nested_path test_longest_exception_wins \
   test_update_repo_rewritten test_skips_lunaos_dir test_binary_content_untouched \
-  test_unknown_case_fails test_idempotent test_check_mode; do
+  test_unknown_case_fails test_idempotent test_check_mode \
+  test_dirty_tree_refused test_internal_failure_is_fatal test_check_restores_exception_in_listing \
+  test_symlink_and_target_collision; do
   echo "== $t"
   "$t"
 done

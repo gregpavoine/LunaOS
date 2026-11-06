@@ -1,4 +1,5 @@
 # Strings that keep the name "omarchy" on purpose. Format: pattern<TAB>reason
+# Patterns are literal, case-sensitive substring matches on purpose: longer upstream names such as omarchy-nvim-setup, omarchy-mac-encrypt or linux-omarchy-n1x are kept too.
 # Patterns are literal and case-sensitive; the longest match wins (linux-omarchy-headers over linux-omarchy).
 # LICENSE is not listed here: it is a skipped path in rebrand.sh (never rewritten).
 linux-omarchy-headers	Kernel headers package published by the Omarchy repositories
